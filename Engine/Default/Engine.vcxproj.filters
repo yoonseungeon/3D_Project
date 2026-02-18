@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="98. SuperClass">
+      <UniqueIdentifier>{1f83dd38-52d7-4e37-a83f-3acd843efe1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Defines">
+      <UniqueIdentifier>{d99dc4b3-5a8e-443f-82fc-04051d0a17e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. GameInstance">
+      <UniqueIdentifier>{b4db6d92-1252-4268-8c47-bce21ee5e860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Device">
+      <UniqueIdentifier>{a783a4d1-1015-41bf-8ffa-111ec3ab3dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Device\00. Graphic">
+      <UniqueIdentifier>{d851d398-b945-424f-b51d-c5a1f4ab0928}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Timers">
+      <UniqueIdentifier>{18126364-22de-4c17-85f4-7bd66248410b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Timers\Manager">
+      <UniqueIdentifier>{ff201265-6e96-4aab-8123-16affba82f9b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Private\CBase.cpp">
+      <Filter>98. SuperClass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CGraphic_Device.cpp">
+      <Filter>01. Device\00. Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CGameInstance.cpp">
+      <Filter>00. GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CTimer.cpp">
+      <Filter>02. Timers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CTimer_Manager.cpp">
+      <Filter>02. Timers\Manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Public\CBase.h">
+      <Filter>98. SuperClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Defines.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Enum.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Function.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Macro.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Struct.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Engine_Typedef.h">
+      <Filter>99. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CGraphic_Device.h">
+      <Filter>01. Device\00. Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CGameInstance.h">
+      <Filter>00. GameInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CTimer.h">
+      <Filter>02. Timers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CTimer_Manager.h">
+      <Filter>02. Timers\Manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
