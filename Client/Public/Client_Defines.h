@@ -6,6 +6,8 @@ namespace Client
 {
 	static constexpr unsigned int		g_iWinSizeX = { 1280 };
 	static constexpr unsigned int		g_iWinSizeY = { 720 };
+
+	enum class LEVEL { STATIC, LOADING, LOGO, GAMEPLAY, END };
 }
 
 // 이 변수가 다른 곳에 정의되어 있다고 선언만 한다.

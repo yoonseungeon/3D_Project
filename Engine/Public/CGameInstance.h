@@ -7,6 +7,7 @@ NS_BEGIN(Engine)
 // Engine namespace 안에 넣어줘야 함.
 class CGraphic_Device;
 class CTimer_Manager;
+class CLevel_Manager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -23,6 +24,7 @@ public:
 	HRESULT Begin_Draw();
 	HRESULT Draw();
 	HRESULT End_Draw();
+	void Clear_Resources(_int iLevelIndex);
 #pragma endregion
 
 #pragma region TIMER_MANAGER
@@ -35,6 +37,7 @@ public:
 private:
 	CGraphic_Device*	m_pGraphic_Device	= { nullptr };
 	CTimer_Manager*		m_pTimer_Manager	= { nullptr };
+	CLevel_Manager*		m_pLevel_Manager	= { nullptr };
 
 protected:
 	virtual void Free() override;

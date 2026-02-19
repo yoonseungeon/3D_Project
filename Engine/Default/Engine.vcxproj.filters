@@ -22,6 +22,12 @@
     <Filter Include="02. Timers\Manager">
       <UniqueIdentifier>{ff201265-6e96-4aab-8123-16affba82f9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Levels">
+      <UniqueIdentifier>{1aee88dc-70f3-4154-b444-18d920d8a219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Levels\Manager">
+      <UniqueIdentifier>{5729a35e-1869-4b00-b104-38ca423810ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -38,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CTimer_Manager.cpp">
       <Filter>02. Timers\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLevel.cpp">
+      <Filter>03. Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLevel_Manager.cpp">
+      <Filter>03. Levels\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CTimer_Manager.h">
       <Filter>02. Timers\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLevel.h">
+      <Filter>03. Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLevel_Manager.h">
+      <Filter>03. Levels\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

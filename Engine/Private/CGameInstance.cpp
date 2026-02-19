@@ -1,6 +1,8 @@
 #include "CGameInstance.h"
+
 #include "CGraphic_Device.h"
 #include "CTimer_Manager.h"
+#include "CLevel_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -19,11 +21,16 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 	if (nullptr == m_pTimer_Manager)
 		return E_FAIL;
 
+	m_pLevel_Manager = CLevel_Manager::Create();
+	if (nullptr == m_pLevel_Manager)
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
+	m_pLevel_Manager->Update(fTimeDelta);
 }
 
 HRESULT CGameInstance::Begin_Draw()
@@ -41,12 +48,24 @@ HRESULT CGameInstance::Begin_Draw()
 
 HRESULT CGameInstance::Draw()
 {
+	if (FAILED(m_pLevel_Manager->Render()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CGameInstance::End_Draw()
 {
 	return m_pGraphic_Device->Present();
+}
+
+void CGameInstance::Clear_Resources(_int iLevelIndex)
+{
+	if (iLevelIndex == -1) {
+		return;
+	}
+
+	/*iLevelIndex용 자원을 정리한다. */
 }
 #pragma endregion
 
@@ -71,6 +90,7 @@ void CGameInstance::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pLevel_Manager);
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pGraphic_Device);
 }
