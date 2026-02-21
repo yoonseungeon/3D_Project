@@ -20,9 +20,9 @@ private:
 	virtual ~CMainApp() = default;
 
 public:
-	HRESULT				Initialize();
-	void				Update(_float fTimeDelta);
-	HRESULT				Render();
+	HRESULT Initialize();
+	void	Update(_float fTimeDelta);
+	HRESULT Render();
 
 private:
 	CGameInstance*			m_pGameInstance		= { nullptr };
@@ -30,6 +30,8 @@ private:
 	ID3D11Device*			m_pDevice			= { nullptr };
 	ID3D11DeviceContext*	m_pContext			= { nullptr };
 
+private:
+	HRESULT Start_Level(LEVEL eStartLevelID);
 
 public:
 	static CMainApp*	Create();

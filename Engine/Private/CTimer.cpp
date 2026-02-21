@@ -41,7 +41,7 @@ CTimer* CTimer::Create()
 
 	if (FAILED(pInstance->Ready_Timer()))
 	{
-		MSG_BOX("CTimer.cpp Failed to Created : CTimer");
+		MSG_BOX("Failed to Created: CTimer");
 		Safe_Release(pInstance);
 	}
 

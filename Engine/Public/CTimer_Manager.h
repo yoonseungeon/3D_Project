@@ -13,9 +13,9 @@ private:
 	virtual ~CTimer_Manager() = default;
 
 public:
-	_float Get_TimeDelta(const _wstring& strTimerTag);
+	_float	Get_TimeDelta(const _wstring& strTimerTag);
 	HRESULT	Add_Timer(const _wstring& strTimerTag);
-	void Compute_Timer(const _wstring& strTimerTag);
+	void	Compute_Timer(const _wstring& strTimerTag);
 
 private:
 	map<const _wstring, class CTimer*> m_mapTimers;

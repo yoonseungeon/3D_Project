@@ -82,7 +82,7 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 
 HRESULT CGraphic_Device::Clear_BackBuffer_View(const _float4* pClearColor)
 {
-	if (nullptr == m_pDeviceContext)
+	if (m_pDeviceContext == nullptr)
 		return E_FAIL;
 
 	/* DX9기준 : Clear함수는 백버퍼, 깊이스텐실버퍼를 한꺼번에 지운다.  */
@@ -96,7 +96,7 @@ HRESULT CGraphic_Device::Clear_BackBuffer_View(const _float4* pClearColor)
 
 HRESULT CGraphic_Device::Clear_DepthStencil_View()
 {
-	if (nullptr == m_pDeviceContext)
+	if (m_pDeviceContext == nullptr)
 		return E_FAIL;
 
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
@@ -106,7 +106,7 @@ HRESULT CGraphic_Device::Clear_DepthStencil_View()
 
 HRESULT CGraphic_Device::Present()
 {
-	if (nullptr == m_pSwapChain)
+	if (m_pSwapChain == nullptr)
 		return E_FAIL;
 
 	/* 전면 버퍼와 후면 버퍼를 교체하여 후면 버퍼를 전면으로 보여주는 역할을 한다. */
@@ -194,7 +194,7 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 
 HRESULT CGraphic_Device::Ready_BackBufferRenderTargetView()
 {
-	if (nullptr == m_pDevice)
+	if (m_pDevice == nullptr)
 		return E_FAIL;
 
 	/* 내가 앞으로 사용 하기위한 용도의 텍스쳐를 생성하기위한 베이스 데이터를 가지고 있는 객체이다. */
@@ -225,7 +225,7 @@ HRESULT CGraphic_Device::Ready_BackBufferRenderTargetView()
 
 HRESULT CGraphic_Device::Ready_DepthStencilView(_uint iWinCX, _uint iWinCY)
 {
-	if (nullptr == m_pDevice)
+	if (m_pDevice == nullptr)
 		return E_FAIL;
 
 	// DSV는 메모리를 가진 실체(리소스)가 아니라 뷰(접근 창구)라서, Depth/Stencil을 저장할 Texture2D를 먼저 만든다.
@@ -291,7 +291,7 @@ CGraphic_Device* CGraphic_Device::Create(HWND hWnd, WINMODE isWindowed, _uint iW
 
 	if (FAILED(pInstance->Initialize(hWnd, isWindowed, iWinSizeX, iWinSizeY, ppDevice, ppDeviceContextOut)))
 	{
-		MSG_BOX("Failed to Created : CGraphic_Device");
+		MSG_BOX("Failed to Created: CGraphic_Device");
 		Safe_Release(pInstance);
 	}
 

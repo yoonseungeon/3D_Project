@@ -14,15 +14,15 @@ CGameInstance::CGameInstance()
 HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11Device** ppDevice, ID3D11DeviceContext** ppContext)
 {
 	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.eWinMode, EngineDesc.iViewportWidth, EngineDesc.iViewportHeight, ppDevice, ppContext);
-	if (nullptr == m_pGraphic_Device)
+	if (m_pGraphic_Device == nullptr)
 		return E_FAIL;
 
 	m_pTimer_Manager = CTimer_Manager::Create();
-	if (nullptr == m_pTimer_Manager)
+	if (m_pTimer_Manager == nullptr)
 		return E_FAIL;
 
 	m_pLevel_Manager = CLevel_Manager::Create();
-	if (nullptr == m_pLevel_Manager)
+	if (m_pLevel_Manager == nullptr)
 		return E_FAIL;
 
 	return S_OK;
@@ -83,6 +83,13 @@ HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
 void CGameInstance::Compute_Timer(const _wstring& strTimerTag)
 {
 	m_pTimer_Manager->Compute_Timer(strTimerTag);
+}
+#pragma endregion
+
+#pragma region LEVEL_MANAGER
+HRESULT CGameInstance::Change_Level(_int iNewLevelIndex, CLevel* pNewLevel)
+{
+	return m_pLevel_Manager->Change_Level(iNewLevelIndex, pNewLevel);
 }
 #pragma endregion
 

@@ -1,6 +1,7 @@
 #include "CMainApp.h"
 
 #include "CGameInstance.h"
+#include "CLevel_Loading.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance { CGameInstance::GetInstance()}
@@ -18,9 +19,12 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(EngineDesc, &m_pDevice, &m_pContext)))
 	{
-		MSG_BOX("CMainApp.cpp Failed to Initialize : Engine");
+		MSG_BOX("CMainApp.cpp - Failed to Initialize : Engine");
 		return E_FAIL;
 	}
+
+	if (FAILED(Start_Level(LEVEL::LOGO)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -44,12 +48,24 @@ HRESULT CMainApp::Render()
 	return S_OK;
 }
 
+HRESULT CMainApp::Start_Level(LEVEL eStartLevelID)
+{
+	CLevel* pPreLevel = CLevel_Loading::Create(m_pDevice, m_pContext, eStartLevelID);
+	if (pPreLevel == nullptr)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Change_Level(ETOI(LEVEL::LOADING), pPreLevel)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 CMainApp* CMainApp::Create()
 {
 	CMainApp* pInstance = new CMainApp();
 
 	if (FAILED(pInstance->Initialize())) {
-		MSG_BOX("CMainApp.cpp Failed to Created : CMainApp");
+		MSG_BOX("Failed to Created : CMainApp");
 		Safe_Release(pInstance);
 	}
 
