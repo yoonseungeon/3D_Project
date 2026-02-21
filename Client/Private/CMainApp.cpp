@@ -50,6 +50,7 @@ HRESULT CMainApp::Render()
 
 HRESULT CMainApp::Start_Level(LEVEL eStartLevelID)
 {
+	// Loading 리소스와 다음 Level의 리소스 Load.
 	CLevel* pPreLevel = CLevel_Loading::Create(m_pDevice, m_pContext, eStartLevelID);
 	if (pPreLevel == nullptr)
 		return E_FAIL;

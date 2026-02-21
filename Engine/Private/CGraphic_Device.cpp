@@ -27,7 +27,7 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 
 	/* SwapChain : 더블버퍼링. 전면과 후면버퍼를 번갈아가며 화면에 보여준다.(Present) */
 
-	/* 스왑체인객체를 생성하였고 생성한 스왑체인 객체가 백버퍼를 내장한다. 백버퍼를 생성하기 위한 ID3D11Texture2D 만든거야. */
+	/* 스왑체인객체를 생성했고, 생성한 스왑체인 객체가 백버퍼를 내장한다. 백버퍼를 생성하기 위한 ID3D11Texture2D 만든거야. */
 	/* 스왑체인 객체를 만들면서 백버퍼에 해당하는 ID3D11Texture2D객체를 만들어 스왑체인 객체가 내장한다. */
 	if (FAILED(Ready_SwapChain(hWnd, isWindowed, iWinSizeX, iWinSizeY)))
 		return E_FAIL;
@@ -141,7 +141,7 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 	/* float4(1.f, 1.f, 1.f, 1.f) */
 	/* float4(1.f, 0.f, 0.f, 1.f) */
 
-	// 이 백버퍼(텍스쳐) 한칸 한 칸은 어떤 정보를 가질까?
+	// 이 백버퍼(텍스쳐) 한 칸 한 칸은 어떤 정보를 가질까?
 	/* D3DFMT_A8R8G8B8*/ /* 만든 픽셀하나의 데이터 정보: 32Bit 픽셀 생성하되 부호가 없는 정규화된 수를 저장할게 */
 	// UNORM: 정규화된 실수를 담는다.
 	// 정규화된 실수: 0 ~ 1사이의 실수를 정규화된 실수라고 한다.
@@ -171,7 +171,7 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 	// 드라이버가 제공하는 안티앨리어싱 품질 레벨 중 몇 번째를 쓸지(Count가 1일 땐 연산할 품질이 없으므로 무조건 0)
 	SwapChain.SampleDesc.Quality = 0;
 	// 섞을 픽샐 개수(1 == 사용 x)
-	SwapChain.SampleDesc.Count = 1; //섞을 픽샐 개수 
+	SwapChain.SampleDesc.Count = 1;
 
 	// 어떤 창에 그림을 출력할지 지정
 	SwapChain.OutputWindow = hWnd;
