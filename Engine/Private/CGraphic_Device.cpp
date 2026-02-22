@@ -160,9 +160,9 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 
 	/* 스왑하는 형태 : 모니터 주사율에 따라 조절해도 됨. */
 	// 모니터가 1초에 화면을 몇 번 갱신할지를 결정하는 설정
-	// 분모
-	SwapChain.BufferDesc.RefreshRate.Numerator = 60;
 	// 분자
+	SwapChain.BufferDesc.RefreshRate.Numerator = 60;
+	// 분모
 	SwapChain.BufferDesc.RefreshRate.Denominator = 1;
 
 	/* 멀티샘플링 : 안티얼라이징 (계단현상방지) */
