@@ -8,6 +8,7 @@ NS_BEGIN(Engine)
 class CGraphic_Device;
 class CTimer_Manager;
 class CLevel_Manager;
+class CPrototype_Manager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -39,9 +40,10 @@ public:
 #pragma endregion
 
 private:
-	CGraphic_Device*	m_pGraphic_Device	= { nullptr };
-	CTimer_Manager*		m_pTimer_Manager	= { nullptr };
-	CLevel_Manager*		m_pLevel_Manager	= { nullptr };
+	CGraphic_Device*	m_pGraphic_Device		= { nullptr };
+	CTimer_Manager*		m_pTimer_Manager		= { nullptr };
+	CLevel_Manager*		m_pLevel_Manager		= { nullptr };
+	CPrototype_Manager* m_pPrototype_Manager	= { nullptr };
 
 protected:
 	virtual void Free() override;

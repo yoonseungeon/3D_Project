@@ -66,7 +66,6 @@ HRESULT CLoader::Loading()
     if (FAILED(hr))
         return E_FAIL;
 
-
     return S_OK;
 }
 
@@ -94,6 +93,7 @@ HRESULT CLoader::Ready_Resources_For_Logo()
     lstrcpy(m_szLoadingText, TEXT("Logo - 객체원형 로딩 중"));
 
     Sleep(1000);
+
     lstrcpy(m_szLoadingText, TEXT("Logo - 로딩이 완료되었습니다."));
 
     m_isFinished = true;

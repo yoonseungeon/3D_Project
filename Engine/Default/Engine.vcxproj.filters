@@ -28,6 +28,15 @@
     <Filter Include="03. Levels\Manager">
       <UniqueIdentifier>{5729a35e-1869-4b00-b104-38ca423810ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Prototype">
+      <UniqueIdentifier>{f1f3a48d-e1b9-4055-bd26-c5c5d19d6fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Prototype\Manager">
+      <UniqueIdentifier>{f3737c2a-3e1d-4199-b87a-d36198bae59c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. GameObject">
+      <UniqueIdentifier>{938cf4e1-f351-4ced-a29b-23c668bc1aa4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -50,6 +59,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLevel_Manager.cpp">
       <Filter>03. Levels\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPrototype_Manager.cpp">
+      <Filter>04. Prototype\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CGameObject.cpp">
+      <Filter>05. GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +106,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CLevel_Manager.h">
       <Filter>03. Levels\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPrototype_Manager.h">
+      <Filter>04. Prototype\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CGameObject.h">
+      <Filter>05. GameObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
