@@ -26,6 +26,10 @@ unsigned int __stdcall ThreadMain(void* pArg)
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
+    m_eNextLevelID = eNextLevelID;
+
+    InitializeCriticalSection(&m_CriticalSection);
+
     /* eNextLevelID에 필요한 자원을 로딩하는 작업을 수행한다. 누가? 스레드가 */
     // int -> void*라 reinterpret_cast 써야 함.
     m_hThread = reinterpret_cast<HANDLE>(_beginthreadex(nullptr,    // 보안속성(부모 프로세스 핸들의 상속 여부, nullptr인 경우 상속에서 제외)
@@ -43,6 +47,78 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 
 HRESULT CLoader::Loading()
 {
+    EnterCriticalSection(&m_CriticalSection);
+
+    HRESULT hr = {};
+
+    switch (m_eNextLevelID)
+    {
+    case LEVEL::LOGO:
+        hr = Ready_Resources_For_Logo();
+        break;
+    case LEVEL::GAMEPLAY:
+        hr = Ready_Resources_For_GamePlay();
+        break;
+    }
+
+    LeaveCriticalSection(&m_CriticalSection);
+
+    if (FAILED(hr))
+        return E_FAIL;
+
+
+    return S_OK;
+}
+
+#ifdef _DEBUG
+
+void CLoader::Show_Loading_Status()
+{
+    SetWindowText(g_hWnd, m_szLoadingText);
+}
+
+#endif
+
+
+HRESULT CLoader::Ready_Resources_For_Logo()
+{
+    lstrcpy(m_szLoadingText, TEXT("Logo - 텍스쳐 로딩 중"));
+
+
+    lstrcpy(m_szLoadingText, TEXT("Logo - 셰이더 로딩 중"));
+
+
+    lstrcpy(m_szLoadingText, TEXT("Logo - 정점, 인덱스 버퍼 로딩 중"));
+
+
+    lstrcpy(m_szLoadingText, TEXT("Logo - 객체원형 로딩 중"));
+
+    Sleep(1000);
+    lstrcpy(m_szLoadingText, TEXT("Logo - 로딩이 완료되었습니다."));
+
+    m_isFinished = true;
+
+    return S_OK;
+}
+
+HRESULT CLoader::Ready_Resources_For_GamePlay()
+{
+    lstrcpy(m_szLoadingText, TEXT("GamePlay - 텍스쳐 로딩 중"));
+
+
+    lstrcpy(m_szLoadingText, TEXT("GamePlay - 셰이더 로딩 중"));
+
+
+    lstrcpy(m_szLoadingText, TEXT("GamePlay - 정점, 인덱스 버퍼 로딩 중"));
+
+
+    lstrcpy(m_szLoadingText, TEXT("GamePlay - 객체원형 로딩 중"));
+
+    Sleep(1000);
+
+    lstrcpy(m_szLoadingText, TEXT("GamePlay - 로딩이 완료되었습니다."));
+
+    m_isFinished = true;
     return S_OK;
 }
 
@@ -65,6 +141,7 @@ void CLoader::Free()
 
     // 메인 쓰레드가 m_hThread 끝날 때까지 대기
     WaitForSingleObject(m_hThread, INFINITE);
+    DeleteCriticalSection(&m_CriticalSection);
     CloseHandle(m_hThread);
 
     Safe_Release(m_pDevice);
