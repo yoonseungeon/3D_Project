@@ -158,12 +158,12 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 	// 스왑 체인에서 관리할 백 버퍼의 개수를 지정
 	SwapChain.BufferCount = 1;
 
-	/* 스왑하는 형태 : 모니터 주사율에 따라 조절해도 됨. */
-	// 모니터가 1초에 화면을 몇 번 갱신할지를 결정하는 설정
+	// 전체 화면인 경우, 요청할 디스플레이 주사율 힌트(값 설정할 경우 하드 코딩 x)
+	// 0: unspecified(창 모드라서 의미 없어서 0으로)
 	// 분자
-	SwapChain.BufferDesc.RefreshRate.Numerator = 60;
+	SwapChain.BufferDesc.RefreshRate.Numerator = 0;
 	// 분모
-	SwapChain.BufferDesc.RefreshRate.Denominator = 1;
+	SwapChain.BufferDesc.RefreshRate.Denominator = 0;
 
 	/* 멀티샘플링 : 안티얼라이징 (계단현상방지) */
 	/* 나중에 배울 후처리(쉐이더) 렌더링에서 멀티샘플링 지원되지 않아 설정 x */
