@@ -1,5 +1,8 @@
 #include "CPrototype_Manager.h"
 
+#include "CGameObject.h"
+// #include "CComponent.h"
+
 CPrototype_Manager::CPrototype_Manager()
 {
 }
@@ -31,9 +34,25 @@ HRESULT CPrototype_Manager::Add_Prototype(_uint iLevelIndex, const _wstring& str
 	return S_OK;
 }
 
-CBase* CPrototype_Manager::Clone_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag)
+CBase* CPrototype_Manager::Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
 {
-	return nullptr;
+	CBase* pPrototype = Find_Prototype(iLevelIndex, strPrototypeTag);
+	if (pPrototype == nullptr)
+		return nullptr;
+
+	CBase* pInstance = { nullptr };
+
+	// CBase에 Clone 없어서 캐스팅 필요
+	if (eType == PROTOTYPE::GAMEOBJECT)
+	{
+		pInstance = dynamic_cast<CGameObject*>(pPrototype)->Clone(pArg);
+	}
+	else if (eType == PROTOTYPE::COMPONENT)
+	{
+		/*pInstance = dynamic_cast<CComponent*>(pPrototype)->Clone(pArg)*/;
+	}
+
+	return pInstance;
 }
 
 CBase* CPrototype_Manager::Find_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag)

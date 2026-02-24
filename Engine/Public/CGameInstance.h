@@ -39,6 +39,11 @@ public:
 	HRESULT Change_Level(_int iNewLevelIndex, class CLevel* pNewLevel);
 #pragma endregion
 
+#pragma region PROTOTYPE_MANAGER
+	HRESULT Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype);
+	CBase* Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
+#pragma endregion
+
 private:
 	CGraphic_Device*	m_pGraphic_Device		= { nullptr };
 	CTimer_Manager*		m_pTimer_Manager		= { nullptr };

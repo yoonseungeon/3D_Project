@@ -98,6 +98,18 @@ HRESULT CGameInstance::Change_Level(_int iNewLevelIndex, CLevel* pNewLevel)
 }
 #pragma endregion
 
+#pragma region PROTOTYPE_MANAGER
+HRESULT CGameInstance::Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype)
+{
+	return m_pPrototype_Manager->Add_Prototype(iLevelIndex, strPrototypeTag, pPrototype);
+}
+
+CBase* CGameInstance::Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
+{
+	return m_pPrototype_Manager->Clone_Prototype(eType, iLevelIndex, strPrototypeTag, pArg);
+}
+#pragma endregion
+
 void CGameInstance::Free()
 {
 	__super::Free();

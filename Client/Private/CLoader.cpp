@@ -1,9 +1,14 @@
 #include "CLoader.h"
 
+#include "CGameInstance.h"
+#include "CBackGround.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
     , m_pContext{ pContext }
+    , m_pGameInstance{ CGameInstance::GetInstance() }
 {
+    Safe_AddRef(m_pGameInstance);
     Safe_AddRef(m_pDevice);
     Safe_AddRef(m_pContext);
 }
@@ -92,7 +97,10 @@ HRESULT CLoader::Ready_Resources_For_Logo()
 
     lstrcpy(m_szLoadingText, TEXT("Logo - 객체원형 로딩 중"));
 
-    Sleep(1000);
+    /* Prototype_GameObject_BackGround */
+    if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_BackGround"),
+        CBackGround::Create(m_pDevice, m_pContext))))
+        return E_FAIL;
 
     lstrcpy(m_szLoadingText, TEXT("Logo - 로딩이 완료되었습니다."));
 
@@ -143,6 +151,8 @@ void CLoader::Free()
     WaitForSingleObject(m_hThread, INFINITE);
     DeleteCriticalSection(&m_CriticalSection);
     CloseHandle(m_hThread);
+
+    Safe_Release(m_pGameInstance);
 
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
