@@ -20,8 +20,9 @@ public:
 	CBase* Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
 
 private:
-	_uint		m_iNumLevels	= {};
+	size_t		m_iNumLevels	= {};
 	using PROTOTYPES = map<const _wstring, class CBase*>;
+	// Level별로 구분
 	PROTOTYPES* m_pPrototypes	= { nullptr };
 
 private:

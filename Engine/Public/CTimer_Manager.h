@@ -18,7 +18,7 @@ public:
 	void	Compute_Timer(const _wstring& strTimerTag);
 
 private:
-	map<const _wstring, class CTimer*> m_mapTimers;
+	map<const _wstring, class CTimer*> m_Timers;
 
 private:
 	class CTimer* Find_Timer(const _wstring& strTimerTag);

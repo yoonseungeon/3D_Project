@@ -37,6 +37,12 @@
     <Filter Include="05. GameObject">
       <UniqueIdentifier>{938cf4e1-f351-4ced-a29b-23c668bc1aa4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. GameObject\Manager">
+      <UniqueIdentifier>{839b5bf6-cf06-4b19-8e65-271bf0c9a412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. GameObject\Manager\Layer">
+      <UniqueIdentifier>{66ac95ad-f5d6-4fb2-973b-53e8d715c43e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -65,6 +71,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CGameObject.cpp">
       <Filter>05. GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CObject_Manager.cpp">
+      <Filter>05. GameObject\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLayer.cpp">
+      <Filter>05. GameObject\Manager\Layer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CGameObject.h">
       <Filter>05. GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CObject_Manager.h">
+      <Filter>05. GameObject\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLayer.h">
+      <Filter>05. GameObject\Manager\Layer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
