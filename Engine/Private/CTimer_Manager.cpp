@@ -23,7 +23,7 @@ HRESULT CTimer_Manager::Add_Timer(const _wstring& strTimerTag)
 	if (nullptr == pTimer)
 		return E_FAIL;
 
-	m_mapTimers.emplace(strTimerTag, pTimer);
+	m_Timers.emplace(strTimerTag, pTimer);
 
 	return S_OK;
 }
@@ -39,9 +39,9 @@ void CTimer_Manager::Compute_Timer(const _wstring& strTimerTag)
 
 CTimer* CTimer_Manager::Find_Timer(const _wstring& strTimerTag)
 {
-	auto iter = m_mapTimers.find(strTimerTag);
+	auto iter = m_Timers.find(strTimerTag);
 
-	if (m_mapTimers.end() == iter)
+	if (m_Timers.end() == iter)
 		return nullptr;
 
 	return iter->second;
@@ -56,7 +56,7 @@ void CTimer_Manager::Free()
 {
 	__super::Free();
 
-	for (auto& Pair : m_mapTimers)
+	for (auto& Pair : m_Timers)
 		Safe_Release(Pair.second);
-	m_mapTimers.clear();
+	m_Timers.clear();
 }

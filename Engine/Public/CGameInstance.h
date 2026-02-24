@@ -9,6 +9,7 @@ class CGraphic_Device;
 class CTimer_Manager;
 class CLevel_Manager;
 class CPrototype_Manager;
+class CObject_Manager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -26,6 +27,7 @@ public:
 	HRESULT Draw();
 	HRESULT End_Draw();
 	void	Clear_Resources(_int iLevelIndex);
+	void	Release_Engine();
 #pragma endregion
 
 #pragma region TIMER_MANAGER
@@ -44,11 +46,16 @@ public:
 	CBase* Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
 #pragma endregion
 
+#pragma region OBJECT_MANAGER
+	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+#pragma endregion
+
 private:
 	CGraphic_Device*	m_pGraphic_Device		= { nullptr };
 	CTimer_Manager*		m_pTimer_Manager		= { nullptr };
 	CLevel_Manager*		m_pLevel_Manager		= { nullptr };
 	CPrototype_Manager* m_pPrototype_Manager	= { nullptr };
+	CObject_Manager*	m_pObject_Manager		= { nullptr };
 
 protected:
 	virtual void Free() override;
