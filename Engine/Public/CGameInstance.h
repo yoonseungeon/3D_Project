@@ -10,6 +10,7 @@ class CTimer_Manager;
 class CLevel_Manager;
 class CPrototype_Manager;
 class CObject_Manager;
+class CRenderer;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -50,12 +51,17 @@ public:
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 #pragma endregion
 
+#pragma region RENDERER
+	void Add_RenderGroup(RENDERID eGroupID, class CGameObject* pGameObject);
+#pragma endregion
+
 private:
 	CGraphic_Device*	m_pGraphic_Device		= { nullptr };
 	CTimer_Manager*		m_pTimer_Manager		= { nullptr };
 	CLevel_Manager*		m_pLevel_Manager		= { nullptr };
 	CPrototype_Manager* m_pPrototype_Manager	= { nullptr };
 	CObject_Manager*	m_pObject_Manager		= { nullptr };
+	CRenderer*			m_pRenderer				= { nullptr };
 
 protected:
 	virtual void Free() override;

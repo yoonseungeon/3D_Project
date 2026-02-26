@@ -43,6 +43,9 @@
     <Filter Include="05. GameObject\Manager\Layer">
       <UniqueIdentifier>{66ac95ad-f5d6-4fb2-973b-53e8d715c43e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Renderer">
+      <UniqueIdentifier>{831a7298-ee1f-48e7-a527-a9860cf9c214}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLayer.cpp">
       <Filter>05. GameObject\Manager\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CRenderer.cpp">
+      <Filter>06. Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CLayer.h">
       <Filter>05. GameObject\Manager\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CRenderer.h">
+      <Filter>06. Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

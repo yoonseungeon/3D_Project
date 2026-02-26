@@ -39,6 +39,7 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	if (FAILED(Ready_DepthStencilView(iWinSizeX, iWinSizeY)))
 		return E_FAIL;
 
+
 	// 생성한 View들 연결(바인딩) 필요
 
 	/* 장치에 바인드해놓을 렌더 타겟들과 뎁스스텐실뷰를 세팅한다. */
