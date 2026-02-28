@@ -21,6 +21,11 @@ HRESULT CBackGround::Initialize_Prototype()
 
 HRESULT CBackGround::Initialize(void* pArg)
 {
+    BACKGROUND_DESC* pDesc = static_cast<BACKGROUND_DESC*>(pArg);
+
+    if (FAILED(__super::Initialize(pDesc)))
+        return E_FAIL;
+
     return S_OK;
 }
 

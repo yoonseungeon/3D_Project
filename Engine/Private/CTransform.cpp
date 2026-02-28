@@ -1,0 +1,54 @@
+#include "CTransform.h"
+
+CTransform::CTransform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+    : CComponent{ pDevice, pContext }
+{
+}
+
+CTransform::CTransform(const CTransform& Prototype)
+    : CComponent{ Prototype }
+{
+}
+
+HRESULT CTransform::Initialize_Prototype()
+{
+    return S_OK;
+}
+
+HRESULT CTransform::Initialize(void* pArg)
+{
+    if (pArg == nullptr)
+        return S_OK;
+
+    TRANSFORM_DESC* pDesc = static_cast<TRANSFORM_DESC*>(pArg);
+
+    m_fRotationPerSec = pDesc->fRotationPerSec;
+    m_fSpeedPerSec = pDesc->fSpeedPerSec;
+
+    return S_OK;
+}
+
+CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+{
+    CTransform* pInstance = new CTransform(pDevice, pContext);
+
+    if (FAILED(pInstance->Initialize_Prototype()))
+    {
+        MSG_BOX("Failed to Created: CTransform");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
+}
+
+CComponent* CTransform::Clone(void* pArg)
+{
+    MSG_BOX("Failed to Cloned: CTransform");
+
+    return nullptr;
+}
+
+void CTransform::Free()
+{
+    __super::Free();
+}

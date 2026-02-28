@@ -1,7 +1,7 @@
 #include "CPrototype_Manager.h"
 
 #include "CGameObject.h"
-// #include "CComponent.h"
+#include "CComponent.h"
 
 CPrototype_Manager::CPrototype_Manager()
 {
@@ -49,7 +49,7 @@ CBase* CPrototype_Manager::Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, c
 	}
 	else if (eType == PROTOTYPE::COMPONENT)
 	{
-		/*pInstance = dynamic_cast<CComponent*>(pPrototype)->Clone(pArg)*/;
+		pInstance = dynamic_cast<CComponent*>(pPrototype)->Clone(pArg);
 	}
 
 	return pInstance;

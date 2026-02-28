@@ -148,6 +148,7 @@ call UpdateLib.bat</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\CBase.h" />
+    <ClInclude Include="..\Public\CComponent.h" />
     <ClInclude Include="..\Public\CGameInstance.h" />
     <ClInclude Include="..\Public\CGameObject.h" />
     <ClInclude Include="..\Public\CGraphic_Device.h" />
@@ -159,6 +160,7 @@ call UpdateLib.bat</Command>
     <ClInclude Include="..\Public\CRenderer.h" />
     <ClInclude Include="..\Public\CTimer.h" />
     <ClInclude Include="..\Public\CTimer_Manager.h" />
+    <ClInclude Include="..\Public\CTransform.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
     <ClInclude Include="..\Public\Engine_Function.h" />
@@ -168,6 +170,7 @@ call UpdateLib.bat</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp" />
+    <ClCompile Include="..\Private\CComponent.cpp" />
     <ClCompile Include="..\Private\CGameInstance.cpp" />
     <ClCompile Include="..\Private\CGameObject.cpp" />
     <ClCompile Include="..\Private\CGraphic_Device.cpp" />
@@ -179,6 +182,7 @@ call UpdateLib.bat</Command>
     <ClCompile Include="..\Private\CRenderer.cpp" />
     <ClCompile Include="..\Private\CTimer.cpp" />
     <ClCompile Include="..\Private\CTimer_Manager.cpp" />
+    <ClCompile Include="..\Private\CTransform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

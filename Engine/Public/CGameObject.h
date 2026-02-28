@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CBase.h"
+#include "CTransform.h"
 
 NS_BEGIN(Engine)
 
@@ -8,6 +8,12 @@ class CGameInstance;
 
 class ENGINE_DLL CGameObject abstract : public CBase
 {
+public:
+	struct GAMEOBJECT_DESC : public CTransform::TRANSFORM_DESC
+	{
+		_uint iFlag = {};
+	};
+
 protected:
 	CGameObject(ID3D11Device * pDevice, ID3D11DeviceContext * pContext);
 	CGameObject(const CGameObject& Prototype);
@@ -27,7 +33,11 @@ public:
 protected:
 	ID3D11Device*			m_pDevice		= { nullptr };
 	ID3D11DeviceContext*	m_pContext		= { nullptr };
+
 	CGameInstance*			m_pGameInstance = { nullptr };
+
+	CTransform*				m_pTransformCom = { nullptr };
+	_uint					m_iFlag			= {};
 
 public:
 	// Create
