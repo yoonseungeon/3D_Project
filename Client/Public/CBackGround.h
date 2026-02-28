@@ -10,7 +10,7 @@ class CBackGround final : public CGameObject
 public:
 	struct BACKGROUND_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
-
+		int a = 10;
 	};
 
 protected:

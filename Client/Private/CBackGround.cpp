@@ -23,7 +23,9 @@ HRESULT CBackGround::Initialize(void* pArg)
 {
     BACKGROUND_DESC* pDesc = static_cast<BACKGROUND_DESC*>(pArg);
 
-    if (FAILED(__super::Initialize(pDesc)))
+
+    GAMEOBJECT_DESC* pParent = static_cast<GAMEOBJECT_DESC*>(pDesc);
+    if (FAILED(__super::Initialize(pParent)))
         return E_FAIL;
 
     return S_OK;
