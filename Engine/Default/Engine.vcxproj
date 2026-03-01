@@ -76,6 +76,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\Bin\</OutDir>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -108,7 +111,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Public\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -130,7 +133,7 @@ call UpdateLib.bat</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Public\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -158,6 +161,7 @@ call UpdateLib.bat</Command>
     <ClInclude Include="..\Public\CObject_Manager.h" />
     <ClInclude Include="..\Public\CPrototype_Manager.h" />
     <ClInclude Include="..\Public\CRenderer.h" />
+    <ClInclude Include="..\Public\CThread_Manager.h" />
     <ClInclude Include="..\Public\CTimer.h" />
     <ClInclude Include="..\Public\CTimer_Manager.h" />
     <ClInclude Include="..\Public\CTransform.h" />
@@ -180,6 +184,7 @@ call UpdateLib.bat</Command>
     <ClCompile Include="..\Private\CObject_Manager.cpp" />
     <ClCompile Include="..\Private\CPrototype_Manager.cpp" />
     <ClCompile Include="..\Private\CRenderer.cpp" />
+    <ClCompile Include="..\Private\CThread_Manager.cpp" />
     <ClCompile Include="..\Private\CTimer.cpp" />
     <ClCompile Include="..\Private\CTimer_Manager.cpp" />
     <ClCompile Include="..\Private\CTransform.cpp" />

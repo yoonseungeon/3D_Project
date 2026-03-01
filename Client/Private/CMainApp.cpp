@@ -4,7 +4,7 @@
 #include "CLevel_Loading.h"
 
 CMainApp::CMainApp()
-	: m_pGameInstance { CGameInstance::GetInstance()}
+	: m_pGameInstance{ CGameInstance::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
 }

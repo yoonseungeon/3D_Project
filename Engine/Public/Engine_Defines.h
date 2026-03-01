@@ -15,6 +15,7 @@ using namespace DirectX;
 #include <string>
 #include <unordered_map>
 #include <ctime>
+#include <atomic>
 
 using namespace std;
 

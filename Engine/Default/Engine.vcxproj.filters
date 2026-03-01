@@ -52,6 +52,9 @@
     <Filter Include="07. Component\00. Transform">
       <UniqueIdentifier>{d3d99cdf-f481-439c-ad1a-c73ed03b21f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="100. Thread_Manager">
+      <UniqueIdentifier>{2b59562d-441c-4f27-8083-0c4f946b5d90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -96,6 +99,7 @@
     <ClCompile Include="..\Private\CTransform.cpp">
       <Filter>07. Component\00. Transform</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CThread_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\CBase.h">
@@ -158,5 +162,6 @@
     <ClInclude Include="..\Public\CTransform.h">
       <Filter>07. Component\00. Transform</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CThread_Manager.h" />
   </ItemGroup>
 </Project>

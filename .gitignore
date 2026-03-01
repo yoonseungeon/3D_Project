@@ -404,5 +404,6 @@ FodyWeavers.xsd
 
 # 여기서부터 직접 추가
 /EngineSDK/
+vcpkg_installed/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
