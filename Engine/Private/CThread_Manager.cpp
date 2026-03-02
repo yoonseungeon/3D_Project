@@ -9,6 +9,10 @@ CThread_Manager::CThread_Manager()
 // 멤버 함수 아님. 전역 함수임. 멤버 변수 직접 접근 불가.
 unsigned int __stdcall ThreadMain(void* pArg)
 {
+    // 이 스레드에서 COM을 쓰겠다
+    // 로딩 때 사용
+    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+
     CThread_Manager* pThread_Manager = static_cast<CThread_Manager*>(pArg);
 
     pThread_Manager->DoWork();
@@ -16,6 +20,8 @@ unsigned int __stdcall ThreadMain(void* pArg)
     // return으로 끝내면 내부적으로 호출
     // 즉시 종료라 지역 객체들 소멸자 안 불린다고 함.
     // _endthreadex(0);
+    
+    CoUninitialize();
 
     return 0;
 }

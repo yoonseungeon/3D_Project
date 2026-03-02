@@ -15,7 +15,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
     m_eNextLevelID = eNextLevelID;
 
     m_pLoader = CLoader::Create(m_pDevice, m_pContext, eNextLevelID);
-    if (nullptr == m_pLoader)
+    if (m_pLoader == nullptr)
         return E_FAIL;
 
     return S_OK;

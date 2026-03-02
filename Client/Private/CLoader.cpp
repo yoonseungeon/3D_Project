@@ -119,7 +119,7 @@ HRESULT CLoader::Ready_Resources_For_Logo()
         }
     );
 
-    // m_iTotalJobCnt 보장
+    // m_iTotalJobCnt 개수 보장
     m_bIsAllJobsQueued.store(true, memory_order_release);
 
     return S_OK;
