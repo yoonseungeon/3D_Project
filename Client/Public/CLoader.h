@@ -18,7 +18,7 @@ private:
 public:
 	HRESULT Initialize(LEVEL eNextLevelID);
 	HRESULT Loading();
-	_bool isFinished() const { return m_isFinished; }
+	_bool	isFinished();
 
 #ifdef _DEBUG
 public:
@@ -34,11 +34,11 @@ private:
 	LEVEL					m_eNextLevelID		= { LEVEL::END };
 
 	HANDLE					m_hThread			= { };
-	CRITICAL_SECTION		m_CriticalSection	= { };
 
 private:
-	_tchar					m_szLoadingText[MAX_PATH]	= { };
-	_bool					m_isFinished				= { };
+	std::atomic<_bool>		m_bIsAllJobsQueued			= { false };
+	std::atomic<_int>		m_iTotalJobCnt				= { 0 };
+	std::atomic<_int>		m_iFinishedJobCnt			= { 0 };
 
 private:
 	HRESULT Ready_Resources_For_Logo();

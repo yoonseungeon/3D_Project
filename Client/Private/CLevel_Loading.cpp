@@ -23,8 +23,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 void CLevel_Loading::Update(_float fTimeDelta)
 {
-    if (GetKeyState(VK_SPACE) & 0x8000 &&
-        m_pLoader->isFinished() == true)
+    if (GetKeyState(VK_SPACE) & 0x8000 && m_pLoader->isFinished() == true)
     {
         CLevel* pNextLevel = { nullptr };
 
@@ -75,7 +74,7 @@ CLevel_Loading* CLevel_Loading::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 void CLevel_Loading::Free()
 {
-    __super::Free();
-
     Safe_Release(m_pLoader);
+     
+    __super::Free();
 }

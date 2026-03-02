@@ -77,6 +77,7 @@ void CThread_Manager::Add_Job(function<void()> func)
 {
     if (func == nullptr)
     {
+        MSG_BOX("CThread_Manager.cpp - func == nullptr");
         return;
     }
 

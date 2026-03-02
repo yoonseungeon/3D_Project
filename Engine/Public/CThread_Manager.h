@@ -39,10 +39,10 @@ public:
 	void Add_Job(function<void()> func);
 
 private:
-	vector<HANDLE>	m_vecThreads;
-	HANDLE			m_hEvent = { };
-	atomic_bool		m_bExit = { false };
-	tbb::concurrent_queue<JOB> m_JobQueue;
+	vector<HANDLE>				m_vecThreads;
+	HANDLE						m_hEvent = { };
+	std::atomic<_bool>			m_bExit = { false };
+	tbb::concurrent_queue<JOB>	m_JobQueue;
 
 public:
 	static CThread_Manager* Create();

@@ -26,14 +26,11 @@ unsigned int __stdcall ThreadMain(void* pArg)
     // _endthreadex(0);
 
     return 0;
-
 }
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
     m_eNextLevelID = eNextLevelID;
-
-    InitializeCriticalSection(&m_CriticalSection);
 
     /* eNextLevelID에 필요한 자원을 로딩하는 작업을 수행한다. 누가? 스레드가 */
     // int -> void*라 reinterpret_cast 써야 함.
@@ -44,7 +41,7 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
                                                         0,          // 생성 즉시 실행 여부(0이면 바로 실행)
                                                         nullptr     // 생성된 쓰레드의 ID를 받을 변수 주소  
                                                     ));
-    if (0 == m_hThread)
+    if (m_hThread == 0)
         return E_FAIL;
 
     return S_OK;
@@ -52,8 +49,6 @@ HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 
 HRESULT CLoader::Loading()
 {
-    EnterCriticalSection(&m_CriticalSection);
-
     HRESULT hr = {};
 
     switch (m_eNextLevelID)
@@ -66,67 +61,76 @@ HRESULT CLoader::Loading()
         break;
     }
 
-    LeaveCriticalSection(&m_CriticalSection);
-
     if (FAILED(hr))
         return E_FAIL;
 
     return S_OK;
 }
 
-#ifdef _DEBUG
-
-void CLoader::Show_Loading_Status()
+_bool CLoader::isFinished()
 {
-    SetWindowText(g_hWnd, m_szLoadingText);
+    if (m_bIsAllJobsQueued.load(memory_order_acquire) && (m_iTotalJobCnt.load(memory_order_relaxed) == m_iFinishedJobCnt.load(memory_order_relaxed))) {
+        return true;
+    }
+    return false;
 }
 
-#endif
+#ifdef _DEBUG
+void CLoader::Show_Loading_Status()
+{
+    _tchar szLoadingText[MAX_PATH] = { };
 
+    if(m_bIsAllJobsQueued.load(memory_order_acquire))
+    {
+        _int iTotalJobCnt = static_cast<_int>(m_iTotalJobCnt.load(memory_order_relaxed));
+        _int iFinishedJobCnt = static_cast<_int>(m_iFinishedJobCnt.load(memory_order_relaxed));
+
+        if(iTotalJobCnt != 0)
+        {
+            _float fProgress = static_cast<_float>(iFinishedJobCnt) / static_cast<_float>(iTotalJobCnt) * 100.f;
+            swprintf_s(szLoadingText, L"%.1f%%", fProgress);
+        }
+        else
+        {
+            swprintf_s(szLoadingText, L"%.1f%%", 100.f);
+        }
+    }
+    else
+    {
+        swprintf_s(szLoadingText, L"로딩 준비 중");
+    }
+
+    SetWindowText(g_hWnd, szLoadingText);
+}
+#endif
 
 HRESULT CLoader::Ready_Resources_For_Logo()
 {
-    lstrcpy(m_szLoadingText, TEXT("Logo - 텍스쳐 로딩 중"));
-
-
-    lstrcpy(m_szLoadingText, TEXT("Logo - 셰이더 로딩 중"));
-
-
-    lstrcpy(m_szLoadingText, TEXT("Logo - 정점, 인덱스 버퍼 로딩 중"));
-
-
-    lstrcpy(m_szLoadingText, TEXT("Logo - 객체원형 로딩 중"));
-
     /* Prototype_GameObject_BackGround */
-    if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_BackGround"),
-        CBackGround::Create(m_pDevice, m_pContext))))
-        return E_FAIL;
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_BackGround"),
+                CBackGround::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: BackGround Prototype");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 
-    lstrcpy(m_szLoadingText, TEXT("Logo - 로딩이 완료되었습니다."));
-
-    m_isFinished = true;
+    // m_iTotalJobCnt 보장
+    m_bIsAllJobsQueued.store(true, memory_order_release);
 
     return S_OK;
 }
 
 HRESULT CLoader::Ready_Resources_For_GamePlay()
 {
-    lstrcpy(m_szLoadingText, TEXT("GamePlay - 텍스쳐 로딩 중"));
 
 
-    lstrcpy(m_szLoadingText, TEXT("GamePlay - 셰이더 로딩 중"));
 
-
-    lstrcpy(m_szLoadingText, TEXT("GamePlay - 정점, 인덱스 버퍼 로딩 중"));
-
-
-    lstrcpy(m_szLoadingText, TEXT("GamePlay - 객체원형 로딩 중"));
-
-    Sleep(1000);
-
-    lstrcpy(m_szLoadingText, TEXT("GamePlay - 로딩이 완료되었습니다."));
-
-    m_isFinished = true;
+    m_bIsAllJobsQueued.store(true, memory_order_release);
     return S_OK;
 }
 
@@ -145,15 +149,14 @@ CLoader* CLoader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, L
 
 void CLoader::Free()
 {
-    __super::Free();
-
     // 메인 쓰레드가 m_hThread 끝날 때까지 대기
     WaitForSingleObject(m_hThread, INFINITE);
-    DeleteCriticalSection(&m_CriticalSection);
     CloseHandle(m_hThread);
 
     Safe_Release(m_pGameInstance);
 
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
+
+    __super::Free();
 }
