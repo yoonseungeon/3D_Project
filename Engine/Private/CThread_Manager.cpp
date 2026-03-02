@@ -11,17 +11,7 @@ unsigned int __stdcall ThreadMain(void* pArg)
 {
     CThread_Manager* pThread_Manager = static_cast<CThread_Manager*>(pArg);
 
-    while (true) {
-
-        WaitForSingleObject(pThread_Manager->Get_Event(), INFINITE);
-
-        if (pThread_Manager->IsExit()) {
-            SetEvent(pThread_Manager->Get_Event());
-            break;
-        }
-
-        //일처리
-    }
+    pThread_Manager->DoWork();
 
     // return으로 끝내면 내부적으로 호출
     // 즉시 종료라 지역 객체들 소멸자 안 불린다고 함.
@@ -61,6 +51,41 @@ HRESULT CThread_Manager::Initialize()
     }
 
     return S_OK;
+}
+
+void CThread_Manager::DoWork()
+{
+    while (true) {
+
+        WaitForSingleObject(m_hEvent, INFINITE);
+
+        if (m_bExit.load(memory_order_relaxed) == true) {
+            SetEvent(m_hEvent);
+            break;
+        }
+
+        JOB tJob = {};
+        while (m_JobQueue.try_pop(tJob)) {
+            if (tJob.work != nullptr) {
+                tJob.work();
+            }
+        }
+    }
+}
+
+void CThread_Manager::Add_Job(function<void()> func)
+{
+    if (func == nullptr)
+    {
+        return;
+    }
+
+    JOB tJob = {};
+    tJob.work = func;
+
+    m_JobQueue.push(tJob);
+
+    SetEvent(m_hEvent);
 }
 
 CThread_Manager* CThread_Manager::Create()

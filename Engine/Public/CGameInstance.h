@@ -12,6 +12,8 @@ class CPrototype_Manager;
 class CObject_Manager;
 class CRenderer;
 
+class CThread_Manager;
+
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
@@ -55,6 +57,11 @@ public:
 	void Add_RenderGroup(RENDERID eGroupID, class CGameObject* pGameObject);
 #pragma endregion
 
+
+#pragma region THREAD_MANAGER
+	void Add_Job(function<void()> func);
+#pragma endregion
+
 private:
 	CGraphic_Device*	m_pGraphic_Device		= { nullptr };
 	CTimer_Manager*		m_pTimer_Manager		= { nullptr };
@@ -62,6 +69,8 @@ private:
 	CPrototype_Manager* m_pPrototype_Manager	= { nullptr };
 	CObject_Manager*	m_pObject_Manager		= { nullptr };
 	CRenderer*			m_pRenderer				= { nullptr };
+
+	CThread_Manager*	m_pThread_Manager		= { nullptr };
 
 protected:
 	virtual void Free() override;

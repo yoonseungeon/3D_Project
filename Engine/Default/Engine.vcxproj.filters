@@ -99,7 +99,9 @@
     <ClCompile Include="..\Private\CTransform.cpp">
       <Filter>07. Component\00. Transform</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CThread_Manager.cpp" />
+    <ClCompile Include="..\Private\CThread_Manager.cpp">
+      <Filter>100. Thread_Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\CBase.h">
@@ -162,6 +164,8 @@
     <ClInclude Include="..\Public\CTransform.h">
       <Filter>07. Component\00. Transform</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CThread_Manager.h" />
+    <ClInclude Include="..\Public\CThread_Manager.h">
+      <Filter>100. Thread_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

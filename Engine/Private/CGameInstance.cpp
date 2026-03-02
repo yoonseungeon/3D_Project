@@ -7,6 +7,8 @@
 #include "CObject_Manager.h"
 #include "CRenderer.h"
 
+#include "CThread_Manager.h"
+
 IMPLEMENT_SINGLETON(CGameInstance)
 
 CGameInstance::CGameInstance()
@@ -29,15 +31,20 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 		return E_FAIL;
 
 	m_pPrototype_Manager = CPrototype_Manager::Create(EngineDesc.iNumLevels);
-	if (nullptr == m_pPrototype_Manager)
+	if (m_pPrototype_Manager == nullptr)
 		return E_FAIL;
 
 	m_pObject_Manager = CObject_Manager::Create(EngineDesc.iNumLevels);
-	if (nullptr == m_pObject_Manager)
+	if (m_pObject_Manager == nullptr)
 		return E_FAIL;
 
 	m_pRenderer = CRenderer::Create(*ppDevice, *ppContext);
-	if (nullptr == m_pRenderer)
+	if (m_pRenderer == nullptr)
+		return E_FAIL;
+
+
+	m_pThread_Manager = CThread_Manager::Create();
+	if (m_pThread_Manager == nullptr)
 		return E_FAIL;
 
 	return S_OK;
@@ -94,6 +101,8 @@ void CGameInstance::Clear_Resources(_int iLevelIndex)
 
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pThread_Manager);
+
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pPrototype_Manager);
@@ -152,6 +161,13 @@ HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring
 void CGameInstance::Add_RenderGroup(RENDERID eGroupID, CGameObject* pGameObject)
 {
 	m_pRenderer->Add_RenderGroup(eGroupID, pGameObject);
+}
+#pragma endregion
+
+#pragma region THREAD_MANAGER
+void CGameInstance::Add_Job(function<void()> func)
+{
+	m_pThread_Manager->Add_Job(func);
 }
 #pragma endregion
 
