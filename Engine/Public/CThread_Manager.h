@@ -40,8 +40,8 @@ public:
 
 private:
 	vector<HANDLE>				m_vecThreads;
-	HANDLE						m_hEvent = { };
-	std::atomic<_bool>			m_bExit = { false };
+	HANDLE						m_hEvent		= { };
+	std::atomic<_bool>			m_bExit			= { false };
 	tbb::concurrent_queue<JOB>	m_JobQueue;
 
 public:

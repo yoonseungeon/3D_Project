@@ -36,9 +36,9 @@ private:
 	HANDLE					m_hThread			= { };
 
 private:
-	std::atomic<_bool>		m_bIsAllJobsQueued			= { false };
-	std::atomic<_int>		m_iTotalJobCnt				= { 0 };
-	std::atomic<_int>		m_iFinishedJobCnt			= { 0 };
+	atomic<_bool>		m_bIsAllJobsQueued		= { false };
+	atomic<_int>		m_iTotalJobCnt			= { 0 };
+	atomic<_int>		m_iFinishedJobCnt		= { 0 };
 
 private:
 	HRESULT Ready_Resources_For_Logo();
