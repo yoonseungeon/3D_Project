@@ -104,8 +104,6 @@ CThread_Manager* CThread_Manager::Create()
 
 void CThread_Manager::Free()
 {
-    __super::Free();
-
     m_bExit.store(true, std::memory_order_relaxed);
 
     SetEvent(m_hEvent);
@@ -125,4 +123,6 @@ void CThread_Manager::Free()
         CloseHandle(m_hEvent);
         m_hEvent = NULL;
     }
+
+    __super::Free();
 }

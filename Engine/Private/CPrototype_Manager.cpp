@@ -87,8 +87,6 @@ CPrototype_Manager* CPrototype_Manager::Create(_uint iNumLevels)
 
 void CPrototype_Manager::Free()
 {
-	__super::Free();
-
 	for (size_t i = 0; i < m_iNumLevels; i++)
 	{
 		for (auto& Pair : m_pPrototypes[i])
@@ -97,4 +95,6 @@ void CPrototype_Manager::Free()
 	}
 
 	Safe_Delete_Array(m_pPrototypes);
+
+	__super::Free();
 }

@@ -111,8 +111,6 @@ CRenderer* CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 void CRenderer::Free()
 {
-    __super::Free();
-
     for (auto& RenderObjects : m_RenderObjects)
     {
         for (auto& pRenderObject : RenderObjects)
@@ -122,6 +120,8 @@ void CRenderer::Free()
         RenderObjects.clear();
     }
 
-    Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
+    Safe_Release(m_pDevice);
+
+    __super::Free();
 }
