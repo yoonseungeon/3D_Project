@@ -5,6 +5,8 @@
 #include <DirectXMath.h>
 #include <DirectXCollision.h>
 
+#include <Effects11/d3dx11effect.h>
+
 using namespace DirectX;
 
 

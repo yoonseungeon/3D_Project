@@ -2,6 +2,7 @@
   "name": "external-libraries",
   "version-string": "0.1.0",
   "dependencies": [
-    "tbb"
+    "tbb",
+    "effects11"
   ]
 }
