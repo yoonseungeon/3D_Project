@@ -19,7 +19,7 @@ protected:
 	_uint m_iRefCnt = { 0 };
 
 protected:
-	virtual void Free() PURE;
+	virtual void Free() = 0;
 };
 
 NS_END

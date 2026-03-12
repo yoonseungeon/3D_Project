@@ -55,6 +55,12 @@
     <Filter Include="100. Thread_Manager">
       <UniqueIdentifier>{2b59562d-441c-4f27-8083-0c4f946b5d90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\01. VIBuffer">
+      <UniqueIdentifier>{4c1f6640-e99e-4e16-93c4-7165fc4076b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\01. VIBuffer\00. Rect">
+      <UniqueIdentifier>{9568b2e0-fa56-4530-9094-0fa618f5e8e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -101,6 +107,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CThread_Manager.cpp">
       <Filter>100. Thread_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CVIBuffer.cpp">
+      <Filter>07. Component\01. VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CVIBuffer_Rect.cpp">
+      <Filter>07. Component\01. VIBuffer\00. Rect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CThread_Manager.h">
       <Filter>100. Thread_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CVIBuffer.h">
+      <Filter>07. Component\01. VIBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CVIBuffer_Rect.h">
+      <Filter>07. Component\01. VIBuffer\00. Rect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

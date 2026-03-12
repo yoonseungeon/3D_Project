@@ -78,7 +78,7 @@ _bool CLoader::isFinished()
 #ifdef _DEBUG
 void CLoader::Show_Loading_Status()
 {
-    _tchar szLoadingText[MAX_PATH] = { };
+    _tchar szLoadingText[MAX_PATH] = {};
 
     if(m_bIsAllJobsQueued.load(memory_order_acquire))
     {
@@ -88,11 +88,11 @@ void CLoader::Show_Loading_Status()
         if(iTotalJobCnt != 0)
         {
             _float fProgress = static_cast<_float>(iFinishedJobCnt) / static_cast<_float>(iTotalJobCnt) * 100.f;
-            swprintf_s(szLoadingText, L"%.1f%%", fProgress);
+            swprintf_s(szLoadingText, L"%.f%%", fProgress);
         }
         else
         {
-            swprintf_s(szLoadingText, L"%.1f%%", 100.f);
+            swprintf_s(szLoadingText, L"%.f%%", 100.f);
         }
     }
     else
