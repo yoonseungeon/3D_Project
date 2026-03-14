@@ -406,4 +406,8 @@ FodyWeavers.xsd
 /EngineSDK/
 vcpkg_installed/
 
+!/Client/[Bb]in/
+/Client/[Bb]in/*
+!/Client/[Bb]in/ShaderFiles/
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
