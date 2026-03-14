@@ -37,8 +37,8 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	_vector Get_State(STATE eState);
-	void	Set_State(STATE eState, _fvector vState);
+	_vector				Get_State(STATE eState);
+	void XM_CALLCONV	Set_State(STATE eState, _fvector vState);
 
 	_float3 Get_Scaled();
 
@@ -46,15 +46,15 @@ public:
 	void Set_Scale(_float fScaleX = 1.f, _float fScaleY = 1.f, _float fScaleZ = 1.f);
 	void Scaling(_float fScaleX = 1.f, _float fScaleY = 1.f, _float fScaleZ = 1.f);
 
-	void Rotation(_fvector vAxis, _float fRadian);
-	void Turn(_fvector vAxis, _float fTimeDelta);
+	void XM_CALLCONV Rotation(_fvector vAxis, _float fRadian);
+	void XM_CALLCONV Turn(_fvector vAxis, _float fTimeDelta);
 
 	void Go_Straight(_float fTimeDelta);
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
 	void Go_Right(_float fTimeDelta);
 
-	void LookAt(_fvector vAt);
+	void XM_CALLCONV LookAt(_fvector vAt);
 
 private:
 	_float4x4	m_WorldMatrix		= {};

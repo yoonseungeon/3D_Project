@@ -33,7 +33,7 @@ _vector CTransform::Get_State(STATE eState)
     return XMLoadFloat4(reinterpret_cast<_float4*>(&m_WorldMatrix.m[ETOUI(eState)]));
 }
 
-void CTransform::Set_State(STATE eState, _fvector vState)
+void XM_CALLCONV CTransform::Set_State(STATE eState, _fvector vState)
 {
     XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMatrix.m[ETOUI(eState)]), vState);
 }
@@ -61,7 +61,7 @@ void CTransform::Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
     Set_State(STATE::LOOK, Get_State(STATE::LOOK) * fScaleZ);
 }
 
-void CTransform::Rotation(_fvector vAxis, _float fRadian)
+void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _float fRadian)
 {
     _float3         vScaled = Get_Scaled();
 
@@ -82,7 +82,7 @@ void CTransform::Rotation(_fvector vAxis, _float fRadian)
     Set_State(STATE::LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
 }
 
-void CTransform::Turn(_fvector vAxis, _float fTimeDelta)
+void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta)
 {
     _vector         vRight = Get_State(STATE::RIGHT);
     _vector         vUp = Get_State(STATE::UP);
@@ -135,7 +135,7 @@ void CTransform::Go_Right(_float fTimeDelta)
     Set_State(STATE::POSITION, vPosition);
 }
 
-void CTransform::LookAt(_fvector vAt)
+void XM_CALLCONV CTransform::LookAt(_fvector vAt)
 {
     _vector         vLook = vAt - Get_State(STATE::POSITION);
     _vector         vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
