@@ -31,6 +31,9 @@
     <Filter Include="02. GameObject\00. BackGround">
       <UniqueIdentifier>{12b549a8-c47a-4e99-83ee-2fb6c124f656}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97. ShaderFiles">
+      <UniqueIdentifier>{13f6b09d-79e7-45c4-af58-6d0dd3ca28d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
