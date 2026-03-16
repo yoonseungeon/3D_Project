@@ -103,7 +103,7 @@ HRESULT CShader::Begin(_uint iPassIndex)
 
     // 어떤 pass로 그릴지는 선택하지 않았음
     // 그래서 Technique -> pass 가져와서 -> Apply 함수: 이 pass로 그리려고 하는 정점을 공급해라
-    // Apply(이 함수) 이전에 셰이더 내부의 전역 변수 채워야 한다.
+    // Apply(Begin 함수) 이전에 셰이더 내부의 전역 변수 채워야 한다.
     m_pEffect->GetTechniqueByIndex(0)->GetPassByIndex(iPassIndex)->Apply(0, m_pContext);
 
     return S_OK;

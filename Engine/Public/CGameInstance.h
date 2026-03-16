@@ -2,6 +2,11 @@
 
 #include "CBase.h"
 
+#pragma region 프로토타입
+#include "CShader.h"
+#include "CVIBuffer_Rect.h"
+#pragma endregion
+
 NS_BEGIN(Engine)
 
 // Engine namespace 안에 넣어줘야 함.

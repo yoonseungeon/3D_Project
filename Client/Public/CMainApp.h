@@ -33,6 +33,8 @@ private:
 private:
 	HRESULT Start_Level(LEVEL eStartLevelID);
 
+	HRESULT Ready_Prototype_For_Static();
+
 public:
 	static CMainApp*	Create();
 protected:
