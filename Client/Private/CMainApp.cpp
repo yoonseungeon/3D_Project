@@ -73,9 +73,9 @@ HRESULT CMainApp::Ready_Prototype_For_Static()
 		return E_FAIL;
 
 	/* Prototype_Component_Shader_VtxTex */
-	// 내가 그릴려하는 정점의 정보(구조체 하나가 정점 안에 선언된 멤버 변수 하나 묘사)
+	// 셰이더에 넘길 정점 입력 형식 정보 배열(구조체 하나가 정점 구조체 안에 선언된 멤버 변수 하나 묘사)
 	// 1. 문자열(시맨틱) 2. 시맨틱 idx(같은 시맨틱 여러 개면) 3. 포맷(float3 개, float 2개)
-	// 4. 장치에 바인딩된 정 버퍼 중 몇 번째에서 꺼내와야 되는지 5. 구조체 멤버 변수 시작 주소
+	// 4. IA에 바인딩된 정점 버퍼 중 몇 번째에서 꺼내와야 되는지 5. 구조체 멤버 변수 사작되는 byte offset
 	// 6. VERTEX_DATA(일반적인 정점) or INSTANCE_DATA 7. INSTANCE_DATA인 StepRate 설정
 	D3D11_INPUT_ELEMENT_DESC        Elements[] = {
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},

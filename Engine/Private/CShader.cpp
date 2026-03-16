@@ -71,10 +71,10 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
 
         // 정점 정보가 잘 맞으면 inputLayout을 만들어준다.
         if (FAILED(m_pDevice->CreateInputLayout(
-            pElements,                              // 내가 그릴려하는 정점의 정보
-            iNumElements,                           // 그릴려고 하는 정점의 멤버 변수 개수
-            PassDesc.pIAInputSignature,             // 셰이더가 어떤 정점을 입력받고 있는가
-            PassDesc.IAInputSignatureSize,          // 셰이더가 어떤 크기를 가진 정점을 입력받고 있는가
+            pElements,                              // 셰이더에 넘길 정점 입력 형식 정보 배열
+            iNumElements,                           // pElements 배열의 원소 개수
+            PassDesc.pIAInputSignature,             // 셰이더가 요구하는 정점 입력 형식 정보의 시작 주소
+            PassDesc.IAInputSignatureSize,          // pIAInputSignature가 가리키는 시그니처 크기
             &pInputLayout                           // 리턴 값
         )))
             return E_FAIL;
