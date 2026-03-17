@@ -64,6 +64,9 @@
     <Filter Include="07. Component\02. Shader">
       <UniqueIdentifier>{c175b8e3-909b-4624-acbe-bc643e2bab9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\03. Texture">
+      <UniqueIdentifier>{07b46507-a55e-47c6-b91d-2cec6d946e59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -119,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CShader.cpp">
       <Filter>07. Component\02. Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CTexture.cpp">
+      <Filter>07. Component\03. Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CShader.h">
       <Filter>07. Component\02. Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CTexture.h">
+      <Filter>07. Component\03. Texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

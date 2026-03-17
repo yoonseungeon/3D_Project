@@ -5,6 +5,7 @@
 #pragma region 프로토타입
 #include "CShader.h"
 #include "CVIBuffer_Rect.h"
+#include "CTexture.h"
 #pragma endregion
 
 NS_BEGIN(Engine)

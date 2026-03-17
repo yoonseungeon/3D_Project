@@ -70,6 +70,10 @@ HRESULT CBackGround::Ready_Components()
     if (m_pVIBufferCom == nullptr)
         return E_FAIL;
 
+    m_pTextureCom = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ETOUI(LEVEL::LOGO), TEXT("Prototype_Component_Texture_BackGround")));
+    if (m_pTextureCom == nullptr)
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -101,6 +105,7 @@ CGameObject* CBackGround::Clone(void* pArg)
 
 void CBackGround::Free()
 {
+    Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
 

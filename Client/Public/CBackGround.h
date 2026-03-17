@@ -6,6 +6,7 @@
 NS_BEGIN(Engine)
 class CShader;
 class CVIBuffer_Rect;
+class CTexture;
 NS_END
 
 NS_BEGIN(Client)
@@ -34,6 +35,7 @@ public:
 private:
 	CShader*		m_pShaderCom	= { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom	= { nullptr };
+	CTexture*		m_pTextureCom	= { nullptr };
 
 private:
 	HRESULT Ready_Components();

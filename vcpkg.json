@@ -3,6 +3,7 @@
   "version-string": "0.1.0",
   "dependencies": [
     "tbb",
-    "effects11"
+    "effects11",
+    "directxtk"
   ]
 }
