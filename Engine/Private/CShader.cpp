@@ -29,14 +29,14 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
 
     // 이 함수로 셰이더 파일을 빌드할 것임.(ID3DX11Effect도 만듬)
     if (FAILED(D3DX11CompileEffectFromFile(
-        pShaderFilePath,
-        nullptr,
-        D3D_COMPILE_STANDARD_FILE_INCLUDE,
-        iHlslFlag,
-        0,
-        m_pDevice,
-        &m_pEffect,
-        nullptr
+        pShaderFilePath,                        // 컴파일한 셰이더 파일 경로
+        nullptr,                                // 전처리 매크로 목록
+        D3D_COMPILE_STANDARD_FILE_INCLUDE,      // 셰이더 안에서 #include를 누가 처리할지
+        iHlslFlag,                              // 셰이더 컴파일 플래그(옵션)
+        0,                                      // effect(.fx) 컴파일 옵션이라고 함.
+        m_pDevice,                              // Effect 객체 생성을 위한 그래픽 디바이스
+        &m_pEffect,                             // 리턴 값(Effect객체)
+        nullptr                                 // 컴파일 실패 이유를 돌려받는 출력 포인터
     )))
         return E_FAIL;
 
@@ -61,8 +61,8 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
         ID3DX11EffectPass* pPass = pTechnique->GetPassByIndex(i);
 
         // pass의 정보를 꺼내온다. 이 안에
-        // pIAInputSignature: 어떤 정점을 입력받고 있는가
-        // IAInputSignatureSize: 어떤 크기를 가진 정점을 입력받고 있는가
+        // pIAInputSignature: 셰이더가 요구하는 정점 입력 형식 정보의 시작 주소
+        // IAInputSignatureSize: pIAInputSignature가 가리키는 시그니처 크기
         // 이 두 개랑 그리려하는 정점이 일치해야 한다.
         D3DX11_PASS_DESC PassDesc{};
         pPass->GetDesc(&PassDesc);
@@ -82,7 +82,8 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
         // pass 개수만큼 inputLayout을 만들어서 보관
         m_InputLayouts.push_back(pInputLayout);
 
-        // inputLayout을 왜 만드냐? 렌더링 할 때 장치에 set해야 해서
+        // inputLayout을 왜 만드냐? IA 단계에서 필요
+        // 입력 데이터 식별, 셰이더 입력과 맞는지 검사
     }
 
     return S_OK;
@@ -102,7 +103,8 @@ HRESULT CShader::Begin(_uint iPassIndex)
     m_pContext->IASetInputLayout(m_InputLayouts[iPassIndex]);
 
     // 어떤 pass로 그릴지는 선택하지 않았음
-    // 그래서 Technique -> pass 가져와서 -> Apply 함수: 이 pass로 그리려고 하는 정점을 공급해라
+    // 그래서 Technique -> pass 가져와서 -> Apply
+    // Apply: 이 pass에 들어 있는 셰이더와 설정을 context에 적용한다.
     // Apply(Begin 함수) 이전에 셰이더 내부의 전역 변수 채워야 한다.
     m_pEffect->GetTechniqueByIndex(0)->GetPassByIndex(iPassIndex)->Apply(0, m_pContext);
 
