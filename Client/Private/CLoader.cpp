@@ -3,6 +3,8 @@
 #include "CGameInstance.h"
 #include "CBackGround.h"
 
+#include <process.h>
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
     , m_pContext{ pContext }

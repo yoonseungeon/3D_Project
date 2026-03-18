@@ -133,7 +133,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_CLIENT);
+    wcex.lpszMenuName   = NULL;
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -161,7 +161,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    // 첫 번째 인자: 실제 client 영역의 크기
    // 두 번째 인자: 창 스타일(일반 창(현재), 팝업 창 등) (CreateWindowW와 같게 넣어야 함)
    // 세 번째 인자: 메뉴바 여부
-   AdjustWindowRect(&rcWindow, WS_OVERLAPPEDWINDOW, TRUE);
+   AdjustWindowRect(&rcWindow, WS_OVERLAPPEDWINDOW, FALSE);
 
    // 너비 높이 설정
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
