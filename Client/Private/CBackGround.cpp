@@ -98,6 +98,8 @@ HRESULT CBackGround::Bind_ShaderResources()
 
     if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 1)))
         return E_FAIL;
+
+    return S_OK;
 }
 
 CBackGround* CBackGround::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

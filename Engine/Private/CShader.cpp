@@ -58,7 +58,7 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
     for (size_t i = 0; i < m_iNumPasses; i++)
     {
         // pass 꺼내 옴.
-        ID3DX11EffectPass* pPass = pTechnique->GetPassByIndex(i);
+        ID3DX11EffectPass* pPass = pTechnique->GetPassByIndex(static_cast<_uint>(i));
 
         // pass의 정보를 꺼내온다. 이 안에
         // pIAInputSignature: 셰이더가 요구하는 정점 입력 형식 정보의 시작 주소

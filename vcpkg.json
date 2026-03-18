@@ -4,6 +4,14 @@
   "dependencies": [
     "tbb",
     "effects11",
-    "directxtk"
+    "directxtk",
+    {
+      "name": "imgui",
+      "features": [
+        "docking-experimental",
+        "win32-binding",
+        "dx11-binding"
+      ]
+    }
   ]
 }
