@@ -111,6 +111,38 @@ HRESULT CShader::Begin(_uint iPassIndex)
     return S_OK;
 }
 
+HRESULT CShader::Bind_Matrix(const _char* pConstantName, const _float4x4* pMatrix)
+{
+    // 셰이더 파일 안에 있는 전역 변수를 찾아오는 함수
+    ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+    if (pVariable == nullptr || pVariable->IsValid() == false)
+        return E_FAIL;
+
+    // ID3DX11EffectVariable를 Matrix 변수 인터페이스로 해석하는 함수
+    ID3DX11EffectMatrixVariable* pMatrixVariable = pVariable->AsMatrix();
+    if (pMatrixVariable == nullptr || pMatrixVariable->IsValid() == false)
+        return E_FAIL;
+
+    // Matrix를 셰이더 변수에 세팅
+    return pMatrixVariable->SetMatrix(reinterpret_cast<const _float*>(pMatrix));
+}
+
+HRESULT CShader::Bind_SRV(const _char* pConstantName, ID3D11ShaderResourceView* pSRV)
+{
+    // 셰이더 파일 안에 있는 전역 변수를 찾아오는 함수
+    ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+    if (pVariable == nullptr || pVariable->IsValid() == false)
+        return E_FAIL;
+
+    // ID3DX11EffectVariable를 Shader Resource 변수 인터페이스로 해석하는 함수
+    ID3DX11EffectShaderResourceVariable* pSRVariable = pVariable->AsShaderResource();
+    if (pSRVariable == nullptr || pVariable->IsValid() == false)
+        return E_FAIL;
+
+    // SRV를 셰이더 변수에 세팅
+    return pSRVariable->SetResource(pSRV);
+}
+
 CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pShaderFilePath, const D3D11_INPUT_ELEMENT_DESC* pElements, _uint iNumElements)
 {
     CShader* pInstance = new CShader(pDevice, pContext);

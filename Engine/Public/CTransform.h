@@ -15,6 +15,8 @@
 
 NS_BEGIN(Engine)
 
+class CShader;
+
 class ENGINE_DLL CTransform final : public CComponent
 {
 public:
@@ -35,6 +37,9 @@ public:
 	// Clone 생성 시 호출이 아닌, 객체 사본에 Transform 원본 생성 시 추가 초기화로 사용
 	// Create -> Initialize_Prototype -> Initialize
 	virtual HRESULT Initialize(void* pArg) override;
+
+public:
+	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName);
 
 public:
 	_vector				Get_State(STATE eState);

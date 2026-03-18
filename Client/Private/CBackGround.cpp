@@ -51,11 +51,17 @@ void CBackGround::Late_Update(_float fTimeDelta)
 
 HRESULT CBackGround::Render()
 {
-    m_pShaderCom->Begin(0);
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
 
-    m_pVIBufferCom->Bind_Resources();
+    if (FAILED(m_pShaderCom->Begin(0)))
+        return E_FAIL;
 
-    m_pVIBufferCom->Render();
+    if (FAILED(m_pVIBufferCom->Bind_Resources()))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -75,6 +81,23 @@ HRESULT CBackGround::Ready_Components()
         return E_FAIL;
 
     return S_OK;
+}
+
+HRESULT CBackGround::Bind_ShaderResources()
+{
+    if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+        return E_FAIL;
+
+    _float4x4 IdentityMatrix{};
+    XMStoreFloat4x4(&IdentityMatrix, XMMatrixIdentity());
+
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &IdentityMatrix)))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &IdentityMatrix)))
+        return E_FAIL;
+
+    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 1)))
+        return E_FAIL;
 }
 
 CBackGround* CBackGround::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
