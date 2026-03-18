@@ -13,6 +13,10 @@ NS_END
 
 NS_BEGIN(Client)
 
+#ifdef _DEBUG
+class CImGui_Manager;
+#endif
+
 class CMainApp final : public CBase
 {
 private:
@@ -27,8 +31,12 @@ public:
 private:
 	CGameInstance*			m_pGameInstance		= { nullptr };
 
-	ID3D11Device*			m_pDevice			= { nullptr };
-	ID3D11DeviceContext*	m_pContext			= { nullptr };
+	ID3D11Device*				m_pDevice				= { nullptr };
+	ID3D11DeviceContext*	m_pContext				= { nullptr };
+
+#ifdef _DEBUG
+	CImGui_Manager*			m_pImGui_Manager	= { nullptr };
+#endif
 
 private:
 	HRESULT Start_Level(LEVEL eStartLevelID);

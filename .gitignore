@@ -410,4 +410,6 @@ vcpkg_installed/
 /Client/[Bb]in/*
 !/Client/[Bb]in/ShaderFiles/
 
+imgui.ini
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio

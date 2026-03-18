@@ -3,6 +3,10 @@
 #include "CGameInstance.h"
 #include "CLevel_Loading.h"
 
+#ifdef _DEBUG
+#include "CImGui_Manager.h"
+#endif
+
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
 {
@@ -30,12 +34,21 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Start_Level(LEVEL::LOGO)))
 		return E_FAIL;
 
+#ifdef _DEBUG
+	m_pImGui_Manager = CImGui_Manager::GetInstance();
+	m_pImGui_Manager->Initialize(m_pDevice, m_pContext);
+#endif
+
 	return S_OK;
 }
 
 void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
+
+#ifdef _DEBUG
+	m_pImGui_Manager->Update(fTimeDelta);
+#endif
 }
 
 HRESULT CMainApp::Render()
@@ -45,6 +58,11 @@ HRESULT CMainApp::Render()
 
 	if (FAILED(m_pGameInstance->Draw()))
 		return E_FAIL;
+
+#ifdef _DEBUG
+	if (FAILED(m_pImGui_Manager->Render())) 
+		return E_FAIL;	
+#endif
 
 	if (FAILED(m_pGameInstance->End_Draw()))
 		return E_FAIL;
@@ -103,6 +121,10 @@ CMainApp* CMainApp::Create()
 
 void CMainApp::Free()
 {
+#ifdef _DEBUG
+	Safe_Release(m_pImGui_Manager);
+#endif
+
 	Safe_Release(m_pContext);
 	Safe_Release(m_pDevice);
 

@@ -34,6 +34,9 @@
     <Filter Include="97. ShaderFiles">
       <UniqueIdentifier>{13f6b09d-79e7-45c4-af58-6d0dd3ca28d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="100. ImGui_Manager">
+      <UniqueIdentifier>{f0887342-7e7c-4b1b-b8cc-aaa3962654e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -68,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CBackGround.h">
       <Filter>02. GameObject\00. BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CImGui_Manager.h">
+      <Filter>100. ImGui_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CBackGround.cpp">
       <Filter>02. GameObject\00. BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CImGui_Manager.cpp">
+      <Filter>100. ImGui_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

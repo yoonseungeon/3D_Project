@@ -31,13 +31,13 @@ public:
 	virtual HRESULT Render();
 
 protected:
-	ID3D11Device*			m_pDevice		= { nullptr };
-	ID3D11DeviceContext*	m_pContext		= { nullptr };
+	ID3D11Device*				m_pDevice					= { nullptr };
+	ID3D11DeviceContext*	m_pContext					= { nullptr };
 
-	CGameInstance*			m_pGameInstance = { nullptr };
+	CGameInstance*			m_pGameInstance			= { nullptr };
 
-	CTransform*				m_pTransformCom = { nullptr };
-	_uint					m_iFlag			= {};
+	CTransform*				m_pTransformCom		= { nullptr };
+	_uint							m_iFlag						= {};
 
 public:
 	// Create

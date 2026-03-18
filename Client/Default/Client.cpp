@@ -7,6 +7,15 @@
 #include "CMainApp.h"
 #include "CGameInstance.h"
 
+#ifdef _DEBUG
+#include "CImGui_Manager.h"
+
+// CImGui_Manager
+// 전방 선언
+// 이 함수(ImGui_ImplWin32_WndProcHandler)는 이 파일엔 없지만 다른 어딘가(ImGui 라이브러리)에 정의되어 있어. 그러니까 에러 내지 말고 믿고 써
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#endif
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
@@ -183,6 +192,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+#ifdef _DEBUG
+    // CImGui_Manager
+    // 윈도우에서 키보드 입력, 마우스 클릭, 휠 굴리기 등의 신호(message)가 들어오면, 가장 먼저 ImGui에게 던져줌
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        // 아래 코드x true: 내가 뭔가 가로챘다
+        return true;
+#endif
+
     switch (message)
     {
     case WM_COMMAND:
