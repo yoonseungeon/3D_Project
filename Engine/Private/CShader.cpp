@@ -43,7 +43,7 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
     // pass는 Technique한테 감싸져 있음. Technique한테 먼저 접근해야함.
     // 원래 Technique 여러 개랑 개수 몇 개 인지 찾아야 하는데, 하나만 만들 거라 그냥 0
     ID3DX11EffectTechnique* pTechnique = m_pEffect->GetTechniqueByIndex(0);
-    if (pTechnique == nullptr)
+    if (pTechnique == nullptr || pTechnique->IsValid() == false)
         return E_FAIL;
 
     // Technique 정보를 꺼내 올 거임

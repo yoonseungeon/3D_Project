@@ -412,4 +412,6 @@ vcpkg_installed/
 
 imgui.ini
 
+/External/FMOD/
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
