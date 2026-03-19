@@ -25,9 +25,9 @@ public:
 	HRESULT Render();
 
 private:
-	CLevel*			m_pCurrentLevel			= { nullptr };
+	CLevel*				m_pCurrentLevel			= { nullptr };
 	CGameInstance*	m_pGameInstance			= { nullptr };
-	_int			m_iCurrentLevelIndex	= { -1 };
+	_int					m_iCurrentLevelIndex		= { -1 };
 
 public:
 	static CLevel_Manager* Create();
