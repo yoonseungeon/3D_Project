@@ -19,9 +19,6 @@
     <Filter Include="01. Levels\01. Logo">
       <UniqueIdentifier>{c99e1b51-4d70-438d-bcb6-2a6cf4a54cc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Levels\02. GamePlay">
-      <UniqueIdentifier>{1a33b087-e69b-4b36-9b9e-21570faa4b9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Levels\00. Loading\Loader">
       <UniqueIdentifier>{798fb795-944c-47a2-948a-54f74f7119bf}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,15 @@
     </Filter>
     <Filter Include="100. ImGui_Manager">
       <UniqueIdentifier>{f0887342-7e7c-4b1b-b8cc-aaa3962654e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\02. Lobby">
+      <UniqueIdentifier>{6a3e9fa3-c636-47ca-ba7e-1fbeff574b87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\03. GamePlay">
+      <UniqueIdentifier>{1a33b087-e69b-4b36-9b9e-21570faa4b9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\04. Ending">
+      <UniqueIdentifier>{308801a7-e0bf-46e3-9260-4a3f760067cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,7 +70,7 @@
       <Filter>01. Levels\00. Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLevel_GamePlay.h">
-      <Filter>01. Levels\02. GamePlay</Filter>
+      <Filter>01. Levels\03. GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLoader.h">
       <Filter>01. Levels\00. Loading\Loader</Filter>
@@ -74,6 +80,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CImGui_Manager.h">
       <Filter>100. ImGui_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLevel_Lobby.h">
+      <Filter>01. Levels\02. Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLevel_Ending.h">
+      <Filter>01. Levels\04. Ending</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +115,7 @@
       <Filter>01. Levels\00. Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLevel_GamePlay.cpp">
-      <Filter>01. Levels\02. GamePlay</Filter>
+      <Filter>01. Levels\03. GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLoader.cpp">
       <Filter>01. Levels\00. Loading\Loader</Filter>
@@ -113,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CImGui_Manager.cpp">
       <Filter>100. ImGui_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLevel_Lobby.cpp">
+      <Filter>01. Levels\02. Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLevel_Ending.cpp">
+      <Filter>01. Levels\04. Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

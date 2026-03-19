@@ -3,7 +3,9 @@
 
 #include "CGameInstance.h"
 #include "CLevel_Logo.h"
+#include "CLevel_Lobby.h"
 #include "CLevel_GamePlay.h"
+#include "CLevel_Ending.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -32,8 +34,14 @@ void CLevel_Loading::Update(_float fTimeDelta)
         case LEVEL::LOGO:
             pNextLevel = CLevel_Logo::Create(m_pDevice, m_pContext);
             break;
+        case LEVEL::LOBBY:
+            pNextLevel = CLevel_Lobby::Create(m_pDevice, m_pContext);
+            break;
         case LEVEL::GAMEPLAY:
             pNextLevel = CLevel_GamePlay::Create(m_pDevice, m_pContext);
+            break;
+        case LEVEL::ENDING:
+            pNextLevel = CLevel_Ending::Create(m_pDevice, m_pContext);
             break;
         }
 

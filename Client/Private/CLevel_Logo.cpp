@@ -20,7 +20,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 {
     if (GetKeyState(VK_RETURN) & 0x8000)
     {
-        CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::GAMEPLAY);
+        CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::LOBBY);
 
         // 처음 만들 때 받아온 NextLevel 자원 로딩 완료되면, 현재(Level_Loading)를 정리/해제하고 다음 레벨로 전환
         // 자신이 지워져서 바로 return 해줘야 함.(나중에 구조 바꿀 수도 있음)

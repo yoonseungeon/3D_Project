@@ -154,7 +154,9 @@
   <ItemGroup>
     <ClInclude Include="..\Public\CBackGround.h" />
     <ClInclude Include="..\Public\CImGui_Manager.h" />
+    <ClInclude Include="..\Public\CLevel_Ending.h" />
     <ClInclude Include="..\Public\CLevel_GamePlay.h" />
+    <ClInclude Include="..\Public\CLevel_Lobby.h" />
     <ClInclude Include="..\Public\CLevel_Logo.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\CLevel_Loading.h" />
@@ -168,7 +170,9 @@
   <ItemGroup>
     <ClCompile Include="..\Private\CBackGround.cpp" />
     <ClCompile Include="..\Private\CImGui_Manager.cpp" />
+    <ClCompile Include="..\Private\CLevel_Ending.cpp" />
     <ClCompile Include="..\Private\CLevel_GamePlay.cpp" />
+    <ClCompile Include="..\Private\CLevel_Lobby.cpp" />
     <ClCompile Include="..\Private\CLevel_Logo.cpp" />
     <ClCompile Include="..\Private\CLevel_Loading.cpp" />
     <ClCompile Include="..\Private\CLoader.cpp" />

@@ -58,8 +58,14 @@ HRESULT CLoader::Loading()
     case LEVEL::LOGO:
         hr = Ready_Resources_For_Logo();
         break;
+    case LEVEL::LOBBY:
+        hr = Ready_Resources_For_Lobby();
+        break;
     case LEVEL::GAMEPLAY:
         hr = Ready_Resources_For_GamePlay();
+        break;
+    case LEVEL::ENDING:
+        hr = Ready_Resources_For_Ending();
         break;
     }
 
@@ -181,10 +187,25 @@ HRESULT CLoader::Ready_Resources_For_Logo()
     return S_OK;
 }
 
+HRESULT CLoader::Ready_Resources_For_Lobby()
+{
+
+
+    m_bIsAllJobsQueued.store(true, memory_order_release);
+    return S_OK;
+}
+
 HRESULT CLoader::Ready_Resources_For_GamePlay()
 {
 
 
+
+    m_bIsAllJobsQueued.store(true, memory_order_release);
+    return S_OK;
+}
+
+HRESULT CLoader::Ready_Resources_For_Ending()
+{
 
     m_bIsAllJobsQueued.store(true, memory_order_release);
     return S_OK;
