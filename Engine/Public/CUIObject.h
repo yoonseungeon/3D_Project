@@ -11,8 +11,10 @@ class ENGINE_DLL CUIObject abstract : public CGameObject
 public:
 	struct UIOBJECT_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
-		_float		fScaleRatioX, fScaleRatioY;
-		_float		fPosRatioX, fPosRatioY;
+		_float	fScaleRatioX = {};
+		_float fScaleRatioY = {};
+		_float	fPosRatioX = {};
+		_float	fPosRatioY = {};
 	};
 
 protected:

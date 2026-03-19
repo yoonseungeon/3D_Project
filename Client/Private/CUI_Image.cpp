@@ -1,58 +1,52 @@
-#include "CBackGround.h"
+#include "CUI_Image.h"
 
 #include "CGameInstance.h"
 
-CBackGround::CBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_Image::CUI_Image(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUIObject{ pDevice, pContext }
 {
 
 }
 
-CBackGround::CBackGround(const CBackGround& Prototype)
+CUI_Image::CUI_Image(const CUI_Image& Prototype)
     : CUIObject{ Prototype }
 {
 
 }
 
-HRESULT CBackGround::Initialize_Prototype()
+HRESULT CUI_Image::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CBackGround::Initialize(void* pArg)
+HRESULT CUI_Image::Initialize(void* pArg)
 {
-    BACKGROUND_DESC     Desc{};
+    CUI_IMAGE_DESC* pDesc = static_cast<CUI_IMAGE_DESC*>(pArg);
 
-    Desc.tTransformDesc.fSpeedPerSec = 10.f;
-    Desc.fScaleRatioX = 1.f;
-    Desc.fScaleRatioY = 1.f;
-    Desc.fPosRatioX = 0.f;
-    Desc.fPosRatioY = 0.f;
 
-    if (FAILED(__super::Initialize(&Desc)))
+    if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
-    if (FAILED(Ready_Components()))
+    if (FAILED(Ready_Components(pDesc->wstrTexturePrototypeTag)))
         return E_FAIL;
 
     return S_OK;
 }
 
-void CBackGround::Priority_Update(_float fTimeDelta)
+void CUI_Image::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CBackGround::Update(_float fTimeDelta)
+void CUI_Image::Update(_float fTimeDelta)
 {
-    //m_pTransformCom->Go_Right(fTimeDelta);
 }
 
-void CBackGround::Late_Update(_float fTimeDelta)
+void CUI_Image::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDERID::PRIORITY, this);
 }
 
-HRESULT CBackGround::Render()
+HRESULT CUI_Image::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -69,7 +63,7 @@ HRESULT CBackGround::Render()
     return S_OK;
 }
 
-HRESULT CBackGround::Ready_Components()
+HRESULT CUI_Image::Ready_Components(wstring& pTexturePrototypeTag)
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -82,14 +76,14 @@ HRESULT CBackGround::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture*/
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::LOGO), TEXT("Prototype_Component_Texture_BackGround"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::LOGO), pTexturePrototypeTag,
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
     return S_OK;
 }
 
-HRESULT CBackGround::Bind_ShaderResources()
+HRESULT CUI_Image::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -105,33 +99,33 @@ HRESULT CBackGround::Bind_ShaderResources()
     return S_OK;
 }
 
-CBackGround* CBackGround::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_Image* CUI_Image::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CBackGround* pInstance = new CBackGround(pDevice, pContext);
+    CUI_Image* pInstance = new CUI_Image(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CBackGround");
+        MSG_BOX("Failed to Created: CUI_Image");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CBackGround::Clone(void* pArg)
+CGameObject* CUI_Image::Clone(void* pArg)
 {
-    CBackGround* pInstance = new CBackGround(*this);
+    CUI_Image* pInstance = new CUI_Image(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CBackGround");
+        MSG_BOX("Failed to Cloned: CUI_Image");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CBackGround::Free()
+void CUI_Image::Free()
 {
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);

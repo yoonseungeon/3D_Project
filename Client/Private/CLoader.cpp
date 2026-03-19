@@ -1,7 +1,7 @@
 #include "CLoader.h"
 
 #include "CGameInstance.h"
-#include "CBackGround.h"
+#include "CUI_Image.h"
 
 #include <process.h>
 
@@ -167,14 +167,14 @@ HRESULT CLoader::Ready_Resources_For_Logo()
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
-/* Prototype_GameObject_BackGround */
+/* Prototype_GameObject_CUI_Image */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_BackGround"),
-                CBackGround::Create(m_pDevice, m_pContext))))
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_CUI_Image"),
+                CUI_Image::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_BackGround");
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_CUI_Image");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

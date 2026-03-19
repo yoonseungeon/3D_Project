@@ -25,9 +25,6 @@
     <Filter Include="02. GameObject">
       <UniqueIdentifier>{381ea451-b530-4f77-829d-2a8a13b9c6f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\00. BackGround">
-      <UniqueIdentifier>{12b549a8-c47a-4e99-83ee-2fb6c124f656}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. ShaderFiles">
       <UniqueIdentifier>{13f6b09d-79e7-45c4-af58-6d0dd3ca28d0}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="01. Levels\04. Ending">
       <UniqueIdentifier>{308801a7-e0bf-46e3-9260-4a3f760067cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. CUI_Image">
+      <UniqueIdentifier>{12b549a8-c47a-4e99-83ee-2fb6c124f656}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,8 +75,8 @@
     <ClInclude Include="..\Public\CLoader.h">
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CBackGround.h">
-      <Filter>02. GameObject\00. BackGround</Filter>
+    <ClInclude Include="..\Public\CUI_Image.h">
+      <Filter>02. GameObject\00. CUI_Image</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CImGui_Manager.h">
       <Filter>100. ImGui_Manager</Filter>
@@ -120,8 +120,8 @@
     <ClCompile Include="..\Private\CLoader.cpp">
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CBackGround.cpp">
-      <Filter>02. GameObject\00. BackGround</Filter>
+    <ClCompile Include="..\Private\CUI_Image.cpp">
+      <Filter>02. GameObject\00. CUI_Image</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CImGui_Manager.cpp">
       <Filter>100. ImGui_Manager</Filter>

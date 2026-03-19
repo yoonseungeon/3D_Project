@@ -3,6 +3,8 @@
 #include "CLevel_Loading.h"
 #include "CGameInstance.h"
 
+#include "CUI_Image.h"
+
 CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
 {
@@ -10,7 +12,7 @@ CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Logo::Initialize()
 {
-    if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+    if (FAILED(Ready_Layer_CUI_Image(TEXT("Layer_CUI_Image"))))
         return E_FAIL;
 
     return S_OK;
@@ -38,10 +40,18 @@ HRESULT CLevel_Logo::Render()
     return S_OK;
 }
 
-HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
+HRESULT CLevel_Logo::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
 {
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_BackGround"),
-        ETOUI(LEVEL::LOGO), strLayerTag)))
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.5f;
+    Desc.fScaleRatioY = 0.5f;
+    Desc.fPosRatioX = 0.f;
+    Desc.fPosRatioY = 0.f;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Component_Texture_BackGround";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc)))
         return E_FAIL;
 
     return S_OK;

@@ -152,7 +152,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Public\CBackGround.h" />
+    <ClInclude Include="..\Public\CUI_Image.h" />
     <ClInclude Include="..\Public\CImGui_Manager.h" />
     <ClInclude Include="..\Public\CLevel_Ending.h" />
     <ClInclude Include="..\Public\CLevel_GamePlay.h" />
@@ -168,7 +168,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Private\CBackGround.cpp" />
+    <ClCompile Include="..\Private\CUI_Image.cpp" />
     <ClCompile Include="..\Private\CImGui_Manager.cpp" />
     <ClCompile Include="..\Private\CLevel_Ending.cpp" />
     <ClCompile Include="..\Private\CLevel_GamePlay.cpp" />

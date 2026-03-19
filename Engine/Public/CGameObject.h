@@ -12,7 +12,6 @@ public:
 	struct GAMEOBJECT_DESC
 	{
 		CTransform::TRANSFORM_DESC tTransformDesc = {};
-		_uint iFlag = {};
 	};
 
 protected:
@@ -39,7 +38,6 @@ protected:
 
 	map<const _wstring, class CComponent*>			m_Components;
 	CTransform*				m_pTransformCom		= { nullptr };
-	_uint							m_iFlag						= {};
 
 protected:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag,

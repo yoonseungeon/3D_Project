@@ -33,7 +33,6 @@ HRESULT CGameObject::Initialize(void* pArg)
     if (pArg != nullptr)
     {
         GAMEOBJECT_DESC* pDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
-        m_iFlag = pDesc->iFlag;
         pParent = &(pDesc->tTransformDesc);
     }
 
