@@ -67,6 +67,9 @@
     <Filter Include="07. Component\03. Texture">
       <UniqueIdentifier>{07b46507-a55e-47c6-b91d-2cec6d946e59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. GameObject\00. UIObject">
+      <UniqueIdentifier>{f16e538b-f270-4dda-bb92-7a05541a4998}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CTexture.cpp">
       <Filter>07. Component\03. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUIObject.cpp">
+      <Filter>05. GameObject\00. UIObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CTexture.h">
       <Filter>07. Component\03. Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUIObject.h">
+      <Filter>05. GameObject\00. UIObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,13 +3,13 @@
 #include "CGameInstance.h"
 
 CBackGround::CBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-    : CGameObject{ pDevice, pContext }
+    : CUIObject{ pDevice, pContext }
 {
 
 }
 
 CBackGround::CBackGround(const CBackGround& Prototype)
-    : CGameObject{ Prototype }
+    : CUIObject{ Prototype }
 {
 
 }
@@ -21,11 +21,15 @@ HRESULT CBackGround::Initialize_Prototype()
 
 HRESULT CBackGround::Initialize(void* pArg)
 {
-    BACKGROUND_DESC* pDesc = static_cast<BACKGROUND_DESC*>(pArg);
+    BACKGROUND_DESC     Desc{};
 
+    Desc.tTransformDesc.fSpeedPerSec = 10.f;
+    Desc.fScaleRatioX = 1.f;
+    Desc.fScaleRatioY = 1.f;
+    Desc.fPosRatioX = 0.f;
+    Desc.fPosRatioY = 0.f;
 
-    GAMEOBJECT_DESC* pParent = static_cast<GAMEOBJECT_DESC*>(pDesc);
-    if (FAILED(__super::Initialize(pParent)))
+    if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
@@ -36,12 +40,11 @@ HRESULT CBackGround::Initialize(void* pArg)
 
 void CBackGround::Priority_Update(_float fTimeDelta)
 {
-    int a = 10;
 }
 
 void CBackGround::Update(_float fTimeDelta)
 {
-    int a = 10;
+    //m_pTransformCom->Go_Right(fTimeDelta);
 }
 
 void CBackGround::Late_Update(_float fTimeDelta)
@@ -68,16 +71,19 @@ HRESULT CBackGround::Render()
 
 HRESULT CBackGround::Ready_Components()
 {
-    m_pShaderCom = dynamic_cast<CShader*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex")));
-    if (m_pShaderCom == nullptr)
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
+        TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
         return E_FAIL;
 
-    m_pVIBufferCom = dynamic_cast<CVIBuffer_Rect*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect")));
-    if (m_pVIBufferCom == nullptr)
+    /* For.Com_VIBuffer */
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
 
-    m_pTextureCom = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, ETOUI(LEVEL::LOGO), TEXT("Prototype_Component_Texture_BackGround")));
-    if (m_pTextureCom == nullptr)
+    /* For.Com_Texture*/
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::LOGO), TEXT("Prototype_Component_Texture_BackGround"),
+        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
     return S_OK;
@@ -88,15 +94,12 @@ HRESULT CBackGround::Bind_ShaderResources()
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
 
-    _float4x4 IdentityMatrix{};
-    XMStoreFloat4x4(&IdentityMatrix, XMMatrixIdentity());
-
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &IdentityMatrix)))
+    if (FAILED(__super::Bind_ShaderResource(m_pShaderCom, "g_ViewMatrix", D3DTS::VIEW)))
         return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &IdentityMatrix)))
+    if (FAILED(__super::Bind_ShaderResource(m_pShaderCom, "g_ProjMatrix", D3DTS::PROJ)))
         return E_FAIL;
 
-    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 1)))
+    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
         return E_FAIL;
 
     return S_OK;

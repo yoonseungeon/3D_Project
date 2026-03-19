@@ -22,7 +22,6 @@ class ENGINE_DLL CTransform final : public CComponent
 public:
 	struct TRANSFORM_DESC
 	{
-		_float		fScale = { 1.f };
 		_float		fSpeedPerSec = {};
 		_float		fRotationPerSec = {};
 	};

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "CGameObject.h"
+#include "CUIObject.h"
 
 NS_BEGIN(Engine)
 class CShader;
@@ -11,12 +11,11 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CBackGround final : public CGameObject
+class CBackGround final : public CUIObject
 {
 public:
-	struct BACKGROUND_DESC : public CGameObject::GAMEOBJECT_DESC
+	struct BACKGROUND_DESC : public CUIObject::UIOBJECT_DESC
 	{
-		int a = 10;
 	};
 
 protected:
@@ -33,9 +32,9 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CShader*		m_pShaderCom	= { nullptr };
+	CShader* m_pShaderCom	= { nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom	= { nullptr };
-	CTexture*		m_pTextureCom	= { nullptr };
+	CTexture* m_pTextureCom	= { nullptr };
 
 private:
 	HRESULT Ready_Components();

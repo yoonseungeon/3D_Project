@@ -169,6 +169,7 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\CTimer.h" />
     <ClInclude Include="..\Public\CTimer_Manager.h" />
     <ClInclude Include="..\Public\CTransform.h" />
+    <ClInclude Include="..\Public\CUIObject.h" />
     <ClInclude Include="..\Public\CVIBuffer.h" />
     <ClInclude Include="..\Public\CVIBuffer_Rect.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -196,6 +197,7 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CTimer.cpp" />
     <ClCompile Include="..\Private\CTimer_Manager.cpp" />
     <ClCompile Include="..\Private\CTransform.cpp" />
+    <ClCompile Include="..\Private\CUIObject.cpp" />
     <ClCompile Include="..\Private\CVIBuffer.cpp" />
     <ClCompile Include="..\Private\CVIBuffer_Rect.cpp" />
   </ItemGroup>

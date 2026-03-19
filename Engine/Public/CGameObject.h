@@ -9,8 +9,9 @@ class CGameInstance;
 class ENGINE_DLL CGameObject abstract : public CBase
 {
 public:
-	struct GAMEOBJECT_DESC : public CTransform::TRANSFORM_DESC
+	struct GAMEOBJECT_DESC
 	{
+		CTransform::TRANSFORM_DESC tTransformDesc = {};
 		_uint iFlag = {};
 	};
 
@@ -36,11 +37,17 @@ protected:
 
 	CGameInstance*			m_pGameInstance			= { nullptr };
 
+	map<const _wstring, class CComponent*>			m_Components;
 	CTransform*				m_pTransformCom		= { nullptr };
 	_uint							m_iFlag						= {};
 
+protected:
+	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag,
+		const _wstring& wstrComponentTag, CComponent** ppOut, void* pArg = nullptr);
+
+	class CComponent* Find_Component(const _wstring& wstrComponentTag);
+
 public:
-	// Create
 	virtual CGameObject* Clone(void* pArg) = 0;
 protected:
 	virtual void Free();
