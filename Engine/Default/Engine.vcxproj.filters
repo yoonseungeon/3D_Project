@@ -67,7 +67,10 @@
     <Filter Include="07. Component\03. Texture">
       <UniqueIdentifier>{07b46507-a55e-47c6-b91d-2cec6d946e59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05. GameObject\00. UIObject">
+    <Filter Include="05. GameObject\00. Camera">
+      <UniqueIdentifier>{b8b00311-f2f2-4889-83d0-c618e8fb6aa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. GameObject\01. UIObject">
       <UniqueIdentifier>{f16e538b-f270-4dda-bb92-7a05541a4998}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -130,7 +133,10 @@
       <Filter>07. Component\03. Texture</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUIObject.cpp">
-      <Filter>05. GameObject\00. UIObject</Filter>
+      <Filter>05. GameObject\01. UIObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCamera.cpp">
+      <Filter>05. GameObject\00. Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,7 +216,10 @@
       <Filter>07. Component\03. Texture</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUIObject.h">
-      <Filter>05. GameObject\00. UIObject</Filter>
+      <Filter>05. GameObject\01. UIObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CCamera.h">
+      <Filter>05. GameObject\00. Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
