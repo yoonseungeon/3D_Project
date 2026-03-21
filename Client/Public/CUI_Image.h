@@ -16,6 +16,7 @@ class CUI_Image final : public CUIObject
 public:
 	struct CUI_IMAGE_DESC : public CUIObject::UIOBJECT_DESC
 	{
+		LEVEL eTexPrototypeLV;
 		wstring wstrTexturePrototypeTag;
 	};
 
@@ -38,7 +39,7 @@ private:
 	CTexture* m_pTextureCom	= { nullptr };
 
 private:
-	HRESULT Ready_Components(wstring& pTexturePrototypeTag);
+	HRESULT Ready_Components(LEVEL eTexPrototypeLV, wstring& pTexturePrototypeTag);
 	HRESULT Bind_ShaderResources();
 
 public:

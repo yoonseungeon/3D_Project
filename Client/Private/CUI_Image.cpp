@@ -27,7 +27,7 @@ HRESULT CUI_Image::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
-    if (FAILED(Ready_Components(pDesc->wstrTexturePrototypeTag)))
+    if (FAILED(Ready_Components(pDesc->eTexPrototypeLV, pDesc->wstrTexturePrototypeTag)))
         return E_FAIL;
 
     return S_OK;
@@ -63,7 +63,7 @@ HRESULT CUI_Image::Render()
     return S_OK;
 }
 
-HRESULT CUI_Image::Ready_Components(wstring& pTexturePrototypeTag)
+HRESULT CUI_Image::Ready_Components(LEVEL eTexPrototypeLV, wstring& pTexturePrototypeTag)
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -76,7 +76,7 @@ HRESULT CUI_Image::Ready_Components(wstring& pTexturePrototypeTag)
         return E_FAIL;
 
     /* For.Com_Texture*/
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::LOGO), pTexturePrototypeTag,
+    if (FAILED(__super::Add_Component(ETOUI(eTexPrototypeLV), pTexturePrototypeTag,
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 

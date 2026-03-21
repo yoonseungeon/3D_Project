@@ -41,6 +41,8 @@ private:
 	atomic<_int>		m_iFinishedJobCnt		= { 0 };
 
 private:
+	HRESULT Ready_Resources_For_Static();
+
 	HRESULT Ready_Resources_For_Logo();
 	HRESULT Ready_Resources_For_Lobby();
 	HRESULT Ready_Resources_For_GamePlay();

@@ -112,9 +112,9 @@ void CLoader::Show_Loading_Status()
 }
 #endif
 
-HRESULT CLoader::Ready_Resources_For_Logo()
+HRESULT CLoader::Ready_Resources_For_Static()
 {
-#pragma region Static
+#pragma region 버퍼
     /* Prototype_Component_VIBuffer_Rect */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -127,13 +127,15 @@ HRESULT CLoader::Ready_Resources_For_Logo()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+#pragma endregion
 
+#pragma region 셰이더
     /* Prototype_Component_Shader_VtxTex */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
 
-            
+
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
                 CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxTex.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements))))
             {
@@ -145,6 +147,70 @@ HRESULT CLoader::Ready_Resources_For_Logo()
 #pragma endregion
 
 #pragma region 텍스처
+    /* Prototype_Texture_Simbol */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Texture_Simbol"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Loading/Simbol.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Simbol");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Loading_Line */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Texture_Loading_Line"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Loading/Loading_Line.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Loading_Line");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Img_Loading */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Texture_Img_Loading"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Loading/Img_Loading.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Img_Loading");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+#pragma region 객체 원형
+    /* Prototype_GameObject_CUI_Image */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+                CUI_Image::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_CUI_Image");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+    return S_OK;
+}
+
+HRESULT CLoader::Ready_Resources_For_Logo()
+{
+    if(FAILED(Ready_Resources_For_Static()))
+        return E_FAIL;
+
+#pragma region 텍스처
     /* Prototype_Component_Texture_BackGround */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -153,21 +219,6 @@ HRESULT CLoader::Ready_Resources_For_Logo()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.jpg"), 2))))
             {
                 MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Component_Texture_BackGround Prototype");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
-#pragma endregion
-
-#pragma region 객체 원형
-/* Prototype_GameObject_CUI_Image */
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_CUI_Image"),
-                CUI_Image::Create(m_pDevice, m_pContext))))
-            {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_CUI_Image");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

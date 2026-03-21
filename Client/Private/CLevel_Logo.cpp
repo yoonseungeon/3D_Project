@@ -48,9 +48,10 @@ HRESULT CLevel_Logo::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
     Desc.fScaleRatioY = 0.5f;
     Desc.fPosRatioX = 0.f;
     Desc.fPosRatioY = 0.f;
+    Desc.eTexPrototypeLV = LEVEL::LOGO;
     Desc.wstrTexturePrototypeTag = L"Prototype_Component_Texture_BackGround";
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOGO), TEXT("Prototype_GameObject_CUI_Image"),
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
         ETOUI(LEVEL::LOGO), strLayerTag, &Desc)))
         return E_FAIL;
 
