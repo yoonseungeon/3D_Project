@@ -22,7 +22,9 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
     _uint iHlslFlag = {};
 
 #ifdef _DEBUG
-    iHlslFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+    iHlslFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION
+        // 구식 문법 차단, 경고도 에러로
+        | D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_WARNINGS_ARE_ERRORS;
 #else
     iHlslFlag = D3DCOMPILE_OPTIMIZATION_LEVEL1;
 #endif
