@@ -54,6 +54,7 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
 
     // pass의 개수를 가지고 옴.
     m_iNumPasses = TechniqueDesc.Passes;
+    m_InputLayouts.reserve(m_iNumPasses);
 
     // 모든 pass 꺼내와서 정점의 정보 확인할 거임.
     // pass 여러 개 만들어서, 서로 다른 셰이더 수행할 수 있기 때문에
@@ -143,6 +144,15 @@ HRESULT CShader::Bind_SRV(const _char* pConstantName, ID3D11ShaderResourceView* 
 
     // SRV를 셰이더 변수에 세팅
     return pSRVariable->SetResource(pSRV);
+}
+
+HRESULT CShader::Bind_RawValue(const _char* pConstantName, const void* pData, _uint iSize)
+{
+    ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+    if (pVariable == nullptr || pVariable->IsValid() == false)
+        return E_FAIL;
+
+    return pVariable->SetRawValue(pData, 0, iSize);
 }
 
 CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pShaderFilePath, const D3D11_INPUT_ELEMENT_DESC* pElements, _uint iNumElements)

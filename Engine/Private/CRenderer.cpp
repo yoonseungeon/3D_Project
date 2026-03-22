@@ -1,6 +1,7 @@
 #include "CRenderer.h"
 
 #include "CGameObject.h"
+#include "CUIObject.h"
 
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -83,6 +84,12 @@ HRESULT CRenderer::Render_Blend()
 
 HRESULT CRenderer::Render_UI()
 {
+    m_RenderObjects[ETOUI(RENDERID::UI)].sort(
+        [](CGameObject* pSrc, CGameObject* pDst)->bool {
+            return static_cast<CUIObject*>(pSrc)->Get_UILayer() < static_cast<CUIObject*>(pDst)->Get_UILayer();
+        }
+    );
+
     for (auto& pRenderObject : m_RenderObjects[ETOUI(RENDERID::UI)])
     {
         if (pRenderObject != nullptr)

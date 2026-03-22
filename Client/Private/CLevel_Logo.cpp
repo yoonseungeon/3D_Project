@@ -3,7 +3,7 @@
 #include "CLevel_Loading.h"
 #include "CGameInstance.h"
 
-#include "CUI_Image.h"
+#include "CUI_FadeImage.h"
 
 CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -42,14 +42,19 @@ HRESULT CLevel_Logo::Render()
 
 HRESULT CLevel_Logo::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
 {
-    CUI_Image::CUI_IMAGE_DESC Desc{};
+    CUI_FadeImage::CUI_FADEIMAGE_DESC Desc{};
 
-    Desc.fScaleRatioX = 0.5f;
-    Desc.fScaleRatioY = 0.5f;
+    Desc.fScaleRatioX = 0.25f;
+    Desc.fScaleRatioY = 0.15f;
     Desc.fPosRatioX = 0.f;
     Desc.fPosRatioY = 0.f;
+    Desc.iFlipX = false;
+    Desc.iFlipY = false;
+    Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
+
     Desc.eTexPrototypeLV = LEVEL::LOGO;
-    Desc.wstrTexturePrototypeTag = L"Prototype_Component_Texture_BackGround";
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Logo";
+    Desc.eBlendState = CUI_Image::BS_ALPHABLEND;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
         ETOUI(LEVEL::LOGO), strLayerTag, &Desc)))

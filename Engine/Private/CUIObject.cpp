@@ -24,8 +24,12 @@ HRESULT CUIObject::Initialize(void* pArg)
 
     UIOBJECT_DESC* pDesc = static_cast<UIOBJECT_DESC*>(pArg);
 
-    if (FAILED(__super::Initialize(pArg)))
+    if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
+
+    m_iUILayer = pDesc->iUILayer;
+    m_iFlipX = pDesc->iFlipX;
+    m_iFlipY = pDesc->iFlipY;
 
     _uint iNumViewport = { 1 };
     D3D11_VIEWPORT ViewportDesc = {};

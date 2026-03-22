@@ -11,13 +11,19 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CUI_Image final : public CUIObject
+class CUI_Image : public CUIObject
 {
+public:
+	enum BLENDSTATE { BS_DEFAULT, BS_ALPHATEST, BS_ALPHABLEND };
+
 public:
 	struct CUI_IMAGE_DESC : public CUIObject::UIOBJECT_DESC
 	{
-		LEVEL eTexPrototypeLV;
+		LEVEL eTexPrototypeLV{};
 		wstring wstrTexturePrototypeTag;
+		BLENDSTATE eBlendState{};
+
+		_float fImageAlpha{ 1.f };
 	};
 
 protected:
@@ -33,20 +39,26 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
-	CShader* m_pShaderCom	= { nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom	= { nullptr };
-	CTexture* m_pTextureCom	= { nullptr };
+protected:
+	CShader*		m_pShaderCom{ nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
+	CTexture*		m_pTextureCom{ nullptr };
 
-private:
-	HRESULT Ready_Components(LEVEL eTexPrototypeLV, wstring& pTexturePrototypeTag);
-	HRESULT Bind_ShaderResources();
+	LEVEL m_eTexPrototypeLV{};
+	wstring m_wstrTexturePrototypeTag;
+	BLENDSTATE m_eBlendState{};
+
+	_float m_fImageAlpha{1.f};
+
+protected:
+	virtual HRESULT Ready_Components();
+	virtual HRESULT Bind_ShaderResources();
 
 public:
 	static CUI_Image* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
-	virtual void Free();
+	virtual void Free() override;
 };
 
 NS_END

@@ -40,8 +40,11 @@
     <Filter Include="01. Levels\04. Ending">
       <UniqueIdentifier>{308801a7-e0bf-46e3-9260-4a3f760067cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\00. CUI_Image">
+    <Filter Include="02. GameObject\00. UI_Image">
       <UniqueIdentifier>{12b549a8-c47a-4e99-83ee-2fb6c124f656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. UI_Image\00. UI_FadeImage">
+      <UniqueIdentifier>{b08061dd-4450-4380-b128-dd4e5f8994ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +79,7 @@
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_Image.h">
-      <Filter>02. GameObject\00. CUI_Image</Filter>
+      <Filter>02. GameObject\00. UI_Image</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CImGui_Manager.h">
       <Filter>100. ImGui_Manager</Filter>
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CLevel_Ending.h">
       <Filter>01. Levels\04. Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_FadeImage.h">
+      <Filter>02. GameObject\00. UI_Image\00. UI_FadeImage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +127,7 @@
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_Image.cpp">
-      <Filter>02. GameObject\00. CUI_Image</Filter>
+      <Filter>02. GameObject\00. UI_Image</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CImGui_Manager.cpp">
       <Filter>100. ImGui_Manager</Filter>
@@ -131,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLevel_Ending.cpp">
       <Filter>01. Levels\04. Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_FadeImage.cpp">
+      <Filter>02. GameObject\00. UI_Image\00. UI_FadeImage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

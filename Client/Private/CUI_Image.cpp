@@ -23,11 +23,16 @@ HRESULT CUI_Image::Initialize(void* pArg)
 {
     CUI_IMAGE_DESC* pDesc = static_cast<CUI_IMAGE_DESC*>(pArg);
 
-
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
-    if (FAILED(Ready_Components(pDesc->eTexPrototypeLV, pDesc->wstrTexturePrototypeTag)))
+    m_eTexPrototypeLV = pDesc->eTexPrototypeLV;
+    m_wstrTexturePrototypeTag = pDesc->wstrTexturePrototypeTag;
+    m_eBlendState = pDesc->eBlendState;
+
+    m_fImageAlpha = pDesc->fImageAlpha;
+
+    if (FAILED(Ready_Components()))
         return E_FAIL;
 
     return S_OK;
@@ -43,7 +48,7 @@ void CUI_Image::Update(_float fTimeDelta)
 
 void CUI_Image::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERID::PRIORITY, this);
+    m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
 HRESULT CUI_Image::Render()
@@ -51,7 +56,7 @@ HRESULT CUI_Image::Render()
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Begin(0)))
+    if (FAILED(m_pShaderCom->Begin(ETOUI(m_eBlendState))))
         return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Bind_Resources()))
@@ -63,7 +68,7 @@ HRESULT CUI_Image::Render()
     return S_OK;
 }
 
-HRESULT CUI_Image::Ready_Components(LEVEL eTexPrototypeLV, wstring& pTexturePrototypeTag)
+HRESULT CUI_Image::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -76,7 +81,7 @@ HRESULT CUI_Image::Ready_Components(LEVEL eTexPrototypeLV, wstring& pTextureProt
         return E_FAIL;
 
     /* For.Com_Texture*/
-    if (FAILED(__super::Add_Component(ETOUI(eTexPrototypeLV), pTexturePrototypeTag,
+    if (FAILED(__super::Add_Component(ETOUI(m_eTexPrototypeLV), m_wstrTexturePrototypeTag,
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
@@ -96,6 +101,10 @@ HRESULT CUI_Image::Bind_ShaderResources()
     if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
         return E_FAIL;
 
+    m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
+    m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
+    m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
+    
     return S_OK;
 }
 

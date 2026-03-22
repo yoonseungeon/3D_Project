@@ -1,12 +1,27 @@
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture;
+int g_FlipX = { false }, g_FlipY = { false };
+float g_Alpha = { 1 };
 
 SamplerState DefaultSampler
 {
     Filter = min_mag_mip_linear;
 
-    AddressU = wrap;
-    AddressV = wrap;
+    AddressU = clamp;
+    AddressV = clamp;
+};
+
+BlendState BS_Default
+{
+    BlendEnable[0] = false;
+};
+
+BlendState BS_AlphaBlend
+{
+    BlendEnable[0] = true;
+    SrcBlend[0] = Src_Alpha;
+    DestBlend[0] = Inv_Src_Alpha;
+    BlendOp[0] = Add;
 };
 
 struct VS_IN
@@ -53,6 +68,31 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
+    if (g_FlipX == 1)
+    {
+        In.vTexcoord.x = -In.vTexcoord.x + 1.f;
+    }
+    
+    if (g_FlipY == 1)
+    {
+        In.vTexcoord.y = -In.vTexcoord.y + 1.f;
+    }
+    
+    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    Out.vColor.a *= g_Alpha;
+    
+    return Out;
+}
+
+PS_OUT PS_MAIN_ALPHATEST(PS_IN In)
+{
+    PS_OUT Out;
+    
+    if (g_FlipX == 1)
+    {
+        In.vTexcoord.x = -In.vTexcoord.x + 1.f;
+    }
+    
     Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
     
     if (Out.vColor.a < 0.1f)
@@ -65,6 +105,21 @@ technique11 DefaultTechnique
 {
     pass DefaultPass
     {
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
+    }
+
+    pass AlphaTest
+    {
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_ALPHATEST()));
+    }
+
+    pass AlphaBlend
+    {
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }

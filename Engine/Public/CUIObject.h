@@ -11,10 +11,15 @@ class ENGINE_DLL CUIObject abstract : public CGameObject
 public:
 	struct UIOBJECT_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
-		_float	fScaleRatioX = {};
-		_float fScaleRatioY = {};
-		_float	fPosRatioX = {};
-		_float	fPosRatioY = {};
+		_float	fScaleRatioX{};
+		_float fScaleRatioY{};
+		_float	fPosRatioX{};
+		_float	fPosRatioY{};
+
+		_int iFlipX{};
+		_int iFlipY{};
+
+		_uint iUILayer{};
 	};
 
 protected:
@@ -30,8 +35,16 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	_uint Get_UILayer() { return m_iUILayer; }
+
 protected:
-	_float4x4				m_TransformMatrices[ETOUI(D3DTS::END)] = {};
+	_float4x4 m_TransformMatrices[ETOUI(D3DTS::END)]{};
+
+	_int m_iFlipX{};
+	_int m_iFlipY{};
+
+	_uint m_iUILayer{};
 
 protected:
 	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName, D3DTS eType);
