@@ -20,7 +20,38 @@ HRESULT CLevel_Logo::Initialize()
 
 void CLevel_Logo::Update(_float fTimeDelta)
 {
-    if (GetKeyState(VK_RETURN) & 0x8000)
+    const _float fIncreaseAlphaTime = 0.f;
+    const _float fDecreaseAlphaTime = 2.f;
+    const _float fEndTime = 2.7f;
+
+
+    if (m_eLogoStage != LS_END)
+    {
+        m_fAccTime += fTimeDelta;
+        for (auto pFadeImage : m_FadeImages[m_eLogoStage])
+        {
+            if (m_fAccTime >= fEndTime)
+            {
+                pFadeImage->Set_IsInvisible(true);
+            }
+            else if (m_fAccTime >= fDecreaseAlphaTime)
+            {
+                pFadeImage->Add_Alpha(-fTimeDelta * 2.f);
+            }
+            else if (m_fAccTime >= fIncreaseAlphaTime)
+            {
+                pFadeImage->Set_IsInvisible(false);
+                pFadeImage->Add_Alpha(fTimeDelta * 2.f);
+            }
+        }
+
+        if (m_fAccTime >= fEndTime) {
+            m_fAccTime = 0.f;
+            m_eLogoStage = static_cast<LogoStage>(static_cast<_int>(m_eLogoStage) + 1);
+        }
+    }
+
+    if (m_eLogoStage == LS_END)
     {
         CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::LOBBY);
 
@@ -42,10 +73,12 @@ HRESULT CLevel_Logo::Render()
 
 HRESULT CLevel_Logo::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
 {
+    CUI_FadeImage* pFadeImage{ nullptr };
+
     CUI_FadeImage::CUI_FADEIMAGE_DESC Desc{};
 
-    Desc.fScaleRatioX = 0.25f;
-    Desc.fScaleRatioY = 0.15f;
+    Desc.fScaleRatioX = 0.75f;
+    Desc.fScaleRatioY = 0.25f;
     Desc.fPosRatioX = 0.f;
     Desc.fPosRatioY = 0.f;
     Desc.iFlipX = false;
@@ -53,12 +86,56 @@ HRESULT CLevel_Logo::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
     Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
 
     Desc.eTexPrototypeLV = LEVEL::LOGO;
-    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Logo";
     Desc.eBlendState = CUI_Image::BS_ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_NimbleNeuron";
+
+    Desc.fImageAlpha = 0.f;
+    Desc.bIsInvisible = true;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOGO), strLayerTag, &Desc)))
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
         return E_FAIL;
+
+    m_FadeImages[LS_1].push_back(pFadeImage);
+    ///////////////////////////////////////////////////
+    Desc.fScaleRatioX = 0.25f;
+    Desc.fScaleRatioY = 0.15f;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Logo";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        return E_FAIL;
+
+    m_FadeImages[LS_2].push_back(pFadeImage);
+    ///////////////////////////////////////////////////
+    Desc.fScaleRatioX = 0.07f;
+    Desc.fScaleRatioY = 0.105f;
+
+    Desc.fPosRatioX = -0.1f;
+    Desc.fPosRatioY = 0.05f;
+
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Fifteen";
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        return E_FAIL;
+
+    m_FadeImages[LS_3].push_back(pFadeImage);
+
+    Desc.fPosRatioX = 0.f;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Violence";
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        return E_FAIL;
+
+    m_FadeImages[LS_3].push_back(pFadeImage);
+
+    Desc.fPosRatioX = 0.1f;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Sexuality";
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        return E_FAIL;
+
+    m_FadeImages[LS_3].push_back(pFadeImage);
 
     return S_OK;
 }
@@ -79,4 +156,11 @@ CLevel_Logo* CLevel_Logo::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 void CLevel_Logo::Free()
 {
     __super::Free();
+
+    for (auto& vec : m_FadeImages) {
+        for (auto& pFadeImage : vec) {
+            Safe_Release(pFadeImage);
+        }
+        vec.clear();
+    }
 }

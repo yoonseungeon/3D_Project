@@ -55,7 +55,7 @@ HRESULT CUI_FadeImage::Render()
     return S_OK;
 }
 
-void CUI_FadeImage::Set_ImageAlpha(_float fAlpha)
+void CUI_FadeImage::Add_Alpha(_float fAlpha)
 {
     m_fImageAlpha += fAlpha;
     if (m_fImageAlpha > 1.f)

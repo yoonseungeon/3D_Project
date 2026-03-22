@@ -12,6 +12,7 @@ public:
 	struct GAMEOBJECT_DESC
 	{
 		CTransform::TRANSFORM_DESC tTransformDesc = {};
+		_bool bIsInvisible{};
 	};
 
 protected:
@@ -30,14 +31,19 @@ public:
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
-protected:
-	ID3D11Device*				m_pDevice					= { nullptr };
-	ID3D11DeviceContext*	m_pContext					= { nullptr };
+public:
+	void Set_IsInvisible(_bool bIsInvisible) { m_bIsInvisible = bIsInvisible; }
 
-	CGameInstance*			m_pGameInstance			= { nullptr };
+protected:
+	ID3D11Device*									m_pDevice{ nullptr };
+	ID3D11DeviceContext*							m_pContext{ nullptr };
+
+	CGameInstance*									m_pGameInstance{ nullptr };
 
 	map<const _wstring, class CComponent*>			m_Components;
-	CTransform*				m_pTransformCom		= { nullptr };
+	CTransform*										m_pTransformCom{ nullptr };
+
+	_bool											m_bIsInvisible{};
 
 protected:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag,

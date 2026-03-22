@@ -211,19 +211,6 @@ HRESULT CLoader::Ready_Resources_For_Logo()
         return E_FAIL;
 
 #pragma region 텍스처
-    /* Prototype_Component_Texture_BackGround */
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Component_Texture_BackGround"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Default%d.jpg"), 2))))
-            {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Component_Texture_BackGround Prototype");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
-
     /* Prototype_Texture_Logo */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -237,7 +224,57 @@ HRESULT CLoader::Ready_Resources_For_Logo()
         }
     );
 
+    /* Prototype_Texture_Fifteen */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_Fifteen"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Fifteen.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Fifteen");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 
+    /* Prototype_Texture_Sexuality */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_Sexuality"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Sexuality.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Sexuality");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Violence */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_Violence"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Violence.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Violence");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_NimbleNeuron */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_NimbleNeuron"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/NimbleNeuron.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_NimbleNeuron");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
     // m_iTotalJobCnt 개수 보장
@@ -248,7 +285,7 @@ HRESULT CLoader::Ready_Resources_For_Logo()
 
 HRESULT CLoader::Ready_Resources_For_Lobby()
 {
-
+    Sleep(1000);
 
     m_bIsAllJobsQueued.store(true, memory_order_release);
     return S_OK;
@@ -256,8 +293,7 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
 
 HRESULT CLoader::Ready_Resources_For_GamePlay()
 {
-
-
+    Sleep(1000);
 
     m_bIsAllJobsQueued.store(true, memory_order_release);
     return S_OK;

@@ -20,6 +20,8 @@ class CRenderer;
 
 class CThread_Manager;
 
+class CGameObject;
+
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
@@ -56,7 +58,7 @@ public:
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr, CGameObject** ppOut = nullptr);
 #pragma endregion
 
 #pragma region RENDERER

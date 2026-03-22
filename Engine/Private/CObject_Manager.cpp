@@ -22,7 +22,7 @@ HRESULT CObject_Manager::Initialize(_uint iNumLevels)
 	return S_OK;
 }
 
-HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
+HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg, CGameObject** ppOut)
 {
 	if (iLayerLevelIndex >= m_iNumLevels || m_pLayers == nullptr)
 		return E_FAIL;
@@ -41,6 +41,11 @@ HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstri
 	}
 
 	pLayer->Add_GameObject(pGameObject);
+
+	if (ppOut != nullptr) {
+		*ppOut = pGameObject;
+		Safe_AddRef(pGameObject);
+	}
 
 	return S_OK;
 }

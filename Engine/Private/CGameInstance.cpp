@@ -9,6 +9,8 @@
 
 #include "CThread_Manager.h"
 
+#include "CGameObject.h"
+
 IMPLEMENT_SINGLETON(CGameInstance)
 
 CGameInstance::CGameInstance()
@@ -61,7 +63,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 HRESULT CGameInstance::Begin_Draw()
 {
-	_float4     vColor = _float4(0.f, 0.f, 0.f, 1.f);
+	_float4     vColor = _float4(0.f, 0.f, 1.f, 1.f);
 
 	if (FAILED(m_pGraphic_Device->Clear_BackBuffer_View(&vColor)))
 		return E_FAIL;
@@ -151,9 +153,9 @@ CBase* CGameInstance::Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const 
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
+HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg, CGameObject** ppOut)
 {
-	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg);
+	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg, ppOut);
 }
 #pragma endregion
 

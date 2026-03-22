@@ -72,7 +72,7 @@ void CImGui_Manager::Update(_float fTimeDelta)
     );
 
     //가장 기본이 되는 메인 메뉴 창을 띄울지 여부
-    static _bool show_begin_window = TRUE;           // 기본 제어 창
+    static _bool show_begin_window = FALSE;           // 기본 제어 창
 
     //ImGui가 제공하는 예제 창
     static _bool show_demo_window = FALSE;           // ImGui 데모 창
@@ -88,7 +88,7 @@ void CImGui_Manager::Update(_float fTimeDelta)
     //키를 꾹 누르고 있는 상태와 한 번만 딱 눌린 순간을 구분하기 위한 용도
     static _bool bIsF6Pressed = FALSE;
     //현재 UI 전체가 숨겨진 상태인지 아닌지를 저장하는 최종 상태 값(아직 쓸모없음(구현x). 메인 창 닫았을 때 기존 창 복구용)
-    static _bool bAll_UI_Off = FALSE;
+    static _bool bAll_UI_Off = TRUE;
 
     // 2. F6 키 입력 처리 (한 번만 눌리게 처리)
     if (GetAsyncKeyState(VK_F6) & 0x8000)

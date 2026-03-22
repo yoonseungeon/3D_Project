@@ -48,6 +48,10 @@ void CUI_Image::Update(_float fTimeDelta)
 
 void CUI_Image::Late_Update(_float fTimeDelta)
 {
+    if (m_bIsInvisible == true) {
+        return;
+    }
+
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 

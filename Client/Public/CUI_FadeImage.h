@@ -33,7 +33,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Set_ImageAlpha(_float fAlpha);
+	void Add_Alpha(_float fAlpha);
 
 private:
 	virtual HRESULT Ready_Components() override;

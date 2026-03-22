@@ -12,6 +12,7 @@ NS_BEGIN(Engine)
 
 class CGameInstance;
 class CLayer;
+class CGameObject;
 
 class CObject_Manager final : public CBase
 {
@@ -21,8 +22,7 @@ private:
 
 public:
 	HRESULT Initialize(_uint iNumLevels);
-	//HRESULT Add_GameObject(_uint iLevelIndex, const _wstring& strLayerTag, class CGameObject* pGameObject);
-	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg);
+	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg, CGameObject** ppOut);
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
