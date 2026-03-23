@@ -16,6 +16,10 @@ public:
 	virtual void	Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+private:
+	HRESULT Ready_Layer_CUI_Image(const _wstring& strLayerTag);
+
+
 public:
 	static CLevel_Lobby* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 protected:

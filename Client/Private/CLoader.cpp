@@ -3,7 +3,7 @@
 
 #include "CGameInstance.h"
 #include "CCamera_Free.h"
-#include "CUI_Image.h"
+#include "CUI_AniImage.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -122,7 +122,7 @@ HRESULT CLoader::Ready_Resources_For_Static()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
                 CVIBuffer_Rect::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Component_VIBuffer_Rect");
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Component_VIBuffer_Rect");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -139,7 +139,7 @@ HRESULT CLoader::Ready_Resources_For_Static()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
                 CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxTex.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Component_Shader_VtxTex");
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Component_Shader_VtxTex");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -154,7 +154,7 @@ HRESULT CLoader::Ready_Resources_For_Static()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Texture_Simbol"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Loading/Simbol.dds"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Simbol");
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Texture_Simbol");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -167,7 +167,7 @@ HRESULT CLoader::Ready_Resources_For_Static()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Texture_Loading_Line"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Loading/Loading_Line.dds"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Loading_Line");
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Texture_Loading_Line");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -180,7 +180,7 @@ HRESULT CLoader::Ready_Resources_For_Static()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Texture_Img_Loading"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Loading/Img_Loading.png"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Img_Loading");
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Texture_Img_Loading");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -195,7 +195,7 @@ HRESULT CLoader::Ready_Resources_For_Static()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
                 CUI_Image::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_CUI_Image");
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_GameObject_CUI_Image");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -206,9 +206,9 @@ HRESULT CLoader::Ready_Resources_For_Static()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
-                CUI_Image::Create(m_pDevice, m_pContext))))
+                CUI_AniImage::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_CUI_AniImage");
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_GameObject_CUI_AniImage");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -298,20 +298,20 @@ HRESULT CLoader::Ready_Resources_For_Logo()
 
 HRESULT CLoader::Ready_Resources_For_Lobby()
 {
-    Sleep(1000);
+
 #pragma region ÅØ½ºÃ³
     /* Prototype_Texture_LobbyAni */
-    //m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    //m_pGameInstance->Add_Job(
-    //    [this]()->void {
-    //        if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_LobbyAni"),
-    //            CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 960))))
-    //        {
-    //            MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_LobbyAni");
-    //        }
-    //        m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-    //    }
-    //);
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_LobbyAni"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 960))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbyAni");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
     m_bIsAllJobsQueued.store(true, memory_order_release);
@@ -330,7 +330,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
                 CCamera_Free::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_Camera_Free");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Camera_Free");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

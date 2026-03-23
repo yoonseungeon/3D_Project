@@ -53,9 +53,9 @@ protected:
 
 	_float m_fImageAlpha{1.f};
 
-protected:
-	virtual HRESULT Ready_Components();
-	virtual HRESULT Bind_ShaderResources();
+private:
+	HRESULT Ready_Components();
+	HRESULT Bind_ShaderResources();
 
 public:
 	static CUI_Image* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

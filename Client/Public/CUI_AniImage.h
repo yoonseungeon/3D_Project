@@ -34,8 +34,8 @@ private:
 	_float m_fAccTime{};
 
 private:
-	virtual HRESULT Ready_Components() override;
-	virtual HRESULT Bind_ShaderResources() override;
+	HRESULT Ready_Components();
+	HRESULT Bind_ShaderResources();
 
 	void Animation(_float fTimeDelta);
 

@@ -24,9 +24,6 @@ HRESULT CUI_AniImage::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
-    if (FAILED(Ready_Components()))
-        return E_FAIL;
-
     m_fFrameDelay = pDesc->fFrameDelay;
 
     if (m_pTextureCom != nullptr) {
@@ -38,24 +35,34 @@ HRESULT CUI_AniImage::Initialize(void* pArg)
 
 void CUI_AniImage::Priority_Update(_float fTimeDelta)
 {
-    __super::Priority_Update(fTimeDelta);
 }
 
 void CUI_AniImage::Update(_float fTimeDelta)
 {
-    __super::Update(fTimeDelta);
-
     Animation(fTimeDelta);
 }
 
 void CUI_AniImage::Late_Update(_float fTimeDelta)
 {
-    __super::Late_Update(fTimeDelta);
+    if (m_bIsInvisible == true) {
+        return;
+    }
+
+    m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
 HRESULT CUI_AniImage::Render()
 {
-    if(FAILED(__super::Render()))
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+
+    if (FAILED(m_pShaderCom->Begin(ETOUI(m_eBlendState))))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Bind_Resources()))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
     return S_OK;
@@ -63,8 +70,6 @@ HRESULT CUI_AniImage::Render()
 
 HRESULT CUI_AniImage::Ready_Components()
 {
-    __super::Ready_Components();
-
     return S_OK;
 }
 

@@ -3,6 +3,8 @@
 #include "CLevel_Loading.h"
 #include "CGameInstance.h"
 
+#include "CUI_AniImage.h"
+
 CLevel_Lobby::CLevel_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
 {
@@ -10,6 +12,9 @@ CLevel_Lobby::CLevel_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Lobby::Initialize()
 {
+    if (FAILED(Ready_Layer_CUI_Image(TEXT("Layer_CUI_Image"))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -31,6 +36,32 @@ HRESULT CLevel_Lobby::Render()
 #ifdef _DEBUG
     SetWindowText(g_hWnd, TEXT("Lobby 레벨입니다."));
 #endif
+
+    return S_OK;
+}
+
+HRESULT CLevel_Lobby::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
+{
+
+    CUI_AniImage::CUI_ANIIMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = 1.f;
+    Desc.fScaleRatioY = 1.f;
+    Desc.fPosRatioX = 0.f;
+    Desc.fPosRatioY = 0.f;
+    Desc.iFlipX = false;
+    Desc.iFlipY = false;
+    Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Image::BS_DEFAULT;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbyAni";
+
+    Desc.fFrameDelay = 0.0166f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
+        return E_FAIL;
 
     return S_OK;
 }
