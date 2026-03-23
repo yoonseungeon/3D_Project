@@ -72,6 +72,19 @@ HRESULT CUI_Image::Render()
     return S_OK;
 }
 
+void CUI_Image::Add_Alpha(_float fAlpha)
+{
+    m_fImageAlpha += fAlpha;
+    if (m_fImageAlpha > 1.f)
+    {
+        m_fImageAlpha = 1.f;
+    }
+    else if (m_fImageAlpha < 0.f)
+    {
+        m_fImageAlpha = 0.f;
+    }
+}
+
 HRESULT CUI_Image::Ready_Components()
 {
     /* For.Com_Shader */

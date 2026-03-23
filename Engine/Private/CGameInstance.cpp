@@ -6,6 +6,8 @@
 #include "CPrototype_Manager.h"
 #include "CObject_Manager.h"
 #include "CRenderer.h"
+#include "CPipeline.h"
+#include "CInput_Device.h"
 
 #include "CThread_Manager.h"
 
@@ -44,9 +46,16 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 	if (m_pRenderer == nullptr)
 		return E_FAIL;
 
+	m_pPipeline = CPipeline::Create();
+	if (nullptr == m_pPipeline)
+		return E_FAIL;
 
 	m_pThread_Manager = CThread_Manager::Create();
 	if (m_pThread_Manager == nullptr)
+		return E_FAIL;
+
+	m_pInput_Device = CInput_Device::Create(EngineDesc.hInstance, EngineDesc.hWnd);
+	if (nullptr == m_pInput_Device)
 		return E_FAIL;
 
 	return S_OK;
@@ -54,8 +63,13 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
+	m_pInput_Device->Update();
+
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 	m_pObject_Manager->Update(fTimeDelta);
+
+	m_pPipeline->Update();
+
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);
@@ -105,6 +119,8 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 
+	Safe_Release(m_pInput_Device);
+	Safe_Release(m_pPipeline);
 	Safe_Release(m_pRenderer);
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pPrototype_Manager);
@@ -163,6 +179,45 @@ HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring
 void CGameInstance::Add_RenderGroup(RENDERID eGroupID, CGameObject* pGameObject)
 {
 	m_pRenderer->Add_RenderGroup(eGroupID, pGameObject);
+}
+#pragma endregion
+
+#pragma region PIPELINE
+const _float4x4* CGameInstance::Get_Transform(D3DTS eState) const
+{
+	return m_pPipeline->Get_Transform(eState);
+}
+
+const _float4x4* CGameInstance::Get_Transform_Inverse(D3DTS eState) const
+{
+	return m_pPipeline->Get_Transform_Inverse(eState);
+}
+
+const _float4* CGameInstance::Get_CamPosition() const
+{
+	return m_pPipeline->Get_CamPosition();
+}
+
+void CGameInstance::Set_Transform(D3DTS eState, _fmatrix StateMatrix)
+{
+	m_pPipeline->Set_Transform(eState, StateMatrix);
+}
+#pragma endregion
+
+#pragma region DInput
+_byte CGameInstance::Get_DIKeyState(_ubyte byKeyID)
+{
+	return m_pInput_Device->Get_DIKeyState(byKeyID);
+}
+
+_byte CGameInstance::Get_DIMouseState(DIMB eMouse)
+{
+	return m_pInput_Device->Get_DIMouseState(eMouse);
+}
+
+_long CGameInstance::Get_DIMouseMove(DIMM eMouseState)
+{
+	return m_pInput_Device->Get_DIMouseMove(eMouseState);
 }
 #pragma endregion
 

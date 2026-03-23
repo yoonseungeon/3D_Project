@@ -1,9 +1,9 @@
 #include "CLoader.h"
+#include <process.h>
 
 #include "CGameInstance.h"
+#include "CCamera_Free.h"
 #include "CUI_Image.h"
-
-#include <process.h>
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -294,6 +294,21 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
 HRESULT CLoader::Ready_Resources_For_GamePlay()
 {
     Sleep(1000);
+
+#pragma region °´Ã¼ ¿øÇü
+    /* Prototype_GameObject_Camera_Free */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
+                CCamera_Free::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_Camera_Free");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
 
     m_bIsAllJobsQueued.store(true, memory_order_release);
     return S_OK;

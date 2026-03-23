@@ -3,7 +3,7 @@
 #include "CLevel_Loading.h"
 #include "CGameInstance.h"
 
-#include "CUI_FadeImage.h"
+#include "CUI_Image.h"
 
 CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -73,9 +73,9 @@ HRESULT CLevel_Logo::Render()
 
 HRESULT CLevel_Logo::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
 {
-    CUI_FadeImage* pFadeImage{ nullptr };
+    CUI_Image* pImage{ nullptr };
 
-    CUI_FadeImage::CUI_FADEIMAGE_DESC Desc{};
+    CUI_Image::CUI_IMAGE_DESC Desc{};
 
     Desc.fScaleRatioX = 0.75f;
     Desc.fScaleRatioY = 0.25f;
@@ -93,20 +93,20 @@ HRESULT CLevel_Logo::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
     Desc.bIsInvisible = true;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pImage))))
         return E_FAIL;
 
-    m_FadeImages[LS_1].push_back(pFadeImage);
+    m_FadeImages[LS_1].push_back(pImage);
     ///////////////////////////////////////////////////
     Desc.fScaleRatioX = 0.25f;
     Desc.fScaleRatioY = 0.15f;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Logo";
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pImage))))
         return E_FAIL;
 
-    m_FadeImages[LS_2].push_back(pFadeImage);
+    m_FadeImages[LS_2].push_back(pImage);
     ///////////////////////////////////////////////////
     Desc.fScaleRatioX = 0.07f;
     Desc.fScaleRatioY = 0.105f;
@@ -116,26 +116,26 @@ HRESULT CLevel_Logo::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
 
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Fifteen";
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pImage))))
         return E_FAIL;
 
-    m_FadeImages[LS_3].push_back(pFadeImage);
+    m_FadeImages[LS_3].push_back(pImage);
 
     Desc.fPosRatioX = 0.f;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Violence";
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pImage))))
         return E_FAIL;
 
-    m_FadeImages[LS_3].push_back(pFadeImage);
+    m_FadeImages[LS_3].push_back(pImage);
 
     Desc.fPosRatioX = 0.1f;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Sexuality";
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pFadeImage))))
+        ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pImage))))
         return E_FAIL;
 
-    m_FadeImages[LS_3].push_back(pFadeImage);
+    m_FadeImages[LS_3].push_back(pImage);
 
     return S_OK;
 }

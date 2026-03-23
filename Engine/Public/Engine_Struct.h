@@ -6,6 +6,7 @@ namespace Engine
 	// Graphic Device 초기화에 필요한 변수들(구조체)
 	struct ENGINE_DESC
 	{
+		HINSTANCE		hInstance;
 		HWND			hWnd;
 		WINMODE			eWinMode;
 		unsigned int	iViewportWidth, iViewportHeight;

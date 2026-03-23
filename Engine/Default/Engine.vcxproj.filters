@@ -73,6 +73,12 @@
     <Filter Include="05. GameObject\01. UIObject">
       <UniqueIdentifier>{f16e538b-f270-4dda-bb92-7a05541a4998}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08. Pipeline">
+      <UniqueIdentifier>{c3c32e99-04ac-491f-a60a-8497d1d82cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Device\01. Input">
+      <UniqueIdentifier>{6ae9f353-08d4-429e-8afa-d6fe836260f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -137,6 +143,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CCamera.cpp">
       <Filter>05. GameObject\00. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPipeline.cpp">
+      <Filter>08. Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInput_Device.cpp">
+      <Filter>01. Device\01. Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CCamera.h">
       <Filter>05. GameObject\00. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPipeline.h">
+      <Filter>08. Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CInput_Device.h">
+      <Filter>01. Device\01. Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

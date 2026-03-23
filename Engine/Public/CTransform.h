@@ -46,6 +46,8 @@ public:
 
 	_float3 Get_Scaled();
 
+	const _float4x4* Get_WorldMatrixPtr() const { return &m_WorldMatrix; }
+
 public:
 	void Set_Scale(_float fScaleX = 1.f, _float fScaleY = 1.f, _float fScaleZ = 1.f);
 	void Scaling(_float fScaleX = 1.f, _float fScaleY = 1.f, _float fScaleZ = 1.f);

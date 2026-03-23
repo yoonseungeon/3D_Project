@@ -5,7 +5,7 @@
 
 NS_BEGIN(Client)
 
-class CUI_FadeImage;
+class CUI_Image;
 
 class CLevel_Logo : public CLevel
 {
@@ -22,12 +22,13 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	HRESULT Ready_Layer_CUI_Image(const _wstring& strLayerTag);
-
-	vector<CUI_FadeImage*> m_FadeImages[LS_END];
+	vector<CUI_Image*> m_FadeImages[LS_END];
 
 	LogoStage m_eLogoStage{ LS_1 };
 	_float m_fAccTime{};
+
+private:
+	HRESULT Ready_Layer_CUI_Image(const _wstring& strLayerTag);
 
 public:
 	static CLevel_Logo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

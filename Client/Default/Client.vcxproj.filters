@@ -40,10 +40,28 @@
     <Filter Include="01. Levels\04. Ending">
       <UniqueIdentifier>{308801a7-e0bf-46e3-9260-4a3f760067cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\00. UI_Image">
+    <Filter Include="02. GameObject\00. Static">
+      <UniqueIdentifier>{d7516482-bd66-4252-bcdb-30afd25f0374}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Logo">
+      <UniqueIdentifier>{c0b1ff9b-632a-4edb-8e8f-4fd317b1eb1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Lobby">
+      <UniqueIdentifier>{30ccef60-1028-4a66-a98a-f77009258b3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. GamePlay">
+      <UniqueIdentifier>{56250ffd-a2d6-4223-a28f-5dca3d4a66a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. GamePlay\00. Camera">
+      <UniqueIdentifier>{ff6cb342-f0a3-4839-bae6-e8c40ea86f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. Static\00. UI_Image">
       <UniqueIdentifier>{12b549a8-c47a-4e99-83ee-2fb6c124f656}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\00. UI_Image\00. UI_FadeImage">
+    <Filter Include="02. GameObject\03. GamePlay\00. Camera\00. Free">
+      <UniqueIdentifier>{655277cf-ad6f-46e5-9277-b526dcf2cf56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. Static\00. UI_Image\00. UI_AniImage">
       <UniqueIdentifier>{b08061dd-4450-4380-b128-dd4e5f8994ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -79,7 +97,7 @@
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_Image.h">
-      <Filter>02. GameObject\00. UI_Image</Filter>
+      <Filter>02. GameObject\00. Static\00. UI_Image</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CImGui_Manager.h">
       <Filter>100. ImGui_Manager</Filter>
@@ -90,8 +108,11 @@
     <ClInclude Include="..\Public\CLevel_Ending.h">
       <Filter>01. Levels\04. Ending</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CUI_FadeImage.h">
-      <Filter>02. GameObject\00. UI_Image\00. UI_FadeImage</Filter>
+    <ClInclude Include="..\Public\CUI_AniImage.h">
+      <Filter>02. GameObject\00. Static\00. UI_Image\00. UI_AniImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CCamera_Free.h">
+      <Filter>02. GameObject\03. GamePlay\00. Camera\00. Free</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +148,7 @@
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_Image.cpp">
-      <Filter>02. GameObject\00. UI_Image</Filter>
+      <Filter>02. GameObject\00. Static\00. UI_Image</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CImGui_Manager.cpp">
       <Filter>100. ImGui_Manager</Filter>
@@ -138,8 +159,11 @@
     <ClCompile Include="..\Private\CLevel_Ending.cpp">
       <Filter>01. Levels\04. Ending</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CUI_FadeImage.cpp">
-      <Filter>02. GameObject\00. UI_Image\00. UI_FadeImage</Filter>
+    <ClCompile Include="..\Private\CUI_AniImage.cpp">
+      <Filter>02. GameObject\00. Static\00. UI_Image\00. UI_AniImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCamera_Free.cpp">
+      <Filter>02. GameObject\03. GamePlay\00. Camera\00. Free</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

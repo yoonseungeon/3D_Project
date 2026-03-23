@@ -6,6 +6,9 @@
 #include <DirectXCollision.h>
 #include <d3dcompiler.h>
 
+#define DIRECTINPUT_VERSION 0x0800
+#include <dinput.h>
+
 #include <Effects11/d3dx11effect.h>
 #include <directxtk/DDSTextureLoader.h>
 #include <directxtk/WICTextureLoader.h>

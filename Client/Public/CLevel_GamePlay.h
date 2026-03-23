@@ -16,6 +16,9 @@ public:
 	virtual void	Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+private:
+	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
+
 public:
 	static CLevel_GamePlay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 protected:

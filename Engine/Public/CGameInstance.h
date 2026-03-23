@@ -17,6 +17,8 @@ class CLevel_Manager;
 class CPrototype_Manager;
 class CObject_Manager;
 class CRenderer;
+class CPipeline;
+class CInput_Device;
 
 class CThread_Manager;
 
@@ -65,6 +67,18 @@ public:
 	void Add_RenderGroup(RENDERID eGroupID, class CGameObject* pGameObject);
 #pragma endregion
 
+#pragma region PIPELINE
+	const _float4x4* Get_Transform(D3DTS eState) const;
+	const _float4x4* Get_Transform_Inverse(D3DTS eState) const;
+	const _float4* Get_CamPosition() const;
+	void Set_Transform(D3DTS eState, _fmatrix StateMatrix);
+#pragma endregion
+
+#pragma region INPUT_DEVICE
+	_byte	Get_DIKeyState(_ubyte byKeyID);
+	_byte	Get_DIMouseState(DIMB eMouse);
+	_long	Get_DIMouseMove(DIMM eMouseState);
+#pragma endregion
 
 #pragma region THREAD_MANAGER
 	void Add_Job(function<void()> func);
@@ -77,6 +91,8 @@ private:
 	CPrototype_Manager* m_pPrototype_Manager	= { nullptr };
 	CObject_Manager*	m_pObject_Manager		= { nullptr };
 	CRenderer*			m_pRenderer				= { nullptr };
+	CPipeline*			m_pPipeline				= { nullptr };
+	CInput_Device*		m_pInput_Device			= { nullptr };
 
 	CThread_Manager*	m_pThread_Manager		= { nullptr };
 
