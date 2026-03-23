@@ -23,7 +23,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
     const _float fIncreaseAlphaTime = 0.f;
     const _float fDecreaseAlphaTime = 2.f;
     const _float fEndTime = 2.7f;
-
+    const _float fSpeed = 2.f;
 
     if (m_eLogoStage != LS_END)
     {
@@ -36,12 +36,12 @@ void CLevel_Logo::Update(_float fTimeDelta)
             }
             else if (m_fAccTime >= fDecreaseAlphaTime)
             {
-                pFadeImage->Add_Alpha(-fTimeDelta * 2.f);
+                pFadeImage->Add_Alpha(-fTimeDelta * fSpeed);
             }
             else if (m_fAccTime >= fIncreaseAlphaTime)
             {
                 pFadeImage->Set_IsInvisible(false);
-                pFadeImage->Add_Alpha(fTimeDelta * 2.f);
+                pFadeImage->Add_Alpha(fTimeDelta * fSpeed);
             }
         }
 

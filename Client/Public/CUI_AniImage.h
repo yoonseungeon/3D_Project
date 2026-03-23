@@ -11,6 +11,7 @@ class CUI_AniImage final : public CUI_Image
 public:
 	struct CUI_ANIIMAGE_DESC : public CUI_Image::CUI_IMAGE_DESC
 	{
+		_float fFrameDelay{};
 	};
 
 protected:
@@ -27,8 +28,16 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	_uint m_iMaxTextureCnt{};
+	_uint m_iCurTextureIdx{};
+	_float m_fFrameDelay{};
+	_float m_fAccTime{};
+
+private:
 	virtual HRESULT Ready_Components() override;
 	virtual HRESULT Bind_ShaderResources() override;
+
+	void Animation(_float fTimeDelta);
 
 public:
 	static CUI_AniImage* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

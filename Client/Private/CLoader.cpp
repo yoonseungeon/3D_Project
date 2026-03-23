@@ -200,6 +200,19 @@ HRESULT CLoader::Ready_Resources_For_Static()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_GameObject_CUI_AniImage */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
+                CUI_Image::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_GameObject_CUI_AniImage");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
     return S_OK;
@@ -286,6 +299,20 @@ HRESULT CLoader::Ready_Resources_For_Logo()
 HRESULT CLoader::Ready_Resources_For_Lobby()
 {
     Sleep(1000);
+#pragma region ÅØ½ºÃ³
+    /* Prototype_Texture_LobbyAni */
+    //m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    //m_pGameInstance->Add_Job(
+    //    [this]()->void {
+    //        if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_LobbyAni"),
+    //            CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 960))))
+    //        {
+    //            MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_LobbyAni");
+    //        }
+    //        m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+    //    }
+    //);
+#pragma endregion
 
     m_bIsAllJobsQueued.store(true, memory_order_release);
     return S_OK;

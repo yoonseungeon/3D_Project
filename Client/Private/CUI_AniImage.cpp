@@ -5,13 +5,11 @@
 CUI_AniImage::CUI_AniImage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Image{ pDevice, pContext }
 {
-
 }
 
 CUI_AniImage::CUI_AniImage(const CUI_AniImage& Prototype)
     : CUI_Image{ Prototype }
 {
-
 }
 
 HRESULT CUI_AniImage::Initialize_Prototype()
@@ -29,6 +27,12 @@ HRESULT CUI_AniImage::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_fFrameDelay = pDesc->fFrameDelay;
+
+    if (m_pTextureCom != nullptr) {
+        m_iMaxTextureCnt = m_pTextureCom->Get_TextureCnt();
+    }
+
     return S_OK;
 }
 
@@ -40,6 +44,8 @@ void CUI_AniImage::Priority_Update(_float fTimeDelta)
 void CUI_AniImage::Update(_float fTimeDelta)
 {
     __super::Update(fTimeDelta);
+
+    Animation(fTimeDelta);
 }
 
 void CUI_AniImage::Late_Update(_float fTimeDelta)
@@ -64,9 +70,34 @@ HRESULT CUI_AniImage::Ready_Components()
 
 HRESULT CUI_AniImage::Bind_ShaderResources()
 {
-    __super::Bind_ShaderResources();
+    if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+        return E_FAIL;
+
+    if (FAILED(CUIObject::Bind_ShaderResource(m_pShaderCom, "g_ViewMatrix", D3DTS::VIEW)))
+        return E_FAIL;
+    if (FAILED(CUIObject::Bind_ShaderResource(m_pShaderCom, "g_ProjMatrix", D3DTS::PROJ)))
+        return E_FAIL;
+
+    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iCurTextureIdx)))
+        return E_FAIL;
+
+    m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
+    m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
+    m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
 
     return S_OK;
+}
+
+void CUI_AniImage::Animation(_float fTimeDelta)
+{
+    m_fAccTime += fTimeDelta;
+    if (m_fAccTime >= m_fFrameDelay) {
+        ++m_iCurTextureIdx;
+        if (m_iCurTextureIdx >= m_iMaxTextureCnt) {
+            m_iCurTextureIdx = 0;
+        }
+        m_fAccTime -= m_fFrameDelay;
+    }
 }
 
 CUI_AniImage* CUI_AniImage::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

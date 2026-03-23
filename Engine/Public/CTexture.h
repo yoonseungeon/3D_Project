@@ -23,6 +23,9 @@ private:
 	vector<ID3D11ShaderResourceView*>	m_Textures;
 
 public:
+	const _uint Get_TextureCnt() { return m_iNumTextures; }
+
+public:
 	static CTexture* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTextureFilePath, _uint iNumTextures);
 	virtual CComponent* Clone(void* pArg) override;
 protected:
