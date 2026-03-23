@@ -45,8 +45,8 @@ HRESULT CLevel_Lobby::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
 
     CUI_AniImage::CUI_ANIIMAGE_DESC Desc{};
 
-    Desc.fScaleRatioX = 1.f;
-    Desc.fScaleRatioY = 1.f;
+    Desc.fScaleRatioX = 1.1f;
+    Desc.fScaleRatioY = 1.1f;
     Desc.fPosRatioX = 0.f;
     Desc.fPosRatioY = 0.f;
     Desc.iFlipX = false;
