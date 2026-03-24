@@ -1,5 +1,4 @@
-#ifndef InputDev_h__
-#define InputDev_h__
+#pragma once
 
 #include "CBase.h"
 
@@ -36,8 +35,5 @@ public:
 protected:
 	virtual void Free(void) override;
 };
+
 NS_END
-
-#endif // InputDev_h__
-
-

@@ -55,9 +55,9 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 		return E_FAIL;
 
 	m_pInput_Device = CInput_Device::Create(EngineDesc.hInstance, EngineDesc.hWnd);
-	if (nullptr == m_pInput_Device)
+	if (m_pInput_Device == nullptr)
 		return E_FAIL;
-
+	
 	return S_OK;
 }
 
