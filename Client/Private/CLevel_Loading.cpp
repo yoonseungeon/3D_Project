@@ -78,7 +78,6 @@ HRESULT CLevel_Loading::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
     CUI_Image::CUI_IMAGE_DESC Desc{};
 
     Desc.eTexPrototypeLV = LEVEL::STATIC;
-    Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
 
     switch (m_eNextLevelID) {
     case LEVEL::LOGO:
@@ -87,6 +86,8 @@ HRESULT CLevel_Loading::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
     }
     case LEVEL::LOBBY:
     {
+        Desc.iUILayer = ETOUI(UILAYER::BACKGROUND_DECO);
+
         Desc.fScaleRatioX = 0.05f;
         Desc.fScaleRatioY = Desc.fScaleRatioX * static_cast<_float>(g_iWinSizeX) / static_cast<_float>(g_iWinSizeY);
         Desc.fPosRatioX = 0.f;
@@ -130,6 +131,8 @@ HRESULT CLevel_Loading::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
     }
     case LEVEL::GAMEPLAY:
     {
+        Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
+
         Desc.fScaleRatioX = 1.f;
         Desc.fScaleRatioY = 1.f;
         Desc.fPosRatioX = 0.f;
