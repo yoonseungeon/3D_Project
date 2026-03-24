@@ -152,6 +152,7 @@ HRESULT CShader::Bind_RawValue(const _char* pConstantName, const void* pData, _u
     if (pVariable == nullptr || pVariable->IsValid() == false)
         return E_FAIL;
 
+    // SRV, 행렬은 SetRawValue 사용하면 문제 생김.
     return pVariable->SetRawValue(pData, 0, iSize);
 }
 
