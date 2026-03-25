@@ -75,9 +75,17 @@ public:
 #pragma endregion
 
 #pragma region INPUT_DEVICE
-	_byte	Get_DIKeyState(_ubyte byKeyID);
-	_byte	Get_DIMouseState(DIMB eMouse);
+	_bool Key_Pressing(_ubyte byKeyID);
+	_bool Key_Up(_ubyte byKeyID);
+	_bool Key_Down(_ubyte byKeyID);
+
+	_bool Mouse_Pressing(DIMB eMouse);
+	_bool Mouse_Up(DIMB eMouse);
+	_bool Mouse_Down(DIMB eMouse);
+
 	_long	Get_DIMouseMove(DIMM eMouseState);
+
+	const POINT Get_MouseClientPos();
 #pragma endregion
 
 #pragma region THREAD_MANAGER

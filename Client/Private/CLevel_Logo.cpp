@@ -87,7 +87,7 @@ HRESULT CLevel_Logo::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.iUILayer = ETOUI(UILAYER::BACKGROUND_DECO);
 
     Desc.eTexPrototypeLV = LEVEL::LOGO;
-    Desc.eBlendState = CUI_Image::BS_ALPHABLEND;
+    Desc.eBlendState = CUI_Default::BS_ALPHABLEND;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_NimbleNeuron";
 
     Desc.fImageAlpha = 0.f;

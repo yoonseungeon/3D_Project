@@ -33,6 +33,9 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
+	BTN_STATE Check_BtnState();
+
+protected:
 	RECT m_rcBtnRange{};
 	BTN_STATE m_BtnState{};
 

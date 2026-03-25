@@ -205,19 +205,44 @@ void CGameInstance::Set_Transform(D3DTS eState, _fmatrix StateMatrix)
 #pragma endregion
 
 #pragma region DInput
-_byte CGameInstance::Get_DIKeyState(_ubyte byKeyID)
+
+_bool CGameInstance::Key_Pressing(_ubyte byKeyID)
 {
-	return m_pInput_Device->Get_DIKeyState(byKeyID);
+	return m_pInput_Device->Key_Pressing(byKeyID);
 }
 
-_byte CGameInstance::Get_DIMouseState(DIMB eMouse)
+_bool CGameInstance::Key_Up(_ubyte byKeyID)
 {
-	return m_pInput_Device->Get_DIMouseState(eMouse);
+	return m_pInput_Device->Key_Up(byKeyID);
+}
+
+_bool CGameInstance::Key_Down(_ubyte byKeyID)
+{
+	return m_pInput_Device->Key_Down(byKeyID);
+}
+
+_bool CGameInstance::Mouse_Pressing(DIMB eMouse)
+{
+	return m_pInput_Device->Mouse_Pressing(eMouse);
+}
+
+_bool CGameInstance::Mouse_Up(DIMB eMouse)
+{
+	return m_pInput_Device->Mouse_Up(eMouse);
+}
+
+_bool CGameInstance::Mouse_Down(DIMB eMouse)
+{
+	return m_pInput_Device->Mouse_Down(eMouse);
 }
 
 _long CGameInstance::Get_DIMouseMove(DIMM eMouseState)
 {
 	return m_pInput_Device->Get_DIMouseMove(eMouseState);
+}
+const POINT CGameInstance::Get_MouseClientPos()
+{
+	return m_pInput_Device->Get_MouseClientPos();
 }
 #pragma endregion
 

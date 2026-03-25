@@ -4,8 +4,67 @@ Engine::CInput_Device::CInput_Device(void)
 {
 }
 
+_bool CInput_Device::Key_Pressing(_ubyte byKeyID)
+{
+	return m_byCurKeyState[byKeyID] & 0x80;
+}
+
+_bool CInput_Device::Key_Up(_ubyte byKeyID)
+{
+	if (!(m_byCurKeyState[byKeyID] & 0x80) && m_byPreKeyState[byKeyID] & 0x80)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+_bool CInput_Device::Key_Down(_ubyte byKeyID)
+{
+	if (m_byCurKeyState[byKeyID] & 0x80 && !(m_byPreKeyState[byKeyID] & 0x80))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+_bool CInput_Device::Mouse_Pressing(DIMB eMouse)
+{
+	return m_tCurMouseState.rgbButtons[static_cast<_uint>(eMouse)] & 0x80;
+}
+
+_bool CInput_Device::Mouse_Up(DIMB eMouse)
+{
+	if (!(m_tCurMouseState.rgbButtons[static_cast<_uint>(eMouse)] & 0x80) &&
+		m_tPreMouseState.rgbButtons[static_cast<_uint>(eMouse)] & 0x80)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+_bool CInput_Device::Mouse_Down(DIMB eMouse)
+{
+	if (m_tCurMouseState.rgbButtons[static_cast<_uint>(eMouse)] & 0x80 &&
+		!(m_tPreMouseState.rgbButtons[static_cast<_uint>(eMouse)] & 0x80))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+_long CInput_Device::Get_DIMouseMove(DIMM eMouseState)
+{
+	return *((reinterpret_cast<_long*>(&m_tCurMouseState)) + static_cast<_uint>(eMouseState));
+}
+
 HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
 {
+	m_hWnd = hWnd;
+
 	// DInput 컴객체를 생성하는 함수
 	if (FAILED(DirectInput8Create(
 		hInst,
@@ -61,18 +120,29 @@ HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
 
 void Engine::CInput_Device::Update(void)
 {
+	memcpy(&m_byPreKeyState, &m_byCurKeyState, sizeof(m_byCurKeyState));
+	memcpy(&m_tPreMouseState, &m_tCurMouseState, sizeof(m_tCurMouseState));
+
 	// 입력 장치의 현재 상태를 한 번 읽어오는 함수
-	if (FAILED(m_pKeyBoard->GetDeviceState(256, m_byKeyState)))
+	if (FAILED(m_pKeyBoard->GetDeviceState(256, m_byCurKeyState)))
 	{
 		m_pKeyBoard->Acquire();
-		m_pKeyBoard->GetDeviceState(256, m_byKeyState);
+		m_pKeyBoard->GetDeviceState(256, m_byCurKeyState);
 	}
 
-	if (FAILED(m_pMouse->GetDeviceState(sizeof(m_tMouseState), &m_tMouseState)))
+	if (FAILED(m_pMouse->GetDeviceState(sizeof(m_tCurMouseState), &m_tCurMouseState)))
 	{
 		m_pMouse->Acquire();
-		m_pMouse->GetDeviceState(sizeof(m_tMouseState), &m_tMouseState);
+		m_pMouse->GetDeviceState(sizeof(m_tCurMouseState), &m_tCurMouseState);
 	}
+
+	GetCursorPos(&m_ptMouse);
+	ScreenToClient(m_hWnd, &m_ptMouse);
+}
+
+const POINT CInput_Device::Get_MouseClientPos()
+{
+	return m_ptMouse;
 }
 
 CInput_Device* CInput_Device::Create(HINSTANCE hInstance, HWND hWnd)

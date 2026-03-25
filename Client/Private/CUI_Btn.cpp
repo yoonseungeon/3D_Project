@@ -58,6 +58,16 @@ HRESULT CUI_Btn::Render()
     return S_OK;
 }
 
+CUI_Btn::BTN_STATE CUI_Btn::Check_BtnState()
+{
+    POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
+    if (PtInRect(&m_rcBtnRange, ptMouse)){
+        //m_pGameInstance->Get_DIMouseState(DIMB::LBUTTON);
+    }
+    
+    return CUI_Btn::NORMAL;
+}
+
 void CUI_Btn::Free()
 {
     __super::Free();

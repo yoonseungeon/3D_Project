@@ -24,7 +24,7 @@ HRESULT CLevel_Lobby::Initialize()
 
 void CLevel_Lobby::Update(_float fTimeDelta)
 {
-    if (m_pGameInstance->Get_DIKeyState(DIK_RETURN) & 0x80)
+    if (m_pGameInstance->Key_Down(DIK_RETURN))
     {
         CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::GAMEPLAY);
 
