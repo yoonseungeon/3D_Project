@@ -5,6 +5,8 @@
 
 NS_BEGIN(Client)
 
+class CStage;
+
 class CLevel_Lobby : public CLevel
 {
 private:
@@ -16,10 +18,17 @@ public:
 	virtual void	Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
-	HRESULT Ready_Layer_Deco(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Btn(const _wstring& strLayerTag);
+	HRESULT Change_Stage(STAGE eNewStage);
 
+private:
+	void Update_Stage();
+
+private:
+	HRESULT Ready_Lobby();
+	CStage* m_Stages[ETOUI(STAGE::STAGE_END)]{};
+
+	STAGE m_eCurStage{};
+	STAGE m_ePreStage{};
 
 public:
 	static CLevel_Lobby* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

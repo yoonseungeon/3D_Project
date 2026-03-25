@@ -3,8 +3,8 @@
 #include "CLevel_Loading.h"
 #include "CGameInstance.h"
 
-#include "CUI_AniImage.h"
-#include "CUI_Btn.h"
+#include "CStage_Lobby.h"
+#include "CStage_Select.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -13,10 +13,7 @@ CLevel_Lobby::CLevel_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Lobby::Initialize()
 {
-    if (FAILED(Ready_Layer_Deco(TEXT("Layer_Deco"))))
-        return E_FAIL;
-
-    if (FAILED(Ready_Layer_Btn(TEXT("Layer_Btn"))))
+    if(FAILED(Ready_Lobby()))
         return E_FAIL;
 
     return S_OK;
@@ -24,6 +21,8 @@ HRESULT CLevel_Lobby::Initialize()
 
 void CLevel_Lobby::Update(_float fTimeDelta)
 {
+    Update_Stage();
+
     if (m_pGameInstance->Key_Down(DIK_RETURN))
     {
         CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::GAMEPLAY);
@@ -44,52 +43,68 @@ HRESULT CLevel_Lobby::Render()
     return S_OK;
 }
 
-HRESULT CLevel_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
+HRESULT CLevel_Lobby::Change_Stage(STAGE eNewStage)
 {
+    if (eNewStage >= STAGE::STAGE_END) {
+        return E_FAIL;
+    }
 
-    CUI_AniImage::CUI_ANIIMAGE_DESC Desc{};
-
-    Desc.fScaleRatioX = 1.1f;
-    Desc.fScaleRatioY = 1.1f;
-    Desc.fPosRatioX = 0.f;
-    Desc.fPosRatioY = 0.f;
-    Desc.iFlipX = false;
-    Desc.iFlipY = false;
-    Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
-
-    Desc.eTexPrototypeLV = LEVEL::LOBBY;
-    Desc.eBlendState = CUI_Default::DEFAULT;
-    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbyAni";
-
-    Desc.fFrameDelay = 0.0166f;
-
- /*   if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
-        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
-        return E_FAIL;*/
+    m_eCurStage = eNewStage;
 
     return S_OK;
 }
 
-HRESULT CLevel_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
+void CLevel_Lobby::Update_Stage()
 {
-    CUI_Btn::CUI_BTN_DESC Desc{};
+    if (m_eCurStage != m_ePreStage) {
 
-    Desc.fScaleRatioX = 0.2f;
-    Desc.fScaleRatioY = 0.07f;
-    Desc.fPosRatioX = -0.35f;
-    Desc.fPosRatioY = 0.27f;
-    Desc.iUILayer = ETOUI(UILAYER::BUTTON);
+        const _uint iCurStage = ETOUI(m_eCurStage);
+        const _uint iPreStage = ETOUI(m_ePreStage);
 
-    Desc.eTexPrototypeLV = LEVEL::LOBBY;
-    Desc.eBlendState = CUI_Default::ALPHABLEDN_GAUGE;
-    Desc.wstrTexturePrototypeTag = TEXT("Prototype_Texture_LobbyTabBtnOrange");
-    Desc.funcCallBack = []()->void {
-        MSG_BOX("Btn Clicked");
-    };
+        m_Stages[iPreStage]->Disable_Stage();
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
-        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
-        return E_FAIL;
+        if (m_Stages[iCurStage] == nullptr) {
+
+            switch (m_eCurStage) {
+            case STAGE::LOBBY: {
+                m_Stages[iCurStage] = CStage_Lobby::Create(m_pDevice, m_pContext,
+                    [this](STAGE eStage)->void {
+                    if (FAILED(Change_Stage(eStage)))
+                    {
+                        MSG_BOX("Failed to Changed: Stage");
+                    }
+                });
+                break;
+            }
+            case STAGE::SELECT: {
+                m_Stages[iCurStage] = CStage_Select::Create(m_pDevice, m_pContext,
+                    [this](STAGE eStage)->void {
+                    if (FAILED(Change_Stage(eStage)))
+                    {
+                        MSG_BOX("Failed to Changed: Stage");
+                    }
+                });
+                break;
+            }
+            }
+        }
+        m_Stages[iCurStage]->Enable_Stage();
+
+        m_ePreStage = m_eCurStage;
+    }
+}
+
+HRESULT CLevel_Lobby::Ready_Lobby()
+{
+    m_Stages[ETOUI(STAGE::LOBBY)] = CStage_Lobby::Create(m_pDevice, m_pContext,
+        [this](STAGE eStage)->void {
+        if (FAILED(Change_Stage(eStage)))
+        {
+            MSG_BOX("Failed to Changed: Stage");
+        }
+    });
+    m_eCurStage = STAGE::LOBBY;
+    m_ePreStage = STAGE::LOBBY;
 
     return S_OK;
 }
@@ -109,5 +124,9 @@ CLevel_Lobby* CLevel_Lobby::Create(ID3D11Device* pDevice, ID3D11DeviceContext* p
 
 void CLevel_Lobby::Free()
 {
+    for (auto pStage : m_Stages) {
+        Safe_Release(pStage);
+    }
+
     __super::Free();
 }

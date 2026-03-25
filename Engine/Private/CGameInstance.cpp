@@ -240,6 +240,7 @@ _long CGameInstance::Get_DIMouseMove(DIMM eMouseState)
 {
 	return m_pInput_Device->Get_DIMouseMove(eMouseState);
 }
+
 const POINT CGameInstance::Get_MouseClientPos()
 {
 	return m_pInput_Device->Get_MouseClientPos();

@@ -37,7 +37,7 @@ public:
 
 protected:
 	void Update_BtnState();
-	void BtnClick();
+	virtual void BtnClick();
 
 protected:
 	RECT m_rcBtnRange{};

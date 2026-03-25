@@ -73,6 +73,15 @@
     <Filter Include="02. GameObject\99. UI_Default\01. UI_Btn\CLobbyTabBtn">
       <UniqueIdentifier>{ea61d873-5726-4037-9a9d-b60fa743d41c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Levels\02. Lobby\Stage">
+      <UniqueIdentifier>{3f377586-f87a-4363-9655-9ee0c7d7b2e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\02. Lobby\Stage\00. Stage_Lobby">
+      <UniqueIdentifier>{ca3fd546-62b2-497b-9ef4-cdbacf3296cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\02. Lobby\Stage\01. Stage_Select">
+      <UniqueIdentifier>{d7499cef-b30e-44c0-9b3e-ff4dbb9333b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -131,6 +140,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\CUI_Default.h">
       <Filter>02. GameObject\99. UI_Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CStage.h">
+      <Filter>01. Levels\02. Lobby\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CStage_Lobby.h">
+      <Filter>01. Levels\02. Lobby\Stage\00. Stage_Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CStage_Select.h">
+      <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +209,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_Default.cpp">
       <Filter>02. GameObject\99. UI_Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CStage.cpp">
+      <Filter>01. Levels\02. Lobby\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CStage_Lobby.cpp">
+      <Filter>01. Levels\02. Lobby\Stage\00. Stage_Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CStage_Select.cpp">
+      <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

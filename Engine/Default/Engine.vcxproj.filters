@@ -10,12 +10,6 @@
     <Filter Include="00. GameInstance">
       <UniqueIdentifier>{b4db6d92-1252-4268-8c47-bce21ee5e860}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Device">
-      <UniqueIdentifier>{a783a4d1-1015-41bf-8ffa-111ec3ab3dfe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Device\00. Graphic">
-      <UniqueIdentifier>{d851d398-b945-424f-b51d-c5a1f4ab0928}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Timers">
       <UniqueIdentifier>{18126364-22de-4c17-85f4-7bd66248410b}</UniqueIdentifier>
     </Filter>
@@ -75,6 +69,12 @@
     </Filter>
     <Filter Include="08. Pipeline">
       <UniqueIdentifier>{c3c32e99-04ac-491f-a60a-8497d1d82cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Device">
+      <UniqueIdentifier>{a783a4d1-1015-41bf-8ffa-111ec3ab3dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Device\00. Graphic">
+      <UniqueIdentifier>{d851d398-b945-424f-b51d-c5a1f4ab0928}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Device\01. Input">
       <UniqueIdentifier>{6ae9f353-08d4-429e-8afa-d6fe836260f2}</UniqueIdentifier>

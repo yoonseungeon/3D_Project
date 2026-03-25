@@ -26,6 +26,9 @@ HRESULT CLobbyTabBtn::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
+    m_funcLobbyCallBack = pDesc->funcLobbyCallBack;
+    m_eNextStage = pDesc->eNextStage;
+
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
@@ -144,6 +147,11 @@ HRESULT CLobbyTabBtn::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_UVFillX", &m_fFillX, sizeof(m_fFillX));
     m_pShaderCom->Bind_RawValue("g_UVFillCenterY", &m_fFillCenterY, sizeof(m_fFillCenterY));
     return S_OK;
+}
+
+void CLobbyTabBtn::BtnClick()
+{
+    m_funcLobbyCallBack(m_eNextStage);
 }
 
 CLobbyTabBtn* CLobbyTabBtn::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

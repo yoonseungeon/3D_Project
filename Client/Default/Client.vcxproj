@@ -154,6 +154,9 @@
   <ItemGroup>
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
+    <ClInclude Include="..\Public\CStage.h" />
+    <ClInclude Include="..\Public\CStage_Lobby.h" />
+    <ClInclude Include="..\Public\CStage_Select.h" />
     <ClInclude Include="..\Public\CUI_Btn.h" />
     <ClInclude Include="..\Public\CUI_AniImage.h" />
     <ClInclude Include="..\Public\CUI_Default.h" />
@@ -175,6 +178,9 @@
   <ItemGroup>
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
+    <ClCompile Include="..\Private\CStage.cpp" />
+    <ClCompile Include="..\Private\CStage_Lobby.cpp" />
+    <ClCompile Include="..\Private\CStage_Select.cpp" />
     <ClCompile Include="..\Private\CUI_Btn.cpp" />
     <ClCompile Include="..\Private\CUI_AniImage.cpp" />
     <ClCompile Include="..\Private\CUI_Default.cpp" />

@@ -16,6 +16,8 @@ class CLobbyTabBtn final : public CUI_Btn
 public:
 	struct CLOBBY_TAB_BTN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
+		function<void(STAGE)> funcLobbyCallBack{};
+		STAGE eNextStage{};
 	};
 
 protected:
@@ -34,6 +36,7 @@ public:
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
+	virtual void BtnClick() override;
 
 private:
 	CShader* m_pShaderCom{ nullptr };
@@ -42,6 +45,8 @@ private:
 
 	_float m_fFillX{ 0.f };
 	_float m_fFillCenterY{ 0.f };
+	function<void(STAGE)> m_funcLobbyCallBack{};
+	STAGE m_eNextStage{};
 
 public:
 	static CLobbyTabBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
