@@ -41,6 +41,10 @@ void CLobbyTabBtn::Priority_Update(_float fTimeDelta)
 
 void CLobbyTabBtn::Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true) {
+        return;
+    }
+
     Update_BtnState();
 
     const _float fSpeed = 15.f;
@@ -84,7 +88,7 @@ void CLobbyTabBtn::Update(_float fTimeDelta)
 
 void CLobbyTabBtn::Late_Update(_float fTimeDelta)
 {
-    if (m_bIsInvisible == true) {
+    if (m_bIsInactive == true) {
         return;
     }
 

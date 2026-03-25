@@ -12,10 +12,12 @@ CStage_Lobby::CStage_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 void CStage_Lobby::Enable_Stage()
 {
+    __super::Enable_Stage();
 }
 
 void CStage_Lobby::Disable_Stage()
 {
+    __super::Disable_Stage();
 }
 
 HRESULT CStage_Lobby::Initialize(function<void(STAGE)> funcBtnCallBack)
@@ -33,6 +35,7 @@ HRESULT CStage_Lobby::Initialize(function<void(STAGE)> funcBtnCallBack)
 
 HRESULT CStage_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
 {
+    CGameObject* pObj{ nullptr };
 
     CUI_AniImage::CUI_ANIIMAGE_DESC Desc{};
 
@@ -51,14 +54,18 @@ HRESULT CStage_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.fFrameDelay = 0.0166f;
 
     //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
-    //    ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
+    //    ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
     //    return E_FAIL;
+
+    //m_vecGameObjects.push_back(pObj);
 
     return S_OK;
 }
 
 HRESULT CStage_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
 {
+    CGameObject* pObj{nullptr};
+
     CLobbyTabBtn::CLOBBY_TAB_BTN_DESC Desc{};
 
     Desc.fScaleRatioX = 0.2f;
@@ -74,12 +81,13 @@ HRESULT CStage_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
     Desc.eNextStage = STAGE::SELECT;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
-        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
         return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
 
     return S_OK;
 }
-
 
 CStage_Lobby* CStage_Lobby::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, function<void(STAGE)> funcBtnCallBack)
 {

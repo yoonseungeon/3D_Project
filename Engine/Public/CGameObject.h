@@ -12,7 +12,7 @@ public:
 	struct GAMEOBJECT_DESC
 	{
 		CTransform::TRANSFORM_DESC tTransformDesc = {};
-		_bool bIsInvisible{};
+		_bool bIsInactive{};
 	};
 
 protected:
@@ -32,7 +32,7 @@ public:
 	virtual HRESULT Render();
 
 public:
-	void Set_IsInvisible(_bool bIsInvisible) { m_bIsInvisible = bIsInvisible; }
+	void Set_IsInactive(_bool bIsInactive) { m_bIsInactive = bIsInactive; }
 
 protected:
 	ID3D11Device*									m_pDevice{ nullptr };
@@ -43,7 +43,7 @@ protected:
 	map<const _wstring, class CComponent*>			m_Components;
 	CTransform*										m_pTransformCom{ nullptr };
 
-	_bool											m_bIsInvisible{};
+	_bool											m_bIsInactive{};
 
 protected:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag,

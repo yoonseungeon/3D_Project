@@ -13,6 +13,20 @@ CStage::CStage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     Safe_AddRef(m_pGameInstance);
 }
 
+void CStage::Enable_Stage()
+{
+    for (auto pObj : m_vecGameObjects) {
+        pObj->Set_IsInactive(false);
+    }
+}
+
+void CStage::Disable_Stage()
+{
+    for (auto pObj : m_vecGameObjects) {
+        pObj->Set_IsInactive(true);
+    }
+}
+
 void CStage::Free()
 {
     for (auto pObj : m_vecGameObjects) {

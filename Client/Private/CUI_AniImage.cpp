@@ -42,12 +42,16 @@ void CUI_AniImage::Priority_Update(_float fTimeDelta)
 
 void CUI_AniImage::Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true) {
+        return;
+    }
+
     Animation(fTimeDelta);
 }
 
 void CUI_AniImage::Late_Update(_float fTimeDelta)
 {
-    if (m_bIsInvisible == true) {
+    if (m_bIsInactive == true) {
         return;
     }
 

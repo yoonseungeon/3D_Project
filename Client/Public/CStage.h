@@ -17,8 +17,8 @@ protected:
 	virtual ~CStage() = default;
 
 public:
-	virtual void Enable_Stage() = 0;
-	virtual void Disable_Stage() = 0;
+	virtual void Enable_Stage();
+	virtual void Disable_Stage();
 
 protected:
 	virtual HRESULT Initialize(function<void(STAGE)> funcBtnCallBack) = 0;

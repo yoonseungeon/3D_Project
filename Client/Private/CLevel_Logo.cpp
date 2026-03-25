@@ -33,7 +33,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
         {
             if (m_fAccTime >= fEndTime)
             {
-                pFadeImage->Set_IsInvisible(true);
+                pFadeImage->Set_IsInactive(true);
             }
             else if (m_fAccTime >= fDecreaseAlphaTime)
             {
@@ -41,7 +41,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
             }
             else if (m_fAccTime >= fIncreaseAlphaTime)
             {
-                pFadeImage->Set_IsInvisible(false);
+                pFadeImage->Set_IsInactive(false);
                 pFadeImage->Add_Alpha(fTimeDelta * fSpeed);
             }
         }
@@ -91,7 +91,7 @@ HRESULT CLevel_Logo::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_NimbleNeuron";
 
     Desc.fImageAlpha = 0.f;
-    Desc.bIsInvisible = true;
+    Desc.bIsInactive = true;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
         ETOUI(LEVEL::LOGO), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pImage))))

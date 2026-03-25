@@ -12,10 +12,12 @@ CStage_Select::CStage_Select(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 void CStage_Select::Enable_Stage()
 {
+    __super::Enable_Stage();
 }
 
 void CStage_Select::Disable_Stage()
 {
+    __super::Disable_Stage();
 }
 
 HRESULT CStage_Select::Initialize(function<void(STAGE)> funcBtnCallBack)
@@ -33,6 +35,8 @@ HRESULT CStage_Select::Initialize(function<void(STAGE)> funcBtnCallBack)
 
 HRESULT CStage_Select::Ready_Layer_Deco(const _wstring& strLayerTag)
 { 
+    CGameObject* pObj{ nullptr };
+
     CUI_Image::CUI_IMAGE_DESC Desc{};
 
     Desc.fScaleRatioX = 1.1f;
@@ -48,8 +52,10 @@ HRESULT CStage_Select::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Select_BG";
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
         return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
 
     return S_OK;
 }
