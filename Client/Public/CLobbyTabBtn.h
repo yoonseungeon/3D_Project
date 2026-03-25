@@ -40,6 +40,9 @@ private:
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
 	CTexture* m_pTextureCom{ nullptr };
 
+	_float m_fFillX{ 0.f };
+	_float m_fFillCenterY{ 0.f };
+
 public:
 	static CLobbyTabBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

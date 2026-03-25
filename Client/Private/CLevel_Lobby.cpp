@@ -58,7 +58,7 @@ HRESULT CLevel_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
-    Desc.eBlendState = CUI_Default::BS_DEFAULT;
+    Desc.eBlendState = CUI_Default::DEFAULT;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbyAni";
 
     Desc.fFrameDelay = 0.0166f;
@@ -74,15 +74,18 @@ HRESULT CLevel_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
 {
     CUI_Btn::CUI_BTN_DESC Desc{};
 
-    Desc.fScaleRatioX = 0.1f;
-    Desc.fScaleRatioY = 0.04f;
-    Desc.fPosRatioX = -0.42f;
+    Desc.fScaleRatioX = 0.2f;
+    Desc.fScaleRatioY = 0.07f;
+    Desc.fPosRatioX = -0.35f;
     Desc.fPosRatioY = 0.27f;
     Desc.iUILayer = ETOUI(UILAYER::BUTTON);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
-    Desc.eBlendState = CUI_Default::BS_ALPHABLEND;
+    Desc.eBlendState = CUI_Default::ALPHABLEDN_GAUGE;
     Desc.wstrTexturePrototypeTag = TEXT("Prototype_Texture_LobbyTabBtnOrange");
+    Desc.funcCallBack = []()->void {
+        MSG_BOX("Btn Clicked");
+    };
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
         ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))

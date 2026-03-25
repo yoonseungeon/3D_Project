@@ -93,7 +93,7 @@ HRESULT CLevel_Loading::Ready_Layer_Deco(const _wstring& strLayerTag)
         Desc.fPosRatioX = 0.f;
         Desc.fPosRatioY = 0.07f;
         Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Simbol";
-        Desc.eBlendState = CUI_Default::BS_ALPHABLEND;
+        Desc.eBlendState = CUI_Default::ALPHABLEND;
         Desc.iFlipX = false;
         Desc.iFlipY = false;
 
@@ -138,7 +138,7 @@ HRESULT CLevel_Loading::Ready_Layer_Deco(const _wstring& strLayerTag)
         Desc.fPosRatioX = 0.f;
         Desc.fPosRatioY = 0.f;
         Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_Loading";
-        Desc.eBlendState = CUI_Default::BS_DEFAULT;
+        Desc.eBlendState = CUI_Default::DEFAULT;
         Desc.iFlipX = false;
         Desc.iFlipY = false;
 

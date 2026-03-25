@@ -26,6 +26,8 @@ HRESULT CUI_Btn::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
+    m_funcCallBack = pDesc->funcCallBack;
+
     _float fCenterX = (pDesc->fPosRatioX + 0.5f) * static_cast<_float>(g_iWinSizeX);
     _float fCenterY = -(pDesc->fPosRatioY - 0.5f) * static_cast<_float>(g_iWinSizeY);
 
@@ -58,14 +60,38 @@ HRESULT CUI_Btn::Render()
     return S_OK;
 }
 
-CUI_Btn::BTN_STATE CUI_Btn::Check_BtnState()
+void CUI_Btn::Update_BtnState()
 {
     POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
     if (PtInRect(&m_rcBtnRange, ptMouse)){
-        //m_pGameInstance->Get_DIMouseState(DIMB::LBUTTON);
+        if (m_bPressedInBtn && m_pGameInstance->Mouse_Up(DIMB::LBUTTON))
+        {
+            m_bPressedInBtn = false;
+            m_eCurBtnState = CUI_Btn::CLICKED;
+            return;
+        }
+
+        if (m_bPressedInBtn || m_pGameInstance->Mouse_Down(DIMB::LBUTTON))
+        {
+            m_bPressedInBtn = true;
+            m_eCurBtnState = CUI_Btn::PRESSED;
+            return;
+        }
+
+        m_eCurBtnState = CUI_Btn::HOVER;
+        return;
     }
     
-    return CUI_Btn::NORMAL;
+    if (m_bPressedInBtn)
+    {
+    m_bPressedInBtn = false;
+    }
+    m_eCurBtnState = CUI_Btn::NORMAL;
+}
+
+void CUI_Btn::BtnClick()
+{
+    m_funcCallBack();
 }
 
 void CUI_Btn::Free()

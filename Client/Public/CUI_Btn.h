@@ -13,10 +13,13 @@ NS_BEGIN(Client)
 
 class CUI_Btn abstract : public CUI_Default
 {
-	enum BTN_STATE { NORMAL, HOVER, PRESSED };
+protected:
+	enum BTN_STATE { NORMAL, HOVER, PRESSED, CLICKED };
+
 public:
 	struct CUI_BTN_DESC : public CUI_Default::CUI_DEFAULT
 	{
+		function<void()> funcCallBack{ nullptr };
 	};
 
 protected:
@@ -33,11 +36,15 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
-	BTN_STATE Check_BtnState();
+	void Update_BtnState();
+	void BtnClick();
 
 protected:
 	RECT m_rcBtnRange{};
-	BTN_STATE m_BtnState{};
+	BTN_STATE m_eCurBtnState{};
+	_bool m_bPressedInBtn{};
+
+	function<void()> m_funcCallBack{nullptr};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

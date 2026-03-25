@@ -3,6 +3,9 @@ Texture2D g_Texture;
 int g_FlipX = { false }, g_FlipY = { false };
 float g_Alpha = { 1 };
 
+float g_UVFillX = { 1.f };
+float g_UVFillCenterY = { 0.5f };
+
 SamplerState DefaultSampler
 {
     Filter = min_mag_mip_linear;
@@ -93,10 +96,45 @@ PS_OUT PS_MAIN_ALPHATEST(PS_IN In)
         In.vTexcoord.x = -In.vTexcoord.x + 1.f;
     }
     
+    if (g_FlipY == 1)
+    {
+        In.vTexcoord.y = -In.vTexcoord.y + 1.f;
+    }
+    
     Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
     
     if (Out.vColor.a < 0.1f)
         discard;
+    
+    return Out;
+}
+
+PS_OUT PS_MAIN_UIGAUGE(PS_IN In)
+{
+    PS_OUT Out;
+            
+    if (g_UVFillX < In.vTexcoord.x)
+    {
+        discard;
+    }
+    
+    if (g_UVFillCenterY < abs(In.vTexcoord.y - 0.5f))
+    {
+        discard;
+    }
+    
+    if (g_FlipX == 1)
+    {
+        In.vTexcoord.x = -In.vTexcoord.x + 1.f;
+    }
+    
+    if (g_FlipY == 1)
+    {
+        In.vTexcoord.y = -In.vTexcoord.y + 1.f;
+    }
+
+    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    Out.vColor.a *= g_Alpha;
     
     return Out;
 }
@@ -122,5 +160,12 @@ technique11 DefaultTechnique
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
+    }
+
+    pass AlphaBlend_Gauge
+    {
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_UIGAUGE()));
     }
 }

@@ -38,6 +38,45 @@ void CLobbyTabBtn::Priority_Update(_float fTimeDelta)
 
 void CLobbyTabBtn::Update(_float fTimeDelta)
 {
+    Update_BtnState();
+
+    const _float fSpeed = 15.f;
+    const _float fMaxFillX = 1.f;
+    const _float fMaxFillCenterY = 0.5f;
+
+    if (m_eCurBtnState == BTN_STATE::NORMAL) {
+        m_fFillX -= fTimeDelta * fSpeed;
+        m_fFillCenterY -= fTimeDelta * fSpeed;
+
+        if (m_fFillX < 0.f) {
+            m_fFillX = 0.f;
+        }
+
+        if (m_fFillCenterY < 0.f) {
+            m_fFillCenterY = 0.f;
+        }
+    }
+    else if (m_eCurBtnState == BTN_STATE::HOVER) {
+        m_fFillX += fTimeDelta * fSpeed;
+        m_fFillCenterY += fTimeDelta * fSpeed;
+
+        if (m_fFillX > fMaxFillX) {
+            m_fFillX = fMaxFillX;
+        }
+
+        if (m_fFillCenterY > fMaxFillCenterY) {
+            m_fFillCenterY = fMaxFillCenterY;
+        }
+    }
+    else if (m_eCurBtnState == BTN_STATE::PRESSED) {
+        m_fFillX = 0.f;
+        m_fFillCenterY = 0.f;
+    }
+    else if (m_eCurBtnState == BTN_STATE::CLICKED) {
+        m_fFillX = 0.f;
+        m_fFillCenterY = 0.f;
+        BtnClick();
+    }
 }
 
 void CLobbyTabBtn::Late_Update(_float fTimeDelta)
@@ -102,7 +141,8 @@ HRESULT CLobbyTabBtn::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
     m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
-
+    m_pShaderCom->Bind_RawValue("g_UVFillX", &m_fFillX, sizeof(m_fFillX));
+    m_pShaderCom->Bind_RawValue("g_UVFillCenterY", &m_fFillCenterY, sizeof(m_fFillCenterY));
     return S_OK;
 }
 
