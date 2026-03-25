@@ -24,6 +24,9 @@ HRESULT CUI_AniImage::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
+    if (FAILED(Ready_Components()))
+        return E_FAIL;
+
     m_fFrameDelay = pDesc->fFrameDelay;
 
     if (m_pTextureCom != nullptr) {

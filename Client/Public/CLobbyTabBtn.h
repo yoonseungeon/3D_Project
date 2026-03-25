@@ -1,23 +1,27 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "CUI_Image.h"
+#include "CUI_Btn.h"
+
+NS_BEGIN(Engine)
+class CShader;
+class CVIBuffer_Rect;
+class CTexture;
+NS_END
 
 NS_BEGIN(Client)
 
-class CUI_AniImage final : public CUI_Image
+class CLobbyTabBtn final : public CUI_Btn
 {
-
 public:
-	struct CUI_ANIIMAGE_DESC : public CUI_Image::CUI_IMAGE_DESC
+	struct CLOBBY_TAB_BTN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
-		_float fFrameDelay{};
 	};
 
 protected:
-	CUI_AniImage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CUI_AniImage(const CUI_AniImage& Prototype);
-	virtual ~CUI_AniImage() = default;
+	CLobbyTabBtn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CLobbyTabBtn(const CLobbyTabBtn& Prototype);
+	virtual ~CLobbyTabBtn() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -28,19 +32,16 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	_uint	m_iMaxTextureCnt{};
-	_uint	m_iCurTextureIdx{};
-	_float	m_fFrameDelay{};
-	_float	m_fAccTime{};
-
-private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
-	void Animation(_float fTimeDelta);
+private:
+	CShader* m_pShaderCom{ nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
+	CTexture* m_pTextureCom{ nullptr };
 
 public:
-	static CUI_AniImage* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CLobbyTabBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free() override;

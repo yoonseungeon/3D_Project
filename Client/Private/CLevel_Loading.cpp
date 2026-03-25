@@ -23,7 +23,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
     if (m_pLoader == nullptr)
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_CUI_Image(TEXT("Layer_CUI_Image"))))
+    if (FAILED(Ready_Layer_Deco(TEXT("Layer_Deco"))))
         return E_FAIL;
 
     return S_OK;
@@ -31,7 +31,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 
 void CLevel_Loading::Update(_float fTimeDelta)
 {
-    if (/*GetKeyState(VK_SPACE) & 0x8000 && */m_pLoader->isFinished() == true)
+    if (m_pLoader->isFinished() == true)
     {
         CLevel* pNextLevel = { nullptr };
 
@@ -73,7 +73,7 @@ HRESULT CLevel_Loading::Render()
     return S_OK;
 }
 
-HRESULT CLevel_Loading::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
+HRESULT CLevel_Loading::Ready_Layer_Deco(const _wstring& strLayerTag)
 {
     CUI_Image::CUI_IMAGE_DESC Desc{};
 
@@ -93,7 +93,7 @@ HRESULT CLevel_Loading::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
         Desc.fPosRatioX = 0.f;
         Desc.fPosRatioY = 0.07f;
         Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Simbol";
-        Desc.eBlendState = CUI_Image::BS_ALPHABLEND;
+        Desc.eBlendState = CUI_Default::BS_ALPHABLEND;
         Desc.iFlipX = false;
         Desc.iFlipY = false;
 
@@ -138,7 +138,7 @@ HRESULT CLevel_Loading::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
         Desc.fPosRatioX = 0.f;
         Desc.fPosRatioY = 0.f;
         Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_Loading";
-        Desc.eBlendState = CUI_Image::BS_DEFAULT;
+        Desc.eBlendState = CUI_Default::BS_DEFAULT;
         Desc.iFlipX = false;
         Desc.iFlipY = false;
 

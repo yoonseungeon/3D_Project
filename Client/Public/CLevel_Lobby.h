@@ -17,7 +17,8 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	HRESULT Ready_Layer_CUI_Image(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Deco(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Btn(const _wstring& strLayerTag);
 
 
 public:

@@ -153,7 +153,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\CCamera_Free.h" />
+    <ClInclude Include="..\Public\CLobbyTabBtn.h" />
+    <ClInclude Include="..\Public\CUI_Btn.h" />
     <ClInclude Include="..\Public\CUI_AniImage.h" />
+    <ClInclude Include="..\Public\CUI_Default.h" />
     <ClInclude Include="..\Public\CUI_Image.h" />
     <ClInclude Include="..\Public\CImGui_Manager.h" />
     <ClInclude Include="..\Public\CLevel_Ending.h" />
@@ -171,7 +174,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
+    <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
+    <ClCompile Include="..\Private\CUI_Btn.cpp" />
     <ClCompile Include="..\Private\CUI_AniImage.cpp" />
+    <ClCompile Include="..\Private\CUI_Default.cpp" />
     <ClCompile Include="..\Private\CUI_Image.cpp" />
     <ClCompile Include="..\Private\CImGui_Manager.cpp" />
     <ClCompile Include="..\Private\CLevel_Ending.cpp" />

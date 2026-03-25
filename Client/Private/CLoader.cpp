@@ -4,6 +4,7 @@
 #include "CGameInstance.h"
 #include "CCamera_Free.h"
 #include "CUI_AniImage.h"
+#include "CLobbyTabBtn.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -308,6 +309,47 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 1))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbyAni");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_LobbyTabBtnOrange */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_LobbyTabBtnOrange"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/LobbyTabBtnOrange.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbyTabBtnOrange");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_LobbyTabBtnBlue */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_LobbyTabBtnBlue"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/LobbyTabBtnBlue.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbyTabBtnBlue");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+#pragma region °´Ã¼ ¿øÇü
+    /* Prototype_GameObject_CLobbyTabBtn */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+                CLobbyTabBtn::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_CLobbyTabBtn");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

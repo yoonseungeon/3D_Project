@@ -11,17 +11,18 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CUI_Image : public CUI_Default
+class CUI_Btn abstract : public CUI_Default
 {
+	enum BTN_STATE { NORMAL, HOVER, PRESSED };
 public:
-	struct CUI_IMAGE_DESC : public CUI_Default::CUI_DEFAULT
+	struct CUI_BTN_DESC : public CUI_Default::CUI_DEFAULT
 	{
 	};
 
 protected:
-	CUI_Image(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CUI_Image(const CUI_Image& Prototype);
-	virtual ~CUI_Image() = default;
+	CUI_Btn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CUI_Btn(const CUI_Btn& Prototype);
+	virtual ~CUI_Btn() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -32,17 +33,11 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
-	CShader*		m_pShaderCom{ nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
-	CTexture*		m_pTextureCom{ nullptr };
-
-private:
-	HRESULT Ready_Components();
-	HRESULT Bind_ShaderResources();
+	RECT m_rcBtnRange{};
+	BTN_STATE m_BtnState{};
 
 public:
-	static CUI_Image* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	virtual CGameObject* Clone(void* pArg) override;
+	virtual CGameObject* Clone(void* pArg) = 0;
 protected:
 	virtual void Free() override;
 };

@@ -4,6 +4,7 @@
 #include "CGameInstance.h"
 
 #include "CUI_AniImage.h"
+#include "CUI_Btn.h"
 
 CLevel_Lobby::CLevel_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -12,7 +13,10 @@ CLevel_Lobby::CLevel_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Lobby::Initialize()
 {
-    if (FAILED(Ready_Layer_CUI_Image(TEXT("Layer_CUI_Image"))))
+    if (FAILED(Ready_Layer_Deco(TEXT("Layer_Deco"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_Btn(TEXT("Layer_Btn"))))
         return E_FAIL;
 
     return S_OK;
@@ -40,7 +44,7 @@ HRESULT CLevel_Lobby::Render()
     return S_OK;
 }
 
-HRESULT CLevel_Lobby::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
+HRESULT CLevel_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
 {
 
     CUI_AniImage::CUI_ANIIMAGE_DESC Desc{};
@@ -54,12 +58,33 @@ HRESULT CLevel_Lobby::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
     Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
-    Desc.eBlendState = CUI_Image::BS_DEFAULT;
+    Desc.eBlendState = CUI_Default::BS_DEFAULT;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbyAni";
 
     Desc.fFrameDelay = 0.0166f;
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
+ /*   if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
+        return E_FAIL;*/
+
+    return S_OK;
+}
+
+HRESULT CLevel_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
+{
+    CUI_Btn::CUI_BTN_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.1f;
+    Desc.fScaleRatioY = 0.04f;
+    Desc.fPosRatioX = -0.42f;
+    Desc.fPosRatioY = 0.27f;
+    Desc.iUILayer = ETOUI(UILAYER::BUTTON);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::BS_ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = TEXT("Prototype_Texture_LobbyTabBtnOrange");
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
         ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
         return E_FAIL;
 

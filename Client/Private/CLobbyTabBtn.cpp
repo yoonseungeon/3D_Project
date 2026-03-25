@@ -1,27 +1,27 @@
-#include "CUI_Image.h"
+#include "CLobbyTabBtn.h"
 
 #include "CGameInstance.h"
 
-CUI_Image::CUI_Image(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-    : CUI_Default{ pDevice, pContext }
+CLobbyTabBtn::CLobbyTabBtn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+    : CUI_Btn{ pDevice, pContext }
 {
 
 }
 
-CUI_Image::CUI_Image(const CUI_Image& Prototype)
-    : CUI_Default{ Prototype }
+CLobbyTabBtn::CLobbyTabBtn(const CLobbyTabBtn& Prototype)
+    : CUI_Btn{ Prototype }
 {
 
 }
 
-HRESULT CUI_Image::Initialize_Prototype()
+HRESULT CLobbyTabBtn::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CUI_Image::Initialize(void* pArg)
+HRESULT CLobbyTabBtn::Initialize(void* pArg)
 {
-    CUI_IMAGE_DESC* pDesc = static_cast<CUI_IMAGE_DESC*>(pArg);
+    CLOBBY_TAB_BTN_DESC* pDesc = static_cast<CLOBBY_TAB_BTN_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
@@ -32,15 +32,15 @@ HRESULT CUI_Image::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_Image::Priority_Update(_float fTimeDelta)
+void CLobbyTabBtn::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_Image::Update(_float fTimeDelta)
+void CLobbyTabBtn::Update(_float fTimeDelta)
 {
 }
 
-void CUI_Image::Late_Update(_float fTimeDelta)
+void CLobbyTabBtn::Late_Update(_float fTimeDelta)
 {
     if (m_bIsInvisible == true) {
         return;
@@ -49,12 +49,12 @@ void CUI_Image::Late_Update(_float fTimeDelta)
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
-HRESULT CUI_Image::Render()
+HRESULT CLobbyTabBtn::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Begin(ETOUI(m_eBlendState))))
+    if (FAILED(m_pShaderCom->Begin(m_eBlendState)))
         return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Bind_Resources()))
@@ -66,7 +66,7 @@ HRESULT CUI_Image::Render()
     return S_OK;
 }
 
-HRESULT CUI_Image::Ready_Components()
+HRESULT CLobbyTabBtn::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -86,7 +86,7 @@ HRESULT CUI_Image::Ready_Components()
     return S_OK;
 }
 
-HRESULT CUI_Image::Bind_ShaderResources()
+HRESULT CLobbyTabBtn::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -102,37 +102,37 @@ HRESULT CUI_Image::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
     m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
-    
+
     return S_OK;
 }
 
-CUI_Image* CUI_Image::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLobbyTabBtn* CLobbyTabBtn::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CUI_Image* pInstance = new CUI_Image(pDevice, pContext);
+    CLobbyTabBtn* pInstance = new CLobbyTabBtn(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CUI_Image");
+        MSG_BOX("Failed to Created: CLobbyTabBtn");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CUI_Image::Clone(void* pArg)
+CGameObject* CLobbyTabBtn::Clone(void* pArg)
 {
-    CUI_Image* pInstance = new CUI_Image(*this);
+    CLobbyTabBtn* pInstance = new CLobbyTabBtn(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CUI_Image");
+        MSG_BOX("Failed to Cloned: CLobbyTabBtn");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CUI_Image::Free()
+void CLobbyTabBtn::Free()
 {
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);

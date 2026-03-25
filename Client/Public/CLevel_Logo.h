@@ -28,7 +28,7 @@ private:
 	_float m_fAccTime{};
 
 private:
-	HRESULT Ready_Layer_CUI_Image(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Deco(const _wstring& strLayerTag);
 
 public:
 	static CLevel_Logo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
