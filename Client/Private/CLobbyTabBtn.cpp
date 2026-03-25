@@ -47,7 +47,7 @@ void CLobbyTabBtn::Update(_float fTimeDelta)
 
     Update_BtnState();
 
-    const _float fSpeed = 15.f;
+    const _float fSpeed = 5.f;
     const _float fMaxFillX = 1.f;
     const _float fMaxFillCenterY = 0.5f;
 
@@ -148,8 +148,10 @@ HRESULT CLobbyTabBtn::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
     m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
+
     m_pShaderCom->Bind_RawValue("g_UVFillX", &m_fFillX, sizeof(m_fFillX));
     m_pShaderCom->Bind_RawValue("g_UVFillCenterY", &m_fFillCenterY, sizeof(m_fFillCenterY));
+
     return S_OK;
 }
 

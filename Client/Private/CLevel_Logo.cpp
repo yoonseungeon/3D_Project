@@ -84,7 +84,7 @@ HRESULT CLevel_Logo::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.fPosRatioY = 0.f;
     Desc.iFlipX = false;
     Desc.iFlipY = false;
-    Desc.iUILayer = ETOUI(UILAYER::BACKGROUND_DECO);
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
 
     Desc.eTexPrototypeLV = LEVEL::LOGO;
     Desc.eBlendState = CUI_Default::ALPHABLEND;

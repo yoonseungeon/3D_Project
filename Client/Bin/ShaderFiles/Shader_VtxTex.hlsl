@@ -27,6 +27,12 @@ BlendState BS_AlphaBlend
     BlendOp[0] = Add;
 };
 
+DepthStencilState DSS_None
+{
+    DepthEnable = false;
+    DepthWriteMask = zero;
+};
+
 struct VS_IN
 {
     float3 vPosition : POSITION;
@@ -143,6 +149,7 @@ technique11 DefaultTechnique
 {
     pass DefaultPass
     {
+        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
@@ -150,6 +157,7 @@ technique11 DefaultTechnique
 
     pass AlphaTest
     {
+        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_ALPHATEST()));
@@ -157,6 +165,7 @@ technique11 DefaultTechnique
 
     pass AlphaBlend
     {
+        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
@@ -164,6 +173,7 @@ technique11 DefaultTechnique
 
     pass AlphaBlend_Gauge
     {
+        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_UIGAUGE()));

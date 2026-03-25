@@ -340,6 +340,71 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
         }
     );
 
+    /* Prototype_Texture_LobbyShadow_Deco */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_LobbyShadow_Deco"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/LobbyShadow_Deco.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbyShadow_Deco");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Lobby_GameStartBtn_Deco1 */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_Lobby_GameStartBtn_Deco1"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/LobbyGameStartBtn_Deco1.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Lobby_GameStartBtn_Deco1");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Lobby_GameStartBtn_Deco2 */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_Lobby_GameStartBtn_Deco2"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/LobbyGameStartBtn_Deco2.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Lobby_GameStartBtn_Deco2");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Lobby_GameStartBtn_Deco3 */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_Lobby_GameStartBtn_Deco3"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/LobbyGameStartBtn_Deco3.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Lobby_GameStartBtn_Deco3");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Lobby_GameStartBtn_Deco4 */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_Lobby_GameStartBtn_Deco4"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/LobbyGameStartBtn_Deco4.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Lobby_GameStartBtn_Deco4");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
     /* Prototype_Texture_Select_BG */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(

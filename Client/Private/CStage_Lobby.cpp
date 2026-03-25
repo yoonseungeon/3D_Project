@@ -37,27 +37,105 @@ HRESULT CStage_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
 {
     CGameObject* pObj{ nullptr };
 
-    CUI_AniImage::CUI_ANIIMAGE_DESC Desc{};
+    CUI_AniImage::CUI_ANIIMAGE_DESC AniImageDesc{};
 
-    Desc.fScaleRatioX = 1.1f;
-    Desc.fScaleRatioY = 1.1f;
-    Desc.fPosRatioX = 0.f;
+    AniImageDesc.fScaleRatioX = 1.1f;
+    AniImageDesc.fScaleRatioY = 1.1f;
+    AniImageDesc.fPosRatioX = 0.f;
+    AniImageDesc.fPosRatioY = 0.f;
+    AniImageDesc.iFlipX = false;
+    AniImageDesc.iFlipY = false;
+    AniImageDesc.iUILayer = ETOUI(UILAYER::BACKGROUND);
+
+    AniImageDesc.eTexPrototypeLV = LEVEL::LOBBY;
+    AniImageDesc.eBlendState = CUI_Default::DEFAULT;
+    AniImageDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbyAni";
+
+    AniImageDesc.fFrameDelay = 0.0166f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &AniImageDesc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.5f;
+    Desc.fScaleRatioY = 1.0f;
+    Desc.fPosRatioX = -0.25f;
     Desc.fPosRatioY = 0.f;
     Desc.iFlipX = false;
     Desc.iFlipY = false;
-    Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
-    Desc.eBlendState = CUI_Default::DEFAULT;
-    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbyAni";
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbyShadow_Deco";
 
-    Desc.fFrameDelay = 0.0166f;
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
 
-    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_AniImage"),
-    //    ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
-    //    return E_FAIL;
+    m_vecGameObjects.push_back(pObj);
 
-    //m_vecGameObjects.push_back(pObj);
+
+    Desc.fScaleRatioX = 0.1f;
+    Desc.fScaleRatioY = 0.05f;
+    Desc.fPosRatioX = -0.445f;
+    Desc.fPosRatioY = 0.35f;
+    Desc.iFlipX = false;
+    Desc.iFlipY = false;
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER2);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Lobby_GameStartBtn_Deco1";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    Desc.fScaleRatioX = 0.2f;
+    Desc.fScaleRatioY = 0.07f;
+    Desc.fPosRatioX = -0.38f;
+    Desc.fPosRatioY = 0.27f;
+    Desc.iFlipX = false;
+    Desc.iFlipY = false;
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER3);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Lobby_GameStartBtn_Deco2";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    Desc.fScaleRatioX = 0.1f;
+    Desc.fScaleRatioY = 0.1f * g_iWinSizeX / g_iWinSizeY;
+    Desc.fPosRatioX = -0.475f;
+    Desc.fPosRatioY = 0.28f;
+    Desc.iFlipX = false;
+    Desc.iFlipY = false;
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER2);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Lobby_GameStartBtn_Deco3";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
 
     return S_OK;
 }
@@ -70,8 +148,8 @@ HRESULT CStage_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
 
     Desc.fScaleRatioX = 0.2f;
     Desc.fScaleRatioY = 0.07f;
-    Desc.fPosRatioX = -0.35f;
-    Desc.fPosRatioY = 0.27f;
+    Desc.fPosRatioX = -0.355f;
+    Desc.fPosRatioY = 0.28f;
     Desc.iUILayer = ETOUI(UILAYER::BUTTON);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;

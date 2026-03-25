@@ -86,7 +86,7 @@ HRESULT CLevel_Loading::Ready_Layer_Deco(const _wstring& strLayerTag)
     }
     case LEVEL::LOBBY:
     {
-        Desc.iUILayer = ETOUI(UILAYER::BACKGROUND_DECO);
+        Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
 
         Desc.fScaleRatioX = 0.05f;
         Desc.fScaleRatioY = Desc.fScaleRatioX * static_cast<_float>(g_iWinSizeX) / static_cast<_float>(g_iWinSizeY);
