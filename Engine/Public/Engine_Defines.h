@@ -12,6 +12,11 @@
 #include <Effects11/d3dx11effect.h>
 #include <directxtk/DDSTextureLoader.h>
 #include <directxtk/WICTextureLoader.h>
+#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+
+using namespace Assimp;
 
 using namespace DirectX;
 

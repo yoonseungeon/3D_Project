@@ -5,6 +5,7 @@
     "tbb",
     "effects11",
     "directxtk",
+    "assimp",
     {
       "name": "imgui",
       "features": [
