@@ -84,7 +84,7 @@ HRESULT CStage_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.fScaleRatioX = 0.1f;
     Desc.fScaleRatioY = 0.05f;
     Desc.fPosRatioX = -0.445f;
-    Desc.fPosRatioY = 0.35f;
+    Desc.fPosRatioY = 0.37f;
     Desc.iFlipX = false;
     Desc.iFlipY = false;
     Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER2);
@@ -103,7 +103,7 @@ HRESULT CStage_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.fScaleRatioX = 0.2f;
     Desc.fScaleRatioY = 0.07f;
     Desc.fPosRatioX = -0.38f;
-    Desc.fPosRatioY = 0.27f;
+    Desc.fPosRatioY = 0.29f;
     Desc.iFlipX = false;
     Desc.iFlipY = false;
     Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER3);
@@ -122,7 +122,7 @@ HRESULT CStage_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
     Desc.fScaleRatioX = 0.1f;
     Desc.fScaleRatioY = 0.1f * g_iWinSizeX / g_iWinSizeY;
     Desc.fPosRatioX = -0.475f;
-    Desc.fPosRatioY = 0.28f;
+    Desc.fPosRatioY = 0.3f;
     Desc.iFlipX = false;
     Desc.iFlipY = false;
     Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER2);
@@ -147,9 +147,9 @@ HRESULT CStage_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
     CLobbyTabBtn::CLOBBY_TAB_BTN_DESC Desc{};
 
     Desc.fScaleRatioX = 0.2f;
-    Desc.fScaleRatioY = 0.07f;
+    Desc.fScaleRatioY = 0.055f;
     Desc.fPosRatioX = -0.355f;
-    Desc.fPosRatioY = 0.28f;
+    Desc.fPosRatioY = 0.3f;
     Desc.iUILayer = ETOUI(UILAYER::BUTTON);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
@@ -164,6 +164,135 @@ HRESULT CStage_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
 
     m_vecGameObjects.push_back(pObj);
 
+
+    Desc.fScaleRatioX = 0.2f;
+    Desc.fScaleRatioY = 0.055f;
+    Desc.fPosRatioX = -0.355f;
+    Desc.fPosRatioY = 0.23f;
+    Desc.iUILayer = ETOUI(UILAYER::BUTTON);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEDN_GAUGE;
+    Desc.wstrTexturePrototypeTag = TEXT("Prototype_Texture_LobbyTabBtnBlue");
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    Desc.fScaleRatioX = 0.15f;
+    Desc.fScaleRatioY = 0.055f;
+    Desc.fPosRatioX = -0.377f;
+    Desc.fPosRatioY = 0.14f;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    const _float fGap = 0.055f;
+
+    Desc.fPosRatioY -= fGap;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    Desc.fPosRatioY -= fGap;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    Desc.fPosRatioY -= fGap;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    Desc.fPosRatioY -= fGap;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    Desc.fPosRatioY -= fGap;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+
+    Desc.fPosRatioY -= fGap;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+    Desc.fPosRatioY -= fGap;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
+
+    Desc.fPosRatioY -= fGap;
+
+    Desc.funcLobbyCallBack = m_funcBtnCallBack;
+    Desc.eNextStage = STAGE::SELECT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_CLobbyTabBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_vecGameObjects.push_back(pObj);
     return S_OK;
 }
 
