@@ -85,6 +85,9 @@
     <Filter Include="09. Lights\Manager">
       <UniqueIdentifier>{c2956dbf-3813-4578-87c3-0ffef5883e3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\04. Model">
+      <UniqueIdentifier>{6158ff22-7210-489e-ae95-56624b77c63b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -161,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLight_Manager.cpp">
       <Filter>09. Lights\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CModel.cpp">
+      <Filter>07. Component\04. Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CLight_Manager.h">
       <Filter>09. Lights\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CModel.h">
+      <Filter>07. Component\04. Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
