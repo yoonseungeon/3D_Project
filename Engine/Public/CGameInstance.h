@@ -19,6 +19,7 @@ class CObject_Manager;
 class CRenderer;
 class CPipeline;
 class CInput_Device;
+class CLight_Manager;
 
 class CThread_Manager;
 
@@ -89,6 +90,11 @@ public:
 	const POINT Get_MouseClientPos();
 #pragma endregion
 
+#pragma region LIGHT_MANAGER
+	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
+	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
+#pragma endregion
+
 #pragma region THREAD_MANAGER
 	void Add_Job(function<void()> func);
 #pragma endregion
@@ -102,6 +108,7 @@ private:
 	CRenderer*			m_pRenderer				= { nullptr };
 	CPipeline*			m_pPipeline				= { nullptr };
 	CInput_Device*		m_pInput_Device			= { nullptr };
+	CLight_Manager* m_pLight_Manager			= { nullptr };
 
 	CThread_Manager*	m_pThread_Manager		= { nullptr };
 

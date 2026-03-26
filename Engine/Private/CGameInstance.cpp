@@ -8,6 +8,7 @@
 #include "CRenderer.h"
 #include "CPipeline.h"
 #include "CInput_Device.h"
+#include "CLight_Manager.h"
 
 #include "CThread_Manager.h"
 
@@ -56,6 +57,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 
 	m_pInput_Device = CInput_Device::Create(EngineDesc.hInstance, EngineDesc.hWnd);
 	if (m_pInput_Device == nullptr)
+		return E_FAIL;
+	
+	m_pLight_Manager = CLight_Manager::Create(*ppDevice, *ppContext);
+	if (m_pLight_Manager == nullptr)
 		return E_FAIL;
 	
 	return S_OK;
@@ -133,6 +138,7 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 
+	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pPipeline);
 	Safe_Release(m_pRenderer);
@@ -262,6 +268,18 @@ _long CGameInstance::Get_DIMouseMove(DIMM eMouseState)
 const POINT CGameInstance::Get_MouseClientPos()
 {
 	return m_pInput_Device->Get_MouseClientPos();
+}
+#pragma endregion
+
+#pragma region LIGHT_MANAGER
+const LIGHT_DESC* CGameInstance::Get_LightDesc(_uint iIndex)
+{
+	return m_pLight_Manager->Get_LightDesc(iIndex);
+}
+
+HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
+{
+	return m_pLight_Manager->Add_Light(LightDesc);
 }
 #pragma endregion
 

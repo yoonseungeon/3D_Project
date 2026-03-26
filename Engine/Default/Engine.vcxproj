@@ -162,6 +162,8 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\CLayer.h" />
     <ClInclude Include="..\Public\CLevel.h" />
     <ClInclude Include="..\Public\CLevel_Manager.h" />
+    <ClInclude Include="..\Public\CLight.h" />
+    <ClInclude Include="..\Public\CLight_Manager.h" />
     <ClInclude Include="..\Public\CObject_Manager.h" />
     <ClInclude Include="..\Public\CPipeline.h" />
     <ClInclude Include="..\Public\CPrototype_Manager.h" />
@@ -193,6 +195,8 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CLayer.cpp" />
     <ClCompile Include="..\Private\CLevel.cpp" />
     <ClCompile Include="..\Private\CLevel_Manager.cpp" />
+    <ClCompile Include="..\Private\CLight.cpp" />
+    <ClCompile Include="..\Private\CLight_Manager.cpp" />
     <ClCompile Include="..\Private\CObject_Manager.cpp" />
     <ClCompile Include="..\Private\CPipeline.cpp" />
     <ClCompile Include="..\Private\CPrototype_Manager.cpp" />

@@ -79,6 +79,12 @@
     <Filter Include="99. Thread_Manager">
       <UniqueIdentifier>{2b59562d-441c-4f27-8083-0c4f946b5d90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="09. Lights">
+      <UniqueIdentifier>{8197c1c5-0ff7-4feb-83d1-768dfa431f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09. Lights\Manager">
+      <UniqueIdentifier>{c2956dbf-3813-4578-87c3-0ffef5883e3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -149,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CInput_Device.cpp">
       <Filter>01. Device\01. Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLight.cpp">
+      <Filter>09. Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLight_Manager.cpp">
+      <Filter>09. Lights\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +250,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CInput_Device.h">
       <Filter>01. Device\01. Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLight.h">
+      <Filter>09. Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLight_Manager.h">
+      <Filter>09. Lights\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

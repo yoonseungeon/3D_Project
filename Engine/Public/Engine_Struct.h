@@ -13,6 +13,16 @@ namespace Engine
 		unsigned int	iNumLevels;
 	};
 
+	struct LIGHT_DESC
+	{
+		LIGHT			eType;
+		XMFLOAT4		vDiffuse, vAmbient, vSpecular;
+
+		XMFLOAT4		vDirection;
+		XMFLOAT4		vPosition;
+		float			fRange;
+	};
+
 	struct VTXTEX
 	{
 		XMFLOAT3		vPosition;
