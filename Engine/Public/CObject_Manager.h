@@ -24,9 +24,13 @@ public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg, CGameObject** ppOut);
 	void Priority_Update(_float fTimeDelta);
+	void Parallel_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 	void Clear(_uint iLevelIndex);
+
+	_bool Is_Parallel_Update_Finished();
+	void Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode);
 
 private:
 	size_t				m_iNumLevels = {};
@@ -38,6 +42,11 @@ private:
 
 private:
 	CLayer* Find_Layer(_uint iLayerLevelIndex, const _wstring& strLayerTag);
+
+private:
+	_int			m_iTotalJobCnt{ 0 };
+	atomic<_int>	m_iFinishedJobCnt{ 0 };
+	PARALLEL_UPDATE_MODE m_eParallelMode{};
 
 public:
 	static CObject_Manager* Create(_uint iNumLevels);

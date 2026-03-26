@@ -38,6 +38,8 @@ public:
 	void DoWork();
 	void Add_Job(function<void()> func);
 
+	_bool DoMainWork();
+
 private:
 	vector<HANDLE>				m_vecThreads;
 	HANDLE						m_hEvent		= { };

@@ -25,5 +25,7 @@ namespace Engine
 	enum class DIMB { LBUTTON, RBUTTON, WHEEL, END };
 
 	enum class DIMM { X, Y, WHEEL, END };
+
+	enum class PARALLEL_UPDATE_MODE { PARALLEL, SINGLE };
 }
 #endif // Engine_Enum_h__

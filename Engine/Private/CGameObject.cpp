@@ -56,6 +56,10 @@ void CGameObject::Priority_Update(_float fTimeDelta)
 
 }
 
+void CGameObject::Parallel_Update(_float fTimeDelta)
+{
+}
+
 void CGameObject::Update(_float fTimeDelta)
 {
 

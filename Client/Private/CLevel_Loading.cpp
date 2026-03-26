@@ -17,6 +17,8 @@ CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 {
+    m_pGameInstance->Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE::SINGLE);
+
     m_eNextLevelID = eNextLevelID;
 
     m_pLoader = CLoader::Create(m_pDevice, m_pContext, eNextLevelID);
@@ -168,6 +170,8 @@ CLevel_Loading* CLevel_Loading::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 void CLevel_Loading::Free()
 {
+    m_pGameInstance->Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE::PARALLEL);
+
     Safe_Release(m_pLoader);
      
     __super::Free();

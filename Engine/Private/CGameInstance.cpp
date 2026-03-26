@@ -66,6 +66,20 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pInput_Device->Update();
 
 	m_pObject_Manager->Priority_Update(fTimeDelta);
+
+	m_pObject_Manager->Parallel_Update(fTimeDelta);	
+	while (!m_pObject_Manager->Is_Parallel_Update_Finished())
+	{
+		_bool bResult = m_pThread_Manager->DoMainWork();
+
+		if (!bResult && !m_pObject_Manager->Is_Parallel_Update_Finished())
+		{
+			// 양보는 thread의 최대 하나의 스레드 스케줄링 time slice만큼 적용된다.
+			SwitchToThread();
+		}
+
+	}
+
 	m_pObject_Manager->Update(fTimeDelta);
 
 	m_pPipeline->Update();
@@ -172,6 +186,10 @@ CBase* CGameInstance::Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const 
 HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg, CGameObject** ppOut)
 {
 	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg, ppOut);
+}
+void CGameInstance::Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode)
+{
+	m_pObject_Manager->Set_Parallel_Update_Mode(eParallelMode);
 }
 #pragma endregion
 

@@ -61,6 +61,7 @@ public:
 
 #pragma region OBJECT_MANAGER
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr, CGameObject** ppOut = nullptr);
+	void Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode);
 #pragma endregion
 
 #pragma region RENDERER

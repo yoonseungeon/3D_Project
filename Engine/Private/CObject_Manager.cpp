@@ -57,7 +57,38 @@ void CObject_Manager::Priority_Update(_float fTimeDelta)
 		for (auto& Pair : m_pLayers[i])
 			Pair.second->Priority_Update(fTimeDelta);
 	}
+}
 
+void CObject_Manager::Parallel_Update(_float fTimeDelta)
+{
+	switch (m_eParallelMode)
+	{
+	case PARALLEL_UPDATE_MODE::PARALLEL:
+	{
+		m_iTotalJobCnt = 0;
+		m_iFinishedJobCnt.store(0, memory_order_relaxed);
+
+		for (size_t i = 0; i < m_iNumLevels; i++)
+		{
+			for (auto& Pair : m_pLayers[i])
+				Pair.second->Parallel_Update_Parallel(fTimeDelta, m_iTotalJobCnt, m_iFinishedJobCnt,
+					[this](function<void()> funcJob)->void {
+						m_pGameInstance->Add_Job(funcJob);
+					}
+				);
+		}
+		break;
+	}
+	case PARALLEL_UPDATE_MODE::SINGLE:
+	{
+		for (size_t i = 0; i < m_iNumLevels; i++)
+		{
+			for (auto& Pair : m_pLayers[i])
+				Pair.second->Parallel_Update_Single(fTimeDelta);
+		}
+		break;
+	}
+	}
 }
 
 void CObject_Manager::Update(_float fTimeDelta)
@@ -84,6 +115,20 @@ void CObject_Manager::Clear(_uint iLevelIndex)
 		Safe_Release(Pair.second);
 
 	m_pLayers[iLevelIndex].clear();
+}
+
+_bool CObject_Manager::Is_Parallel_Update_Finished()
+{
+	if (m_iFinishedJobCnt.load(memory_order_acquire) == m_iTotalJobCnt) {
+		return true;
+	}
+
+	return false;
+}
+
+void CObject_Manager::Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode)
+{
+	m_eParallelMode = eParallelMode;
 }
 
 CLayer* CObject_Manager::Find_Layer(_uint iLayerLevelIndex, const _wstring& strLayerTag)

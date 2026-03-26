@@ -95,6 +95,19 @@ void CThread_Manager::Add_Job(function<void()> func)
     SetEvent(m_hEvent);
 }
 
+_bool CThread_Manager::DoMainWork()
+{
+    JOB tJob = {};
+    if (m_JobQueue.try_pop(tJob)) {
+        if (tJob.work != nullptr) {
+            tJob.work();
+        }
+        return true;
+    }
+
+    return false;
+}
+
 CThread_Manager* CThread_Manager::Create()
 {
     CThread_Manager* pInstance = new CThread_Manager();

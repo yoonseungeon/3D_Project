@@ -27,6 +27,7 @@ public:
 	// 원형 단계에서 채울 수 없는 런타임 의존 정보(예: 플레이어 포인터 등)는 pArg로 전달받아 추가 초기화
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Priority_Update(_float fTimeDelta);
+	virtual void Parallel_Update(_float fTimeDelta);
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
