@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
+    <ClInclude Include="..\Public\CMonster.h" />
     <ClInclude Include="..\Public\CStage.h" />
     <ClInclude Include="..\Public\CStage_Lobby.h" />
     <ClInclude Include="..\Public\CStage_Select.h" />
@@ -178,6 +179,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
+    <ClCompile Include="..\Private\CMonster.cpp" />
     <ClCompile Include="..\Private\CStage.cpp" />
     <ClCompile Include="..\Private\CStage_Lobby.cpp" />
     <ClCompile Include="..\Private\CStage_Select.cpp" />
@@ -203,6 +205,7 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

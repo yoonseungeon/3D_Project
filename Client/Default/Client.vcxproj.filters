@@ -82,6 +82,9 @@
     <Filter Include="99. ImGui_Manager">
       <UniqueIdentifier>{f0887342-7e7c-4b1b-b8cc-aaa3962654e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. GamePlay\01. Monster">
+      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CStage_Select.h">
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMonster.h">
+      <Filter>02. GameObject\03. GamePlay\01. Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,12 +225,18 @@
     <ClCompile Include="..\Private\CStage_Select.cpp">
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CMonster.cpp">
+      <Filter>02. GameObject\03. GamePlay\01. Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl">
+      <Filter>997. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMesh.hlsl">
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

@@ -18,6 +18,9 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+        return E_FAIL;
+    
     return S_OK;
 }
 
@@ -72,6 +75,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera_Free"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &CameraDesc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
+{
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;
 
     return S_OK;
