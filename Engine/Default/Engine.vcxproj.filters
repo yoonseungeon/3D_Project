@@ -88,6 +88,9 @@
     <Filter Include="07. Component\04. Model">
       <UniqueIdentifier>{6158ff22-7210-489e-ae95-56624b77c63b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\04. Model\Mesh">
+      <UniqueIdentifier>{c46f0464-0eff-49f6-85f1-e4b49b7a7fb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CModel.cpp">
       <Filter>07. Component\04. Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMesh.cpp">
+      <Filter>07. Component\04. Model\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CModel.h">
       <Filter>07. Component\04. Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMesh.h">
+      <Filter>07. Component\04. Model\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
