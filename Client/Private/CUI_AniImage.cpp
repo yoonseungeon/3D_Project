@@ -40,13 +40,19 @@ void CUI_AniImage::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_AniImage::Update(_float fTimeDelta)
+void CUI_AniImage::Parallel_Update(_float fTimeDelta)
 {
+    // m_bIsInactived의 쓰기는 Level Update에서 일어남.(Late Update 후 LevelUpdate 됨.)
     if (m_bIsInactive == true) {
         return;
     }
 
     Animation(fTimeDelta);
+}
+
+void CUI_AniImage::Update(_float fTimeDelta)
+{
+
 }
 
 void CUI_AniImage::Late_Update(_float fTimeDelta)

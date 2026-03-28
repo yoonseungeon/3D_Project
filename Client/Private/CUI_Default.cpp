@@ -38,6 +38,10 @@ void CUI_Default::Priority_Update(_float fTimeDelta)
 
 }
 
+void CUI_Default::Parallel_Update(_float fTimeDelta)
+{
+}
+
 void CUI_Default::Update(_float fTimeDelta)
 {
 

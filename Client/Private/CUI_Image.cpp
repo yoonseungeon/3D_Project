@@ -36,6 +36,10 @@ void CUI_Image::Priority_Update(_float fTimeDelta)
 {
 }
 
+void CUI_Image::Parallel_Update(_float fTimeDelta)
+{
+}
+
 void CUI_Image::Update(_float fTimeDelta)
 {
 }

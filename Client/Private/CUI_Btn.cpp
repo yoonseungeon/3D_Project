@@ -46,6 +46,10 @@ void CUI_Btn::Priority_Update(_float fTimeDelta)
 {
 }
 
+void CUI_Btn::Parallel_Update(_float fTimeDelta)
+{
+}
+
 void CUI_Btn::Update(_float fTimeDelta)
 {
 }

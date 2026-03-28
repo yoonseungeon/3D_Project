@@ -31,6 +31,7 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void	Priority_Update(_float fTimeDelta) override;
+	virtual void	Parallel_Update(_float fTimeDelta) override;
 	virtual void	Update(_float fTimeDelta) override;
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
@@ -43,6 +44,7 @@ protected:
 	RECT m_rcBtnRange{};
 	BTN_STATE m_eCurBtnState{};
 	_bool m_bPressedInBtn{};
+	_bool m_bIsClicked{};
 
 	function<void()> m_funcCallBack{nullptr};
 

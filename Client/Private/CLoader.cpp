@@ -308,7 +308,7 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_LobbyAni"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 1))))
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 500))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbyAni");
             }

@@ -39,50 +39,23 @@ void CLobbyTabBtn::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CLobbyTabBtn::Update(_float fTimeDelta)
+void CLobbyTabBtn::Parallel_Update(_float fTimeDelta)
 {
+    // m_bIsInactived의 쓰기는 Level Update에서 일어남.(Late Update 후 LevelUpdate 됨.)
     if (m_bIsInactive == true) {
         return;
     }
 
-    Update_BtnState();
+    __super::Update_BtnState();
 
-    const _float fSpeed = 5.f;
-    const _float fMaxFillX = 1.f;
-    const _float fMaxFillCenterY = 0.5f;
+    Execute_Btn(fTimeDelta);
+}
 
-    if (m_eCurBtnState == BTN_STATE::NORMAL) {
-        m_fFillX -= fTimeDelta * fSpeed;
-        m_fFillCenterY -= fTimeDelta * fSpeed;
-
-        if (m_fFillX < 0.f) {
-            m_fFillX = 0.f;
-        }
-
-        if (m_fFillCenterY < 0.f) {
-            m_fFillCenterY = 0.f;
-        }
-    }
-    else if (m_eCurBtnState == BTN_STATE::HOVER) {
-        m_fFillX += fTimeDelta * fSpeed;
-        m_fFillCenterY += fTimeDelta * fSpeed;
-
-        if (m_fFillX > fMaxFillX) {
-            m_fFillX = fMaxFillX;
-        }
-
-        if (m_fFillCenterY > fMaxFillCenterY) {
-            m_fFillCenterY = fMaxFillCenterY;
-        }
-    }
-    else if (m_eCurBtnState == BTN_STATE::PRESSED) {
-        m_fFillX = 0.f;
-        m_fFillCenterY = 0.f;
-    }
-    else if (m_eCurBtnState == BTN_STATE::CLICKED) {
-        m_fFillX = 0.f;
-        m_fFillCenterY = 0.f;
+void CLobbyTabBtn::Update(_float fTimeDelta)
+{
+    if (m_bIsClicked) {
         BtnClick();
+        m_bIsClicked = false;
     }
 }
 
@@ -158,6 +131,60 @@ HRESULT CLobbyTabBtn::Bind_ShaderResources()
 void CLobbyTabBtn::BtnClick()
 {
     m_funcLobbyCallBack(m_eNextStage);
+}
+
+void CLobbyTabBtn::Execute_Btn(_float fTimeDelta)
+{
+    constexpr _float fSpeed = 5.f;
+    constexpr _float fMaxFillX = 1.f;
+    constexpr _float fMaxFillCenterY = 0.5f;
+
+    switch (m_eCurBtnState) {
+    case BTN_STATE::NORMAL:
+    {
+        m_fFillX -= fTimeDelta * fSpeed;
+        m_fFillCenterY -= fTimeDelta * fSpeed;
+
+        if (m_fFillX < 0.f) {
+            m_fFillX = 0.f;
+        }
+
+        if (m_fFillCenterY < 0.f) {
+            m_fFillCenterY = 0.f;
+        }
+        break;
+    }
+
+    case BTN_STATE::HOVER:
+    {
+        m_fFillX += fTimeDelta * fSpeed;
+        m_fFillCenterY += fTimeDelta * fSpeed;
+
+        if (m_fFillX > fMaxFillX) {
+            m_fFillX = fMaxFillX;
+        }
+
+        if (m_fFillCenterY > fMaxFillCenterY) {
+            m_fFillCenterY = fMaxFillCenterY;
+        }
+        break;
+    }
+
+    case BTN_STATE::PRESSED:
+    {
+        m_fFillX = 0.f;
+        m_fFillCenterY = 0.f;
+        break;
+    }
+
+    case BTN_STATE::CLICKED:
+    {
+        m_fFillX = 0.f;
+        m_fFillCenterY = 0.f;
+        m_bIsClicked = true;
+        break;
+    }
+    }
 }
 
 CLobbyTabBtn* CLobbyTabBtn::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

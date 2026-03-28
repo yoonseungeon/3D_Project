@@ -29,6 +29,7 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void	Priority_Update(_float fTimeDelta) override;
+	virtual void	Parallel_Update(_float fTimeDelta) override;
 	virtual void	Update(_float fTimeDelta) override;
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
@@ -37,6 +38,7 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 	virtual void BtnClick() override;
+	void Execute_Btn(_float fTimeDelta);
 
 private:
 	CShader* m_pShaderCom{ nullptr };
