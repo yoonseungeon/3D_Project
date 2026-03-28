@@ -28,39 +28,6 @@
     <Filter Include="01. Levels\04. Ending">
       <UniqueIdentifier>{308801a7-e0bf-46e3-9260-4a3f760067cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\00. Static">
-      <UniqueIdentifier>{d7516482-bd66-4252-bcdb-30afd25f0374}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Logo">
-      <UniqueIdentifier>{c0b1ff9b-632a-4edb-8e8f-4fd317b1eb1f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\02. Lobby">
-      <UniqueIdentifier>{30ccef60-1028-4a66-a98a-f77009258b3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. GamePlay">
-      <UniqueIdentifier>{56250ffd-a2d6-4223-a28f-5dca3d4a66a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. GamePlay\00. Camera">
-      <UniqueIdentifier>{ff6cb342-f0a3-4839-bae6-e8c40ea86f63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. GamePlay\00. Camera\00. Free">
-      <UniqueIdentifier>{655277cf-ad6f-46e5-9277-b526dcf2cf56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\99. UI_Default">
-      <UniqueIdentifier>{e4320753-9360-4abf-b936-bbd1aefa69aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\99. UI_Default\00. UI_Image">
-      <UniqueIdentifier>{12b549a8-c47a-4e99-83ee-2fb6c124f656}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\99. UI_Default\00. UI_Image\00. UI_AniImage">
-      <UniqueIdentifier>{b08061dd-4450-4380-b128-dd4e5f8994ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\99. UI_Default\01. UI_Btn">
-      <UniqueIdentifier>{d4919f53-6c3e-4d08-9e3c-bea802cc9fe1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\99. UI_Default\01. UI_Btn\CLobbyTabBtn">
-      <UniqueIdentifier>{ea61d873-5726-4037-9a9d-b60fa743d41c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Levels\02. Lobby\Stage">
       <UniqueIdentifier>{3f377586-f87a-4363-9655-9ee0c7d7b2e3}</UniqueIdentifier>
     </Filter>
@@ -82,8 +49,35 @@
     <Filter Include="99. ImGui_Manager">
       <UniqueIdentifier>{f0887342-7e7c-4b1b-b8cc-aaa3962654e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. GamePlay\01. Monster">
+    <Filter Include="02. GameObject\00. Camera">
+      <UniqueIdentifier>{ff6cb342-f0a3-4839-bae6-e8c40ea86f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. Camera\00. Free">
+      <UniqueIdentifier>{655277cf-ad6f-46e5-9277-b526dcf2cf56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Monster">
       <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default">
+      <UniqueIdentifier>{e4320753-9360-4abf-b936-bbd1aefa69aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\00. UI_Image">
+      <UniqueIdentifier>{12b549a8-c47a-4e99-83ee-2fb6c124f656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\00. UI_Image\00. UI_AniImage">
+      <UniqueIdentifier>{b08061dd-4450-4380-b128-dd4e5f8994ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn">
+      <UniqueIdentifier>{d4919f53-6c3e-4d08-9e3c-bea802cc9fe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\02. UI_PickPanel">
+      <UniqueIdentifier>{d7e2516a-a3a2-4f64-b34a-9fe174dc0c8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\LobbyTabBtn">
+      <UniqueIdentifier>{ea61d873-5726-4037-9a9d-b60fa743d41c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\PickSlot">
+      <UniqueIdentifier>{f271a942-1d89-41a3-adb0-790d90b8f0a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -118,7 +112,7 @@
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_Image.h">
-      <Filter>02. GameObject\99. UI_Default\00. UI_Image</Filter>
+      <Filter>02. GameObject\01. UI_Default\00. UI_Image</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CImGui_Manager.h">
       <Filter>99. ImGui_Manager</Filter>
@@ -130,19 +124,19 @@
       <Filter>01. Levels\04. Ending</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_AniImage.h">
-      <Filter>02. GameObject\99. UI_Default\00. UI_Image\00. UI_AniImage</Filter>
+      <Filter>02. GameObject\01. UI_Default\00. UI_Image\00. UI_AniImage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CCamera_Free.h">
-      <Filter>02. GameObject\03. GamePlay\00. Camera\00. Free</Filter>
+      <Filter>02. GameObject\00. Camera\00. Free</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_Btn.h">
-      <Filter>02. GameObject\99. UI_Default\01. UI_Btn</Filter>
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLobbyTabBtn.h">
-      <Filter>02. GameObject\99. UI_Default\01. UI_Btn\CLobbyTabBtn</Filter>
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn\LobbyTabBtn</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_Default.h">
-      <Filter>02. GameObject\99. UI_Default</Filter>
+      <Filter>02. GameObject\01. UI_Default</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CStage.h">
       <Filter>01. Levels\02. Lobby\Stage</Filter>
@@ -154,7 +148,13 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMonster.h">
-      <Filter>02. GameObject\03. GamePlay\01. Monster</Filter>
+      <Filter>02. GameObject\02. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_PickPanel.h">
+      <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPickSlot.h">
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSlot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +190,7 @@
       <Filter>01. Levels\00. Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_Image.cpp">
-      <Filter>02. GameObject\99. UI_Default\00. UI_Image</Filter>
+      <Filter>02. GameObject\01. UI_Default\00. UI_Image</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CImGui_Manager.cpp">
       <Filter>99. ImGui_Manager</Filter>
@@ -202,19 +202,19 @@
       <Filter>01. Levels\04. Ending</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_AniImage.cpp">
-      <Filter>02. GameObject\99. UI_Default\00. UI_Image\00. UI_AniImage</Filter>
+      <Filter>02. GameObject\01. UI_Default\00. UI_Image\00. UI_AniImage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CCamera_Free.cpp">
-      <Filter>02. GameObject\03. GamePlay\00. Camera\00. Free</Filter>
+      <Filter>02. GameObject\00. Camera\00. Free</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_Btn.cpp">
-      <Filter>02. GameObject\99. UI_Default\01. UI_Btn</Filter>
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp">
-      <Filter>02. GameObject\99. UI_Default\01. UI_Btn\CLobbyTabBtn</Filter>
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn\LobbyTabBtn</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_Default.cpp">
-      <Filter>02. GameObject\99. UI_Default</Filter>
+      <Filter>02. GameObject\01. UI_Default</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CStage.cpp">
       <Filter>01. Levels\02. Lobby\Stage</Filter>
@@ -226,7 +226,13 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMonster.cpp">
-      <Filter>02. GameObject\03. GamePlay\01. Monster</Filter>
+      <Filter>02. GameObject\02. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_PickPanel.cpp">
+      <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPickSlot.cpp">
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSlot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

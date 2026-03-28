@@ -1,5 +1,7 @@
 #include "CLevel_Ending.h"
 
+#include "CGameInstance.h"
+
 CLevel_Ending::CLevel_Ending(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
 {
@@ -7,6 +9,8 @@ CLevel_Ending::CLevel_Ending(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 HRESULT CLevel_Ending::Initialize()
 {
+    m_pGameInstance->Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE::PARALLEL);
+
     return S_OK;
 }
 

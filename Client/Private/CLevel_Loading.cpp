@@ -25,7 +25,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
     if (m_pLoader == nullptr)
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_Deco(TEXT("Layer_Deco"))))
+    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_Deco"))))
         return E_FAIL;
 
     return S_OK;
@@ -75,7 +75,7 @@ HRESULT CLevel_Loading::Render()
     return S_OK;
 }
 
-HRESULT CLevel_Loading::Ready_Layer_Deco(const _wstring& strLayerTag)
+HRESULT CLevel_Loading::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
     CUI_Image::CUI_IMAGE_DESC Desc{};
 
@@ -170,8 +170,6 @@ CLevel_Loading* CLevel_Loading::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 void CLevel_Loading::Free()
 {
-    m_pGameInstance->Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE::PARALLEL);
-
     Safe_Release(m_pLoader);
      
     __super::Free();

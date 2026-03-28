@@ -5,6 +5,8 @@
 #include "CCamera_Free.h"
 #include "CUI_AniImage.h"
 #include "CLobbyTabBtn.h"
+#include "CUI_PickPanel.h"
+#include "CPickSlot.h"
 
 #include "CMonster.h"
 
@@ -308,7 +310,7 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_LobbyAni"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 500))))
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 1))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbyAni");
             }
@@ -419,6 +421,79 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_Texture_PickPanel */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_PickPanel"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/PickPanel.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_PickPanel");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_CharPickSlot */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_CharPickSlot"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/CharPickSlot%d.png"), 2))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_CharPickSlot");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* CharLobbyPick */
+    _tchar szTextureFilePathDefault[MAX_PATH] = TEXT("../Bin/Resources/Lobby/Select/CharPick/CharLobbyPickImg%d.png");
+    _tchar szTextureFilePath[MAX_PATH] = TEXT(""); 
+
+    for (_uint i = 0; i < ETOUI(CharName::CHARNAME_END); ++i)
+    {
+        wsprintf(szTextureFilePath, szTextureFilePathDefault, i);
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, i, szTextureFilePath]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), CharLobbyTex[i],
+                    CTexture::Create(m_pDevice, m_pContext, szTextureFilePath, 1))))
+                {
+                    MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: CharLobby");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
+
+    /* Prototype_Texture_StartegyFrameDeco */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_StartegyFrameDeco"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/StartegyFrameDeco.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_StartegyFrameDeco");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_StartegyTitleDeco */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_StartegyTitleDeco"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/StartegyTitleDeco.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_StartegyTitleDeco");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
@@ -430,6 +505,32 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
                 CLobbyTabBtn::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_CLobbyTabBtn");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_PickPanel */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_PickPanel"),
+                CUI_PickPanel::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_PickPanel");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_PickSlot */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_PickSlot"),
+                CPickSlot::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_PickSlot");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

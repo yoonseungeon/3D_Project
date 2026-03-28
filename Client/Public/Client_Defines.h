@@ -10,7 +10,7 @@ namespace Client
 	enum class LEVEL { STATIC, LOADING, LOGO, LOBBY, GAMEPLAY, ENDING, END };
 }
 
-enum class UILAYER {BACKGROUND, DECO_LAYER1, DECO_LAYER2, DECO_LAYER3, PANEL, BUTTON};
+enum class UILAYER {BACKGROUND, DECO_LAYER1, DECO_LAYER2, DECO_LAYER3, PANEL, SLOT, BUTTON, BUTTON_IMAGE};
 
 enum class STAGE { LOBBY, SELECT, STAGE_END };
 
@@ -22,3 +22,10 @@ extern HWND g_hWnd;
 // Client namespace를 만든 적이 없어서 위에서 반드시 만들어줘야 에러 안 뜸.
 // 이거 해주면 매번 cpp에서 namespace 안 붙여도 됨.
 using namespace Client;
+
+enum class CharName{ LIDAILIN, HYUNWOO, CHARNAME_END};
+
+constexpr const wchar_t* CharLobbyTex[]{
+	L"Prototype_Texture_CharLobbyPick_LiDailin",
+	L"Prototype_Texture_CharLobbyPick_Hyunwoo"
+};

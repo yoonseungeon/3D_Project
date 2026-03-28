@@ -13,6 +13,8 @@ CLevel_Lobby::CLevel_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Lobby::Initialize()
 {
+    m_pGameInstance->Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE::PARALLEL);
+
     if(FAILED(Ready_Lobby()))
         return E_FAIL;
 
@@ -88,7 +90,10 @@ void CLevel_Lobby::Update_Stage()
             }
             }
         }
-        m_Stages[iCurStage]->Enable_Stage();
+        if(m_Stages[iCurStage] != nullptr)
+        {
+            m_Stages[iCurStage]->Enable_Stage();
+        }
 
         m_ePreStage = m_eCurStage;
     }

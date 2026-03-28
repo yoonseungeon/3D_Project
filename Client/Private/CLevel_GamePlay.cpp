@@ -12,6 +12,8 @@ CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+    m_pGameInstance->Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE::PARALLEL);
+
     if (FAILED(Ready_Lights()))
         return E_FAIL;
 
@@ -58,6 +60,8 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
     if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
         return E_FAIL;
+
+    return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)

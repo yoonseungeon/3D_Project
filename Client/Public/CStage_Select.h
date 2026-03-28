@@ -5,6 +5,8 @@ NS_BEGIN(Client)
 
 class CStage_Select : public CStage
 {
+	enum VIEW_TYPE { PICK, VIEW_TYPE_END };
+
 private:
 	CStage_Select(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CStage_Select() = default;
@@ -17,8 +19,12 @@ private:
 	virtual HRESULT Initialize(function<void(STAGE)> funcBtnCallBack) override;
 
 private:
-	HRESULT Ready_Layer_Deco(const _wstring& strLayerTag);
+	vector<CGameObject*> m_UIs[VIEW_TYPE_END];
+
+private:
+	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Btn(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_PickPanel(const _wstring& strLayerTag);
 
 public:
 	static CStage_Select* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, function<void(STAGE)> funcBtnCallBack);

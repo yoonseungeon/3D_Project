@@ -24,7 +24,7 @@ HRESULT CStage_Lobby::Initialize(function<void(STAGE)> funcBtnCallBack)
 {
     m_funcBtnCallBack = funcBtnCallBack;
 
-    if (FAILED(Ready_Layer_Deco(TEXT("Layer_Deco"))))
+    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_Deco"))))
         return E_FAIL;
 
     if (FAILED(Ready_Layer_Btn(TEXT("Layer_Btn"))))
@@ -33,7 +33,7 @@ HRESULT CStage_Lobby::Initialize(function<void(STAGE)> funcBtnCallBack)
     return S_OK;
 }
 
-HRESULT CStage_Lobby::Ready_Layer_Deco(const _wstring& strLayerTag)
+HRESULT CStage_Lobby::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
     CGameObject* pObj{ nullptr };
 

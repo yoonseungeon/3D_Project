@@ -155,6 +155,7 @@
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CMonster.h" />
+    <ClInclude Include="..\Public\CPickSlot.h" />
     <ClInclude Include="..\Public\CStage.h" />
     <ClInclude Include="..\Public\CStage_Lobby.h" />
     <ClInclude Include="..\Public\CStage_Select.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="..\Public\CLevel_Loading.h" />
     <ClInclude Include="..\Public\CLoader.h" />
     <ClInclude Include="..\Public\CMainApp.h" />
+    <ClInclude Include="..\Public\CUI_PickPanel.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -180,6 +182,7 @@
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
     <ClCompile Include="..\Private\CMonster.cpp" />
+    <ClCompile Include="..\Private\CPickSlot.cpp" />
     <ClCompile Include="..\Private\CStage.cpp" />
     <ClCompile Include="..\Private\CStage_Lobby.cpp" />
     <ClCompile Include="..\Private\CStage_Select.cpp" />
@@ -195,6 +198,7 @@
     <ClCompile Include="..\Private\CLevel_Loading.cpp" />
     <ClCompile Include="..\Private\CLoader.cpp" />
     <ClCompile Include="..\Private\CMainApp.cpp" />
+    <ClCompile Include="..\Private\CUI_PickPanel.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

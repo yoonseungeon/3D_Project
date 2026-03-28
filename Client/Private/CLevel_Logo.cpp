@@ -12,7 +12,9 @@ CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Logo::Initialize()
 {
-    if (FAILED(Ready_Layer_Deco(TEXT("Layer_Deco"))))
+    m_pGameInstance->Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE::PARALLEL);
+
+    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_Deco"))))
         return E_FAIL;
 
     return S_OK;
@@ -72,7 +74,7 @@ HRESULT CLevel_Logo::Render()
     return S_OK;
 }
 
-HRESULT CLevel_Logo::Ready_Layer_Deco(const _wstring& strLayerTag)
+HRESULT CLevel_Logo::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
     CUI_Image* pImage{ nullptr };
 

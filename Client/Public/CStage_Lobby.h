@@ -17,7 +17,7 @@ private:
 	virtual HRESULT Initialize(function<void(STAGE)> funcBtnCallBack) override;
 
 private:
-	HRESULT Ready_Layer_Deco(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Btn(const _wstring& strLayerTag);
 
 public:
