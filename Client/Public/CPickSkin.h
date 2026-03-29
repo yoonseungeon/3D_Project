@@ -14,29 +14,21 @@ NS_BEGIN(Client)
 class CUI_Image;
 class CGame_Manager;
 
-class CPickSlot final : public CUI_Btn
+class CPickSkin final : public CUI_Btn
 {
 private:
-	enum TEX_STATE { NORMAL, HOVER };
+	enum TEX_STATE { HOVER, SELECTED, NONE };
 
 public:
-	struct CHAR_INFO
+	struct CPICKSKIN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
-		wstring wstrTexturePrototypeTag;
-	};
 
-public:
-	struct CPICKSLOT_DESC : public CUI_Btn::CUI_BTN_DESC
-	{
-		CHAR_NAME eCharName{};
-		CHAR_INFO tCharInfo{};
 	};
-
 
 private:
-	CPickSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPickSlot(const CPickSlot& Prototype);
-	virtual ~CPickSlot() = default;
+	CPickSkin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CPickSkin(const CPickSkin& Prototype);
+	virtual ~CPickSkin() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -47,7 +39,14 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void Reset_Skin(LEVEL eTexPrototypeLV, const wstring& wstrTexturePrototypeTag);
+	virtual void Set_IsInactive(_bool bIsInactive) override;
+	void Set_SkinIdx(_uint iSkinIdx);
+
 	void Set_Deselect();
+	void Set_Select();
+	void Set_SkinName(const wstring& wstrSkinName);
 
 private:
 	HRESULT Ready_Components();
@@ -61,17 +60,18 @@ private:
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
 	CTexture* m_pTextureCom{ nullptr };
 
-	CGame_Manager* m_pGame_Manager{ nullptr };
+	CGame_Manager* m_pGame_Manager{};
 
-	TEX_STATE m_eCurTexState{};
-	CUI_Image* m_pChar{};
+	TEX_STATE m_eCurTexState{ TEX_STATE::NONE };
 
-	CHAR_NAME m_eCharName{};
+	CUI_Image* m_pSkin{};
 
 	_bool m_bIsSelected{};
 
+	wstring m_wstrSkinName;
+
 public:
-	static CPickSlot* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CPickSkin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free() override;

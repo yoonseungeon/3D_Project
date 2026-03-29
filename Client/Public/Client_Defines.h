@@ -23,7 +23,7 @@ extern HWND g_hWnd;
 // 이거 해주면 매번 cpp에서 namespace 안 붙여도 됨.
 using namespace Client;
 
-enum class CharName{ LIDAILIN, HYUNWOO, CHARNAME_END};
+enum class CHAR_NAME{ LIDAILIN, HYUNWOO, CHARNAME_END};
 
 constexpr const wchar_t* CharLobbyTex[]{
 	L"Prototype_Texture_CharLobbyPick_LiDailin",

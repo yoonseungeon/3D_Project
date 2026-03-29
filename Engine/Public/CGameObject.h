@@ -33,7 +33,7 @@ public:
 	virtual HRESULT Render();
 
 public:
-	void Set_IsInactive(_bool bIsInactive) { m_bIsInactive = bIsInactive; }
+	virtual void Set_IsInactive(_bool bIsInactive) { m_bIsInactive = bIsInactive; }
 
 protected:
 	ID3D11Device*									m_pDevice{ nullptr };

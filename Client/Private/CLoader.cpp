@@ -7,6 +7,8 @@
 #include "CLobbyTabBtn.h"
 #include "CUI_PickPanel.h"
 #include "CPickSlot.h"
+#include "CUI_SkinPanel.h"
+#include "CPickSkin.h"
 
 #include "CMonster.h"
 
@@ -452,7 +454,7 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     _tchar szTextureFilePathDefault[MAX_PATH] = TEXT("../Bin/Resources/Lobby/Select/CharPick/CharLobbyPickImg%d.png");
     _tchar szTextureFilePath[MAX_PATH] = TEXT(""); 
 
-    for (_uint i = 0; i < ETOUI(CharName::CHARNAME_END); ++i)
+    for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
     {
         wsprintf(szTextureFilePath, szTextureFilePathDefault, i);
 
@@ -494,6 +496,49 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_Texture_SkinSlotFrame */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_SkinSlotFrame"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/SkinSlotFrame%d.png"), 2))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_SkinSlotFrame");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+#pragma region Skin
+    /* Prototype_Texture_PickLiDailinSkin */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_PickLiDailinSkin"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/PickLiDailinSkin%d.png"), 2))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_PickLiDailinSkin");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_PickHynwooSkin */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_PickHynwooSkin"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/PickHyunwooSkin%d.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_PickHynwooSkin");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
@@ -531,6 +576,32 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
                 CPickSlot::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_PickSlot");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_SkinPanel */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_SkinPanel"),
+                CUI_SkinPanel::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_SkinPanel");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_PickSkin */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_PickSkin"),
+                CPickSkin::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_PickSkin");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

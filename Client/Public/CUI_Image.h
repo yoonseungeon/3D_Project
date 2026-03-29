@@ -32,6 +32,9 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void Reset_Texture(LEVEL eTexPrototypeLV, const wstring& wstrTexturePrototypeTag);
+
 protected:
 	CShader*		m_pShaderCom{ nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };

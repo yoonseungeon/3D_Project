@@ -46,9 +46,6 @@
     <Filter Include="997. ShaderFiles">
       <UniqueIdentifier>{13f6b09d-79e7-45c4-af58-6d0dd3ca28d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99. ImGui_Manager">
-      <UniqueIdentifier>{f0887342-7e7c-4b1b-b8cc-aaa3962654e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\00. Camera">
       <UniqueIdentifier>{ff6cb342-f0a3-4839-bae6-e8c40ea86f63}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,24 @@
     </Filter>
     <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\PickSlot">
       <UniqueIdentifier>{f271a942-1d89-41a3-adb0-790d90b8f0a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\03. UI_SkinPanel">
+      <UniqueIdentifier>{0dd327d6-8344-4bcb-a424-a364284e2664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Manager">
+      <UniqueIdentifier>{9da1878e-e8dc-45e5-badd-689d7f8144c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Manager\99. ImGui_Manager">
+      <UniqueIdentifier>{f0887342-7e7c-4b1b-b8cc-aaa3962654e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Manager\00. CharData_Manager">
+      <UniqueIdentifier>{a4376f57-7def-47d0-8a26-14dc28330034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Manager\01. CGame_Manager">
+      <UniqueIdentifier>{6170fe61-0410-4c90-8962-3c8d1ac16b55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\PickSkin">
+      <UniqueIdentifier>{035a5d7c-1808-47c4-8517-3f5ae3cdaaa1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,7 +130,7 @@
       <Filter>02. GameObject\01. UI_Default\00. UI_Image</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CImGui_Manager.h">
-      <Filter>99. ImGui_Manager</Filter>
+      <Filter>99. Manager\99. ImGui_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLevel_Lobby.h">
       <Filter>01. Levels\02. Lobby</Filter>
@@ -156,6 +171,18 @@
     <ClInclude Include="..\Public\CPickSlot.h">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_SkinPanel.h">
+      <Filter>02. GameObject\01. UI_Default\03. UI_SkinPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CCharData_Manager.h">
+      <Filter>99. Manager\00. CharData_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CGame_Manager.h">
+      <Filter>99. Manager\01. CGame_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPickSkin.h">
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSkin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -193,7 +220,7 @@
       <Filter>02. GameObject\01. UI_Default\00. UI_Image</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CImGui_Manager.cpp">
-      <Filter>99. ImGui_Manager</Filter>
+      <Filter>99. Manager\99. ImGui_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLevel_Lobby.cpp">
       <Filter>01. Levels\02. Lobby</Filter>
@@ -233,6 +260,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\CPickSlot.cpp">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_SkinPanel.cpp">
+      <Filter>02. GameObject\01. UI_Default\03. UI_SkinPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCharData_Manager.cpp">
+      <Filter>99. Manager\00. CharData_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CGame_Manager.cpp">
+      <Filter>99. Manager\01. CGame_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPickSkin.cpp">
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSkin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

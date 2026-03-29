@@ -5,6 +5,7 @@
 #include "CUI_AniImage.h"
 #include "CUI_Btn.h"
 #include "CUI_PickPanel.h"
+#include "CUI_SkinPanel.h"
 
 CStage_Select::CStage_Select(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CStage(pDevice, pContext)
@@ -32,6 +33,9 @@ HRESULT CStage_Select::Initialize(function<void(STAGE)> funcBtnCallBack)
         return E_FAIL;
 
     if (FAILED(Ready_Layer_PickPanel(TEXT("Layer_PickPanel"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_SkinPanel(TEXT("Layer_SkinPanel"))))
         return E_FAIL;
 
     return S_OK;
@@ -91,6 +95,33 @@ HRESULT CStage_Select::Ready_Layer_PickPanel(const _wstring& strLayerTag)
         return E_FAIL;
 
     m_UIs[VIEW_TYPE::PICK].push_back(pObj);
+
+    return S_OK;
+}
+
+HRESULT CStage_Select::Ready_Layer_SkinPanel(const _wstring& strLayerTag)
+{
+    CGameObject* pObj{ nullptr };
+
+    CUI_SkinPanel::CUI_SKINPANEL_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.33f;
+    Desc.fScaleRatioY = 0.23f;
+    Desc.fPosRatioX = 0.15f;
+    Desc.fPosRatioY = -0.15f;
+    Desc.iFlipX = false;
+    Desc.iFlipY = false;
+    Desc.iUILayer = ETOUI(UILAYER::PANEL);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::DEFAULT;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_PickPanel";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_SkinPanel"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_UIs[VIEW_TYPE::SKIN].push_back(pObj);
 
     return S_OK;
 }

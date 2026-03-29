@@ -70,6 +70,23 @@ HRESULT CUI_Image::Render()
     return S_OK;
 }
 
+void CUI_Image::Reset_Texture(LEVEL eTexPrototypeLV, const wstring& wstrTexturePrototypeTag)
+{
+    auto iter = m_Components.find(TEXT("Com_Texture"));
+    Safe_Release(iter->second);
+    m_Components.erase(iter);
+ 
+    Safe_Release(m_pTextureCom);
+
+    m_eTexPrototypeLV = eTexPrototypeLV;
+    m_wstrTexturePrototypeTag = wstrTexturePrototypeTag;
+
+    /* For.Com_Texture*/
+    if (FAILED(__super::Add_Component(ETOUI(m_eTexPrototypeLV), m_wstrTexturePrototypeTag,
+        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        MSG_BOX("Failed to Reset Texture: CUI_Image");
+}
+
 HRESULT CUI_Image::Ready_Components()
 {
     /* For.Com_Shader */
@@ -100,7 +117,7 @@ HRESULT CUI_Image::Bind_ShaderResources()
     if (FAILED(__super::Bind_ShaderResource(m_pShaderCom, "g_ProjMatrix", D3DTS::PROJ)))
         return E_FAIL;
 
-    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTexIdx)))
         return E_FAIL;
 
     m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));

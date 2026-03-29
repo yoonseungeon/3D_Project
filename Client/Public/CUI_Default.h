@@ -36,6 +36,7 @@ public:
 
 public:
 	void Add_Alpha(_float fAlpha);
+	void Set_TexIdx(_uint iTexIdx) { m_iTexIdx = iTexIdx; }
 
 protected:
 	LEVEL m_eTexPrototypeLV{};
@@ -43,6 +44,8 @@ protected:
 	BLENDSTATE m_eBlendState{};
 
 	_float m_fImageAlpha{ 1.f };
+
+	_uint m_iTexIdx{};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

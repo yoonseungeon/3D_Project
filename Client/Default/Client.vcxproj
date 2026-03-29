@@ -153,8 +153,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\CCamera_Free.h" />
+    <ClInclude Include="..\Public\CCharData_Manager.h" />
+    <ClInclude Include="..\Public\CGame_Manager.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CMonster.h" />
+    <ClInclude Include="..\Public\CPickSkin.h" />
     <ClInclude Include="..\Public\CPickSlot.h" />
     <ClInclude Include="..\Public\CStage.h" />
     <ClInclude Include="..\Public\CStage_Lobby.h" />
@@ -173,6 +176,7 @@
     <ClInclude Include="..\Public\CLoader.h" />
     <ClInclude Include="..\Public\CMainApp.h" />
     <ClInclude Include="..\Public\CUI_PickPanel.h" />
+    <ClInclude Include="..\Public\CUI_SkinPanel.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -180,8 +184,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
+    <ClCompile Include="..\Private\CCharData_Manager.cpp" />
+    <ClCompile Include="..\Private\CGame_Manager.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
     <ClCompile Include="..\Private\CMonster.cpp" />
+    <ClCompile Include="..\Private\CPickSkin.cpp" />
     <ClCompile Include="..\Private\CPickSlot.cpp" />
     <ClCompile Include="..\Private\CStage.cpp" />
     <ClCompile Include="..\Private\CStage_Lobby.cpp" />
@@ -199,6 +206,7 @@
     <ClCompile Include="..\Private\CLoader.cpp" />
     <ClCompile Include="..\Private\CMainApp.cpp" />
     <ClCompile Include="..\Private\CUI_PickPanel.cpp" />
+    <ClCompile Include="..\Private\CUI_SkinPanel.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

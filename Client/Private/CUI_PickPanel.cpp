@@ -110,7 +110,7 @@ HRESULT CUI_PickPanel::Bind_ShaderResources()
     if (FAILED(__super::Bind_ShaderResource(m_pShaderCom, "g_ProjMatrix", D3DTS::PROJ)))
         return E_FAIL;
 
-    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTexIdx)))
         return E_FAIL;
 
     m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
@@ -155,9 +155,17 @@ HRESULT CUI_PickPanel::Ready_Layer_PickSlot(const _wstring& strLayerTag)
     Desc.eBlendState = CUI_Default::ALPHABLEND;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_CharPickSlot";
 
-    for (_uint i = 0; i < ETOUI(CharName::CHARNAME_END); ++i)
+    Desc.funcCallBack = [this]()->void
+        {
+            for (auto pPickSlot : m_PickSlots) {
+                pPickSlot->Set_Deselect();
+            }
+        };
+
+    for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
     {
         Desc.tCharInfo.wstrTexturePrototypeTag = CharLobbyTex[i];
+        Desc.eCharName = static_cast<CHAR_NAME>(i);
 
         if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_PickSlot"),
             ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pPickSlot))))

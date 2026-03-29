@@ -1,50 +1,48 @@
-#include "CPickSlot.h"
+#include "CPickSkin.h"
 
 #include "CGameInstance.h"
 #include "CUI_Image.h"
 #include "CGame_Manager.h"
 
-CPickSlot::CPickSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPickSkin::CPickSkin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Btn{ pDevice, pContext }
 {
 }
 
-CPickSlot::CPickSlot(const CPickSlot& Prototype)
+CPickSkin::CPickSkin(const CPickSkin& Prototype)
     : CUI_Btn{ Prototype }
 {
 
 }
 
-HRESULT CPickSlot::Initialize_Prototype()
+HRESULT CPickSkin::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CPickSlot::Initialize(void* pArg)
+HRESULT CPickSkin::Initialize(void* pArg)
 {
     m_pGame_Manager = CGame_Manager::GetInstance();
 
-    CPICKSLOT_DESC* pDesc = static_cast<CPICKSLOT_DESC*>(pArg);
+    CPICKSKIN_DESC* pDesc = static_cast<CPICKSKIN_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
-    m_eCharName = pDesc->eCharName;
-
     CUI_Image::CUI_IMAGE_DESC Desc{};
 
     Desc.fScaleRatioX = pDesc->fScaleRatioX * 0.98f;
-    Desc.fScaleRatioY = pDesc->fScaleRatioY *0.955f;
+    Desc.fScaleRatioY = pDesc->fScaleRatioY * 0.955f;
     Desc.fPosRatioX = pDesc->fPosRatioX;
     Desc.fPosRatioY = pDesc->fPosRatioY;
     Desc.eTexPrototypeLV = pDesc->eTexPrototypeLV;
-    Desc.wstrTexturePrototypeTag = pDesc->tCharInfo.wstrTexturePrototypeTag;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_CharPickSlot"; // 더미
     Desc.eBlendState = CUI_Default::ALPHABLEND;
     Desc.iUILayer = ETOUI(UILAYER::BUTTON_IMAGE);
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-          ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &Desc, reinterpret_cast<CGameObject**>(&m_pChar))))
-          return E_FAIL;
+        ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &Desc, reinterpret_cast<CGameObject**>(&m_pSkin))))
+        return E_FAIL;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -52,11 +50,11 @@ HRESULT CPickSlot::Initialize(void* pArg)
     return S_OK;
 }
 
-void CPickSlot::Priority_Update(_float fTimeDelta)
+void CPickSkin::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CPickSlot::Parallel_Update(_float fTimeDelta)
+void CPickSkin::Parallel_Update(_float fTimeDelta)
 {
     // m_bIsInactived의 쓰기는 Level Update에서 일어남.(Late Update 후 LevelUpdate 됨.)
     if (m_bIsInactive == true) {
@@ -68,9 +66,9 @@ void CPickSlot::Parallel_Update(_float fTimeDelta)
     Execute_Btn(fTimeDelta);
 }
 
-void CPickSlot::Update(_float fTimeDelta)
+void CPickSkin::Update(_float fTimeDelta)
 {
-    if (m_bIsInactive == true) {
+    if (m_bIsInactive == true || m_eCurTexState == TEX_STATE::NONE) {
         return;
     }
 
@@ -79,7 +77,7 @@ void CPickSlot::Update(_float fTimeDelta)
     }
 }
 
-void CPickSlot::Late_Update(_float fTimeDelta)
+void CPickSkin::Late_Update(_float fTimeDelta)
 {
     if (m_bIsInactive == true) {
         return;
@@ -88,7 +86,7 @@ void CPickSlot::Late_Update(_float fTimeDelta)
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
-HRESULT CPickSlot::Render()
+HRESULT CPickSkin::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -105,12 +103,39 @@ HRESULT CPickSlot::Render()
     return S_OK;
 }
 
-void CPickSlot::Set_Deselect()
+void CPickSkin::Reset_Skin(LEVEL eTexPrototypeLV, const wstring& wstrTexturePrototypeTag)
+{
+    m_pSkin->Reset_Texture(eTexPrototypeLV, wstrTexturePrototypeTag);
+}
+
+void CPickSkin::Set_IsInactive(_bool bIsInactive)
+{
+    m_bIsInactive = bIsInactive;
+    m_pSkin->Set_IsInactive(bIsInactive);
+}
+
+void CPickSkin::Set_SkinIdx(_uint iSkinIdx)
+{
+    m_pSkin->Set_TexIdx(iSkinIdx);
+}
+
+void CPickSkin::Set_Deselect()
 {
     m_bIsSelected = false;
 }
 
-HRESULT CPickSlot::Ready_Components()
+void CPickSkin::Set_Select()
+{
+    m_bIsSelected = true;
+    m_pGame_Manager->Set_SelectSkin(m_wstrSkinName);
+}
+
+void CPickSkin::Set_SkinName(const wstring& wstrSkinName)
+{
+    m_wstrSkinName = wstrSkinName;
+}
+
+HRESULT CPickSkin::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -130,7 +155,7 @@ HRESULT CPickSlot::Ready_Components()
     return S_OK;
 }
 
-HRESULT CPickSlot::Bind_ShaderResources()
+HRESULT CPickSkin::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -150,25 +175,26 @@ HRESULT CPickSlot::Bind_ShaderResources()
     return S_OK;
 }
 
-void CPickSlot::BtnClick()
+void CPickSkin::BtnClick()
 {
-    m_pGame_Manager->Set_SelectChar(m_eCharName);
+    m_pGame_Manager->Set_SelectSkin(m_wstrSkinName);
     m_funcCallBack();
     m_bIsSelected = true;
     m_bIsClicked = false;
 }
 
-void CPickSlot::Execute_Btn(_float fTimeDelta)
-{
-    if (m_bIsSelected) {
-        m_eCurTexState = TEX_STATE::HOVER;
+void CPickSkin::Execute_Btn(_float fTimeDelta)
+{    
+
+    if (m_bIsSelected == true) {
+        m_eCurTexState = TEX_STATE::SELECTED;
         return;
     }
 
     switch (m_eCurBtnState) {
     case BTN_STATE::NORMAL:
     {
-        m_eCurTexState = TEX_STATE::NORMAL;
+        m_eCurTexState = TEX_STATE::NONE;
         break;
     }
 
@@ -180,49 +206,49 @@ void CPickSlot::Execute_Btn(_float fTimeDelta)
 
     case BTN_STATE::PRESSED:
     {
-        m_eCurTexState = TEX_STATE::HOVER;
+        m_eCurTexState = TEX_STATE::SELECTED;
         break;
     }
 
     case BTN_STATE::CLICKED:
     {
-        m_eCurTexState = TEX_STATE::HOVER;
+        m_eCurTexState = TEX_STATE::SELECTED;
         m_bIsClicked = true;
         break;
     }
     }
 }
 
-CPickSlot* CPickSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CPickSkin* CPickSkin::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CPickSlot* pInstance = new CPickSlot(pDevice, pContext);
+    CPickSkin* pInstance = new CPickSkin(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CPickSlot");
+        MSG_BOX("Failed to Created: CPickSkin");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CPickSlot::Clone(void* pArg)
+CGameObject* CPickSkin::Clone(void* pArg)
 {
-    CPickSlot* pInstance = new CPickSlot(*this);
+    CPickSkin* pInstance = new CPickSkin(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CPickSlot");
+        MSG_BOX("Failed to Cloned: CPickSkin");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CPickSlot::Free()
+void CPickSkin::Free()
 {
-    Safe_Release(m_pChar);
     Safe_Release(m_pGame_Manager);
+    Safe_Release(m_pSkin);
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
