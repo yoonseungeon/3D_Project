@@ -4,7 +4,7 @@
 
 IMPLEMENT_SINGLETON(CCharData_Manager)
 
-const CCharData_Manager::CHAR_SKIN_INFO& CCharData_Manager::Get_CharSkinInfo(CHAR_NAME eCharName)
+const CCharData_Manager::CHAR_SKIN_DESC& CCharData_Manager::Get_CharSkinInfo(CHAR_NAME eCharName)
 {
     
     auto iter = m_CharSkins.find(eCharName);
@@ -12,7 +12,7 @@ const CCharData_Manager::CHAR_SKIN_INFO& CCharData_Manager::Get_CharSkinInfo(CHA
     {
         MSG_BOX("No Char_Skin_Info: CCharData_Manager");
 
-        return CHAR_SKIN_INFO();
+        return CHAR_SKIN_DESC();
     }
 
     return iter->second;
@@ -27,12 +27,12 @@ CCharData_Manager::CCharData_Manager()
 HRESULT CCharData_Manager::Initialize()
 { 
     //LiDailin
-    CHAR_SKIN_INFO tCharSkinInfo{};
+    CHAR_SKIN_DESC tCharSkinInfo{};
     tCharSkinInfo.eCharName = CHAR_NAME::LIDAILIN;
 
     tCharSkinInfo.wstrSkinSmallTexTag = L"Prototype_Texture_PickLiDailinSkin";
 
-    SKIN_INFO tSkinInfo{};
+    SKIN_DESC tSkinInfo{};
     tSkinInfo.wstrSkinName = L"Default";
     tSkinInfo.iSkinIdx = 0;
     tCharSkinInfo.Skins.push_back(tSkinInfo);

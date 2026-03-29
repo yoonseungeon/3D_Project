@@ -17,7 +17,7 @@ protected:
 	enum BTN_STATE { NORMAL, HOVER, PRESSED, CLICKED };
 
 public:
-	struct CUI_BTN_DESC : public CUI_Default::CUI_DEFAULT
+	struct CUI_BTN_DESC : public CUI_Default::CUI_DEFAULT_DESC
 	{
 		function<void()> funcCallBack{ nullptr };
 	};

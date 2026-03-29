@@ -450,27 +450,6 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
         }
     );
 
-    /* CharLobbyPick */
-    _tchar szTextureFilePathDefault[MAX_PATH] = TEXT("../Bin/Resources/Lobby/Select/CharPick/CharLobbyPickImg%d.png");
-    _tchar szTextureFilePath[MAX_PATH] = TEXT(""); 
-
-    for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
-    {
-        wsprintf(szTextureFilePath, szTextureFilePathDefault, i);
-
-        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-        m_pGameInstance->Add_Job(
-            [this, i, szTextureFilePath]()->void {
-                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), CharLobbyTex[i],
-                    CTexture::Create(m_pDevice, m_pContext, szTextureFilePath, 1))))
-                {
-                    MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: CharLobby");
-                }
-                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-            }
-        );
-    }
-
     /* Prototype_Texture_StartegyFrameDeco */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -510,34 +489,51 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
         }
     );
 
-#pragma region Skin
-    /* Prototype_Texture_PickLiDailinSkin */
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_PickLiDailinSkin"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/PickLiDailinSkin%d.png"), 2))))
-            {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_PickLiDailinSkin");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
 
-    /* Prototype_Texture_PickHynwooSkin */
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_PickHynwooSkin"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/PickHyunwooSkin%d.png"), 1))))
-            {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_PickHynwooSkin");
+#pragma region CharLobbyPick
+    /* CharLobbyPick */
+    _tchar szPickTexPathDefault[MAX_PATH] = TEXT("../Bin/Resources/Lobby/Select/CharPick/CharLobbyPickImg%d.png");
+    _tchar szPickTexPath[MAX_PATH] = TEXT("");
+
+    for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
+    {
+        wsprintf(szPickTexPath, szPickTexPathDefault, i);
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, i, szPickTexPath]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), CharLobbyTex[i],
+                    CTexture::Create(m_pDevice, m_pContext, szPickTexPath, 1))))
+                {
+                    MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: CharLobby");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
             }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
+        );
+    }
 #pragma endregion
 
+#pragma region SkinPick
+    wstring wstrPickSkinTexPathDefault = L"../Bin/Resources/Lobby/Select/CharPickSkin/";
+    _tchar szPickSkinTexPath[MAX_PATH] = TEXT("");
+
+    for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
+    {
+        wstring wstrFinalPath = wstrPickSkinTexPathDefault + tCharSkinTexInfo[i].Path;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, wstrFinalPath, i]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), tCharSkinTexInfo[i].CharSkinTexTag,
+                    CTexture::Create(m_pDevice, m_pContext, wstrFinalPath.c_str(), tCharSkinTexInfo[i].iSkinCnt))))
+                {
+                    MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_CharPickSkin");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );          
+    }
+#pragma endregion
 
 #pragma endregion
 

@@ -19,7 +19,7 @@ HRESULT CUI_Default::Initialize_Prototype()
 
 HRESULT CUI_Default::Initialize(void* pArg)
 {
-    CUI_DEFAULT* pDesc = static_cast<CUI_DEFAULT*>(pArg);
+    CUI_DEFAULT_DESC* pDesc = static_cast<CUI_DEFAULT_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;

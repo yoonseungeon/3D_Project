@@ -29,3 +29,15 @@ constexpr const wchar_t* CharLobbyTex[]{
 	L"Prototype_Texture_CharLobbyPick_LiDailin",
 	L"Prototype_Texture_CharLobbyPick_Hyunwoo"
 };
+
+struct CHAR_SKIN_TEX_INFO
+{
+	const wchar_t* CharSkinTexTag;
+	unsigned int iSkinCnt;
+	const wchar_t* Path;
+};
+
+constexpr CHAR_SKIN_TEX_INFO tCharSkinTexInfo[]{
+	{ L"Prototype_Texture_PickLiDailinSkin", L"PickLiDailinSkin%d.png",2},
+	{ L"Prototype_Texture_PickHynwooSkin", L"PickHyunwooSkin%d.png", 1}
+}; 

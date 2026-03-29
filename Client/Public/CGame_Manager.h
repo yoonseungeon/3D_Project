@@ -11,7 +11,7 @@ class CGame_Manager final : public CBase
 	DECLARE_SINGLETON(CGame_Manager)
 
 private:
-	struct SELECTED_CHAR
+	struct SELECTED_CHAR_DESC
 	{
 		CHAR_NAME eCharName{ CHAR_NAME::CHARNAME_END };
 		wstring wstrSkinName = L"Default";
@@ -30,7 +30,7 @@ public:
 	CHAR_NAME Get_SelectedChar();
 
 private:
-	SELECTED_CHAR m_tSelectedChar{};
+	SELECTED_CHAR_DESC m_tSelectedChar{};
 
 protected:
 	virtual void Free() override;

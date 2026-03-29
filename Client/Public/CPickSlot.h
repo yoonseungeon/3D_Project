@@ -20,7 +20,7 @@ private:
 	enum TEX_STATE { NORMAL, HOVER };
 
 public:
-	struct CHAR_INFO
+	struct CHAR_INFO_DESC
 	{
 		wstring wstrTexturePrototypeTag;
 	};
@@ -29,7 +29,7 @@ public:
 	struct CPICKSLOT_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
 		CHAR_NAME eCharName{};
-		CHAR_INFO tCharInfo{};
+		CHAR_INFO_DESC tCharInfo{};
 	};
 
 

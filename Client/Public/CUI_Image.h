@@ -14,7 +14,7 @@ NS_BEGIN(Client)
 class CUI_Image : public CUI_Default
 {
 public:
-	struct CUI_IMAGE_DESC : public CUI_Default::CUI_DEFAULT
+	struct CUI_IMAGE_DESC : public CUI_Default::CUI_DEFAULT_DESC
 	{
 	};
 

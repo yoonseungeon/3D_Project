@@ -16,7 +16,7 @@ class CPickSlot;
 class CUI_PickPanel : public CUI_Default
 {
 public:
-	struct CUI_PICKPANEL_DESC : public CUI_Default::CUI_DEFAULT
+	struct CUI_PICKPANEL_DESC : public CUI_Default::CUI_DEFAULT_DESC
 	{
 	};
 

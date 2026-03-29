@@ -18,7 +18,7 @@ class CCharData_Manager;
 class CUI_SkinPanel : public CUI_Default
 {
 public:
-	struct CUI_SKINPANEL_DESC : public CUI_Default::CUI_DEFAULT
+	struct CUI_SKINPANEL_DESC : public CUI_Default::CUI_DEFAULT_DESC
 	{
 	};
 

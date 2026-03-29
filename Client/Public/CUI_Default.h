@@ -11,7 +11,7 @@ public:
 	enum BLENDSTATE { DEFAULT, ALPHATEST, ALPHABLEND, ALPHABLEDN_GAUGE };
 
 public:
-	struct CUI_DEFAULT : public CUIObject::UIOBJECT_DESC
+	struct CUI_DEFAULT_DESC : public CUIObject::UIOBJECT_DESC
 	{
 		LEVEL eTexPrototypeLV{};
 		wstring wstrTexturePrototypeTag;
