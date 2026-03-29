@@ -13,6 +13,7 @@ NS_BEGIN(Client)
 
 class CUI_Image;
 class CGame_Manager;
+class CCharData_Manager;
 
 class CPickSkin final : public CUI_Btn
 {
@@ -22,7 +23,7 @@ private:
 public:
 	struct CPICKSKIN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
-
+		function<void(const wstring, const _uint)> funcSetFullSkin{};
 	};
 
 private:
@@ -42,11 +43,13 @@ public:
 public:
 	void Reset_Skin(LEVEL eTexPrototypeLV, const wstring& wstrTexturePrototypeTag);
 	virtual void Set_IsInactive(_bool bIsInactive) override;
+
+	void Set_eCharName(CHAR_NAME eCharName);
 	void Set_SkinIdx(_uint iSkinIdx);
+	void Set_SkinName(const wstring& wstrSkinName);
 
 	void Set_Deselect();
 	void Set_Select();
-	void Set_SkinName(const wstring& wstrSkinName);
 
 private:
 	HRESULT Ready_Components();
@@ -61,14 +64,20 @@ private:
 	CTexture* m_pTextureCom{ nullptr };
 
 	CGame_Manager* m_pGame_Manager{};
+	CCharData_Manager* m_pCharData_Manager{};
 
 	TEX_STATE m_eCurTexState{ TEX_STATE::NONE };
 
 	CUI_Image* m_pSkin{};
+	CUI_Image* m_pSlotBg{};
 
 	_bool m_bIsSelected{};
 
+	CHAR_NAME m_eCharName{ CHAR_NAME::CHARNAME_END };
 	wstring m_wstrSkinName;
+	_uint m_iSkinIdx{};
+
+	function<void(const wstring, const _uint)> m_funcSetFullSkin{};
 
 public:
 	static CPickSkin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

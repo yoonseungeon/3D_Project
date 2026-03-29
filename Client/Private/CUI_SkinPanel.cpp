@@ -1,10 +1,12 @@
 #include "CUI_SkinPanel.h"
 
 #include "CGameInstance.h"
-#include "CPickSkin.h"
 
 #include "CGame_Manager.h"
 #include "CCharData_Manager.h"
+
+#include "CPickSkin.h"
+#include "CUI_Image.h"
 
 CUI_SkinPanel::CUI_SkinPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -43,6 +45,9 @@ HRESULT CUI_SkinPanel::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_CUI_Image(TEXT("Layer_CUI_Image"))))
+        return E_FAIL;
+
     if (FAILED(Ready_Layer_SkinSlot(TEXT("Layer_SkinSlot"))))
         return E_FAIL;
 
@@ -70,9 +75,10 @@ void CUI_SkinPanel::Update(_float fTimeDelta)
             if (i < iSkinCnt)
             {
                 m_PickSkins[i]->Set_IsInactive(false);
-                m_PickSkins[i]->Reset_Skin(LEVEL::LOBBY, pCharInfo->wstrSkinTag);
-                m_PickSkins[i]->Set_SkinIdx(pCharInfo->Skins[i].iSkinIdx);
+                m_PickSkins[i]->Set_eCharName(pCharInfo->eCharName);
                 m_PickSkins[i]->Set_SkinName(pCharInfo->Skins[i].wstrSkinName);
+                m_PickSkins[i]->Set_SkinIdx(pCharInfo->Skins[i].iSkinIdx);
+                m_PickSkins[i]->Reset_Skin(LEVEL::LOBBY, pCharInfo->wstrSkinTag);
 
                 if (i == 0) {
                     m_PickSkins[i]->Set_Select();
@@ -96,11 +102,11 @@ void CUI_SkinPanel::Update(_float fTimeDelta)
 
 void CUI_SkinPanel::Late_Update(_float fTimeDelta)
 {
-    if (m_bIsInactive == true) {
-        return;
-    }
+    //if (m_bIsInactive == true) {
+    //    return;
+    //}
 
-    m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
+    //m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
 HRESULT CUI_SkinPanel::Render()
@@ -160,6 +166,26 @@ HRESULT CUI_SkinPanel::Bind_ShaderResources()
     return S_OK;
 }
 
+HRESULT CUI_SkinPanel::Ready_Layer_CUI_Image(const _wstring& strLayerTag)
+{
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.25f * 1.7f;
+    Desc.fScaleRatioY = 0.5f * 1.7f;
+    Desc.fPosRatioX = 0.27f;
+    Desc.fPosRatioY = 0.f;
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_NonFullSkin";
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &Desc, reinterpret_cast<CGameObject**>(&m_pFullSkin))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 HRESULT CUI_SkinPanel::Ready_Layer_SkinSlot(const _wstring& strLayerTag)
 {   
     CPickSkin* pPickSkin{ nullptr };
@@ -195,7 +221,13 @@ HRESULT CUI_SkinPanel::Ready_Layer_SkinSlot(const _wstring& strLayerTag)
             }
         };
 
-    for (_uint i = 0; i < 3; ++i)
+    Desc.funcSetFullSkin = [this](const wstring FullSkinTexTag, const _uint iSkinIdx)->void
+        {
+            m_pFullSkin->Reset_Texture(LEVEL::LOBBY, FullSkinTexTag);
+            m_pFullSkin->Set_TexIdx(iSkinIdx);
+        };
+
+    for (_uint i = 0; i < 4; ++i)
     {
         if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_PickSkin"),
             ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pPickSkin))))
@@ -243,6 +275,8 @@ void CUI_SkinPanel::Free()
         Safe_Release(pPickSkin);
     }
     m_PickSkins.clear();
+
+    Safe_Release(m_pFullSkin);
 
     Safe_Release(m_pGame_Manaer);
     Safe_Release(m_pCharData_Manager);

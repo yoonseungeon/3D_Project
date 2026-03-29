@@ -12,6 +12,7 @@ NS_END
 NS_BEGIN(Client)
 
 class CPickSkin;
+class CUI_Image;
 class CGame_Manager;
 class CCharData_Manager;
 
@@ -42,6 +43,7 @@ protected:
 	CTexture* m_pTextureCom{ nullptr };
 
 	vector<CPickSkin*> m_PickSkins;
+	CUI_Image* m_pFullSkin{};
 
 	_float m_fScaleRatioX{};
 	_float m_fScaleRatioY{};
@@ -59,6 +61,7 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
+	HRESULT Ready_Layer_CUI_Image(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_SkinSlot(const _wstring& strLayerTag);
 
 public:

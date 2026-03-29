@@ -24,8 +24,12 @@ public:
 		CHAR_NAME eCharName{};
 
 		wstring wstrPickTag;
+
 		wstring wstrSkinTag;
 		wstring wstrSkinPath;
+
+		wstring wstrFullSkinTag;
+		wstring wstrFullSkinPath;
 
 		vector<SKIN_INFO_DESC> Skins;
 	};

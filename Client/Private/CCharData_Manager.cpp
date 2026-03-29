@@ -6,7 +6,6 @@ IMPLEMENT_SINGLETON(CCharData_Manager)
 
 CCharData_Manager::CHAR_INFO_DESC* CCharData_Manager::Get_CharInfo(CHAR_NAME eCharName)
 {
-    assert(m_CharSkins.size() == ETOUI(CHAR_NAME::CHARNAME_END));
     auto iter = m_CharSkins.find(eCharName);
 
     if(iter == m_CharSkins.end())
@@ -32,7 +31,12 @@ HRESULT CCharData_Manager::Initialize()
         CHAR_INFO_DESC tDesc{};
         tDesc.wstrCharacterName = Character.CharacterName;
         tDesc.eCharName = Character.eCharacterName;
+
         tDesc.wstrPickTag = Character.PickTag;
+
+        tDesc.wstrFullSkinTag = Character.FullSkinTag;
+        tDesc.wstrFullSkinPath = Character.FullSkinPath;
+
         tDesc.wstrSkinTag = Character.SkinTag;
         tDesc.wstrSkinPath = Character.SkinPath;
 

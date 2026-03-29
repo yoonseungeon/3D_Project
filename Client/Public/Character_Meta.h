@@ -2,7 +2,7 @@
 
 enum class CHAR_NAME { LIDAILIN, HYUNWOO, CHARNAME_END };
 
-enum class SKIN_CLASS { NORMAL, RARE, EPIC, SKIN_CLASS_END };
+enum class SKIN_CLASS { COMMON, UNCOMMON, RARE, EPIC };
 
 struct SKIN_META
 {
@@ -21,23 +21,26 @@ struct CHARACTER_META
 	const wchar_t* SkinTag;
 	const wchar_t* SkinPath;
 
+	const wchar_t* FullSkinTag;
+	const wchar_t* FullSkinPath;
+
 	const SKIN_META* pSkins;
 	size_t SkinCnt;
 };
 
 constexpr SKIN_META LiDailinSkins[]
 {
-	{L"LiDailin", SKIN_CLASS::NORMAL, 0},
+	{L"LiDailin", SKIN_CLASS::COMMON, 0},
 	{L"Dragon_Dailin", SKIN_CLASS::RARE, 1},
 };
 
 constexpr SKIN_META HyunwooSkins[]
 {
-	{L"Hyunwoo", SKIN_CLASS::NORMAL, 0},
+	{L"Hyunwoo", SKIN_CLASS::COMMON, 0},
 };
 
 constexpr CHARACTER_META Characters[]
 {
-	{L"LiDailin" , CHAR_NAME::LIDAILIN, L"Prototype_Texture_CharLobbyPick_LiDailin", L"Prototype_Texture_PickLiDailinSkin", L"PickLiDailinSkin%d.png", LiDailinSkins, 2},
-	{L"Hyunwoo" , CHAR_NAME::HYUNWOO, L"Prototype_Texture_CharLobbyPick_Hyunwoo", L"Prototype_Texture_PickHyunwooSkin", L"PickHyunwooSkin%d.png", HyunwooSkins, 1},
+	{L"LiDailin" , CHAR_NAME::LIDAILIN, L"Prototype_Tex_Pick_LiDailin", L"Prototype_Tex_PickSkin_LiDailin", L"PickLiDailinSkin%d.dds", L"Prototype_Tex_Full_LiDailin", L"FullSkinLiDailin%d.png", LiDailinSkins, 2},
+	{L"Hyunwoo" , CHAR_NAME::HYUNWOO, L"Prototype_Tex_Pick_Hyunwoo", L"Prototype_Tex_PickSkin_Hyunwoo", L"PickHyunwooSkin%d.dds", L"Prototype_Tex_Full_Hyunwoo", L"FullSkinHyunwoo%d.png", HyunwooSkins, 1},
 };

@@ -520,9 +520,8 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     }
 #pragma endregion
 
-#pragma region SkinPick
+#pragma region PickSkin
     wstring wstrPickSkinTexPathDefault = L"../Bin/Resources/Lobby/Select/CharPickSkin/";
-    _tchar szPickSkinTexPath[MAX_PATH] = TEXT("");
 
     for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
     {
@@ -546,6 +545,56 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     }
 #pragma endregion
 
+#pragma region FullSkin
+    wstring wstrFullSkinTexPathDefault = L"../Bin/Resources/Lobby/Select/FullSkin/";
+
+    for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
+    {
+        const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(static_cast<CHAR_NAME>(i));
+        const wstring FullTexTag = pCharInfo->wstrFullSkinTag;
+        const _uint iSkinCnt = static_cast<_uint>(pCharInfo->Skins.size());
+
+        const wstring wstrFinalPath = wstrFullSkinTexPathDefault + pCharInfo->wstrFullSkinPath;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, wstrFinalPath, FullTexTag, iSkinCnt]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), FullTexTag,
+                    CTexture::Create(m_pDevice, m_pContext, wstrFinalPath.c_str(), iSkinCnt))))
+                {
+                    MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_FullSkin");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
+#pragma endregion
+
+    /* Prototype_Texture_NonFullSkin */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_NonFullSkin"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/FullSkin/NonFullSkin.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_NonFullSkin");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_SkinSlot */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_SkinSlot"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/SkinSlot%d.png"), 4))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_SkinSlot");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü

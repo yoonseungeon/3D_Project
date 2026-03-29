@@ -1,8 +1,11 @@
 #include "CPickSkin.h"
 
 #include "CGameInstance.h"
-#include "CUI_Image.h"
+
 #include "CGame_Manager.h"
+#include "CCharData_Manager.h"
+
+#include "CUI_Image.h"
 
 CPickSkin::CPickSkin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Btn{ pDevice, pContext }
@@ -25,24 +28,37 @@ HRESULT CPickSkin::Initialize(void* pArg)
     m_pGame_Manager = CGame_Manager::GetInstance();
     Safe_AddRef(m_pGame_Manager);
 
+    m_pCharData_Manager = CCharData_Manager::GetInstance();
+    Safe_AddRef(m_pCharData_Manager);
+
     CPICKSKIN_DESC* pDesc = static_cast<CPICKSKIN_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
+    m_funcSetFullSkin = pDesc->funcSetFullSkin;
+
     CUI_Image::CUI_IMAGE_DESC Desc{};
 
-    Desc.fScaleRatioX = pDesc->fScaleRatioX * 0.98f;
-    Desc.fScaleRatioY = pDesc->fScaleRatioY * 0.955f;
+    Desc.fScaleRatioX = pDesc->fScaleRatioX;
+    Desc.fScaleRatioY = pDesc->fScaleRatioY;
     Desc.fPosRatioX = pDesc->fPosRatioX;
     Desc.fPosRatioY = pDesc->fPosRatioY;
     Desc.eTexPrototypeLV = pDesc->eTexPrototypeLV;
-    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_CharPickSlot"; // 더미
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_NonFullSkin"; // 더미
     Desc.eBlendState = CUI_Default::ALPHABLEND;
     Desc.iUILayer = ETOUI(UILAYER::BUTTON_IMAGE);
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
         ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &Desc, reinterpret_cast<CGameObject**>(&m_pSkin))))
+        return E_FAIL;
+
+
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_SkinSlot";
+    Desc.iUILayer = ETOUI(UILAYER::SLOT);
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &Desc, reinterpret_cast<CGameObject**>(&m_pSlotBg))))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
@@ -107,16 +123,27 @@ HRESULT CPickSkin::Render()
 void CPickSkin::Reset_Skin(LEVEL eTexPrototypeLV, const wstring& wstrTexturePrototypeTag)
 {
     m_pSkin->Reset_Texture(eTexPrototypeLV, wstrTexturePrototypeTag);
+
+    const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(m_eCharName);
+    
+    m_pSlotBg->Set_TexIdx(ETOUI(pCharInfo->Skins[m_iSkinIdx].eSkinClass));
 }
 
 void CPickSkin::Set_IsInactive(_bool bIsInactive)
 {
     m_bIsInactive = bIsInactive;
     m_pSkin->Set_IsInactive(bIsInactive);
+    m_pSlotBg->Set_IsInactive(bIsInactive);
+}
+
+void CPickSkin::Set_eCharName(CHAR_NAME eCharName)
+{
+    m_eCharName = eCharName;
 }
 
 void CPickSkin::Set_SkinIdx(_uint iSkinIdx)
 {
+    m_iSkinIdx = iSkinIdx;
     m_pSkin->Set_TexIdx(iSkinIdx);
 }
 
@@ -128,6 +155,10 @@ void CPickSkin::Set_Deselect()
 void CPickSkin::Set_Select()
 {
     m_bIsSelected = true;
+
+    const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(m_eCharName);
+    m_funcSetFullSkin(pCharInfo->wstrFullSkinTag, m_iSkinIdx);
+
     m_pGame_Manager->Set_SelectSkin(m_wstrSkinName);
 }
 
@@ -180,13 +211,16 @@ void CPickSkin::BtnClick()
 {
     m_pGame_Manager->Set_SelectSkin(m_wstrSkinName);
     m_funcCallBack();
+
+    const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(m_eCharName);
+    m_funcSetFullSkin(pCharInfo->wstrFullSkinTag, m_iSkinIdx);
+
     m_bIsSelected = true;
     m_bIsClicked = false;
 }
 
 void CPickSkin::Execute_Btn(_float fTimeDelta)
 {    
-
     if (m_bIsSelected == true) {
         m_eCurTexState = TEX_STATE::SELECTED;
         return;
@@ -248,12 +282,14 @@ CGameObject* CPickSkin::Clone(void* pArg)
 
 void CPickSkin::Free()
 {
+    Safe_Release(m_pSlotBg);
     Safe_Release(m_pSkin);
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
 
+    Safe_Release(m_pCharData_Manager);
     Safe_Release(m_pGame_Manager);
 
     __super::Free();
