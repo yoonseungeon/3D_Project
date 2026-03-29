@@ -4,18 +4,19 @@
 
 IMPLEMENT_SINGLETON(CCharData_Manager)
 
-const CCharData_Manager::CHAR_SKIN_DESC& CCharData_Manager::Get_CharSkinInfo(CHAR_NAME eCharName)
+CCharData_Manager::CHAR_INFO_DESC* CCharData_Manager::Get_CharInfo(CHAR_NAME eCharName)
 {
-    
+    assert(m_CharSkins.size() == ETOUI(CHAR_NAME::CHARNAME_END));
     auto iter = m_CharSkins.find(eCharName);
+
     if(iter == m_CharSkins.end())
     {
         MSG_BOX("No Char_Skin_Info: CCharData_Manager");
 
-        return CHAR_SKIN_DESC();
+        return nullptr;
     }
 
-    return iter->second;
+    return &(iter->second);
 }
 
 CCharData_Manager::CCharData_Manager()
@@ -26,37 +27,31 @@ CCharData_Manager::CCharData_Manager()
 
 HRESULT CCharData_Manager::Initialize()
 { 
-    //LiDailin
-    CHAR_SKIN_DESC tCharSkinInfo{};
-    tCharSkinInfo.eCharName = CHAR_NAME::LIDAILIN;
+    for (auto& Character : Characters)
+    {
+        CHAR_INFO_DESC tDesc{};
+        tDesc.wstrCharacterName = Character.CharacterName;
+        tDesc.eCharName = Character.eCharacterName;
+        tDesc.wstrPickTag = Character.PickTag;
+        tDesc.wstrSkinTag = Character.SkinTag;
+        tDesc.wstrSkinPath = Character.SkinPath;
 
-    tCharSkinInfo.wstrSkinSmallTexTag = L"Prototype_Texture_PickLiDailinSkin";
+        tDesc.Skins.reserve(Character.SkinCnt);
 
-    SKIN_DESC tSkinInfo{};
-    tSkinInfo.wstrSkinName = L"Default";
-    tSkinInfo.iSkinIdx = 0;
-    tCharSkinInfo.Skins.push_back(tSkinInfo);
+        for (size_t i = 0; i < Character.SkinCnt; ++i)
+        {
+            const SKIN_META& SkinMeta = Character.pSkins[i];
 
-    tSkinInfo.wstrSkinName = L"Dragon_Dailin";
-    ++tSkinInfo.iSkinIdx;
-    tCharSkinInfo.Skins.push_back(tSkinInfo);
+            SKIN_INFO_DESC tSkinDesc{};
+            tSkinDesc.wstrSkinName = SkinMeta.SkinName;
+            tSkinDesc.eSkinClass = SkinMeta.eSkinClass;
+            tSkinDesc.iSkinIdx = SkinMeta.SkinIdx;
 
-    m_CharSkins.emplace(tCharSkinInfo.eCharName,tCharSkinInfo);
+            tDesc.Skins.push_back(tSkinDesc);
+        }
 
-
-    //Hyunwoo
-    tCharSkinInfo.Skins.clear();
-
-    tCharSkinInfo.eCharName = CHAR_NAME::HYUNWOO;
-
-    tCharSkinInfo.wstrSkinSmallTexTag = L"Prototype_Texture_PickHynwooSkin";
-
-    tSkinInfo.wstrSkinName = L"Default";
-    tSkinInfo.iSkinIdx = 0;
-    tCharSkinInfo.Skins.push_back(tSkinInfo);
-
-    m_CharSkins.emplace(tCharSkinInfo.eCharName, tCharSkinInfo);
-
+        m_CharSkins.emplace(Character.eCharacterName, tDesc);
+    }
 
     return S_OK;
 }

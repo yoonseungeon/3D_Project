@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Character_Meta.h"
+
 #include <Windows.h>
 
 namespace Client
@@ -22,22 +24,3 @@ extern HWND g_hWnd;
 // Client namespace를 만든 적이 없어서 위에서 반드시 만들어줘야 에러 안 뜸.
 // 이거 해주면 매번 cpp에서 namespace 안 붙여도 됨.
 using namespace Client;
-
-enum class CHAR_NAME{ LIDAILIN, HYUNWOO, CHARNAME_END};
-
-constexpr const wchar_t* CharLobbyTex[]{
-	L"Prototype_Texture_CharLobbyPick_LiDailin",
-	L"Prototype_Texture_CharLobbyPick_Hyunwoo"
-};
-
-struct CHAR_SKIN_TEX_INFO
-{
-	const wchar_t* CharSkinTexTag;
-	unsigned int iSkinCnt;
-	const wchar_t* Path;
-};
-
-constexpr CHAR_SKIN_TEX_INFO tCharSkinTexInfo[]{
-	{ L"Prototype_Texture_PickLiDailinSkin", L"PickLiDailinSkin%d.png",2},
-	{ L"Prototype_Texture_PickHynwooSkin", L"PickHyunwooSkin%d.png", 1}
-}; 

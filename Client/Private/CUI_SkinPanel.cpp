@@ -27,6 +27,7 @@ HRESULT CUI_SkinPanel::Initialize(void* pArg)
 {
     m_pGame_Manaer = CGame_Manager::GetInstance();
     m_pCharData_Manager = CCharData_Manager::GetInstance();
+    Safe_AddRef(m_pCharData_Manager);
 
     CUI_SKINPANEL_DESC* pDesc = static_cast<CUI_SKINPANEL_DESC*>(pArg);
 
@@ -62,15 +63,16 @@ void CUI_SkinPanel::Update(_float fTimeDelta)
 
     if (m_eCurChar != m_ePreChar) {
 
-        const auto& pCharSkinInfo = m_pCharData_Manager->Get_CharSkinInfo(m_eCurChar);
-        _uint iSkinCnt = pCharSkinInfo.Skins.size();
-        for (_uint i = 0; i < m_PickSkins.size(); ++i) {
+        const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(m_eCurChar);
+        const size_t iSkinCnt = pCharInfo->Skins.size();
+
+        for (size_t i = 0; i < m_PickSkins.size(); ++i) {
             if (i < iSkinCnt)
             {
                 m_PickSkins[i]->Set_IsInactive(false);
-                m_PickSkins[i]->Reset_Skin(LEVEL::LOBBY, pCharSkinInfo.wstrSkinSmallTexTag);
-                m_PickSkins[i]->Set_SkinIdx(pCharSkinInfo.Skins[i].iSkinIdx);
-                m_PickSkins[i]->Set_SkinName(pCharSkinInfo.Skins[i].wstrSkinName);
+                m_PickSkins[i]->Reset_Skin(LEVEL::LOBBY, pCharInfo->wstrSkinTag);
+                m_PickSkins[i]->Set_SkinIdx(pCharInfo->Skins[i].iSkinIdx);
+                m_PickSkins[i]->Set_SkinName(pCharInfo->Skins[i].wstrSkinName);
 
                 if (i == 0) {
                     m_PickSkins[i]->Set_Select();

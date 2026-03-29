@@ -1,6 +1,7 @@
 #include "CUI_PickPanel.h"
 
 #include "CGameInstance.h"
+#include "CCharData_Manager.h"
 #include "CPickSlot.h"
 
 CUI_PickPanel::CUI_PickPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -22,6 +23,9 @@ HRESULT CUI_PickPanel::Initialize_Prototype()
 
 HRESULT CUI_PickPanel::Initialize(void* pArg)
 {
+    m_pCharData_Manager = CCharData_Manager::GetInstance();
+    Safe_AddRef(m_pCharData_Manager);
+
     CUI_PICKPANEL_DESC* pDesc = static_cast<CUI_PICKPANEL_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
@@ -164,7 +168,9 @@ HRESULT CUI_PickPanel::Ready_Layer_PickSlot(const _wstring& strLayerTag)
 
     for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
     {
-        Desc.tCharInfo.wstrTexturePrototypeTag = CharLobbyTex[i];
+        const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(static_cast<CHAR_NAME>(i));
+
+        Desc.tCharInfo.wstrTexturePrototypeTag = pCharInfo->wstrPickTag;
         Desc.eCharName = static_cast<CHAR_NAME>(i);
 
         if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_PickSlot"),
@@ -220,6 +226,8 @@ void CUI_PickPanel::Free()
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
+
+    Safe_Release(m_pCharData_Manager);
 
     __super::Free();
 }

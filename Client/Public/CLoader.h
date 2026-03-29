@@ -9,6 +9,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CCharData_Manager;
+
 class CLoader final : public CBase
 {
 private:
@@ -39,6 +41,8 @@ private:
 	atomic<_bool>		m_bIsAllJobsQueued		= { false };
 	atomic<_int>		m_iTotalJobCnt			= { 0 };
 	atomic<_int>		m_iFinishedJobCnt		= { 0 };
+
+	CCharData_Manager* m_pCharData_Manager{};
 
 private:
 	HRESULT Ready_Resources_For_Static();

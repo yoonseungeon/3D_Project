@@ -16,6 +16,8 @@ NS_BEGIN(Client)
 #ifdef _DEBUG
 class CImGui_Manager;
 #endif
+class CGame_Manager;
+class CCharData_Manager;
 
 class CMainApp final : public CBase
 {
@@ -33,6 +35,9 @@ private:
 
 	ID3D11Device*				m_pDevice				= { nullptr };
 	ID3D11DeviceContext*	m_pContext				= { nullptr };
+
+	CGame_Manager* m_pGame_Manager{};
+	CCharData_Manager* m_pCharData_Manager{};
 
 #ifdef _DEBUG
 	CImGui_Manager*			m_pImGui_Manager	= { nullptr };

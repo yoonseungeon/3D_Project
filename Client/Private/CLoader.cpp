@@ -2,6 +2,7 @@
 #include <process.h>
 
 #include "CGameInstance.h"
+#include "CCharData_Manager.h"
 #include "CCamera_Free.h"
 #include "CUI_AniImage.h"
 #include "CLobbyTabBtn.h"
@@ -39,6 +40,9 @@ unsigned int __stdcall ThreadMain(void* pArg)
 
 HRESULT CLoader::Initialize(LEVEL eNextLevelID)
 {
+    m_pCharData_Manager = CCharData_Manager::GetInstance();
+    Safe_AddRef(m_pCharData_Manager);
+
     m_eNextLevelID = eNextLevelID;
 
     /* eNextLevelID에 필요한 자원을 로딩하는 작업을 수행한다. 누가? 스레드가 */
@@ -499,10 +503,13 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     {
         wsprintf(szPickTexPath, szPickTexPathDefault, i);
 
+        const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(static_cast<CHAR_NAME>(i));
+        const wstring wstrPickTag = pCharInfo->wstrPickTag;
+
         m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
         m_pGameInstance->Add_Job(
-            [this, i, szPickTexPath]()->void {
-                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), CharLobbyTex[i],
+            [this, i, szPickTexPath, wstrPickTag]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), wstrPickTag,
                     CTexture::Create(m_pDevice, m_pContext, szPickTexPath, 1))))
                 {
                     MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: CharLobby");
@@ -519,13 +526,17 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
 
     for (_uint i = 0; i < ETOUI(CHAR_NAME::CHARNAME_END); ++i)
     {
-        wstring wstrFinalPath = wstrPickSkinTexPathDefault + tCharSkinTexInfo[i].Path;
+        const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(static_cast<CHAR_NAME>(i));
+        const wstring SkinTexTag = pCharInfo->wstrSkinTag;        
+        const _uint iSkinCnt = static_cast<_uint>(pCharInfo->Skins.size());
+
+        const wstring wstrFinalPath = wstrPickSkinTexPathDefault + pCharInfo->wstrSkinPath;
 
         m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
         m_pGameInstance->Add_Job(
-            [this, wstrFinalPath, i]()->void {
-                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), tCharSkinTexInfo[i].CharSkinTexTag,
-                    CTexture::Create(m_pDevice, m_pContext, wstrFinalPath.c_str(), tCharSkinTexInfo[i].iSkinCnt))))
+            [this, wstrFinalPath, SkinTexTag, iSkinCnt]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), SkinTexTag,
+                    CTexture::Create(m_pDevice, m_pContext, wstrFinalPath.c_str(), iSkinCnt))))
                 {
                     MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_CharPickSkin");
                 }
@@ -714,6 +725,8 @@ void CLoader::Free()
 
     Safe_Release(m_pContext);
     Safe_Release(m_pDevice);
+
+    Safe_Release(m_pCharData_Manager);
 
     __super::Free();
 }

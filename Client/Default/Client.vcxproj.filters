@@ -183,6 +183,9 @@
     <ClInclude Include="..\Public\CPickSkin.h">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSkin</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Character_Meta.h">
+      <Filter>999. Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

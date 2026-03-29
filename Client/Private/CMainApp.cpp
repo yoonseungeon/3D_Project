@@ -2,6 +2,9 @@
 
 #include "CGameInstance.h"
 #include "CLevel_Loading.h"
+#include "CGame_Manager.h"
+#include "CCharData_Manager.h"
+
 
 #ifdef _DEBUG
 #include "CImGui_Manager.h"
@@ -9,8 +12,14 @@
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
+	, m_pGame_Manager {CGame_Manager::GetInstance()}
+	, m_pCharData_Manager{ CCharData_Manager::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
+
+	Safe_AddRef(m_pGame_Manager);
+	Safe_AddRef(m_pCharData_Manager);
+
 }
 
 HRESULT CMainApp::Initialize()
@@ -101,6 +110,11 @@ void CMainApp::Free()
 
 	Safe_Release(m_pContext);
 	Safe_Release(m_pDevice);
+
+	Safe_Release(m_pCharData_Manager);
+	m_pCharData_Manager->DestroyInstance();
+	Safe_Release(m_pGame_Manager);
+	m_pGame_Manager->DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 

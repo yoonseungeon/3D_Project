@@ -12,6 +12,7 @@ NS_END
 NS_BEGIN(Client)
 
 class CPickSlot;
+class CCharData_Manager;
 
 class CUI_PickPanel : public CUI_Default
 {
@@ -47,6 +48,8 @@ private:
 
 	_float m_fPosRatioX{};
 	_float m_fPosRatioY{};
+
+	CCharData_Manager* m_pCharData_Manager{};
 
 private:
 	HRESULT Ready_Components();

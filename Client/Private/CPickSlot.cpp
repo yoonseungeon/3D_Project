@@ -23,6 +23,7 @@ HRESULT CPickSlot::Initialize_Prototype()
 HRESULT CPickSlot::Initialize(void* pArg)
 {
     m_pGame_Manager = CGame_Manager::GetInstance();
+    Safe_AddRef(m_pGame_Manager);
 
     CPICKSLOT_DESC* pDesc = static_cast<CPICKSLOT_DESC*>(pArg);
 
@@ -222,11 +223,12 @@ CGameObject* CPickSlot::Clone(void* pArg)
 void CPickSlot::Free()
 {
     Safe_Release(m_pChar);
-    Safe_Release(m_pGame_Manager);
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
+
+    Safe_Release(m_pGame_Manager);
 
     __super::Free();
 }

@@ -23,6 +23,7 @@ HRESULT CPickSkin::Initialize_Prototype()
 HRESULT CPickSkin::Initialize(void* pArg)
 {
     m_pGame_Manager = CGame_Manager::GetInstance();
+    Safe_AddRef(m_pGame_Manager);
 
     CPICKSKIN_DESC* pDesc = static_cast<CPICKSKIN_DESC*>(pArg);
 
@@ -247,12 +248,13 @@ CGameObject* CPickSkin::Clone(void* pArg)
 
 void CPickSkin::Free()
 {
-    Safe_Release(m_pGame_Manager);
     Safe_Release(m_pSkin);
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
+
+    Safe_Release(m_pGame_Manager);
 
     __super::Free();
 }

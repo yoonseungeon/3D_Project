@@ -11,22 +11,27 @@ class CCharData_Manager final : public CBase
 	DECLARE_SINGLETON(CCharData_Manager)
 
 public:
-	struct SKIN_DESC
+	struct SKIN_INFO_DESC
 	{
 		wstring wstrSkinName;
+		SKIN_CLASS eSkinClass{};
 		_uint iSkinIdx{};
 	};
 
-	struct CHAR_SKIN_DESC
+	struct CHAR_INFO_DESC
 	{
+		wstring wstrCharacterName;
 		CHAR_NAME eCharName{};
-		vector<SKIN_DESC> Skins;
 
-		wstring wstrSkinSmallTexTag;
+		wstring wstrPickTag;
+		wstring wstrSkinTag;
+		wstring wstrSkinPath;
+
+		vector<SKIN_INFO_DESC> Skins;
 	};
 
 public:
-	const CHAR_SKIN_DESC& Get_CharSkinInfo(CHAR_NAME eCharName);
+	CHAR_INFO_DESC* Get_CharInfo(CHAR_NAME eCharName);
 
 private:
 	CCharData_Manager();
@@ -36,7 +41,7 @@ public:
 	HRESULT Initialize();
 
 private:
-	unordered_map<CHAR_NAME, CHAR_SKIN_DESC> m_CharSkins;
+	unordered_map<CHAR_NAME, CHAR_INFO_DESC> m_CharSkins;
 
 protected:
 	virtual void Free() override;

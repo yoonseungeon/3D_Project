@@ -155,6 +155,7 @@
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
     <ClInclude Include="..\Public\CGame_Manager.h" />
+    <ClInclude Include="..\Public\Character_Meta.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CMonster.h" />
     <ClInclude Include="..\Public\CPickSkin.h" />
