@@ -11,9 +11,9 @@ private:
 	CTexture(const CTexture& Prototype);
 	virtual ~CTexture() = default;
 
-public:
-	virtual HRESULT Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures);
-	virtual HRESULT Initialize(void* pArg) override;
+private:
+	HRESULT Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures);
+	HRESULT Initialize(void* pArg);
 
 public:
 	HRESULT Bind_ShaderResource(class CShader* pShader, const _char* pConstantName, _uint iTextureIndex);

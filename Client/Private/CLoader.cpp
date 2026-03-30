@@ -13,6 +13,7 @@
 #include "CLobbySelectBtn.h"
 
 #include "CMonster.h"
+#include "CForkLift.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -698,19 +699,6 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
 HRESULT CLoader::Ready_Resources_For_GamePlay()
 {
 #pragma region 수업 코드
-    /* Prototype_GameObject_Monster */
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
-                CMonster::Create(m_pDevice, m_pContext))))
-            {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Monster");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
-
     /* Prototype_Component_Shader_VtxMesh */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -724,12 +712,29 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
-    /* Prototype_Component_Model_Fiona */
+    /* Prototype_GameObject_Monster */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
+                CMonster::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Monster");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    _matrix     PreTransformMatrix = {};
+
+    /* Prototype_Component_Model_Fiona */
+    PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, PreTransformMatrix]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Fiona"),
-                CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Fiona/Fiona.fbx"))))
+                CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PreTransformMatrix))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Fiona");
             }
@@ -737,12 +742,28 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
-    /* Prototype_Component_Model_ForkLift */
+    /* Prototype_GameObject_ForkLift */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ForkLift"),
+                CForkLift::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_ForkLift");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+
+    /* Prototype_Component_Model_ForkLift */
+    PreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, PreTransformMatrix]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_ForkLift"),
-                CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/ForkLift/ForkLift.fbx"))))
+                CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", PreTransformMatrix))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_ForkLift");
             }

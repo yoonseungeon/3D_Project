@@ -16,16 +16,6 @@ CComponent::CComponent(const CComponent& Prototype)
     Safe_AddRef(m_pContext);
 }
 
-HRESULT CComponent::Initialize_Prototype()
-{
-    return S_OK;
-}
-
-HRESULT CComponent::Initialize(void* pArg)
-{
-    return S_OK;
-}
-
 void CComponent::Free()
 {
     Safe_Release(m_pContext);

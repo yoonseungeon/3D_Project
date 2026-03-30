@@ -97,6 +97,9 @@
     <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\LobbySelectBtn">
       <UniqueIdentifier>{dc50fff1-4339-485b-ae25-7b952f231445}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. ForkLift">
+      <UniqueIdentifier>{2938a3e3-44df-481a-bb13-f5847b3fb5ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -192,6 +195,9 @@
     <ClInclude Include="..\Public\CLobbySelectBtn.h">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\LobbySelectBtn</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CForkLift.h">
+      <Filter>02. GameObject\03. ForkLift</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -284,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLobbySelectBtn.cpp">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\LobbySelectBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CForkLift.cpp">
+      <Filter>02. GameObject\03. ForkLift</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

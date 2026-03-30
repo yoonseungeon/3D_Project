@@ -12,11 +12,6 @@ protected:
 	virtual ~CComponent() = default;
 
 protected:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
-	// 필요한 자식에서만 Update, Render 등을 만들자
-
-protected:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 

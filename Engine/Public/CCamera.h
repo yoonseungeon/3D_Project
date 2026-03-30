@@ -23,9 +23,11 @@ protected:
 	CCamera(const CCamera& Prototype);
 	virtual ~CCamera() = default;
 
+protected:
+	HRESULT Initialize_Prototype();
+	HRESULT Initialize(void* pArg);
+
 public:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
 	virtual void Priority_Update(_float fTimeDelta);
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);

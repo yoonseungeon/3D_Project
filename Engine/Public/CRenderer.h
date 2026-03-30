@@ -15,8 +15,10 @@ private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CRenderer() = default;
 
-public:
+private:
 	HRESULT Initialize();
+
+public:
 	void Add_RenderGroup(RENDERID eGroupID, class CGameObject* pGameObject);
 	HRESULT Draw();
 

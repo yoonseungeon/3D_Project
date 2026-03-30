@@ -25,8 +25,10 @@ private:
 	CMainApp();
 	virtual ~CMainApp() = default;
 
-public:
+private:
 	HRESULT Initialize();
+
+public:
 	void	Update(_float fTimeDelta);
 	HRESULT Render();
 

@@ -31,8 +31,10 @@ private:
 	CPrototype_Manager();
 	virtual ~CPrototype_Manager() = default;
 
-public:
+private:
 	HRESULT Initialize(_uint iNumLevels);
+
+public:
 	HRESULT Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype);
 	CBase*	Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
 	void	Clear(_uint iLevelIndex);

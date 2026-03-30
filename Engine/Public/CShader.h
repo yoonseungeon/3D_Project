@@ -11,10 +11,10 @@ private:
 	CShader(const CShader& Prototype);
 	virtual ~CShader() = default;
 
-public:
+private:
 	// 셰이더 파일을 받아와야 함.
-	virtual HRESULT Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11_INPUT_ELEMENT_DESC* pElements, _uint iNumElements);
-	virtual HRESULT Initialize(void* pArg);
+	HRESULT Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11_INPUT_ELEMENT_DESC* pElements, _uint iNumElements);
+	HRESULT Initialize(void* pArg);
 
 public:
 	// inputLayout을 세팅하는 함수

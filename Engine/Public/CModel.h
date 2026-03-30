@@ -5,6 +5,8 @@
 NS_BEGIN(Engine)
 
 class CMesh;
+class CMaterial;
+class CShader;
 
 class ENGINE_DLL CModel final : public CComponent
 {
@@ -13,25 +15,37 @@ private:
 	CModel(const CModel& Prototype);
 	virtual ~CModel() = default;
 
-public:
-	virtual HRESULT Initialize_Prototype(const _char* pModelFilePath);
-	virtual HRESULT Initialize(void* pArg);
+private:
+	HRESULT XM_CALLCONV Initialize_Prototype(MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix);
+	HRESULT Initialize(void* pArg);
 
 public:
-	HRESULT Render();
+	_uint Get_NumMeshes() const { return static_cast<_uint>(m_iNumMeshes); }
+
+public:
+	//특정 텍스처를 셰이더로 던진다.
+	HRESULT Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex);
+	// 정점, 인덱스 버퍼 바인딩 및 draw 호출
+	HRESULT Render(_uint iMeshIndex);
+
+private:	
+	const aiScene*	m_pAIScene{ nullptr }; /* 파일로부터 읽어낸 모든 정보를 담고 있는다. */
+	Importer		m_Importer{};
+	MODEL			m_eType{ MODEL::END };
 
 private:
-	HRESULT Ready_Meshes();
+	size_t				m_iNumMeshes{};
+	vector< CMesh*>		m_Meshes;		// Model하나 당 여러 개의 Mesh를 갖는다.
+
+	size_t				m_iNumMaterials{};
+	vector<CMaterial*>	m_Materials;
 
 private:
-	const aiScene*			m_pAIScene{ nullptr };
-	Importer				m_Importer{};
-
-	size_t					m_iNumMeshes{};
-	vector<CMesh*>			m_Meshes;				// Model하나 당 여러 개의 Mesh를 갖는다.
+	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
+	HRESULT Ready_Materials(const _char* pModelFilePath);
 
 public:
-	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _char* pModelFilePath);
+	static CModel* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix = XMMatrixIdentity());
 	virtual CComponent* Clone(void* pArg) override;
 protected:
 	virtual void Free() override;

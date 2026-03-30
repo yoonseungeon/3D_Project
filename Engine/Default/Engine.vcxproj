@@ -164,6 +164,7 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\CLevel_Manager.h" />
     <ClInclude Include="..\Public\CLight.h" />
     <ClInclude Include="..\Public\CLight_Manager.h" />
+    <ClInclude Include="..\Public\CMaterial.h" />
     <ClInclude Include="..\Public\CMesh.h" />
     <ClInclude Include="..\Public\CModel.h" />
     <ClInclude Include="..\Public\CObject_Manager.h" />
@@ -199,6 +200,7 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CLevel_Manager.cpp" />
     <ClCompile Include="..\Private\CLight.cpp" />
     <ClCompile Include="..\Private\CLight_Manager.cpp" />
+    <ClCompile Include="..\Private\CMaterial.cpp" />
     <ClCompile Include="..\Private\CMesh.cpp" />
     <ClCompile Include="..\Private\CModel.cpp" />
     <ClCompile Include="..\Private\CObject_Manager.cpp" />

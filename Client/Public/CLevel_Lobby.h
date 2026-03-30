@@ -13,8 +13,10 @@ private:
 	explicit CLevel_Lobby(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CLevel_Lobby() = default;
 
-public:
+private:
 	HRESULT Initialize();
+
+public:
 	virtual void	Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 

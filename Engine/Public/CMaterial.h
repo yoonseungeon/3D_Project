@@ -1,0 +1,33 @@
+#pragma once
+
+#include "CBase.h"
+
+NS_BEGIN(Engine)
+
+class CShader;
+
+class CMaterial final : public CBase
+{
+private:
+	CMaterial(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual ~CMaterial() = default;
+
+private:
+	HRESULT Initialize(aiMaterial* pAIMaterial, const _char* pModelFilePath);
+
+public:
+	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName, aiTextureType eType, _uint iIndex);
+
+private:
+	ID3D11Device*			m_pDevice{ nullptr };
+	ID3D11DeviceContext*	m_pContext{ nullptr };
+
+	vector<ID3D11ShaderResourceView*> m_Materials[AI_TEXTURE_TYPE_MAX];
+
+public:
+	static CMaterial* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, aiMaterial* pAIMaterial, const _char* pModelFilePath);
+protected:
+	virtual void Free() override;
+};
+
+NS_END

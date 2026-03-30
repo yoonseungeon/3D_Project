@@ -41,7 +41,7 @@ private:
 	CCharData_Manager();
 	virtual ~CCharData_Manager() = default;
 
-public:
+private:
 	HRESULT Initialize();
 
 private:

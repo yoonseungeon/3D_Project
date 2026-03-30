@@ -43,6 +43,8 @@ public:
 	HRESULT End_Draw();
 	void	Clear_Resources(_int iLevelIndex);
 	void	Release_Engine();
+
+	_float Random(_float fMin, _float fMax);
 #pragma endregion
 
 #pragma region TIMER_MANAGER

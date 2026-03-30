@@ -88,8 +88,11 @@
     <Filter Include="07. Component\04. Model">
       <UniqueIdentifier>{6158ff22-7210-489e-ae95-56624b77c63b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07. Component\04. Model\Mesh">
+    <Filter Include="07. Component\04. Model\00. Mesh">
       <UniqueIdentifier>{c46f0464-0eff-49f6-85f1-e4b49b7a7fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\04. Model\01. Material">
+      <UniqueIdentifier>{1bc9888d-db7e-447e-81a5-65a2bc59e6e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +175,10 @@
       <Filter>07. Component\04. Model</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMesh.cpp">
-      <Filter>07. Component\04. Model\Mesh</Filter>
+      <Filter>07. Component\04. Model\00. Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMaterial.cpp">
+      <Filter>07. Component\04. Model\01. Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -273,7 +279,10 @@
       <Filter>07. Component\04. Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMesh.h">
-      <Filter>07. Component\04. Model\Mesh</Filter>
+      <Filter>07. Component\04. Model\00. Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMaterial.h">
+      <Filter>07. Component\04. Model\01. Material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

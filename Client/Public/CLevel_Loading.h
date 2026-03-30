@@ -17,8 +17,10 @@ private:
 	explicit CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CLevel_Loading() = default;
 
-public:
+private:
 	HRESULT Initialize(LEVEL eNextLevelID);
+
+public:
 	virtual void	Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 

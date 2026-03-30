@@ -10,38 +10,41 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CMonster final : public CGameObject
+class CForkLift final : public CGameObject
 {
-	struct MONSTER_DESC : public CGameObject::GAMEOBJECT_DESC
+	typedef struct tagMonsterDesc : public CGameObject::GAMEOBJECT_DESC
 	{
 
-	};
+	}MONSTER_DESC;
 
 protected:
-	CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMonster(const CMonster& Prototype);
-	virtual ~CMonster() = default;
+	CForkLift(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CForkLift(const CForkLift& Prototype);
+	virtual ~CForkLift() = default;
 
 public:
 	HRESULT Initialize_Prototype();
 	HRESULT Initialize(void* pArg);
+
+public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+
 private:
-	CShader* m_pShaderCom{ nullptr };
-	CModel* m_pModelCom{ nullptr };
+	CShader* m_pShaderCom = { nullptr };
+	CModel* m_pModelCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
+
 public:
-	static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CForkLift* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
-protected:
 	virtual void Free();
 };
 

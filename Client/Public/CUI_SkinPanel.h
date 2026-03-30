@@ -17,7 +17,7 @@ class CGame_Manager;
 class CCharData_Manager;
 class CLobbySelectBtn;
 
-class CUI_SkinPanel : public CUI_Default
+class CUI_SkinPanel final : public CUI_Default
 {
 public:
 	struct CUI_SKINPANEL_DESC : public CUI_Default::CUI_DEFAULT_DESC
@@ -30,9 +30,11 @@ protected:
 	CUI_SkinPanel(const CUI_SkinPanel& Prototype);
 	virtual ~CUI_SkinPanel() = default;
 
+private:
+	HRESULT Initialize_Prototype();
+	HRESULT Initialize(void* pArg);
+
 public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
 	virtual void	Priority_Update(_float fTimeDelta) override;
 	virtual void	Parallel_Update(_float fTimeDelta) override;
 	virtual void	Update(_float fTimeDelta) override;

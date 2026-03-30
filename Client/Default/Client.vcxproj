@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
+    <ClInclude Include="..\Public\CForkLift.h" />
     <ClInclude Include="..\Public\CGame_Manager.h" />
     <ClInclude Include="..\Public\Character_Meta.h" />
     <ClInclude Include="..\Public\CLobbySelectBtn.h" />
@@ -187,6 +188,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
+    <ClCompile Include="..\Private\CForkLift.cpp" />
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
     <ClCompile Include="..\Private\CLobbySelectBtn.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />

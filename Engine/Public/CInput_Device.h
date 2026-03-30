@@ -22,8 +22,10 @@ public:
 	// 현재 마우스의 특정 축 변화량을 반환
 	_long	Get_DIMouseMove(DIMM eMouseState);
 
-public:
+private:
 	HRESULT Initialize(HINSTANCE hInst, HWND hWnd);
+
+public:
 	void	Update(void);
 
 	const POINT Get_MouseClientPos();

@@ -20,8 +20,10 @@ private:
 	CObject_Manager();
 	virtual ~CObject_Manager() = default;
 
-public:
+private:
 	HRESULT Initialize(_uint iNumLevels);
+
+public:
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg, CGameObject** ppOut);
 	void Priority_Update(_float fTimeDelta);
 	void Parallel_Update(_float fTimeDelta);

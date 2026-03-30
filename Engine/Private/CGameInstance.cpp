@@ -150,6 +150,10 @@ void CGameInstance::Release_Engine()
 
 	DestroyInstance();
 }
+_float CGameInstance::Random(_float fMin, _float fMax)
+{
+	return fMin + static_cast<_float>(rand()) / RAND_MAX * (fMax - fMin);
+}
 #pragma endregion
 
 #pragma region TIMER_MANAGER

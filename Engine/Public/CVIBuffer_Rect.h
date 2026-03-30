@@ -11,9 +11,9 @@ private:
 	CVIBuffer_Rect(const CVIBuffer_Rect& Prototype);
 	virtual ~CVIBuffer_Rect() = default;
 
-public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
+private:
+	HRESULT Initialize_Prototype();
+	HRESULT Initialize(void* pArg);
 
 public:
 	static	CVIBuffer_Rect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

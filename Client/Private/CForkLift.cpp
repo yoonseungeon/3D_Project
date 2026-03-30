@@ -1,25 +1,25 @@
 
-#include "CMonster.h"
+#include "CForkLift.h"
 #include "CGameInstance.h"
 
-CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CForkLift::CForkLift(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject{ pDevice, pContext }
 {
 
 }
 
-CMonster::CMonster(const CMonster& Prototype)
+CForkLift::CForkLift(const CForkLift& Prototype)
     : CGameObject{ Prototype }
 {
 
 }
 
-HRESULT CMonster::Initialize_Prototype()
+HRESULT CForkLift::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CMonster::Initialize(void* pArg)
+HRESULT CForkLift::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -27,31 +27,37 @@ HRESULT CMonster::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pTransformCom->Set_State(STATE::POSITION,
+        XMVectorSet(
+            m_pGameInstance->Random(0.f, 30.f),
+            1.f,
+            m_pGameInstance->Random(0.f, 30.f),
+            1.f
+        ));
+
     return S_OK;
 }
 
-void CMonster::Priority_Update(_float fTimeDelta)
+void CForkLift::Priority_Update(_float fTimeDelta)
 {
 
 }
 
-void CMonster::Update(_float fTimeDelta)
+void CForkLift::Update(_float fTimeDelta)
 {
 
 }
 
-void CMonster::Late_Update(_float fTimeDelta)
+void CForkLift::Late_Update(_float fTimeDelta)
 {
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
 
-HRESULT CMonster::Render()
+HRESULT CForkLift::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
-
-
 
     size_t      iNumMeshes = m_pModelCom->Get_NumMeshes();
 
@@ -63,14 +69,17 @@ HRESULT CMonster::Render()
         if (FAILED(m_pShaderCom->Begin(0)))
             return E_FAIL;
 
+        //i 번째 메쉬 버퍼 연결 및 draw
         if (FAILED(m_pModelCom->Render(static_cast<_uint>(i))))
             return E_FAIL;
     }
 
+
     return S_OK;
+
 }
 
-HRESULT CMonster::Ready_Components()
+HRESULT CForkLift::Ready_Components()
 {
 
     /* For.Com_Shader */
@@ -79,7 +88,7 @@ HRESULT CMonster::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Fiona"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_ForkLift"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
@@ -89,7 +98,7 @@ HRESULT CMonster::Ready_Components()
     return S_OK;
 }
 
-HRESULT CMonster::Bind_ShaderResources()
+HRESULT CForkLift::Bind_ShaderResources()
 {
 
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
@@ -120,33 +129,33 @@ HRESULT CMonster::Bind_ShaderResources()
 }
 
 
-CMonster* CMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CForkLift* CForkLift::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CMonster* pInstance = new CMonster(pDevice, pContext);
+    CForkLift* pInstance = new CForkLift(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CMonster");
+        MSG_BOX("Failed to Created : CForkLift");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CMonster::Clone(void* pArg)
+CGameObject* CForkLift::Clone(void* pArg)
 {
-    CMonster* pInstance = new CMonster(*this);
+    CForkLift* pInstance = new CForkLift(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CMonster");
+        MSG_BOX("Failed to Cloned : CForkLift");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CMonster::Free()
+void CForkLift::Free()
 {
     __super::Free();
 

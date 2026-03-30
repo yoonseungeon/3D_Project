@@ -32,15 +32,16 @@ public:
 		CHAR_INFO_DESC tCharInfo{};
 	};
 
-
 private:
 	CPickSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPickSlot(const CPickSlot& Prototype);
 	virtual ~CPickSlot() = default;
 
+private:
+	HRESULT Initialize_Prototype();
+	HRESULT Initialize(void* pArg);
+
 public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
 	virtual void	Priority_Update(_float fTimeDelta) override;
 	virtual void	Parallel_Update(_float fTimeDelta) override;
 	virtual void	Update(_float fTimeDelta) override;

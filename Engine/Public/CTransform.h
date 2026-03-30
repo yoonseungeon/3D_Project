@@ -32,10 +32,10 @@ private:
 	virtual ~CTransform() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override;
+	HRESULT Initialize_Prototype();
 	// Clone 생성 시 호출이 아닌, 객체 사본에 Transform 원본 생성 시 추가 초기화로 사용
 	// Create -> Initialize_Prototype -> Initialize
-	virtual HRESULT Initialize(void* pArg) override;
+	HRESULT Initialize(void* pArg);
 
 public:
 	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName);
