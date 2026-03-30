@@ -208,7 +208,7 @@ HRESULT CUI_SkinPanel::Ready_Layer_SkinSlot(const _wstring& strLayerTag)
     Desc.fPosRatioX = fStartPosX;
     Desc.fPosRatioY = fStartPosY;
 
-    Desc.iUILayer = ETOUI(UILAYER::SLOT);
+    Desc.iUILayer = ETOUI(UILAYER::BUTTON);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
     Desc.eBlendState = CUI_Default::ALPHABLEND;
