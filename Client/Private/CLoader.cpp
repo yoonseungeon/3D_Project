@@ -10,6 +10,7 @@
 #include "CPickSlot.h"
 #include "CUI_SkinPanel.h"
 #include "CPickSkin.h"
+#include "CLobbySelectBtn.h"
 
 #include "CMonster.h"
 
@@ -595,6 +596,19 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_Texture_LobbySelectBtn */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_LobbySelectBtn"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/LobbySelectBtn%d.png"), 2))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbySelectBtn");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
@@ -658,6 +672,19 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
                 CPickSkin::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_PickSkin");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_LobbySelectBtn */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_LobbySelectBtn"),
+                CLobbySelectBtn::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_LobbySelectBtn");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

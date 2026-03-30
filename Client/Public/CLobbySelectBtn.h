@@ -11,32 +11,21 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CUI_Image;
-class CGame_Manager;
-
-class CPickSlot final : public CUI_Btn
+class CLobbySelectBtn final : public CUI_Btn
 {
 private:
-	enum TEX_STATE { NORMAL, HOVER };
+	enum TEX_STATE { NORMAL, HOVER};
 
 public:
-	struct CHAR_INFO_DESC
+	struct CLOBBY_SELECT_BTN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
-		wstring wstrTexturePrototypeTag;
+
 	};
 
-public:
-	struct CPICKSLOT_DESC : public CUI_Btn::CUI_BTN_DESC
-	{
-		CHAR_NAME eCharName{};
-		CHAR_INFO_DESC tCharInfo{};
-	};
-
-
-private:
-	CPickSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPickSlot(const CPickSlot& Prototype);
-	virtual ~CPickSlot() = default;
+protected:
+	CLobbySelectBtn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CLobbySelectBtn(const CLobbySelectBtn& Prototype);
+	virtual ~CLobbySelectBtn() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -47,14 +36,9 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	virtual void Set_IsInactive(_bool bIsInactive) override;
-
-	void Set_Deselect();
-
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
-
 	virtual void BtnClick() override;
 	void Execute_Btn(_float fTimeDelta);
 
@@ -63,17 +47,10 @@ private:
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
 	CTexture* m_pTextureCom{ nullptr };
 
-	CGame_Manager* m_pGame_Manager{ nullptr };
-
 	TEX_STATE m_eCurTexState{};
-	CUI_Image* m_pChar{};
-
-	CHAR_NAME m_eCharName{};
-
-	_bool m_bIsSelected{};
 
 public:
-	static CPickSlot* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CLobbySelectBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free() override;

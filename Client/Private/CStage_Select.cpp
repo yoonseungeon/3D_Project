@@ -22,14 +22,18 @@ void CStage_Select::Disable_Stage()
     __super::Disable_Stage();
 }
 
+void CStage_Select::Change_SelectMap()
+{
+    for (auto pObj : m_UIs[PICK]) {
+        pObj->Set_IsInactive(true);
+    }
+}
+
 HRESULT CStage_Select::Initialize(function<void(STAGE)> funcBtnCallBack)
 {
     m_funcBtnCallBack = funcBtnCallBack;
 
     if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
-        return E_FAIL;
-
-    if (FAILED(Ready_Layer_Btn(TEXT("Layer_Btn"))))
         return E_FAIL;
 
     if (FAILED(Ready_Layer_PickPanel(TEXT("Layer_PickPanel"))))
@@ -63,11 +67,6 @@ HRESULT CStage_Select::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
     m_vecGameObjects.push_back(pObj);
 
-    return S_OK;
-}
-
-HRESULT CStage_Select::Ready_Layer_Btn(const _wstring& strLayerTag)
-{
     return S_OK;
 }
 
@@ -116,6 +115,11 @@ HRESULT CStage_Select::Ready_Layer_SkinPanel(const _wstring& strLayerTag)
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
     Desc.eBlendState = CUI_Default::DEFAULT;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_PickPanel";
+
+    Desc.funcChangeSelectMap = [this]()->void
+        {
+        Change_SelectMap();
+        };
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_SkinPanel"),
         ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))

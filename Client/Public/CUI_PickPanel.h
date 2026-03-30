@@ -14,7 +14,7 @@ NS_BEGIN(Client)
 class CPickSlot;
 class CCharData_Manager;
 
-class CUI_PickPanel : public CUI_Default
+class CUI_PickPanel final : public CUI_Default
 {
 public:
 	struct CUI_PICKPANEL_DESC : public CUI_Default::CUI_DEFAULT_DESC
@@ -34,6 +34,9 @@ public:
 	virtual void	Update(_float fTimeDelta) override;
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+public:
+	virtual void Set_IsInactive(_bool bIsInactive) override;
 
 protected:
 	CShader* m_pShaderCom{ nullptr };

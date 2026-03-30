@@ -7,6 +7,8 @@
 
 #include "CPickSkin.h"
 #include "CUI_Image.h"
+#include "CLobbySelectBtn.h"
+
 
 CUI_SkinPanel::CUI_SkinPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -42,6 +44,8 @@ HRESULT CUI_SkinPanel::Initialize(void* pArg)
     m_fPosRatioX = pDesc->fPosRatioX;
     m_fPosRatioY = pDesc->fPosRatioY;
 
+    m_funcChangeSelectMap = pDesc->funcChangeSelectMap;
+
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
@@ -49,6 +53,9 @@ HRESULT CUI_SkinPanel::Initialize(void* pArg)
         return E_FAIL;
 
     if (FAILED(Ready_Layer_SkinSlot(TEXT("Layer_SkinSlot"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_LobbySelectBtn(TEXT("Layer_LobbySelectBtn"))))
         return E_FAIL;
 
     return S_OK;
@@ -67,6 +74,11 @@ void CUI_SkinPanel::Update(_float fTimeDelta)
     m_eCurChar = m_pGame_Manaer->Get_SelectedChar();
 
     if (m_eCurChar != m_ePreChar) {
+
+        if (!m_bSelectBtnOn && m_eCurChar != CHAR_NAME::CHARNAME_END) {
+            m_pSelectBtn->Set_IsInactive(false);
+            m_bSelectBtnOn = true;
+        }
 
         const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(m_eCurChar);
         const size_t iSkinCnt = pCharInfo->Skins.size();
@@ -243,6 +255,37 @@ HRESULT CUI_SkinPanel::Ready_Layer_SkinSlot(const _wstring& strLayerTag)
     return S_OK;
 }
 
+HRESULT CUI_SkinPanel::Ready_Layer_LobbySelectBtn(const _wstring& strLayerTag)
+{
+    CLobbySelectBtn::CLOBBY_SELECT_BTN_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.18f;
+    Desc.fScaleRatioY = 0.07f;
+    Desc.fPosRatioX = 0.24f;
+    Desc.fPosRatioY = -0.4f;
+    Desc.iUILayer = ETOUI(UILAYER::BUTTON);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbySelectBtn";
+
+    Desc.funcCallBack = [this]()->void
+        {
+            m_funcChangeSelectMap();
+            for (auto& pPiskSkin : m_PickSkins) {
+                pPiskSkin->Set_IsInactive(true);
+            }
+        };
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_LobbySelectBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pSelectBtn))))
+        return E_FAIL;
+
+    m_pSelectBtn->Set_IsInactive(true);
+
+    return S_OK;
+}
+
 CUI_SkinPanel* CUI_SkinPanel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CUI_SkinPanel* pInstance = new CUI_SkinPanel(pDevice, pContext);
@@ -276,6 +319,7 @@ void CUI_SkinPanel::Free()
     }
     m_PickSkins.clear();
 
+    Safe_Release(m_pSelectBtn);
     Safe_Release(m_pFullSkin);
 
     Safe_Release(m_pGame_Manaer);

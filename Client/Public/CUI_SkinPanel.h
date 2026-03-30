@@ -15,12 +15,14 @@ class CPickSkin;
 class CUI_Image;
 class CGame_Manager;
 class CCharData_Manager;
+class CLobbySelectBtn;
 
 class CUI_SkinPanel : public CUI_Default
 {
 public:
 	struct CUI_SKINPANEL_DESC : public CUI_Default::CUI_DEFAULT_DESC
 	{
+		function<void()> funcChangeSelectMap;
 	};
 
 protected:
@@ -44,6 +46,8 @@ protected:
 
 	vector<CPickSkin*> m_PickSkins;
 	CUI_Image* m_pFullSkin{};
+	CLobbySelectBtn* m_pSelectBtn{};
+	_bool m_bSelectBtnOn{};
 
 	_float m_fScaleRatioX{};
 	_float m_fScaleRatioY{};
@@ -57,12 +61,15 @@ protected:
 	CHAR_NAME m_eCurChar{ CHAR_NAME::CHARNAME_END };
 	CHAR_NAME m_ePreChar{ CHAR_NAME::CHARNAME_END };
 
+	function<void()> m_funcChangeSelectMap;
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 	HRESULT Ready_Layer_CUI_Image(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_SkinSlot(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_LobbySelectBtn(const _wstring& strLayerTag);
 
 public:
 	static CUI_SkinPanel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

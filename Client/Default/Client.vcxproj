@@ -156,6 +156,7 @@
     <ClInclude Include="..\Public\CCharData_Manager.h" />
     <ClInclude Include="..\Public\CGame_Manager.h" />
     <ClInclude Include="..\Public\Character_Meta.h" />
+    <ClInclude Include="..\Public\CLobbySelectBtn.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CMonster.h" />
     <ClInclude Include="..\Public\CPickSkin.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
+    <ClCompile Include="..\Private\CLobbySelectBtn.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
     <ClCompile Include="..\Private\CMonster.cpp" />
     <ClCompile Include="..\Private\CPickSkin.cpp" />

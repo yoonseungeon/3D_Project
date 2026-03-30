@@ -84,6 +84,14 @@ HRESULT CUI_PickPanel::Render()
     return S_OK;
 }
 
+void CUI_PickPanel::Set_IsInactive(_bool bIsInactive)
+{
+    m_bIsInactive = bIsInactive;
+    for (auto& pPickSlot : m_PickSlots) {
+        pPickSlot->Set_IsInactive(bIsInactive);
+    }
+}
+
 HRESULT CUI_PickPanel::Ready_Components()
 {
     /* For.Com_Shader */
