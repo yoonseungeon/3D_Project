@@ -94,6 +94,9 @@
     <Filter Include="07. Component\04. Model\01. Material">
       <UniqueIdentifier>{1bc9888d-db7e-447e-81a5-65a2bc59e6e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\04. Model\02. Bone">
+      <UniqueIdentifier>{71213ef7-4182-4686-8e30-3e6835fcdb88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -179,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CMaterial.cpp">
       <Filter>07. Component\04. Model\01. Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBone.cpp">
+      <Filter>07. Component\04. Model\02. Bone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CMaterial.h">
       <Filter>07. Component\04. Model\01. Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBone.h">
+      <Filter>07. Component\04. Model\02. Bone</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

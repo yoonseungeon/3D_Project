@@ -74,6 +74,35 @@ namespace Engine
 			{"BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 44, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		};
 	};
+
+	struct VTXANIMMESH
+	{
+		XMFLOAT3		vPosition;
+		XMFLOAT3		vNormal;
+		XMFLOAT2		vTexcoord;
+
+		XMFLOAT3		vTangent;
+		XMFLOAT3		vBinormal;
+
+		// 이 정점의 경우 뼈의 정보를 최대 4개 영향을 받을 수 있다.(int 4개라서)
+		// assimp에서는 최대 8개?까지 가능?
+		// 근데 대부분 4개 안으로 다 됨.
+		XMUINT4			vBlendIndex;
+		// 가중치(뼈의 영향을 얼만큼 받는가)도 개수 맞춰줘야 함.(모든 가중치의 합은 1)
+		XMFLOAT4		vBlendWeight;
+
+		static const unsigned int		iNumElements = { 7 };
+
+		static constexpr D3D11_INPUT_ELEMENT_DESC   Elements[] = {
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 44, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDINDEX", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0, 56, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"BLENDWEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 72, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		};
+	};
 }
 
 #endif // Engine_Struct_h__

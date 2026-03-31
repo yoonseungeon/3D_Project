@@ -1,6 +1,8 @@
 #include "CModel.h"
+
 #include "CMesh.h"
 #include "CMaterial.h"
+#include "CBone.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CComponent{ pDevice, pContext }
@@ -14,6 +16,7 @@ CModel::CModel(const CModel& Prototype)
     , m_Meshes{ Prototype.m_Meshes } // 얕은 복사
     , m_iNumMaterials{ Prototype.m_iNumMaterials }
     , m_Materials{ Prototype.m_Materials } // 얕은 복사
+    , m_Bones{ Prototype.m_Bones }  // 일단 얕은 복사
 {
     for (auto& pMesh : m_Meshes)
         Safe_AddRef(pMesh);
@@ -39,6 +42,11 @@ HRESULT XM_CALLCONV CModel::Initialize_Prototype(MODEL eType, const _char* pMode
         return E_FAIL;
 
     if (FAILED(Ready_Materials(pModelFilePath)))
+        return E_FAIL;
+
+    // aiScene에 mNumNodes 이런 것 없음 계층 구조로 최상위 부모만
+    // 최상위 부모의 부모 인덱스는 -1로
+    if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
         return E_FAIL;
 
     return S_OK;
@@ -83,7 +91,7 @@ HRESULT XM_CALLCONV CModel::Ready_Meshes(_fmatrix PreTransformMatrix)
 
     for (size_t i = 0; i < m_iNumMeshes; i++)
     {
-        CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_pAIScene->mMeshes[i], PreTransformMatrix);
+        CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], PreTransformMatrix);
         if (pMesh == nullptr)
             return E_FAIL;
         
@@ -104,6 +112,30 @@ HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
             return E_FAIL;
         
         m_Materials.push_back(pMaterial);
+    }
+
+    return S_OK;
+}
+
+HRESULT CModel::Ready_Bones(aiNode* pAINode, _int iParentIndex)
+{
+    // 최상위 부모로 CBone 객체 하나 생성
+    CBone* pBone = CBone::Create(pAINode, iParentIndex);
+    if (pBone == nullptr)
+        return E_FAIL;
+
+    m_Bones.push_back(pBone);
+
+    // 현재 내 위치가 자식한테는 부모 위치이니 size - 1
+    _int iParent = static_cast<_int>(m_Bones.size()) - 1;
+
+    // pAINode 자식이 몇 개인지 알 수 있음
+    // 재귀로 모두 순회
+    // 전위 순회(부모 -> 왼쪽 -> 오른쪽)
+    // 전위 순회해야 vector를 처음부터 갱신할 때 부모부터 알아서 쭉 갱신됨.
+    for (_uint i = 0; i < pAINode->mNumChildren; ++i)
+    {
+        Ready_Bones(pAINode->mChildren[i], iParent);
     }
 
     return S_OK;
@@ -137,6 +169,10 @@ CComponent* CModel::Clone(void* pArg)
 
 void CModel::Free()
 {
+    for (auto& pBone : m_Bones)
+        Safe_Release(pBone);
+    m_Bones.clear();
+
     for (auto& pMesh : m_Meshes)
         Safe_Release(pMesh);
     m_Meshes.clear();

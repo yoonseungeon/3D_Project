@@ -7,6 +7,7 @@ NS_BEGIN(Engine)
 class CMesh;
 class CMaterial;
 class CShader;
+class CBone;
 
 class ENGINE_DLL CModel final : public CComponent
 {
@@ -40,9 +41,12 @@ private:
 	size_t				m_iNumMaterials{};
 	vector<CMaterial*>	m_Materials;
 
+	vector<CBone*>		m_Bones;
+
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
-	HRESULT Ready_Materials(const _char* pModelFilePath);
+	HRESULT				Ready_Materials(const _char* pModelFilePath);
+	HRESULT				Ready_Bones(aiNode* pAINode, _int iParentIndex);
 
 public:
 	static CModel* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix = XMMatrixIdentity());
