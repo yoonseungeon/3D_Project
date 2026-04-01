@@ -221,7 +221,7 @@ HRESULT CMesh::Ready_AnimMesh(CModel* pModel, const aiMesh* pAIMesh)
         XMStoreFloat4x4(&OffsetMatrix, XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
 
         m_OffsetMatrices.push_back(OffsetMatrix);
-\
+
         // bone이 영향을 주는 정점의 개수
         for (_uint j = 0; j < pAIBone->mNumWeights; j++)
         {
