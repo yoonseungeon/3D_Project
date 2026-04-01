@@ -16,6 +16,8 @@ CMesh::CMesh(const CMesh& Prototype)
 
 HRESULT XM_CALLCONV CMesh::Initialize_Prototype(MODEL eType, CModel* pModel, const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)
 {
+    strcpy_s(m_szName, pAIMesh->mName.data);
+
     // 이 Mesh가 어떤 머테리얼을 사용하는지.(메쉬 하나 당 머테리얼 하나) 머테리얼 인덱스
     // 여러 Mesh가 하나의 머테리얼을 사용하는 것은 가능하다.
     m_iMaterialIndex = pAIMesh->mMaterialIndex;
@@ -94,7 +96,7 @@ HRESULT CMesh::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, v
             // 이 mesh가 필요로하는 뼈(node)를 꺼내와서 부모 행렬이 적용된 최종 행렬을 꺼내옴.
             XMLoadFloat4x4(Bones[m_BoneIndices[i]]->Get_CombinedTransformationMatrixPtr()));
 
-        // 반복문을 돌면
+        // 반복문을 돌며
         // m_BoneIndices는 현재 aiBone의 이름으로 검색에서 aiNode의 행렬을 순서대로 저장했고,
         // m_OffsetMatrices는 현재 aiBone이 갖고 있는 OffsetMatrix를 순서대로 저장했다.
         // 따라서 둘이 곱하면 이름에 대응되는 bone의 OffsetMatrix와 node의 행렬이 곱해진 것이다.
@@ -200,7 +202,6 @@ HRESULT CMesh::Ready_AnimMesh(CModel* pModel, const aiMesh* pAIMesh)
         // 영향을 주는지에 대한 정보
         aiBone* pAIBone = pAIMesh->mBones[i];
 
-        // 여기 추가 //////////////////////////////////
         // mesh에만 사용되는 뼈(node) 찾아내기
         _int iBoneIndex = pModel->Get_BoneIndex(pAIBone->mName.data);
         if (iBoneIndex == -1)
@@ -220,8 +221,7 @@ HRESULT CMesh::Ready_AnimMesh(CModel* pModel, const aiMesh* pAIMesh)
         XMStoreFloat4x4(&OffsetMatrix, XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
 
         m_OffsetMatrices.push_back(OffsetMatrix);
-        /////////////////////////////////////////////////
-
+\
         // bone이 영향을 주는 정점의 개수
         for (_uint j = 0; j < pAIBone->mNumWeights; j++)
         {
@@ -251,6 +251,36 @@ HRESULT CMesh::Ready_AnimMesh(CModel* pModel, const aiMesh* pAIMesh)
                 pVertices[AIWeight.mVertexId].vBlendWeight.w = AIWeight.mWeight;
             }
         }
+    }
+
+    // 뼈(애니메이션) 없는 부착물
+    if (m_iNumBones == 0)
+    {
+        // 강제로 늘리고
+        m_iNumBones = 1;
+
+        // 이름같은 뼈 인덱스 가져옴
+        _uint iBoneIndex = pModel->Get_BoneIndex(m_szName);
+        if (iBoneIndex == -1)
+            return E_FAIL;
+
+        m_BoneIndices.push_back(iBoneIndex);
+
+        // OffsetMatrix 있을리가 없음. bone이 없으니 그냥 항등 넣어줌
+        _float4x4 OffsetMatrix = {};
+        XMStoreFloat4x4(&OffsetMatrix, XMMatrixIdentity());
+
+        m_OffsetMatrices.push_back(OffsetMatrix);
+
+        // 이 mesh의 모든 정점한테
+        for (_uint i = 0; i < m_iNumVertices; ++i)
+        {
+            // 뼈(bone)는 한 개임. vector 0번에 넣음.
+            pVertices[i].vBlendIndex.x = 0;
+            // 한 개니깐 가중치 
+            pVertices[i].vBlendWeight.x = 1.f;
+        }
+
     }
 
     D3D11_SUBRESOURCE_DATA      VertexInitialData{};
