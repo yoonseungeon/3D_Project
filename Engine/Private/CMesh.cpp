@@ -1,5 +1,9 @@
 #include "CMesh.h"
 
+#include "CModel.h"
+#include "CShader.h"
+#include "CBone.h"
+
 CMesh::CMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CVIBuffer{ pDevice, pContext }
 {
@@ -10,7 +14,7 @@ CMesh::CMesh(const CMesh& Prototype)
 {
 }
 
-HRESULT XM_CALLCONV CMesh::Initialize_Prototype(MODEL eType, const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)
+HRESULT XM_CALLCONV CMesh::Initialize_Prototype(MODEL eType, CModel* pModel, const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)
 {
     // 이 Mesh가 어떤 머테리얼을 사용하는지.(메쉬 하나 당 머테리얼 하나) 머테리얼 인덱스
     // 여러 Mesh가 하나의 머테리얼을 사용하는 것은 가능하다.
@@ -34,7 +38,7 @@ HRESULT XM_CALLCONV CMesh::Initialize_Prototype(MODEL eType, const aiMesh* pAIMe
     }
     else
     {
-        hr = Ready_AnimMesh(pAIMesh);
+        hr = Ready_AnimMesh(pModel, pAIMesh);
     }
 
     if (FAILED(hr))
@@ -77,7 +81,29 @@ HRESULT CMesh::Initialize(void* pArg)
     return S_OK;
 }
 
-HRESULT CMesh::Ready_NonAnimMesh(const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)
+HRESULT CMesh::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, vector<CBone*>& Bones)
+{
+    ZeroMemory(m_BoneMatrices, sizeof(_float4x4) * g_iNumMeshBones);
+
+    for (size_t i = 0; i < m_iNumBones; i++)
+    {
+        // 이 mesh가 필요로하는 뼈(node)들의 행렬 저장
+        XMStoreFloat4x4(&m_BoneMatrices[i],
+            // 정점을 bone 기준 좌표로 바꾸는 것을 뼈(node) 곱하기 전에 적용 시켜준다.
+            XMLoadFloat4x4(&m_OffsetMatrices[i]) *
+            // 이 mesh가 필요로하는 뼈(node)를 꺼내와서 부모 행렬이 적용된 최종 행렬을 꺼내옴.
+            XMLoadFloat4x4(Bones[m_BoneIndices[i]]->Get_CombinedTransformationMatrixPtr()));
+
+        // 반복문을 돌면
+        // m_BoneIndices는 현재 aiBone의 이름으로 검색에서 aiNode의 행렬을 순서대로 저장했고,
+        // m_OffsetMatrices는 현재 aiBone이 갖고 있는 OffsetMatrix를 순서대로 저장했다.
+        // 따라서 둘이 곱하면 이름에 대응되는 bone의 OffsetMatrix와 node의 행렬이 곱해진 것이다.
+    }
+
+    return pShader->Bind_Matrices(pConstantName, m_BoneMatrices, m_iNumBones);
+}
+
+HRESULT XM_CALLCONV CMesh::Ready_NonAnimMesh(const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)
 {
     // 정점 구조체는 내가 쓰고자 하는 정보로만 구성하면 된다.
     m_iVertexStride = sizeof(VTXMESH);
@@ -131,7 +157,7 @@ HRESULT CMesh::Ready_NonAnimMesh(const aiMesh* pAIMesh, _fmatrix PreTransformMat
     return S_OK;
 }
 
-HRESULT CMesh::Ready_AnimMesh(const aiMesh* pAIMesh)
+HRESULT CMesh::Ready_AnimMesh(CModel* pModel, const aiMesh* pAIMesh)
 {
     m_iVertexStride = sizeof(VTXANIMMESH);
 
@@ -164,12 +190,37 @@ HRESULT CMesh::Ready_AnimMesh(const aiMesh* pAIMesh)
     // 이 mesh에 영향을 주는 bone의 개수
     m_iNumBones = pAIMesh->mNumBones;
 
-    for (_uint i = 0; i < m_iNumBones; i++)
+    m_BoneIndices.reserve(m_iNumBones);
+    m_OffsetMatrices.reserve(m_iNumBones);
+
+    for (_uint i = 0; i < m_iNumBones; ++i)
     {
         // 이 mesh의 들어있는 bone 정보
         // 실제 움직이는 건 node이고, node의 움직임이 어떤 정점에게, 어떤 가중치로
         // 영향을 주는지에 대한 정보
         aiBone* pAIBone = pAIMesh->mBones[i];
+
+        // 여기 추가 //////////////////////////////////
+        // mesh에만 사용되는 뼈(node) 찾아내기
+        _int iBoneIndex = pModel->Get_BoneIndex(pAIBone->mName.data);
+        if (iBoneIndex == -1)
+            return E_FAIL;
+
+        m_BoneIndices.push_back(iBoneIndex);
+
+        // mOffsetMatrix는 mesh의 bone에 포함된 행렬이다.
+        // 정점은 원래 model의 로컬 좌표에 있다. 하지만
+        // 애니메이션을 적용하려면 bone 기준 좌표로 바꿔야 해서
+        // OffsetMatrix를 곱해줘야 한다.
+        // OffsetMatrix가 bone 기준 좌표로 바꿔준다.
+        _float4x4 OffsetMatrix = {};
+
+        // assimp에서 가져와서 전치해줘야 함.
+        memcpy(&OffsetMatrix, &pAIBone->mOffsetMatrix, sizeof OffsetMatrix);
+        XMStoreFloat4x4(&OffsetMatrix, XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
+
+        m_OffsetMatrices.push_back(OffsetMatrix);
+        /////////////////////////////////////////////////
 
         // bone이 영향을 주는 정점의 개수
         for (_uint j = 0; j < pAIBone->mNumWeights; j++)
@@ -213,11 +264,11 @@ HRESULT CMesh::Ready_AnimMesh(const aiMesh* pAIMesh)
     return S_OK;
 }
 
-CMesh* XM_CALLCONV CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)
+CMesh* XM_CALLCONV CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, CModel* pModel, const aiMesh* pAIMesh, _fmatrix PreTransformMatrix)
 {
     CMesh* pInstance = new CMesh(pDevice, pContext);
 
-    if (FAILED(pInstance->Initialize_Prototype(eType, pAIMesh, PreTransformMatrix)))
+    if (FAILED(pInstance->Initialize_Prototype(eType, pModel, pAIMesh, PreTransformMatrix)))
     {
         MSG_BOX("Failed to Created: CMesh");
         Safe_Release(pInstance);

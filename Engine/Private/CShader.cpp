@@ -130,6 +130,19 @@ HRESULT CShader::Bind_Matrix(const _char* pConstantName, const _float4x4* pMatri
     return pMatrixVariable->SetMatrix(reinterpret_cast<const _float*>(pMatrix));
 }
 
+HRESULT CShader::Bind_Matrices(const _char* pConstantName, const _float4x4* pMatrices, _uint iNumMatrices)
+{
+    ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+    if (pVariable == nullptr)
+        return E_FAIL;
+
+    ID3DX11EffectMatrixVariable* pMatrixVariable = pVariable->AsMatrix();
+    if (pMatrixVariable == nullptr)
+        return E_FAIL;
+
+    return pMatrixVariable->SetMatrixArray(reinterpret_cast<const _float*>(pMatrices), 0, iNumMatrices);
+}
+
 HRESULT CShader::Bind_SRV(const _char* pConstantName, ID3D11ShaderResourceView* pSRV)
 {
     // 셰이더 파일 안에 있는 전역 변수를 찾아오는 함수

@@ -712,6 +712,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
+    /* Prototype_Component_Shader_VtxAnimMesh */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
+                CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxAnimMesh.hlsl"), VTXANIMMESH::Elements, VTXANIMMESH::iNumElements))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Shader_VtxAnimMesh");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
     /* Prototype_GameObject_Monster */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -734,7 +747,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this, PreTransformMatrix]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Fiona"),
-                CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PreTransformMatrix))))
+                CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PreTransformMatrix))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Fiona");
             }

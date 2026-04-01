@@ -17,6 +17,7 @@ CModel::CModel(const CModel& Prototype)
     , m_iNumMaterials{ Prototype.m_iNumMaterials }
     , m_Materials{ Prototype.m_Materials } // 얕은 복사
     , m_Bones{ Prototype.m_Bones }  // 일단 얕은 복사
+    , m_PreTransformMatrix{ Prototype.m_PreTransformMatrix }
 {
     for (auto& pMesh : m_Meshes)
         Safe_AddRef(pMesh);
@@ -37,16 +38,20 @@ HRESULT XM_CALLCONV CModel::Initialize_Prototype(MODEL eType, const _char* pMode
     m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
     if (m_pAIScene == nullptr)
         return E_FAIL;
-    
-    if (FAILED(Ready_Meshes(PreTransformMatrix)))
-        return E_FAIL;
 
-    if (FAILED(Ready_Materials(pModelFilePath)))
-        return E_FAIL;
+    XMStoreFloat4x4(&m_PreTransformMatrix, PreTransformMatrix);
 
     // aiScene에 mNumNodes 이런 것 없음 계층 구조로 최상위 부모만
     // 최상위 부모의 부모 인덱스는 -1로
     if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
+        return E_FAIL;
+    
+    // Ready_Bones보다 나중에
+    // 여기서 이 mesh가 필요로하는 뼈(node)의 인덱스를 보관해서
+    if (FAILED(Ready_Meshes(PreTransformMatrix)))
+        return E_FAIL;
+
+    if (FAILED(Ready_Materials(pModelFilePath)))
         return E_FAIL;
 
     return S_OK;
@@ -55,6 +60,40 @@ HRESULT XM_CALLCONV CModel::Initialize_Prototype(MODEL eType, const _char* pMode
 HRESULT CModel::Initialize(void* pArg)
 {
     return S_OK;
+}
+
+_int CModel::Get_BoneIndex(const _char* pBoneName)
+{
+    // 이름이 같은 CBone(node)의 인덱스를 리턴하는 함수
+
+    // 객체가 필요한게 아니라서 인덱스가 필요
+    _int iIndex = { -1 };
+
+    auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)->_bool
+        {
+            ++iIndex;
+
+            if (pBone->Compare_Name(pBoneName) == true)
+                return true;
+
+            return false;
+        });
+
+    if (iter == m_Bones.end())
+        return -1;
+
+    return iIndex;
+}
+
+void CModel::Play_Animation(_float fTimeDelta)
+{
+    /* 현재 애니메이션 이용하고 있는 뼈들의 TransformationMatrix를 갱신해준다.  */
+
+    /* 위의 갱신이 끝났다면, 모든 뼈의 CombinedTransformationMatrix갱신한다. */
+    for (auto& pBone : m_Bones)
+    {
+        pBone->Update_CombinedTransformMatrices(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
+    }
 }
 
 HRESULT CModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex)
@@ -85,13 +124,22 @@ HRESULT CModel::Render(_uint iMeshIndex)
     return S_OK;
 }
 
+HRESULT CModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex)
+{
+    if (iMeshIndex >= m_iNumMeshes)
+        return E_FAIL;
+
+    // mesh한테 자기가 필요한 뼈(node)의 인덱스를 들고 있어서 mesh에서 처리. 뼈 배열도 넘김
+    return m_Meshes[iMeshIndex]->Bind_BoneMatrices(pShader, pConstantName, m_Bones);
+}
+
 HRESULT XM_CALLCONV CModel::Ready_Meshes(_fmatrix PreTransformMatrix)
 {
     m_iNumMeshes = m_pAIScene->mNumMeshes;
 
     for (size_t i = 0; i < m_iNumMeshes; i++)
     {
-        CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], PreTransformMatrix);
+        CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, this, m_pAIScene->mMeshes[i], PreTransformMatrix);
         if (pMesh == nullptr)
             return E_FAIL;
         

@@ -18,6 +18,12 @@ private:
 private:
 	HRESULT Initialize(const aiNode* pAINode, _int iParentIndex);
 
+public:
+	_bool Compare_Name(const _char* pBoneName) { return !strcmp(pBoneName, m_szName); }
+	const _float4x4* Get_CombinedTransformationMatrixPtr() const { return &m_CombinedTransformationMatrix; }
+
+	void XM_CALLCONV Update_CombinedTransformMatrices(const vector<CBone*>& Bones, _fmatrix PreTransformMatrix);
+
 private:
 	// 이름 저장해야 함.(무기 붙이기, 이팩트 붙이기에 사용.)
 	// aiNode, aiBone, aiNodeAnim: 다 동기화 되어 있음.

@@ -22,12 +22,19 @@ private:
 
 public:
 	_uint Get_NumMeshes() const { return static_cast<_uint>(m_iNumMeshes); }
+	// 이름이 같은 CBone(node)의 인덱스를 리턴하는 함수
+	_int Get_BoneIndex(const _char* pBoneName);
+
+public:
+	void Play_Animation(_float fTimeDelta);
 
 public:
 	//특정 텍스처를 셰이더로 던진다.
 	HRESULT Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex);
 	// 정점, 인덱스 버퍼 바인딩 및 draw 호출
 	HRESULT Render(_uint iMeshIndex);
+	HRESULT Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex);
+
 
 private:	
 	const aiScene*	m_pAIScene{ nullptr }; /* 파일로부터 읽어낸 모든 정보를 담고 있는다. */
@@ -42,6 +49,12 @@ private:
 	vector<CMaterial*>	m_Materials;
 
 	vector<CBone*>		m_Bones;
+
+	// Anim인 경구 뼈에게 매 프레임 곱해줘야 한다.
+	// m_TransformationMatrix가 계속 바뀌어서 계속 곱해줘야 함.
+	_float4x4			m_PreTransformMatrix = {};
+
+	_uint				m_iCurrentAnimationIndex = {};
 
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
