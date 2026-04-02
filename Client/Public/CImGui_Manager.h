@@ -24,6 +24,10 @@
 
 #pragma endregion
 
+NS_BEGIN(Engine)
+class CGameInstance;
+NS_END
+
 NS_BEGIN(Client)
 
 class CImGui_Manager final : public CBase
@@ -42,8 +46,14 @@ public:
 	bool IsInputCapturedByUI();
 
 private:
-	ID3D11Device*				m_pDevice		= { nullptr };
-	ID3D11DeviceContext*	m_pContext		= { nullptr };
+	ID3D11Device*			m_pDevice{ nullptr };
+	ID3D11DeviceContext*	m_pContext{ nullptr };
+
+	CGameInstance*			m_pGameInstance{ nullptr };
+
+private:
+	void Show_GameObjects();
+	void Show_Transform();
 
 protected:
 	virtual void Free() override;

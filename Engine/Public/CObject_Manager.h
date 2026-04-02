@@ -34,6 +34,11 @@ public:
 	_bool Is_Parallel_Update_Finished();
 	void Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode);
 
+#ifdef _DEBUG
+	size_t Get_NumLevels() const { return m_iNumLevels; }
+	const map<const _wstring, CLayer*>* Get_MapLevelLayers() const { return m_pLayers; }
+#endif
+
 private:
 	size_t				m_iNumLevels = {};
 	using LAYERS = map<const _wstring, CLayer*>;

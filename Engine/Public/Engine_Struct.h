@@ -25,7 +25,7 @@ namespace Engine
 
 	struct KEYFRAME
 	{
-		// 행렬과 행렬 보간? 못함. 함수 제공 x
+		// 애니메이션에서 행렬 보간은 성분 나눠서 해야 함. + 함수 제공 x
 		// 그래서 성분 나눠서 보간하고 행렬을 만들어 줌.
 		XMFLOAT3		vScale;
 		XMFLOAT4		vRotation; // 쿼터니언 회전

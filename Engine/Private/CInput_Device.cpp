@@ -118,7 +118,7 @@ HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
 	return S_OK;
 }
 
-void Engine::CInput_Device::Update(void)
+void Engine::CInput_Device::Update()
 {
 	memcpy(&m_byPreKeyState, &m_byCurKeyState, sizeof(m_byCurKeyState));
 	memcpy(&m_tPreMouseState, &m_tCurMouseState, sizeof(m_tCurMouseState));

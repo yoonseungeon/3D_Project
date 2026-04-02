@@ -26,7 +26,7 @@ private:
 	HRESULT Initialize(HINSTANCE hInst, HWND hWnd);
 
 public:
-	void	Update(void);
+	void Update();
 
 	const POINT Get_MouseClientPos();
 

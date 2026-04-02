@@ -201,6 +201,19 @@ void CGameInstance::Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode)
 {
 	m_pObject_Manager->Set_Parallel_Update_Mode(eParallelMode);
 }
+
+#ifdef _DEBUG
+size_t CGameInstance::Get_NumLevels()
+{
+	return m_pObject_Manager->Get_NumLevels();
+}
+
+const map<const _wstring, CLayer*>* CGameInstance::Get_MapLevelLayers()
+{
+	return m_pObject_Manager->Get_MapLevelLayers();
+}
+#endif
+
 #pragma endregion
 
 #pragma region RENDERER

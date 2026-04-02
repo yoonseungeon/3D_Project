@@ -33,16 +33,16 @@ public:
 	HRESULT Render();
 
 private:
-	CGameInstance*			m_pGameInstance		= { nullptr };
+	CGameInstance*			m_pGameInstance{ nullptr };
 
-	ID3D11Device*				m_pDevice				= { nullptr };
-	ID3D11DeviceContext*	m_pContext				= { nullptr };
+	ID3D11Device*			m_pDevice{ nullptr };
+	ID3D11DeviceContext*	m_pContext{ nullptr };
 
-	CGame_Manager* m_pGame_Manager{};
-	CCharData_Manager* m_pCharData_Manager{};
+	CGame_Manager*			m_pGame_Manager{};
+	CCharData_Manager*		m_pCharData_Manager{};
 
 #ifdef _DEBUG
-	CImGui_Manager*			m_pImGui_Manager	= { nullptr };
+	CImGui_Manager*			m_pImGui_Manager{ nullptr };
 #endif
 
 private:

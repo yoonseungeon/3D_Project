@@ -66,6 +66,12 @@ public:
 #pragma region OBJECT_MANAGER
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr, CGameObject** ppOut = nullptr);
 	void Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode);
+
+#ifdef _DEBUG
+	size_t Get_NumLevels();
+	const map<const _wstring, class CLayer*>* Get_MapLevelLayers();
+#endif
+
 #pragma endregion
 
 #pragma region RENDERER
@@ -91,6 +97,7 @@ public:
 	_long	Get_DIMouseMove(DIMM eMouseState);
 
 	const POINT Get_MouseClientPos();
+
 #pragma endregion
 
 #pragma region LIGHT_MANAGER

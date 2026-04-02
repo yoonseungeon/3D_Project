@@ -37,6 +37,10 @@ public:
 public:
 	virtual void Set_IsInactive(_bool bIsInactive) { m_bIsInactive = bIsInactive; }
 
+#ifdef _DEBUG
+	const map<const _wstring, CComponent*>& Get_Componets() { return m_Components; }
+#endif
+
 protected:
 	ID3D11Device*									m_pDevice{ nullptr };
 	ID3D11DeviceContext*							m_pContext{ nullptr };

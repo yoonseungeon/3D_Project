@@ -20,6 +20,10 @@ public:
 	void	Update(_float fTimeDelta);
 	void	Late_Update(_float fTimeDelta);
 
+#ifdef _DEBUG
+	const list<CGameObject*>& Get_ObjList() const { return m_GameObjects; }
+#endif
+
 private:
 	list<CGameObject*> m_GameObjects;
 
