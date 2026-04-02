@@ -8,6 +8,7 @@ class CMesh;
 class CMaterial;
 class CShader;
 class CBone;
+class CAnimation;
 
 class ENGINE_DLL CModel final : public CComponent
 {
@@ -54,12 +55,17 @@ private:
 	// m_TransformationMatrix가 계속 바뀌어서 계속 곱해줘야 함.
 	_float4x4			m_PreTransformMatrix = {};
 
-	_uint				m_iCurrentAnimationIndex = {};
+	// 애니메이션 -> 어떤 뼈 조작. 시간에 따라 상태(크기, 회전, 이동) 저장.
+	// 애니메이션 재생 -> 현재 재생 위치에 맞는 뼈의 상태 행렬을 가지고 와서 갱신
+	_uint				m_iCurrentAnimationIndex{};
+	_uint				m_iNumAnimations{};
+	vector<CAnimation*>	m_Animations;
 
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
 	HRESULT				Ready_Materials(const _char* pModelFilePath);
 	HRESULT				Ready_Bones(aiNode* pAINode, _int iParentIndex);
+	HRESULT				Ready_Animations();
 
 public:
 	static CModel* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix = XMMatrixIdentity());

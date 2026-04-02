@@ -152,9 +152,11 @@ call UpdateLib.bat Release</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\CAnimation.h" />
     <ClInclude Include="..\Public\CBase.h" />
     <ClInclude Include="..\Public\CBone.h" />
     <ClInclude Include="..\Public\CCamera.h" />
+    <ClInclude Include="..\Public\CChannel.h" />
     <ClInclude Include="..\Public\CComponent.h" />
     <ClInclude Include="..\Public\CGameInstance.h" />
     <ClInclude Include="..\Public\CGameObject.h" />
@@ -189,9 +191,11 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\Engine_Typedef.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\CAnimation.cpp" />
     <ClCompile Include="..\Private\CBase.cpp" />
     <ClCompile Include="..\Private\CBone.cpp" />
     <ClCompile Include="..\Private\CCamera.cpp" />
+    <ClCompile Include="..\Private\CChannel.cpp" />
     <ClCompile Include="..\Private\CComponent.cpp" />
     <ClCompile Include="..\Private\CGameInstance.cpp" />
     <ClCompile Include="..\Private\CGameObject.cpp" />

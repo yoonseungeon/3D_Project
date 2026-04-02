@@ -97,6 +97,12 @@
     <Filter Include="07. Component\04. Model\02. Bone">
       <UniqueIdentifier>{71213ef7-4182-4686-8e30-3e6835fcdb88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\04. Model\03. Animation">
+      <UniqueIdentifier>{7ad318ec-1363-4327-8c52-7a6cf05b15cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\04. Model\03. Animation\Channel">
+      <UniqueIdentifier>{e7f29ce3-fd26-473e-a82d-1d3c3c0260f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -185,6 +191,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CBone.cpp">
       <Filter>07. Component\04. Model\02. Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CAnimation.cpp">
+      <Filter>07. Component\04. Model\03. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CChannel.cpp">
+      <Filter>07. Component\04. Model\03. Animation\Channel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +304,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CBone.h">
       <Filter>07. Component\04. Model\02. Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CAnimation.h">
+      <Filter>07. Component\04. Model\03. Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CChannel.h">
+      <Filter>07. Component\04. Model\03. Animation\Channel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

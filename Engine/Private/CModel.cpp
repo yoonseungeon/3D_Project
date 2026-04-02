@@ -3,6 +3,7 @@
 #include "CMesh.h"
 #include "CMaterial.h"
 #include "CBone.h"
+#include "CAnimation.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CComponent{ pDevice, pContext }
@@ -18,7 +19,15 @@ CModel::CModel(const CModel& Prototype)
     , m_Materials{ Prototype.m_Materials } // 얕은 복사
     , m_Bones{ Prototype.m_Bones }  // 일단 얕은 복사
     , m_PreTransformMatrix{ Prototype.m_PreTransformMatrix }
+    , m_iNumAnimations{ Prototype.m_iNumAnimations }
+    , m_Animations{ Prototype.m_Animations }
 {
+    for (auto& pAnimation : m_Animations)
+        Safe_AddRef(pAnimation);
+
+    for (auto& pBone : m_Bones)
+        Safe_AddRef(pBone);
+
     for (auto& pMesh : m_Meshes)
         Safe_AddRef(pMesh);
 
@@ -52,6 +61,9 @@ HRESULT XM_CALLCONV CModel::Initialize_Prototype(MODEL eType, const _char* pMode
         return E_FAIL;
 
     if (FAILED(Ready_Materials(pModelFilePath)))
+        return E_FAIL;
+
+    if (FAILED(Ready_Animations()))
         return E_FAIL;
 
     return S_OK;
@@ -88,6 +100,8 @@ _int CModel::Get_BoneIndex(const _char* pBoneName)
 void CModel::Play_Animation(_float fTimeDelta)
 {
     /* 현재 애니메이션 이용하고 있는 뼈들의 TransformationMatrix를 갱신해준다.  */
+    // 현재 애니메이션으로 가서 뼈들의 행렬을 업데이트 해준다.
+    m_Animations[m_iCurrentAnimationIndex]->Update_TransformationMatrices(m_Bones, fTimeDelta);
 
     /* 위의 갱신이 끝났다면, 모든 뼈의 CombinedTransformationMatrix갱신한다. */
     for (auto& pBone : m_Bones)
@@ -189,6 +203,22 @@ HRESULT CModel::Ready_Bones(aiNode* pAINode, _int iParentIndex)
     return S_OK;
 }
 
+HRESULT CModel::Ready_Animations()
+{
+    m_iNumAnimations = m_pAIScene->mNumAnimations;
+
+    for (size_t i = 0; i < m_iNumAnimations; ++i)
+    {
+        CAnimation* pAnimation = CAnimation::Create(m_pAIScene->mAnimations[i], this);
+        if (pAnimation == nullptr)
+            return E_FAIL;
+
+        m_Animations.push_back(pAnimation);
+    }
+
+    return S_OK;
+}
+
 CModel* XM_CALLCONV CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
     CModel* pInstance = new CModel(pDevice, pContext);
@@ -217,6 +247,10 @@ CComponent* CModel::Clone(void* pArg)
 
 void CModel::Free()
 {
+    for (auto& pAnimation : m_Animations)
+        Safe_Release(pAnimation);
+    m_Animations.clear();
+
     for (auto& pBone : m_Bones)
         Safe_Release(pBone);
     m_Bones.clear();

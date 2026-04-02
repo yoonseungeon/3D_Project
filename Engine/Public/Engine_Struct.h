@@ -23,6 +23,18 @@ namespace Engine
 		float			fRange;
 	};
 
+	struct KEYFRAME
+	{
+		// 행렬과 행렬 보간? 못함. 함수 제공 x
+		// 그래서 성분 나눠서 보간하고 행렬을 만들어 줌.
+		XMFLOAT3		vScale;
+		XMFLOAT4		vRotation; // 쿼터니언 회전
+		XMFLOAT3		vTranslation;
+
+		// keyframe 이 상태는 어떤 위치에서 재생되어야 하는지
+		float			fTrackPosition;
+	};
+
 	struct VTXTEX
 	{
 		XMFLOAT3		vPosition;
