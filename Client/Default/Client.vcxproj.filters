@@ -100,6 +100,9 @@
     <Filter Include="02. GameObject\03. ForkLift">
       <UniqueIdentifier>{2938a3e3-44df-481a-bb13-f5847b3fb5ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\04. UI_MapPanel">
+      <UniqueIdentifier>{99d0aff8-14e9-4a10-9d65-c9a6e6b0fc96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="..\Public\CForkLift.h">
       <Filter>02. GameObject\03. ForkLift</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_MapPanel.h">
+      <Filter>02. GameObject\01. UI_Default\04. UI_MapPanel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -293,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CForkLift.cpp">
       <Filter>02. GameObject\03. ForkLift</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_MapPanel.cpp">
+      <Filter>02. GameObject\01. UI_Default\04. UI_MapPanel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

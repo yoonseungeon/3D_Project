@@ -31,6 +31,7 @@ HRESULT CUI_SkinPanel::Initialize(void* pArg)
 {
     m_pGame_Manaer = CGame_Manager::GetInstance();
     m_pCharData_Manager = CCharData_Manager::GetInstance();
+    Safe_AddRef(m_pGame_Manaer);
     Safe_AddRef(m_pCharData_Manager);
 
     CUI_SKINPANEL_DESC* pDesc = static_cast<CUI_SKINPANEL_DESC*>(pArg);

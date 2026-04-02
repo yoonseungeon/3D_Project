@@ -6,6 +6,7 @@
 #include "CUI_Btn.h"
 #include "CUI_PickPanel.h"
 #include "CUI_SkinPanel.h"
+#include "CUI_MapPanel.h"
 
 CStage_Select::CStage_Select(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CStage(pDevice, pContext)
@@ -27,6 +28,10 @@ void CStage_Select::Change_SelectMap()
     for (auto pObj : m_UIs[PICK]) {
         pObj->Set_IsInactive(true);
     }
+
+    for (auto pObj : m_UIs[MAP]) {
+        pObj->Set_IsInactive(false);
+    }
 }
 
 HRESULT CStage_Select::Initialize(function<void(STAGE)> funcBtnCallBack)
@@ -40,6 +45,9 @@ HRESULT CStage_Select::Initialize(function<void(STAGE)> funcBtnCallBack)
         return E_FAIL;
 
     if (FAILED(Ready_Layer_SkinPanel(TEXT("Layer_SkinPanel"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Map()))
         return E_FAIL;
 
     return S_OK;
@@ -126,6 +134,98 @@ HRESULT CStage_Select::Ready_Layer_SkinPanel(const _wstring& strLayerTag)
         return E_FAIL;
 
     m_UIs[VIEW_TYPE::SKIN].push_back(pObj);
+
+    return S_OK;
+}
+
+HRESULT CStage_Select::Ready_Map()
+{
+    if (FAILED(Ready_Map_Layer_UI_Image(L"Layer_UI_Image")))
+        return E_FAIL;
+
+    if (FAILED(Ready_Map_Layer_MapPanel(L"Layer_MapPanel")))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CStage_Select::Ready_Map_Layer_UI_Image(const _wstring& strLayerTag)
+{
+    CGameObject* pObj{ nullptr };
+
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.35f;
+    Desc.fScaleRatioY = 0.45f;
+    Desc.fPosRatioX = -0.23f;
+    Desc.fPosRatioY = -0.1f;
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_MapDeco";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_UIs[VIEW_TYPE::MAP].push_back(pObj);
+
+
+    Desc.fScaleRatioX = 0.45f;
+    Desc.fScaleRatioY = 0.55f;
+    Desc.fPosRatioY += 0.13f;
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER2);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_MapGrid";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_UIs[VIEW_TYPE::MAP].push_back(pObj);
+
+
+    Desc.fScaleRatioX = 1000.f / static_cast<_float>(g_iWinSizeX) / 2.4f;
+    Desc.fScaleRatioY = 983.f / static_cast<_float>(g_iWinSizeY) / 2.4f;
+    Desc.fPosRatioY += 0.05f;
+    Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER3);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_MapPatternBg";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_UIs[VIEW_TYPE::MAP].push_back(pObj);
+    return S_OK;
+}
+
+HRESULT CStage_Select::Ready_Map_Layer_MapPanel(const _wstring& strLayerTag)
+{
+    CGameObject* pObj{ nullptr };
+
+    CUI_MapPanel::CUI_MAPPANEL_DESC Desc{};
+
+    Desc.fScaleRatioX = 986.f / static_cast<_float>(g_iWinSizeX) / 2.4f;
+    Desc.fScaleRatioY = 982.f / static_cast<_float>(g_iWinSizeY) / 2.4f;
+    Desc.fPosRatioX = -0.23f;
+    Desc.fPosRatioY = 0.1f;
+    Desc.iUILayer = ETOUI(UILAYER::PANEL);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_MapPanel";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
+        return E_FAIL;
+
+    m_UIs[VIEW_TYPE::MAP].push_back(pObj);
 
     return S_OK;
 }
