@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "CUI_Default.h"
+#include "CUI_Btn.h"
 
 NS_BEGIN(Engine)
 class CShader;
@@ -11,20 +11,21 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CPickSlot;
-class CCharData_Manager;
-
-class CUI_MapPanel final : public CUI_Default
+class CMapSelectBtn final : public CUI_Btn
 {
+private:
+	enum TEX_STATE { HOVER, NONE };
+
 public:
-	struct CUI_MAPPANEL_DESC : public CUI_Default::CUI_DEFAULT_DESC
+	struct CMAPSELECTBTN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
+		function<void(const wstring, const _uint)> funcSetFullSkin{};
 	};
 
-protected:
-	CUI_MapPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CUI_MapPanel(const CUI_MapPanel& Prototype);
-	virtual ~CUI_MapPanel() = default;
+private:
+	CMapSelectBtn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CMapSelectBtn(const CMapSelectBtn& Prototype);
+	virtual ~CMapSelectBtn() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -37,25 +38,22 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-public:
-	virtual void Set_IsInactive(_bool bIsInactive) override;
-
-protected:
-	CShader* m_pShaderCom{ nullptr };
-	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
-	CTexture* m_pTextureCom{ nullptr };
-
-private:
-	CCharData_Manager* m_pCharData_Manager{};
-
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
-	HRESULT Ready_Layer_MapSelectBtn(const _wstring& strLayerTag);
+	virtual void BtnClick() override;
+	void Execute_Btn(_float fTimeDelta);
+
+private:
+	CShader* m_pShaderCom{ nullptr };
+	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
+	CTexture* m_pTextureCom{ nullptr };
+
+	TEX_STATE m_eCurTexState{ TEX_STATE::NONE };
 
 public:
-	static CUI_MapPanel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CMapSelectBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free() override;

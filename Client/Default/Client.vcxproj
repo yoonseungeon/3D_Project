@@ -159,6 +159,7 @@
     <ClInclude Include="..\Public\Character_Meta.h" />
     <ClInclude Include="..\Public\CLobbySelectBtn.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
+    <ClInclude Include="..\Public\CMapSelectBtn.h" />
     <ClInclude Include="..\Public\CMonster.h" />
     <ClInclude Include="..\Public\CPickSkin.h" />
     <ClInclude Include="..\Public\CPickSlot.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="..\Public\CUI_MapPanel.h" />
     <ClInclude Include="..\Public\CUI_PickPanel.h" />
     <ClInclude Include="..\Public\CUI_SkinPanel.h" />
+    <ClInclude Include="..\Public\Map_Meta.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -193,6 +195,7 @@
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
     <ClCompile Include="..\Private\CLobbySelectBtn.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
+    <ClCompile Include="..\Private\CMapSelectBtn.cpp" />
     <ClCompile Include="..\Private\CMonster.cpp" />
     <ClCompile Include="..\Private\CPickSkin.cpp" />
     <ClCompile Include="..\Private\CPickSlot.cpp" />

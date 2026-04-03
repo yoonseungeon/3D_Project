@@ -60,7 +60,7 @@ HRESULT CMonster::Render()
         if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", static_cast<_uint>(i), aiTextureType_DIFFUSE, 0)))
             return E_FAIL;
 
-        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", static_cast<_uint>(i))))
+        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", static_cast<_int>(i))))
             return E_FAIL;
 
         if (FAILED(m_pShaderCom->Begin(0)))
@@ -151,10 +151,8 @@ CGameObject* CMonster::Clone(void* pArg)
 
 void CMonster::Free()
 {
-    __super::Free();
-
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);
 
-
+    __super::Free();
 }

@@ -2,7 +2,7 @@
 
 #include "CGameInstance.h"
 #include "CCharData_Manager.h"
-#include "CPickSlot.h"
+#include "CMapSelectBtn.h"
 
 CUI_MapPanel::CUI_MapPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -29,11 +29,14 @@ HRESULT CUI_MapPanel::Initialize(void* pArg)
     CUI_MAPPANEL_DESC* pDesc = static_cast<CUI_MAPPANEL_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
-        return E_FAIL;
+        return E_FAIL; 
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_MapSelectBtn(TEXT("Layer_CMapSelectBtn"))))
+        return E_FAIL;
+    
     return S_OK;
 }
 
@@ -117,6 +120,28 @@ HRESULT CUI_MapPanel::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
     m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
+
+    return S_OK;
+}
+
+HRESULT CUI_MapPanel::Ready_Layer_MapSelectBtn(const _wstring& strLayerTag)
+{
+    CMapSelectBtn::CMAPSELECTBTN_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.25f;
+    Desc.fScaleRatioY = 0.25f;
+    Desc.fPosRatioX = 0.f;
+    Desc.fPosRatioY = 0.f;
+    Desc.iUILayer = ETOUI(UILAYER::BUTTON);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = MAPS[0].TEX_OVER_TAG;
+
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_MapSelectBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
+        return E_FAIL;
 
     return S_OK;
 }

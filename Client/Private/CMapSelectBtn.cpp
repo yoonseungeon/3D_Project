@@ -1,0 +1,195 @@
+#include "CMapSelectBtn.h"
+
+#include "CGameInstance.h"
+
+CMapSelectBtn::CMapSelectBtn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+    : CUI_Btn{ pDevice, pContext }
+{
+}
+
+CMapSelectBtn::CMapSelectBtn(const CMapSelectBtn& Prototype)
+    : CUI_Btn{ Prototype }
+{
+
+}
+
+HRESULT CMapSelectBtn::Initialize_Prototype()
+{
+    return S_OK;
+}
+
+HRESULT CMapSelectBtn::Initialize(void* pArg)
+{
+    CMAPSELECTBTN_DESC* pDesc = static_cast<CMAPSELECTBTN_DESC*>(pArg);
+
+    if (FAILED(__super::Initialize(pDesc)))
+        return E_FAIL;  
+
+    if (FAILED(Ready_Components()))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+void CMapSelectBtn::Priority_Update(_float fTimeDelta)
+{
+}
+
+void CMapSelectBtn::Parallel_Update(_float fTimeDelta)
+{
+    // m_bIsInactived의 쓰기는 Level Update에서 일어남.(Late Update 후 LevelUpdate 됨.)
+    if (m_bIsInactive == true) {
+        return;
+    }
+
+    __super::Update_BtnState();
+
+    Execute_Btn(fTimeDelta);
+}
+
+void CMapSelectBtn::Update(_float fTimeDelta)
+{
+    if (m_bIsInactive == true) {
+        return;
+    }
+
+    if (m_bIsClicked) {
+        BtnClick();
+    }
+}
+
+void CMapSelectBtn::Late_Update(_float fTimeDelta)
+{
+    if (m_bIsInactive == true || m_eCurTexState == TEX_STATE::NONE) {
+        return;
+    }
+
+    m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
+}
+
+HRESULT CMapSelectBtn::Render()
+{
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+
+    if (FAILED(m_pShaderCom->Begin(m_eBlendState)))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Bind_Resources()))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CMapSelectBtn::Ready_Components()
+{
+    /* For.Com_Shader */
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
+        TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+        return E_FAIL;
+
+    /* For.Com_VIBuffer */
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
+        TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+        return E_FAIL;
+
+    /* For.Com_Texture*/
+    if (FAILED(__super::Add_Component(ETOUI(m_eTexPrototypeLV), m_wstrTexturePrototypeTag,
+        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CMapSelectBtn::Bind_ShaderResources()
+{
+    if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+        return E_FAIL;
+
+    if (FAILED(__super::Bind_ShaderResource(m_pShaderCom, "g_ViewMatrix", D3DTS::VIEW)))
+        return E_FAIL;
+    if (FAILED(__super::Bind_ShaderResource(m_pShaderCom, "g_ProjMatrix", D3DTS::PROJ)))
+        return E_FAIL;
+
+    if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", ETOUI(m_eCurTexState))))
+        return E_FAIL;
+
+    m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
+    m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
+    m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
+
+    return S_OK;
+}
+
+void CMapSelectBtn::BtnClick()
+{
+ 
+}
+
+void CMapSelectBtn::Execute_Btn(_float fTimeDelta)
+{
+    switch (m_eCurBtnState) {
+    case BTN_STATE::NORMAL:
+    {
+        m_eCurTexState = TEX_STATE::NONE;
+        break;
+    }
+
+    case BTN_STATE::HOVER:
+    {
+        m_eCurTexState = TEX_STATE::HOVER;
+        break;
+    }
+
+    case BTN_STATE::PRESSED:
+    {
+        m_eCurTexState = TEX_STATE::HOVER;
+        break;
+    }
+
+    case BTN_STATE::CLICKED:
+    {
+        m_eCurTexState = TEX_STATE::HOVER;
+        m_bIsClicked = true;
+        break;
+    }
+    }
+}
+
+CMapSelectBtn* CMapSelectBtn::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+{
+    CMapSelectBtn* pInstance = new CMapSelectBtn(pDevice, pContext);
+
+    if (FAILED(pInstance->Initialize_Prototype()))
+    {
+        MSG_BOX("Failed to Created: CMapSelectBtn");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
+}
+
+CGameObject* CMapSelectBtn::Clone(void* pArg)
+{
+    CMapSelectBtn* pInstance = new CMapSelectBtn(*this);
+
+    if (FAILED(pInstance->Initialize(pArg)))
+    {
+        MSG_BOX("Failed to Cloned: CMapSelectBtn");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
+}
+
+void CMapSelectBtn::Free()
+{
+    Safe_Release(m_pTextureCom);
+    Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pShaderCom);
+
+    __super::Free();
+}

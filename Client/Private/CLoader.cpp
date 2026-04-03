@@ -11,6 +11,8 @@
 #include "CUI_SkinPanel.h"
 #include "CPickSkin.h"
 #include "CLobbySelectBtn.h"
+#include "CUI_MapPanel.h"
+#include "CMapSelectBtn.h"
 
 #include "CMonster.h"
 #include "CForkLift.h"
@@ -572,6 +574,51 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     }
 #pragma endregion
 
+#pragma region Map Over
+    wstring wstrMapOverPathDefault = L"../Bin/Resources/Lobby/Map/Over/";
+
+    for (_uint i = 0; i < ETOUI(MAP_NAME::MAP_END); ++i)
+    {
+        const wstring wstrFinalPath = wstrMapOverPathDefault + MAPS[i].TEX_PATH_OVER;
+        const wstring wstrMapOverTexTag = MAPS[i].TEX_OVER_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, wstrFinalPath, wstrMapOverTexTag]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), wstrMapOverTexTag,
+                    CTexture::Create(m_pDevice, m_pContext, wstrFinalPath.c_str(), 1))))
+                {
+                    MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Map_Over");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
+#pragma endregion
+
+#pragma region Map Select
+    wstring wstrMapSelectPathDefault = L"../Bin/Resources/Lobby/Map/Select/";
+
+    for (_uint i = 0; i < ETOUI(MAP_NAME::MAP_END); ++i)
+    {
+        const wstring wstrFinalPath = wstrMapSelectPathDefault + MAPS[i].TEX_PATH_SELECT;
+        const wstring wstrMapSelectTexTag = MAPS[i].TEX_SELECT_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, wstrFinalPath, wstrMapSelectTexTag]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), wstrMapSelectTexTag,
+                    CTexture::Create(m_pDevice, m_pContext, wstrFinalPath.c_str(), 1))))
+                {
+                    MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Map_Select");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
+#pragma endregion
+
+
     /* Prototype_Texture_NonFullSkin */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -738,6 +785,32 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
                 CLobbySelectBtn::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_LobbySelectBtn");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_MapPanel */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_MapPanel"),
+                CUI_MapPanel::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_MapPanel");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_MapSelectBtn */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_MapSelectBtn"),
+                CMapSelectBtn::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_GameObject_MapSelectBtn");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -103,6 +103,9 @@
     <Filter Include="02. GameObject\01. UI_Default\04. UI_MapPanel">
       <UniqueIdentifier>{99d0aff8-14e9-4a10-9d65-c9a6e6b0fc96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\MapSelectBtn">
+      <UniqueIdentifier>{c39eee39-75f4-483f-a67b-76d75859c542}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -204,6 +207,12 @@
     <ClInclude Include="..\Public\CUI_MapPanel.h">
       <Filter>02. GameObject\01. UI_Default\04. UI_MapPanel</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CMapSelectBtn.h">
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn\MapSelectBtn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Map_Meta.h">
+      <Filter>999. Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -302,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_MapPanel.cpp">
       <Filter>02. GameObject\01. UI_Default\04. UI_MapPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMapSelectBtn.cpp">
+      <Filter>02. GameObject\01. UI_Default\01. UI_Btn\MapSelectBtn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -188,8 +188,8 @@ HRESULT CStage_Select::Ready_Map_Layer_UI_Image(const _wstring& strLayerTag)
     m_UIs[VIEW_TYPE::MAP].push_back(pObj);
 
 
-    Desc.fScaleRatioX = 1000.f / static_cast<_float>(g_iWinSizeX) / 2.4f;
-    Desc.fScaleRatioY = 983.f / static_cast<_float>(g_iWinSizeY) / 2.4f;
+    Desc.fScaleRatioX = 0.32552f;   // 1000.f / static_cast<_float>(g_iWinSizeX) / 2.4f
+    Desc.fScaleRatioY = 0.56886f;   // 983.f / static_cast<_float>(g_iWinSizeY) / 2.4f;
     Desc.fPosRatioY += 0.05f;
     Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER3);
 
@@ -211,8 +211,8 @@ HRESULT CStage_Select::Ready_Map_Layer_MapPanel(const _wstring& strLayerTag)
 
     CUI_MapPanel::CUI_MAPPANEL_DESC Desc{};
 
-    Desc.fScaleRatioX = 986.f / static_cast<_float>(g_iWinSizeX) / 2.4f;
-    Desc.fScaleRatioY = 982.f / static_cast<_float>(g_iWinSizeY) / 2.4f;
+    Desc.fScaleRatioX = 0.32096f;  //986.f / static_cast<_float>(g_iWinSizeX) / 2.4f;
+    Desc.fScaleRatioY = 0.56828f;  //982.f / static_cast<_float>(g_iWinSizeY) / 2.4f;
     Desc.fPosRatioX = -0.23f;
     Desc.fPosRatioY = 0.1f;
     Desc.iUILayer = ETOUI(UILAYER::PANEL);
@@ -221,7 +221,7 @@ HRESULT CStage_Select::Ready_Map_Layer_MapPanel(const _wstring& strLayerTag)
     Desc.eBlendState = CUI_Default::ALPHABLEND;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_MapPanel";
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_MapPanel"),
         ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
         return E_FAIL;
 

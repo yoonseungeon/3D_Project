@@ -85,7 +85,7 @@ void CPickSkin::Parallel_Update(_float fTimeDelta)
 
 void CPickSkin::Update(_float fTimeDelta)
 {
-    if (m_bIsInactive == true || m_eCurTexState == TEX_STATE::NONE) {
+    if (m_bIsInactive == true /*|| m_eCurTexState == TEX_STATE::NONE*/) {
         return;
     }
 
@@ -96,7 +96,7 @@ void CPickSkin::Update(_float fTimeDelta)
 
 void CPickSkin::Late_Update(_float fTimeDelta)
 {
-    if (m_bIsInactive == true) {
+    if (m_bIsInactive == true || m_eCurTexState == TEX_STATE::NONE) {
         return;
     }
 

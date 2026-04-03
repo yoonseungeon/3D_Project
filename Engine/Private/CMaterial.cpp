@@ -30,7 +30,7 @@ HRESULT CMaterial::Initialize(aiMaterial* pAIMaterial, const _char* pModelFilePa
 		for (size_t j = 0; j < iNumTextures; j++)
 		{
 			// assimp에서 제공하는 스트링
-			aiString strTexturePath {};
+			aiString strTexturePath{};
 
 			//1. 타입  2. 몇 번째 텍스처  3. 받을 주소			
 			if (FAILED(pAIMaterial->GetTexture(static_cast<aiTextureType>(i), static_cast<_uint>(j), &strTexturePath)))

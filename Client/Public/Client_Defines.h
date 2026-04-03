@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Character_Meta.h"
+#include "Map_Meta.h"
 
 #include <Windows.h>
 
