@@ -15,6 +15,7 @@ private:
 	{
 		CHAR_NAME eCharName{ CHAR_NAME::CHARNAME_END };
 		wstring wstrSkinName = L"Default";
+		MAP_NAME eSpawn_Map{ MAP_NAME::MAP_END };
 	};
 
 public:
@@ -26,8 +27,10 @@ private:
 public:
 	void Set_SelectChar(CHAR_NAME eCharName);
 	void Set_SelectSkin(const wstring& wstrSkinName);
+	void Set_SelectSpawnMap(MAP_NAME eSpawnMap);
 
 	CHAR_NAME Get_SelectedChar();
+	MAP_NAME Get_SelectedMap();
 
 private:
 	SELECTED_CHAR_DESC m_tSelectedChar{};

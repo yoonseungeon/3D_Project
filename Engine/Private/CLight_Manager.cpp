@@ -16,7 +16,7 @@ const LIGHT_DESC* CLight_Manager::Get_LightDesc(_uint iIndex)
 
     auto iter = m_Lights.begin();
 
-    for (size_t i = 0; i < iIndex; i++)
+    for (size_t i = 0; i < iIndex; ++i)
         ++iter;
 
     if (iter == m_Lights.end())

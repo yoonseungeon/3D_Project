@@ -1,8 +1,9 @@
 #include "CUI_MapPanel.h"
 
 #include "CGameInstance.h"
-#include "CCharData_Manager.h"
+#include "CGame_Manager.h"
 #include "CMapSelectBtn.h"
+#include "CLobbySelectBtn.h"
 
 CUI_MapPanel::CUI_MapPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -23,10 +24,17 @@ HRESULT CUI_MapPanel::Initialize_Prototype()
 
 HRESULT CUI_MapPanel::Initialize(void* pArg)
 {
-    m_pCharData_Manager = CCharData_Manager::GetInstance();
-    Safe_AddRef(m_pCharData_Manager);
+    m_pGame_Manager = CGame_Manager::GetInstance();
+    Safe_AddRef(m_pGame_Manager);
 
     CUI_MAPPANEL_DESC* pDesc = static_cast<CUI_MAPPANEL_DESC*>(pArg);
+
+    m_funcStartGame = pDesc->funcStartGame;
+
+    m_fScaleRatioX = pDesc->fScaleRatioX;
+    m_fScaleRatioY = pDesc->fScaleRatioY;
+    m_fPosRatioX   = pDesc->fPosRatioX;
+    m_fPosRatioY   = pDesc->fPosRatioY;
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL; 
@@ -35,6 +43,9 @@ HRESULT CUI_MapPanel::Initialize(void* pArg)
         return E_FAIL;
 
     if (FAILED(Ready_Layer_MapSelectBtn(TEXT("Layer_CMapSelectBtn"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_LobbySelectBtn(TEXT("Layer_LobbySelectBtn"))))
         return E_FAIL;
     
     return S_OK;
@@ -50,6 +61,11 @@ void CUI_MapPanel::Parallel_Update(_float fTimeDelta)
 
 void CUI_MapPanel::Update(_float fTimeDelta)
 {
+    if (m_bIsBtnOn == false && m_pGame_Manager->Get_SelectedMap() != MAP_NAME::MAP_END)
+    {
+        m_pSelectBtn->Set_IsInactive(false);
+        m_bIsBtnOn = true;
+    }
 }
 
 void CUI_MapPanel::Late_Update(_float fTimeDelta)
@@ -81,7 +97,10 @@ HRESULT CUI_MapPanel::Render()
 void CUI_MapPanel::Set_IsInactive(_bool bIsInactive)
 {
     m_bIsInactive = bIsInactive;
-
+    
+    for (auto& pMapSelectBtn : m_vecMapBtns) {
+        pMapSelectBtn->Set_IsInactive(bIsInactive);
+    }
 }
 
 HRESULT CUI_MapPanel::Ready_Components()
@@ -126,22 +145,74 @@ HRESULT CUI_MapPanel::Bind_ShaderResources()
 
 HRESULT CUI_MapPanel::Ready_Layer_MapSelectBtn(const _wstring& strLayerTag)
 {
+    CMapSelectBtn* pMapSelectBtn{};
+
     CMapSelectBtn::CMAPSELECTBTN_DESC Desc{};
 
-    Desc.fScaleRatioX = 0.25f;
-    Desc.fScaleRatioY = 0.25f;
-    Desc.fPosRatioX = 0.f;
-    Desc.fPosRatioY = 0.f;
+    Desc.iUILayer = ETOUI(UILAYER::BUTTON);
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+
+    Desc.funcCallBack = [this]()->void
+        {
+            for (auto& pMapSelectBtn : m_vecMapBtns) {
+                pMapSelectBtn->Set_Deselect();
+            }
+        };
+
+    //Desc.wstrTexturePrototypeTag = MAPS[18].TEX_OVER_TAG;
+    //Desc.fScaleRatioX = m_fScaleRatioX * 0.316190f;
+    //Desc.fScaleRatioY = m_fScaleRatioY * 0.198944f;
+    //Desc.fPosRatioX = m_fPosRatioX + 0.061096f * m_fScaleRatioX;
+    //Desc.fPosRatioY = m_fPosRatioY + 0.396665f * m_fScaleRatioY;
+
+
+    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_MapSelectBtn"),
+    //    ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
+    //    return E_FAIL;
+
+
+    for (_uint i = 0; i < static_cast<_uint>(MAP_NAME::MAP_END); ++i)
+    {
+        Desc.eMapName = static_cast<MAP_NAME>(i);
+        Desc.wstrTexturePrototypeTag = MAPS[i].TEX_OVER_TAG;
+
+        Desc.fScaleRatioX = m_fScaleRatioX * MAPS[i].fScaleRatioX;
+        Desc.fScaleRatioY = m_fScaleRatioY * MAPS[i].fScaleRatioY;
+        Desc.fPosRatioX = m_fPosRatioX + MAPS[i].fPosRatioX * m_fScaleRatioX;
+        Desc.fPosRatioY = m_fPosRatioY + MAPS[i].fPosRatioY * m_fScaleRatioY;
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_MapSelectBtn"),
+            ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pMapSelectBtn))))
+            return E_FAIL;
+
+        m_vecMapBtns.push_back(pMapSelectBtn);
+    }
+    
+    return S_OK;
+}
+
+HRESULT CUI_MapPanel::Ready_Layer_LobbySelectBtn(const _wstring& strLayerTag)
+{
+    CLobbySelectBtn::CLOBBY_SELECT_BTN_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.18f;
+    Desc.fScaleRatioY = 0.07f;
+    Desc.fPosRatioX = 0.24f;
+    Desc.fPosRatioY = -0.4f;
     Desc.iUILayer = ETOUI(UILAYER::BUTTON);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
     Desc.eBlendState = CUI_Default::ALPHABLEND;
-    Desc.wstrTexturePrototypeTag = MAPS[0].TEX_OVER_TAG;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbySelectBtn";
 
+    Desc.funcCallBack = m_funcStartGame;
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_MapSelectBtn"),
-        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc)))
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_LobbySelectBtn"),
+        ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pSelectBtn))))
         return E_FAIL;
+
+    m_pSelectBtn->Set_IsInactive(true);
 
     return S_OK;
 }
@@ -174,11 +245,18 @@ CGameObject* CUI_MapPanel::Clone(void* pArg)
 
 void CUI_MapPanel::Free()
 {
+    Safe_Release(m_pGame_Manager);
+    Safe_Release(m_pSelectBtn);
+
+    for (auto& pMapSelectBtn : m_vecMapBtns) {
+        Safe_Release(pMapSelectBtn);
+    }
+    m_vecMapBtns.clear();
+
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
 
-    Safe_Release(m_pCharData_Manager);
 
     __super::Free();
 }

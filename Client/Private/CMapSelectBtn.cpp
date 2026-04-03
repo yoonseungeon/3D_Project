@@ -1,6 +1,9 @@
 #include "CMapSelectBtn.h"
 
 #include "CGameInstance.h"
+#include "CUI_Image.h"
+
+#include "CGame_Manager.h"
 
 CMapSelectBtn::CMapSelectBtn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Btn{ pDevice, pContext }
@@ -20,10 +23,33 @@ HRESULT CMapSelectBtn::Initialize_Prototype()
 
 HRESULT CMapSelectBtn::Initialize(void* pArg)
 {
+    m_pGame_Manager = CGame_Manager::GetInstance();
+    Safe_AddRef(m_pGame_Manager);
+
     CMAPSELECTBTN_DESC* pDesc = static_cast<CMAPSELECTBTN_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;  
+
+    m_eMapName = pDesc->eMapName;
+
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = pDesc->fScaleRatioX;
+    Desc.fScaleRatioY = pDesc->fScaleRatioY;
+    Desc.fPosRatioX = pDesc->fPosRatioX;
+    Desc.fPosRatioY = pDesc->fPosRatioY;
+    Desc.iUILayer = ETOUI(UILAYER::BUTTON_IMAGE);
+
+    Desc.eTexPrototypeLV = LEVEL::LOBBY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = MAPS[static_cast<_uint>(m_eMapName)].TEX_SELECT_TAG;
+   
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::LOBBY), TEXT("Layer_UI_Image"), &Desc, reinterpret_cast<CGameObject**>(&m_pSelectImage))))
+        return E_FAIL;
+
+    m_pSelectImage->Set_IsInactive(true);
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -84,6 +110,12 @@ HRESULT CMapSelectBtn::Render()
     return S_OK;
 }
 
+void CMapSelectBtn::Set_Deselect()
+{
+    m_bIsSelected = false;
+    m_pSelectImage->Set_IsInactive(true);
+}
+
 HRESULT CMapSelectBtn::Ready_Components()
 {
     /* For.Com_Shader */
@@ -126,7 +158,11 @@ HRESULT CMapSelectBtn::Bind_ShaderResources()
 
 void CMapSelectBtn::BtnClick()
 {
- 
+    m_funcCallBack();
+    m_bIsSelected = true;
+    m_pSelectImage->Set_IsInactive(false);
+    m_pGame_Manager->Set_SelectSpawnMap(m_eMapName);
+    m_bIsClicked = false;
 }
 
 void CMapSelectBtn::Execute_Btn(_float fTimeDelta)
@@ -186,10 +222,14 @@ CGameObject* CMapSelectBtn::Clone(void* pArg)
 }
 
 void CMapSelectBtn::Free()
-{
+{    
+    Safe_Release(m_pSelectImage);
+
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
+
+    Safe_Release(m_pGame_Manager);
 
     __super::Free();
 }

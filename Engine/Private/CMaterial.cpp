@@ -21,13 +21,13 @@ HRESULT CMaterial::Initialize(aiMaterial* pAIMaterial, const _char* pModelFilePa
 	_splitpath_s(pModelFilePath, szDrive, MAX_PATH, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
 
 	// 머테리얼은 27가지의 타입으로 구분할 수 있다.(e.g. Diffuse, Specular, Ambient, Normal 등)
-	for (size_t i = 0; i < AI_TEXTURE_TYPE_MAX; i++)
+	for (size_t i = 0; i < AI_TEXTURE_TYPE_MAX; ++i)
 	{
 		// 머테리얼 타입마다 여러 장의 텍스처가 존재할 수 있다.
 		_uint iNumTextures = pAIMaterial->GetTextureCount(static_cast<aiTextureType>(i));
 
 		// 0이 나오는 경우도 있다.(그 타입은 텍스처 없음)
-		for (size_t j = 0; j < iNumTextures; j++)
+		for (size_t j = 0; j < iNumTextures; ++j)
 		{
 			// assimp에서 제공하는 스트링
 			aiString strTexturePath{};

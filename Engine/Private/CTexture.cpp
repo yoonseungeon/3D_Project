@@ -22,7 +22,7 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNu
 
 	_tchar szTextureFilePath[MAX_PATH] = TEXT("");
 
-	for (size_t i = 0; i < iNumTextures; i++)
+	for (size_t i = 0; i < iNumTextures; ++i)
 	{
 		ID3D11ShaderResourceView* pSRV = { nullptr };
 		wsprintf(szTextureFilePath, pTextureFilePath, i);

@@ -52,7 +52,7 @@ HRESULT CObject_Manager::Add_GameObject(_uint iPrototypeLevelIndex, const _wstri
 
 void CObject_Manager::Priority_Update(_float fTimeDelta)
 {
-	for (size_t i = 0; i < m_iNumLevels; i++)
+	for (size_t i = 0; i < m_iNumLevels; ++i)
 	{
 		for (auto& Pair : m_pLayers[i])
 			Pair.second->Priority_Update(fTimeDelta);
@@ -68,7 +68,7 @@ void CObject_Manager::Parallel_Update(_float fTimeDelta)
 		m_iTotalJobCnt = 0;
 		m_iFinishedJobCnt.store(0, memory_order_relaxed);
 
-		for (size_t i = 0; i < m_iNumLevels; i++)
+		for (size_t i = 0; i < m_iNumLevels; ++i)
 		{
 			for (auto& Pair : m_pLayers[i])
 				Pair.second->Parallel_Update_Parallel(fTimeDelta, m_iTotalJobCnt, m_iFinishedJobCnt,
@@ -81,7 +81,7 @@ void CObject_Manager::Parallel_Update(_float fTimeDelta)
 	}
 	case PARALLEL_UPDATE_MODE::SINGLE:
 	{
-		for (size_t i = 0; i < m_iNumLevels; i++)
+		for (size_t i = 0; i < m_iNumLevels; ++i)
 		{
 			for (auto& Pair : m_pLayers[i])
 				Pair.second->Parallel_Update_Single(fTimeDelta);
@@ -93,7 +93,7 @@ void CObject_Manager::Parallel_Update(_float fTimeDelta)
 
 void CObject_Manager::Update(_float fTimeDelta)
 {
-	for (size_t i = 0; i < m_iNumLevels; i++)
+	for (size_t i = 0; i < m_iNumLevels; ++i)
 	{
 		for (auto& Pair : m_pLayers[i])
 			Pair.second->Update(fTimeDelta);
@@ -102,7 +102,7 @@ void CObject_Manager::Update(_float fTimeDelta)
 
 void CObject_Manager::Late_Update(_float fTimeDelta)
 {
-	for (size_t i = 0; i < m_iNumLevels; i++)
+	for (size_t i = 0; i < m_iNumLevels; ++i)
 	{
 		for (auto& Pair : m_pLayers[i])
 			Pair.second->Late_Update(fTimeDelta);
@@ -156,7 +156,7 @@ CObject_Manager* CObject_Manager::Create(_uint iNumLevels)
 
 void CObject_Manager::Free()
 {
-	for (size_t i = 0; i < m_iNumLevels; i++)
+	for (size_t i = 0; i < m_iNumLevels; ++i)
 	{
 		for (auto& Pair : m_pLayers[i])
 			Safe_Release(Pair.second);

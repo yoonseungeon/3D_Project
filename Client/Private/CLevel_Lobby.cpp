@@ -23,9 +23,7 @@ HRESULT CLevel_Lobby::Initialize()
 
 void CLevel_Lobby::Update(_float fTimeDelta)
 {
-    Update_Stage();
-
-    if (m_pGameInstance->Key_Down(DIK_RETURN))
+    if (m_pGameInstance->Key_Down(DIK_RETURN) || m_eCurStage == STAGE::STAGE_END)
     {
         CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::GAMEPLAY);
 
@@ -34,6 +32,8 @@ void CLevel_Lobby::Update(_float fTimeDelta)
         if (SUCCEEDED(m_pGameInstance->Change_Level(ETOI(LEVEL::LOADING), pLoadingLevel)))
             return;
     }
+
+    Update_Stage();
 }
 
 HRESULT CLevel_Lobby::Render()
@@ -47,7 +47,7 @@ HRESULT CLevel_Lobby::Render()
 
 HRESULT CLevel_Lobby::Change_Stage(STAGE eNewStage)
 {
-    if (eNewStage >= STAGE::STAGE_END) {
+    if (eNewStage > STAGE::STAGE_END) {
         return E_FAIL;
     }
 
@@ -71,28 +71,26 @@ void CLevel_Lobby::Update_Stage()
             case STAGE::LOBBY: {
                 m_Stages[iCurStage] = CStage_Lobby::Create(m_pDevice, m_pContext,
                     [this](STAGE eStage)->void {
-                    if (FAILED(Change_Stage(eStage)))
-                    {
-                        MSG_BOX("Failed to Changed: Stage");
-                    }
-                });
+                        if (FAILED(Change_Stage(eStage)))
+                        {
+                            MSG_BOX("Failed to Changed: Stage");
+                        }
+                    });
                 break;
             }
             case STAGE::SELECT: {
                 m_Stages[iCurStage] = CStage_Select::Create(m_pDevice, m_pContext,
                     [this](STAGE eStage)->void {
-                    if (FAILED(Change_Stage(eStage)))
-                    {
-                        MSG_BOX("Failed to Changed: Stage");
-                    }
-                });
-
-
-
+                        if (FAILED(Change_Stage(eStage)))
+                        {
+                            MSG_BOX("Failed to Changed: Stage");
+                        }
+                    });
                 break;
             }
             }
         }
+
         if(m_Stages[iCurStage] != nullptr)
         {
             m_Stages[iCurStage]->Enable_Stage();

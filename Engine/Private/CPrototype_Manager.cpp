@@ -87,7 +87,7 @@ CPrototype_Manager* CPrototype_Manager::Create(_uint iNumLevels)
 
 void CPrototype_Manager::Free()
 {
-	for (size_t i = 0; i < m_iNumLevels; i++)
+	for (size_t i = 0; i < m_iNumLevels; ++i)
 	{
 		for (auto& Pair : m_pPrototypes[i])
 			Safe_Release(Pair.second);

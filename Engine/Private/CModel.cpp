@@ -156,7 +156,7 @@ HRESULT XM_CALLCONV CModel::Ready_Meshes(_fmatrix PreTransformMatrix)
 {
     m_iNumMeshes = m_pAIScene->mNumMeshes;
 
-    for (size_t i = 0; i < m_iNumMeshes; i++)
+    for (size_t i = 0; i < m_iNumMeshes; ++i)
     {
         CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, this, m_pAIScene->mMeshes[i], PreTransformMatrix);
         if (pMesh == nullptr)
@@ -172,7 +172,7 @@ HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
 {
     m_iNumMaterials = m_pAIScene->mNumMaterials;
 
-    for (size_t i = 0; i < m_iNumMaterials; i++)
+    for (size_t i = 0; i < m_iNumMaterials; ++i)
     {
         CMaterial* pMaterial = CMaterial::Create(m_pDevice, m_pContext, m_pAIScene->mMaterials[i], pModelFilePath);
         if (pMaterial == nullptr)

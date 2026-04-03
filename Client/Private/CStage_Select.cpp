@@ -125,9 +125,9 @@ HRESULT CStage_Select::Ready_Layer_SkinPanel(const _wstring& strLayerTag)
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_PickPanel";
 
     Desc.funcChangeSelectMap = [this]()->void
-        {
+    {
         Change_SelectMap();
-        };
+    };
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_SkinPanel"),
         ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
@@ -170,7 +170,7 @@ HRESULT CStage_Select::Ready_Map_Layer_UI_Image(const _wstring& strLayerTag)
         return E_FAIL;
 
     m_UIs[VIEW_TYPE::MAP].push_back(pObj);
-
+    pObj->Set_IsInactive(true);
 
     Desc.fScaleRatioX = 0.45f;
     Desc.fScaleRatioY = 0.55f;
@@ -186,7 +186,7 @@ HRESULT CStage_Select::Ready_Map_Layer_UI_Image(const _wstring& strLayerTag)
         return E_FAIL;
 
     m_UIs[VIEW_TYPE::MAP].push_back(pObj);
-
+    pObj->Set_IsInactive(true);
 
     Desc.fScaleRatioX = 0.32552f;   // 1000.f / static_cast<_float>(g_iWinSizeX) / 2.4f
     Desc.fScaleRatioY = 0.56886f;   // 983.f / static_cast<_float>(g_iWinSizeY) / 2.4f;
@@ -202,6 +202,8 @@ HRESULT CStage_Select::Ready_Map_Layer_UI_Image(const _wstring& strLayerTag)
         return E_FAIL;
 
     m_UIs[VIEW_TYPE::MAP].push_back(pObj);
+    pObj->Set_IsInactive(true);
+
     return S_OK;
 }
 
@@ -221,11 +223,17 @@ HRESULT CStage_Select::Ready_Map_Layer_MapPanel(const _wstring& strLayerTag)
     Desc.eBlendState = CUI_Default::ALPHABLEND;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_MapPanel";
 
+    Desc.funcStartGame = [this]()->void
+    {
+        m_funcBtnCallBack(STAGE::STAGE_END);
+    };
+
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_MapPanel"),
         ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, &pObj)))
         return E_FAIL;
 
     m_UIs[VIEW_TYPE::MAP].push_back(pObj);
+    pObj->Set_IsInactive(true);
 
     return S_OK;
 }

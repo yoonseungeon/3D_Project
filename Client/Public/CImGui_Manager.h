@@ -55,6 +55,10 @@ private:
 	void Show_GameObjects();
 	void Show_Transform();
 
+private:
+	std::string WStringToUTF8(const std::wstring& wstr);
+	std::wstring UTF8ToWString(const std::string& str);
+
 protected:
 	virtual void Free() override;
 };

@@ -11,6 +11,9 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CUI_Image;
+class CGame_Manager;
+
 class CMapSelectBtn final : public CUI_Btn
 {
 private:
@@ -19,7 +22,7 @@ private:
 public:
 	struct CMAPSELECTBTN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
-		function<void(const wstring, const _uint)> funcSetFullSkin{};
+		MAP_NAME eMapName{};
 	};
 
 private:
@@ -38,6 +41,9 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void Set_Deselect();
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
@@ -46,11 +52,18 @@ private:
 	void Execute_Btn(_float fTimeDelta);
 
 private:
-	CShader* m_pShaderCom{ nullptr };
+	CShader*		m_pShaderCom{ nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
-	CTexture* m_pTextureCom{ nullptr };
+	CTexture*		m_pTextureCom{ nullptr };
 
 	TEX_STATE m_eCurTexState{ TEX_STATE::NONE };
+
+	MAP_NAME m_eMapName{};
+	CUI_Image* m_pSelectImage{};
+
+	_bool m_bIsSelected{};
+
+	CGame_Manager* m_pGame_Manager{};
 
 public:
 	static CMapSelectBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

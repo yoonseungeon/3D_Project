@@ -38,7 +38,7 @@ HRESULT CThread_Manager::Initialize()
     size_t iThreadCount = 4;
     m_vecThreads.reserve(iThreadCount);
 
-    for (size_t i = 0; i < iThreadCount; i++)
+    for (size_t i = 0; i < iThreadCount; ++i)
     {
         HANDLE hThread = reinterpret_cast<HANDLE>(_beginthreadex(nullptr,    // 보안속성(부모 프로세스 핸들의 상속 여부, nullptr인 경우 상속에서 제외)
                                                                  0,          // 스택 사이즈(디폴트 0:1MB)

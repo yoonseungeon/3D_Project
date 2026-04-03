@@ -11,14 +11,16 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CPickSlot;
-class CCharData_Manager;
+class CMapSelectBtn;
+class CGame_Manager;
+class CLobbySelectBtn;
 
 class CUI_MapPanel final : public CUI_Default
 {
 public:
 	struct CUI_MAPPANEL_DESC : public CUI_Default::CUI_DEFAULT_DESC
 	{
+		function<void()> funcStartGame{};
 	};
 
 protected:
@@ -46,13 +48,25 @@ protected:
 	CTexture* m_pTextureCom{ nullptr };
 
 private:
-	CCharData_Manager* m_pCharData_Manager{};
+	CGame_Manager* m_pGame_Manager{};
+	vector<CMapSelectBtn*> m_vecMapBtns;
+	CLobbySelectBtn* m_pSelectBtn{};
+
+	_float m_fScaleRatioX{};
+	_float m_fScaleRatioY{};
+	_float m_fPosRatioX{};
+	_float m_fPosRatioY{};
+
+	function<void()> m_funcStartGame{};
+
+	_bool m_bIsBtnOn{};
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 	HRESULT Ready_Layer_MapSelectBtn(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_LobbySelectBtn(const _wstring& strLayerTag);
 
 public:
 	static CUI_MapPanel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

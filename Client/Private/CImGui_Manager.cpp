@@ -188,6 +188,10 @@ void CImGui_Manager::Show_GameObjects()
     for (size_t i = 0; i < NumLevels; ++i)
     {
         for (auto pair : mapLevelLayers[i]) {
+
+            ImGui::Text(WStringToUTF8(pair.first).c_str());
+            ImGui::Separator();
+
             auto& ObjList = pair.second->Get_ObjList();
 
             for (auto pObj : ObjList) {
@@ -220,6 +224,7 @@ void CImGui_Manager::Show_GameObjects()
                 ++iIndex;
             }
 
+            ImGui::Separator();
         }
     }
 }
@@ -248,6 +253,9 @@ void CImGui_Manager::Show_Transform()
     ImGui::Text("Com_Transform");
     ImGui::Separator();
 
+    _float fPSizeRatioX{};
+    _float fPSizeRatioY{};
+
     if (ImGui::CollapsingHeader("Scale", ImGuiTreeNodeFlags_DefaultOpen))
     {
         _float3 vScale = pTransform->Get_Scaled();
@@ -260,7 +268,7 @@ void CImGui_Manager::Show_Transform()
         ImGui::Separator();
 
         const _float fSpeed = 0.1f;
-        const _float fFastSpeed = 1.f;
+        const _float fFastSpeed = 10.f;
 
         ImGui::Text("Input");
         ImGui::Text("X ");
@@ -273,6 +281,17 @@ void CImGui_Manager::Show_Transform()
         ImGui::InputFloat("##ZZ", &vScale.z, fSpeed, fFastSpeed, "%.2f");
 
         pTransform->Set_Scale(vScale.x, vScale.y, vScale.z);
+
+
+
+
+        fPSizeRatioX = (vScale.x / g_iWinSizeX) / 0.32096f;
+        fPSizeRatioY = (vScale.y / g_iWinSizeY) / 0.56828f;
+        
+
+        ImGui::Text("Parent Size X %f", fPSizeRatioX);
+        ImGui::Text("Parent Size Y %f", fPSizeRatioY);
+
     }    
 
     if (ImGui::CollapsingHeader("Pos", ImGuiTreeNodeFlags_DefaultOpen))
@@ -290,7 +309,7 @@ void CImGui_Manager::Show_Transform()
         ImGui::Separator();
 
         const _float fSpeed = 0.1f;
-        const _float fFastSpeed = 1.f;
+        const _float fFastSpeed = 5.f;
 
         ImGui::Text("Input");
         ImGui::Text("X ");
@@ -303,7 +322,48 @@ void CImGui_Manager::Show_Transform()
         ImGui::InputFloat("##Z", &vFloat4.z, fSpeed, fFastSpeed, "%.2f");
 
         pTransform->Set_State(STATE::POSITION, XMLoadFloat4(&vFloat4));
+
+
+
+        //Desc.fScaleRatioX = 0.32096f;
+        //Desc.fScaleRatioY = 0.56828f;
+        _float ChildPosRatioX = (vFloat4.x / g_iWinSizeX);
+        _float ChildPosRatioY = (vFloat4.y / g_iWinSizeY);
+
+        _float ParentPosRatioX = -0.23f;
+        _float ParentPosRatioY = 0.1f;
+
+        ImGui::Text("Parent Pos X %f", (ChildPosRatioX - ParentPosRatioX) / 0.32096f);
+        ImGui::Text("Parent Pos Y %f", (ChildPosRatioY - ParentPosRatioY) / 0.56828f);
     }
+}
+
+std::string CImGui_Manager::WStringToUTF8(const std::wstring& wstr)
+{
+    if (wstr.empty())
+        return "";
+
+    int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+
+    std::string strTo(size_needed, 0);
+
+    WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+
+    return strTo;
+}
+
+std::wstring CImGui_Manager::UTF8ToWString(const std::string& str)
+{
+    if (str.empty())
+        return L"";
+
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+
+    std::wstring wstrTo(size_needed, 0);
+
+    MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
+
+    return wstrTo;
 }
 
 void CImGui_Manager::Free()

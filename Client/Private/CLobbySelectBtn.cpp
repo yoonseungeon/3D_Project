@@ -129,6 +129,7 @@ HRESULT CLobbySelectBtn::Bind_ShaderResources()
 void CLobbySelectBtn::BtnClick()
 {
     m_funcCallBack();
+    m_bIsInactive = true;
 }
 
 void CLobbySelectBtn::Execute_Btn(_float fTimeDelta)

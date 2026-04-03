@@ -58,7 +58,7 @@ HRESULT CShader::Initialize_Prototype(const _tchar* pShaderFilePath, const D3D11
 
     // 모든 pass 꺼내와서 정점의 정보 확인할 거임.
     // pass 여러 개 만들어서, 서로 다른 셰이더 수행할 수 있기 때문에
-    for (size_t i = 0; i < m_iNumPasses; i++)
+    for (size_t i = 0; i < m_iNumPasses; ++i)
     {
         // pass 꺼내 옴.
         ID3DX11EffectPass* pPass = pTechnique->GetPassByIndex(static_cast<_uint>(i));

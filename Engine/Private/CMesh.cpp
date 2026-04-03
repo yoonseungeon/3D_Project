@@ -59,7 +59,7 @@ HRESULT XM_CALLCONV CMesh::Initialize_Prototype(MODEL eType, CModel* pModel, con
 
     _uint       iNumIndices = {};
 
-    for (size_t i = 0; i < pAIMesh->mNumFaces; i++)
+    for (size_t i = 0; i < pAIMesh->mNumFaces; ++i)
     {
         // 면을 구성하는 인덱스
         pIndices[iNumIndices++] = pAIMesh->mFaces[i].mIndices[0];
@@ -87,7 +87,7 @@ HRESULT CMesh::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, v
 {
     ZeroMemory(m_BoneMatrices, sizeof(_float4x4) * g_iNumMeshBones);
 
-    for (size_t i = 0; i < m_iNumBones; i++)
+    for (size_t i = 0; i < m_iNumBones; ++i)
     {
         // 이 mesh가 필요로하는 뼈(node)들의 행렬 저장
         XMStoreFloat4x4(&m_BoneMatrices[i],
@@ -121,7 +121,7 @@ HRESULT XM_CALLCONV CMesh::Ready_NonAnimMesh(const aiMesh* pAIMesh, _fmatrix Pre
     VTXMESH* pVertices = new VTXMESH[m_iNumVertices];
     ZeroMemory(pVertices, sizeof(VTXMESH) * m_iNumVertices);
 
-    for (size_t i = 0; i < m_iNumVertices; i++)
+    for (size_t i = 0; i < m_iNumVertices; ++i)
     {
         // aiVector3D는 float 3개임. 따라서 memcpy로 float3 개만큼 복사.(자료형 달라서 memcpy)
         memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
@@ -174,7 +174,7 @@ HRESULT CMesh::Ready_AnimMesh(CModel* pModel, const aiMesh* pAIMesh)
     VTXANIMMESH* pVertices = new VTXANIMMESH[m_iNumVertices];
     ZeroMemory(pVertices, sizeof(VTXANIMMESH) * m_iNumVertices);
 
-    for (size_t i = 0; i < m_iNumVertices; i++)
+    for (size_t i = 0; i < m_iNumVertices; ++i)
     {
         // 사전 변환 행렬 생략
         memcpy(&pVertices[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
