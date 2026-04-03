@@ -5,12 +5,28 @@ CAnimation::CAnimation()
 {
 }
 
+CAnimation::CAnimation(const CAnimation& Prototype)
+    : m_fDuration{ Prototype.m_fDuration }
+    , m_fTickPerSecond{ Prototype.m_fTickPerSecond }
+    , m_fCurrentTrackPosition{ Prototype.m_fCurrentTrackPosition }
+    , m_iNumChannels{ Prototype.m_iNumChannels }
+    , m_Channels{ Prototype.m_Channels }
+    , m_CurrentKeyFrameIndices{ Prototype.m_CurrentKeyFrameIndices }
+{
+    // 채널은 갱신되지 않기 때문에 얕은 복사
+    for (auto& pChannel : m_Channels)
+        Safe_AddRef(pChannel);
+}
+
 HRESULT CAnimation::Initialize(const aiAnimation* pAIAnimation, CModel* pModel)
 {
     m_fDuration = static_cast<_float>(pAIAnimation->mDuration);
     m_fTickPerSecond = static_cast<_float>(pAIAnimation->mTicksPerSecond);
 
     m_iNumChannels = pAIAnimation->mNumChannels;
+
+    // 채널 개수만큼 왼쪽 키프레임 인덱스 공간 확보
+    m_CurrentKeyFrameIndices.resize(m_iNumChannels);
 
     for (size_t i = 0; i < m_iNumChannels; ++i)
     {
@@ -24,14 +40,34 @@ HRESULT CAnimation::Initialize(const aiAnimation* pAIAnimation, CModel* pModel)
     return S_OK;
 }
 
-void CAnimation::Update_TransformationMatrices(const vector<CBone*>& Bones, _float fTimeDelta)
+_bool CAnimation::Update_TransformationMatrices(const vector<CBone*>& Bones, _float fTimeDelta, _bool isLoop)
 {
     m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
 
+    // 애니메이션 끝났는지
+    if (m_fCurrentTrackPosition >= m_fDuration)
+    {
+        // 무한 재생이 아니면
+        if (isLoop == false)
+        {
+            // 그냥 끝
+            //m_fCurrentTrackPosition = m_fDuration;
+            return true;
+        }
+        else // 무한 재생이면 다시 처음부터 재생
+        {
+            m_fCurrentTrackPosition = 0.f;
+        }
+    }
+
+    _uint iChannelIndex{};
+
     for (auto& pChannel : m_Channels)
     {
-        //pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition);
+        pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_CurrentKeyFrameIndices[iChannelIndex++]);
     }
+
+    return false;
 }
 
 CAnimation* CAnimation::Create(const aiAnimation* pAIAnimation, CModel* pModel)
@@ -45,6 +81,11 @@ CAnimation* CAnimation::Create(const aiAnimation* pAIAnimation, CModel* pModel)
     }
 
     return pInstance;
+}
+
+CAnimation* CAnimation::Clone()
+{
+    return new CAnimation(*this);
 }
 
 void CAnimation::Free()

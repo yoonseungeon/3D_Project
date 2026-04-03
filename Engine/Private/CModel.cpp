@@ -17,16 +17,16 @@ CModel::CModel(const CModel& Prototype)
     , m_Meshes{ Prototype.m_Meshes } // 얕은 복사
     , m_iNumMaterials{ Prototype.m_iNumMaterials }
     , m_Materials{ Prototype.m_Materials } // 얕은 복사
-    , m_Bones{ Prototype.m_Bones }  // 일단 얕은 복사
+    //, m_Bones{ Prototype.m_Bones }  // 일단 얕은 복사
     , m_PreTransformMatrix{ Prototype.m_PreTransformMatrix }
     , m_iNumAnimations{ Prototype.m_iNumAnimations }
-    , m_Animations{ Prototype.m_Animations }
+    //, m_Animations{ Prototype.m_Animations }
 {
-    for (auto& pAnimation : m_Animations)
-        Safe_AddRef(pAnimation);
+    for (auto& pPrototypeAnimation : Prototype.m_Animations)
+        m_Animations.push_back(pPrototypeAnimation->Clone());
 
-    for (auto& pBone : m_Bones)
-        Safe_AddRef(pBone);
+    for (auto& pPrototypeBone : Prototype.m_Bones)
+        m_Bones.push_back(pPrototypeBone->Clone());
 
     for (auto& pMesh : m_Meshes)
         Safe_AddRef(pMesh);
@@ -97,17 +97,22 @@ _int CModel::Get_BoneIndex(const _char* pBoneName)
     return iIndex;
 }
 
-void CModel::Play_Animation(_float fTimeDelta)
+_bool CModel::Play_Animation(_float fTimeDelta)
 {
+    // 애니메이션이 끝났는지(무한 재생이면 항상 false)
+    _bool isFinished = { false };
+
     /* 현재 애니메이션 이용하고 있는 뼈들의 TransformationMatrix를 갱신해준다.  */
     // 현재 애니메이션으로 가서 뼈들의 행렬을 업데이트 해준다.
-    m_Animations[m_iCurrentAnimationIndex]->Update_TransformationMatrices(m_Bones, fTimeDelta);
+    isFinished = m_Animations[m_iCurrentAnimationIndex]->Update_TransformationMatrices(m_Bones, fTimeDelta, m_isAnimLoop);
 
     /* 위의 갱신이 끝났다면, 모든 뼈의 CombinedTransformationMatrix갱신한다. */
     for (auto& pBone : m_Bones)
     {
         pBone->Update_CombinedTransformMatrices(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
     }
+
+    return isFinished;
 }
 
 HRESULT CModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex)

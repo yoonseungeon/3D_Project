@@ -27,7 +27,10 @@ public:
 	_int Get_BoneIndex(const _char* pBoneName);
 
 public:
-	void Play_Animation(_float fTimeDelta);
+	void Set_AnimationIndex(_uint iIndex, _bool isLoop = false) { m_iCurrentAnimationIndex = iIndex; m_isAnimLoop = isLoop; }
+
+public:
+	_bool Play_Animation(_float fTimeDelta);
 
 public:
 	//특정 텍스처를 셰이더로 던진다.
@@ -57,9 +60,12 @@ private:
 
 	// 애니메이션 -> 어떤 뼈 조작. 시간에 따라 상태(크기, 회전, 이동) 저장.
 	// 애니메이션 재생 -> 현재 재생 위치에 맞는 뼈의 상태 행렬을 가지고 와서 갱신
-	_uint				m_iCurrentAnimationIndex{};
 	_uint				m_iNumAnimations{};
 	vector<CAnimation*>	m_Animations;
+
+	_uint				m_iCurrentAnimationIndex{};
+	_bool				m_isAnimLoop{ false };
+
 
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);

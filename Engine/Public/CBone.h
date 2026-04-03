@@ -24,6 +24,8 @@ public:
 
 	void XM_CALLCONV Update_CombinedTransformMatrices(const vector<CBone*>& Bones, _fmatrix PreTransformMatrix);
 
+	void XM_CALLCONV Set_TransformationMatrix(_fmatrix TransformationMatrix);
+
 private:
 	// 이름 저장해야 함.(무기 붙이기, 이팩트 붙이기에 사용.)
 	// aiNode, aiBone, aiNodeAnim: 다 동기화 되어 있음.
@@ -35,6 +37,7 @@ private:
 
 public:
 	static CBone* Create(const aiNode* pAINode, _int iParentIndex);
+	CBone* Clone();
 protected:
 	virtual void Free() override;
 };

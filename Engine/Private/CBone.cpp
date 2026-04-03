@@ -36,6 +36,11 @@ void XM_CALLCONV CBone::Update_CombinedTransformMatrices(const vector<CBone*>& B
             XMLoadFloat4x4(&m_TransformationMatrix) * XMLoadFloat4x4(&Bones[m_iParentIndex]->m_CombinedTransformationMatrix));
 }
 
+void XM_CALLCONV CBone::Set_TransformationMatrix(_fmatrix TransformationMatrix)
+{
+	XMStoreFloat4x4(&m_TransformationMatrix, TransformationMatrix);
+}
+
 CBone* CBone::Create(const aiNode* pAINode, _int iParentIndex)
 {
     CBone* pInstance = new CBone();
@@ -47,6 +52,11 @@ CBone* CBone::Create(const aiNode* pAINode, _int iParentIndex)
     }
 
     return pInstance;
+}
+
+CBone* CBone::Clone()
+{
+    return new CBone(*this);
 }
 
 void CBone::Free()

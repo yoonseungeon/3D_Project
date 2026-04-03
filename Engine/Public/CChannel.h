@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 
 class CModel;
+class CBone;
 
 class CChannel final : public CBase
 {
@@ -14,6 +15,9 @@ private:
 
 public:
 	HRESULT Initialize(const aiNodeAnim* pAINodeAnim, CModel* pModel);
+
+public:
+	void Update_TransformationMatrix(const vector<CBone*>& Bones, _float fCurrentTrackPosition, _uint* pCurrentKeyIndex);
 
 private:
 	// CModel의 CBone 벡터의 인덱스를 들고있어야 함.

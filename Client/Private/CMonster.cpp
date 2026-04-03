@@ -1,5 +1,5 @@
-
 #include "CMonster.h"
+
 #include "CGameInstance.h"
 
 CMonster::CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -27,6 +27,16 @@ HRESULT CMonster::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pModelCom->Set_AnimationIndex(rand() % 20, true);
+
+    m_pTransformCom->Set_State(STATE::POSITION,
+        XMVectorSet(
+            m_pGameInstance->Random(0.f, 30.f),
+            3.f,
+            m_pGameInstance->Random(0.f, 30.f),
+            1.f
+        ));
+
     return S_OK;
 }
 
@@ -35,14 +45,17 @@ void CMonster::Priority_Update(_float fTimeDelta)
 
 }
 
-void CMonster::Update(_float fTimeDelta)
+void CMonster::Parallel_Update(_float fTimeDelta)
 {
     m_pModelCom->Play_Animation(fTimeDelta);
 }
 
+void CMonster::Update(_float fTimeDelta)
+{
+}
+
 void CMonster::Late_Update(_float fTimeDelta)
 {
-
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
 
@@ -51,22 +64,20 @@ HRESULT CMonster::Render()
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-
-
     size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
 
     for (size_t i = 0; i < iNumMeshes; i++)
     {
-        if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", static_cast<_uint>(i), aiTextureType_DIFFUSE, 0)))
+        if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE, 0)))
             return E_FAIL;
 
-        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", static_cast<_int>(i))))
+        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
             return E_FAIL;
 
         if (FAILED(m_pShaderCom->Begin(0)))
             return E_FAIL;
 
-        if (FAILED(m_pModelCom->Render(static_cast<_uint>(i))))
+        if (FAILED(m_pModelCom->Render(i)))
             return E_FAIL;
     }
 
@@ -75,7 +86,6 @@ HRESULT CMonster::Render()
 
 HRESULT CMonster::Ready_Components()
 {
-
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
@@ -86,15 +96,11 @@ HRESULT CMonster::Ready_Components()
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
-
-
-
     return S_OK;
 }
 
 HRESULT CMonster::Bind_ShaderResources()
 {
-
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
 
@@ -122,14 +128,13 @@ HRESULT CMonster::Bind_ShaderResources()
     return S_OK;
 }
 
-
 CMonster* CMonster::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CMonster* pInstance = new CMonster(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CMonster");
+        MSG_BOX("Failed to Created: CMonster");
         Safe_Release(pInstance);
     }
 
@@ -142,7 +147,7 @@ CGameObject* CMonster::Clone(void* pArg)
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned : CMonster");
+        MSG_BOX("Failed to Cloned: CMonster");
         Safe_Release(pInstance);
     }
 

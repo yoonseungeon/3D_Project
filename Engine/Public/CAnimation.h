@@ -12,11 +12,12 @@ class CAnimation final : public CBase
 {
 private:
 	CAnimation();
+	CAnimation(const CAnimation& Prototype);
 	virtual ~CAnimation() = default;
 
 public:
 	HRESULT Initialize(const aiAnimation* pAIAnimation, CModel* pModel);
-	void	Update_TransformationMatrices(const vector<CBone*>& Bones, _float fTimeDelta);
+	_bool Update_TransformationMatrices(const vector<CBone*>& Bones, _float fTimeDelta, _bool isLoop);
 
 private:
 	// 현재 애니메이션 트랙의 총 길이(시간 아님)
@@ -32,10 +33,12 @@ private:
 	// 애니메이션 이산적으로 저장해서 보간해줘야 함.
 	// 모든 프레임 x, 키 프레임(주요 프레임)
 	vector<CChannel*>	m_Channels; 	// 뼈 하나의 상태를 저장하는 클래스
-
+	// 보간할 때 키프레임 구간 왼쪽 인덱스.(왼쪽 오른쪽 차이만큼 보간)
+	vector<_uint>		m_CurrentKeyFrameIndices;
 
 public:
 	static CAnimation* Create(const aiAnimation* pAIAnimation, CModel* pModel);
+	CAnimation* Clone();
 protected:
 	virtual void Free() override;
 };
