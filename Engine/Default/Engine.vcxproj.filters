@@ -103,6 +103,9 @@
     <Filter Include="07. Component\04. Model\03. Animation\Channel">
       <UniqueIdentifier>{e7f29ce3-fd26-473e-a82d-1d3c3c0260f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\05. Image">
+      <UniqueIdentifier>{228966e4-6335-499b-a618-1d659d518b4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">

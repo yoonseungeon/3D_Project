@@ -6,6 +6,7 @@
     "effects11",
     "directxtk",
     "assimp",
+    "directxtex",
     {
       "name": "imgui",
       "features": [

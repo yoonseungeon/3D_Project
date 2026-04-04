@@ -253,9 +253,6 @@ void CImGui_Manager::Show_Transform()
     ImGui::Text("Com_Transform");
     ImGui::Separator();
 
-    _float fPSizeRatioX{};
-    _float fPSizeRatioY{};
-
     if (ImGui::CollapsingHeader("Scale", ImGuiTreeNodeFlags_DefaultOpen))
     {
         _float3 vScale = pTransform->Get_Scaled();
@@ -283,15 +280,13 @@ void CImGui_Manager::Show_Transform()
         pTransform->Set_Scale(vScale.x, vScale.y, vScale.z);
 
 
-
-
-        fPSizeRatioX = (vScale.x / g_iWinSizeX) / 0.32096f;
-        fPSizeRatioY = (vScale.y / g_iWinSizeY) / 0.56828f;
+        /////////////////////////////////////////////////////////
+        ImGui::Separator();
+        const _float fPSizeRatioX = (vScale.x / g_iWinSizeX) / 0.32096f;
+        const _float fPSizeRatioY = (vScale.y / g_iWinSizeY) / 0.56828f;
         
-
         ImGui::Text("Parent Size X %f", fPSizeRatioX);
         ImGui::Text("Parent Size Y %f", fPSizeRatioY);
-
     }    
 
     if (ImGui::CollapsingHeader("Pos", ImGuiTreeNodeFlags_DefaultOpen))
@@ -324,17 +319,19 @@ void CImGui_Manager::Show_Transform()
         pTransform->Set_State(STATE::POSITION, XMLoadFloat4(&vFloat4));
 
 
+        /////////////////////////////////////////////////////////
+        ImGui::Separator();
+        const _float fParentScaleRatioX = 0.32096f;
+        const _float fParentScaleRatioY = 0.56828f;
 
-        //Desc.fScaleRatioX = 0.32096f;
-        //Desc.fScaleRatioY = 0.56828f;
-        _float ChildPosRatioX = (vFloat4.x / g_iWinSizeX);
-        _float ChildPosRatioY = (vFloat4.y / g_iWinSizeY);
+        const _float ChildPosRatioX = (vFloat4.x / g_iWinSizeX);
+        const _float ChildPosRatioY = (vFloat4.y / g_iWinSizeY);
 
-        _float ParentPosRatioX = -0.23f;
-        _float ParentPosRatioY = 0.1f;
+        const _float ParentPosRatioX = -0.23f;
+        const _float ParentPosRatioY = 0.1f;
 
-        ImGui::Text("Parent Pos X %f", (ChildPosRatioX - ParentPosRatioX) / 0.32096f);
-        ImGui::Text("Parent Pos Y %f", (ChildPosRatioY - ParentPosRatioY) / 0.56828f);
+        ImGui::Text("Parent Pos X %f", (ChildPosRatioX - ParentPosRatioX) / fParentScaleRatioX);
+        ImGui::Text("Parent Pos Y %f", (ChildPosRatioY - ParentPosRatioY) / fParentScaleRatioY);
     }
 }
 
