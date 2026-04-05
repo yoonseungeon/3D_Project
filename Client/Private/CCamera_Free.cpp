@@ -30,21 +30,28 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
 void CCamera_Free::Priority_Update(_float fTimeDelta)
 {
+    _float fSpeed = 0.05f;
+
+    if (m_pGameInstance->Key_Pressing(DIK_LSHIFT))
+    {
+        fSpeed *= 10.f;
+    }
+
     if (m_pGameInstance->Key_Pressing(DIK_W))
     {
-        m_pTransformCom->Go_Straight(fTimeDelta);
+        m_pTransformCom->Go_Straight(fTimeDelta * fSpeed);
     }
     if (m_pGameInstance->Key_Pressing(DIK_S))
     {
-        m_pTransformCom->Go_Backward(fTimeDelta);
+        m_pTransformCom->Go_Backward(fTimeDelta * fSpeed);
     }
     if (m_pGameInstance->Key_Pressing(DIK_A))
     {
-        m_pTransformCom->Go_Left(fTimeDelta);
+        m_pTransformCom->Go_Left(fTimeDelta * fSpeed);
     }
     if (m_pGameInstance->Key_Pressing(DIK_D))
     {
-        m_pTransformCom->Go_Right(fTimeDelta);
+        m_pTransformCom->Go_Right(fTimeDelta * fSpeed);
     }
 
     _long MouseMove = {};

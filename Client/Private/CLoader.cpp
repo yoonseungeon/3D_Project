@@ -14,6 +14,8 @@
 #include "CUI_MapPanel.h"
 #include "CMapSelectBtn.h"
 
+#include "CMap_Lumia.h"
+
 #include "CMonster.h"
 #include "CForkLift.h"
 
@@ -320,7 +322,7 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_LobbyAni"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/HD/LobbyAni%d.png"), 1))))
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Lobby/FHD_DDS/LobbyAni%d.dds"), 961))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LobbyAni");
             }
@@ -863,7 +865,8 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
-    _matrix     PreTransformMatrix = {};
+
+    _matrix PreTransformMatrix = {};
 
     /* Prototype_Component_Model_Fiona */
     PreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
@@ -872,7 +875,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this, PreTransformMatrix]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Fiona"),
-                CModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PreTransformMatrix))))
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/Models/Fiona/Fiona.mymodel", PreTransformMatrix))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Fiona");
             }
@@ -901,7 +904,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this, PreTransformMatrix]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_ForkLift"),
-                CModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.fbx", PreTransformMatrix))))
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/Models/ForkLift/ForkLift.mymodel", PreTransformMatrix))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_ForkLift");
             }
@@ -910,6 +913,22 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     );
 #pragma endregion
 
+#pragma region ¸ðµ¨
+    /* Prototype_Component_Model_Map_Lumia */
+    _matrix MapPreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, MapPreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Map_Lumia"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Map_Lumia_PNG.mymodel"))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Map_Lumia");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
     /* Prototype_GameObject_Camera_Free */
@@ -920,6 +939,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CCamera_Free::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Camera_Free");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Map_Lumia */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Lumia"),
+                CMap_Lumia::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Map_Lumia");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

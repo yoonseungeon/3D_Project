@@ -6,7 +6,7 @@
 #include "CShader.h"
 #include "CVIBuffer_Rect.h"
 #include "CTexture.h"
-#include "CModel.h"
+#include "CMyModel.h"
 #pragma endregion
 
 NS_BEGIN(Engine)

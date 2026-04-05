@@ -83,7 +83,7 @@ PS_OUT PS_MAIN(PS_IN In)
     PS_OUT Out;
 
     vector vTextureDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    if (vTextureDiffuse.a < 0.1f)
+    if (vTextureDiffuse.a < 0.01f)
         discard;
         
     // N: ¹ý¼± º¤ÅÍ, L: ºûÀ» ÇâÇÏ´Â º¤ÅÍ, R: ºûÀÇ ¹Ý»ç º¤ÅÍ, V: Ä«¸Þ¶ó¸¦ ÇâÇÏ´Â º¤ÅÍ

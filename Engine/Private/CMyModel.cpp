@@ -1,16 +1,16 @@
-#include "CModel.h"
+#include "CMyModel.h"
 
-#include "CMesh.h"
-#include "CMaterial.h"
-#include "CBone.h"
-#include "CAnimation.h"
+#include "CMyMesh.h"
+#include "CMyMaterial.h"
+#include "CMyBone.h"
+#include "CMyAnimation.h"
 
-CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMyModel::CMyModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CComponent{ pDevice, pContext }
 {
 }
 
-CModel::CModel(const CModel& Prototype)
+CMyModel::CMyModel(const CMyModel& Prototype)
     : CComponent{ Prototype }
     , m_eType{ Prototype.m_eType }
     , m_iNumMeshes{ Prototype.m_iNumMeshes }
@@ -35,16 +35,11 @@ CModel::CModel(const CModel& Prototype)
         Safe_AddRef(pMaterial);
 }
 
-HRESULT XM_CALLCONV CModel::Initialize_Prototype(MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
+HRESULT XM_CALLCONV CMyModel::Initialize_Prototype(MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
-    _uint iFlag = { aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
-
     m_eType = eType;
     
-    if (m_eType == MODEL::NONANIM)
-        iFlag |= aiProcess_PreTransformVertices;
-
-    m_pMyScene = m_Importer.ReadFile(pModelFilePath, iFlag);
+    m_pMyScene = m_Importer.ReadFile(pModelFilePath);
     if (m_pMyScene == nullptr)
         return E_FAIL;
 
@@ -52,7 +47,7 @@ HRESULT XM_CALLCONV CModel::Initialize_Prototype(MODEL eType, const _char* pMode
 
     // aiScene에 mNumNodes 이런 것 없음 계층 구조로 최상위 부모만
     // 최상위 부모의 부모 인덱스는 -1로
-    if (FAILED(Ready_Bones(m_pMyScene->mRootNode, -1)))
+    if (FAILED(Ready_Bones(&(m_pMyScene->mRootNode), -1)))
         return E_FAIL;
     
     // Ready_Bones보다 나중에
@@ -69,19 +64,19 @@ HRESULT XM_CALLCONV CModel::Initialize_Prototype(MODEL eType, const _char* pMode
     return S_OK;
 }
 
-HRESULT CModel::Initialize(void* pArg)
+HRESULT CMyModel::Initialize(void* pArg)
 {
     return S_OK;
 }
 
-_int CModel::Get_BoneIndex(const _char* pBoneName)
+_int CMyModel::Get_BoneIndex(const _char* pBoneName)
 {
-    // 이름이 같은 CBone(node)의 인덱스를 리턴하는 함수
+    // 이름이 같은 CMyBone(node)의 인덱스를 리턴하는 함수
 
     // 객체가 필요한게 아니라서 인덱스가 필요
     _int iIndex = { -1 };
 
-    auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)->_bool
+    auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CMyBone* pBone)->_bool
         {
             ++iIndex;
 
@@ -97,7 +92,7 @@ _int CModel::Get_BoneIndex(const _char* pBoneName)
     return iIndex;
 }
 
-_bool CModel::Play_Animation(_float fTimeDelta)
+_bool CMyModel::Play_Animation(_float fTimeDelta)
 {
     // 애니메이션이 끝났는지(무한 재생이면 항상 false)
     _bool isFinished = { false };
@@ -115,7 +110,7 @@ _bool CModel::Play_Animation(_float fTimeDelta)
     return isFinished;
 }
 
-HRESULT CModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex)
+HRESULT CMyModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex)
 {
     if (iMeshIndex >= m_iNumMeshes)
         return E_FAIL;
@@ -129,7 +124,7 @@ HRESULT CModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uin
     return m_Materials[iMaterialIndex]->Bind_ShaderResource(pShader, pConstantName, eType, iIndex);
 }
 
-HRESULT CModel::Render(_uint iMeshIndex)
+HRESULT CMyModel::Render(_uint iMeshIndex)
 {
     if (iMeshIndex >= m_iNumMeshes)
         return E_FAIL;
@@ -143,7 +138,7 @@ HRESULT CModel::Render(_uint iMeshIndex)
     return S_OK;
 }
 
-HRESULT CModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex)
+HRESULT CMyModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex)
 {
     if (iMeshIndex >= m_iNumMeshes)
         return E_FAIL;
@@ -152,13 +147,13 @@ HRESULT CModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, 
     return m_Meshes[iMeshIndex]->Bind_BoneMatrices(pShader, pConstantName, m_Bones);
 }
 
-HRESULT XM_CALLCONV CModel::Ready_Meshes(_fmatrix PreTransformMatrix)
+HRESULT XM_CALLCONV CMyModel::Ready_Meshes(_fmatrix PreTransformMatrix)
 {
     m_iNumMeshes = m_pMyScene->mNumMeshes;
 
     for (size_t i = 0; i < m_iNumMeshes; ++i)
     {
-        CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, this, m_pMyScene->mMeshes[i], PreTransformMatrix);
+        CMyMesh* pMesh = CMyMesh::Create(m_pDevice, m_pContext, m_eType, this, &(m_pMyScene->mMeshes[i]), PreTransformMatrix);
         if (pMesh == nullptr)
             return E_FAIL;
         
@@ -168,13 +163,13 @@ HRESULT XM_CALLCONV CModel::Ready_Meshes(_fmatrix PreTransformMatrix)
     return S_OK;
 }
 
-HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
+HRESULT CMyModel::Ready_Materials(const _char* pModelFilePath)
 {
     m_iNumMaterials = m_pMyScene->mNumMaterials;
 
     for (size_t i = 0; i < m_iNumMaterials; ++i)
     {
-        CMaterial* pMaterial = CMaterial::Create(m_pDevice, m_pContext, m_pMyScene->mMaterials[i], pModelFilePath);
+        CMyMaterial* pMaterial = CMyMaterial::Create(m_pDevice, m_pContext, &(m_pMyScene->mMaterials[i]), pModelFilePath);
         if (pMaterial == nullptr)
             return E_FAIL;
         
@@ -184,10 +179,10 @@ HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
     return S_OK;
 }
 
-HRESULT CModel::Ready_Bones(aiNode* pAINode, _int iParentIndex)
+HRESULT CMyModel::Ready_Bones(const myNode* pMyNode, _int iParentIndex)
 {
     // 최상위 부모로 CBone 객체 하나 생성
-    CBone* pBone = CBone::Create(pAINode, iParentIndex);
+    CMyBone* pBone = CMyBone::Create(pMyNode, iParentIndex);
     if (pBone == nullptr)
         return E_FAIL;
 
@@ -196,25 +191,25 @@ HRESULT CModel::Ready_Bones(aiNode* pAINode, _int iParentIndex)
     // 현재 내 위치가 자식한테는 부모 위치이니 size - 1
     _int iParent = static_cast<_int>(m_Bones.size()) - 1;
 
-    // pAINode 자식이 몇 개인지 알 수 있음
+    // pMyNode 자식이 몇 개인지 알 수 있음
     // 재귀로 모두 순회
     // 전위 순회(부모 -> 왼쪽 -> 오른쪽)
     // 전위 순회해야 vector를 처음부터 갱신할 때 부모부터 알아서 쭉 갱신됨.
-    for (_uint i = 0; i < pAINode->mNumChildren; ++i)
+    for (_uint i = 0; i < pMyNode->mNumChildren; ++i)
     {
-        Ready_Bones(pAINode->mChildren[i], iParent);
+        Ready_Bones(&(pMyNode->mChildren[i]), iParent);
     }
 
     return S_OK;
 }
 
-HRESULT CModel::Ready_Animations()
+HRESULT CMyModel::Ready_Animations()
 {
     m_iNumAnimations = m_pMyScene->mNumAnimations;
 
     for (size_t i = 0; i < m_iNumAnimations; ++i)
     {
-        CAnimation* pAnimation = CAnimation::Create(m_pMyScene->mAnimations[i], this);
+        CMyAnimation* pAnimation = CMyAnimation::Create(&(m_pMyScene->mAnimations[i]), this);
         if (pAnimation == nullptr)
             return E_FAIL;
 
@@ -224,33 +219,33 @@ HRESULT CModel::Ready_Animations()
     return S_OK;
 }
 
-CModel* XM_CALLCONV CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
+CMyModel* XM_CALLCONV CMyModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
 {
-    CModel* pInstance = new CModel(pDevice, pContext);
+    CMyModel* pInstance = new CMyModel(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype(eType, pModelFilePath, PreTransformMatrix)))
     {
-        MSG_BOX("Failed to Created: CModel");
+        MSG_BOX("Failed to Created: CMyModel");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CComponent* CModel::Clone(void* pArg)
+CComponent* CMyModel::Clone(void* pArg)
 {
-    CModel* pInstance = new CModel(*this);
+    CMyModel* pInstance = new CMyModel(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CModel");
+        MSG_BOX("Failed to Cloned: CMyModel");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CModel::Free()
+void CMyModel::Free()
 {
     for (auto& pAnimation : m_Animations)
         Safe_Release(pAnimation);

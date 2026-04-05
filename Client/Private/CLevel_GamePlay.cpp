@@ -22,7 +22,10 @@ HRESULT CLevel_GamePlay::Initialize()
 
     if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
         return E_FAIL;
-    
+
+    if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -99,6 +102,16 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
             ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
             return E_FAIL;
     }
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Map(const _wstring& strLayerTag)
+{
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Lumia"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
 
     return S_OK;
 }

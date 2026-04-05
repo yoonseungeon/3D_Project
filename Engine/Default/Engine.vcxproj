@@ -152,11 +152,20 @@ call UpdateLib.bat Release</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Public\CAnimation.h" />
+    <ClInclude Include="..\Public\CAnimation.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Public\CBase.h" />
-    <ClInclude Include="..\Public\CBone.h" />
+    <ClInclude Include="..\Public\CBone.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Public\CCamera.h" />
-    <ClInclude Include="..\Public\CChannel.h" />
+    <ClInclude Include="..\Public\CChannel.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\Public\CComponent.h" />
     <ClInclude Include="..\Public\CGameInstance.h" />
     <ClInclude Include="..\Public\CGameObject.h" />
@@ -167,9 +176,25 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\CLevel_Manager.h" />
     <ClInclude Include="..\Public\CLight.h" />
     <ClInclude Include="..\Public\CLight_Manager.h" />
-    <ClInclude Include="..\Public\CMaterial.h" />
-    <ClInclude Include="..\Public\CMesh.h" />
-    <ClInclude Include="..\Public\CModel.h" />
+    <ClInclude Include="..\Public\CMaterial.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMesh.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\Public\CModel.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMyAnimation.h" />
+    <ClInclude Include="..\Public\CMyBone.h" />
+    <ClInclude Include="..\Public\CMyChannel.h" />
+    <ClInclude Include="..\Public\CMyMaterial.h" />
+    <ClInclude Include="..\Public\CMyMesh.h" />
+    <ClInclude Include="..\Public\CMyModel.h" />
+    <ClInclude Include="..\Public\CMyModelImporter.h" />
     <ClInclude Include="..\Public\CObject_Manager.h" />
     <ClInclude Include="..\Public\CPipeline.h" />
     <ClInclude Include="..\Public\CPrototype_Manager.h" />
@@ -189,13 +214,23 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\Engine_Macro.h" />
     <ClInclude Include="..\Public\Engine_Struct.h" />
     <ClInclude Include="..\Public\Engine_Typedef.h" />
+    <ClInclude Include="..\Public\MyModel_Format.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Private\CAnimation.cpp" />
+    <ClCompile Include="..\Private\CAnimation.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Private\CBase.cpp" />
-    <ClCompile Include="..\Private\CBone.cpp" />
+    <ClCompile Include="..\Private\CBone.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Private\CCamera.cpp" />
-    <ClCompile Include="..\Private\CChannel.cpp" />
+    <ClCompile Include="..\Private\CChannel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Private\CComponent.cpp" />
     <ClCompile Include="..\Private\CGameInstance.cpp" />
     <ClCompile Include="..\Private\CGameObject.cpp" />
@@ -206,9 +241,25 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CLevel_Manager.cpp" />
     <ClCompile Include="..\Private\CLight.cpp" />
     <ClCompile Include="..\Private\CLight_Manager.cpp" />
-    <ClCompile Include="..\Private\CMaterial.cpp" />
-    <ClCompile Include="..\Private\CMesh.cpp" />
-    <ClCompile Include="..\Private\CModel.cpp" />
+    <ClCompile Include="..\Private\CMaterial.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMesh.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Private\CModel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyAnimation.cpp" />
+    <ClCompile Include="..\Private\CMyBone.cpp" />
+    <ClCompile Include="..\Private\CMyChannel.cpp" />
+    <ClCompile Include="..\Private\CMyMaterial.cpp" />
+    <ClCompile Include="..\Private\CMyMesh.cpp" />
+    <ClCompile Include="..\Private\CMyModel.cpp" />
+    <ClCompile Include="..\Private\CMyModelImporter.cpp" />
     <ClCompile Include="..\Private\CObject_Manager.cpp" />
     <ClCompile Include="..\Private\CPipeline.cpp" />
     <ClCompile Include="..\Private\CPrototype_Manager.cpp" />

@@ -30,6 +30,7 @@ using namespace DirectX;
 #include <unordered_map>
 #include <ctime>
 #include <atomic>
+#include <fstream>
 
 using namespace std;
 
@@ -38,6 +39,8 @@ using namespace std;
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
 #include "Engine_Function.h"
+
+#include "MyModel_Format.h"
 
 namespace Engine
 {

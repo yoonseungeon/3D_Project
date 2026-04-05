@@ -106,6 +106,27 @@
     <Filter Include="07. Component\05. Image">
       <UniqueIdentifier>{228966e4-6335-499b-a618-1d659d518b4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="997. MyModelImporter">
+      <UniqueIdentifier>{4d4bb504-274f-4257-9d56-7996e2462370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\04. MyModel">
+      <UniqueIdentifier>{0ca318df-c10d-405c-8290-4b20d51bbc5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\04. MyModel\00. MyMesh">
+      <UniqueIdentifier>{dc253615-6fca-46f7-8e3b-20f82ccfa381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\04. MyModel\01. MyMaterial">
+      <UniqueIdentifier>{d1d1e404-3113-4f4f-9cdc-fa2933622b53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\04. MyModel\02. MyBone">
+      <UniqueIdentifier>{cb784c6a-7950-4f52-a039-b251573f0ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\04. MyModel\03. MyAnimation">
+      <UniqueIdentifier>{33d650c3-0077-4a31-a506-fdfde4e75dac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\04. MyModel\03. MyAnimation\MyChannel">
+      <UniqueIdentifier>{e6389afe-178c-4b57-bf9e-c98fb9bc383f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -200,6 +221,27 @@
     </ClCompile>
     <ClCompile Include="..\Private\CChannel.cpp">
       <Filter>07. Component\04. Model\03. Animation\Channel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyModelImporter.cpp">
+      <Filter>997. MyModelImporter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyModel.cpp">
+      <Filter>07. Component\04. MyModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyAnimation.cpp">
+      <Filter>07. Component\04. MyModel\03. MyAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyMaterial.cpp">
+      <Filter>07. Component\04. MyModel\01. MyMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyMesh.cpp">
+      <Filter>07. Component\04. MyModel\00. MyMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyBone.cpp">
+      <Filter>07. Component\04. MyModel\02. MyBone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyChannel.cpp">
+      <Filter>07. Component\04. MyModel\03. MyAnimation\MyChannel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +355,30 @@
     </ClInclude>
     <ClInclude Include="..\Public\CChannel.h">
       <Filter>07. Component\04. Model\03. Animation\Channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMyModelImporter.h">
+      <Filter>997. MyModelImporter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MyModel_Format.h">
+      <Filter>997. MyModelImporter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMyModel.h">
+      <Filter>07. Component\04. MyModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMyAnimation.h">
+      <Filter>07. Component\04. MyModel\03. MyAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMyMaterial.h">
+      <Filter>07. Component\04. MyModel\01. MyMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMyMesh.h">
+      <Filter>07. Component\04. MyModel\00. MyMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMyChannel.h">
+      <Filter>07. Component\04. MyModel\03. MyAnimation\MyChannel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMyBone.h">
+      <Filter>07. Component\04. MyModel\02. MyBone</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

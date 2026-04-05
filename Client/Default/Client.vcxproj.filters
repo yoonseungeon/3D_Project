@@ -106,6 +106,9 @@
     <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\MapSelectBtn">
       <UniqueIdentifier>{c39eee39-75f4-483f-a67b-76d75859c542}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. Map_Lumia">
+      <UniqueIdentifier>{c4e51e4b-3791-4ff8-a431-391228665e0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -213,6 +216,9 @@
     <ClInclude Include="..\Public\Map_Meta.h">
       <Filter>999. Defines</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CMap_Lumia.h">
+      <Filter>02. GameObject\04. Map_Lumia</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -314,6 +320,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CMapSelectBtn.cpp">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\MapSelectBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMap_Lumia.cpp">
+      <Filter>02. GameObject\04. Map_Lumia</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

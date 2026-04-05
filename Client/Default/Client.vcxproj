@@ -160,6 +160,7 @@
     <ClInclude Include="..\Public\CLobbySelectBtn.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CMapSelectBtn.h" />
+    <ClInclude Include="..\Public\CMap_Lumia.h" />
     <ClInclude Include="..\Public\CMonster.h" />
     <ClInclude Include="..\Public\CPickSkin.h" />
     <ClInclude Include="..\Public\CPickSlot.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="..\Private\CLobbySelectBtn.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
     <ClCompile Include="..\Private\CMapSelectBtn.cpp" />
+    <ClCompile Include="..\Private\CMap_Lumia.cpp" />
     <ClCompile Include="..\Private\CMonster.cpp" />
     <ClCompile Include="..\Private\CPickSkin.cpp" />
     <ClCompile Include="..\Private\CPickSlot.cpp" />

@@ -5,7 +5,7 @@
 
 NS_BEGIN(Engine)
 class CShader;
-class CModel;
+class CMyModel;
 NS_END
 
 NS_BEGIN(Client)
@@ -35,7 +35,7 @@ public:
 
 private:
 	CShader* m_pShaderCom = { nullptr };
-	CModel* m_pModelCom = { nullptr };
+	CMyModel* m_pModelCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();

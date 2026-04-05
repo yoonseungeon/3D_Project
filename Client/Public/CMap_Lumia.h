@@ -10,7 +10,7 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CMonster final : public CGameObject
+class CMap_Lumia final : public CGameObject
 {
 	struct MONSTER_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
@@ -18,31 +18,33 @@ class CMonster final : public CGameObject
 	};
 
 protected:
-	CMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMonster(const CMonster& Prototype);
-	virtual ~CMonster() = default;
+	CMap_Lumia(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CMap_Lumia(const CMap_Lumia& Prototype);
+	virtual ~CMap_Lumia() = default;
 
 public:
 	HRESULT Initialize_Prototype();
 	HRESULT Initialize(void* pArg);
+
+public:
 	virtual void Priority_Update(_float fTimeDelta) override;
-	virtual void Parallel_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+
 private:
-	CShader* m_pShaderCom{ nullptr };
-	CMyModel* m_pModelCom{ nullptr };
+	CShader* m_pShaderCom = { nullptr };
+	CMyModel* m_pModelCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
+
 public:
-	static CMonster* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CMap_Lumia* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
-protected:
 	virtual void Free();
 };
 
