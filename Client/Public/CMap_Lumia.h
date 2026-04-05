@@ -12,7 +12,8 @@ NS_BEGIN(Client)
 
 class CMap_Lumia final : public CGameObject
 {
-	struct MONSTER_DESC : public CGameObject::GAMEOBJECT_DESC
+public:
+	struct LUMIA_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
 
 	};
@@ -32,6 +33,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	_float3 Picking();
 
 private:
 	CShader* m_pShaderCom = { nullptr };

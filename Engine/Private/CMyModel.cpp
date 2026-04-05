@@ -35,10 +35,11 @@ CMyModel::CMyModel(const CMyModel& Prototype)
         Safe_AddRef(pMaterial);
 }
 
-HRESULT XM_CALLCONV CMyModel::Initialize_Prototype(MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
+HRESULT XM_CALLCONV CMyModel::Initialize_Prototype(MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     m_eType = eType;
-    
+    m_bStoreVtxIdx = bStoreVTXIDX;
+
     m_pMyScene = m_Importer.ReadFile(pModelFilePath);
     if (m_pMyScene == nullptr)
         return E_FAIL;
@@ -147,13 +148,23 @@ HRESULT CMyModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName
     return m_Meshes[iMeshIndex]->Bind_BoneMatrices(pShader, pConstantName, m_Bones);
 }
 
+const vector<_float3>& CMyModel::Get_VtxData(_uint iMeshIdx)
+{
+    return m_Meshes[iMeshIdx]->Get_VtxData();
+}
+
+const vector<_uint>& CMyModel::Get_IdxData(_uint iMeshIdx)
+{
+    return m_Meshes[iMeshIdx]->Get_IdxData();
+}
+
 HRESULT XM_CALLCONV CMyModel::Ready_Meshes(_fmatrix PreTransformMatrix)
 {
     m_iNumMeshes = m_pMyScene->mNumMeshes;
 
     for (size_t i = 0; i < m_iNumMeshes; ++i)
     {
-        CMyMesh* pMesh = CMyMesh::Create(m_pDevice, m_pContext, m_eType, this, &(m_pMyScene->mMeshes[i]), PreTransformMatrix);
+        CMyMesh* pMesh = CMyMesh::Create(m_pDevice, m_pContext, m_eType, this, &(m_pMyScene->mMeshes[i]), PreTransformMatrix, m_bStoreVtxIdx);
         if (pMesh == nullptr)
             return E_FAIL;
         
@@ -219,11 +230,11 @@ HRESULT CMyModel::Ready_Animations()
     return S_OK;
 }
 
-CMyModel* XM_CALLCONV CMyModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix)
+CMyModel* XM_CALLCONV CMyModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     CMyModel* pInstance = new CMyModel(pDevice, pContext);
 
-    if (FAILED(pInstance->Initialize_Prototype(eType, pModelFilePath, PreTransformMatrix)))
+    if (FAILED(pInstance->Initialize_Prototype(eType, pModelFilePath, PreTransformMatrix, bStoreVTXIDX)))
     {
         MSG_BOX("Failed to Created: CMyModel");
         Safe_Release(pInstance);

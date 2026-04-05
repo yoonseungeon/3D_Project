@@ -19,7 +19,7 @@ private:
 	virtual ~CMyModel() = default;
 
 private:
-	HRESULT XM_CALLCONV Initialize_Prototype(MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix);
+	HRESULT XM_CALLCONV Initialize_Prototype(MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX);
 	HRESULT Initialize(void* pArg);
 
 public:
@@ -40,6 +40,9 @@ public:
 	HRESULT Render(_uint iMeshIndex);
 	HRESULT Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex);
 
+	// 피킹
+	const vector<_float3>& Get_VtxData(_uint iMeshIdx);
+	const vector<_uint>& Get_IdxData(_uint iMeshIdx);
 
 private:	
 	const myScene*	m_pMyScene{ nullptr }; /* 파일로부터 읽어낸 모든 정보를 담고 있는다. */
@@ -48,7 +51,7 @@ private:
 
 private:
 	size_t				m_iNumMeshes{};
-	vector< CMyMesh*>		m_Meshes;		// Model하나 당 여러 개의 Mesh를 갖는다.
+	vector<CMyMesh*>		m_Meshes;		// Model하나 당 여러 개의 Mesh를 갖는다.
 
 	size_t				m_iNumMaterials{};
 	vector<CMyMaterial*>	m_Materials;
@@ -67,6 +70,7 @@ private:
 	_uint				m_iCurrentAnimationIndex{};
 	_bool				m_isAnimLoop{ false };
 
+	_bool				m_bStoreVtxIdx{};
 
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
@@ -75,7 +79,7 @@ private:
 	HRESULT				Ready_Animations();
 
 public:
-	static CMyModel* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix = XMMatrixIdentity());
+	static CMyModel* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix = XMMatrixIdentity(), _bool bStoreVTXIDX = false);
 	virtual CComponent* Clone(void* pArg) override;
 protected:
 	virtual void Free() override;

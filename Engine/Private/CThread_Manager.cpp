@@ -35,7 +35,7 @@ HRESULT CThread_Manager::Initialize()
         return E_FAIL;
     }
 
-    size_t iThreadCount = 4;
+    size_t iThreadCount = 8;
     m_vecThreads.reserve(iThreadCount);
 
     for (size_t i = 0; i < iThreadCount; ++i)

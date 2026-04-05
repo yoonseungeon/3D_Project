@@ -31,6 +31,7 @@ using namespace DirectX;
 #include <ctime>
 #include <atomic>
 #include <fstream>
+#include <memory>
 
 using namespace std;
 

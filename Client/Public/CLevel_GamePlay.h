@@ -5,6 +5,8 @@
 
 NS_BEGIN(Client)
 
+class CInGame_Manager;
+
 class CLevel_GamePlay : public CLevel
 {
 private:
@@ -23,6 +25,8 @@ private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Map(const _wstring& strLayerTag);
+
+	CInGame_Manager* m_pInGame_Manager{};
 
 public:
 	static CLevel_GamePlay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

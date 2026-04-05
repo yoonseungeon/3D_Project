@@ -915,13 +915,13 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 
 #pragma region ¸ðµ¨
     /* Prototype_Component_Model_Map_Lumia */
-    _matrix MapPreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+    _matrix MapPreTransformMatrix = XMMatrixIdentity();
 
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this, MapPreTransformMatrix]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Map_Lumia"),
-                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Map_Lumia_PNG.mymodel"))))
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Map_Lumia_PNG.mymodel", MapPreTransformMatrix, true))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Map_Lumia");
             }

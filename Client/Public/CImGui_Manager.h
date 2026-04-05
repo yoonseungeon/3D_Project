@@ -30,6 +30,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CInGame_Manager;
+
 class CImGui_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CImGui_Manager)
@@ -50,6 +52,8 @@ private:
 	ID3D11DeviceContext*	m_pContext{ nullptr };
 
 	CGameInstance*			m_pGameInstance{ nullptr };
+
+	CInGame_Manager* m_pInGame_Manager{};
 
 private:
 	void Show_GameObjects();

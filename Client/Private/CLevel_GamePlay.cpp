@@ -2,12 +2,16 @@
 
 #include "CLevel_Loading.h"
 #include "CGameInstance.h"
+#include "CInGame_Manager.h"
 
 #include "CCamera_Free.h"
+#include "CMap_Lumia.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
+    , m_pInGame_Manager{ CInGame_Manager::GetInstance() }
 {
+    Safe_AddRef(m_pInGame_Manager);
 }
 
 HRESULT CLevel_GamePlay::Initialize()
@@ -108,11 +112,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Map(const _wstring& strLayerTag)
 {
+    CMap_Lumia::LUMIA_DESC Desc{};
+
+    CMap_Lumia* pMap{};
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Lumia"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pMap))))
         return E_FAIL;
 
+    m_pInGame_Manager->Set_Map(pMap);
+
+    Safe_Release(pMap);
     return S_OK;
 }
 
@@ -131,5 +141,8 @@ CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceCont
 
 void CLevel_GamePlay::Free()
 {
+    m_pInGame_Manager->Release_Map();
+    Safe_Release(m_pInGame_Manager);
+
     __super::Free();
 }

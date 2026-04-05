@@ -5,18 +5,22 @@
 #include "CGameInstance.h"
 #include "CLayer.h"
 #include "CGameObject.h"
+#include "CInGame_Manager.h"
 
 #include <typeinfo>
 
 CGameObject* pGameObject = { nullptr };
 string strGameObjectName;
+_float3 vClickPos{};
 
 IMPLEMENT_SINGLETON(CImGui_Manager)
 
 CImGui_Manager::CImGui_Manager()
     : m_pGameInstance{ CGameInstance::GetInstance() }
+    , m_pInGame_Manager{ CInGame_Manager::GetInstance() }
 {
     Safe_AddRef(m_pGameInstance);
+    Safe_AddRef(m_pInGame_Manager);
 }
 
 HRESULT CImGui_Manager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -75,7 +79,7 @@ void CImGui_Manager::Update(_float fTimeDelta)
     static _bool show_demo_window = FALSE;
     static _bool show_gameobjects = TRUE;
     static _bool show_components = TRUE;
-    static _bool show_component_prototype_window = FALSE;
+    static _bool show_prototype = TRUE;
     static _bool show_gameObject_setting_window = FALSE;
 
 
@@ -117,7 +121,7 @@ void CImGui_Manager::Update(_float fTimeDelta)
         ImGui::Checkbox("Demo Window", &show_demo_window);
         ImGui::Checkbox("GameObjects", &show_gameobjects);
         ImGui::Checkbox("Components", &show_components);
-        ImGui::Checkbox("Component Proto", &show_component_prototype_window);
+        ImGui::Checkbox("Prototype", &show_prototype);
         ImGui::Checkbox("Object Setting", &show_gameObject_setting_window);
 
         ImGui::End();
@@ -145,10 +149,16 @@ void CImGui_Manager::Update(_float fTimeDelta)
         ImGui::End();
     }
 
-    if (show_component_prototype_window)
+    if (show_prototype)
     {
-        ImGui::Begin("Component Window", &show_component_prototype_window);
-        ImGui::Text("Component Area");
+        ImGui::Begin("Component Window", &show_prototype);
+
+        if (m_pGameInstance->Mouse_Down(DIMB::LBUTTON)) {
+            vClickPos = m_pInGame_Manager->MapPIcking();
+        }
+        ImGui::Text("X: %.2f  Y: %.2f  Z: %.2f", vClickPos.x, vClickPos.y, vClickPos.z);
+
+
         ImGui::End();
     }
 
@@ -367,6 +377,7 @@ void CImGui_Manager::Free()
 {
     Safe_Release(pGameObject);
 
+    Safe_Release(m_pInGame_Manager);
     Safe_Release(m_pGameInstance);
 
     ImGui_ImplDX11_Shutdown();

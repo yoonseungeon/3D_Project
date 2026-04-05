@@ -109,6 +109,9 @@
     <Filter Include="02. GameObject\04. Map_Lumia">
       <UniqueIdentifier>{c4e51e4b-3791-4ff8-a431-391228665e0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99. Manager\02. InGame_Manager">
+      <UniqueIdentifier>{e575f96b-32db-4b95-b50e-eba9c19e8820}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -219,6 +222,9 @@
     <ClInclude Include="..\Public\CMap_Lumia.h">
       <Filter>02. GameObject\04. Map_Lumia</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CInGame_Manager.h">
+      <Filter>99. Manager\02. InGame_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -323,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CMap_Lumia.cpp">
       <Filter>02. GameObject\04. Map_Lumia</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInGame_Manager.cpp">
+      <Filter>99. Manager\02. InGame_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

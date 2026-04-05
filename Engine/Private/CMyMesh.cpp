@@ -14,7 +14,7 @@ CMyMesh::CMyMesh(const CMyMesh& Prototype)
 {
 }
 
-HRESULT XM_CALLCONV CMyMesh::Initialize_Prototype(MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, _fmatrix PreTransformMatrix)
+HRESULT XM_CALLCONV CMyMesh::Initialize_Prototype(MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     strcpy_s(m_szName, pMyMesh->mName.c_str());
 
@@ -36,7 +36,7 @@ HRESULT XM_CALLCONV CMyMesh::Initialize_Prototype(MODEL eType, CMyModel* pModel,
 
     if (eType == MODEL::NONANIM)
     {
-        hr = Ready_NonAnimMesh(pMyMesh, PreTransformMatrix);
+        hr = Ready_NonAnimMesh(pMyMesh, PreTransformMatrix, bStoreVTXIDX);
     }
     else
     {
@@ -57,20 +57,32 @@ HRESULT XM_CALLCONV CMyMesh::Initialize_Prototype(MODEL eType, CMyModel* pModel,
     _uint* pIndices = new _uint[m_iNumIndices];
     ZeroMemory(pIndices, sizeof(_uint) * m_iNumIndices);
 
-    for (size_t i = 0; i < pMyMesh->mNumIndices; ++i)
-    {
-        //pIndices[iNumIndices++] = pMyMesh->mFaces[i].mIndices[0];
-        //pIndices[iNumIndices++] = pMyMesh->mFaces[i].mIndices[1];
-        //pIndices[iNumIndices++] = pMyMesh->mFaces[i].mIndices[2];
+    _uint iNumIndices = pMyMesh->mNumIndices;
 
+    if(bStoreVTXIDX == true)
+    {
+        vecIndices.reserve(iNumIndices);
+    }
+
+    for (size_t i = 0; i < iNumIndices; ++i)
+    {
         pIndices[i] = pMyMesh->mIndices[i];
+
+        if (bStoreVTXIDX == true)
+        {
+            vecIndices.push_back(pIndices[i]);
+        }
     }
 
     D3D11_SUBRESOURCE_DATA      IndexInitialData{};
     IndexInitialData.pSysMem = pIndices;
 
     if (FAILED(m_pDevice->CreateBuffer(&IndexBufferDesc, &IndexInitialData, &m_pIB)))
+    {
+        Safe_Delete_Array(pIndices);
+        vecIndices.clear();
         return E_FAIL;
+    }
 
     Safe_Delete_Array(pIndices);
 
@@ -104,7 +116,7 @@ HRESULT CMyMesh::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName,
     return pShader->Bind_Matrices(pConstantName, m_BoneMatrices, m_iNumBones);
 }
 
-HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix PreTransformMatrix)
+HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     // 정점 구조체는 내가 쓰고자 하는 정보로만 구성하면 된다.
     m_iVertexStride = sizeof(VTXMESH);
@@ -120,12 +132,22 @@ HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix P
     VTXMESH* pVertices = new VTXMESH[m_iNumVertices];
     ZeroMemory(pVertices, sizeof(VTXMESH) * m_iNumVertices);
 
+    if(bStoreVTXIDX)
+    {
+        vecVertices.reserve(m_iNumVertices);
+    }
+
     for (size_t i = 0; i < m_iNumVertices; ++i)
     {
         // aiVector3D는 float 3개임. 따라서 memcpy로 float3 개만큼 복사.(자료형 달라서 memcpy)
         memcpy(&pVertices[i].vPosition, &pMyMesh->mVerticesInfo[i].mVertex, sizeof(_float3));
         XMStoreFloat3(&pVertices[i].vPosition,
             XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PreTransformMatrix));
+
+        if (bStoreVTXIDX)
+        {
+            vecVertices.push_back(pVertices[i].vPosition);
+        }
 
         memcpy(&pVertices[i].vNormal, &pMyMesh->mVerticesInfo[i].mNormal, sizeof(_float3));
         XMStoreFloat3(&pVertices[i].vNormal,
@@ -150,7 +172,11 @@ HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix P
     VertexInitialData.pSysMem = pVertices;
 
     if (FAILED(m_pDevice->CreateBuffer(&VertexBufferDesc, &VertexInitialData, &m_pVB)))
+    {
+        Safe_Delete_Array(pVertices);
+        vecVertices.clear();
         return E_FAIL;
+    }
 
     Safe_Delete_Array(pVertices);
 
@@ -285,18 +311,21 @@ HRESULT CMyMesh::Ready_AnimMesh(CMyModel* pModel, const myMesh* pMyMesh)
     VertexInitialData.pSysMem = pVertices;
 
     if (FAILED(m_pDevice->CreateBuffer(&VertexBufferDesc, &VertexInitialData, &m_pVB)))
+    {
+        Safe_Delete_Array(pVertices);
         return E_FAIL;
+    }
 
     Safe_Delete_Array(pVertices);
 
     return S_OK;
 }
 
-CMyMesh* XM_CALLCONV CMyMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, _fmatrix PreTransformMatrix)
+CMyMesh* XM_CALLCONV CMyMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     CMyMesh* pInstance = new CMyMesh(pDevice, pContext);
 
-    if (FAILED(pInstance->Initialize_Prototype(eType, pModel, pMyMesh, PreTransformMatrix)))
+    if (FAILED(pInstance->Initialize_Prototype(eType, pModel, pMyMesh, PreTransformMatrix, bStoreVTXIDX)))
     {
         MSG_BOX("Failed to Created: CMyMesh");
         Safe_Release(pInstance);
@@ -312,5 +341,8 @@ CComponent* CMyMesh::Clone(void* pArg)
 
 void CMyMesh::Free()
 {
+    vecVertices.clear();
+    vecIndices.clear();
+
     __super::Free();
 }

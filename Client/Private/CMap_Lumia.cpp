@@ -64,6 +64,95 @@ HRESULT CMap_Lumia::Render()
     return S_OK;
 }
 
+_float3 CMap_Lumia::Picking()
+{
+    const POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
+
+    _uint iNumViewport = { 1 };
+    D3D11_VIEWPORT ViewportDesc = {};
+    m_pContext->RSGetViewports(&iNumViewport, &ViewportDesc);
+
+    _float4 vMouse = { (static_cast<_float>(ptMouse.x) / ViewportDesc.Width) * 2.f -1.f,
+                        (static_cast<_float>(ptMouse.y) / ViewportDesc.Height) * -2.f + 1.f,
+                         0.f,
+                         1.f
+                     };
+
+    // 투영
+    XMVECTOR vMouseViewPos = XMVector3TransformCoord(XMLoadFloat4(&vMouse),
+            XMLoadFloat4x4(m_pGameInstance->Get_Transform_Inverse(D3DTS::PROJ))
+    );
+
+    // 뷰 스페이스
+    XMVECTOR vRayPos = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+    XMVECTOR vRayDir = vMouseViewPos - vRayPos;
+
+    vRayPos = XMVector3TransformCoord(vRayPos,
+        XMLoadFloat4x4(m_pGameInstance->Get_Transform_Inverse(D3DTS::VIEW))
+    );
+
+    vRayDir = XMVector3TransformNormal(vRayDir,
+        XMLoadFloat4x4(m_pGameInstance->Get_Transform_Inverse(D3DTS::VIEW))
+    );
+
+
+    // 월드
+    XMMATRIX matInvWorld = XMMatrixInverse(nullptr, XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+
+    vRayPos = XMVector3TransformCoord(vRayPos, matInvWorld);
+
+    vRayDir = XMVector3TransformNormal(vRayDir, matInvWorld);
+
+
+    vRayDir = XMVector3Normalize(vRayDir);
+
+    _float fShortDist = FLT_MAX;
+    _float fDist{};
+    _bool bSuccess{};
+
+    _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
+    for (_uint i = 0; i < iNumMeshes; ++i)
+    {
+        const vector<_uint>& vecIdxData = m_pModelCom->Get_IdxData(i);
+        if (vecIdxData.size() == 0) {
+            continue;
+        }
+
+        const vector<_float3>& vecVtxData = m_pModelCom->Get_VtxData(i);
+
+        _int iIdx = { -1 };
+        
+        for (_uint j = 0; j < vecIdxData.size() / 3; ++j)
+        {
+            _bool bCollision = TriangleTests::Intersects(vRayPos, vRayDir,
+                XMVectorSetW(XMLoadFloat3(&vecVtxData[vecIdxData[++iIdx]]), 1.f),
+                XMVectorSetW(XMLoadFloat3(&vecVtxData[vecIdxData[++iIdx]]), 1.f),
+                XMVectorSetW(XMLoadFloat3(&vecVtxData[vecIdxData[++iIdx]]), 1.f),
+                fDist
+            );
+            if (bCollision) {
+                if (fShortDist > fDist) {
+                    fShortDist = fDist;
+                    bSuccess = true;
+                }
+            }
+        }
+    }
+
+    _float3 vPos = {};
+
+    if (bSuccess)
+    {        
+        XMStoreFloat3(&vPos, XMVector3TransformCoord(vRayPos + vRayDir * fShortDist,
+                XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()
+                )
+            )       
+        );
+    }
+
+    return vPos;
+}
+
 HRESULT CMap_Lumia::Ready_Components()
 {
     /* For.Com_Shader */

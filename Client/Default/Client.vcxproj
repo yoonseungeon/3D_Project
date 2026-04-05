@@ -157,6 +157,7 @@
     <ClInclude Include="..\Public\CForkLift.h" />
     <ClInclude Include="..\Public\CGame_Manager.h" />
     <ClInclude Include="..\Public\Character_Meta.h" />
+    <ClInclude Include="..\Public\CInGame_Manager.h" />
     <ClInclude Include="..\Public\CLobbySelectBtn.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CMapSelectBtn.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
     <ClCompile Include="..\Private\CForkLift.cpp" />
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
+    <ClCompile Include="..\Private\CInGame_Manager.cpp" />
     <ClCompile Include="..\Private\CLobbySelectBtn.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
     <ClCompile Include="..\Private\CMapSelectBtn.cpp" />
