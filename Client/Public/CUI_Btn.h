@@ -39,7 +39,7 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
-	void Update_BtnState();
+	virtual void Update_BtnState();
 	virtual void BtnClick();
 
 protected:

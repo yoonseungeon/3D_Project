@@ -23,6 +23,9 @@ private:
 	HRESULT Initialize_Prototype(const _tchar* pImageFilePath, _uint iImages);
 	HRESULT Initialize(void* pArg);
 
+public:
+	_bool AlphaClick(_float fU, _float fV, _ubyte byAlpha, _uint iImageIdx = 0);
+
 private:
 	_uint m_iNumImages = {};
 	vector<shared_ptr<IMAGE_ALPHA>> m_vecAlphaImages;

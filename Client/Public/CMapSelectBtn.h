@@ -7,6 +7,7 @@ NS_BEGIN(Engine)
 class CShader;
 class CVIBuffer_Rect;
 class CTexture;
+class CImage;
 NS_END
 
 NS_BEGIN(Client)
@@ -48,6 +49,7 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
+	virtual void Update_BtnState() override;
 	virtual void BtnClick() override;
 	void Execute_Btn(_float fTimeDelta);
 
@@ -55,6 +57,7 @@ private:
 	CShader*		m_pShaderCom{ nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
 	CTexture*		m_pTextureCom{ nullptr };
+	CImage*			m_pImageCom{ nullptr };
 
 	TEX_STATE m_eCurTexState{ TEX_STATE::NONE };
 

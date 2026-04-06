@@ -68,7 +68,7 @@ void CMapSelectBtn::Parallel_Update(_float fTimeDelta)
         return;
     }
 
-    __super::Update_BtnState();
+    Update_BtnState();
 
     Execute_Btn(fTimeDelta);
 }
@@ -133,6 +133,11 @@ HRESULT CMapSelectBtn::Ready_Components()
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
+    /* For.Com_Texture*/
+    if (FAILED(__super::Add_Component(ETOUI(m_eTexPrototypeLV), MAPS[static_cast<_uint>(m_eMapName)].IMAGE_OVER_TAG,
+        TEXT("Com_Image"), reinterpret_cast<CComponent**>(&m_pImageCom))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -154,6 +159,43 @@ HRESULT CMapSelectBtn::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
 
     return S_OK;
+}
+
+void CMapSelectBtn::Update_BtnState()
+{
+    POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
+    const _float fImageLocalPosX = static_cast<const _float>(ptMouse.x - m_rcBtnRange.left);
+    const _float fImageLocalPosY = static_cast<const _float>(ptMouse.y - m_rcBtnRange.top);
+
+    const _float3 vScale = m_pTransformCom->Get_Scaled();
+
+    const _float fU = fImageLocalPosX / vScale.x;
+    const _float fV = fImageLocalPosY / vScale.y;
+
+    if (m_pImageCom->AlphaClick(fU, fV, 5)) {
+        if (m_bPressedInBtn && m_pGameInstance->Mouse_Up(DIMB::LBUTTON))
+        {
+            m_bPressedInBtn = false;
+            m_eCurBtnState = CUI_Btn::CLICKED;
+            return;
+        }
+
+        if (m_bPressedInBtn || m_pGameInstance->Mouse_Down(DIMB::LBUTTON))
+        {
+            m_bPressedInBtn = true;
+            m_eCurBtnState = CUI_Btn::PRESSED;
+            return;
+        }
+
+        m_eCurBtnState = CUI_Btn::HOVER;
+        return;
+    }
+
+    if (m_bPressedInBtn)
+    {
+        m_bPressedInBtn = false;
+    }
+    m_eCurBtnState = CUI_Btn::NORMAL;
 }
 
 void CMapSelectBtn::BtnClick()
@@ -225,6 +267,7 @@ void CMapSelectBtn::Free()
 {    
     Safe_Release(m_pSelectImage);
 
+    Safe_Release(m_pImageCom);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);

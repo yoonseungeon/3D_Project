@@ -72,6 +72,26 @@ HRESULT CImage::Initialize(void* pArg)
 	return S_OK;
 }
 
+_bool CImage::AlphaClick(_float fU, _float fV, _ubyte byAlpha, _uint iImageIdx)
+{
+	if (fU >= 1.f || fV >= 1.f || fU < 0 || fV < 0) {
+		return false;
+	}
+
+	if (m_vecAlphaImages.size() == 0 || iImageIdx >= m_iNumImages) {
+		return false;
+	}
+
+	size_t PosX = static_cast<size_t>(fU * static_cast<_float>(m_vecAlphaImages[iImageIdx]->iWidth));
+	size_t PosY = static_cast<size_t>(fV * static_cast<_float>(m_vecAlphaImages[iImageIdx]->iHeight));
+
+	if (m_vecAlphaImages[iImageIdx]->vecAlphaImage[PosY * m_vecAlphaImages[iImageIdx]->iWidth + PosX] > byAlpha) {
+		return true;
+	}
+
+	return false;
+}
+
 CImage* CImage::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pImageFilePath, _uint iImages)
 {
 	CImage* pInstance = new CImage(pDevice, pContext);

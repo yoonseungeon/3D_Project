@@ -821,6 +821,30 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
     );
 #pragma endregion
 
+#pragma region ¿ÃπÃ¡ˆ
+    /* Prototype_Image_MapOver */
+
+    wstring wstrMapOverImagePath = L"../Bin/Resources/Lobby/Map/Over/";
+
+    for (_uint i = 0; i < ETOUI(MAP_NAME::MAP_END); ++i)
+    {
+        const wstring wstrFinalPath = wstrMapOverImagePath + MAPS[i].TEX_PATH_OVER;
+        const wstring wstrMapOverImageTag = MAPS[i].IMAGE_OVER_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, wstrFinalPath, wstrMapOverImageTag]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), wstrMapOverImageTag,
+                    CImage::Create(m_pDevice, m_pContext, wstrFinalPath.c_str(), 1))))
+                {
+                    MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Image_MapOver");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
+#pragma endregion
+
     m_bIsAllJobsQueued.store(true, memory_order_release);
     return S_OK;
 }
