@@ -190,6 +190,17 @@ CBase* CGameInstance::Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const 
 {
 	return m_pPrototype_Manager->Clone_Prototype(eType, iLevelIndex, strPrototypeTag, pArg);
 }
+
+#ifdef _DEBUG
+_uint CGameInstance::Get_PrototypeCnt(_uint iLevelIndex)
+{ 
+	return m_pPrototype_Manager->Get_PrototypeCnt(iLevelIndex);
+}
+
+void CGameInstance::Get_PrototypeTags(_uint iLevelIndex, vector<_wstring>& PrototypeTags) {
+	m_pPrototype_Manager->Get_PrototypeTags(iLevelIndex, PrototypeTags);
+}
+#endif
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
@@ -286,6 +297,14 @@ const POINT CGameInstance::Get_MouseClientPos()
 {
 	return m_pInput_Device->Get_MouseClientPos();
 }
+
+#ifdef _DEBUG
+void CGameInstance::Set_InputBlock(_bool bImGuiCapture)
+{
+	m_pInput_Device->Set_InputBlock(bImGuiCapture);
+}
+#endif
+
 #pragma endregion
 
 #pragma region LIGHT_MANAGER

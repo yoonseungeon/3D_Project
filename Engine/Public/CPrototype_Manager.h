@@ -39,10 +39,18 @@ public:
 	CBase*	Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
 	void	Clear(_uint iLevelIndex);
 
+#ifdef _DEBUG
+	_uint Get_PrototypeCnt(_uint iLevelIndex) { return static_cast<_uint>(m_pPrototypes[iLevelIndex].size()); }
+	void Get_PrototypeTags(_uint iLevelIndex, vector<_wstring>& PrototypeTags) {
+		for (auto pair : m_pPrototypes[iLevelIndex]) {
+			PrototypeTags.push_back(pair.first);
+		}
+	}
+#endif
 
 private:
 	size_t		m_iNumLevels	= {};
-	using PROTOTYPES = tbb::concurrent_unordered_map<_wstring, class CBase*>;
+	using PROTOTYPES = tbb::concurrent_unordered_map<_wstring, CBase*>;
 	// Level별로 구분
 	PROTOTYPES* m_pPrototypes	= { nullptr };
 

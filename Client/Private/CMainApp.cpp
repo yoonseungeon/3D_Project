@@ -53,6 +53,13 @@ HRESULT CMainApp::Initialize()
 
 void CMainApp::Update(_float fTimeDelta)
 {
+#ifdef _DEBUG
+	if (m_pImGui_Manager->IsInputCapturedByUI())
+	{
+		m_pGameInstance->Set_InputBlock(true);
+	}
+#endif
+
 	m_pGameInstance->Update_Engine(fTimeDelta);
 
 #ifdef _DEBUG

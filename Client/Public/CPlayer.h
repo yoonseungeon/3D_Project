@@ -35,7 +35,7 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	_uint m_iState{};
+	_uint m_iState{ PLAYER_STATE::IDLE };
 
 private:
 	HRESULT Ready_Components();

@@ -1,5 +1,3 @@
-#ifdef _DEBUG
-
 #include "CGame_Manager.h"
 
 IMPLEMENT_SINGLETON(CGame_Manager)
@@ -38,5 +36,3 @@ void CGame_Manager::Free()
 {
     __super::Free();
 }
-
-#endif

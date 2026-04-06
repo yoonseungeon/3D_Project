@@ -1,5 +1,3 @@
-#ifdef _DEBUG
-
 #include "CCharData_Manager.h"
 
 IMPLEMENT_SINGLETON(CCharData_Manager)
@@ -64,5 +62,3 @@ void CCharData_Manager::Free()
 {
     __super::Free();
 }
-
-#endif

@@ -138,6 +138,13 @@ void Engine::CInput_Device::Update()
 
 	GetCursorPos(&m_ptMouse);
 	ScreenToClient(m_hWnd, &m_ptMouse);
+
+#ifdef _DEBUG
+	if (m_bImGuiCapture == true) {
+		BlockInput();
+		m_bImGuiCapture = false;
+	}
+#endif
 }
 
 const POINT CInput_Device::Get_MouseClientPos()

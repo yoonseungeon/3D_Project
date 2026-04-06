@@ -1,5 +1,3 @@
-#ifdef _DEBUG
-
 #include "CInGame_Manager.h"
 
 #include "CMap_Lumia.h"
@@ -42,5 +40,3 @@ void CInGame_Manager::Free()
 
     __super::Free();
 }
-
-#endif

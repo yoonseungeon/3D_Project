@@ -27,14 +27,6 @@ HRESULT CForkLift::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(STATE::POSITION,
-        XMVectorSet(
-            m_pGameInstance->Random(0.f, 30.f),
-            1.f,
-            m_pGameInstance->Random(0.f, 30.f),
-            1.f
-        ));
-
     return S_OK;
 }
 
@@ -127,7 +119,6 @@ HRESULT CForkLift::Bind_ShaderResources()
 
     return S_OK;
 }
-
 
 CForkLift* CForkLift::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

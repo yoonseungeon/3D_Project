@@ -28,7 +28,23 @@ private:
 public:
 	void Update();
 
+public:
 	const POINT Get_MouseClientPos();
+
+#ifdef _DEBUG
+public:
+	void Set_InputBlock(_bool bImGuiCapture) { m_bImGuiCapture = bImGuiCapture; }
+
+private:
+	void BlockInput() {
+		ZeroMemory(m_byCurKeyState, sizeof(m_byCurKeyState));
+		ZeroMemory(m_byPreKeyState, sizeof(m_byPreKeyState));
+		ZeroMemory(&m_tCurMouseState, sizeof(m_tCurMouseState));
+		ZeroMemory(&m_tPreMouseState, sizeof(m_tPreMouseState)); }
+
+private:
+	_bool m_bImGuiCapture{};
+#endif
 
 private:
 	LPDIRECTINPUT8			m_pInputSDK{ nullptr };

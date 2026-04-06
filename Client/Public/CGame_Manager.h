@@ -1,5 +1,4 @@
 #pragma once
-#ifdef _DEBUG
 
 #include "Client_Defines.h"
 #include "CBase.h"
@@ -40,5 +39,3 @@ protected:
 };
 
 NS_END
-
-#endif

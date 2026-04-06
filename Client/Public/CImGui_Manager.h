@@ -55,9 +55,16 @@ private:
 
 	CInGame_Manager* m_pInGame_Manager{};
 
+	_uint m_iCurPrototypeCnt{};
+	_uint m_iPrePrototypeCnt{};
+	vector<wstring> m_PrototypeTags;
+
 private:
 	void Show_GameObjects();
 	void Show_Transform();
+
+	void Map_Picking();
+	void Show_Object_Prototype();
 
 private:
 	std::string WStringToUTF8(const std::wstring& wstr);

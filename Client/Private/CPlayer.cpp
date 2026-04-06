@@ -23,13 +23,24 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
-    GAMEOBJECT_DESC Desc{};
-    
-    Desc.tTransformDesc.fSpeedPerSec = 10.f;
-    Desc.tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
+    if (pArg == nullptr) {
+        GAMEOBJECT_DESC Desc{};
 
-    if (FAILED(__super::Initialize(&Desc)))
-        return E_FAIL;
+        Desc.tTransformDesc.fSpeedPerSec = 10.f;
+        Desc.tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
+
+        if (FAILED(__super::Initialize(&Desc)))
+            return E_FAIL;
+    }
+    else {
+        GAMEOBJECT_DESC* pDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
+
+        pDesc->tTransformDesc.fSpeedPerSec = 10.f;
+        pDesc->tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
+
+        if (FAILED(__super::Initialize(pDesc)))
+            return E_FAIL;
+    }
 
     if (FAILED(Ready_Components()))
         return E_FAIL;

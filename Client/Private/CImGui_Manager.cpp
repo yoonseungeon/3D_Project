@@ -151,13 +151,10 @@ void CImGui_Manager::Update(_float fTimeDelta)
 
     if (show_prototype)
     {
-        ImGui::Begin("Component Window", &show_prototype);
+        ImGui::Begin("Prototype", &show_prototype);
 
-        if (m_pGameInstance->Mouse_Down(DIMB::LBUTTON)) {
-            vClickPos = m_pInGame_Manager->MapPIcking();
-        }
-        ImGui::Text("X: %.2f  Y: %.2f  Z: %.2f", vClickPos.x, vClickPos.y, vClickPos.z);
-
+        Map_Picking();
+        Show_Object_Prototype();
 
         ImGui::End();
     }
@@ -342,6 +339,62 @@ void CImGui_Manager::Show_Transform()
 
         ImGui::Text("Parent Pos X %f", (ChildPosRatioX - ParentPosRatioX) / fParentScaleRatioX);
         ImGui::Text("Parent Pos Y %f", (ChildPosRatioY - ParentPosRatioY) / fParentScaleRatioY);
+    }
+}
+
+void CImGui_Manager::Map_Picking()
+{
+    if (m_pGameInstance->Mouse_Down(DIMB::LBUTTON)) {
+        vClickPos = m_pInGame_Manager->MapPIcking();
+    }
+    ImGui::Text("X: %.2f  Y: %.2f  Z: %.2f", vClickPos.x, vClickPos.y, vClickPos.z);
+}
+
+void CImGui_Manager::Show_Object_Prototype()
+{
+    ImGui::Separator();
+
+    m_iCurPrototypeCnt =  m_pGameInstance->Get_PrototypeCnt(static_cast<_uint>(LEVEL::GAMEPLAY));
+
+    if (m_iCurPrototypeCnt != m_iPrePrototypeCnt) {
+        m_PrototypeTags.clear();
+        m_pGameInstance->Get_PrototypeTags(static_cast<_uint>(LEVEL::GAMEPLAY), m_PrototypeTags);
+
+        for (size_t i = 0; i < m_PrototypeTags.size();)
+        {
+            size_t iIdx = m_PrototypeTags[i].find(L"Component");
+            if (iIdx != wstring::npos) {
+                m_PrototypeTags.erase(m_PrototypeTags.begin() + i);
+            }
+            else {
+                ++i;
+            }
+        }
+
+        std::sort(m_PrototypeTags.begin(), m_PrototypeTags.end());
+    }
+
+    wstring wstrObjName;
+    for (auto wstr : m_PrototypeTags) {
+
+        wstrObjName = wstr;
+        size_t iIdx = wstrObjName.rfind(L"Prototype_GameObject_");
+        if (iIdx != wstring::npos) {
+           wstrObjName.erase(wstrObjName.begin(), wstrObjName.begin() + 21);
+        }
+
+        if (ImGui::Button(WStringToUTF8(wstrObjName).c_str()))
+        {
+            CGameObject::GAMEOBJECT_DESC Desc{};
+
+            Desc.tTransformDesc.vStartPos = vClickPos;
+
+            if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), wstr,
+                ETOUI(LEVEL::GAMEPLAY), L"Layer_ImGui", &Desc)))
+            {
+                MSG_BOX("Failed to Created: Object");
+            }
+        }
     }
 }
 

@@ -9,8 +9,8 @@ class ENGINE_DLL CImage final : public CComponent
 private:
 	struct IMAGE_ALPHA
 	{
-		_uint iWidth{};
-		_uint iHeight{};
+		size_t iWidth{};
+		size_t iHeight{};
 		vector<_ubyte> vecAlphaImage;
 	};
 

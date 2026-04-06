@@ -61,6 +61,12 @@ public:
 #pragma region PROTOTYPE_MANAGER
 	HRESULT Add_Prototype(_uint iLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype);
 	CBase* Clone_Prototype(PROTOTYPE eType, _uint iLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
+
+#ifdef _DEBUG
+	_uint Get_PrototypeCnt(_uint iLevelIndex);
+	void Get_PrototypeTags(_uint iLevelIndex, vector<_wstring>& PrototypeTags);
+#endif
+
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
@@ -97,6 +103,10 @@ public:
 	_long	Get_DIMouseMove(DIMM eMouseState);
 
 	const POINT Get_MouseClientPos();
+
+#ifdef _DEBUG
+	void Set_InputBlock(_bool bImGuiCapture);
+#endif
 
 #pragma endregion
 

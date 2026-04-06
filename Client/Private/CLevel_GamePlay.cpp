@@ -103,12 +103,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
             return E_FAIL;
     }
 
-    for (size_t i = 0; i < 10; ++i)
-    {
-        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ForkLift"),
-            ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
-            return E_FAIL;
-    }
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ForkLift"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -131,6 +128,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
+    
+
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;

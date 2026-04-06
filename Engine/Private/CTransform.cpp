@@ -28,6 +28,10 @@ HRESULT CTransform::Initialize(void* pArg)
 
     m_fRotationPerSec = pDesc->fRotationPerSec;
     m_fSpeedPerSec = pDesc->fSpeedPerSec;
+   
+    Set_State(STATE::POSITION,
+        XMVectorSetW(XMLoadFloat3(&(pDesc->vStartPos)), 1.f)
+    );
 
     return S_OK;
 }
