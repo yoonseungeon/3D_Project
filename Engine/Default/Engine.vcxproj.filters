@@ -127,6 +127,12 @@
     <Filter Include="07. Component\04. MyModel\03. MyAnimation\MyChannel">
       <UniqueIdentifier>{e6389afe-178c-4b57-bf9e-c98fb9bc383f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. GameObject\02. ContainerObject">
+      <UniqueIdentifier>{01ae9c18-c2f2-4575-ba9f-df1d430ef715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. GameObject\02. ContainerObject\PartObject">
+      <UniqueIdentifier>{f9ab8692-f2ef-43ae-b8ff-df5ef376c04e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -242,6 +248,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\CMyChannel.cpp">
       <Filter>07. Component\04. MyModel\03. MyAnimation\MyChannel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CImage.cpp">
+      <Filter>07. Component\05. Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CContainerObject.cpp">
+      <Filter>05. GameObject\02. ContainerObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPartObject.cpp">
+      <Filter>05. GameObject\02. ContainerObject\PartObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +394,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\CMyBone.h">
       <Filter>07. Component\04. MyModel\02. MyBone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CImage.h">
+      <Filter>07. Component\05. Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CContainerObject.h">
+      <Filter>05. GameObject\02. ContainerObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPartObject.h">
+      <Filter>05. GameObject\02. ContainerObject\PartObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

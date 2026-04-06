@@ -24,7 +24,8 @@ private:
 	HRESULT Ready_Lights();
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Map(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Map_Lumia(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 
 	CInGame_Manager* m_pInGame_Manager{};
 

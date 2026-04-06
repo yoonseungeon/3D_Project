@@ -152,6 +152,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\CBody_Player.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
     <ClInclude Include="..\Public\CForkLift.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="..\Public\CMonster.h" />
     <ClInclude Include="..\Public\CPickSkin.h" />
     <ClInclude Include="..\Public\CPickSlot.h" />
+    <ClInclude Include="..\Public\CPlayer.h" />
     <ClInclude Include="..\Public\CStage.h" />
     <ClInclude Include="..\Public\CStage_Lobby.h" />
     <ClInclude Include="..\Public\CStage_Select.h" />
@@ -191,6 +193,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\CBody_Player.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
     <ClCompile Include="..\Private\CForkLift.cpp" />
@@ -203,6 +206,7 @@
     <ClCompile Include="..\Private\CMonster.cpp" />
     <ClCompile Include="..\Private\CPickSkin.cpp" />
     <ClCompile Include="..\Private\CPickSlot.cpp" />
+    <ClCompile Include="..\Private\CPlayer.cpp" />
     <ClCompile Include="..\Private\CStage.cpp" />
     <ClCompile Include="..\Private\CStage_Lobby.cpp" />
     <ClCompile Include="..\Private\CStage_Select.cpp" />

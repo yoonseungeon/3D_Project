@@ -52,9 +52,6 @@
     <Filter Include="02. GameObject\00. Camera\00. Free">
       <UniqueIdentifier>{655277cf-ad6f-46e5-9277-b526dcf2cf56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02. Monster">
-      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. UI_Default">
       <UniqueIdentifier>{e4320753-9360-4abf-b936-bbd1aefa69aa}</UniqueIdentifier>
     </Filter>
@@ -97,20 +94,29 @@
     <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\LobbySelectBtn">
       <UniqueIdentifier>{dc50fff1-4339-485b-ae25-7b952f231445}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. ForkLift">
-      <UniqueIdentifier>{2938a3e3-44df-481a-bb13-f5847b3fb5ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. UI_Default\04. UI_MapPanel">
       <UniqueIdentifier>{99d0aff8-14e9-4a10-9d65-c9a6e6b0fc96}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\MapSelectBtn">
       <UniqueIdentifier>{c39eee39-75f4-483f-a67b-76d75859c542}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. Map_Lumia">
-      <UniqueIdentifier>{c4e51e4b-3791-4ff8-a431-391228665e0c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="99. Manager\02. InGame_Manager">
       <UniqueIdentifier>{e575f96b-32db-4b95-b50e-eba9c19e8820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia">
+      <UniqueIdentifier>{c4e51e4b-3791-4ff8-a431-391228665e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Monster">
+      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\05. ForkLift">
+      <UniqueIdentifier>{2938a3e3-44df-481a-bb13-f5847b3fb5ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player">
+      <UniqueIdentifier>{24a3e4e2-0a9f-40de-b411-d8a541662615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\00. Body">
+      <UniqueIdentifier>{08aa8874-5bfc-4e48-9bfd-7614213b2c7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -181,7 +187,7 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMonster.h">
-      <Filter>02. GameObject\02. Monster</Filter>
+      <Filter>02. GameObject\04. Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_PickPanel.h">
       <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
@@ -208,7 +214,7 @@
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\LobbySelectBtn</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CForkLift.h">
-      <Filter>02. GameObject\03. ForkLift</Filter>
+      <Filter>02. GameObject\05. ForkLift</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_MapPanel.h">
       <Filter>02. GameObject\01. UI_Default\04. UI_MapPanel</Filter>
@@ -220,10 +226,16 @@
       <Filter>999. Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMap_Lumia.h">
-      <Filter>02. GameObject\04. Map_Lumia</Filter>
+      <Filter>02. GameObject\02. Map_Lumia</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CInGame_Manager.h">
       <Filter>99. Manager\02. InGame_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPlayer.h">
+      <Filter>02. GameObject\03. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBody_Player.h">
+      <Filter>02. GameObject\03. Player\00. Body</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -295,7 +307,7 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMonster.cpp">
-      <Filter>02. GameObject\02. Monster</Filter>
+      <Filter>02. GameObject\04. Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_PickPanel.cpp">
       <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
@@ -319,7 +331,7 @@
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\LobbySelectBtn</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CForkLift.cpp">
-      <Filter>02. GameObject\03. ForkLift</Filter>
+      <Filter>02. GameObject\05. ForkLift</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_MapPanel.cpp">
       <Filter>02. GameObject\01. UI_Default\04. UI_MapPanel</Filter>
@@ -328,10 +340,16 @@
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\MapSelectBtn</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMap_Lumia.cpp">
-      <Filter>02. GameObject\04. Map_Lumia</Filter>
+      <Filter>02. GameObject\02. Map_Lumia</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CInGame_Manager.cpp">
       <Filter>99. Manager\02. InGame_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPlayer.cpp">
+      <Filter>02. GameObject\03. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBody_Player.cpp">
+      <Filter>02. GameObject\03. Player\00. Body</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

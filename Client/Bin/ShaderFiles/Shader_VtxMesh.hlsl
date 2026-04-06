@@ -83,8 +83,8 @@ PS_OUT PS_MAIN(PS_IN In)
     PS_OUT Out;
 
     vector vTextureDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    if (vTextureDiffuse.a < 0.01f)
-        discard;
+    //if (vTextureDiffuse.a < 0.01f)
+    //    discard;
         
     // N: 법선 벡터, L: 빛을 향하는 벡터, R: 빛의 반사 벡터, V: 카메라를 향하는 벡터
     float4 N = normalize(In.vNormal); // 보간된 법선 정규화가 필요하다.

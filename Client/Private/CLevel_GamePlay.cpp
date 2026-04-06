@@ -27,7 +27,10 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_Map(TEXT("Layer_Map"))))
+    if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_Map_Lumia(TEXT("Layer_Map_Lumia"))))
         return E_FAIL;
 
     return S_OK;
@@ -110,7 +113,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
     return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Map(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
 {
     CMap_Lumia::LUMIA_DESC Desc{};
 
@@ -123,6 +126,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map(const _wstring& strLayerTag)
     m_pInGame_Manager->Set_Map(pMap);
 
     Safe_Release(pMap);
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
+{
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
+
     return S_OK;
 }
 

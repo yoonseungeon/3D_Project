@@ -167,9 +167,11 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\CComponent.h" />
+    <ClInclude Include="..\Public\CContainerObject.h" />
     <ClInclude Include="..\Public\CGameInstance.h" />
     <ClInclude Include="..\Public\CGameObject.h" />
     <ClInclude Include="..\Public\CGraphic_Device.h" />
+    <ClInclude Include="..\Public\CImage.h" />
     <ClInclude Include="..\Public\CInput_Device.h" />
     <ClInclude Include="..\Public\CLayer.h" />
     <ClInclude Include="..\Public\CLevel.h" />
@@ -196,6 +198,7 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\CMyModel.h" />
     <ClInclude Include="..\Public\CMyModelImporter.h" />
     <ClInclude Include="..\Public\CObject_Manager.h" />
+    <ClInclude Include="..\Public\CPartObject.h" />
     <ClInclude Include="..\Public\CPipeline.h" />
     <ClInclude Include="..\Public\CPrototype_Manager.h" />
     <ClInclude Include="..\Public\CRenderer.h" />
@@ -232,9 +235,11 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Private\CComponent.cpp" />
+    <ClCompile Include="..\Private\CContainerObject.cpp" />
     <ClCompile Include="..\Private\CGameInstance.cpp" />
     <ClCompile Include="..\Private\CGameObject.cpp" />
     <ClCompile Include="..\Private\CGraphic_Device.cpp" />
+    <ClCompile Include="..\Private\CImage.cpp" />
     <ClCompile Include="..\Private\CInput_Device.cpp" />
     <ClCompile Include="..\Private\CLayer.cpp" />
     <ClCompile Include="..\Private\CLevel.cpp" />
@@ -261,6 +266,7 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CMyModel.cpp" />
     <ClCompile Include="..\Private\CMyModelImporter.cpp" />
     <ClCompile Include="..\Private\CObject_Manager.cpp" />
+    <ClCompile Include="..\Private\CPartObject.cpp" />
     <ClCompile Include="..\Private\CPipeline.cpp" />
     <ClCompile Include="..\Private\CPrototype_Manager.cpp" />
     <ClCompile Include="..\Private\CRenderer.cpp" />

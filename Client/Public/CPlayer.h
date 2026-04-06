@@ -1,0 +1,52 @@
+#pragma once
+
+#include "Client_Defines.h"
+#include "CContainerObject.h"
+
+NS_BEGIN(Engine)
+NS_END
+
+NS_BEGIN(Client)
+
+class CPlayer final : public CContainerObject
+{
+public:
+	enum PLAYER_STATE {
+		IDLE = 0x00000001,
+		RUN = 0x00000002,
+		ATTACK = 0x00000004,
+		JUMP = 0x00000008,
+	};
+
+#define NOT_RUN PLAYER_STATE::IDLE | PLAYER_STATE::JUMP
+
+private:
+	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CPlayer(const CPlayer& Prototype);
+	virtual ~CPlayer() = default;
+
+private:
+	virtual HRESULT Initialize_Prototype() override;
+	virtual HRESULT Initialize(void* pArg) override;
+public:
+	virtual void Priority_Update(_float fTimeDelta) override;
+	virtual void Update(_float fTimeDelta) override;
+	virtual void Late_Update(_float fTimeDelta) override;
+	virtual HRESULT Render() override;
+
+private:
+	_uint m_iState{};
+
+private:
+	HRESULT Ready_Components();
+	HRESULT Ready_PartObjects();
+	HRESULT Bind_ShaderResources();
+
+public:
+	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual CGameObject* Clone(void* pArg) override;
+protected:
+	virtual void Free();
+};
+
+NS_END
