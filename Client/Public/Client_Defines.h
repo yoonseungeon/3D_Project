@@ -5,17 +5,19 @@
 
 #include <Windows.h>
 
+#include "nlohmann/json.hpp"
+
 namespace Client
 {
 	static constexpr unsigned int		g_iWinSizeX = { 1280 };
 	static constexpr unsigned int		g_iWinSizeY = { 720 };
 
 	enum class LEVEL { STATIC, LOADING, LOGO, LOBBY, GAMEPLAY, ENDING, END };
+
+	enum class UILAYER {BACKGROUND, DECO_LAYER1, DECO_LAYER2, DECO_LAYER3, PANEL, SLOT, BUTTON_IMAGE, BUTTON};
+
+	enum class STAGE { LOBBY, SELECT, STAGE_END };
 }
-
-enum class UILAYER {BACKGROUND, DECO_LAYER1, DECO_LAYER2, DECO_LAYER3, PANEL, SLOT, BUTTON_IMAGE, BUTTON};
-
-enum class STAGE { LOBBY, SELECT, STAGE_END };
 
 // 이 변수가 다른 곳에 정의되어 있다고 선언만 한다.
 // 링크 단계에서 실제 정의(주소)와 연결된다.(이 헤더파일 포함하면 사용 가능)

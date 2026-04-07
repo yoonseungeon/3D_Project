@@ -35,6 +35,13 @@ class CInGame_Manager;
 class CImGui_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CImGui_Manager)
+public:
+	struct LoadedObj
+	{
+		wstring wstrClassName{};
+		_float3 vSacle{};
+		_float3 vPos{};
+	};
 
 private:
 	CImGui_Manager();
@@ -67,8 +74,13 @@ private:
 	void Show_Object_Prototype();
 
 private:
-	std::string WStringToUTF8(const std::wstring& wstr);
-	std::wstring UTF8ToWString(const std::string& str);
+	string WStringToUTF8(const std::wstring& wstr);
+	wstring UTF8ToWString(const std::string& str);
+
+private:
+	void GamePlayLevel_Save();
+	void GamePlayLevel_Load();
+	void Create_Object(LoadedObj& tLoadedObj);
 
 protected:
 	virtual void Free() override;

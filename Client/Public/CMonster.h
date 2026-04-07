@@ -12,6 +12,7 @@ NS_BEGIN(Client)
 
 class CMonster final : public CGameObject
 {
+public:
 	struct MONSTER_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
 

@@ -12,10 +12,11 @@ NS_BEGIN(Client)
 
 class CForkLift final : public CGameObject
 {
-	typedef struct tagMonsterDesc : public CGameObject::GAMEOBJECT_DESC
+public:
+	struct FORKLIFT_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
 
-	}MONSTER_DESC;
+	};
 
 protected:
 	CForkLift(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

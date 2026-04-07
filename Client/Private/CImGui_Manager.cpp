@@ -9,9 +9,12 @@
 
 #include <typeinfo>
 
+#include "CForkLift.h"
+
 CGameObject* pGameObject = { nullptr };
 string strGameObjectName;
 _float3 vClickPos{};
+wstring wstrLayer = L"Layer_ImGui";
 
 IMPLEMENT_SINGLETON(CImGui_Manager)
 
@@ -164,6 +167,16 @@ void CImGui_Manager::Update(_float fTimeDelta)
         ImGui::Begin("Setting Window", &show_gameObject_setting_window);
         ImGui::Text("Setting Area");
         ImGui::End();
+    }
+
+    if (m_pGameInstance->Key_Down(DIK_S) && m_pGameInstance->Key_Pressing(DIK_LCONTROL))
+    {
+        GamePlayLevel_Save();
+    }
+
+    if (m_pGameInstance->Key_Down(DIK_L) && m_pGameInstance->Key_Pressing(DIK_LCONTROL))
+    {
+        GamePlayLevel_Load();
     }
 }
 
@@ -390,7 +403,7 @@ void CImGui_Manager::Show_Object_Prototype()
             Desc.tTransformDesc.vStartPos = vClickPos;
 
             if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), wstr,
-                ETOUI(LEVEL::GAMEPLAY), L"Layer_ImGui", &Desc)))
+                ETOUI(LEVEL::GAMEPLAY), wstrLayer, &Desc)))
             {
                 MSG_BOX("Failed to Created: Object");
             }
@@ -398,32 +411,160 @@ void CImGui_Manager::Show_Object_Prototype()
     }
 }
 
-std::string CImGui_Manager::WStringToUTF8(const std::wstring& wstr)
+string CImGui_Manager::WStringToUTF8(const std::wstring& wstr)
 {
     if (wstr.empty())
         return "";
 
     int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
 
-    std::string strTo(size_needed, 0);
+    string strTo(size_needed, 0);
 
     WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
 
     return strTo;
 }
 
-std::wstring CImGui_Manager::UTF8ToWString(const std::string& str)
+wstring CImGui_Manager::UTF8ToWString(const std::string& str)
 {
     if (str.empty())
         return L"";
 
     int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
 
-    std::wstring wstrTo(size_needed, 0);
+    wstring wstrTo(size_needed, 0);
 
     MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
 
     return wstrTo;
+}
+
+void CImGui_Manager::GamePlayLevel_Save()
+{
+    const size_t NumLevels = m_pGameInstance->Get_NumLevels();
+
+    const _uint iGamePlayLevel = static_cast<_uint>(LEVEL::GAMEPLAY);
+
+    if (iGamePlayLevel >= NumLevels)
+    {
+        MSG_BOX("Save Failed");
+        return;
+    }
+
+    auto pMapLevelLayers = m_pGameInstance->Get_MapLevelLayers();
+
+    auto iter1 = pMapLevelLayers[iGamePlayLevel].find(wstrLayer);
+    if(iter1 == pMapLevelLayers[iGamePlayLevel].end())
+    {
+        MSG_BOX("Save Failed");
+        return;
+    }
+
+    const CLayer* pLayer = iter1->second;
+    auto objList = pLayer->Get_ObjList();
+
+    nlohmann::json root = nlohmann::json::array();
+
+    for (auto& pObj : objList) {
+        string strClassName = typeid(*pObj).name();
+
+        if (strClassName.size() >= 14) {
+            strClassName.erase(0, 14);
+        }
+
+        auto& mapComponent = pObj->Get_Componets();
+        auto iter2 = mapComponent.find(g_strTransformTag);
+        if (iter2 == mapComponent.end()) {
+            MSG_BOX("Transform error 1");
+            continue;
+        }
+
+        CTransform* pTransform = dynamic_cast<CTransform*>(iter2->second);
+        if (pTransform == nullptr) {
+            MSG_BOX("Transform error 2");
+            continue;
+        }
+
+        _float3 vScale = pTransform->Get_Scaled();
+        _float3 vPos;
+        XMStoreFloat3(&vPos, pTransform->Get_State(STATE::POSITION));
+
+        nlohmann::json jsonObj;
+        jsonObj["Class_name"] = strClassName;
+        jsonObj["Scale"] = { vScale.x, vScale.y, vScale.z };
+        jsonObj["Position"] = { vPos.x, vPos.y, vPos.z };
+
+        root.push_back(jsonObj);
+    }
+
+    std::ofstream ofs("../Bin/Data/GamePlay_Obj.json");
+    if (!ofs.is_open())
+    {
+        MSG_BOX("File Open Failed");
+        return;
+    }   
+
+    ofs << root.dump(4);
+    ofs.close();
+
+    MSG_BOX("Saved");
+}
+
+void CImGui_Manager::GamePlayLevel_Load()
+{
+    std::ifstream ifs("../Bin/Data/GamePlay_Obj.json");
+    if (!ifs.is_open())
+    {
+        MSG_BOX("File Open Failed");
+        return;
+    }
+
+    nlohmann::json root;
+    ifs >> root;
+    ifs.close();
+
+    if (!root.is_array())
+    {
+        MSG_BOX("Json Format Error");
+        return;
+    }
+
+    for (auto& jsonObj : root)
+    {
+        LoadedObj tLoadedObj{};
+         
+        string strClassName = jsonObj["Class_name"].get<std::string>();
+        // 영어, 숫자, 기본 아스키만 안전
+        tLoadedObj.wstrClassName = wstring(strClassName.begin(), strClassName.end());
+
+        tLoadedObj.vSacle.x = jsonObj["Scale"][0].get<_float>();
+        tLoadedObj.vSacle.y = jsonObj["Scale"][1].get<_float>();
+        tLoadedObj.vSacle.z = jsonObj["Scale"][2].get<_float>();
+
+        tLoadedObj.vPos.x = jsonObj["Position"][0].get<_float>();
+        tLoadedObj.vPos.y = jsonObj["Position"][1].get<_float>();
+        tLoadedObj.vPos.z = jsonObj["Position"][2].get<_float>();
+
+        Create_Object(tLoadedObj);
+    }
+
+    MSG_BOX("Loaded");
+}
+
+void CImGui_Manager::Create_Object(LoadedObj& tLoadedObj)
+{
+    if (tLoadedObj.wstrClassName == L"CForkLift") {
+
+        CForkLift::FORKLIFT_DESC Desc{};
+
+        Desc.tTransformDesc.vStartPos = tLoadedObj.vPos;
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ForkLift"),
+            ETOUI(LEVEL::GAMEPLAY), wstrLayer, &Desc)))
+        {
+            MSG_BOX("Failed to Created: Prototype_GameObject_ForkLift");
+        }
+    }
 }
 
 void CImGui_Manager::Free()
