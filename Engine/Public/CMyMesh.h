@@ -24,6 +24,7 @@ public:
 	// 피킹
 	const vector<_float3>& Get_VtxData() { return vecVertices; }
 	const vector<_uint>& Get_IdxData() { return vecIndices; }
+	const _char* Get_MeshName(_uint iMeshIdx);
 
 private:
 	// 이 메쉬가 어떤 머테리얼을 쓰는지

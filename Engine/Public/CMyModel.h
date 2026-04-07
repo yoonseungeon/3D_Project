@@ -43,6 +43,7 @@ public:
 	// 피킹
 	const vector<_float3>& Get_VtxData(_uint iMeshIdx);
 	const vector<_uint>& Get_IdxData(_uint iMeshIdx);
+	const string Get_MeshName(_uint iMeshIdx);
 
 private:	
 	const myScene*	m_pMyScene{ nullptr }; /* 파일로부터 읽어낸 모든 정보를 담고 있는다. */

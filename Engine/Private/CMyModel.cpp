@@ -158,6 +158,11 @@ const vector<_uint>& CMyModel::Get_IdxData(_uint iMeshIdx)
     return m_Meshes[iMeshIdx]->Get_IdxData();
 }
 
+const string CMyModel::Get_MeshName(_uint iMeshIdx)
+{
+    return string(m_Meshes[iMeshIdx]->Get_MeshName(iMeshIdx));
+}
+
 HRESULT XM_CALLCONV CMyModel::Ready_Meshes(_fmatrix PreTransformMatrix)
 {
     m_iNumMeshes = m_pMyScene->mNumMeshes;

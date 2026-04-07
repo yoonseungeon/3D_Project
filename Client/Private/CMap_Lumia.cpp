@@ -113,6 +113,12 @@ _float3 CMap_Lumia::Picking()
     _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
     for (_uint i = 0; i < iNumMeshes; ++i)
     {
+        const string strMeshName = m_pModelCom->Get_MeshName(i);
+
+        if (strMeshName.find("Base") == string::npos && strMeshName.find("RegionBorder") == string::npos && strMeshName.find("Ground") == string::npos) {
+            continue;
+        }
+
         const vector<_uint>& vecIdxData = m_pModelCom->Get_IdxData(i);
         if (vecIdxData.size() == 0) {
             continue;

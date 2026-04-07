@@ -116,6 +116,11 @@ HRESULT CMyMesh::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName,
     return pShader->Bind_Matrices(pConstantName, m_BoneMatrices, m_iNumBones);
 }
 
+const _char* CMyMesh::Get_MeshName(_uint iMeshIdx)
+{
+    return m_szName;
+}
+
 HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     // 정점 구조체는 내가 쓰고자 하는 정보로만 구성하면 된다.

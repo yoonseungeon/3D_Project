@@ -362,8 +362,8 @@ void CImGui_Manager::Show_Object_Prototype()
 
         for (size_t i = 0; i < m_PrototypeTags.size();)
         {
-            size_t iIdx = m_PrototypeTags[i].find(L"Component");
-            if (iIdx != wstring::npos) {
+            size_t Idx = m_PrototypeTags[i].find(L"Component");
+            if (Idx != wstring::npos) {
                 m_PrototypeTags.erase(m_PrototypeTags.begin() + i);
             }
             else {
@@ -378,8 +378,8 @@ void CImGui_Manager::Show_Object_Prototype()
     for (auto wstr : m_PrototypeTags) {
 
         wstrObjName = wstr;
-        size_t iIdx = wstrObjName.rfind(L"Prototype_GameObject_");
-        if (iIdx != wstring::npos) {
+        size_t Idx = wstrObjName.rfind(L"Prototype_GameObject_");
+        if (Idx != wstring::npos) {
            wstrObjName.erase(wstrObjName.begin(), wstrObjName.begin() + 21);
         }
 
