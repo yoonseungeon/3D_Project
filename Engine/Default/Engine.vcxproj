@@ -218,6 +218,7 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\Engine_Struct.h" />
     <ClInclude Include="..\Public\Engine_Typedef.h" />
     <ClInclude Include="..\Public\MyModel_Format.h" />
+    <ClInclude Include="..\Public\CVIBuffer_Cube.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CAnimation.cpp">
@@ -279,6 +280,10 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CUIObject.cpp" />
     <ClCompile Include="..\Private\CVIBuffer.cpp" />
     <ClCompile Include="..\Private\CVIBuffer_Rect.cpp" />
+    <ClCompile Include="..\Private\CVIBuffer_Cube.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Bin\ShaderFiles\Engine_Shader_Defines.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

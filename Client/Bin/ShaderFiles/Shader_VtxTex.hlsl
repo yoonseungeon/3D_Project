@@ -1,37 +1,13 @@
+#include "Engine_Shader_Defines.hlsli"
+
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture;
+
 int g_FlipX = { false }, g_FlipY = { false };
 float g_Alpha = { 1 };
 
 float g_UVFillX = { 1.f };
 float g_UVFillCenterY = { 0.5f };
-
-SamplerState DefaultSampler
-{
-    Filter = min_mag_mip_linear;
-
-    AddressU = clamp;
-    AddressV = clamp;
-};
-
-BlendState BS_Default
-{
-    BlendEnable[0] = false;
-};
-
-BlendState BS_AlphaBlend
-{
-    BlendEnable[0] = true;
-    SrcBlend[0] = Src_Alpha;
-    DestBlend[0] = Inv_Src_Alpha;
-    BlendOp[0] = Add;
-};
-
-DepthStencilState DSS_None
-{
-    DepthEnable = false;
-    DepthWriteMask = zero;
-};
 
 struct VS_IN
 {
@@ -149,32 +125,40 @@ technique11 DefaultTechnique
 {
     pass DefaultPassW
     {
-        //SetDepthStencilState(DSS_None, 0);
-        //SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }
 
     pass AlphaTest
     {
-        //SetDepthStencilState(DSS_None, 0);
-        //SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_ALPHATEST()));
     }
 
     pass AlphaBlend
     {
-        //SetDepthStencilState(DSS_None, 0);
-        //SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }
 
     pass AlphaBlend_Gauge
     {
-        //SetDepthStencilState(DSS_None, 0);
-        //SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_UIGAUGE()));
     }

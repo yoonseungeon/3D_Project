@@ -5,6 +5,7 @@
 #pragma region 프로토타입
 #include "CShader.h"
 #include "CVIBuffer_Rect.h"
+#include "CVIBuffer_Cube.h"
 #include "CTexture.h"
 #include "CMyModel.h"
 #include "CImage.h"

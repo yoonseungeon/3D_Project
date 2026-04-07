@@ -2,6 +2,7 @@
 
 xcopy			/y		.\Engine\Public\*.h		.\EngineSDK\Inc\
 xcopy			/y		.\Engine\Bin\*.dll			.\Client\Bin\
+xcopy			/y		.\Engine\Bin\ShaderFiles\*.*	.\Client\Bin\ShaderFiles\
 xcopy			/y		.\Engine\Bin\Engine.lib		.\EngineSDK\lib\
 
 :: FMOD DLL บนป็

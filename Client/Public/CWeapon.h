@@ -10,18 +10,21 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CBody_Player final : public CPartObject
+class CWeapon final : public CPartObject
 {
 public:
-	struct BODY_PLAYER_DESC : public CPartObject::PARTOBJECT_DESC
+	struct WEAPON_DESC : public CPartObject::PARTOBJECT_DESC
 	{
+		// 플레이어 위치(중앙)가 아닌, 뼈에 붙어서 표현되어야 한다.
+		// 부착하기 위한 행렬 SocketBone이라고 많이 부름.
+		const _float4x4* pSocketBoneMatrix{ nullptr };
 		const _uint* pParentState{ nullptr };
 	};
 
-private:
-	CBody_Player(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBody_Player(const CBody_Player& Prototype);
-	virtual ~CBody_Player() = default;
+protected:
+	CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CWeapon(const CWeapon& Prototype);
+	virtual ~CWeapon() = default;
 
 private:
 	virtual HRESULT Initialize_Prototype() override;
@@ -32,14 +35,12 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-public:
-	const _float4x4* Get_BoneMatrixPtr(const _char* pBoneName) const;
+private:
+	CShader* m_pShaderCom{ nullptr };
+	CMyModel* m_pModelCom{ nullptr };
 
 private:
-	CShader*	m_pShaderCom{ nullptr };
-	CMyModel*	m_pModelCom{ nullptr };
-
-private:
+	const _float4x4* m_pSocketBoneMatrix{ nullptr };
 	const _uint* m_pParentState{ nullptr };
 
 private:
@@ -47,7 +48,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CBody_Player* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CWeapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();

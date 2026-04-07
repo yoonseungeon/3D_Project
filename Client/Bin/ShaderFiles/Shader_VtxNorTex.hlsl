@@ -1,3 +1,5 @@
+#include "Engine_Shader_Defines.hlsli"
+
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 vector g_vCamPosition;
@@ -17,14 +19,6 @@ vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
 float fPower = 50.f;
-
-SamplerState DefaultSampler
-{
-    Filter = min_mag_mip_linear;
-
-    AddressU = wrap;
-    AddressV = wrap;
-};
 
 struct VS_IN
 {
@@ -104,6 +98,10 @@ technique11 DefaultTechnique
 {
     pass DefaultPass
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }

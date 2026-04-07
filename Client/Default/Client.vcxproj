@@ -186,6 +186,7 @@
     <ClInclude Include="..\Public\CUI_MapPanel.h" />
     <ClInclude Include="..\Public\CUI_PickPanel.h" />
     <ClInclude Include="..\Public\CUI_SkinPanel.h" />
+    <ClInclude Include="..\Public\CWeapon.h" />
     <ClInclude Include="..\Public\Map_Meta.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="..\Private\CUI_MapPanel.cpp" />
     <ClCompile Include="..\Private\CUI_PickPanel.cpp" />
     <ClCompile Include="..\Private\CUI_SkinPanel.cpp" />
+    <ClCompile Include="..\Private\CWeapon.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +238,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimMesh.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">

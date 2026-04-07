@@ -1,3 +1,5 @@
+#include "Engine_Shader_Defines.hlsli"
+
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 vector g_vCamPosition;
@@ -20,14 +22,6 @@ float fPower = 50.f;
 
 // 512개 넘는 게임 거의 없다고 한다.
 float4x4 g_BoneMatrices[512];
-
-SamplerState DefaultSampler
-{
-    Filter = min_mag_mip_linear;
-
-    AddressU = wrap;
-    AddressV = wrap;
-};
 
 struct VS_IN
 {
@@ -121,6 +115,10 @@ technique11 DefaultTechnique
 {
     pass DefaultPass
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }

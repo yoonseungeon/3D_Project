@@ -118,6 +118,9 @@
     <Filter Include="02. GameObject\03. Player\00. Body">
       <UniqueIdentifier>{08aa8874-5bfc-4e48-9bfd-7614213b2c7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Player\01. Weapon">
+      <UniqueIdentifier>{9b16f940-715e-4884-a94b-a6a26b2fa3ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -237,6 +240,9 @@
     <ClInclude Include="..\Public\CBody_Player.h">
       <Filter>02. GameObject\03. Player\00. Body</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CWeapon.h">
+      <Filter>02. GameObject\03. Player\01. Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -351,6 +357,9 @@
     <ClCompile Include="..\Private\CBody_Player.cpp">
       <Filter>02. GameObject\03. Player\00. Body</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CWeapon.cpp">
+      <Filter>02. GameObject\03. Player\01. Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
@@ -363,6 +372,9 @@
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimMesh.hlsl">
+      <Filter>997. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl">
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

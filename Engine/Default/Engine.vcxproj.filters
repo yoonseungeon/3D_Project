@@ -106,9 +106,6 @@
     <Filter Include="07. Component\05. Image">
       <UniqueIdentifier>{228966e4-6335-499b-a618-1d659d518b4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="997. MyModelImporter">
-      <UniqueIdentifier>{4d4bb504-274f-4257-9d56-7996e2462370}</UniqueIdentifier>
-    </Filter>
     <Filter Include="07. Component\04. MyModel">
       <UniqueIdentifier>{0ca318df-c10d-405c-8290-4b20d51bbc5d}</UniqueIdentifier>
     </Filter>
@@ -132,6 +129,15 @@
     </Filter>
     <Filter Include="05. GameObject\02. ContainerObject\PartObject">
       <UniqueIdentifier>{f9ab8692-f2ef-43ae-b8ff-df5ef376c04e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\01. VIBuffer\01. Cube">
+      <UniqueIdentifier>{1aa94e63-3b87-4573-84b0-4d4e56ac701f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="997. ShaderFiles">
+      <UniqueIdentifier>{5c2d2e94-fbd8-44fd-9a62-463de0b8762f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="996. MyModelImporter">
+      <UniqueIdentifier>{4d4bb504-274f-4257-9d56-7996e2462370}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -229,10 +235,7 @@
       <Filter>07. Component\04. Model\03. Animation\Channel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMyModelImporter.cpp">
-      <Filter>997. MyModelImporter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\CMyModel.cpp">
-      <Filter>07. Component\04. MyModel</Filter>
+      <Filter>996. MyModelImporter</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMyAnimation.cpp">
       <Filter>07. Component\04. MyModel\03. MyAnimation</Filter>
@@ -257,6 +260,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CPartObject.cpp">
       <Filter>05. GameObject\02. ContainerObject\PartObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyModel.cpp">
+      <Filter>07. Component\04. MyModel\03. MyAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CVIBuffer_Cube.cpp">
+      <Filter>07. Component\01. VIBuffer\01. Cube</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,10 +381,10 @@
       <Filter>07. Component\04. Model\03. Animation\Channel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMyModelImporter.h">
-      <Filter>997. MyModelImporter</Filter>
+      <Filter>996. MyModelImporter</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MyModel_Format.h">
-      <Filter>997. MyModelImporter</Filter>
+      <Filter>996. MyModelImporter</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMyModel.h">
       <Filter>07. Component\04. MyModel</Filter>
@@ -404,5 +413,13 @@
     <ClInclude Include="..\Public\CPartObject.h">
       <Filter>05. GameObject\02. ContainerObject\PartObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CVIBuffer_Cube.h">
+      <Filter>07. Component\01. VIBuffer\01. Cube</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Bin\ShaderFiles\Engine_Shader_Defines.hlsli">
+      <Filter>997. ShaderFiles</Filter>
+    </None>
   </ItemGroup>
 </Project>

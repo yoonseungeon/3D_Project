@@ -3,6 +3,7 @@
 #include "CGameInstance.h"
 
 #include "CBody_Player.h"
+#include "CWeapon.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject{ pDevice, pContext }
@@ -128,6 +129,16 @@ HRESULT CPlayer::Ready_PartObjects()
 
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),
         TEXT("Body"), &BodyDesc)))
+        return E_FAIL;
+
+    CWeapon::WEAPON_DESC WeaponDesc{};
+    WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    WeaponDesc.pParentState = &m_iState;
+
+    WeaponDesc.pSocketBoneMatrix = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")])->Get_BoneMatrixPtr("SWORD");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Weapon"),
+        TEXT("Weapon"), &WeaponDesc)))
         return E_FAIL;
 
     return S_OK;

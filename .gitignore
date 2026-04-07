@@ -409,6 +409,11 @@ vcpkg_installed/
 !/Client/[Bb]in/
 /Client/[Bb]in/*
 !/Client/[Bb]in/ShaderFiles/
+/Client/[Bb]in/ShaderFiles/Engine_Shader_Defines.hlsli
+
+!/Engine/[Bb]in/
+/Engine/[Bb]in/*
+!/Engine/[Bb]in/ShaderFiles/
 
 imgui.ini
 

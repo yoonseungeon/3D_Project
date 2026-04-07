@@ -27,6 +27,8 @@ public:
 	// 이름이 같은 CMyBone(node)의 인덱스를 리턴하는 함수
 	_int Get_BoneIndex(const _char* pBoneName);
 
+	const _float4x4* Get_BoneMatrixPtr(const _char* pBoneName) const;
+
 public:
 	void Set_AnimationIndex(_uint iIndex, _bool isLoop = false) { m_iCurrentAnimationIndex = iIndex; m_isAnimLoop = isLoop; }
 

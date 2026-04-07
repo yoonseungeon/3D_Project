@@ -93,6 +93,24 @@ _int CMyModel::Get_BoneIndex(const _char* pBoneName)
     return iIndex;
 }
 
+const _float4x4* CMyModel::Get_BoneMatrixPtr(const _char* pBoneName) const
+{
+    auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CMyBone* pBone)->_bool
+        {
+            if (pBone->Compare_Name(pBoneName) == true)
+            {
+                return true;
+            }
+
+            return false;
+        });
+
+    if (iter == m_Bones.end())
+        return nullptr;
+
+    return (*iter)->Get_CombinedTransformationMatrixPtr();
+}
+
 _bool CMyModel::Play_Animation(_float fTimeDelta)
 {
     // 애니메이션이 끝났는지(무한 재생이면 항상 false)
