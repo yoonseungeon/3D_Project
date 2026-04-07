@@ -6,6 +6,7 @@
 #include "CCharData_Manager.h"
 
 #include "CUI_Image.h"
+#include "CUI_MaskImage.h"
 
 CPickSkin::CPickSkin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Btn{ pDevice, pContext }
@@ -38,27 +39,38 @@ HRESULT CPickSkin::Initialize(void* pArg)
 
     m_funcSetFullSkin = pDesc->funcSetFullSkin;
 
-    CUI_Image::CUI_IMAGE_DESC Desc{};
+    CUI_MaskImage::CUI_MASKIMAGE_DESC MaskDesc{};
 
-    Desc.fScaleRatioX = pDesc->fScaleRatioX;
-    Desc.fScaleRatioY = pDesc->fScaleRatioY;
-    Desc.fPosRatioX = pDesc->fPosRatioX;
-    Desc.fPosRatioY = pDesc->fPosRatioY;
-    Desc.eTexPrototypeLV = pDesc->eTexPrototypeLV;
-    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_NonFullSkin"; // 더미
-    Desc.eBlendState = CUI_Default::ALPHABLEND;
-    Desc.iUILayer = ETOUI(UILAYER::BUTTON_IMAGE);
+    MaskDesc.fScaleRatioX = pDesc->fScaleRatioX * 0.99f;
+    MaskDesc.fScaleRatioY = pDesc->fScaleRatioY * 0.99f;
+    MaskDesc.fPosRatioX = pDesc->fPosRatioX;
+    MaskDesc.fPosRatioY = pDesc->fPosRatioY + 0.003f;
+    MaskDesc.eTexPrototypeLV = pDesc->eTexPrototypeLV;
+    MaskDesc.wstrTexturePrototypeTag = L"Prototype_Texture_NonFullSkin"; // 더미
+    MaskDesc.eBlendState = CUI_Default::MASK;
+    MaskDesc.iUILayer = ETOUI(UILAYER::BUTTON_IMAGE_OVER);
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &Desc, reinterpret_cast<CGameObject**>(&m_pSkin))))
+    MaskDesc.wstrMaskPrototypeTag = L"Prototype_Texture_SkinSlotMask";
+    
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_MaskImage"),
+        ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &MaskDesc, reinterpret_cast<CGameObject**>(&m_pSkin))))
         return E_FAIL;
 
 
-    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_SkinSlot";
-    Desc.iUILayer = ETOUI(UILAYER::SLOT);
+    CUI_Image::CUI_IMAGE_DESC ImageDesc{};
+
+    ImageDesc.fScaleRatioX = pDesc->fScaleRatioX * 1.07f;
+    ImageDesc.fScaleRatioY = pDesc->fScaleRatioY * 0.99f;
+    ImageDesc.fPosRatioX = pDesc->fPosRatioX;
+    ImageDesc.fPosRatioY = pDesc->fPosRatioY - 0.007f;
+    ImageDesc.eTexPrototypeLV = pDesc->eTexPrototypeLV;
+    ImageDesc.eBlendState = CUI_Default::ALPHABLEND;
+
+    ImageDesc.wstrTexturePrototypeTag = L"Prototype_Texture_SkinSlot";
+    ImageDesc.iUILayer = ETOUI(UILAYER::SLOT);
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &Desc, reinterpret_cast<CGameObject**>(&m_pSlotBg))))
+        ETOUI(LEVEL::LOBBY), TEXT("LAYER_UI_Image"), &ImageDesc, reinterpret_cast<CGameObject**>(&m_pSlotBg))))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))

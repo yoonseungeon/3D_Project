@@ -121,6 +121,9 @@
     <Filter Include="02. GameObject\03. Player\01. Weapon">
       <UniqueIdentifier>{9b16f940-715e-4884-a94b-a6a26b2fa3ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\00. UI_Image\01. UI_MaskImage">
+      <UniqueIdentifier>{80fb3970-f666-48bc-9171-7f975c663388}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="..\Public\CWeapon.h">
       <Filter>02. GameObject\03. Player\01. Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_MaskImage.h">
+      <Filter>02. GameObject\01. UI_Default\00. UI_Image\01. UI_MaskImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -359,6 +365,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CWeapon.cpp">
       <Filter>02. GameObject\03. Player\01. Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_MaskImage.cpp">
+      <Filter>02. GameObject\01. UI_Default\00. UI_Image\01. UI_MaskImage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

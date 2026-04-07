@@ -8,7 +8,7 @@ NS_BEGIN(Client)
 class CUI_Default abstract : public CUIObject
 {
 public:
-	enum BLENDSTATE { DEFAULT, ALPHATEST, ALPHABLEND, ALPHABLEDN_GAUGE };
+	enum BLENDSTATE { DEFAULT, ALPHATEST, ALPHABLEND, ALPHABLEDN_GAUGE, MASK };
 
 public:
 	struct CUI_DEFAULT_DESC : public CUIObject::UIOBJECT_DESC

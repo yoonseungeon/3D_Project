@@ -6,6 +6,7 @@
 #include "CCamera_Free.h"
 #include "CUI_AniImage.h"
 #include "CLobbyTabBtn.h"
+#include "CUI_MaskImage.h"
 #include "CUI_PickPanel.h"
 #include "CPickSlot.h"
 #include "CUI_SkinPanel.h"
@@ -229,6 +230,19 @@ HRESULT CLoader::Ready_Resources_For_Static()
                 CUI_AniImage::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_GameObject_CUI_AniImage");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CUI_MaskImage */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_MaskImage"),
+                CUI_MaskImage::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_GameObject_CUI_MaskImage");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -710,6 +724,19 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Map/MapPanel.png"), 1))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_MapPanel");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_SkinSlotMask*/
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOBBY), TEXT("Prototype_Texture_SkinSlotMask"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Lobby/Select/SkinSlotMask.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_SkinSlotMask");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

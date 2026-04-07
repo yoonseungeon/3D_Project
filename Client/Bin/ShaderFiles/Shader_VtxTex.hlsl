@@ -2,6 +2,7 @@
 
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture;
+Texture2D g_Mask;
 
 int g_FlipX = { false }, g_FlipY = { false };
 float g_Alpha = { 1 };
@@ -121,6 +122,21 @@ PS_OUT PS_MAIN_UIGAUGE(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_MAIN_MASK(PS_IN In)
+{
+    PS_OUT Out;
+    
+    Out.vColor = g_Mask.Sample(DefaultSampler, In.vTexcoord);
+    if (Out.vColor.a <= 0.5f)
+        discard;    
+    
+    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    Out.vColor.a *= g_Alpha;
+    
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass DefaultPassW
@@ -161,5 +177,15 @@ technique11 DefaultTechnique
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_UIGAUGE()));
+    }
+
+    pass Mask
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_MASK()));
     }
 }

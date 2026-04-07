@@ -12,6 +12,7 @@ NS_END
 NS_BEGIN(Client)
 
 class CUI_Image;
+class CUI_MaskImage;
 class CGame_Manager;
 class CCharData_Manager;
 
@@ -70,7 +71,7 @@ private:
 
 	TEX_STATE m_eCurTexState{ TEX_STATE::NONE };
 
-	CUI_Image* m_pSkin{};
+	CUI_MaskImage* m_pSkin{};
 	CUI_Image* m_pSlotBg{};
 
 	_bool m_bIsSelected{};

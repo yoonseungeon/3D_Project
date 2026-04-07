@@ -184,6 +184,7 @@
     <ClInclude Include="..\Public\CLoader.h" />
     <ClInclude Include="..\Public\CMainApp.h" />
     <ClInclude Include="..\Public\CUI_MapPanel.h" />
+    <ClInclude Include="..\Public\CUI_MaskImage.h" />
     <ClInclude Include="..\Public\CUI_PickPanel.h" />
     <ClInclude Include="..\Public\CUI_SkinPanel.h" />
     <ClInclude Include="..\Public\CWeapon.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="..\Private\CLoader.cpp" />
     <ClCompile Include="..\Private\CMainApp.cpp" />
     <ClCompile Include="..\Private\CUI_MapPanel.cpp" />
+    <ClCompile Include="..\Private\CUI_MaskImage.cpp" />
     <ClCompile Include="..\Private\CUI_PickPanel.cpp" />
     <ClCompile Include="..\Private\CUI_SkinPanel.cpp" />
     <ClCompile Include="..\Private\CWeapon.cpp" />

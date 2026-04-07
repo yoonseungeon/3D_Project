@@ -35,7 +35,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Reset_Texture(LEVEL eTexPrototypeLV, const wstring& wstrTexturePrototypeTag);
+	virtual void Reset_Texture(LEVEL eTexPrototypeLV, const wstring& wstrTexturePrototypeTag);
 
 protected:
 	CShader*		m_pShaderCom{ nullptr };
