@@ -30,7 +30,7 @@ public:
 	const _float4x4* Get_BoneMatrixPtr(const _char* pBoneName) const;
 
 public:
-	void Set_AnimationIndex(_uint iIndex, _bool isLoop = false) { m_iCurrentAnimationIndex = iIndex; m_isAnimLoop = isLoop; }
+	void Set_AnimationIndex(_uint iIndex, _bool isLoop = false);
 
 public:
 	_bool Play_Animation(_float fTimeDelta);
@@ -61,7 +61,7 @@ private:
 
 	vector<CMyBone*>		m_Bones;
 
-	// Anim인 경구 뼈에게 매 프레임 곱해줘야 한다.
+	// Anim인 경우 뼈에게 매 프레임 곱해줘야 한다.
 	// m_TransformationMatrix가 계속 바뀌어서 계속 곱해줘야 함.
 	_float4x4			m_PreTransformMatrix = {};
 
@@ -72,6 +72,16 @@ private:
 
 	_uint				m_iCurrentAnimationIndex{};
 	_bool				m_isAnimLoop{ false };
+
+	_uint				m_iPreviousAnimationIndex{};
+	_bool				m_bInterpolationAni{};
+	_float				m_fAniInterpolationTime{ 0.12f };
+	_float				m_fAccAniInterpolationTime{};
+	_bool				m_bAniInterpolationStart{};
+	vector<KEYFRAME>    m_PreAniFrames;
+	vector<KEYFRAME>    m_NextAniFrames;
+
+	_bool				m_bAniInit{};
 
 	_bool				m_bStoreVtxIdx{};
 

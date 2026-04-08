@@ -21,6 +21,7 @@ private:
 public:
 	_bool Compare_Name(const _char* pBoneName) { return !strcmp(pBoneName, m_szName); }
 	const _float4x4* Get_CombinedTransformationMatrixPtr() const { return &m_CombinedTransformationMatrix; }
+	const _float4x4* Get_TransformationMatrixPtr() const { return &m_TransformationMatrix; }
 
 	void XM_CALLCONV Update_CombinedTransformMatrices(const vector<CMyBone*>& Bones, _fmatrix PreTransformMatrix);
 

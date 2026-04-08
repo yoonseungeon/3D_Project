@@ -111,8 +111,127 @@ const _float4x4* CMyModel::Get_BoneMatrixPtr(const _char* pBoneName) const
     return (*iter)->Get_CombinedTransformationMatrixPtr();
 }
 
+void CMyModel::Set_AnimationIndex(_uint iIndex, _bool isLoop)
+{
+    m_iPreviousAnimationIndex = m_iCurrentAnimationIndex;
+
+    m_iCurrentAnimationIndex = iIndex;
+    m_isAnimLoop = isLoop;    
+    m_Animations[m_iCurrentAnimationIndex]->Reset_KeyFrameIndex();
+
+    if (m_iCurrentAnimationIndex != m_iPreviousAnimationIndex)
+    {
+        if (m_bAniInit == false) {
+            m_bAniInit = true;
+            return;
+        }
+
+        m_bInterpolationAni = true;
+        m_bAniInterpolationStart = false;
+    }
+}
+
 _bool CMyModel::Play_Animation(_float fTimeDelta)
 {
+    // Ani To Ani 보간
+    if (m_bInterpolationAni == true && m_bAniInterpolationStart == false)
+    {
+        m_bAniInterpolationStart = true;
+
+        m_fAccAniInterpolationTime = 0.f;
+        m_PreAniFrames.clear();
+        m_NextAniFrames.clear();
+        m_PreAniFrames.reserve(m_Bones.size());
+        m_NextAniFrames.reserve(m_Bones.size());
+
+        // 이전 애니 전체 뼈 정보 저장
+        for (auto* pBone : m_Bones)
+        {
+            const _float4x4* pTransformationMatrix = pBone->Get_TransformationMatrixPtr();
+
+            XMVECTOR vScale{}, vRotation{}, vTransform{};
+            XMMatrixDecompose(&vScale, &vRotation, &vTransform, XMLoadFloat4x4(pTransformationMatrix));
+
+            KEYFRAME tFrame{};
+            XMStoreFloat3(&tFrame.vScale, vScale);
+            XMStoreFloat4(&tFrame.vRotation, vRotation);
+            XMStoreFloat3(&tFrame.vTranslation, vTransform);
+
+            m_PreAniFrames.push_back(tFrame);
+        }
+
+        // 다음 애니로 뼈 한 번 업데이트
+        m_Animations[m_iCurrentAnimationIndex]->Update_TransformationMatZeorKeyFrame(m_Bones);
+
+        // 다음 애니 전체 뼈 정보 저장
+        for (auto* pBone : m_Bones)
+        {
+            const _float4x4* pTransformationMatrix = pBone->Get_TransformationMatrixPtr();
+
+            XMVECTOR vScale{}, vRotation{}, vTransform{};
+            XMMatrixDecompose(&vScale, &vRotation, &vTransform, XMLoadFloat4x4(pTransformationMatrix));
+
+            KEYFRAME tFrame{};
+            XMStoreFloat3(&tFrame.vScale, vScale);
+            XMStoreFloat4(&tFrame.vRotation, vRotation);
+            XMStoreFloat3(&tFrame.vTranslation, vTransform);
+
+            m_NextAniFrames.push_back(tFrame);
+        }
+    }
+
+    // 보간
+    if (m_bInterpolationAni == true)
+    {
+        m_fAccAniInterpolationTime += fTimeDelta;
+
+        _float  fRatio = m_fAccAniInterpolationTime / m_fAniInterpolationTime;
+        if (fRatio >= 1.f)
+        {
+            fRatio = 1.f;
+        }
+
+        for (size_t i = 0; i < m_Bones.size(); ++i)
+        {
+            _vector vLeftScale = XMLoadFloat3(&m_PreAniFrames[i].vScale);
+            _vector vRightScale = XMLoadFloat3(&m_NextAniFrames[i].vScale);
+
+            _vector vLeftRotation = XMLoadFloat4(&m_PreAniFrames[i].vRotation);
+            _vector vRightRotation = XMLoadFloat4(&m_NextAniFrames[i].vRotation);
+
+            _vector vLeftTranslation = XMVectorSetW(XMLoadFloat3(&m_PreAniFrames[i].vTranslation), 1.f);
+            _vector vRightTranslation = XMVectorSetW(XMLoadFloat3(&m_NextAniFrames[i].vTranslation), 1.f);
+
+            // 보간
+            _vector vScale = XMVectorLerp(vLeftScale, vRightScale, fRatio);
+            _vector vRotation = XMQuaternionSlerp(vLeftRotation, vRightRotation, fRatio);
+            _vector vTranslation = XMVectorLerp(vLeftTranslation, vRightTranslation, fRatio);
+
+            _matrix TransformationMatrix = XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vTranslation);
+
+            // 뼈(node)의 행렬(TransformationMatrix) 업데이트
+            m_Bones[i]->Set_TransformationMatrix(TransformationMatrix);
+        }
+
+
+        if (m_fAccAniInterpolationTime >= m_fAniInterpolationTime)
+        {
+            m_bInterpolationAni = false;
+            m_PreAniFrames.clear();
+            m_NextAniFrames.clear();
+            m_iPreviousAnimationIndex = m_iCurrentAnimationIndex;
+        }
+
+        for (auto& pBone : m_Bones)
+        {
+            pBone->Update_CombinedTransformMatrices(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
+        }
+
+        return false;
+    }
+
+
+    // KeyFrame To KeyFrame 보간
     // 애니메이션이 끝났는지(무한 재생이면 항상 false)
     _bool isFinished = { false };
 

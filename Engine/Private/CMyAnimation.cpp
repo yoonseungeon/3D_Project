@@ -51,7 +51,7 @@ _bool CMyAnimation::Update_TransformationMatrices(const vector<CMyBone*>& Bones,
         if (isLoop == false)
         {
             // 그냥 끝
-            //m_fCurrentTrackPosition = m_fDuration;
+            m_fCurrentTrackPosition = m_fDuration;
             return true;
         }
         else // 무한 재생이면 다시 처음부터 재생
@@ -68,6 +68,23 @@ _bool CMyAnimation::Update_TransformationMatrices(const vector<CMyBone*>& Bones,
     }
 
     return false;
+}
+
+void CMyAnimation::Update_TransformationMatZeorKeyFrame(const vector<CMyBone*>& Bones)
+{
+    _uint iDumy{ 0 };
+
+    for (auto& pChannel : m_Channels)
+    {
+        pChannel->Update_TransformationMatrix(Bones, 0.f, &iDumy);
+    }
+}
+
+void CMyAnimation::Reset_KeyFrameIndex()
+{
+    for (auto& iKeyFrameIdx : m_CurrentKeyFrameIndices) {
+        iKeyFrameIdx = 0;
+    }
 }
 
 CMyAnimation* CMyAnimation::Create(const myAnimation* pMyAnimation, CMyModel* pModel)

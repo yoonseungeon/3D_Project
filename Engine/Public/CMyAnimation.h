@@ -19,6 +19,10 @@ public:
 	HRESULT Initialize(const myAnimation* pMyAnimation, CMyModel* pModel);
 	_bool Update_TransformationMatrices(const vector<CMyBone*>& Bones, _float fTimeDelta, _bool isLoop);
 
+	void Update_TransformationMatZeorKeyFrame(const vector<CMyBone*>& Bones);
+
+	void Reset_KeyFrameIndex();
+
 private:
 	// 현재 애니메이션 트랙의 총 길이(시간 아님)
 	_float				m_fDuration{};
