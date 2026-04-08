@@ -49,11 +49,18 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
+    Enter_State(PLAYER_STATE::P_IDLE);
+
     return S_OK;
 }
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
+    Player_Input(fTimeDelta);
+
+    Update_State(fTimeDelta);
+    Execute_State(fTimeDelta);
+
     // PartObject들은 GameObject_Manager에 안 들어간다.
     for (auto& Pair : m_PartObjects)
     {
@@ -62,39 +69,17 @@ void CPlayer::Priority_Update(_float fTimeDelta)
     }
 }
 
-void CPlayer::Update(_float fTimeDelta)
+void CPlayer::Parallel_Update(_float fTimeDelta)
 {
-    
-    if (m_pGameInstance->Key_Pressing(DIK_DOWN))
+    for (auto& Pair : m_PartObjects)
     {
-        m_pTransformCom->Go_Backward(fTimeDelta);
+        if (nullptr != Pair.second)
+            Pair.second->Parallel_Update(fTimeDelta);
     }
+}
 
-    if (m_pGameInstance->Key_Pressing(DIK_LEFT))
-    {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * -1.f);
-    }
-
-    if (m_pGameInstance->Key_Pressing(DIK_RIGHT))
-    {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta);
-    }
-
-    if (m_pGameInstance->Key_Pressing(DIK_UP))
-    {
-        //m_pTransformCom->Go_Straight(fTimeDelta);
-
-        // 뛸 수없는 상태가 있으면 날려버림.
-        if (m_iState & NOT_RUN)
-            m_iState ^= NOT_RUN;
-
-        m_iState |= PLAYER_STATE::RUN;
-    }
-    else
-    {
-        m_iState = PLAYER_STATE::IDLE;
-    }
-
+void CPlayer::Update(_float fTimeDelta)
+{    
     for (auto& Pair : m_PartObjects)
     {
         if (nullptr != Pair.second)
@@ -125,7 +110,7 @@ HRESULT CPlayer::Ready_PartObjects()
 {
     CBody_Player::BODY_PLAYER_DESC BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
-    BodyDesc.pParentState = &m_iState;
+    BodyDesc.pCurParent_State = &m_iCurState;
 
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),
         TEXT("Body"), &BodyDesc)))
@@ -133,7 +118,7 @@ HRESULT CPlayer::Ready_PartObjects()
 
     CWeapon::WEAPON_DESC WeaponDesc{};
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
-    WeaponDesc.pParentState = &m_iState;
+    WeaponDesc.pCurParent_State = &m_iCurState;
 
     WeaponDesc.pSocketBoneMatrix = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")])->Get_BoneMatrixPtr("Equip_R");
 
@@ -147,6 +132,95 @@ HRESULT CPlayer::Ready_PartObjects()
 HRESULT CPlayer::Bind_ShaderResources()
 {
     return S_OK;
+}
+
+void CPlayer::Update_State(_float fTimeDelta)
+{
+    switch (m_iCurState) {
+        case PLAYER_STATE::P_IDLE:
+        {
+
+            break;
+        }
+
+        case PLAYER_STATE::P_RUN:
+        {
+
+            break;
+        }
+    }
+}
+
+void CPlayer::Enter_State(PLAYER_STATE eNewState)
+{
+    m_iCurState = eNewState;
+
+    if (m_iCurState != m_iPreState) {
+
+        switch (m_iCurState) {
+            case PLAYER_STATE::P_IDLE:
+            {
+
+                break;
+            }
+
+            case PLAYER_STATE::P_RUN:
+            {
+
+                break;
+            }
+        }
+
+        m_iPreState = m_iCurState;
+    }
+}
+
+void CPlayer::Execute_State(_float fTimeDelta)
+{
+    switch (m_iCurState) {
+        case PLAYER_STATE::P_IDLE:
+        {
+
+            break;
+        }
+
+        case PLAYER_STATE::P_RUN:
+        {
+
+            break;
+        }
+    }
+}
+
+void CPlayer::Player_Input(_float fTimeDelta)
+{
+    _bool bMove{};
+
+    if (m_pGameInstance->Key_Pressing(DIK_UP)) {
+        m_pTransformCom->Go_Straight(fTimeDelta);
+        Enter_State(PLAYER_STATE::P_RUN);
+        bMove = true;
+    }
+
+    if (m_pGameInstance->Key_Pressing(DIK_DOWN)) {
+        m_pTransformCom->Go_Backward(fTimeDelta);
+        Enter_State(PLAYER_STATE::P_RUN);
+        bMove = true;
+    }
+
+    if (m_pGameInstance->Key_Pressing(DIK_RIGHT)) {
+        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta);
+    }
+
+    if (m_pGameInstance->Key_Pressing(DIK_LEFT)) {
+
+        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), -fTimeDelta);
+    }
+
+    if (bMove == false) {
+        Enter_State(PLAYER_STATE::P_IDLE);
+    }
+
 }
 
 CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

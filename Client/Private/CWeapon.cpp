@@ -1,6 +1,7 @@
 #include "CWeapon.h"
 
 #include "CGameInstance.h"
+#include "CPlayer.h"
 
 CWeapon::CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject{ pDevice, pContext }
@@ -22,15 +23,15 @@ HRESULT CWeapon::Initialize(void* pArg)
     WEAPON_DESC* pDesc = static_cast<CWeapon::WEAPON_DESC*>(pArg);
 
     m_pSocketBoneMatrix = pDesc->pSocketBoneMatrix;
-    m_pParentState = pDesc->pParentState;
+
+    m_pCurParent_State = pDesc->pCurParent_State;
+    m_iCurParent_State = *m_pCurParent_State;
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
-
-    m_pModelCom->Set_AnimationIndex(4, true);
 
     return S_OK;
 }
@@ -39,9 +40,16 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 {
 }
 
+void CWeapon::Parallel_Update(_float fTimeDelta)
+{
+    Enter_State(fTimeDelta);
+    Execute_State(fTimeDelta);
+
+    m_pModelCom->Play_Animation(fTimeDelta);
+}
+
 void CWeapon::Update(_float fTimeDelta)
 {
-    m_pModelCom->Play_Animation(fTimeDelta);
 }
 
 void CWeapon::Late_Update(_float fTimeDelta)
@@ -126,6 +134,45 @@ HRESULT CWeapon::Bind_ShaderResources()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CWeapon::Enter_State(_float fTimeDelta)
+{
+    if (m_iCurParent_State != *m_pCurParent_State)
+    {
+        switch (*m_pCurParent_State)
+        {
+        case CPlayer::PLAYER_STATE::P_IDLE:
+        {
+            m_pModelCom->Set_AnimationIndex(12, true);
+            break;
+        }
+        case CPlayer::PLAYER_STATE::P_RUN:
+        {
+            m_pModelCom->Set_AnimationIndex(4, true);
+            break;
+        }
+        }
+
+        m_iCurParent_State = *m_pCurParent_State;
+    }
+}
+
+void CWeapon::Execute_State(_float fTimeDelta)
+{
+    switch (m_iCurParent_State)
+    {
+    case CPlayer::PLAYER_STATE::P_IDLE:
+    {
+
+        break;
+    }
+    case CPlayer::PLAYER_STATE::P_RUN:
+    {
+
+        break;
+    }
+    }
 }
 
 CWeapon* CWeapon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

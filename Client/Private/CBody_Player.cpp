@@ -22,14 +22,14 @@ HRESULT CBody_Player::Initialize(void* pArg)
 {
     BODY_PLAYER_DESC* pDesc = static_cast<BODY_PLAYER_DESC*>(pArg);
 
-    m_pParentState = pDesc->pParentState;
+    m_pCurParent_State = pDesc->pCurParent_State;
+    m_iCurParent_State = *m_pCurParent_State;
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
-    m_pModelCom->Set_AnimationIndex(3, true);
 
     return S_OK;
 }
@@ -39,15 +39,16 @@ void CBody_Player::Priority_Update(_float fTimeDelta)
 
 }
 
-void CBody_Player::Update(_float fTimeDelta)
+void CBody_Player::Parallel_Update(_float fTimeDelta)
 {
-    if (*m_pParentState & CPlayer::PLAYER_STATE::IDLE)
-        m_pModelCom->Set_AnimationIndex(9, true);
-
-    if (*m_pParentState & CPlayer::PLAYER_STATE::RUN)
-        m_pModelCom->Set_AnimationIndex(26, true);
+    Enter_State(fTimeDelta);
+    Execute_State(fTimeDelta);
 
     m_pModelCom->Play_Animation(fTimeDelta);
+}
+
+void CBody_Player::Update(_float fTimeDelta)
+{
 }
 
 void CBody_Player::Late_Update(_float fTimeDelta)
@@ -135,6 +136,45 @@ HRESULT CBody_Player::Bind_ShaderResources()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CBody_Player::Enter_State(_float fTimeDelta)
+{
+    if (m_iCurParent_State != *m_pCurParent_State)
+    {
+        switch (*m_pCurParent_State)
+        {
+            case CPlayer::PLAYER_STATE::P_IDLE:
+            {
+                m_pModelCom->Set_AnimationIndex(9, true);
+                break;
+            }
+            case CPlayer::PLAYER_STATE::P_RUN:
+            {
+                m_pModelCom->Set_AnimationIndex(26, true);
+                break;
+            }
+        }
+
+        m_iCurParent_State = *m_pCurParent_State;
+    }
+}
+
+void CBody_Player::Execute_State(_float fTimeDelta)
+{
+    switch (m_iCurParent_State)
+    {
+        case CPlayer::PLAYER_STATE::P_IDLE:
+        {
+
+            break;
+        }
+        case CPlayer::PLAYER_STATE::P_RUN:
+        {
+
+            break;
+        }
+    }
 }
 
 CBody_Player* CBody_Player::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
