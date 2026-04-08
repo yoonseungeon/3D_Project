@@ -112,17 +112,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
 {
-    CMap_Lumia::LUMIA_DESC Desc{};
+    //CMap_Lumia::LUMIA_DESC Desc{};
 
-    CMap_Lumia* pMap{};
+    //CMap_Lumia* pMap{};
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Lumia"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pMap))))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Lumia"),
+    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pMap))))
+    //    return E_FAIL;
 
-    m_pInGame_Manager->Set_Map(pMap);
+    //m_pInGame_Manager->Set_Map(pMap);
 
-    Safe_Release(pMap);
+    //Safe_Release(pMap);
     return S_OK;
 }
 

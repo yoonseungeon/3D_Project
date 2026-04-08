@@ -42,10 +42,10 @@ void CBody_Player::Priority_Update(_float fTimeDelta)
 void CBody_Player::Update(_float fTimeDelta)
 {
     if (*m_pParentState & CPlayer::PLAYER_STATE::IDLE)
-        m_pModelCom->Set_AnimationIndex(3, true);
+        m_pModelCom->Set_AnimationIndex(9, true);
 
     if (*m_pParentState & CPlayer::PLAYER_STATE::RUN)
-        m_pModelCom->Set_AnimationIndex(4, true);
+        m_pModelCom->Set_AnimationIndex(26, true);
 
     m_pModelCom->Play_Animation(fTimeDelta);
 }
@@ -95,7 +95,7 @@ HRESULT CBody_Player::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Fiona"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_LiDailin"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
@@ -118,6 +118,8 @@ HRESULT CBody_Player::Bind_ShaderResources()
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_vCamPosition", m_pGameInstance->Get_CamPosition(), sizeof(_float4))))
         return E_FAIL;
+
+
 
     const LIGHT_DESC* pLightDesc = m_pGameInstance->Get_LightDesc(0);
     if (nullptr == pLightDesc)

@@ -82,7 +82,7 @@ void CPlayer::Update(_float fTimeDelta)
 
     if (m_pGameInstance->Key_Pressing(DIK_UP))
     {
-        m_pTransformCom->Go_Straight(fTimeDelta);
+        //m_pTransformCom->Go_Straight(fTimeDelta);
 
         // 뛸 수없는 상태가 있으면 날려버림.
         if (m_iState & NOT_RUN)
@@ -135,7 +135,7 @@ HRESULT CPlayer::Ready_PartObjects()
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
     WeaponDesc.pParentState = &m_iState;
 
-    WeaponDesc.pSocketBoneMatrix = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")])->Get_BoneMatrixPtr("SWORD");
+    WeaponDesc.pSocketBoneMatrix = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")])->Get_BoneMatrixPtr("Equip_R");
 
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Weapon"),
         TEXT("Weapon"), &WeaponDesc)))

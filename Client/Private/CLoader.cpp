@@ -1008,7 +1008,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 
 #pragma region ¸ðµ¨
     /* Prototype_Component_Model_Map_Lumia */
-    _matrix MapPreTransformMatrix = XMMatrixIdentity();
+ /*   _matrix MapPreTransformMatrix = XMMatrixIdentity();
 
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -1017,6 +1017,34 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Map_Lumia_Final.mymodel", MapPreTransformMatrix, true))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Map_Lumia");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );*/
+
+    /* Prototype_Component_Model_LiDailin */
+    _matrix PlayerPreTransformMatrix = XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
+
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, PlayerPreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_LiDailin"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/GamePlay/LiDailin/LiDailin_DDS.mymodel", PlayerPreTransformMatrix))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_LiDailin");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Component_Model_Nunchaku */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Nunchaku"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/GamePlay/Nunchaku/Weapon_Nunchaku_DDS.mymodel"))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Nunchaku");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

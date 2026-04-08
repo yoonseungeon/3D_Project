@@ -27,6 +27,14 @@ HRESULT CForkLift::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pTransformCom->Set_State(STATE::POSITION,
+    XMVectorSet(
+        m_pGameInstance->Random(0.f, 30.f),
+        3.f,
+        m_pGameInstance->Random(0.f, 30.f),
+        1.f
+    ));
+
     return S_OK;
 }
 

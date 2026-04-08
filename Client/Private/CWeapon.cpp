@@ -30,12 +30,7 @@ HRESULT CWeapon::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_Scale(0.1f, 0.1f, 0.1f);
-    m_pTransformCom->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(90.f));
-
-    m_pTransformCom->Set_State(STATE::POSITION,
-        XMVectorSet(
-            0.75f, 0.f, 0.f, 1.f));
+    m_pModelCom->Set_AnimationIndex(4, true);
 
     return S_OK;
 }
@@ -46,6 +41,7 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 
 void CWeapon::Update(_float fTimeDelta)
 {
+    m_pModelCom->Play_Animation(fTimeDelta);
 }
 
 void CWeapon::Late_Update(_float fTimeDelta)
@@ -53,8 +49,8 @@ void CWeapon::Late_Update(_float fTimeDelta)
     // SocketBone 행렬에서 위치는 맞는데, 스케일이 깨져서 스케일 1, 1, 1로 만들어 줌.
     _matrix SocketMatrix = XMLoadFloat4x4(m_pSocketBoneMatrix);
 
-    for (size_t i = 0; i < 3; ++i)
-        SocketMatrix.r[i] = XMVector3Normalize(SocketMatrix.r[i]);
+    //for (size_t i = 0; i < 3; ++i)
+    //    SocketMatrix.r[i] = XMVector3Normalize(SocketMatrix.r[i]);
 
     // 자신 월드 * 소켓 * 컨테이너 부모 이 순서로 곱함
     // 자신 월드 * 소켓 * Body * 컨테이너 부모가 더 정확하지만 Body는 움직이지 않아서 항등 행렬임.
@@ -75,6 +71,9 @@ HRESULT CWeapon::Render()
         if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE, 0)))
             return E_FAIL;
 
+        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+            return E_FAIL;
+
         if (FAILED(m_pShaderCom->Begin(0)))
             return E_FAIL;
 
@@ -88,12 +87,12 @@ HRESULT CWeapon::Render()
 HRESULT CWeapon::Ready_Components()
 {
     /* For.Com_Shader */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_ForkLift"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Nunchaku"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
@@ -104,6 +103,7 @@ HRESULT CWeapon::Bind_ShaderResources()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
         return E_FAIL;
+
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", m_pGameInstance->Get_Transform(D3DTS::VIEW))))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", m_pGameInstance->Get_Transform(D3DTS::PROJ))))
