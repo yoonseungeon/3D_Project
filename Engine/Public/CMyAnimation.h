@@ -22,6 +22,7 @@ public:
 	void Update_TransformationMatZeorKeyFrame(const vector<CMyBone*>& Bones);
 
 	void Reset_KeyFrameIndex();
+	void Reset_CurrentTrackPosition() { m_fCurrentTrackPosition = 0.f; }
 
 private:
 	// 현재 애니메이션 트랙의 총 길이(시간 아님)

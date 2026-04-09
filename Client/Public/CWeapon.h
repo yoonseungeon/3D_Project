@@ -18,7 +18,7 @@ public:
 		// 플레이어 위치(중앙)가 아닌, 뼈에 붙어서 표현되어야 한다.
 		// 부착하기 위한 행렬 SocketBone이라고 많이 부름.
 		const _float4x4* pSocketBoneMatrix{ nullptr };
-		const _uint* pCurParent_State{ nullptr };
+		const _uint* pCurMoveState{ nullptr };
 	};
 
 protected:
@@ -43,8 +43,8 @@ private:
 private:
 	const _float4x4* m_pSocketBoneMatrix{ nullptr };
 
-	const _uint* m_pCurParent_State{ nullptr };
-	_uint m_iCurParent_State{};
+	const _uint* m_pCurState{ nullptr };
+	_uint m_iCurState{};
 
 private:
 	HRESULT Ready_Components();
@@ -52,7 +52,7 @@ private:
 
 private:
 	void Enter_State(_float fTimeDelta);
-	void Execute_State(_float fTimeDelta);
+	void Execute_MoveState(_float fTimeDelta);
 
 public:
 	static CWeapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

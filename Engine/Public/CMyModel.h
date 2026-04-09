@@ -34,6 +34,7 @@ public:
 
 public:
 	_bool Play_Animation(_float fTimeDelta);
+	_bool IsAnimationFinished() { return m_bIsFinished; }
 
 public:
 	//특정 텍스처를 셰이더로 던진다.
@@ -84,6 +85,8 @@ private:
 	_bool				m_bAniInit{};
 
 	_bool				m_bStoreVtxIdx{};
+
+	_bool				m_bIsFinished{};
 
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);

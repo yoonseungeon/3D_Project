@@ -15,7 +15,14 @@ class CBody_Player final : public CPartObject
 public:
 	struct BODY_PLAYER_DESC : public CPartObject::PARTOBJECT_DESC
 	{
-		const _uint* pCurParent_State{ nullptr };
+		const _uint* pCurMoveState{ nullptr };
+	};
+
+	enum AniIndex {
+		Ani_Idle = 9,
+		Ani_Run = 26,
+		Ani_RestStart = 83, Ani_RestLoop = 85, Ani_RestEnd = 86,
+
 	};
 
 private:
@@ -41,8 +48,8 @@ private:
 	CMyModel*	m_pModelCom{ nullptr };
 
 private:
-	const _uint* m_pCurParent_State{ nullptr };
-	_uint m_iCurParent_State{};
+	const _uint* m_pCurState{ nullptr };
+	_uint m_iCurState{};
 
 private:
 	HRESULT Ready_Components();

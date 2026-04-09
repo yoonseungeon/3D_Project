@@ -190,6 +190,7 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Public\CMove.h" />
     <ClInclude Include="..\Public\CMyAnimation.h" />
     <ClInclude Include="..\Public\CMyBone.h" />
     <ClInclude Include="..\Public\CMyChannel.h" />
@@ -259,6 +260,7 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Private\CMove.cpp" />
     <ClCompile Include="..\Private\CMyAnimation.cpp" />
     <ClCompile Include="..\Private\CMyBone.cpp" />
     <ClCompile Include="..\Private\CMyChannel.cpp" />

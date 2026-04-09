@@ -24,8 +24,8 @@ HRESULT CWeapon::Initialize(void* pArg)
 
     m_pSocketBoneMatrix = pDesc->pSocketBoneMatrix;
 
-    m_pCurParent_State = pDesc->pCurParent_State;
-    m_iCurParent_State = *m_pCurParent_State;
+    m_pCurState = pDesc->pCurMoveState;
+    m_iCurState = *m_pCurState;
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -43,7 +43,7 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 void CWeapon::Parallel_Update(_float fTimeDelta)
 {
     Enter_State(fTimeDelta);
-    Execute_State(fTimeDelta);
+    Execute_MoveState(fTimeDelta);
 
     m_pModelCom->Play_Animation(fTimeDelta);
 }
@@ -138,36 +138,36 @@ HRESULT CWeapon::Bind_ShaderResources()
 
 void CWeapon::Enter_State(_float fTimeDelta)
 {
-    if (m_iCurParent_State != *m_pCurParent_State)
+    if (m_iCurState != *m_pCurState)
     {
-        switch (*m_pCurParent_State)
+        switch (*m_pCurState)
         {
-        case CPlayer::PLAYER_STATE::P_IDLE:
+        case CPlayer::ACTION_STATE::IDLE_P:
         {
             m_pModelCom->Set_AnimationIndex(12, true);
             break;
         }
-        case CPlayer::PLAYER_STATE::P_RUN:
+        case CPlayer::ACTION_STATE::RUN_P:
         {
             m_pModelCom->Set_AnimationIndex(4, true);
             break;
         }
         }
 
-        m_iCurParent_State = *m_pCurParent_State;
+        m_iCurState = *m_pCurState;
     }
 }
 
-void CWeapon::Execute_State(_float fTimeDelta)
+void CWeapon::Execute_MoveState(_float fTimeDelta)
 {
-    switch (m_iCurParent_State)
+    switch (m_iCurState)
     {
-    case CPlayer::PLAYER_STATE::P_IDLE:
+    case CPlayer::ACTION_STATE::IDLE_P:
     {
 
         break;
     }
-    case CPlayer::PLAYER_STATE::P_RUN:
+    case CPlayer::ACTION_STATE::RUN_P:
     {
 
         break;

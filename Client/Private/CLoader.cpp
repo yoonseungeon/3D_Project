@@ -249,6 +249,21 @@ HRESULT CLoader::Ready_Resources_For_Static()
     );
 #pragma endregion
 
+#pragma region Move
+    /* Prototype_Component_Move */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Move"),
+                CMove::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Component_Move");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
     return S_OK;
 }
 

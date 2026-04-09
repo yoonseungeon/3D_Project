@@ -9,6 +9,7 @@
 #include "CTexture.h"
 #include "CMyModel.h"
 #include "CImage.h"
+#include "CMove.h"
 #pragma endregion
 
 NS_BEGIN(Engine)

@@ -95,6 +95,31 @@ void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _float fRadian)
     Set_State(STATE::LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
 }
 
+//임시 코드
+void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _fvector vDir)
+{
+    _vector vAxisN = XMVector3Normalize(vAxis);
+    _vector vLook = vDir;
+
+    // 축 방향 성분 제거
+    // 예: Y축 회전이면, 위/아래 성분 제거하고 XZ 평면 방향만 사용
+    vLook -= vAxisN * XMVector3Dot(vLook, vAxisN);
+
+    if (XMVectorGetX(XMVector3LengthSq(vLook)) <= 0.000001f)
+        return;
+
+    vLook = XMVector3Normalize(vLook);
+
+    _float3 vScaled = Get_Scaled();
+
+    _vector vRight = XMVector3Normalize(XMVector3Cross(vAxisN, vLook));
+    _vector vUp = XMVector3Normalize(XMVector3Cross(vLook, vRight));
+
+    Set_State(STATE::RIGHT, vRight * vScaled.x);
+    Set_State(STATE::UP, vUp * vScaled.y);
+    Set_State(STATE::LOOK, vLook * vScaled.z);
+}
+
 void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta)
 {
     _vector         vRight = Get_State(STATE::RIGHT);
@@ -106,6 +131,24 @@ void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta)
     Set_State(STATE::RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
     Set_State(STATE::UP, XMVector3TransformNormal(vUp, RotationMatrix));
     Set_State(STATE::LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
+}
+
+void XM_CALLCONV CTransform::LookAt(_fvector vAt)
+{
+    _vector         vLook = vAt - Get_State(STATE::POSITION);
+    _vector         vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
+    _vector         vUp = XMVector3Cross(vLook, vRight);
+
+    _float3         vScaled = Get_Scaled();
+
+    Set_State(STATE::RIGHT, XMVector3Normalize(vRight) * vScaled.x);
+    Set_State(STATE::UP, XMVector3Normalize(vUp) * vScaled.y);
+    Set_State(STATE::LOOK, XMVector3Normalize(vLook) * vScaled.z);
+}
+
+void XM_CALLCONV CTransform::Set_Pos(_fvector vPos)
+{
+    Set_State(STATE::POSITION, vPos);
 }
 
 void CTransform::Go_Straight(_float fTimeDelta)
@@ -148,18 +191,6 @@ void CTransform::Go_Right(_float fTimeDelta)
     Set_State(STATE::POSITION, vPosition);
 }
 
-void XM_CALLCONV CTransform::LookAt(_fvector vAt)
-{
-    _vector         vLook = vAt - Get_State(STATE::POSITION);
-    _vector         vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
-    _vector         vUp = XMVector3Cross(vLook, vRight);
-
-    _float3         vScaled = Get_Scaled();
-
-    Set_State(STATE::RIGHT, XMVector3Normalize(vRight) * vScaled.x);
-    Set_State(STATE::UP, XMVector3Normalize(vUp) * vScaled.y);
-    Set_State(STATE::LOOK, XMVector3Normalize(vLook) * vScaled.z);
-}
 
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

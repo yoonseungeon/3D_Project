@@ -49,7 +49,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
-    Enter_State(PLAYER_STATE::P_IDLE);
+    Enter_State(ACTION_STATE::IDLE_P);
 
     return S_OK;
 }
@@ -58,8 +58,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 {
     Player_Input(fTimeDelta);
 
-    Update_State(fTimeDelta);
-    Execute_State(fTimeDelta);
+    StateRequestProcessing(fTimeDelta);
 
     // PartObject들은 GameObject_Manager에 안 들어간다.
     for (auto& Pair : m_PartObjects)
@@ -71,6 +70,11 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Parallel_Update(_float fTimeDelta)
 {
+    if (m_pMoveCom->Update_Move_To_Pos(fTimeDelta))
+    {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_IDLE;
+    }
+
     for (auto& Pair : m_PartObjects)
     {
         if (nullptr != Pair.second)
@@ -103,6 +107,15 @@ HRESULT CPlayer::Render()
 
 HRESULT CPlayer::Ready_Components()
 {
+    CMove::MOVE_DESC Desc{};
+    Desc.pTransform = m_pTransformCom;
+    Desc.fSpeed = 5.f;
+
+    /* Com_Move */
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Move"),
+        TEXT("Com_Move"), reinterpret_cast<CComponent**>(&m_pMoveCom), &Desc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -110,7 +123,8 @@ HRESULT CPlayer::Ready_PartObjects()
 {
     CBody_Player::BODY_PLAYER_DESC BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
-    BodyDesc.pCurParent_State = &m_iCurState;
+
+    BodyDesc.pCurMoveState = &m_iCurState;
 
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Player"),
         TEXT("Body"), &BodyDesc)))
@@ -118,7 +132,7 @@ HRESULT CPlayer::Ready_PartObjects()
 
     CWeapon::WEAPON_DESC WeaponDesc{};
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
-    WeaponDesc.pCurParent_State = &m_iCurState;
+    WeaponDesc.pCurMoveState = &m_iCurState;
 
     WeaponDesc.pSocketBoneMatrix = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")])->Get_BoneMatrixPtr("Equip_R");
 
@@ -134,39 +148,46 @@ HRESULT CPlayer::Bind_ShaderResources()
     return S_OK;
 }
 
-void CPlayer::Update_State(_float fTimeDelta)
+void CPlayer::StateRequestProcessing(_float fTimeDelta)
 {
-    switch (m_iCurState) {
-        case PLAYER_STATE::P_IDLE:
-        {
+    // 요청이 있을 때 한 번만 실행
 
-            break;
-        }
-
-        case PLAYER_STATE::P_RUN:
-        {
-
-            break;
-        }
+    if (m_iRequestFlag & RQ_REST) {
+        Enter_State(ACTION_STATE::REST_P);
+        m_pMoveCom->Stop_Move_To_Pos();
     }
+    else if (m_iRequestFlag & RQ_RUN && m_iControlFlag & BLOCK_RUN) {
+        m_pMoveCom->Move_To_Pos(m_vTargetPos);
+        Enter_State(ACTION_STATE::RUN_P);
+    }
+    else if (m_iRequestFlag & RQ_IDLE) {
+        m_pMoveCom->Stop_Move_To_Pos();
+        Enter_State(ACTION_STATE::IDLE_P);
+    }
+
+    m_iRequestFlag = 0;
 }
 
-void CPlayer::Enter_State(PLAYER_STATE eNewState)
+void CPlayer::Enter_State(ACTION_STATE eNewState)
 {
+    // 상태가 바뀌었을 때 한 번만 실행
     m_iCurState = eNewState;
 
     if (m_iCurState != m_iPreState) {
 
         switch (m_iCurState) {
-            case PLAYER_STATE::P_IDLE:
+            case ACTION_STATE::IDLE_P:
             {
-
                 break;
             }
 
-            case PLAYER_STATE::P_RUN:
+            case ACTION_STATE::RUN_P:
             {
+                break;
+            }
 
+            case ACTION_STATE::REST_P:
+            {
                 break;
             }
         }
@@ -175,52 +196,25 @@ void CPlayer::Enter_State(PLAYER_STATE eNewState)
     }
 }
 
-void CPlayer::Execute_State(_float fTimeDelta)
-{
-    switch (m_iCurState) {
-        case PLAYER_STATE::P_IDLE:
-        {
-
-            break;
-        }
-
-        case PLAYER_STATE::P_RUN:
-        {
-
-            break;
-        }
-    }
-}
-
 void CPlayer::Player_Input(_float fTimeDelta)
 {
-    _bool bMove{};
+    if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON)) {
 
-    if (m_pGameInstance->Key_Pressing(DIK_UP)) {
-        m_pTransformCom->Go_Straight(fTimeDelta);
-        Enter_State(PLAYER_STATE::P_RUN);
-        bMove = true;
+        static _float3 vPos = { 0.f, 0.f, 0.f };
+        vPos.z += 10.f;
+        if (vPos.z >= 11.f) { vPos.z = 0.f; }
+        m_vTargetPos = vPos;
+
+        m_iRequestFlag |= REQUEST_FLAG::RQ_RUN;
     }
 
-    if (m_pGameInstance->Key_Pressing(DIK_DOWN)) {
-        m_pTransformCom->Go_Backward(fTimeDelta);
-        Enter_State(PLAYER_STATE::P_RUN);
-        bMove = true;
+    if (m_pGameInstance->Key_Down(DIK_S)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_IDLE;
     }
 
-    if (m_pGameInstance->Key_Pressing(DIK_RIGHT)) {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta);
+    if (m_pGameInstance->Key_Down(DIK_X)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_REST;
     }
-
-    if (m_pGameInstance->Key_Pressing(DIK_LEFT)) {
-
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), -fTimeDelta);
-    }
-
-    if (bMove == false) {
-        Enter_State(PLAYER_STATE::P_IDLE);
-    }
-
 }
 
 CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -251,5 +245,7 @@ CGameObject* CPlayer::Clone(void* pArg)
 
 void CPlayer::Free()
 {
+    Safe_Release(m_pMoveCom);
+
     __super::Free();
 }

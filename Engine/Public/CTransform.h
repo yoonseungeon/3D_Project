@@ -55,14 +55,20 @@ public:
 	void Scaling(_float fScaleX = 1.f, _float fScaleY = 1.f, _float fScaleZ = 1.f);
 
 	void XM_CALLCONV Rotation(_fvector vAxis, _float fRadian);
+
+	//임시 코드
+	void XM_CALLCONV Rotation(_fvector vAxis, _fvector vDir);
+
 	void XM_CALLCONV Turn(_fvector vAxis, _float fTimeDelta);
+
+	void XM_CALLCONV LookAt(_fvector vAt);
+
+	void XM_CALLCONV Set_Pos(_fvector vPos);
 
 	void Go_Straight(_float fTimeDelta);
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
 	void Go_Right(_float fTimeDelta);
-
-	void XM_CALLCONV LookAt(_fvector vAt);
 
 private:
 	_float4x4	m_WorldMatrix		= {};

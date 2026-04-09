@@ -22,8 +22,8 @@ HRESULT CBody_Player::Initialize(void* pArg)
 {
     BODY_PLAYER_DESC* pDesc = static_cast<BODY_PLAYER_DESC*>(pArg);
 
-    m_pCurParent_State = pDesc->pCurParent_State;
-    m_iCurParent_State = *m_pCurParent_State;
+    m_pCurState = pDesc->pCurMoveState;
+    m_iCurState = *m_pCurState;
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
@@ -42,7 +42,7 @@ void CBody_Player::Priority_Update(_float fTimeDelta)
 void CBody_Player::Parallel_Update(_float fTimeDelta)
 {
     Enter_State(fTimeDelta);
-    Execute_State(fTimeDelta);
+    Execute_MoveState(fTimeDelta);
 
     m_pModelCom->Play_Animation(fTimeDelta);
 }
@@ -140,38 +140,49 @@ HRESULT CBody_Player::Bind_ShaderResources()
 
 void CBody_Player::Enter_State(_float fTimeDelta)
 {
-    if (m_iCurParent_State != *m_pCurParent_State)
+    // 애니메이션 상태가 바뀌었을 때 한 번만 실행
+    if (m_iCurState != *m_pCurState)
     {
-        switch (*m_pCurParent_State)
+        switch (*m_pCurState)
         {
-            case CPlayer::PLAYER_STATE::P_IDLE:
+            case CPlayer::ACTION_STATE::IDLE_P:
             {
-                m_pModelCom->Set_AnimationIndex(9, true);
+                m_pModelCom->Set_AnimationIndex(Ani_Idle, true);
                 break;
             }
-            case CPlayer::PLAYER_STATE::P_RUN:
+            case CPlayer::ACTION_STATE::RUN_P:
             {
-                m_pModelCom->Set_AnimationIndex(26, true);
+                m_pModelCom->Set_AnimationIndex(Ani_Run, true);
+                break;
+            }
+            case CPlayer::ACTION_STATE::REST_P:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_RestStart, false);
                 break;
             }
         }
 
-        m_iCurParent_State = *m_pCurParent_State;
+        m_iCurState = *m_pCurState;
     }
 }
 
-void CBody_Player::Execute_State(_float fTimeDelta)
+void CBody_Player::Execute_MoveState(_float fTimeDelta)
 {
-    switch (m_iCurParent_State)
+    switch (m_iCurState)
     {
-        case CPlayer::PLAYER_STATE::P_IDLE:
+        case CPlayer::ACTION_STATE::IDLE_P:
         {
 
             break;
         }
-        case CPlayer::PLAYER_STATE::P_RUN:
+        case CPlayer::ACTION_STATE::RUN_P:
         {
 
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::REST_P:
+        {          
             break;
         }
     }
