@@ -24,6 +24,7 @@ class CRenderer;
 class CPipeline;
 class CInput_Device;
 class CLight_Manager;
+class CFont_Manager;
 
 class CThread_Manager;
 
@@ -118,6 +119,12 @@ public:
 	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
 #pragma endregion
 
+#pragma region FONT_MANAGER
+	HRESULT Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath);
+	HRESULT Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPosition,
+		_fvector vColor = XMVectorSet(1.f, 1.f, 1.f, 1.f), const _float2& vScale = _float2(1.f, 1.f), _float fRotation = 0.f, const _float2& vOrigin = _float2(0.f, 0.f));
+#pragma endregion
+
 #pragma region THREAD_MANAGER
 	void Add_Job(function<void()> func);
 #pragma endregion
@@ -131,7 +138,8 @@ private:
 	CRenderer*			m_pRenderer				= { nullptr };
 	CPipeline*			m_pPipeline				= { nullptr };
 	CInput_Device*		m_pInput_Device			= { nullptr };
-	CLight_Manager* m_pLight_Manager			= { nullptr };
+	CLight_Manager*		m_pLight_Manager			= { nullptr };
+	CFont_Manager*		m_pFont_Manager = { nullptr };
 
 	CThread_Manager*	m_pThread_Manager		= { nullptr };
 

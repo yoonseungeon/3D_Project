@@ -43,12 +43,15 @@ protected:
 	virtual void BtnClick();
 
 protected:
-	RECT m_rcBtnRange{};
-	BTN_STATE m_eCurBtnState{};
-	_bool m_bPressedInBtn{};
-	_bool m_bIsClicked{};
+	RECT		m_rcBtnRange{};
+	BTN_STATE	m_eCurBtnState{};
+	_bool		m_bPressedInBtn{};
+	_bool		m_bIsClicked{};
 
 	function<void()> m_funcCallBack{nullptr};
+
+	_float		m_fHalfSizeX{};
+	_float		m_fHalfSizeY{};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

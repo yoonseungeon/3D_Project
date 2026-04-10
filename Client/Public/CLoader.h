@@ -22,10 +22,8 @@ public:
 	HRESULT Loading();
 	_bool	isFinished();
 
-#ifdef _DEBUG
 public:
 	void Show_Loading_Status();
-#endif
 
 private:
 	ID3D11Device*			m_pDevice			= { nullptr };

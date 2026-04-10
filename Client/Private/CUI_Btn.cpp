@@ -31,13 +31,13 @@ HRESULT CUI_Btn::Initialize(void* pArg)
     _float fCenterX = (pDesc->fPosRatioX + 0.5f) * static_cast<_float>(g_iWinSizeX);
     _float fCenterY = -(pDesc->fPosRatioY - 0.5f) * static_cast<_float>(g_iWinSizeY);
 
-    _float fHalfSizeX = pDesc->fScaleRatioX * static_cast<_float>(g_iWinSizeX) * 0.5f;
-    _float fHalfSizeY = pDesc->fScaleRatioY * static_cast<_float>(g_iWinSizeY) * 0.5f;
+    m_fHalfSizeX = pDesc->fScaleRatioX * static_cast<_float>(g_iWinSizeX) * 0.5f;
+    m_fHalfSizeY = pDesc->fScaleRatioY * static_cast<_float>(g_iWinSizeY) * 0.5f;
     
-    m_rcBtnRange.left = static_cast<_long>(fCenterX - fHalfSizeX);
-    m_rcBtnRange.right = static_cast<_long>(fCenterX + fHalfSizeX);
-    m_rcBtnRange.top = static_cast<_long>(fCenterY - fHalfSizeY);
-    m_rcBtnRange.bottom = static_cast<_long>(fCenterY + fHalfSizeY);
+    m_rcBtnRange.left = static_cast<_long>(fCenterX - m_fHalfSizeX);
+    m_rcBtnRange.right = static_cast<_long>(fCenterX + m_fHalfSizeX);
+    m_rcBtnRange.top = static_cast<_long>(fCenterY - m_fHalfSizeY);
+    m_rcBtnRange.bottom = static_cast<_long>(fCenterY + m_fHalfSizeY);
 
     return S_OK;
 }

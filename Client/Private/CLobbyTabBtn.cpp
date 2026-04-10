@@ -82,6 +82,17 @@ HRESULT CLobbyTabBtn::Render()
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
+
+    const _float fRatio = 0.7f;
+    const _float fTextStartX = static_cast<_float>(m_rcBtnRange.left) + m_fHalfSizeX * 0.15f;
+    const _float fTextStartY = static_cast<_float>(m_rcBtnRange.top) + m_fHalfSizeY * 0.28f;
+
+    m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_SemiBold"),
+        TEXT("게임 시작"),
+        _float2(fTextStartX, fTextStartY), XMVectorSet(m_fFontColor, m_fFontColor, m_fFontColor, 1.f),
+        _float2(fDefaultFontSize * m_fFontRatio, fDefaultFontSize * m_fFontRatio)
+    );
+
     return S_OK;
 }
 
@@ -136,6 +147,7 @@ void CLobbyTabBtn::BtnClick()
 void CLobbyTabBtn::Execute_Btn(_float fTimeDelta)
 {
     constexpr _float fSpeed = 5.f;
+    constexpr _float fFontSpeed = 10.f;
     constexpr _float fMaxFillX = 1.f;
     constexpr _float fMaxFillCenterY = 0.5f;
 
@@ -144,6 +156,7 @@ void CLobbyTabBtn::Execute_Btn(_float fTimeDelta)
     {
         m_fFillX -= fTimeDelta * fSpeed;
         m_fFillCenterY -= fTimeDelta * fSpeed;
+        m_fFontRatio = 0.7f;
 
         if (m_fFillX < 0.f) {
             m_fFillX = 0.f;
@@ -152,13 +165,19 @@ void CLobbyTabBtn::Execute_Btn(_float fTimeDelta)
         if (m_fFillCenterY < 0.f) {
             m_fFillCenterY = 0.f;
         }
+
+        m_fFontColor = 1.f;
         break;
     }
 
     case BTN_STATE::HOVER:
     {
+        const _float fMacFontRatio = 0.9f;
+
         m_fFillX += fTimeDelta * fSpeed;
         m_fFillCenterY += fTimeDelta * fSpeed;
+        m_fFontColor -= fTimeDelta * fFontSpeed;
+        m_fFontRatio += fTimeDelta * fSpeed;
 
         if (m_fFillX > fMaxFillX) {
             m_fFillX = fMaxFillX;
@@ -167,6 +186,15 @@ void CLobbyTabBtn::Execute_Btn(_float fTimeDelta)
         if (m_fFillCenterY > fMaxFillCenterY) {
             m_fFillCenterY = fMaxFillCenterY;
         }
+
+        if (m_fFontColor < 0.f) {
+            m_fFontColor = 0.f;
+        }
+
+        if (m_fFontRatio > fMacFontRatio) {
+            m_fFontRatio = fMacFontRatio;
+        }
+
         break;
     }
 
@@ -174,6 +202,8 @@ void CLobbyTabBtn::Execute_Btn(_float fTimeDelta)
     {
         m_fFillX = 0.f;
         m_fFillCenterY = 0.f;
+        m_fFontColor = 1.f;
+        m_fFontRatio = 0.7f;
         break;
     }
 
@@ -181,6 +211,8 @@ void CLobbyTabBtn::Execute_Btn(_float fTimeDelta)
     {
         m_fFillX = 0.f;
         m_fFillCenterY = 0.f;
+        m_fFontColor = 1.f;
+        m_fFontRatio = 0.7f;
         m_bIsClicked = true;
         break;
     }

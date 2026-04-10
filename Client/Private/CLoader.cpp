@@ -104,7 +104,6 @@ _bool CLoader::isFinished()
     return false;
 }
 
-#ifdef _DEBUG
 void CLoader::Show_Loading_Status()
 {
     _tchar szLoadingText[MAX_PATH] = {};
@@ -117,21 +116,31 @@ void CLoader::Show_Loading_Status()
         if(iTotalJobCnt != 0)
         {
             _float fProgress = static_cast<_float>(iFinishedJobCnt) / static_cast<_float>(iTotalJobCnt) * 100.f;
-            swprintf_s(szLoadingText, L"%.f%%", fProgress);
+
+            wstring wstrLoading = L"Loading ... (" + to_wstring(static_cast<_uint>(fProgress)) + L"%)";
+            m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
+                wstrLoading.data(),
+                _float2(g_iWinSizeX * 0.4f, g_iWinSizeY * 0.9f), XMVectorSet(1.f, 1.f, 1.f, 1.f),
+                _float2(fDefaultFontSize, fDefaultFontSize)
+            );
         }
         else
         {
-            swprintf_s(szLoadingText, L"%.f%%", 100.f);
+            wstring wstrLoading = L"Loading ... (100%)";
+            m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
+                wstrLoading.data(),
+                _float2(g_iWinSizeX * 0.4f, g_iWinSizeY * 0.9f), XMVectorSet(1.f, 1.f, 1.f, 1.f),
+                _float2(fDefaultFontSize, fDefaultFontSize)
+                );
         }
     }
     else
     {
-        swprintf_s(szLoadingText, L"로딩 준비 중");
+        //m_pGameInstance->Draw_Text(TEXT("Font_Pretendard"), TEXT("로딩 준비 중"), _float2(g_iWinSizeX * 0.4f, g_iWinSizeY * 0.9f), XMVectorSet(1.f, 1.f, 1.f, 1.f));
     }
 
     SetWindowText(g_hWnd, szLoadingText);
 }
-#endif
 
 HRESULT CLoader::Ready_Resources_For_Static()
 {
@@ -264,6 +273,33 @@ HRESULT CLoader::Ready_Resources_For_Static()
     );
 #pragma endregion
 
+#pragma region Font
+    // MakeSpriteFont.exe "Pretendard 중간" / FontSize:20 / FastPack / CharacterRegion : 0x0020 - 0x00FF / CharacterRegion : 0x3131 - 0x3163 / CharacterRegion : 0xAC00 - 0xD800 / DefaultCharacter : 0xAC00 Pretendard_Middle.spritefont
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_Middle"), TEXT("../Bin/Resources/Fonts/Pretendard_Middle.spritefont"))))
+            {
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_Middle");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Font_Pretendard_SemiBold
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_SemiBold"), TEXT("../Bin/Resources/Fonts/Pretendard_SemiBold.spritefont"))))
+            {
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_SemiBold");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );    
+#pragma endregion
+
+
     return S_OK;
 }
 
@@ -291,7 +327,7 @@ HRESULT CLoader::Ready_Resources_For_Logo()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_Fifteen"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Fifteen.png"), 1))))
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Fifteen.dds"), 1))))
             {
                 MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Fifteen");
             }
@@ -304,7 +340,7 @@ HRESULT CLoader::Ready_Resources_For_Logo()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_Sexuality"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Sexuality.png"), 1))))
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Sexuality.dds"), 1))))
             {
                 MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Sexuality");
             }
@@ -317,7 +353,7 @@ HRESULT CLoader::Ready_Resources_For_Logo()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_Violence"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Violence.png"), 1))))
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/Violence.dds"), 1))))
             {
                 MSG_BOX("CLoader.cpp(Logo) - Failed to Created: Prototype_Texture_Violence");
             }

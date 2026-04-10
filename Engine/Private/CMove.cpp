@@ -74,6 +74,8 @@ _bool CMove::Update_Move_To_Pos(_float fTimeDelta)
         m_pTransform->Set_Pos(vCurPos + vMoveDistance);
         return false;
     }
+
+    return false;
 }
 
 CMove* CMove::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

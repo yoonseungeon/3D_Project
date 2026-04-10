@@ -142,6 +142,12 @@
     <Filter Include="07. Component\99. Image">
       <UniqueIdentifier>{228966e4-6335-499b-a618-1d659d518b4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="10. Fonts">
+      <UniqueIdentifier>{22760181-8ee6-4e1b-b5ec-722b2198b606}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="10. Fonts\Manager">
+      <UniqueIdentifier>{d72f8d8d-1e63-4a8e-b53b-65c73f386045}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -272,6 +278,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CMove.cpp">
       <Filter>07. Component\98. Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCustomFont.cpp">
+      <Filter>10. Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CFont_Manager.cpp">
+      <Filter>10. Fonts\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +436,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CMove.h">
       <Filter>07. Component\98. Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CCustomFont.h">
+      <Filter>10. Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CFont_Manager.h">
+      <Filter>10. Fonts\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

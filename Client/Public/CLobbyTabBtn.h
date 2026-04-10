@@ -52,6 +52,9 @@ private:
 	function<void(STAGE)> m_funcLobbyCallBack{};
 	STAGE m_eNextStage{};
 
+	_float m_fFontColor{};
+	_float m_fFontRatio{};
+
 public:
 	static CLobbyTabBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -29,6 +29,8 @@ private:
 	LogoStage m_eLogoStage{ LS_1 };
 	_float m_fAccTime{};
 
+	_float m_fTextAlpha{};
+
 private:
 	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 

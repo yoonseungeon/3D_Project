@@ -9,6 +9,7 @@
 #include "CPipeline.h"
 #include "CInput_Device.h"
 #include "CLight_Manager.h"
+#include "CFont_Manager.h"
 
 #include "CThread_Manager.h"
 
@@ -63,6 +64,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 	if (m_pLight_Manager == nullptr)
 		return E_FAIL;
 	
+	m_pFont_Manager = CFont_Manager::Create(*ppDevice, *ppContext);
+	if (m_pFont_Manager == nullptr)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -96,7 +101,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 HRESULT CGameInstance::Begin_Draw()
 {
-	_float4     vColor = _float4(0.f, 0.f, 1.f, 1.f);
+	_float4     vColor = _float4(0.f, 0.f, 0.f, 1.f);
 
 	if (FAILED(m_pGraphic_Device->Clear_BackBuffer_View(&vColor)))
 		return E_FAIL;
@@ -138,6 +143,7 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 
+	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pPipeline);
@@ -316,6 +322,18 @@ const LIGHT_DESC* CGameInstance::Get_LightDesc(_uint iIndex)
 HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
 {
 	return m_pLight_Manager->Add_Light(LightDesc);
+}
+#pragma endregion
+
+#pragma region FONT_MANAGER
+HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath)
+{
+	return m_pFont_Manager->Add_Font(strFontTag, pFontFilePath);
+}
+
+HRESULT CGameInstance::Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPosition, _fvector vColor, const _float2& vScale, _float fRotation, const _float2& vOrigin)
+{
+	return m_pFont_Manager->Draw(strFontTag, pText, vPosition, vColor, vScale, fRotation, vOrigin);
 }
 #pragma endregion
 

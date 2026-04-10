@@ -168,6 +168,8 @@ call UpdateLib.bat Release</Command>
     </ClInclude>
     <ClInclude Include="..\Public\CComponent.h" />
     <ClInclude Include="..\Public\CContainerObject.h" />
+    <ClInclude Include="..\Public\CCustomFont.h" />
+    <ClInclude Include="..\Public\CFont_Manager.h" />
     <ClInclude Include="..\Public\CGameInstance.h" />
     <ClInclude Include="..\Public\CGameObject.h" />
     <ClInclude Include="..\Public\CGraphic_Device.h" />
@@ -238,6 +240,8 @@ call UpdateLib.bat Release</Command>
     </ClCompile>
     <ClCompile Include="..\Private\CComponent.cpp" />
     <ClCompile Include="..\Private\CContainerObject.cpp" />
+    <ClCompile Include="..\Private\CCustomFont.cpp" />
+    <ClCompile Include="..\Private\CFont_Manager.cpp" />
     <ClCompile Include="..\Private\CGameInstance.cpp" />
     <ClCompile Include="..\Private\CGameObject.cpp" />
     <ClCompile Include="..\Private\CGraphic_Device.cpp" />

@@ -14,7 +14,7 @@ HRESULT CLevel_Logo::Initialize()
 {
     m_pGameInstance->Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE::PARALLEL);
 
-    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_Deco"))))
+    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
         return E_FAIL;
 
     return S_OK;
@@ -28,6 +28,8 @@ void CLevel_Logo::Update(_float fTimeDelta)
     const _float fEndTime = 0.f;
     const _float fSpeed = 2.f;
 
+    _float fDTAlpha{};
+
     if (m_eLogoStage != LS_END)
     {
         m_fAccTime += fTimeDelta;
@@ -39,12 +41,27 @@ void CLevel_Logo::Update(_float fTimeDelta)
             }
             else if (m_fAccTime >= fDecreaseAlphaTime)
             {
-                pFadeImage->Add_Alpha(-fTimeDelta * fSpeed);
+                fDTAlpha = -fTimeDelta * fSpeed;
+                pFadeImage->Add_Alpha(fDTAlpha);
             }
             else if (m_fAccTime >= fIncreaseAlphaTime)
             {
                 pFadeImage->Set_IsInactive(false);
-                pFadeImage->Add_Alpha(fTimeDelta * fSpeed);
+
+                fDTAlpha = fTimeDelta * fSpeed;
+                pFadeImage->Add_Alpha(fDTAlpha);
+            }
+        }
+
+        if (m_eLogoStage == LogoStage::LS_3) {
+            m_fTextAlpha += fDTAlpha;
+
+            if (m_fTextAlpha < 0.f) {
+                m_fTextAlpha = 0.f;
+            }
+
+            if (m_fTextAlpha > 1.f) {
+                m_fTextAlpha = 1.f;
             }
         }
 
@@ -70,6 +87,23 @@ HRESULT CLevel_Logo::Render()
 #ifdef _DEBUG
     SetWindowText(g_hWnd, TEXT("Logo 레벨입니다."));
 #endif
+
+    
+    if (m_eLogoStage == LogoStage::LS_3) {
+        m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
+            TEXT("본 게임은 만 15세 이용가 게임으로 해당 연령 미만의 청소년이 이용하기에 부적절합니다."),
+            _float2(g_iWinSizeX * 0.12f, g_iWinSizeY * 0.5f), XMVectorSet(m_fTextAlpha, m_fTextAlpha, m_fTextAlpha, m_fTextAlpha),
+            _float2(fDefaultFontSize, fDefaultFontSize)
+            );
+    }
+
+    if (m_eLogoStage == LogoStage::LS_3) {
+        m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
+            TEXT("반드시 보호자의 지도 감독이 필요합니다."),
+            _float2(g_iWinSizeX * 0.32f, g_iWinSizeY * 0.55f), XMVectorSet(m_fTextAlpha, m_fTextAlpha, m_fTextAlpha, m_fTextAlpha),
+            _float2(fDefaultFontSize, fDefaultFontSize)
+        );
+    }
 
     return S_OK;
 }
@@ -112,10 +146,10 @@ HRESULT CLevel_Logo::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     m_FadeImages[LS_2].push_back(pImage);
     ///////////////////////////////////////////////////
     Desc.fScaleRatioX = 0.07f;
-    Desc.fScaleRatioY = 0.105f;
+    Desc.fScaleRatioY = 0.11f;
 
     Desc.fPosRatioX = -0.1f;
-    Desc.fPosRatioY = 0.05f;
+    Desc.fPosRatioY = 0.1f;
 
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Fifteen";
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),

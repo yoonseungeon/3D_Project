@@ -16,14 +16,17 @@ _float CTimer_Manager::Get_TimeDelta(const _wstring& strTimerTag)
 
 HRESULT CTimer_Manager::Add_Timer(const _wstring& strTimerTag)
 {
-	if (nullptr != Find_Timer(strTimerTag))
-		return E_FAIL;
-
 	CTimer* pTimer = CTimer::Create();
-	if (nullptr == pTimer)
+	if (pTimer == nullptr)
 		return E_FAIL;
 
-	m_Timers.emplace(strTimerTag, pTimer);
+	auto iter = m_Timers.emplace(strTimerTag, pTimer);
+
+	if (iter.second == false)
+	{
+		Safe_Release(pTimer);
+		return E_FAIL;
+	}
 
 	return S_OK;
 }

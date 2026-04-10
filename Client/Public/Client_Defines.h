@@ -12,6 +12,8 @@ namespace Client
 	static constexpr unsigned int		g_iWinSizeX = { 1280 };
 	static constexpr unsigned int		g_iWinSizeY = { 720 };
 
+	static constexpr float fDefaultFontSize = (1.f + (static_cast<float>(g_iWinSizeY) / 720.f - 1.f) * 0.7f) * 0.6f;
+
 	enum class LEVEL { STATIC, LOADING, LOGO, LOBBY, GAMEPLAY, ENDING, END };
 
 	enum class UILAYER {BACKGROUND, DECO_LAYER1, DECO_LAYER2, DECO_LAYER3, PANEL, SLOT, BUTTON_IMAGE, BUTTON, BUTTON_IMAGE_OVER};
