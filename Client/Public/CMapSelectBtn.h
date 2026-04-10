@@ -14,6 +14,7 @@ NS_BEGIN(Client)
 
 class CUI_Image;
 class CGame_Manager;
+class CUI_TextBox;
 
 class CMapSelectBtn final : public CUI_Btn
 {
@@ -45,6 +46,8 @@ public:
 public:
 	void Set_Deselect();
 
+	virtual void Set_IsInactive(_bool bIsInactive) override;
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
@@ -63,6 +66,7 @@ private:
 
 	MAP_NAME m_eMapName{};
 	CUI_Image* m_pSelectImage{};
+	CUI_TextBox* m_pNameBox{};
 
 	_bool m_bIsSelected{};
 

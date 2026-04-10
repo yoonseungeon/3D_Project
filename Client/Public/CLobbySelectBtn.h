@@ -19,7 +19,9 @@ private:
 public:
 	struct CLOBBY_SELECT_BTN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
+		wstring wstrText;
 
+		_float fOffsetX{};
 	};
 
 protected:
@@ -50,6 +52,9 @@ private:
 	CTexture* m_pTextureCom{ nullptr };
 
 	TEX_STATE m_eCurTexState{};
+
+	wstring m_wstrText;
+	_float m_fOffsetX{};
 
 public:
 	static CLobbySelectBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

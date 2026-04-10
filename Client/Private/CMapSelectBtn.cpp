@@ -1,7 +1,7 @@
 #include "CMapSelectBtn.h"
 
 #include "CGameInstance.h"
-#include "CUI_Image.h"
+#include "CUI_TextBox.h"
 
 #include "CGame_Manager.h"
 
@@ -33,6 +33,7 @@ HRESULT CMapSelectBtn::Initialize(void* pArg)
 
     m_eMapName = pDesc->eMapName;
 
+    // Select Image
     CUI_Image::CUI_IMAGE_DESC Desc{};
 
     Desc.fScaleRatioX = pDesc->fScaleRatioX;
@@ -50,6 +51,33 @@ HRESULT CMapSelectBtn::Initialize(void* pArg)
         return E_FAIL;
 
     m_pSelectImage->Set_IsInactive(true);
+
+    // Name Panel
+    CUI_TextBox::CUI_TEXTBOX_DESC TextBoxDesc{};
+
+    TextBoxDesc.fScaleRatioX = 0.016f + (static_cast<_float>(wcslen(MAPS[static_cast<_uint>(m_eMapName)].KR_MAP_NAME)) - 1.f) * 0.0092f;
+    TextBoxDesc.fScaleRatioY = 0.03f; 
+    TextBoxDesc.fPosRatioX = pDesc->fPosRatioX;
+    TextBoxDesc.fPosRatioY = pDesc->fPosRatioY + 0.02f;
+    TextBoxDesc.iUILayer = ETOUI(UILAYER::BUTTON_IMAGE_OVER);
+
+    TextBoxDesc.eTexPrototypeLV = LEVEL::LOBBY;
+    TextBoxDesc.eBlendState = CUI_Default::ALPHABLEND;
+    TextBoxDesc.wstrTexturePrototypeTag = L"Prototype_Texture_BlackBlock";
+    TextBoxDesc.fImageAlpha = 0.4f;
+    TextBoxDesc.wstrText = MAPS[static_cast<_uint>(m_eMapName)].KR_MAP_NAME;
+
+    TextBoxDesc.fOffsetX = 2.f;
+    TextBoxDesc.fOffsetY = 2.5f;
+
+    TextBoxDesc.fTextureSize = fDefaultFontSize * 0.5f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_TextBox"),
+        ETOUI(LEVEL::LOBBY), TEXT("Layer_UI_Image"), &TextBoxDesc, reinterpret_cast<CGameObject**>(&m_pNameBox))))
+        return E_FAIL;
+
+    m_pNameBox->Set_IsInactive(true);
+
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -114,6 +142,12 @@ void CMapSelectBtn::Set_Deselect()
 {
     m_bIsSelected = false;
     m_pSelectImage->Set_IsInactive(true);
+}
+
+void CMapSelectBtn::Set_IsInactive(_bool bIsInactive)
+{
+    m_bIsInactive = bIsInactive;
+    m_pNameBox->Set_IsInactive(bIsInactive);
 }
 
 HRESULT CMapSelectBtn::Ready_Components()
@@ -266,6 +300,7 @@ CGameObject* CMapSelectBtn::Clone(void* pArg)
 void CMapSelectBtn::Free()
 {    
     Safe_Release(m_pSelectImage);
+    Safe_Release(m_pNameBox);
 
     Safe_Release(m_pImageCom);
     Safe_Release(m_pTextureCom);

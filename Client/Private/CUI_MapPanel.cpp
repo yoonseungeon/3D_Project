@@ -198,7 +198,7 @@ HRESULT CUI_MapPanel::Ready_Layer_LobbySelectBtn(const _wstring& strLayerTag)
 
     Desc.fScaleRatioX = 0.18f;
     Desc.fScaleRatioY = 0.07f;
-    Desc.fPosRatioX = 0.24f;
+    Desc.fPosRatioX = 0.28f;
     Desc.fPosRatioY = -0.4f;
     Desc.iUILayer = ETOUI(UILAYER::BUTTON);
 
@@ -207,6 +207,9 @@ HRESULT CUI_MapPanel::Ready_Layer_LobbySelectBtn(const _wstring& strLayerTag)
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbySelectBtn";
 
     Desc.funcCallBack = m_funcStartGame;
+
+    Desc.wstrText = L"게임 시작";
+    Desc.fOffsetX = 80.f;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::LOBBY), TEXT("Prototype_GameObject_LobbySelectBtn"),
         ETOUI(LEVEL::LOBBY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pSelectBtn))))

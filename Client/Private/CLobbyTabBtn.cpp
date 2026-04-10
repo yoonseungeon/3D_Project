@@ -83,7 +83,6 @@ HRESULT CLobbyTabBtn::Render()
         return E_FAIL;
 
 
-    const _float fRatio = 0.7f;
     const _float fTextStartX = static_cast<_float>(m_rcBtnRange.left) + m_fHalfSizeX * 0.15f;
     const _float fTextStartY = static_cast<_float>(m_rcBtnRange.top) + m_fHalfSizeY * 0.28f;
 

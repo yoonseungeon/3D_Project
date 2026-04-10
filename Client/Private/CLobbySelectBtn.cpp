@@ -29,6 +29,8 @@ HRESULT CLobbySelectBtn::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_wstrText = pDesc->wstrText;
+    m_fOffsetX = pDesc->fOffsetX;
     return S_OK;
 }
 
@@ -82,6 +84,15 @@ HRESULT CLobbySelectBtn::Render()
 
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
+
+    const _float fTextStartX = static_cast<_float>(m_rcBtnRange.left) + m_fOffsetX;
+    const _float fTextStartY = static_cast<_float>(m_rcBtnRange.top) + m_fHalfSizeY * 0.6f;
+    const _float fAdjust = 0.65f;
+    m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
+        m_wstrText.data(),
+        _float2(fTextStartX, fTextStartY), XMVectorSet(1.f, 1.f, 1.f, 1.f),
+        _float2(fDefaultFontSize * fAdjust, fDefaultFontSize * fAdjust)
+    );
 
     return S_OK;
 }
