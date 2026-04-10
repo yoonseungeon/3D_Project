@@ -18,11 +18,26 @@ public:
 		const _uint* pCurMoveState{ nullptr };
 	};
 
+private:
 	enum AniIndex {
 		Ani_Idle = 9,
 		Ani_Run = 26,
 		Ani_RestStart = 83, Ani_RestLoop = 85, Ani_RestEnd = 86,
 
+	};
+
+	enum AniState {
+		FREE,
+		START,
+		LOOP,
+		END
+	};
+
+	struct AniLock
+	{
+		_bool bIsAniLock{};
+		_bool bIsRequestUnlock{};
+		_bool bIsAniLockExit{};
 	};
 
 private:
@@ -43,6 +58,10 @@ public:
 public:
 	const _float4x4* Get_BoneMatrixPtr(const _char* pBoneName) const;
 
+	_bool IsAniLock() { return m_tAniLockInfo.bIsAniLock; }
+	void RequestUnlock() { m_tAniLockInfo.bIsRequestUnlock = true; }
+	_bool IsAniLockExit() { return m_tAniLockInfo.bIsAniLockExit; }
+
 private:
 	CShader*	m_pShaderCom{ nullptr };
 	CMyModel*	m_pModelCom{ nullptr };
@@ -50,6 +69,10 @@ private:
 private:
 	const _uint* m_pCurState{ nullptr };
 	_uint m_iCurState{};
+	
+private:
+	AniState m_eAniState{};
+	AniLock m_tAniLockInfo{};
 
 private:
 	HRESULT Ready_Components();

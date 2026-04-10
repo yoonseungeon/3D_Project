@@ -42,7 +42,7 @@ void CBody_Player::Priority_Update(_float fTimeDelta)
 void CBody_Player::Parallel_Update(_float fTimeDelta)
 {
     Enter_State(fTimeDelta);
-    Execute_MoveState(fTimeDelta);
+    Execute_State(fTimeDelta);
 
     m_pModelCom->Play_Animation(fTimeDelta);
 }
@@ -148,25 +148,30 @@ void CBody_Player::Enter_State(_float fTimeDelta)
             case CPlayer::ACTION_STATE::IDLE_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Idle, true);
+                m_eAniState = FREE;
                 break;
             }
             case CPlayer::ACTION_STATE::RUN_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Run, true);
+                m_eAniState = FREE;
                 break;
             }
             case CPlayer::ACTION_STATE::REST_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_RestStart, false);
+                m_eAniState = START;
                 break;
             }
         }
+
+        ZeroMemory(&m_tAniLockInfo, sizeof(AniLock));
 
         m_iCurState = *m_pCurState;
     }
 }
 
-void CBody_Player::Execute_MoveState(_float fTimeDelta)
+void CBody_Player::Execute_State(_float fTimeDelta)
 {
     switch (m_iCurState)
     {
@@ -183,6 +188,22 @@ void CBody_Player::Execute_MoveState(_float fTimeDelta)
 
         case CPlayer::ACTION_STATE::REST_P:
         {          
+            if (m_eAniState == START && m_pModelCom->IsAnimationFinished()) {
+                m_pModelCom->Set_AnimationIndex(Ani_RestLoop, true);
+                m_tAniLockInfo.bIsAniLock = true;
+                m_eAniState = LOOP;
+            }
+
+            if (m_eAniState == LOOP && m_tAniLockInfo.bIsRequestUnlock) {
+                m_pModelCom->Set_AnimationIndex(Ani_RestEnd, false);
+                m_eAniState = END;
+            }
+
+            if (m_eAniState == END && m_pModelCom->IsAnimationFinished()) {
+                m_tAniLockInfo.bIsAniLock = false;
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+
             break;
         }
     }

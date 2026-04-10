@@ -9,6 +9,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CBody_Player;
+
 class CPlayer final : public CContainerObject
 {
 public:
@@ -42,12 +44,16 @@ public:
 private:
 	CMove* m_pMoveCom{};
 
+	CBody_Player* m_pBody{};
+
 private:
 	_uint m_iCurState{ ACTION_STATE::END_P };
 	_uint m_iPreState{ ACTION_STATE::END_P };
 
 private:
+	_uint m_iControlFlag{};
 	_uint m_iRequestFlag{};
+	_uint m_iReserveRequestFlag{};
 
 private:
 	_float3 m_vTargetPos{};

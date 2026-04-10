@@ -134,7 +134,9 @@ HRESULT CPlayer::Ready_PartObjects()
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
     WeaponDesc.pCurMoveState = &m_iCurState;
 
-    WeaponDesc.pSocketBoneMatrix = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")])->Get_BoneMatrixPtr("Equip_R");
+    m_pBody = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")]);
+    Safe_AddRef(m_pBody);
+    WeaponDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Equip_R");
 
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Weapon"),
         TEXT("Weapon"), &WeaponDesc)))
@@ -152,20 +154,35 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
 {
     // 요청이 있을 때 한 번만 실행
 
-    if (m_iRequestFlag & RQ_REST) {
+    _uint iFinalRequestFlag{};
+
+    if(m_pBody->IsAniLockExit() && m_iReserveRequestFlag && 0xffffff)
+    {
+        iFinalRequestFlag = m_iReserveRequestFlag;
+        m_iReserveRequestFlag = 0;
+    }
+    else
+    {
+        iFinalRequestFlag = m_iRequestFlag;
+        m_iRequestFlag = 0;
+    }
+
+
+
+    if (iFinalRequestFlag & RQ_REST) {
         Enter_State(ACTION_STATE::REST_P);
         m_pMoveCom->Stop_Move_To_Pos();
     }
-    else if (m_iRequestFlag & RQ_RUN && m_iControlFlag & BLOCK_RUN) {
+    else if (iFinalRequestFlag & RQ_RUN && !(m_iControlFlag & BLOCK_RUN)) {
         m_pMoveCom->Move_To_Pos(m_vTargetPos);
         Enter_State(ACTION_STATE::RUN_P);
     }
-    else if (m_iRequestFlag & RQ_IDLE) {
+    else if (iFinalRequestFlag & RQ_IDLE) {
         m_pMoveCom->Stop_Move_To_Pos();
         Enter_State(ACTION_STATE::IDLE_P);
     }
 
-    m_iRequestFlag = 0;
+    iFinalRequestFlag = 0;
 }
 
 void CPlayer::Enter_State(ACTION_STATE eNewState)
@@ -215,6 +232,13 @@ void CPlayer::Player_Input(_float fTimeDelta)
     if (m_pGameInstance->Key_Down(DIK_X)) {
         m_iRequestFlag |= REQUEST_FLAG::RQ_REST;
     }
+
+
+    if (m_iRequestFlag & 0xffffff && m_pBody->IsAniLock()) {
+        m_pBody->RequestUnlock();
+        m_iReserveRequestFlag = REQUEST_FLAG::RQ_IDLE;
+        m_iRequestFlag = 0;
+    }
 }
 
 CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -245,6 +269,7 @@ CGameObject* CPlayer::Clone(void* pArg)
 
 void CPlayer::Free()
 {
+    Safe_Release(m_pBody);
     Safe_Release(m_pMoveCom);
 
     __super::Free();
