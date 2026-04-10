@@ -48,11 +48,11 @@ CCustomFont* CCustomFont::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 void CCustomFont::Free()
 {
-	Safe_Release(m_pDevice);
-	Safe_Release(m_pContext);
-
 	Safe_Delete(m_pBatch);
 	Safe_Delete(m_pFont);
+
+	Safe_Release(m_pDevice);
+	Safe_Release(m_pContext);
 
 	__super::Free();
 }

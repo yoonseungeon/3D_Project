@@ -275,28 +275,19 @@ HRESULT CLoader::Ready_Resources_For_Static()
 
 #pragma region Font
     // MakeSpriteFont.exe "Pretendard Áß°£" / FontSize:20 / FastPack / CharacterRegion : 0x0020 - 0x00FF / CharacterRegion : 0x3131 - 0x3163 / CharacterRegion : 0xAC00 - 0xD800 / DefaultCharacter : 0xAC00 Pretendard_Middle.spritefont
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_Middle"), TEXT("../Bin/Resources/Fonts/Pretendard_Middle.spritefont"))))
-            {
-                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_Middle");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
+
+    // Font_Pretendard_Middle
+    if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_Middle"), TEXT("../Bin/Resources/Fonts/Pretendard_Middle.spritefont"))))
+    {
+        MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_Middle");
+    }
+
 
     // Font_Pretendard_SemiBold
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_SemiBold"), TEXT("../Bin/Resources/Fonts/Pretendard_SemiBold.spritefont"))))
-            {
-                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_SemiBold");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );    
+    if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_SemiBold"), TEXT("../Bin/Resources/Fonts/Pretendard_SemiBold.spritefont"))))
+    {
+        MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_SemiBold");
+    }
 #pragma endregion
 
 

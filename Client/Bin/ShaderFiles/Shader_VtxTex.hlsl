@@ -126,13 +126,20 @@ PS_OUT PS_MAIN_MASK(PS_IN In)
 {
     PS_OUT Out;
     
-    Out.vColor = g_Mask.Sample(DefaultSampler, In.vTexcoord);
-    if (Out.vColor.a <= 0.5f)
-        discard;    
+    //Out.vColor = g_Mask.Sample(DefaultSampler, In.vTexcoord);
+    //if (Out.vColor.a <= 0.5f)
+    //    discard;    
     
+    //Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    
+    
+    float4 vMask = g_Mask.Sample(DefaultSampler, In.vTexcoord);
     Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
-    Out.vColor.a *= g_Alpha;
+    Out.vColor.a *= vMask.a;
     
+    if (Out.vColor.a <= 0.1f)
+        discard;
+        
     return Out;
 }
 

@@ -15,11 +15,15 @@ HRESULT CFont_Manager::Add_Font(const _wstring& strFontTag, const _tchar* pFontF
 {
     CCustomFont* pFont = CCustomFont::Create(m_pDevice, m_pContext, pFontFilePath);
     if (pFont == nullptr)
+    {
+        MSG_BOX("Add_Font Error");
         return E_FAIL;
+    }
 
     auto iter = m_Fonts.emplace(strFontTag, pFont);
 
     if (iter.second == false) {
+        MSG_BOX("Add_Font Error");
         Safe_Release(pFont);
         return E_FAIL;
     }
@@ -31,7 +35,10 @@ HRESULT CFont_Manager::Draw(const _wstring& strFontTag, const _tchar* pText, con
 {
     CCustomFont* pFont = Find_Font(strFontTag);
     if (pFont == nullptr)
+    {
+        MSG_BOX("Not Found Font");
         return E_FAIL;
+    }
 
     return pFont->Draw(pText, vPosition, vColor, vScale, fRotation, vOrigin);
 }
