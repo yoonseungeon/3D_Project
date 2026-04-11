@@ -14,7 +14,7 @@ class CBody_Player;
 class CPlayer final : public CContainerObject
 {
 public:
-	enum ACTION_STATE { IDLE_P, RUN_P, Q1, Q2, Q3, REST_P, END_P };
+	enum ACTION_STATE { IDLE_P, RUN_P, ATK_P, ATK_P_P, Q1, Q2, Q3, E, R, REST_P, CRAFT_P, COOK_P, COLLECT_P, END_P };
 
 	enum SKILL_Q_STATE
 	{
@@ -27,8 +27,19 @@ public:
 	enum REQUEST_FLAG {
 		RQ_IDLE = 1 << 0,
 		RQ_RUN = 1 << 1,
-		RQ_Q = 1 << 2,
-		RQ_REST = 1 << 10
+
+		RQ_ATK = 1 << 2,
+
+		RQ_Q = 1 << 3,
+
+		RQ_E = 1 << 5,
+		RQ_R = 1 << 6,
+
+
+		RQ_REST = 1 << 10,
+		RQ_CRAFT = 1 << 11,
+		RQ_COOK = 1 << 12,
+		RQ_COLLECT = 1 << 13
 	};
 
 	enum ControlFlag {

@@ -27,6 +27,8 @@ HRESULT CWeapon::Initialize(void* pArg)
     m_pCurState = pDesc->pCurMoveState;
     m_iCurState = *m_pCurState;
 
+    m_pCurATKType = pDesc->pCurATKType;
+
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
@@ -154,6 +156,32 @@ void CWeapon::Enter_State(_float fTimeDelta)
     {
         switch (*m_pCurState)
         {
+            case CPlayer::ACTION_STATE::ATK_P:
+            {
+                m_bIsInactive = false;
+                if (*m_pCurATKType == 0) {
+                    m_pModelCom->Set_AnimationIndex(ATK_1_WP, false);
+                }
+                else
+                {
+                    m_pModelCom->Set_AnimationIndex(ATK_2_WP, false);
+                }
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::ATK_P_P:
+            {
+                m_bIsInactive = false;
+                if (*m_pCurATKType == 0) {
+                    m_pModelCom->Set_AnimationIndex(ATK_2P_WP, false);
+                }
+                else
+                {
+                    m_pModelCom->Set_AnimationIndex(ATK_1P_WP, false);
+                }
+                break;
+            }
+
             case CPlayer::ACTION_STATE::IDLE_P:
             {
                 m_bIsInactive = false;
@@ -189,7 +217,24 @@ void CWeapon::Enter_State(_float fTimeDelta)
                 break;
             }
 
+            case CPlayer::ACTION_STATE::E:
+            {
+                m_bIsInactive = false;
+                m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::R:
+            {
+                m_bIsInactive = false;
+                m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
+                break;
+            }
+
             case CPlayer::ACTION_STATE::REST_P:
+            case CPlayer::ACTION_STATE::CRAFT_P:
+            case CPlayer::ACTION_STATE::COOK_P:
+            case CPlayer::ACTION_STATE::COLLECT_P:
             {
                 m_bIsInactive = true;
                 break;
@@ -204,6 +249,16 @@ void CWeapon::Execute_State(_float fTimeDelta)
 {
     switch (m_iCurState)
     {
+        case CPlayer::ACTION_STATE::ATK_P:
+        {
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::ATK_P_P:
+        {
+            break;
+        }
+
         case CPlayer::ACTION_STATE::IDLE_P:
         {
             break;
@@ -230,7 +285,28 @@ void CWeapon::Execute_State(_float fTimeDelta)
             break;
         }
 
+        case CPlayer::ACTION_STATE::E:
+        {
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::R:
+        {
+            break;
+        }
         case CPlayer::ACTION_STATE::REST_P:
+        {
+            break;
+        }
+        case CPlayer::ACTION_STATE::CRAFT_P:
+        {
+            break;
+        }
+        case CPlayer::ACTION_STATE::COOK_P:
+        {
+            break;
+        }
+        case CPlayer::ACTION_STATE::COLLECT_P:
         {
             break;
         }

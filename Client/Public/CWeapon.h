@@ -16,7 +16,11 @@ private:
 	enum WPAniIndex {
 		IDLE_WP = 12,
 		RUN_WP = 4,
+		ATK_1_WP = 0, ATK_2_WP = 2,
+		ATK_1P_WP = 1, ATK_2P_WP = 3,
 		Q1_WP = 7, Q2_WP = 9, Q3_WP = 10,
+		E_WP,
+		R_WP,
 	};
 
 public:
@@ -26,6 +30,7 @@ public:
 		// 부착하기 위한 행렬 SocketBone이라고 많이 부름.
 		const _float4x4* pSocketBoneMatrix{ nullptr };
 		const _uint* pCurMoveState{ nullptr };
+		const _uint* pCurATKType{ nullptr };
 	};
 
 protected:
@@ -52,6 +57,7 @@ private:
 
 	const _uint* m_pCurState{ nullptr };
 	_uint m_iCurState{};
+	const _uint* m_pCurATKType{};
 
 private:
 	HRESULT Ready_Components();

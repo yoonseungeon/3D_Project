@@ -22,9 +22,14 @@ private:
 	enum AniIndex {
 		Ani_Idle = 9,
 		Ani_Run = 26,
+		Ani_ATK_1 = 35, Ani_ATK_2 = 33, Ani_ATK_1P = 34, Ani_ATK_2P = 32,
 		Ani_Q1 = 21, Ani_Q2 = 19, Ani_Q3 = 17,
+		Ani_E = 14,
+		Ani_R1 = 11, Ani_R2 = 12,
 		Ani_RestStart = 83, Ani_RestLoop = 85, Ani_RestEnd = 86,
-
+		Ani_Craft = 98,
+		Ani_Cook = 99,
+		Ani_Collect = 100
 	};
 
 	enum AniState {
@@ -58,6 +63,7 @@ public:
 
 public:
 	const _float4x4* Get_BoneMatrixPtr(const _char* pBoneName) const;
+	const _uint* Get_CurATKType() { return &m_iCurATKType; }
 
 	_bool IsAniLock() { return m_tAniLockInfo.bIsAniLock; }
 	void RequestUnlock() { m_tAniLockInfo.bIsRequestUnlock = true; }
@@ -70,7 +76,8 @@ private:
 private:
 	const _uint* m_pCurState{ nullptr };
 	_uint m_iCurState{};
-	
+	_uint m_iCurATKType{};
+
 private:
 	AniState m_eAniState{};
 	AniLock m_tAniLockInfo{};

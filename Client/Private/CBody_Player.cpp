@@ -147,6 +147,34 @@ void CBody_Player::Enter_State(_float fTimeDelta)
 
         switch (*m_pCurState)
         {
+            case CPlayer::ACTION_STATE::ATK_P:
+            {
+                if (rand() % 2 == 0) {
+                    m_pModelCom->Set_AnimationIndex(Ani_ATK_1, false);
+                    m_iCurATKType = 0;
+                }
+                else {
+                    m_pModelCom->Set_AnimationIndex(Ani_ATK_2, false);
+                    m_iCurATKType = 1;
+                }
+                m_eAniState = NONE;
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::ATK_P_P:
+            {
+                if (rand() % 2 == 0) {
+                    m_pModelCom->Set_AnimationIndex(Ani_ATK_1P, false);
+                    m_iCurATKType = 0;
+                }
+                else {
+                    m_pModelCom->Set_AnimationIndex(Ani_ATK_2P, false);
+                    m_iCurATKType = 1;
+                }
+                m_eAniState = NONE;
+                break;
+            }
+
             case CPlayer::ACTION_STATE::Q1:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Q1, false);
@@ -171,6 +199,22 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 break;
             }
 
+            case CPlayer::ACTION_STATE::E:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_E, false);
+                m_tAniLockInfo.bIsAniLock = true;
+                m_eAniState = NONE;
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::R:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_R1, false);
+                m_tAniLockInfo.bIsAniLock = true;
+                m_eAniState = START;
+                break;
+            }
+
             case CPlayer::ACTION_STATE::IDLE_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Idle, true);
@@ -189,6 +233,24 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 m_eAniState = START;
                 break;
             }
+            case CPlayer::ACTION_STATE::CRAFT_P:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_Craft, false);
+                m_eAniState = START;
+                break;
+            }
+            case CPlayer::ACTION_STATE::COOK_P:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_Cook, false);
+                m_eAniState = START;
+                break;
+            }
+            case CPlayer::ACTION_STATE::COLLECT_P:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_Collect, false);
+                m_eAniState = START;
+                break;
+            }
         }
 
 
@@ -200,6 +262,14 @@ void CBody_Player::Execute_State(_float fTimeDelta)
 {
     switch (m_iCurState)
     {
+        case CPlayer::ACTION_STATE::ATK_P:
+        case CPlayer::ACTION_STATE::ATK_P_P:
+        {
+            if (m_pModelCom->IsAnimationFinished()) {
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+
+        }
         case CPlayer::ACTION_STATE::IDLE_P:
         {
 
@@ -242,6 +312,31 @@ void CBody_Player::Execute_State(_float fTimeDelta)
             break;
         }
 
+        case CPlayer::ACTION_STATE::E:
+        {
+            if (m_pModelCom->IsAnimationFinished()) {
+                m_tAniLockInfo.bIsAniLock = false;
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::R:
+        {
+            if (m_eAniState == START && m_pModelCom->IsAnimationFinished()) {
+                m_pModelCom->Set_AnimationIndex(Ani_R2, false); 
+                m_eAniState = END;
+            }
+
+            if(m_eAniState == END && m_pModelCom->IsAnimationFinished())
+            {
+                m_tAniLockInfo.bIsAniLock = false;
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+            break;
+        }
+
         case CPlayer::ACTION_STATE::REST_P:
         {          
             if (m_eAniState == START && m_pModelCom->IsAnimationFinished()) {
@@ -257,6 +352,33 @@ void CBody_Player::Execute_State(_float fTimeDelta)
 
             if (m_eAniState == END && m_pModelCom->IsAnimationFinished()) {
                 m_tAniLockInfo.bIsAniLock = false;
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::CRAFT_P:
+        {
+            if (m_pModelCom->IsAnimationFinished()) {
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::COOK_P:
+        {
+            if (m_pModelCom->IsAnimationFinished()) {
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::COLLECT_P:
+        {
+            if (m_pModelCom->IsAnimationFinished()) {
                 m_tAniLockInfo.bIsAniLockExit = true;
             }
 

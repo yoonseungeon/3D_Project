@@ -128,11 +128,13 @@ HRESULT CPlayer::Ready_PartObjects()
         TEXT("Body"), &BodyDesc)))
         return E_FAIL;
 
+    m_pBody = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")]);
+
     CWeapon::WEAPON_DESC WeaponDesc{};
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
     WeaponDesc.pCurMoveState = &m_iCurState;
+    WeaponDesc.pCurATKType = m_pBody->Get_CurATKType();
 
-    m_pBody = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")]);
     Safe_AddRef(m_pBody);
     WeaponDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Equip_R");
 
@@ -166,8 +168,8 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
     }
 
 
-    if (iFinalRequestFlag & RQ_Q) {
 
+    if (iFinalRequestFlag & RQ_Q) {
         m_eCurQState = static_cast<SKILL_Q_STATE>((static_cast<_uint>(m_eCurQState)) % static_cast<_uint>(Q_STATE_END));
 
         Enter_State(static_cast<ACTION_STATE>(static_cast<_uint>(ACTION_STATE::Q1) + static_cast<_uint>(m_eCurQState)));
@@ -175,8 +177,32 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
 
         m_eCurQState = static_cast<SKILL_Q_STATE>(static_cast<_uint>(m_eCurQState) + 1);
     }
+    else if (iFinalRequestFlag & RQ_E) {
+        Enter_State(ACTION_STATE::E);
+        m_pMoveCom->Stop_Move_To_Pos();
+    }
+    else if (iFinalRequestFlag & RQ_R) {
+        Enter_State(ACTION_STATE::R);
+        m_pMoveCom->Stop_Move_To_Pos();
+    }
     else if (iFinalRequestFlag & RQ_REST) {
         Enter_State(ACTION_STATE::REST_P);
+        m_pMoveCom->Stop_Move_To_Pos();
+    }
+    else if (iFinalRequestFlag & RQ_CRAFT) {
+        Enter_State(ACTION_STATE::CRAFT_P);
+        m_pMoveCom->Stop_Move_To_Pos();
+    }
+    else if (iFinalRequestFlag & RQ_COLLECT) {
+        Enter_State(ACTION_STATE::COLLECT_P);
+        m_pMoveCom->Stop_Move_To_Pos();
+    }
+    else if (iFinalRequestFlag & RQ_COOK) {
+        Enter_State(ACTION_STATE::COOK_P);
+        m_pMoveCom->Stop_Move_To_Pos();
+    }
+    else if (iFinalRequestFlag & RQ_ATK) {
+        Enter_State(ACTION_STATE::ATK_P_P);
         m_pMoveCom->Stop_Move_To_Pos();
     }
     else if (iFinalRequestFlag & RQ_RUN && !(m_iControlFlag & BLOCK_RUN)) {
@@ -187,7 +213,6 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
         m_pMoveCom->Stop_Move_To_Pos();
         Enter_State(ACTION_STATE::IDLE_P);
     }
-
 
     iFinalRequestFlag = 0;
 }
@@ -200,6 +225,16 @@ void CPlayer::Enter_State(ACTION_STATE eNewState)
     if (m_iCurState != m_iPreState) {
 
         switch (m_iCurState) {
+            case ACTION_STATE::ATK_P:
+            {
+                break;
+            }
+
+            case ACTION_STATE::ATK_P_P:
+            {
+                break;
+            }
+
             case ACTION_STATE::Q1:
             {
                 break;
@@ -215,6 +250,16 @@ void CPlayer::Enter_State(ACTION_STATE eNewState)
                 break;
             }
 
+            case ACTION_STATE::E:
+            {
+                break;
+            }
+
+            case ACTION_STATE::R:
+            {
+                break;
+            }
+
             case ACTION_STATE::IDLE_P:
             {
                 break;
@@ -226,6 +271,21 @@ void CPlayer::Enter_State(ACTION_STATE eNewState)
             }
 
             case ACTION_STATE::REST_P:
+            {
+                break;
+            }
+
+            case ACTION_STATE::CRAFT_P:
+            {
+                break;
+            }
+
+            case ACTION_STATE::COLLECT_P:
+            {
+                break;
+            }
+
+            case ACTION_STATE::COOK_P:
             {
                 break;
             }
@@ -247,9 +307,19 @@ void CPlayer::Player_Input(_float fTimeDelta)
         m_iRequestFlag |= REQUEST_FLAG::RQ_RUN;
     }
 
+    if (m_pGameInstance->Key_Down(DIK_A)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_ATK;
+    }
 
     if (m_pGameInstance->Key_Down(DIK_Q)) {
         m_iRequestFlag |= REQUEST_FLAG::RQ_Q;
+    }
+
+    if (m_pGameInstance->Key_Down(DIK_E)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_E;
+    }
+    if (m_pGameInstance->Key_Down(DIK_R)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_R;
     }
 
     if (m_pGameInstance->Key_Down(DIK_S)) {
@@ -260,6 +330,17 @@ void CPlayer::Player_Input(_float fTimeDelta)
         m_iRequestFlag |= REQUEST_FLAG::RQ_REST;
     }
 
+    if (m_pGameInstance->Key_Down(DIK_Z)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_CRAFT;
+    }
+
+    if (m_pGameInstance->Key_Down(DIK_C)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_COLLECT;
+    }
+
+    if (m_pGameInstance->Key_Down(DIK_V)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_COOK;
+    }
 
 
 
