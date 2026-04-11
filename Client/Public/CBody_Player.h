@@ -22,12 +22,13 @@ private:
 	enum AniIndex {
 		Ani_Idle = 9,
 		Ani_Run = 26,
+		Ani_Q1 = 21, Ani_Q2 = 19, Ani_Q3 = 17,
 		Ani_RestStart = 83, Ani_RestLoop = 85, Ani_RestEnd = 86,
 
 	};
 
 	enum AniState {
-		FREE,
+		NONE,
 		START,
 		LOOP,
 		END

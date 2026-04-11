@@ -12,6 +12,13 @@ NS_BEGIN(Client)
 
 class CWeapon final : public CPartObject
 {
+private:
+	enum WPAniIndex {
+		IDLE_WP = 12,
+		RUN_WP = 4,
+		Q1_WP = 7, Q2_WP = 9, Q3_WP = 10,
+	};
+
 public:
 	struct WEAPON_DESC : public CPartObject::PARTOBJECT_DESC
 	{
@@ -52,7 +59,7 @@ private:
 
 private:
 	void Enter_State(_float fTimeDelta);
-	void Execute_MoveState(_float fTimeDelta);
+	void Execute_State(_float fTimeDelta);
 
 public:
 	static CWeapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

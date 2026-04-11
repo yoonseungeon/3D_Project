@@ -43,7 +43,13 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 void CWeapon::Parallel_Update(_float fTimeDelta)
 {
     Enter_State(fTimeDelta);
-    Execute_MoveState(fTimeDelta);
+
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
+    Execute_State(fTimeDelta);
 
     m_pModelCom->Play_Animation(fTimeDelta);
 }
@@ -54,6 +60,11 @@ void CWeapon::Update(_float fTimeDelta)
 
 void CWeapon::Late_Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true) 
+    {
+        return;
+    }
+
     // SocketBone 행렬에서 위치는 맞는데, 스케일이 깨져서 스케일 1, 1, 1로 만들어 줌.
     _matrix SocketMatrix = XMLoadFloat4x4(m_pSocketBoneMatrix);
 
@@ -138,40 +149,91 @@ HRESULT CWeapon::Bind_ShaderResources()
 
 void CWeapon::Enter_State(_float fTimeDelta)
 {
+    // 애니메이션 상태가 바뀌었을 때 한 번만 실행
     if (m_iCurState != *m_pCurState)
     {
         switch (*m_pCurState)
         {
-        case CPlayer::ACTION_STATE::IDLE_P:
-        {
-            m_pModelCom->Set_AnimationIndex(12, true);
-            break;
-        }
-        case CPlayer::ACTION_STATE::RUN_P:
-        {
-            m_pModelCom->Set_AnimationIndex(4, true);
-            break;
-        }
+            case CPlayer::ACTION_STATE::IDLE_P:
+            {
+                m_bIsInactive = false;
+                m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::RUN_P:
+            {
+                m_bIsInactive = false;
+                m_pModelCom->Set_AnimationIndex(RUN_WP, true);
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::Q1:
+            {
+                m_bIsInactive = false;
+                m_pModelCom->Set_AnimationIndex(Q1_WP, false);
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::Q2:
+            {
+                m_bIsInactive = false;
+                m_pModelCom->Set_AnimationIndex(Q2_WP, false);
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::Q3:
+            {
+                m_bIsInactive = false;
+                m_pModelCom->Set_AnimationIndex(Q3_WP, false);
+                break;
+            }
+
+            case CPlayer::ACTION_STATE::REST_P:
+            {
+                m_bIsInactive = true;
+                break;
+            }
         }
 
         m_iCurState = *m_pCurState;
     }
 }
 
-void CWeapon::Execute_MoveState(_float fTimeDelta)
+void CWeapon::Execute_State(_float fTimeDelta)
 {
     switch (m_iCurState)
     {
-    case CPlayer::ACTION_STATE::IDLE_P:
-    {
+        case CPlayer::ACTION_STATE::IDLE_P:
+        {
+            break;
+        }
 
-        break;
-    }
-    case CPlayer::ACTION_STATE::RUN_P:
-    {
+        case CPlayer::ACTION_STATE::RUN_P:
+        {
 
-        break;
-    }
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::Q1:
+        {
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::Q2:
+        {
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::Q3:
+        {
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::REST_P:
+        {
+            break;
+        }
     }
 }
 

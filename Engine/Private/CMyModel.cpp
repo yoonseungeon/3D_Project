@@ -115,6 +115,7 @@ void CMyModel::Set_AnimationIndex(_uint iIndex, _bool isLoop)
 {
     m_iPreviousAnimationIndex = m_iCurrentAnimationIndex;
 
+    m_bIsFinished = false;
     m_iCurrentAnimationIndex = iIndex;
     m_isAnimLoop = isLoop;    
     m_Animations[m_iCurrentAnimationIndex]->Reset_KeyFrameIndex();
@@ -134,6 +135,9 @@ void CMyModel::Set_AnimationIndex(_uint iIndex, _bool isLoop)
 
 _bool CMyModel::Play_Animation(_float fTimeDelta)
 {
+    // 애니메이션이 끝났는지(무한 재생이면 항상 false)
+    m_bIsFinished = { false };
+
     // Ani To Ani 보간
     if (m_bInterpolationAni == true && m_bAniInterpolationStart == false)
     {
@@ -181,7 +185,7 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
         }
     }
 
-    // 보간
+    // 애니와 애니 사이 보간
     if (m_bInterpolationAni == true)
     {
         m_fAccAniInterpolationTime += fTimeDelta;
@@ -233,8 +237,6 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
 
 
     // KeyFrame To KeyFrame 보간
-    // 애니메이션이 끝났는지(무한 재생이면 항상 false)
-    m_bIsFinished = { false };
 
     /* 현재 애니메이션 이용하고 있는 뼈들의 TransformationMatrix를 갱신해준다.  */
     // 현재 애니메이션으로 가서 뼈들의 행렬을 업데이트 해준다.

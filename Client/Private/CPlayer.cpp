@@ -8,13 +8,11 @@
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject{ pDevice, pContext }
 {
-
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
     : CContainerObject{ Prototype }
 {
-
 }
 
 HRESULT CPlayer::Initialize_Prototype()
@@ -156,7 +154,7 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
 
     _uint iFinalRequestFlag{};
 
-    if(m_pBody->IsAniLockExit() && m_iReserveRequestFlag && 0xffffff)
+    if(m_pBody->IsAniLockExit() && (m_iReserveRequestFlag & 0xffffff))
     {
         iFinalRequestFlag = m_iReserveRequestFlag;
         m_iReserveRequestFlag = 0;
@@ -168,8 +166,16 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
     }
 
 
+    if (iFinalRequestFlag & RQ_Q) {
 
-    if (iFinalRequestFlag & RQ_REST) {
+        m_eCurQState = static_cast<SKILL_Q_STATE>((static_cast<_uint>(m_eCurQState)) % static_cast<_uint>(Q_STATE_END));
+
+        Enter_State(static_cast<ACTION_STATE>(static_cast<_uint>(ACTION_STATE::Q1) + static_cast<_uint>(m_eCurQState)));
+        m_pMoveCom->Stop_Move_To_Pos();
+
+        m_eCurQState = static_cast<SKILL_Q_STATE>(static_cast<_uint>(m_eCurQState) + 1);
+    }
+    else if (iFinalRequestFlag & RQ_REST) {
         Enter_State(ACTION_STATE::REST_P);
         m_pMoveCom->Stop_Move_To_Pos();
     }
@@ -182,6 +188,7 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
         Enter_State(ACTION_STATE::IDLE_P);
     }
 
+
     iFinalRequestFlag = 0;
 }
 
@@ -193,6 +200,21 @@ void CPlayer::Enter_State(ACTION_STATE eNewState)
     if (m_iCurState != m_iPreState) {
 
         switch (m_iCurState) {
+            case ACTION_STATE::Q1:
+            {
+                break;
+            }
+
+            case ACTION_STATE::Q2:
+            {
+                break;
+            }
+
+            case ACTION_STATE::Q3:
+            {
+                break;
+            }
+
             case ACTION_STATE::IDLE_P:
             {
                 break;
@@ -225,6 +247,11 @@ void CPlayer::Player_Input(_float fTimeDelta)
         m_iRequestFlag |= REQUEST_FLAG::RQ_RUN;
     }
 
+
+    if (m_pGameInstance->Key_Down(DIK_Q)) {
+        m_iRequestFlag |= REQUEST_FLAG::RQ_Q;
+    }
+
     if (m_pGameInstance->Key_Down(DIK_S)) {
         m_iRequestFlag |= REQUEST_FLAG::RQ_IDLE;
     }
@@ -234,11 +261,14 @@ void CPlayer::Player_Input(_float fTimeDelta)
     }
 
 
-    if (m_iRequestFlag & 0xffffff && m_pBody->IsAniLock()) {
+
+
+
+    if ((m_iRequestFlag & 0xffffff) && m_pBody->IsAniLock()) {
         m_pBody->RequestUnlock();
-        m_iReserveRequestFlag = REQUEST_FLAG::RQ_IDLE;
         m_iRequestFlag = 0;
     }
+    m_iReserveRequestFlag |= REQUEST_FLAG::RQ_IDLE;
 }
 
 CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

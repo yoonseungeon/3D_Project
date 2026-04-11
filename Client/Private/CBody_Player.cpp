@@ -143,18 +143,44 @@ void CBody_Player::Enter_State(_float fTimeDelta)
     // 애니메이션 상태가 바뀌었을 때 한 번만 실행
     if (m_iCurState != *m_pCurState)
     {
+        ZeroMemory(&m_tAniLockInfo, sizeof(AniLock));
+
         switch (*m_pCurState)
         {
+            case CPlayer::ACTION_STATE::Q1:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_Q1, false);
+                m_tAniLockInfo.bIsAniLock = true;
+                m_eAniState = NONE;
+                break;
+            }      
+
+            case CPlayer::ACTION_STATE::Q2:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_Q2, false);
+                m_tAniLockInfo.bIsAniLock = true;
+                m_eAniState = NONE;
+                break;
+            }         
+
+            case CPlayer::ACTION_STATE::Q3:
+            {
+                m_pModelCom->Set_AnimationIndex(Ani_Q3, false);
+                m_tAniLockInfo.bIsAniLock = true;
+                m_eAniState = NONE;
+                break;
+            }
+
             case CPlayer::ACTION_STATE::IDLE_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Idle, true);
-                m_eAniState = FREE;
+                m_eAniState = NONE;
                 break;
             }
             case CPlayer::ACTION_STATE::RUN_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Run, true);
-                m_eAniState = FREE;
+                m_eAniState = NONE;
                 break;
             }
             case CPlayer::ACTION_STATE::REST_P:
@@ -165,7 +191,6 @@ void CBody_Player::Enter_State(_float fTimeDelta)
             }
         }
 
-        ZeroMemory(&m_tAniLockInfo, sizeof(AniLock));
 
         m_iCurState = *m_pCurState;
     }
@@ -180,8 +205,39 @@ void CBody_Player::Execute_State(_float fTimeDelta)
 
             break;
         }
+
         case CPlayer::ACTION_STATE::RUN_P:
         {
+
+            break;
+        }
+ 
+        case CPlayer::ACTION_STATE::Q1:
+        {
+            if (m_pModelCom->IsAnimationFinished()) {
+                m_tAniLockInfo.bIsAniLock = false;
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::Q2:
+        {
+            if (m_pModelCom->IsAnimationFinished()) {
+                m_tAniLockInfo.bIsAniLock = false;
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
+
+            break;
+        }
+
+        case CPlayer::ACTION_STATE::Q3:
+        {
+            if (m_pModelCom->IsAnimationFinished()) {
+                m_tAniLockInfo.bIsAniLock = false;
+                m_tAniLockInfo.bIsAniLockExit = true;
+            }
 
             break;
         }

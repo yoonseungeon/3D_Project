@@ -14,12 +14,21 @@ class CBody_Player;
 class CPlayer final : public CContainerObject
 {
 public:
-	enum ACTION_STATE { IDLE_P, RUN_P, REST_P, END_P };
+	enum ACTION_STATE { IDLE_P, RUN_P, Q1, Q2, Q3, REST_P, END_P };
+
+	enum SKILL_Q_STATE
+	{
+		ONE,
+		TWO,
+		THREE,
+		Q_STATE_END
+	};
 
 	enum REQUEST_FLAG {
 		RQ_IDLE = 1 << 0,
 		RQ_RUN = 1 << 1,
-		RQ_REST = 1 << 2
+		RQ_Q = 1 << 2,
+		RQ_REST = 1 << 10
 	};
 
 	enum ControlFlag {
@@ -54,6 +63,8 @@ private:
 	_uint m_iControlFlag{};
 	_uint m_iRequestFlag{};
 	_uint m_iReserveRequestFlag{};
+
+	SKILL_Q_STATE m_eCurQState{ Q_STATE_END };
 
 private:
 	_float3 m_vTargetPos{};
