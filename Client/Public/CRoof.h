@@ -10,18 +10,18 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CLumia_Structure final : public CGameObject
+class CRoof final : public CGameObject
 {
 public:
-	struct LUMIA_STRUCTURE_DESC : public CGameObject::GAMEOBJECT_DESC
+	struct ROOF_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
-
+		wstring wstrModelTag;
 	};
 
 protected:
-	CLumia_Structure(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CLumia_Structure(const CLumia_Structure& Prototype);
-	virtual ~CLumia_Structure() = default;
+	CRoof(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CRoof(const CRoof& Prototype);
+	virtual ~CRoof() = default;
 
 public:
 	HRESULT Initialize_Prototype();
@@ -37,13 +37,15 @@ private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
 
+	wstring m_wstrModelTag;
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 
 public:
-	static CLumia_Structure* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CRoof* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

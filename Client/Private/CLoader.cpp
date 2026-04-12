@@ -18,6 +18,7 @@
 
 #include "CLumia_Ground.h"
 #include "CLumia_Structure.h"
+#include "CRoof.h"
 
 #include "CMonster.h"
 #include "CForkLift.h"
@@ -1094,7 +1095,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     /* Prototype_Component_Model_Lumia_Structure */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
-        [this, MapPreTransformMatrix]()->void {
+        [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Structure"),
                 CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Structure_NoRoof.mymodel"))))
             {
@@ -1104,6 +1105,25 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
+    string wstrRoofPath = "../Bin/Resources/GamePlay/Map_Lumia_PNG/";
+
+    for (_uint i = 0; i < iRoofCnt; i++)
+    {
+        const string strFinalPath = wstrRoofPath + ROOFS[i].MODEL_PATH;
+        const wstring wstrPrototypeTag = ROOFS[i].PROTYPE_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, strFinalPath, wstrPrototypeTag]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), wstrPrototypeTag,
+                    CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, strFinalPath.c_str()))))
+                {
+                    MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Roof");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
 
     /* Prototype_Component_Model_LiDailin */
     _matrix PlayerPreTransformMatrix = XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
@@ -1208,6 +1228,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CLumia_Structure::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Lumia_Structure");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Roof */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Roof"),
+                CRoof::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Roof");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

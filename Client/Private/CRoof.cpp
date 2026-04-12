@@ -1,24 +1,28 @@
-#include "CLumia_Structure.h"
+#include "CRoof.h"
 
 #include "CGameInstance.h"
 
-CLumia_Structure::CLumia_Structure(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CRoof::CRoof(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject{ pDevice, pContext }
 {
 }
 
-CLumia_Structure::CLumia_Structure(const CLumia_Structure& Prototype)
+CRoof::CRoof(const CRoof& Prototype)
     : CGameObject{ Prototype }
 {
 }
 
-HRESULT CLumia_Structure::Initialize_Prototype()
+HRESULT CRoof::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CLumia_Structure::Initialize(void* pArg)
+HRESULT CRoof::Initialize(void* pArg)
 {
+    ROOF_DESC* pDesc = static_cast<ROOF_DESC*>(pArg);
+
+    m_wstrModelTag = pDesc->wstrModelTag;
+
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
@@ -28,20 +32,20 @@ HRESULT CLumia_Structure::Initialize(void* pArg)
     return S_OK;
 }
 
-void CLumia_Structure::Priority_Update(_float fTimeDelta)
+void CRoof::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CLumia_Structure::Update(_float fTimeDelta)
+void CRoof::Update(_float fTimeDelta)
 {
 }
 
-void CLumia_Structure::Late_Update(_float fTimeDelta)
+void CRoof::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
 
-HRESULT CLumia_Structure::Render()
+HRESULT CRoof::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -64,7 +68,7 @@ HRESULT CLumia_Structure::Render()
     return S_OK;
 }
 
-HRESULT CLumia_Structure::Ready_Components()
+HRESULT CRoof::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
@@ -72,14 +76,14 @@ HRESULT CLumia_Structure::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Structure"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), m_wstrModelTag,
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
     return S_OK;
 }
 
-HRESULT CLumia_Structure::Bind_ShaderResources()
+HRESULT CRoof::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -108,33 +112,33 @@ HRESULT CLumia_Structure::Bind_ShaderResources()
     return S_OK;
 }
 
-CLumia_Structure* CLumia_Structure::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CRoof* CRoof::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CLumia_Structure* pInstance = new CLumia_Structure(pDevice, pContext);
+    CRoof* pInstance = new CRoof(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CLumia_Structure");
+        MSG_BOX("Failed to Created : CRoof");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CLumia_Structure::Clone(void* pArg)
+CGameObject* CRoof::Clone(void* pArg)
 {
-    CLumia_Structure* pInstance = new CLumia_Structure(*this);
+    CRoof* pInstance = new CRoof(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CLumia_Structure");
+        MSG_BOX("Failed to Cloned: CRoof");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CLumia_Structure::Free()
+void CRoof::Free()
 {
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);

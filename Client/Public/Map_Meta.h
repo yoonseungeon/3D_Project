@@ -67,3 +67,46 @@ constexpr MAP_META MAPS[]
     { L"고급 주택가", L"Map_Uptown_Over.png",         L"Map_Uptown_Select.png",         L"Prototype_Tex_Uptown_Over",         L"Prototype_Tex_Uptown_Select"         , L"Prototype_Image_Uptown_Over",          0.316190f, 0.243670f, -0.176474f, -0.228272f},
     { L"창고",        L"Map_Warehouse_Over.png",      L"Map_Warehouse_Select.png",      L"Prototype_Tex_Warehouse_Over",      L"Prototype_Tex_Warehouse_Select"      , L"Prototype_Image_Warehouse_Over",       0.247548f, 0.201632f, -0.047221f, -0.351450f}
 };
+
+constexpr unsigned int iRoofCnt = { 31 };
+
+struct ROOF_META
+{
+    const char* MODEL_PATH;
+    const wchar_t* PROTYPE_TAG;
+};
+
+constexpr ROOF_META ROOFS[]
+{
+    { "Alley_Roof1.mymodel",         L"Prototype_Component_Model_Alley_Roof1" },
+    { "Alley_Roof2.mymodel",         L"Prototype_Component_Model_Alley_Roof2" },
+    { "Archery_Roof1.mymodel",       L"Prototype_Component_Model_Archery_Roof1" },
+    { "Archery_Roof2.mymodel",       L"Prototype_Component_Model_Archery_Roof2" },
+    { "Church_Roof1.mymodel",        L"Prototype_Component_Model_Church_Roof1" },
+    { "Church_Roof2.mymodel",        L"Prototype_Component_Model_Church_Roof2" },
+    { "Church_Roof3.mymodel",        L"Prototype_Component_Model_Church_Roof3" },
+    { "Factory_Roof1.mymodel",       L"Prototype_Component_Model_Factory_Roof1" },
+    { "Factory_Roof2.mymodel",       L"Prototype_Component_Model_Factory_Roof2" },
+    { "Factory_Roof3.mymodel",       L"Prototype_Component_Model_Factory_Roof3" },
+    { "FireStation_Roof1.mymodel",   L"Prototype_Component_Model_FireStation_Roof1" },
+    { "FireStation_Roof2.mymodel",   L"Prototype_Component_Model_FireStation_Roof2" },
+    { "GasStation_Roof1.mymodel",    L"Prototype_Component_Model_GasStation_Roof1" },
+    { "GasStation_Roof2.mymodel",    L"Prototype_Component_Model_GasStation_Roof2" },
+    { "Harbor_Roof1.mymodel",        L"Prototype_Component_Model_Harbor_Roof1" },
+    { "Harbor_Roof2.mymodel",        L"Prototype_Component_Model_Harbor_Roof2" },
+    { "Hospital_Roof1.mymodel",      L"Prototype_Component_Model_Hospital_Roof1" },
+    { "Hospital_Roof2.mymodel",      L"Prototype_Component_Model_Hospital_Roof2" },
+    { "Hospital_Roof3.mymodel",      L"Prototype_Component_Model_Hospital_Roof3" },
+    { "Hotel_Roof1.mymodel",         L"Prototype_Component_Model_Hotel_Roof1" },
+    { "PoliceStation_Roof1.mymodel", L"Prototype_Component_Model_PoliceStation_Roof1" },
+    { "PoliceStation_Roof2.mymodel", L"Prototype_Component_Model_PoliceStation_Roof2" },
+    { "School_Roof1.mymodel",        L"Prototype_Component_Model_School_Roof1" },
+    { "School_Roof2.mymodel",        L"Prototype_Component_Model_School_Roof2" },
+    { "Temple_Roof1.mymodel",        L"Prototype_Component_Model_Temple_Roof1" },
+    { "Uptown_Roof1.mymodel",        L"Prototype_Component_Model_Uptown_Roof1" },
+    { "Uptown_Roof2.mymodel",        L"Prototype_Component_Model_Uptown_Roof2" },
+    { "Warehouse_Roof1.mymodel",     L"Prototype_Component_Model_Warehouse_Roof1" },
+    { "Warehouse_Roof2.mymodel",     L"Prototype_Component_Model_Warehouse_Roof2" },
+    { "Warehouse_Roof3.mymodel",     L"Prototype_Component_Model_Warehouse_Roof3" },
+    { "Warehouse_Roof4.mymodel",     L"Prototype_Component_Model_Warehouse_Roof4" }
+};

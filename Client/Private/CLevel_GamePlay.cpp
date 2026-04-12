@@ -7,6 +7,7 @@
 #include "CCamera_Free.h"
 #include "CLumia_Ground.h"
 #include "CLumia_Structure.h"
+#include "CRoof.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -133,6 +134,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StructureDesc)))
         return E_FAIL;
 
+    // Roof
+    for (_uint i = 0; i < iRoofCnt; ++i)
+    {
+        CRoof::ROOF_DESC RoofDesc{};
+
+        RoofDesc.wstrModelTag = ROOFS[i].PROTYPE_TAG;
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Roof"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &RoofDesc)))
+            return E_FAIL;
+    }
 
     return S_OK;
 }

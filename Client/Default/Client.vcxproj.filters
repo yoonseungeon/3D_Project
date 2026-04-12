@@ -136,6 +136,9 @@
     <Filter Include="02. GameObject\02. Map_Lumia\02. Structure">
       <UniqueIdentifier>{704abd02-dac9-4585-bc97-fb329fd39771}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia\03. Roof">
+      <UniqueIdentifier>{5a9af583-37dd-47b9-bc03-f6d7a3df459a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -270,6 +273,9 @@
     <ClInclude Include="..\Public\CLumia_Structure.h">
       <Filter>02. GameObject\02. Map_Lumia\02. Structure</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CRoof.h">
+      <Filter>02. GameObject\02. Map_Lumia\03. Roof</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -398,6 +404,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLumia_Structure.cpp">
       <Filter>02. GameObject\02. Map_Lumia\02. Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CRoof.cpp">
+      <Filter>02. GameObject\02. Map_Lumia\03. Roof</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

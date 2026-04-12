@@ -169,6 +169,7 @@
     <ClInclude Include="..\Public\CPickSkin.h" />
     <ClInclude Include="..\Public\CPickSlot.h" />
     <ClInclude Include="..\Public\CPlayer.h" />
+    <ClInclude Include="..\Public\CRoof.h" />
     <ClInclude Include="..\Public\CStage.h" />
     <ClInclude Include="..\Public\CStage_Lobby.h" />
     <ClInclude Include="..\Public\CStage_Select.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="..\Private\CPickSkin.cpp" />
     <ClCompile Include="..\Private\CPickSlot.cpp" />
     <ClCompile Include="..\Private\CPlayer.cpp" />
+    <ClCompile Include="..\Private\CRoof.cpp" />
     <ClCompile Include="..\Private\CStage.cpp" />
     <ClCompile Include="..\Private\CStage_Lobby.cpp" />
     <ClCompile Include="..\Private\CStage_Select.cpp" />
