@@ -1,23 +1,23 @@
-#include "CMap_Lumia.h"
+#include "CLumia_Ground.h"
 
 #include "CGameInstance.h"
 
-CMap_Lumia::CMap_Lumia(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLumia_Ground::CLumia_Ground(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject{ pDevice, pContext }
 {
 }
 
-CMap_Lumia::CMap_Lumia(const CMap_Lumia& Prototype)
+CLumia_Ground::CLumia_Ground(const CLumia_Ground& Prototype)
     : CGameObject{ Prototype }
 {
 }
 
-HRESULT CMap_Lumia::Initialize_Prototype()
+HRESULT CLumia_Ground::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CMap_Lumia::Initialize(void* pArg)
+HRESULT CLumia_Ground::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -28,20 +28,20 @@ HRESULT CMap_Lumia::Initialize(void* pArg)
     return S_OK;
 }
 
-void CMap_Lumia::Priority_Update(_float fTimeDelta)
+void CLumia_Ground::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CMap_Lumia::Update(_float fTimeDelta)
+void CLumia_Ground::Update(_float fTimeDelta)
 {
 }
 
-void CMap_Lumia::Late_Update(_float fTimeDelta)
+void CLumia_Ground::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
 
-HRESULT CMap_Lumia::Render()
+HRESULT CLumia_Ground::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -64,7 +64,7 @@ HRESULT CMap_Lumia::Render()
     return S_OK;
 }
 
-_float3 CMap_Lumia::Picking()
+_float3 CLumia_Ground::Picking()
 {
     const POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
 
@@ -159,7 +159,7 @@ _float3 CMap_Lumia::Picking()
     return vPos;
 }
 
-HRESULT CMap_Lumia::Ready_Components()
+HRESULT CLumia_Ground::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
@@ -167,14 +167,14 @@ HRESULT CMap_Lumia::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Map_Lumia"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Ground"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
     return S_OK;
 }
 
-HRESULT CMap_Lumia::Bind_ShaderResources()
+HRESULT CLumia_Ground::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -203,33 +203,33 @@ HRESULT CMap_Lumia::Bind_ShaderResources()
     return S_OK;
 }
 
-CMap_Lumia* CMap_Lumia::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLumia_Ground* CLumia_Ground::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CMap_Lumia* pInstance = new CMap_Lumia(pDevice, pContext);
+    CLumia_Ground* pInstance = new CLumia_Ground(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CMap_Lumia");
+        MSG_BOX("Failed to Created : CLumia_Ground");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CMap_Lumia::Clone(void* pArg)
+CGameObject* CLumia_Ground::Clone(void* pArg)
 {
-    CMap_Lumia* pInstance = new CMap_Lumia(*this);
+    CLumia_Ground* pInstance = new CLumia_Ground(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CMap_Lumia");
+        MSG_BOX("Failed to Cloned: CLumia_Ground");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CMap_Lumia::Free()
+void CLumia_Ground::Free()
 {
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);

@@ -10,18 +10,18 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CMap_Lumia final : public CGameObject
+class CLumia_Structure final : public CGameObject
 {
 public:
-	struct LUMIA_DESC : public CGameObject::GAMEOBJECT_DESC
+	struct LUMIA_STRUCTURE_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
 
 	};
 
 protected:
-	CMap_Lumia(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMap_Lumia(const CMap_Lumia& Prototype);
-	virtual ~CMap_Lumia() = default;
+	CLumia_Structure(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CLumia_Structure(const CLumia_Structure& Prototype);
+	virtual ~CLumia_Structure() = default;
 
 public:
 	HRESULT Initialize_Prototype();
@@ -46,7 +46,7 @@ private:
 
 
 public:
-	static CMap_Lumia* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CLumia_Structure* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

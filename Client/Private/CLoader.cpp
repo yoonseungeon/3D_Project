@@ -16,7 +16,8 @@
 #include "CMapSelectBtn.h"
 #include "CUI_TextBox.h"
 
-#include "CMap_Lumia.h"
+#include "CLumia_Ground.h"
+#include "CLumia_Structure.h"
 
 #include "CMonster.h"
 #include "CForkLift.h"
@@ -1075,20 +1076,34 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 #pragma endregion
 
 #pragma region ¸ðµ¨
-    /* Prototype_Component_Model_Map_Lumia */
- /*   _matrix MapPreTransformMatrix = XMMatrixIdentity();
+    /* Prototype_Component_Model_Lumia_Ground */
+    _matrix MapPreTransformMatrix = XMMatrixIdentity();
 
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this, MapPreTransformMatrix]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Map_Lumia"),
-                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Map_Lumia_Final.mymodel", MapPreTransformMatrix, true))))
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Ground"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Ground.mymodel", MapPreTransformMatrix, true))))
             {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Map_Lumia");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Lumia_Ground");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
-    );*/
+    );
+
+    /* Prototype_Component_Model_Lumia_Structure */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, MapPreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Structure"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Structure_NoRoof.mymodel"))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Lumia_Structure");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
 
     /* Prototype_Component_Model_LiDailin */
     _matrix PlayerPreTransformMatrix = XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
@@ -1172,14 +1187,27 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
-    /* Prototype_GameObject_Map_Lumia */
+    /* Prototype_GameObject_Lumia_Ground */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Lumia"),
-                CMap_Lumia::Create(m_pDevice, m_pContext))))
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Ground"),
+                CLumia_Ground::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Map_Lumia");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Lumia_Ground");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Lumia_Structure */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Structure"),
+                CLumia_Structure::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Lumia_Structure");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

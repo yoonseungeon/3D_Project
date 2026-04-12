@@ -5,7 +5,8 @@
 #include "CInGame_Manager.h"
 
 #include "CCamera_Free.h"
-#include "CMap_Lumia.h"
+#include "CLumia_Ground.h"
+#include "CLumia_Structure.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -112,17 +113,27 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
 {
-    //CMap_Lumia::LUMIA_DESC Desc{};
+    // Ground
+    CLumia_Ground::LUMIA_GROUND_DESC GroundDesc{};
 
-    //CMap_Lumia* pMap{};
+    CLumia_Ground* pMap{};
 
-    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Lumia"),
-    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pMap))))
-    //    return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Ground"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &GroundDesc, reinterpret_cast<CGameObject**>(&pMap))))
+        return E_FAIL;
 
-    //m_pInGame_Manager->Set_Map(pMap);
+    m_pInGame_Manager->Set_Map(pMap);
 
-    //Safe_Release(pMap);
+    Safe_Release(pMap);
+
+    // Structure
+    CLumia_Structure::LUMIA_STRUCTURE_DESC StructureDesc{};
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Structure"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StructureDesc)))
+        return E_FAIL;
+
+
     return S_OK;
 }
 

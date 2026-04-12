@@ -130,6 +130,12 @@
     <Filter Include="02. GameObject\03. Player\02. Bottle">
       <UniqueIdentifier>{b86a40b5-066a-49be-89ae-b233610732dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia\01. Ground">
+      <UniqueIdentifier>{c95cfe52-714e-4a12-8cfe-9e74c297ff39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia\02. Structure">
+      <UniqueIdentifier>{704abd02-dac9-4585-bc97-fb329fd39771}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -237,9 +243,6 @@
     <ClInclude Include="..\Public\Map_Meta.h">
       <Filter>999. Defines</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CMap_Lumia.h">
-      <Filter>02. GameObject\02. Map_Lumia</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\CInGame_Manager.h">
       <Filter>99. Manager\02. InGame_Manager</Filter>
     </ClInclude>
@@ -260,6 +263,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CBottle.h">
       <Filter>02. GameObject\03. Player\02. Bottle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLumia_Ground.h">
+      <Filter>02. GameObject\02. Map_Lumia\01. Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLumia_Structure.h">
+      <Filter>02. GameObject\02. Map_Lumia\02. Structure</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -363,9 +372,6 @@
     <ClCompile Include="..\Private\CMapSelectBtn.cpp">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\MapSelectBtn</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CMap_Lumia.cpp">
-      <Filter>02. GameObject\02. Map_Lumia</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\CInGame_Manager.cpp">
       <Filter>99. Manager\02. InGame_Manager</Filter>
     </ClCompile>
@@ -386,6 +392,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CBottle.cpp">
       <Filter>02. GameObject\03. Player\02. Bottle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLumia_Ground.cpp">
+      <Filter>02. GameObject\02. Map_Lumia\01. Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLumia_Structure.cpp">
+      <Filter>02. GameObject\02. Map_Lumia\02. Structure</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

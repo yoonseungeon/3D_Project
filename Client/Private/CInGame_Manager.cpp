@@ -1,6 +1,6 @@
 #include "CInGame_Manager.h"
 
-#include "CMap_Lumia.h"
+#include "CLumia_Ground.h"
 
 IMPLEMENT_SINGLETON(CInGame_Manager)
 
@@ -9,7 +9,7 @@ CInGame_Manager::CInGame_Manager()
 
 }
 
-void CInGame_Manager::Set_Map(CMap_Lumia* pMap_Lumia)
+void CInGame_Manager::Set_Map(CLumia_Ground* pMap_Lumia)
 {
     if (m_pMap_Lumia == nullptr) {
         m_pMap_Lumia = pMap_Lumia;

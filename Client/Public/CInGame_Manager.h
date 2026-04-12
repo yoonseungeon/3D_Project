@@ -5,7 +5,7 @@
 
 NS_BEGIN(Client)
 
-class CMap_Lumia;
+class CLumia_Ground;
 
 class CInGame_Manager final : public CBase
 {
@@ -16,13 +16,13 @@ private:
 	virtual ~CInGame_Manager() = default;
 
 public:
-	void Set_Map(CMap_Lumia* pMap_Lumia);
+	void Set_Map(CLumia_Ground* pMap_Lumia);
 	void Release_Map();
 
 	_float3 MapPIcking();
 
 private:
-	CMap_Lumia* m_pMap_Lumia{ nullptr };
+	CLumia_Ground* m_pMap_Lumia{ nullptr };
 
 protected:
 	virtual void Free() override;
