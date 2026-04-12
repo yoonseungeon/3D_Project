@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\CBody_Player.h" />
+    <ClInclude Include="..\Public\CBottle.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
     <ClInclude Include="..\Public\CForkLift.h" />
@@ -197,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBody_Player.cpp" />
+    <ClCompile Include="..\Private\CBottle.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
     <ClCompile Include="..\Private\CForkLift.cpp" />

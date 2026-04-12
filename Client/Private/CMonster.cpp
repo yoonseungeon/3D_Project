@@ -27,7 +27,7 @@ HRESULT CMonster::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pModelCom->Set_AnimationIndex(4, true);
+    m_pModelCom->Set_AnimationIndex(0, true);
 
     m_pTransformCom->Set_State(STATE::POSITION,
         XMVectorSet(
@@ -92,7 +92,7 @@ HRESULT CMonster::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Nunchaku"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Craft_Tool"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 

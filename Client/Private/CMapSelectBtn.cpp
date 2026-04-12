@@ -72,6 +72,10 @@ HRESULT CMapSelectBtn::Initialize(void* pArg)
 
     TextBoxDesc.fTextureSize = fDefaultFontSize * 0.5f;
 
+    if (m_eMapName == MAP_NAME::UPTOWN) {
+        TextBoxDesc.fScaleRatioX -= 0.005f;
+    }
+
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_TextBox"),
         ETOUI(LEVEL::LOBBY), TEXT("Layer_UI_Image"), &TextBoxDesc, reinterpret_cast<CGameObject**>(&m_pNameBox))))
         return E_FAIL;

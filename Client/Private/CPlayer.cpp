@@ -4,6 +4,7 @@
 
 #include "CBody_Player.h"
 #include "CWeapon.h"
+#include "CBottle.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject{ pDevice, pContext }
@@ -119,6 +120,7 @@ HRESULT CPlayer::Ready_Components()
 
 HRESULT CPlayer::Ready_PartObjects()
 {
+    // Body
     CBody_Player::BODY_PLAYER_DESC BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
@@ -129,17 +131,29 @@ HRESULT CPlayer::Ready_PartObjects()
         return E_FAIL;
 
     m_pBody = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")]);
+    Safe_AddRef(m_pBody);
 
+    // Weapon
     CWeapon::WEAPON_DESC WeaponDesc{};
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
     WeaponDesc.pCurMoveState = &m_iCurState;
     WeaponDesc.pCurATKType = m_pBody->Get_CurATKType();
 
-    Safe_AddRef(m_pBody);
     WeaponDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Equip_R");
 
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Weapon"),
         TEXT("Weapon"), &WeaponDesc)))
+        return E_FAIL;
+
+    // Bottle
+    CBottle::BOTTLE_DESC BottleDesc{};
+    BottleDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    BottleDesc.pCurMoveState = &m_iCurState;
+
+    BottleDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Weapon_Special_1");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Bottle"),
+        TEXT("Bottle"), &BottleDesc)))
         return E_FAIL;
 
     return S_OK;
@@ -202,7 +216,7 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
         m_pMoveCom->Stop_Move_To_Pos();
     }
     else if (iFinalRequestFlag & RQ_ATK) {
-        Enter_State(ACTION_STATE::ATK_P_P);
+        Enter_State(ACTION_STATE::ATK_P);
         m_pMoveCom->Stop_Move_To_Pos();
     }
     else if (iFinalRequestFlag & RQ_RUN && !(m_iControlFlag & BLOCK_RUN)) {

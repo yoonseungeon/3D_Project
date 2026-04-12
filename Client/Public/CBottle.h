@@ -1,0 +1,61 @@
+#pragma once
+
+#include "Client_Defines.h"
+#include "CPartObject.h"
+
+NS_BEGIN(Engine)
+class CShader;
+class CMyModel;
+NS_END
+
+NS_BEGIN(Client)
+
+class CBottle final : public CPartObject
+{
+public:
+	struct BOTTLE_DESC : public CPartObject::PARTOBJECT_DESC
+	{
+		const _float4x4* pSocketBoneMatrix{ nullptr };
+		const _uint* pCurMoveState{ nullptr };
+	};
+
+protected:
+	CBottle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBottle(const CBottle& Prototype);
+	virtual ~CBottle() = default;
+
+private:
+	virtual HRESULT Initialize_Prototype() override;
+	virtual HRESULT Initialize(void* pArg) override;
+public:
+	virtual void Priority_Update(_float fTimeDelta) override;
+	virtual void Parallel_Update(_float fTimeDelta) override;
+	virtual void Update(_float fTimeDelta) override;
+	virtual void Late_Update(_float fTimeDelta) override;
+	virtual HRESULT Render() override;
+
+private:
+	CShader* m_pShaderCom{ nullptr };
+	CMyModel* m_pModelCom{ nullptr };
+
+private:
+	const _float4x4* m_pSocketBoneMatrix{ nullptr };
+
+	const _uint* m_pCurState{ nullptr };
+	_uint m_iCurState{};
+
+private:
+	HRESULT Ready_Components();
+	HRESULT Bind_ShaderResources();
+
+private:
+	void Enter_State(_float fTimeDelta);
+
+public:
+	static CBottle* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual CGameObject* Clone(void* pArg) override;
+protected:
+	virtual void Free();
+};
+
+NS_END

@@ -127,6 +127,9 @@
     <Filter Include="02. GameObject\01. UI_Default\00. UI_Image\02. UI_TextBox">
       <UniqueIdentifier>{e5ba4c79-bb55-4fad-9d30-9b6f6b758ce3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Player\02. Bottle">
+      <UniqueIdentifier>{b86a40b5-066a-49be-89ae-b233610732dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -255,6 +258,9 @@
     <ClInclude Include="..\Public\CUI_TextBox.h">
       <Filter>02. GameObject\01. UI_Default\00. UI_Image\02. UI_TextBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CBottle.h">
+      <Filter>02. GameObject\03. Player\02. Bottle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -377,6 +383,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_TextBox.cpp">
       <Filter>02. GameObject\01. UI_Default\00. UI_Image\02. UI_TextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBottle.cpp">
+      <Filter>02. GameObject\03. Player\02. Bottle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
