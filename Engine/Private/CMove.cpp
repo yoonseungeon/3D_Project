@@ -1,5 +1,6 @@
 #include "CMove.h"
 
+#include "CGameInstance.h"
 #include "CTransform.h"
 
 CMove::CMove(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -30,15 +31,26 @@ HRESULT CMove::Initialize(void* pArg)
     m_pTransform = pDesc->pTransform;
     Safe_AddRef(m_pTransform);
 
+    m_pNavigationCom = pDesc->pNavigationCom;
+    Safe_AddRef(m_pNavigationCom);
+
     m_fSpeed = pDesc->fSpeed;
 
     return S_OK;
 }
 
-void CMove::Move_To_Pos(_float3 vPos)
+void CMove::Move_To_Pos(_float3 vPos, _bool bOperateNavi)
 {
     m_iCurMoveFlag |= FLAG_MOVE_TO_POS;
     m_vMovePos = vPos;
+
+    if (bOperateNavi == true && m_pNavigationCom == nullptr) {
+        m_bOperateNavi = false;
+    }
+    else
+    {
+        m_bOperateNavi = bOperateNavi;
+    }
 }
 
 void CMove::Stop_Move_To_Pos()
@@ -65,13 +77,33 @@ _bool CMove::Update_Move_To_Pos(_float fTimeDelta)
 
         if(fDistanceSq <= fMoveDistanceSq)
         {
-            m_pTransform->Set_Pos(vMovePos);
+            const _bool m_bCanMove = m_pNavigationCom->isMove(vMovePos);
+
+            if(m_bOperateNavi == true && m_bCanMove || m_bOperateNavi == false)
+            {
+                m_pTransform->Set_Pos(vMovePos);
+            }
             m_iCurMoveFlag &= ~FLAG_MOVE_TO_POS;
 
             return true;
         }
 
-        m_pTransform->Set_Pos(vCurPos + vMoveDistance);
+        _vector vNextPos = vCurPos + vMoveDistance;
+
+        if (m_bOperateNavi == false)
+        {
+            m_pTransform->Set_Pos(vNextPos);
+        }
+        else if (m_bOperateNavi == true && m_pNavigationCom->isMove(vNextPos))
+        {
+            m_pTransform->Set_Pos(vNextPos);
+        }
+        else
+        {
+            m_iCurMoveFlag &= ~FLAG_MOVE_TO_POS;
+            return true;
+        }
+
         return false;
     }
 
@@ -106,6 +138,7 @@ CComponent* CMove::Clone(void* pArg)
 
 void CMove::Free()
 {
+    Safe_Release(m_pNavigationCom);
     Safe_Release(m_pTransform);
 
     __super::Free();

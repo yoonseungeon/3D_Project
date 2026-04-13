@@ -44,6 +44,14 @@ HRESULT CPlayer::Initialize(void* pArg)
             return E_FAIL;
     }
 
+    m_pTransformCom->Set_State(STATE::POSITION,
+        XMVectorSet(
+            4.f,
+            0.f,
+            -2.8f,
+            1.f
+        ));
+
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
@@ -52,13 +60,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
     Enter_State(ACTION_STATE::IDLE_P);
 
-    m_pTransformCom->Set_State(STATE::POSITION,
-        XMVectorSet(
-            4.f,
-            0.f,
-            -2.8f,
-            1.f
-        ));
 
     return S_OK;
 }
@@ -116,15 +117,6 @@ HRESULT CPlayer::Render()
 
 HRESULT CPlayer::Ready_Components()
 {
-    CMove::MOVE_DESC Desc{};
-    Desc.pTransform = m_pTransformCom;
-    Desc.fSpeed = 5.f;
-
-    /* Com_Move */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Move"),
-        TEXT("Com_Move"), reinterpret_cast<CComponent**>(&m_pMoveCom), &Desc)))
-        return E_FAIL;
-
     /* For.Com_Navigation */
     CNavigation::NAVIGATION_DESC NaviDesc;
 
@@ -134,6 +126,19 @@ HRESULT CPlayer::Ready_Components()
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
         TEXT("Com_Navigation"), reinterpret_cast<CComponent**>(&m_pNavigationCom), &NaviDesc)))
         return E_FAIL;
+
+
+    CMove::MOVE_DESC Desc{};
+    Desc.pTransform = m_pTransformCom;
+    Desc.pNavigationCom = m_pNavigationCom;
+
+    Desc.fSpeed = 5.f;
+
+    /* Com_Move */
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Move"),
+        TEXT("Com_Move"), reinterpret_cast<CComponent**>(&m_pMoveCom), &Desc)))
+        return E_FAIL;
+
 
     return S_OK;
 }
@@ -240,7 +245,7 @@ void CPlayer::StateRequestProcessing(_float fTimeDelta)
         m_pMoveCom->Stop_Move_To_Pos();
     }
     else if (iFinalRequestFlag & RQ_RUN && !(m_iControlFlag & BLOCK_RUN)) {
-        m_pMoveCom->Move_To_Pos(m_vTargetPos);
+        m_pMoveCom->Move_To_Pos(m_vTargetPos, true);
         Enter_State(ACTION_STATE::RUN_P);
     }
     else if (iFinalRequestFlag & RQ_IDLE) {

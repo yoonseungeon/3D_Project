@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 
 class CTransform;
+class CNavigation;
 
 class ENGINE_DLL CMove final : public CComponent
 {
@@ -12,6 +13,8 @@ public:
 	struct MOVE_DESC
 	{
 		CTransform* pTransform{};
+		CNavigation* pNavigationCom{};
+
 		_float fSpeed{ 1.f };
 	};
 
@@ -34,14 +37,17 @@ public:
 	_bool Update_Move_To_Pos(_float fTimeDelta);
 
 public:
+	void Set_Navigation(CNavigation* pNavigationCom) { m_pNavigationCom = pNavigationCom; }
 	void Set_Speed(_float fSpeed) { m_fSpeed = fSpeed; };
 
 public:
-	void Move_To_Pos(_float3 vPos);
+	void Move_To_Pos(_float3 vPos, _bool bOperateNavi = false);
 	void Stop_Move_To_Pos();
 
 private:
 	CTransform* m_pTransform{};
+	CNavigation* m_pNavigationCom{};
+	_bool m_bOperateNavi{};
 
 	_uint m_iCurMoveFlag{};
 
