@@ -30,6 +30,10 @@ namespace Engine
 
 	enum class DIMM { X, Y, WHEEL, END };
 
+	enum class CELL_POINT { A, B, C, END };
+
+	enum class LINE { AB, BC, CA, END };
+
 	enum class PARALLEL_UPDATE_MODE { PARALLEL, SINGLE };
 }
 #endif // Engine_Enum_h__

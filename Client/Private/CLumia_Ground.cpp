@@ -61,6 +61,10 @@ HRESULT CLumia_Ground::Render()
             return E_FAIL;
     }
 
+#ifdef _DEBUG
+    m_pNavigationCom->Render();
+#endif
+
     return S_OK;
 }
 
@@ -171,6 +175,16 @@ HRESULT CLumia_Ground::Ready_Components()
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
+    /* For.Com_Navigation */
+    CNavigation::NAVIGATION_DESC NaviDesc{};
+    NaviDesc.iCurrentCellIndex = -1;
+
+    NaviDesc.pParentMarix = m_pTransformCom->Get_WorldMatrixPtr();
+
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
+        TEXT("Com_Navigation"), reinterpret_cast<CComponent**>(&m_pNavigationCom), &NaviDesc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -231,6 +245,7 @@ CGameObject* CLumia_Ground::Clone(void* pArg)
 
 void CLumia_Ground::Free()
 {
+    Safe_Release(m_pNavigationCom);
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);
 

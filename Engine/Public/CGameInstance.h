@@ -10,6 +10,7 @@
 #include "CMyModel.h"
 #include "CImage.h"
 #include "CMove.h"
+#include "CNavigation.h"
 #pragma endregion
 
 NS_BEGIN(Engine)

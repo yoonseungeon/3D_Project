@@ -5,6 +5,7 @@
 
 NS_BEGIN(Engine)
 class CMove;
+class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
@@ -62,7 +63,8 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CMove* m_pMoveCom{};
+	CMove* m_pMoveCom{ nullptr };
+	CNavigation* m_pNavigationCom{ nullptr };
 
 	CBody_Player* m_pBody{};
 

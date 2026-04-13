@@ -148,6 +148,15 @@
     <Filter Include="10. Fonts\Manager">
       <UniqueIdentifier>{d72f8d8d-1e63-4a8e-b53b-65c73f386045}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\01. VIBuffer\02. Cell">
+      <UniqueIdentifier>{7aa90570-1a7c-4e4a-a407-4a39856017c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\05. Navigation">
+      <UniqueIdentifier>{83842523-81f6-474a-9a20-b48ba0fb4e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\05. Navigation\Cell">
+      <UniqueIdentifier>{3984095d-3f8a-4e20-8c3f-e45408caa7d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -284,6 +293,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\CFont_Manager.cpp">
       <Filter>10. Fonts\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CVIBuffer_Cell.cpp">
+      <Filter>07. Component\01. VIBuffer\02. Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CNavigation.cpp">
+      <Filter>07. Component\05. Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCell.cpp">
+      <Filter>07. Component\05. Navigation\Cell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -443,10 +461,24 @@
     <ClInclude Include="..\Public\CFont_Manager.h">
       <Filter>10. Fonts\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CVIBuffer_Cell.h">
+      <Filter>07. Component\01. VIBuffer\02. Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CNavigation.h">
+      <Filter>07. Component\05. Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CCell.h">
+      <Filter>07. Component\05. Navigation\Cell</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Bin\ShaderFiles\Engine_Shader_Defines.hlsli">
       <Filter>997. ShaderFiles</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
+      <Filter>997. ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

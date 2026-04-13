@@ -6,6 +6,7 @@
 NS_BEGIN(Engine)
 class CShader;
 class CMyModel;
+class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
@@ -39,6 +40,7 @@ public:
 private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
+	CNavigation* m_pNavigationCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();

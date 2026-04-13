@@ -6,6 +6,8 @@
 #include "CWeapon.h"
 #include "CBottle.h"
 
+#include "CInGame_Manager.h"
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject{ pDevice, pContext }
 {
@@ -49,6 +51,14 @@ HRESULT CPlayer::Initialize(void* pArg)
         return E_FAIL;
 
     Enter_State(ACTION_STATE::IDLE_P);
+
+    m_pTransformCom->Set_State(STATE::POSITION,
+        XMVectorSet(
+            4.f,
+            0.f,
+            -2.8f,
+            1.f
+        ));
 
     return S_OK;
 }
@@ -113,6 +123,16 @@ HRESULT CPlayer::Ready_Components()
     /* Com_Move */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Move"),
         TEXT("Com_Move"), reinterpret_cast<CComponent**>(&m_pMoveCom), &Desc)))
+        return E_FAIL;
+
+    /* For.Com_Navigation */
+    CNavigation::NAVIGATION_DESC NaviDesc;
+
+    NaviDesc.iCurrentCellIndex = 0;
+    XMStoreFloat3(&NaviDesc.vObjectWorldPos, m_pTransformCom->Get_State(STATE::POSITION));
+
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
+        TEXT("Com_Navigation"), reinterpret_cast<CComponent**>(&m_pNavigationCom), &NaviDesc)))
         return E_FAIL;
 
     return S_OK;
@@ -311,13 +331,9 @@ void CPlayer::Enter_State(ACTION_STATE eNewState)
 
 void CPlayer::Player_Input(_float fTimeDelta)
 {
-    if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON)) {
-
-        static _float3 vPos = { 0.f, 0.f, 0.f };
-        vPos.z += 10.f;
-        if (vPos.z >= 11.f) { vPos.z = 0.f; }
-        m_vTargetPos = vPos;
-
+    if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))
+    {        
+        m_vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
         m_iRequestFlag |= REQUEST_FLAG::RQ_RUN;
     }
 
@@ -395,6 +411,8 @@ CGameObject* CPlayer::Clone(void* pArg)
 void CPlayer::Free()
 {
     Safe_Release(m_pBody);
+
+    Safe_Release(m_pNavigationCom);
     Safe_Release(m_pMoveCom);
 
     __super::Free();

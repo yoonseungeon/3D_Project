@@ -49,9 +49,9 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 		return E_FAIL;
 
 	m_pPipeline = CPipeline::Create();
-	if (nullptr == m_pPipeline)
+	if (m_pPipeline == nullptr)
 		return E_FAIL;
-
+	
 	m_pThread_Manager = CThread_Manager::Create();
 	if (m_pThread_Manager == nullptr)
 		return E_FAIL;

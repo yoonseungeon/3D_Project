@@ -4,6 +4,8 @@
 
 NS_BEGIN(Engine)
 
+class CGameInstance;
+
 class ENGINE_DLL CComponent abstract : public CBase
 {
 protected:
@@ -14,6 +16,7 @@ protected:
 protected:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
+	CGameInstance* m_pGameInstance = { nullptr };
 
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
