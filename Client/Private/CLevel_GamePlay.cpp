@@ -128,11 +128,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
     Safe_Release(pMap);
 
     // Structure
-    CLumia_Structure::LUMIA_STRUCTURE_DESC StructureDesc{};
+    //CLumia_Structure::LUMIA_STRUCTURE_DESC StructureDesc{};
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Structure"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StructureDesc)))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Structure"),
+    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StructureDesc)))
+    //    return E_FAIL;
 
     // Roof
     for (_uint i = 0; i < iRoofCnt; ++i)

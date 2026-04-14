@@ -31,6 +31,8 @@ public:
 
 public:
 	void Set_AnimationIndex(_uint iIndex, _bool isLoop = false);
+	void Set_AniInterpolationTime(_float InterpolationTime) { m_fAniInterpolationTime = InterpolationTime; }
+	void Set_AniSpeed(_uint iIndex, _float fAniSpeed);
 
 public:
 	_bool Play_Animation(_float fTimeDelta);

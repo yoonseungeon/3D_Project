@@ -15,14 +15,18 @@ private:
 	CMyAnimation(const CMyAnimation& Prototype);
 	virtual ~CMyAnimation() = default;
 
-public:
+private:
 	HRESULT Initialize(const myAnimation* pMyAnimation, CMyModel* pModel);
+
+public:
 	_bool Update_TransformationMatrices(const vector<CMyBone*>& Bones, _float fTimeDelta, _bool isLoop);
 
 	void Update_TransformationMatZeorKeyFrame(const vector<CMyBone*>& Bones);
 
 	void Reset_KeyFrameIndex();
 	void Reset_CurrentTrackPosition() { m_fCurrentTrackPosition = 0.f; }
+
+	void Set_AniSpeed(_float fAniSpeed) { m_fAniSpeed = fAniSpeed; }
 
 private:
 	// 현재 애니메이션 트랙의 총 길이(시간 아님)
@@ -40,6 +44,8 @@ private:
 	vector<CMyChannel*>	m_Channels; 	// 뼈 하나의 상태를 저장하는 클래스
 	// 보간할 때 키프레임 구간 왼쪽 인덱스.(왼쪽 오른쪽 차이만큼 보간)
 	vector<_uint>		m_CurrentKeyFrameIndices;
+
+	_float m_fAniSpeed{ 1.f };
 
 public:
 	static CMyAnimation* Create(const myAnimation* pMyAnimation, CMyModel* pModel);

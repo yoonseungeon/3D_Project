@@ -42,7 +42,7 @@ HRESULT CMyAnimation::Initialize(const myAnimation* pMyAnimation, CMyModel* pMod
 
 _bool CMyAnimation::Update_TransformationMatrices(const vector<CMyBone*>& Bones, _float fTimeDelta, _bool isLoop)
 {
-    m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
+    m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta * m_fAniSpeed;
 
     // 애니메이션 끝났는지
     if (m_fCurrentTrackPosition >= m_fDuration)

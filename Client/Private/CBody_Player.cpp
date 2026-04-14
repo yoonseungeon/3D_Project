@@ -36,7 +36,6 @@ HRESULT CBody_Player::Initialize(void* pArg)
 
 void CBody_Player::Priority_Update(_float fTimeDelta)
 {
-
 }
 
 void CBody_Player::Parallel_Update(_float fTimeDelta)
@@ -144,6 +143,7 @@ void CBody_Player::Enter_State(_float fTimeDelta)
     if (m_iCurState != *m_pCurState)
     {
         ZeroMemory(&m_tAniLockInfo, sizeof(AniLock));
+        AniIndex eAniIdx{};
 
         switch (*m_pCurState)
         {
@@ -152,11 +152,20 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 if (rand() % 2 == 0) {
                     m_pModelCom->Set_AnimationIndex(Ani_ATK_1, false);
                     m_iCurATKType = 0;
+
+                    eAniIdx = Ani_ATK_1;
+                    m_fSyncAniSpeed = 1.0f;
+                    m_fSyncInterpolationSpeed = 0.08f;
                 }
                 else {
                     m_pModelCom->Set_AnimationIndex(Ani_ATK_2, false);
                     m_iCurATKType = 1;
+
+                    eAniIdx = Ani_ATK_2;
+                    m_fSyncAniSpeed = 1.0f;
+                    m_fSyncInterpolationSpeed = 0.08f;
                 }
+
                 m_eAniState = NONE;
                 break;
             }
@@ -166,11 +175,20 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 if (rand() % 2 == 0) {
                     m_pModelCom->Set_AnimationIndex(Ani_ATK_1P, false);
                     m_iCurATKType = 0;
+
+                    eAniIdx = Ani_ATK_1P;
+                    m_fSyncAniSpeed = 1.0f;
+                    m_fSyncInterpolationSpeed = 0.08f;
                 }
                 else {
                     m_pModelCom->Set_AnimationIndex(Ani_ATK_2P, false);
                     m_iCurATKType = 1;
+
+                    eAniIdx = Ani_ATK_2P;
+                    m_fSyncAniSpeed = 1.0f;
+                    m_fSyncInterpolationSpeed = 0.08f;
                 }
+
                 m_eAniState = NONE;
                 break;
             }
@@ -180,6 +198,10 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 m_pModelCom->Set_AnimationIndex(Ani_Q1, false);
                 m_tAniLockInfo.bIsAniLock = true;
                 m_eAniState = NONE;
+
+                eAniIdx = Ani_Q1;
+                m_fSyncAniSpeed = 2.3f;
+                m_fSyncInterpolationSpeed = 0.03f;
                 break;
             }      
 
@@ -188,6 +210,10 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 m_pModelCom->Set_AnimationIndex(Ani_Q2, false);
                 m_tAniLockInfo.bIsAniLock = true;
                 m_eAniState = NONE;
+
+                eAniIdx = Ani_Q2;
+                m_fSyncAniSpeed = 2.3f;
+                m_fSyncInterpolationSpeed = 0.03f;
                 break;
             }         
 
@@ -196,6 +222,10 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 m_pModelCom->Set_AnimationIndex(Ani_Q3, false);
                 m_tAniLockInfo.bIsAniLock = true;
                 m_eAniState = NONE;
+
+                eAniIdx = Ani_Q3;
+                m_fSyncAniSpeed = 2.3f;
+                m_fSyncInterpolationSpeed = 0.03f;
                 break;
             }
 
@@ -204,6 +234,10 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 m_pModelCom->Set_AnimationIndex(Ani_E, false);
                 m_tAniLockInfo.bIsAniLock = true;
                 m_eAniState = NONE;
+
+                eAniIdx = Ani_E;
+                m_fSyncAniSpeed = 1.4f;
+                m_fSyncInterpolationSpeed = 0.08f;
                 break;
             }
 
@@ -212,6 +246,10 @@ void CBody_Player::Enter_State(_float fTimeDelta)
                 m_pModelCom->Set_AnimationIndex(Ani_R1, false);
                 m_tAniLockInfo.bIsAniLock = true;
                 m_eAniState = START;
+
+                eAniIdx = Ani_R1;
+                m_fSyncAniSpeed = 1.f;
+                m_fSyncInterpolationSpeed = 0.08f;
                 break;
             }
 
@@ -219,42 +257,73 @@ void CBody_Player::Enter_State(_float fTimeDelta)
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Idle, true);
                 m_eAniState = NONE;
+
+                eAniIdx = Ani_Idle;
+                m_fSyncAniSpeed = 1.f;
+                m_fSyncInterpolationSpeed = 0.08f;
                 break;
             }
+
             case CPlayer::ACTION_STATE::RUN_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Run, true);
                 m_eAniState = NONE;
+
+                eAniIdx = Ani_Run;
+                m_fSyncAniSpeed = 1.f;
+                m_fSyncInterpolationSpeed = 0.08f;
                 break;
             }
+
             case CPlayer::ACTION_STATE::REST_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_RestStart, false);
                 m_eAniState = START;
+
+                eAniIdx = Ani_RestStart;
+                m_fSyncAniSpeed = 2.4f;
+                m_fSyncInterpolationSpeed = 0.03f;
                 break;
             }
+
             case CPlayer::ACTION_STATE::CRAFT_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Craft, false);
                 m_eAniState = START;
+
+                eAniIdx = Ani_Craft;
+                m_fSyncAniSpeed = 1.0f;
+                m_fSyncInterpolationSpeed = 0.08f;
                 break;
             }
+
             case CPlayer::ACTION_STATE::COOK_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Cook, false);
                 m_eAniState = START;
+
+                eAniIdx = Ani_Cook;
+                m_fSyncAniSpeed = 1.0f;
+                m_fSyncInterpolationSpeed = 0.08f;
                 break;
             }
+
             case CPlayer::ACTION_STATE::COLLECT_P:
             {
                 m_pModelCom->Set_AnimationIndex(Ani_Collect, false);
                 m_eAniState = START;
+
+                eAniIdx = Ani_Collect;
+                m_fSyncAniSpeed = 1.0f;
+                m_fSyncInterpolationSpeed = 0.08f;
                 break;
             }
         }
 
-
         m_iCurState = *m_pCurState;
+
+        m_pModelCom->Set_AniSpeed(eAniIdx, m_fSyncAniSpeed);
+        m_pModelCom->Set_AniInterpolationTime(m_fSyncInterpolationSpeed);
     }
 }
 
@@ -268,17 +337,15 @@ void CBody_Player::Execute_State(_float fTimeDelta)
             if (m_pModelCom->IsAnimationFinished()) {
                 m_tAniLockInfo.bIsAniLockExit = true;
             }
-
         }
+
         case CPlayer::ACTION_STATE::IDLE_P:
         {
-
             break;
         }
 
         case CPlayer::ACTION_STATE::RUN_P:
         {
-
             break;
         }
  
@@ -343,14 +410,25 @@ void CBody_Player::Execute_State(_float fTimeDelta)
                 m_pModelCom->Set_AnimationIndex(Ani_RestLoop, true);
                 m_tAniLockInfo.bIsAniLock = true;
                 m_eAniState = LOOP;
+
+                m_fSyncAniSpeed = 1.2f;
+                m_fSyncInterpolationSpeed = 0.03f;
+                m_pModelCom->Set_AniSpeed(Ani_RestLoop, m_fSyncAniSpeed);
+                m_pModelCom->Set_AniInterpolationTime(m_fSyncInterpolationSpeed);
             }
 
             if (m_eAniState == LOOP && m_tAniLockInfo.bIsRequestUnlock) {
                 m_pModelCom->Set_AnimationIndex(Ani_RestEnd, false);
                 m_eAniState = END;
+
+                m_fSyncAniSpeed = 2.8f;
+                m_fSyncInterpolationSpeed = 0.03f;
+                m_pModelCom->Set_AniSpeed(Ani_RestEnd, 2.8f);
+                m_pModelCom->Set_AniInterpolationTime(0.03f);
             }
 
             if (m_eAniState == END && m_pModelCom->IsAnimationFinished()) {
+     
                 m_tAniLockInfo.bIsAniLock = false;
                 m_tAniLockInfo.bIsAniLockExit = true;
             }

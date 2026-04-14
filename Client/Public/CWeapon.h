@@ -31,6 +31,9 @@ public:
 		const _float4x4* pSocketBoneMatrix{ nullptr };
 		const _uint* pCurMoveState{ nullptr };
 		const _uint* pCurATKType{ nullptr };
+
+		const _float* pSyncAniSpeed{};
+		const _float* pSyncInterpolationSpeed{};
 	};
 
 protected:
@@ -58,6 +61,9 @@ private:
 	const _uint* m_pCurState{ nullptr };
 	_uint m_iCurState{};
 	const _uint* m_pCurATKType{};
+
+	const _float* m_pSyncAniSpeed{};
+	const _float* m_pSyncInterpolationSpeed{};
 
 private:
 	HRESULT Ready_Components();

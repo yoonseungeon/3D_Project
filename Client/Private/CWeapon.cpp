@@ -29,6 +29,9 @@ HRESULT CWeapon::Initialize(void* pArg)
 
     m_pCurATKType = pDesc->pCurATKType;
 
+    m_pSyncAniSpeed = pDesc->pSyncAniSpeed;
+    m_pSyncInterpolationSpeed = pDesc->pSyncInterpolationSpeed;
+
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
@@ -154,6 +157,8 @@ void CWeapon::Enter_State(_float fTimeDelta)
     // 애니메이션 상태가 바뀌었을 때 한 번만 실행
     if (m_iCurState != *m_pCurState)
     {
+        WPAniIndex eAniIndx{};
+
         switch (*m_pCurState)
         {
             case CPlayer::ACTION_STATE::ATK_P:
@@ -161,10 +166,12 @@ void CWeapon::Enter_State(_float fTimeDelta)
                 m_bIsInactive = false;
                 if (*m_pCurATKType == 0) {
                     m_pModelCom->Set_AnimationIndex(ATK_1_WP, false);
+                    eAniIndx = ATK_1_WP;
                 }
                 else
                 {
                     m_pModelCom->Set_AnimationIndex(ATK_2_WP, false);
+                    eAniIndx = ATK_2_WP;
                 }
                 break;
             }
@@ -173,11 +180,13 @@ void CWeapon::Enter_State(_float fTimeDelta)
             {
                 m_bIsInactive = false;
                 if (*m_pCurATKType == 0) {
-                    m_pModelCom->Set_AnimationIndex(ATK_2P_WP, false);
+                    m_pModelCom->Set_AnimationIndex(ATK_1P_WP, false);
+                    eAniIndx = ATK_1P_WP;
                 }
                 else
                 {
-                    m_pModelCom->Set_AnimationIndex(ATK_1P_WP, false);
+                    m_pModelCom->Set_AnimationIndex(ATK_2P_WP, false);
+                    eAniIndx = ATK_2P_WP;
                 }
                 break;
             }
@@ -186,6 +195,7 @@ void CWeapon::Enter_State(_float fTimeDelta)
             {
                 m_bIsInactive = false;
                 m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
+                eAniIndx = IDLE_WP;
                 break;
             }
 
@@ -193,6 +203,7 @@ void CWeapon::Enter_State(_float fTimeDelta)
             {
                 m_bIsInactive = false;
                 m_pModelCom->Set_AnimationIndex(RUN_WP, true);
+                eAniIndx = RUN_WP;
                 break;
             }
 
@@ -200,6 +211,7 @@ void CWeapon::Enter_State(_float fTimeDelta)
             {
                 m_bIsInactive = false;
                 m_pModelCom->Set_AnimationIndex(Q1_WP, false);
+                eAniIndx = Q1_WP;
                 break;
             }
 
@@ -207,6 +219,7 @@ void CWeapon::Enter_State(_float fTimeDelta)
             {
                 m_bIsInactive = false;
                 m_pModelCom->Set_AnimationIndex(Q2_WP, false);
+                eAniIndx = Q2_WP;
                 break;
             }
 
@@ -214,6 +227,7 @@ void CWeapon::Enter_State(_float fTimeDelta)
             {
                 m_bIsInactive = false;
                 m_pModelCom->Set_AnimationIndex(Q3_WP, false);
+                eAniIndx = Q3_WP;
                 break;
             }
 
@@ -221,6 +235,7 @@ void CWeapon::Enter_State(_float fTimeDelta)
             {
                 m_bIsInactive = false;
                 m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
+                eAniIndx = IDLE_WP;
                 break;
             }
 
@@ -228,6 +243,7 @@ void CWeapon::Enter_State(_float fTimeDelta)
             {
                 m_bIsInactive = false;
                 m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
+                eAniIndx = IDLE_WP;
                 break;
             }
 
@@ -241,6 +257,8 @@ void CWeapon::Enter_State(_float fTimeDelta)
             }
         }
 
+        m_pModelCom->Set_AniSpeed(eAniIndx, *m_pSyncAniSpeed);
+        m_pModelCom->Set_AniInterpolationTime(*m_pSyncInterpolationSpeed);
         m_iCurState = *m_pCurState;
     }
 }

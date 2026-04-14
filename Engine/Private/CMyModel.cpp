@@ -133,6 +133,11 @@ void CMyModel::Set_AnimationIndex(_uint iIndex, _bool isLoop)
     }
 }
 
+void CMyModel::Set_AniSpeed(_uint iIndex, _float fAniSpeed)
+{
+    m_Animations[iIndex]->Set_AniSpeed(fAniSpeed);
+}
+
 _bool CMyModel::Play_Animation(_float fTimeDelta)
 {
     // 애니메이션이 끝났는지(무한 재생이면 항상 false)

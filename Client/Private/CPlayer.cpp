@@ -166,6 +166,9 @@ HRESULT CPlayer::Ready_PartObjects()
 
     WeaponDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Equip_R");
 
+    WeaponDesc.pSyncAniSpeed = m_pBody->Get_SyncAniSpeed();
+    WeaponDesc.pSyncInterpolationSpeed = m_pBody->Get_SyncInterpolationSpeed();
+
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Weapon"),
         TEXT("Weapon"), &WeaponDesc)))
         return E_FAIL;

@@ -64,6 +64,8 @@ public:
 public:
 	const _float4x4* Get_BoneMatrixPtr(const _char* pBoneName) const;
 	const _uint* Get_CurATKType() { return &m_iCurATKType; }
+	const _float* Get_SyncAniSpeed() { return &m_fSyncAniSpeed; }
+	const _float* Get_SyncInterpolationSpeed() { return &m_fSyncInterpolationSpeed; }
 
 	_bool IsAniLock() { return m_tAniLockInfo.bIsAniLock; }
 	void RequestUnlock() { m_tAniLockInfo.bIsRequestUnlock = true; }
@@ -77,6 +79,9 @@ private:
 	const _uint* m_pCurState{ nullptr };
 	_uint m_iCurState{};
 	_uint m_iCurATKType{};
+
+	_float m_fSyncAniSpeed{ 1.f };
+	_float m_fSyncInterpolationSpeed{ 0.12f };
 
 private:
 	AniState m_eAniState{};
