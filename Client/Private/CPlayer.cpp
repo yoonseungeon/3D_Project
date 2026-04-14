@@ -11,6 +11,7 @@
 #include "CLiDailinIdle.h"
 #include "CLiDailinMove.h"
 #include "CLiDailin_Q.h"
+#include "CLiDailinAttack.h"
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject{ pDevice, pContext }
@@ -59,6 +60,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     CState* pLiDailinIdle = CLiDailinIdle::Create();
     m_States.emplace(L"Idle", pLiDailinIdle);
     m_States.emplace(L"Move", CLiDailinMove::Create());
+    m_States.emplace(L"CLiDailinAttack", CLiDailinAttack::Create());
     m_States.emplace(L"CLiDailin_Q", CLiDailin_Q::Create());
 
     m_pCurrentState = pLiDailinIdle;
@@ -138,6 +140,17 @@ void CPlayer::Apply_WaitState()
     m_pWaitState = nullptr;
 
     m_pCurrentState->Enter(this);
+}
+
+_bool CPlayer::IsTargetInRange()
+{
+    // 디버그
+
+    if (m_pGameInstance->Key_Down(DIK_A)) {
+        return true;
+    }
+
+    return false;
 }
 
 void CPlayer::Set_Animation(wstring wstrPartObjTag, _uint eAniIndex, _bool bLoop)
@@ -308,8 +321,19 @@ void CPlayer::Key_Input()
     }
     else if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON)) {
         COMMAND tCommand{};
-        tCommand.eCommandType = COMMAND_TYPE::MOVE;
-        tCommand.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+
+        // if(몬스터)
+        // { ATTACK, 몬스터 위치, tCommand.pGameObject }
+        if (m_pGameInstance->Key_Pressing(DIK_A))
+        {
+            tCommand.eCommandType = COMMAND_TYPE::ATTACK;
+            tCommand.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+        }
+        else
+        {
+            tCommand.eCommandType = COMMAND_TYPE::MOVE;
+            tCommand.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+        }
 
         m_pCurrentState->HandleCommand(this, tCommand);
     }

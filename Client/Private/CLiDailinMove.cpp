@@ -19,7 +19,10 @@ void CLiDailinMove::Enter(CPlayer* pPlayer)
 
 void CLiDailinMove::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
-	if (pPlayer->Update_Move_To_Pos(fTimeDelta)) {
+	if (pPlayer->IsTargetInRange()) {
+		pPlayer->Set_WaitState(L"CLiDailinAttack");
+	}
+	else if (pPlayer->Update_Move_To_Pos(fTimeDelta)) {
 		pPlayer->Set_WaitState(L"Idle");
 	}
 }
@@ -36,6 +39,20 @@ void CLiDailinMove::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 		{
 			pPlayer->Set_CurCommand(eCommand);
 			pPlayer->Set_WaitState(L"Move");
+			break;
+		}
+		case COMMAND_TYPE::ATTACK:
+		{
+			if (pPlayer->IsTargetInRange())
+			{
+				pPlayer->Set_WaitState(L"CLiDailinAttack");
+			}
+			else
+			{
+				pPlayer->Set_WaitState(L"Move");
+			}
+			pPlayer->Set_CurCommand(eCommand);
+
 			break;
 		}
 		case COMMAND_TYPE::ATTACK_Q:

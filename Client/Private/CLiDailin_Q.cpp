@@ -60,7 +60,6 @@ void CLiDailin_Q::Update(CPlayer* pPlayer, _float fTimeDelta)
 
 void CLiDailin_Q::Exit(CPlayer* pPlayer)
 {
-	pPlayer->Stop_Move_To_Pos();
 }
 
 void CLiDailin_Q::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
@@ -71,10 +70,8 @@ void CLiDailin_Q::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 			pPlayer->Set_CurCommand(eCommand);
 			break;
 		}
-		case COMMAND_TYPE::ATTACK_Q:
-		{
-			break;
-		}
+		
+		// 나머지 무시
 	}
 }
 

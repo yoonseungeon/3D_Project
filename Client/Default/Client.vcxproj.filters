@@ -148,7 +148,10 @@
     <Filter Include="02. GameObject\06. State\01. Move">
       <UniqueIdentifier>{c1b1cd04-40ac-4d0b-8a7c-d4451f6afc42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\06. State\02. LiDailin_Q">
+    <Filter Include="02. GameObject\06. State\02. Attack">
+      <UniqueIdentifier>{269ddc5b-af67-429d-bf31-baedbe48b953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. State\03. LiDailin_Q">
       <UniqueIdentifier>{857f8a38-f9fb-4f78-9bdd-c70ab3011b36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -304,7 +307,10 @@
       <Filter>999. Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_Q.h">
-      <Filter>02. GameObject\06. State\02. LiDailin_Q</Filter>
+      <Filter>02. GameObject\06. State\03. LiDailin_Q</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLiDailinAttack.h">
+      <Filter>02. GameObject\06. State\02. Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -448,7 +454,10 @@
       <Filter>02. GameObject\06. State\01. Move</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_Q.cpp">
-      <Filter>02. GameObject\06. State\02. LiDailin_Q</Filter>
+      <Filter>02. GameObject\06. State\03. LiDailin_Q</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailinAttack.cpp">
+      <Filter>02. GameObject\06. State\02. Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

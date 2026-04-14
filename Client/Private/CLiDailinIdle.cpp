@@ -30,6 +30,20 @@ void CLiDailinIdle::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 			pPlayer->Set_WaitState(L"Move");
 			break;
 		}
+		case COMMAND_TYPE::ATTACK:
+		{
+			if (pPlayer->IsTargetInRange())
+			{
+				pPlayer->Set_WaitState(L"CLiDailinAttack");
+			}
+			else
+			{
+				pPlayer->Set_WaitState(L"Move");
+			}
+			pPlayer->Set_CurCommand(eCommand);
+
+			break;
+		}
 		case COMMAND_TYPE::ATTACK_Q:
 		{
 			pPlayer->Set_CurCommand(eCommand);

@@ -11,6 +11,7 @@ enum COMMAND_TYPE
 {
 	NONE,
 	MOVE,
+	ATTACK,
 	ATTACK_Q,
 };
 

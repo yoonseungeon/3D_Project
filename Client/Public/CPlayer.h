@@ -39,6 +39,8 @@ public:
 	void Apply_WaitState();
 	const COMMAND& Get_CurCommand() { return m_tCurCommand; }
 
+	_bool IsTargetInRange();
+
 	// Part Obj
 	void Set_Animation(wstring wstrPartObjTag, _uint eAniIndex, _bool bLoop);
 	_bool IsAnimationFinished(wstring wstrPartObjTag);
