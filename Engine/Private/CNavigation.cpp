@@ -82,21 +82,49 @@ HRESULT CNavigation::SetUp_Neighbors()
 {
     // src에서 dst한테 점 두 개를 주고, 이웃인지 물어본다.
     // 이웃이면 이 변의 이웃이라고 인덱스 저장
-    for (auto& pSourCell : m_Cells)
-    {
-        for (auto& pDestCell : m_Cells)
-        {
-            if (pSourCell == pDestCell)
-            {
-                continue;
-            }
+    //for (auto& pSourCell : m_Cells)
+    //{
+    //    for (auto& pDestCell : m_Cells)
+    //    {
+    //        if (pSourCell == pDestCell)
+    //        {
+    //            continue;
+    //        }
 
-            if (pDestCell->Compare(pSourCell->Get_Point(CELL_POINT::A), pSourCell->Get_Point(CELL_POINT::B)) == true)
-                pSourCell->Set_Neighbor(LINE::AB, pDestCell);
-            else if (pDestCell->Compare(pSourCell->Get_Point(CELL_POINT::B), pSourCell->Get_Point(CELL_POINT::C)) == true)
-                pSourCell->Set_Neighbor(LINE::BC, pDestCell);
-            else if (pDestCell->Compare(pSourCell->Get_Point(CELL_POINT::C), pSourCell->Get_Point(CELL_POINT::A)) == true)
-                pSourCell->Set_Neighbor(LINE::CA, pDestCell);
+    //        if (pDestCell->Compare(pSourCell->Get_Point(CELL_POINT::A), pSourCell->Get_Point(CELL_POINT::B)) == true)
+    //            pSourCell->Set_Neighbor(LINE::AB, pDestCell);
+    //        else if (pDestCell->Compare(pSourCell->Get_Point(CELL_POINT::B), pSourCell->Get_Point(CELL_POINT::C)) == true)
+    //            pSourCell->Set_Neighbor(LINE::BC, pDestCell);
+    //        else if (pDestCell->Compare(pSourCell->Get_Point(CELL_POINT::C), pSourCell->Get_Point(CELL_POINT::A)) == true)
+    //            pSourCell->Set_Neighbor(LINE::CA, pDestCell);
+    //    }
+    //}
+
+    for (size_t i = 0; i < m_Cells.size(); ++i)
+    {
+        for (size_t j = 1 + i; j < m_Cells.size(); ++j)
+        {
+            _vector vA = m_Cells[i]->Get_Point(CELL_POINT::A);
+            _vector vB = m_Cells[i]->Get_Point(CELL_POINT::B);
+            _vector vC = m_Cells[i]->Get_Point(CELL_POINT::C);
+
+            LINE eLine = {};
+
+            if (m_Cells[j]->Compare(vA, vB, eLine) == true)
+            {
+                m_Cells[i]->Set_Neighbor(LINE::AB, m_Cells[j]);
+                m_Cells[j]->Set_Neighbor(eLine, m_Cells[i]);
+            }
+            else if (m_Cells[j]->Compare(vB, vC, eLine) == true)
+            {
+                m_Cells[i]->Set_Neighbor(LINE::BC, m_Cells[j]);
+                m_Cells[j]->Set_Neighbor(eLine, m_Cells[i]);
+            }
+            else if (m_Cells[j]->Compare(vC, vA, eLine) == true)
+            {
+                m_Cells[i]->Set_Neighbor(LINE::CA, m_Cells[j]);
+                m_Cells[j]->Set_Neighbor(eLine, m_Cells[i]);
+            }
         }
     }
 

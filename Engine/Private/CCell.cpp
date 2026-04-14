@@ -56,31 +56,49 @@ _bool XM_CALLCONV CCell::isIn(_fvector vResultPos, _int* pNeighborIndex)
 	return true;
 }
 
-_bool XM_CALLCONV CCell::Compare(_fvector vSourPoint, _fvector vDestPoint)
+_bool XM_CALLCONV CCell::Compare(_fvector vSourPoint, _fvector vDestPoint, LINE& eLine)
 {
 	// 두 점이 같은지 검사
 	if (true == XMVector3Equal(vSourPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::A)])))
 	{
 		if (true == XMVector3Equal(vDestPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::B)])))
+		{
+			eLine = LINE::AB;
 			return true;
+		}
 		if (true == XMVector3Equal(vDestPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::C)])))
+		{
+			eLine = LINE::CA;
 			return true;
+		}
 	}
 
 	if (true == XMVector3Equal(vSourPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::B)])))
 	{
 		if (true == XMVector3Equal(vDestPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::C)])))
+		{
+			eLine = LINE::BC;
 			return true;
+		}
 		if (true == XMVector3Equal(vDestPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::A)])))
+		{
+			eLine = LINE::AB;
 			return true;
+		}
 	}
 
 	if (true == XMVector3Equal(vSourPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::C)])))
 	{
 		if (true == XMVector3Equal(vDestPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::A)])))
+		{
+			eLine = LINE::CA;
 			return true;
+		}
 		if (true == XMVector3Equal(vDestPoint, XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::B)])))
+		{
+			eLine = LINE::BC;
 			return true;
+		}
 	}
 
 	return false;

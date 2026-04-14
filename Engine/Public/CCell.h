@@ -22,7 +22,7 @@ public:
 	_uint Get_CellIdx() { return m_iIndex; }
 
 	_bool XM_CALLCONV isIn(_fvector vResultPos, _int* pNeighborIndex);
-	_bool XM_CALLCONV Compare(_fvector vSourPoint, _fvector vDestPoint);
+	_bool XM_CALLCONV Compare(_fvector vSourPoint, _fvector vDestPoint, LINE& eLine);
 
 #ifdef _DEBUG
 public:
