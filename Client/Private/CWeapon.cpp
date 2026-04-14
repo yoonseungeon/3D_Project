@@ -24,14 +24,6 @@ HRESULT CWeapon::Initialize(void* pArg)
 
     m_pSocketBoneMatrix = pDesc->pSocketBoneMatrix;
 
-    m_pCurState = pDesc->pCurMoveState;
-    m_iCurState = *m_pCurState;
-
-    m_pCurATKType = pDesc->pCurATKType;
-
-    m_pSyncAniSpeed = pDesc->pSyncAniSpeed;
-    m_pSyncInterpolationSpeed = pDesc->pSyncInterpolationSpeed;
-
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
@@ -47,14 +39,10 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 
 void CWeapon::Parallel_Update(_float fTimeDelta)
 {
-    Enter_State(fTimeDelta);
-
     if (m_bIsInactive == true)
     {
         return;
     }
-
-    Execute_State(fTimeDelta);
 
     m_pModelCom->Play_Animation(fTimeDelta);
 }
@@ -108,6 +96,26 @@ HRESULT CWeapon::Render()
     return S_OK;
 }
 
+void CWeapon::Set_Animation(_uint eAniIndex, _bool bLoop)
+{
+    m_pModelCom->Set_AnimationIndex(eAniIndex, bLoop);
+}
+
+_bool CWeapon::IsAnimationFinished()
+{
+    return m_pModelCom->IsAnimationFinished();
+}
+
+void CWeapon::Set_AniInterpolationTime(_float InterpolationTime)
+{
+    m_pModelCom->Set_AniInterpolationTime(InterpolationTime);
+}
+
+void CWeapon::Set_AniSpeed(_uint iIndex, _float fAniSpeed)
+{
+    m_pModelCom->Set_AniSpeed(iIndex, fAniSpeed);
+}
+
 HRESULT CWeapon::Ready_Components()
 {
     /* For.Com_Shader */
@@ -150,185 +158,6 @@ HRESULT CWeapon::Bind_ShaderResources()
         return E_FAIL;
 
     return S_OK;
-}
-
-void CWeapon::Enter_State(_float fTimeDelta)
-{
-    // 애니메이션 상태가 바뀌었을 때 한 번만 실행
-    if (m_iCurState != *m_pCurState)
-    {
-        WPAniIndex eAniIndx{};
-
-        switch (*m_pCurState)
-        {
-            case CPlayer::ACTION_STATE::ATK_P:
-            {
-                m_bIsInactive = false;
-                if (*m_pCurATKType == 0) {
-                    m_pModelCom->Set_AnimationIndex(ATK_1_WP, false);
-                    eAniIndx = ATK_1_WP;
-                }
-                else
-                {
-                    m_pModelCom->Set_AnimationIndex(ATK_2_WP, false);
-                    eAniIndx = ATK_2_WP;
-                }
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::ATK_P_P:
-            {
-                m_bIsInactive = false;
-                if (*m_pCurATKType == 0) {
-                    m_pModelCom->Set_AnimationIndex(ATK_1P_WP, false);
-                    eAniIndx = ATK_1P_WP;
-                }
-                else
-                {
-                    m_pModelCom->Set_AnimationIndex(ATK_2P_WP, false);
-                    eAniIndx = ATK_2P_WP;
-                }
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::IDLE_P:
-            {
-                m_bIsInactive = false;
-                m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
-                eAniIndx = IDLE_WP;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::RUN_P:
-            {
-                m_bIsInactive = false;
-                m_pModelCom->Set_AnimationIndex(RUN_WP, true);
-                eAniIndx = RUN_WP;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::Q1:
-            {
-                m_bIsInactive = false;
-                m_pModelCom->Set_AnimationIndex(Q1_WP, false);
-                eAniIndx = Q1_WP;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::Q2:
-            {
-                m_bIsInactive = false;
-                m_pModelCom->Set_AnimationIndex(Q2_WP, false);
-                eAniIndx = Q2_WP;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::Q3:
-            {
-                m_bIsInactive = false;
-                m_pModelCom->Set_AnimationIndex(Q3_WP, false);
-                eAniIndx = Q3_WP;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::E:
-            {
-                m_bIsInactive = false;
-                m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
-                eAniIndx = IDLE_WP;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::R:
-            {
-                m_bIsInactive = false;
-                m_pModelCom->Set_AnimationIndex(IDLE_WP, true);
-                eAniIndx = IDLE_WP;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::REST_P:
-            case CPlayer::ACTION_STATE::CRAFT_P:
-            case CPlayer::ACTION_STATE::COOK_P:
-            case CPlayer::ACTION_STATE::COLLECT_P:
-            {
-                m_bIsInactive = true;
-                break;
-            }
-        }
-
-        m_pModelCom->Set_AniSpeed(eAniIndx, *m_pSyncAniSpeed);
-        m_pModelCom->Set_AniInterpolationTime(*m_pSyncInterpolationSpeed);
-        m_iCurState = *m_pCurState;
-    }
-}
-
-void CWeapon::Execute_State(_float fTimeDelta)
-{
-    switch (m_iCurState)
-    {
-        case CPlayer::ACTION_STATE::ATK_P:
-        {
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::ATK_P_P:
-        {
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::IDLE_P:
-        {
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::RUN_P:
-        {
-
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::Q1:
-        {
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::Q2:
-        {
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::Q3:
-        {
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::E:
-        {
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::R:
-        {
-            break;
-        }
-        case CPlayer::ACTION_STATE::REST_P:
-        {
-            break;
-        }
-        case CPlayer::ACTION_STATE::CRAFT_P:
-        {
-            break;
-        }
-        case CPlayer::ACTION_STATE::COOK_P:
-        {
-            break;
-        }
-        case CPlayer::ACTION_STATE::COLLECT_P:
-        {
-            break;
-        }
-    }
 }
 
 CWeapon* CWeapon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

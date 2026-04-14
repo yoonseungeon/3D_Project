@@ -160,12 +160,16 @@
     <ClInclude Include="..\Public\CGame_Manager.h" />
     <ClInclude Include="..\Public\Character_Meta.h" />
     <ClInclude Include="..\Public\CInGame_Manager.h" />
+    <ClInclude Include="..\Public\CLiDailinIdle.h" />
+    <ClInclude Include="..\Public\CLiDailinMove.h" />
+    <ClInclude Include="..\Public\CLiDailin_Q.h" />
     <ClInclude Include="..\Public\CLobbySelectBtn.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CLumia_Structure.h" />
     <ClInclude Include="..\Public\CMapSelectBtn.h" />
     <ClInclude Include="..\Public\CLumia_Ground.h" />
     <ClInclude Include="..\Public\CMonster.h" />
+    <ClInclude Include="..\Public\Command.h" />
     <ClInclude Include="..\Public\CPickSkin.h" />
     <ClInclude Include="..\Public\CPickSlot.h" />
     <ClInclude Include="..\Public\CPlayer.h" />
@@ -173,6 +177,7 @@
     <ClInclude Include="..\Public\CStage.h" />
     <ClInclude Include="..\Public\CStage_Lobby.h" />
     <ClInclude Include="..\Public\CStage_Select.h" />
+    <ClInclude Include="..\Public\CState.h" />
     <ClInclude Include="..\Public\CUI_Btn.h" />
     <ClInclude Include="..\Public\CUI_AniImage.h" />
     <ClInclude Include="..\Public\CUI_Default.h" />
@@ -192,6 +197,7 @@
     <ClInclude Include="..\Public\CUI_SkinPanel.h" />
     <ClInclude Include="..\Public\CUI_TextBox.h" />
     <ClInclude Include="..\Public\CWeapon.h" />
+    <ClInclude Include="..\Public\LiDailin_Info.h" />
     <ClInclude Include="..\Public\Map_Meta.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -206,6 +212,9 @@
     <ClCompile Include="..\Private\CForkLift.cpp" />
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
     <ClCompile Include="..\Private\CInGame_Manager.cpp" />
+    <ClCompile Include="..\Private\CLiDailinIdle.cpp" />
+    <ClCompile Include="..\Private\CLiDailinMove.cpp" />
+    <ClCompile Include="..\Private\CLiDailin_Q.cpp" />
     <ClCompile Include="..\Private\CLobbySelectBtn.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
     <ClCompile Include="..\Private\CLumia_Structure.cpp" />
@@ -219,6 +228,7 @@
     <ClCompile Include="..\Private\CStage.cpp" />
     <ClCompile Include="..\Private\CStage_Lobby.cpp" />
     <ClCompile Include="..\Private\CStage_Select.cpp" />
+    <ClCompile Include="..\Private\CState.cpp" />
     <ClCompile Include="..\Private\CUI_Btn.cpp" />
     <ClCompile Include="..\Private\CUI_AniImage.cpp" />
     <ClCompile Include="..\Private\CUI_Default.cpp" />

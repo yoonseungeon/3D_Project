@@ -78,7 +78,7 @@ private:
 
 	_uint				m_iPreviousAnimationIndex{};
 	_bool				m_bInterpolationAni{};
-	_float				m_fAniInterpolationTime{ 0.12f };
+	_float				m_fAniInterpolationTime{ 0.08f };
 	_float				m_fAccAniInterpolationTime{};
 	_bool				m_bAniInterpolationStart{};
 	vector<KEYFRAME>    m_PreAniFrames;

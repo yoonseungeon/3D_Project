@@ -42,7 +42,6 @@ void CBottle::Priority_Update(_float fTimeDelta)
 
 void CBottle::Parallel_Update(_float fTimeDelta)
 {
-    Enter_State(fTimeDelta);
 }
 
 void CBottle::Update(_float fTimeDelta)
@@ -131,40 +130,6 @@ HRESULT CBottle::Bind_ShaderResources()
         return E_FAIL;
 
     return S_OK;
-}
-
-void CBottle::Enter_State(_float fTimeDelta)
-{
-    // 애니메이션 상태가 바뀌었을 때 한 번만 실행
-    if (m_iCurState != *m_pCurState)
-    {
-        switch (*m_pCurState)
-        {
-            case CPlayer::ACTION_STATE::REST_P:
-            {
-                m_bIsInactive = false;
-                break;
-            }
-            case CPlayer::ACTION_STATE::ATK_P:
-            case CPlayer::ACTION_STATE::ATK_P_P:
-            case CPlayer::ACTION_STATE::IDLE_P:
-            case CPlayer::ACTION_STATE::RUN_P:
-            case CPlayer::ACTION_STATE::Q1:
-            case CPlayer::ACTION_STATE::Q2:
-            case CPlayer::ACTION_STATE::Q3:
-            case CPlayer::ACTION_STATE::E:
-            case CPlayer::ACTION_STATE::R:
-            case CPlayer::ACTION_STATE::CRAFT_P:
-            case CPlayer::ACTION_STATE::COOK_P:
-            case CPlayer::ACTION_STATE::COLLECT_P:
-            {
-                m_bIsInactive = false;
-                break;
-            }
-        }
-
-        m_iCurState = *m_pCurState;
-    }
 }
 
 CBottle* CBottle::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

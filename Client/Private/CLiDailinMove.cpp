@@ -1,0 +1,58 @@
+#include "CLiDailinMove.h"
+
+#include "CPlayer.h"
+
+CLiDailinMove::CLiDailinMove()
+{
+}
+
+void CLiDailinMove::Enter(CPlayer* pPlayer)
+{
+	// Ani
+	pPlayer->Set_Animation(L"Body", static_cast<_uint>(LiDailin_Ani::Ani_Run), true);
+	pPlayer->Set_Animation(L"Weapon", static_cast<_uint>(Nunchaku_Ani::RUN_WP), true);
+
+	// ÀÌµ¿
+	_float3 vTargetPos = pPlayer->Get_CurCommand().vTargetPos;
+	pPlayer->Move_To_Pos(vTargetPos, true);
+}
+
+void CLiDailinMove::Update(CPlayer* pPlayer, _float fTimeDelta)
+{
+	if (pPlayer->Update_Move_To_Pos(fTimeDelta)) {
+		pPlayer->Set_WaitState(L"Idle");
+	}
+}
+
+void CLiDailinMove::Exit(CPlayer* pPlayer)
+{
+	pPlayer->Stop_Move_To_Pos();
+}
+
+void CLiDailinMove::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
+{
+	switch (eCommand.eCommandType) {
+		case COMMAND_TYPE::MOVE:
+		{
+			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_WaitState(L"Move");
+			break;
+		}
+		case COMMAND_TYPE::ATTACK_Q:
+		{
+			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_WaitState(L"CLiDailin_Q");
+			break;
+		}
+	}
+}
+
+CLiDailinMove* CLiDailinMove::Create()
+{
+	return new CLiDailinMove;
+}
+
+void CLiDailinMove::Free()
+{
+	__super::Free();
+}

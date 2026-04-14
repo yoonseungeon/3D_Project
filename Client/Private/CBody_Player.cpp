@@ -22,9 +22,6 @@ HRESULT CBody_Player::Initialize(void* pArg)
 {
     BODY_PLAYER_DESC* pDesc = static_cast<BODY_PLAYER_DESC*>(pArg);
 
-    m_pCurState = pDesc->pCurMoveState;
-    m_iCurState = *m_pCurState;
-
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
@@ -40,9 +37,6 @@ void CBody_Player::Priority_Update(_float fTimeDelta)
 
 void CBody_Player::Parallel_Update(_float fTimeDelta)
 {
-    Enter_State(fTimeDelta);
-    Execute_State(fTimeDelta);
-
     m_pModelCom->Play_Animation(fTimeDelta);
 }
 
@@ -85,6 +79,26 @@ HRESULT CBody_Player::Render()
 const _float4x4* CBody_Player::Get_BoneMatrixPtr(const _char* pBoneName) const
 {
     return m_pModelCom->Get_BoneMatrixPtr(pBoneName);
+}
+
+void CBody_Player::Set_Animation(_uint eAniIndex, _bool bLoop)
+{
+    m_pModelCom->Set_AnimationIndex(eAniIndex, bLoop);
+}
+
+_bool CBody_Player::IsAnimationFinished()
+{
+    return m_pModelCom->IsAnimationFinished();
+}
+
+void CBody_Player::Set_AniInterpolationTime(_float InterpolationTime)
+{
+    m_pModelCom->Set_AniInterpolationTime(InterpolationTime);
+}
+
+void CBody_Player::Set_AniSpeed(_uint iIndex, _float fAniSpeed)
+{
+    m_pModelCom->Set_AniSpeed(iIndex, fAniSpeed);
 }
 
 HRESULT CBody_Player::Ready_Components()
@@ -135,334 +149,6 @@ HRESULT CBody_Player::Bind_ShaderResources()
         return E_FAIL;
 
     return S_OK;
-}
-
-void CBody_Player::Enter_State(_float fTimeDelta)
-{
-    // 애니메이션 상태가 바뀌었을 때 한 번만 실행
-    if (m_iCurState != *m_pCurState)
-    {
-        ZeroMemory(&m_tAniLockInfo, sizeof(AniLock));
-        AniIndex eAniIdx{};
-
-        switch (*m_pCurState)
-        {
-            case CPlayer::ACTION_STATE::ATK_P:
-            {
-                if (rand() % 2 == 0) {
-                    m_pModelCom->Set_AnimationIndex(Ani_ATK_1, false);
-                    m_iCurATKType = 0;
-
-                    eAniIdx = Ani_ATK_1;
-                    m_fSyncAniSpeed = 1.0f;
-                    m_fSyncInterpolationSpeed = 0.08f;
-                }
-                else {
-                    m_pModelCom->Set_AnimationIndex(Ani_ATK_2, false);
-                    m_iCurATKType = 1;
-
-                    eAniIdx = Ani_ATK_2;
-                    m_fSyncAniSpeed = 1.0f;
-                    m_fSyncInterpolationSpeed = 0.08f;
-                }
-
-                m_eAniState = NONE;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::ATK_P_P:
-            {
-                if (rand() % 2 == 0) {
-                    m_pModelCom->Set_AnimationIndex(Ani_ATK_1P, false);
-                    m_iCurATKType = 0;
-
-                    eAniIdx = Ani_ATK_1P;
-                    m_fSyncAniSpeed = 1.0f;
-                    m_fSyncInterpolationSpeed = 0.08f;
-                }
-                else {
-                    m_pModelCom->Set_AnimationIndex(Ani_ATK_2P, false);
-                    m_iCurATKType = 1;
-
-                    eAniIdx = Ani_ATK_2P;
-                    m_fSyncAniSpeed = 1.0f;
-                    m_fSyncInterpolationSpeed = 0.08f;
-                }
-
-                m_eAniState = NONE;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::Q1:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_Q1, false);
-                m_tAniLockInfo.bIsAniLock = true;
-                m_eAniState = NONE;
-
-                eAniIdx = Ani_Q1;
-                m_fSyncAniSpeed = 2.3f;
-                m_fSyncInterpolationSpeed = 0.03f;
-                break;
-            }      
-
-            case CPlayer::ACTION_STATE::Q2:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_Q2, false);
-                m_tAniLockInfo.bIsAniLock = true;
-                m_eAniState = NONE;
-
-                eAniIdx = Ani_Q2;
-                m_fSyncAniSpeed = 2.3f;
-                m_fSyncInterpolationSpeed = 0.03f;
-                break;
-            }         
-
-            case CPlayer::ACTION_STATE::Q3:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_Q3, false);
-                m_tAniLockInfo.bIsAniLock = true;
-                m_eAniState = NONE;
-
-                eAniIdx = Ani_Q3;
-                m_fSyncAniSpeed = 2.3f;
-                m_fSyncInterpolationSpeed = 0.03f;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::E:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_E, false);
-                m_tAniLockInfo.bIsAniLock = true;
-                m_eAniState = NONE;
-
-                eAniIdx = Ani_E;
-                m_fSyncAniSpeed = 1.4f;
-                m_fSyncInterpolationSpeed = 0.08f;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::R:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_R1, false);
-                m_tAniLockInfo.bIsAniLock = true;
-                m_eAniState = START;
-
-                eAniIdx = Ani_R1;
-                m_fSyncAniSpeed = 1.f;
-                m_fSyncInterpolationSpeed = 0.08f;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::IDLE_P:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_Idle, true);
-                m_eAniState = NONE;
-
-                eAniIdx = Ani_Idle;
-                m_fSyncAniSpeed = 1.f;
-                m_fSyncInterpolationSpeed = 0.08f;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::RUN_P:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_Run, true);
-                m_eAniState = NONE;
-
-                eAniIdx = Ani_Run;
-                m_fSyncAniSpeed = 1.f;
-                m_fSyncInterpolationSpeed = 0.08f;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::REST_P:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_RestStart, false);
-                m_eAniState = START;
-
-                eAniIdx = Ani_RestStart;
-                m_fSyncAniSpeed = 2.4f;
-                m_fSyncInterpolationSpeed = 0.03f;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::CRAFT_P:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_Craft, false);
-                m_eAniState = START;
-
-                eAniIdx = Ani_Craft;
-                m_fSyncAniSpeed = 1.0f;
-                m_fSyncInterpolationSpeed = 0.08f;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::COOK_P:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_Cook, false);
-                m_eAniState = START;
-
-                eAniIdx = Ani_Cook;
-                m_fSyncAniSpeed = 1.0f;
-                m_fSyncInterpolationSpeed = 0.08f;
-                break;
-            }
-
-            case CPlayer::ACTION_STATE::COLLECT_P:
-            {
-                m_pModelCom->Set_AnimationIndex(Ani_Collect, false);
-                m_eAniState = START;
-
-                eAniIdx = Ani_Collect;
-                m_fSyncAniSpeed = 1.0f;
-                m_fSyncInterpolationSpeed = 0.08f;
-                break;
-            }
-        }
-
-        m_iCurState = *m_pCurState;
-
-        m_pModelCom->Set_AniSpeed(eAniIdx, m_fSyncAniSpeed);
-        m_pModelCom->Set_AniInterpolationTime(m_fSyncInterpolationSpeed);
-    }
-}
-
-void CBody_Player::Execute_State(_float fTimeDelta)
-{
-    switch (m_iCurState)
-    {
-        case CPlayer::ACTION_STATE::ATK_P:
-        case CPlayer::ACTION_STATE::ATK_P_P:
-        {
-            if (m_pModelCom->IsAnimationFinished()) {
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-        }
-
-        case CPlayer::ACTION_STATE::IDLE_P:
-        {
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::RUN_P:
-        {
-            break;
-        }
- 
-        case CPlayer::ACTION_STATE::Q1:
-        {
-            if (m_pModelCom->IsAnimationFinished()) {
-                m_tAniLockInfo.bIsAniLock = false;
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::Q2:
-        {
-            if (m_pModelCom->IsAnimationFinished()) {
-                m_tAniLockInfo.bIsAniLock = false;
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::Q3:
-        {
-            if (m_pModelCom->IsAnimationFinished()) {
-                m_tAniLockInfo.bIsAniLock = false;
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::E:
-        {
-            if (m_pModelCom->IsAnimationFinished()) {
-                m_tAniLockInfo.bIsAniLock = false;
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::R:
-        {
-            if (m_eAniState == START && m_pModelCom->IsAnimationFinished()) {
-                m_pModelCom->Set_AnimationIndex(Ani_R2, false); 
-                m_eAniState = END;
-            }
-
-            if(m_eAniState == END && m_pModelCom->IsAnimationFinished())
-            {
-                m_tAniLockInfo.bIsAniLock = false;
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::REST_P:
-        {          
-            if (m_eAniState == START && m_pModelCom->IsAnimationFinished()) {
-                m_pModelCom->Set_AnimationIndex(Ani_RestLoop, true);
-                m_tAniLockInfo.bIsAniLock = true;
-                m_eAniState = LOOP;
-
-                m_fSyncAniSpeed = 1.2f;
-                m_fSyncInterpolationSpeed = 0.03f;
-                m_pModelCom->Set_AniSpeed(Ani_RestLoop, m_fSyncAniSpeed);
-                m_pModelCom->Set_AniInterpolationTime(m_fSyncInterpolationSpeed);
-            }
-
-            if (m_eAniState == LOOP && m_tAniLockInfo.bIsRequestUnlock) {
-                m_pModelCom->Set_AnimationIndex(Ani_RestEnd, false);
-                m_eAniState = END;
-
-                m_fSyncAniSpeed = 2.8f;
-                m_fSyncInterpolationSpeed = 0.03f;
-                m_pModelCom->Set_AniSpeed(Ani_RestEnd, 2.8f);
-                m_pModelCom->Set_AniInterpolationTime(0.03f);
-            }
-
-            if (m_eAniState == END && m_pModelCom->IsAnimationFinished()) {
-     
-                m_tAniLockInfo.bIsAniLock = false;
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::CRAFT_P:
-        {
-            if (m_pModelCom->IsAnimationFinished()) {
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::COOK_P:
-        {
-            if (m_pModelCom->IsAnimationFinished()) {
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-
-            break;
-        }
-
-        case CPlayer::ACTION_STATE::COLLECT_P:
-        {
-            if (m_pModelCom->IsAnimationFinished()) {
-                m_tAniLockInfo.bIsAniLockExit = true;
-            }
-
-            break;
-        }
-    }
 }
 
 CBody_Player* CBody_Player::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

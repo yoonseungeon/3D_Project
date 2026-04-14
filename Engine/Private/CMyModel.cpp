@@ -114,12 +114,15 @@ const _float4x4* CMyModel::Get_BoneMatrixPtr(const _char* pBoneName) const
 void CMyModel::Set_AnimationIndex(_uint iIndex, _bool isLoop)
 {
     m_iPreviousAnimationIndex = m_iCurrentAnimationIndex;
-
-    m_bIsFinished = false;
     m_iCurrentAnimationIndex = iIndex;
     m_isAnimLoop = isLoop;    
-    m_Animations[m_iCurrentAnimationIndex]->Reset_KeyFrameIndex();
-    m_Animations[m_iCurrentAnimationIndex]->Reset_CurrentTrackPosition();
+
+    m_bIsFinished = false;
+
+    if (m_iCurrentAnimationIndex != m_iPreviousAnimationIndex || m_isAnimLoop != true) {
+        m_Animations[m_iCurrentAnimationIndex]->Reset_KeyFrameIndex();
+        m_Animations[m_iCurrentAnimationIndex]->Reset_CurrentTrackPosition();
+    }
 
     if (m_iCurrentAnimationIndex != m_iPreviousAnimationIndex)
     {

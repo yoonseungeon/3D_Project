@@ -48,9 +48,6 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
-private:
-	void Enter_State(_float fTimeDelta);
-
 public:
 	static CBottle* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

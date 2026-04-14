@@ -139,6 +139,18 @@
     <Filter Include="02. GameObject\02. Map_Lumia\03. Roof">
       <UniqueIdentifier>{5a9af583-37dd-47b9-bc03-f6d7a3df459a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. State">
+      <UniqueIdentifier>{1c69efd9-e441-43d7-965f-88cb97d0e641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. State\00. Idle">
+      <UniqueIdentifier>{a3a40e0f-4731-45d5-8ffb-200ccafbb771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. State\01. Move">
+      <UniqueIdentifier>{c1b1cd04-40ac-4d0b-8a7c-d4451f6afc42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. State\02. LiDailin_Q">
+      <UniqueIdentifier>{857f8a38-f9fb-4f78-9bdd-c70ab3011b36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -276,6 +288,24 @@
     <ClInclude Include="..\Public\CRoof.h">
       <Filter>02. GameObject\02. Map_Lumia\03. Roof</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CState.h">
+      <Filter>02. GameObject\06. State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Command.h">
+      <Filter>999. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLiDailinIdle.h">
+      <Filter>02. GameObject\06. State\00. Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLiDailinMove.h">
+      <Filter>02. GameObject\06. State\01. Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LiDailin_Info.h">
+      <Filter>999. Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLiDailin_Q.h">
+      <Filter>02. GameObject\06. State\02. LiDailin_Q</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -407,6 +437,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\CRoof.cpp">
       <Filter>02. GameObject\02. Map_Lumia\03. Roof</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CState.cpp">
+      <Filter>02. GameObject\06. State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailinIdle.cpp">
+      <Filter>02. GameObject\06. State\00. Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailinMove.cpp">
+      <Filter>02. GameObject\06. State\01. Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailin_Q.cpp">
+      <Filter>02. GameObject\06. State\02. LiDailin_Q</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
