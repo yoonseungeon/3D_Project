@@ -35,6 +35,7 @@ public:
 	virtual HRESULT Render();
 
 public:
+	class CComponent* Find_Component(const _wstring& wstrComponentTag);
 	virtual void Set_IsInactive(_bool bIsInactive) { m_bIsInactive = bIsInactive; }
 
 #ifdef _DEBUG
@@ -55,8 +56,6 @@ protected:
 protected:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag,
 		const _wstring& wstrComponentTag, CComponent** ppOut, void* pArg = nullptr);
-
-	class CComponent* Find_Component(const _wstring& wstrComponentTag);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

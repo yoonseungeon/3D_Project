@@ -131,6 +131,15 @@ void CObject_Manager::Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMod
 	m_eParallelMode = eParallelMode;
 }
 
+CComponent* CObject_Manager::Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex)
+{
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return nullptr;
+
+	return pLayer->Get_Component(strComponentTag, iIndex);
+}
+
 CLayer* CObject_Manager::Find_Layer(_uint iLayerLevelIndex, const _wstring& strLayerTag)
 {
 	auto iter = m_pLayers[iLayerLevelIndex].find(strLayerTag);

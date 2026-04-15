@@ -78,6 +78,7 @@ public:
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr, CGameObject** ppOut = nullptr);
 	void Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode);
 
+	CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
 #ifdef _DEBUG
 	size_t Get_NumLevels();
 	const map<const _wstring, class CLayer*>* Get_MapLevelLayers();

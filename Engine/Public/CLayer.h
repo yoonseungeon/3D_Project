@@ -13,6 +13,9 @@ private:
 	virtual ~CLayer() = default;
 
 public:
+	class CComponent* Get_Component(const _wstring& strComponentTag, _uint iIndex);
+
+public:
 	HRESULT Add_GameObject(CGameObject* pGameObject);
 	void	Priority_Update(_float fTimeDelta);
 	void	Parallel_Update_Parallel(_float fTimeDelta, _int& iTotalJobCnt, atomic<_int>& iFinishedJobCnt, function<void(function<void()> funcJob)> func);

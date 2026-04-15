@@ -34,6 +34,9 @@ public:
 	_bool Is_Parallel_Update_Finished();
 	void Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode);
 
+public:
+	class CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex);
+
 #ifdef _DEBUG
 	size_t Get_NumLevels() const { return m_iNumLevels; }
 	const map<const _wstring, CLayer*>* Get_MapLevelLayers() const { return m_pLayers; }

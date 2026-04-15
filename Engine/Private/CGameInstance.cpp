@@ -221,6 +221,11 @@ void CGameInstance::Set_Parallel_Update_Mode(PARALLEL_UPDATE_MODE eParallelMode)
 	m_pObject_Manager->Set_Parallel_Update_Mode(eParallelMode);
 }
 
+CComponent* CGameInstance::Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex)
+{
+	return m_pObject_Manager->Get_Component(iLevelIndex, strLayerTag, strComponentTag, iIndex);
+}
+
 #ifdef _DEBUG
 size_t CGameInstance::Get_NumLevels()
 {
