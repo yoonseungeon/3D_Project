@@ -2,6 +2,7 @@
 
 #include "CCell.h"
 #include "CGameInstance.h"
+#include "CTransform.h"
 
 const _float4x4* CNavigation::m_pParentMatrixPtr = { nullptr };
 
@@ -25,7 +26,7 @@ CNavigation::CNavigation(const CNavigation& Prototype)
         Safe_AddRef(pCell);
 }
 
-HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFile)
+HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFile, const _tchar* pNeighborIndicesFilePath)
 {
     _ulong dwByte{};
     HANDLE hFile = CreateFile(pNavigationDataFile, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -52,7 +53,7 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFile)
 
     CloseHandle(hFile);
 
-    SetUp_Neighbors();
+    SetUp_Neighbors(pNeighborIndicesFilePath);
 
 #ifdef _DEBUG
     m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"), VTXPOS::Elements, VTXPOS::iNumElements);
@@ -131,6 +132,26 @@ HRESULT CNavigation::SetUp_Neighbors()
     return S_OK;
 }
 
+HRESULT CNavigation::SetUp_Neighbors(const _tchar* pNeighborIndicesFilePath)
+{
+    _ulong dwByte = {};
+    HANDLE hFile = CreateFile(pNeighborIndicesFilePath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile == 0)
+        return E_FAIL;
+
+    _int iNeighbors[3] = {};
+
+    for (auto& pCell : m_Cells)
+    {
+        ReadFile(hFile, iNeighbors, sizeof(_int) * 3, &dwByte, nullptr);
+
+        pCell->Set_Neighbors(iNeighbors);
+    }
+    CloseHandle(hFile);
+
+    return S_OK;
+}
+
 _bool CNavigation::Find_CurCell_Index(_float3& vWorldPos)
 {
     _vector vPos = XMLoadFloat3(&vWorldPos);
@@ -155,60 +176,93 @@ _bool CNavigation::Find_CurCell_Index(_float3& vWorldPos)
     return false;
 }
 
+void CNavigation::Compute_OnNavigation(CTransform* pTargetTransform)
+{
+    if (-1 == m_iCurrentCellIndex)
+        return;
+
+    _vector vCurrentPosition = pTargetTransform->Get_State(STATE::POSITION);
+
+    _float fHeight = m_Cells[m_iCurrentCellIndex]->Compute_Height(vCurrentPosition);
+
+    pTargetTransform->Set_State(STATE::POSITION, XMVectorSetY(vCurrentPosition, fHeight));
+}
+
 _bool CNavigation::isMove(_fvector vResultPos)
 {
     // 움직이고 난 결과 위치가 필요하다. 그래서 TransformCom 안에서 호출
-
     if (m_iCurrentCellIndex == -1)
         return false;
 
     _int iNeighborIndex = { -1 };
 
     // Cell 안에 있냐?
-    if (m_Cells[m_iCurrentCellIndex]->isIn(vResultPos, &iNeighborIndex) == true)
+    while (true)
     {
-        return true;
-    }
-    else
-    {
-        // 나간 방향에 해당하는 인덱스를 현재 인덱스로 바꿈
-        if (iNeighborIndex != -1)
+        iNeighborIndex = -1;
+
+        // 현재 셀 위인지 검사
+        if (m_Cells[m_iCurrentCellIndex]->isIn(vResultPos, &iNeighborIndex) == true)
         {
-            m_iCurrentCellIndex = iNeighborIndex;
+            // 현재 셀 위면 true
             return true;
         }
-        else // 이웃이 없으면 못 움직임.
+
+        // 아닌데 이웃이 없으면 false
+        if (iNeighborIndex == -1)
         {
             return false;
         }
+
+        // 나간 방향에 해당하는 인덱스를 현재 인덱스로 바꿈
+        // 새로운 이웃이 있으면 저장
+        m_iCurrentCellIndex = iNeighborIndex;
     }
 }
 
 #ifdef _DEBUG
 HRESULT CNavigation::Render()
 {
-    // 지형으로부터 얻어와야 함.
-    m_pShader->Bind_Matrix("g_WorldMatrix", m_pParentMatrixPtr);
+    _float4x4 WorldMatrix = *m_pParentMatrixPtr;
+    _float4 vColor = _float4(0.f, 1.f, 0.f, 1.f);
 
     m_pShader->Bind_Matrix("g_ViewMatrix", m_pGameInstance->Get_Transform(D3DTS::VIEW));
     m_pShader->Bind_Matrix("g_ProjMatrix", m_pGameInstance->Get_Transform(D3DTS::PROJ));
 
-    m_pShader->Begin(0);
-
-    for (auto& pCell : m_Cells)
+    if (-1 == m_iCurrentCellIndex)
     {
-        if (pCell != nullptr)
-            pCell->Render();
+        // 지형으로부터 얻어와야 함.
+        m_pShader->Bind_Matrix("g_WorldMatrix", &WorldMatrix);
+        m_pShader->Bind_RawValue("g_vColor", &vColor, sizeof vColor);
+        m_pShader->Begin(0);
+
+        for (auto& pCell : m_Cells)
+        {
+            if (nullptr != pCell)
+                pCell->Render();
+        }
+    }
+    else
+    {
+        // 지형이 아닌 경우 빨간색으로
+        WorldMatrix._42 += 0.05f;
+        vColor = _float4(1.f, 0.f, 0.f, 1.f);
+
+        m_pShader->Bind_Matrix("g_WorldMatrix", &WorldMatrix);
+        m_pShader->Bind_RawValue("g_vColor", &vColor, sizeof vColor);
+        m_pShader->Begin(0);
+
+        m_Cells[m_iCurrentCellIndex]->Render();
     }
     return S_OK;
 }
 #endif
 
-CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFile)
+CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFile, const _tchar* pNeighborIndicesFilePath)
 {
     CNavigation* pInstance = new CNavigation(pDevice, pContext);
 
-    if (FAILED(pInstance->Initialize_Prototype(pNavigationDataFile)))
+    if (FAILED(pInstance->Initialize_Prototype(pNavigationDataFile, pNeighborIndicesFilePath)))
     {
         MSG_BOX("Failed to Created: CNavigation");
         Safe_Release(pInstance);
@@ -232,6 +286,19 @@ CComponent* CNavigation::Clone(void* pArg)
 
 void CNavigation::Free()
 {
+    //_ulong          dwByte = {};
+    //HANDLE          hFile = CreateFile(TEXT("../Bin/DataFiles/Neighbors.dat"), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+
+    //_int         iNeighbors[3];
+
+    //for (auto& pCell : m_Cells)
+    //{
+    //    memcpy(iNeighbors, pCell->Get_NeighborIndices(), sizeof(_int) * 3);
+    //    WriteFile(hFile, iNeighbors, sizeof(_int) * 3, &dwByte, nullptr);
+    //}
+
+    //CloseHandle(hFile);
+
     for (auto& pCell : m_Cells)
         Safe_Release(pCell);
     m_Cells.clear();

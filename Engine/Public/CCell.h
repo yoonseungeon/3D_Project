@@ -18,11 +18,18 @@ private:
 
 public:
 	_fvector Get_Point(CELL_POINT ePoint) { return XMLoadFloat3(&m_vPoints[ETOUI(ePoint)]); }
+
 	void Set_Neighbor(LINE eLine, CCell* pNeighborCell) { m_iNeighbors[ETOUI(eLine)] = pNeighborCell->m_iIndex; }
+	void Set_Neighbors(const _int* pNeighborIndices) { memcpy(m_iNeighbors, pNeighborIndices, sizeof(_int) * 3); }
+
 	_uint Get_CellIdx() { return m_iIndex; }
 
 	_bool XM_CALLCONV isIn(_fvector vResultPos, _int* pNeighborIndex);
 	_bool XM_CALLCONV Compare(_fvector vSourPoint, _fvector vDestPoint, LINE& eLine);
+
+	_float Compute_Height(_fvector vTargetPos);
+
+	//const _int* Get_NeighborIndices() { return m_iNeighbors; }
 
 #ifdef _DEBUG
 public:
@@ -36,6 +43,7 @@ private:
 	_float3					m_vNormals[ETOUI(LINE::END)] = {};
 	_uint					m_iIndex = {};
 	_int					m_iNeighbors[ETOUI(LINE::END)] = { -1, -1, -1 };
+	_float4					m_vPlane = {};
 
 #ifdef _DEBUG
 private:

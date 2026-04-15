@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 
 class CCell;
+class CTransform;
 
 class ENGINE_DLL CNavigation final : public CComponent
 {
@@ -27,11 +28,12 @@ private:
 	virtual ~CNavigation() = default;
 
 private:
-	virtual HRESULT Initialize_Prototype(const _tchar* pNavigationDataFile);
+	virtual HRESULT Initialize_Prototype(const _tchar* pNavigationDataFile, const _tchar* pNeighborIndicesFilePath);
 	virtual HRESULT Initialize(void* pArg);
 
 public:
 	_bool isMove(_fvector vResultPos);
+	void Compute_OnNavigation(CTransform* pTargetTransform);
 
 #ifdef _DEBUG
 public:
@@ -52,10 +54,12 @@ private:
 
 private:
 	HRESULT SetUp_Neighbors();
+	HRESULT SetUp_Neighbors(const _tchar* pNeighborIndicesFilePath);
+
 	_bool Find_CurCell_Index(_float3& vWorldPos);
 
 public:
-	static CNavigation* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFile);
+	static CNavigation* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFile, const _tchar* pNeighborIndicesFilePath);
 	virtual CComponent* Clone(void* pArg);
 protected:
 	virtual void Free() override;

@@ -68,6 +68,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 	if (m_pFont_Manager == nullptr)
 		return E_FAIL;
 
+	//&m_pTimer_Manager
 	return S_OK;
 }
 
@@ -156,6 +157,7 @@ void CGameInstance::Release_Engine()
 
 	DestroyInstance();
 }
+
 _float CGameInstance::Random(_float fMin, _float fMax)
 {
 	return fMin + static_cast<_float>(rand()) / RAND_MAX * (fMax - fMin);

@@ -123,6 +123,7 @@ HRESULT CUI_Image::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
     m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
+    m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(m_vColor));
     
     return S_OK;
 }

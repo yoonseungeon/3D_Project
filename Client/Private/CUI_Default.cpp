@@ -29,6 +29,7 @@ HRESULT CUI_Default::Initialize(void* pArg)
     m_eBlendState = pDesc->eBlendState;
 
     m_fImageAlpha = pDesc->fImageAlpha;
+    m_vColor = pDesc->vColor;
 
     return S_OK;
 }

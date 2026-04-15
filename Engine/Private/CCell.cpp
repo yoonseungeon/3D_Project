@@ -19,6 +19,10 @@ HRESULT CCell::Initialize(const _float3* pPoints, _uint iIndex)
 	// 삼각형 저장
 	memcpy(m_vPoints, pPoints, sizeof(_float3) * ETOUI(CELL_POINT::END));
 
+	// 평면 구하기
+	XMStoreFloat4(&m_vPlane,
+		XMPlaneFromPoints(XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::A)]), XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::B)]), XMLoadFloat3(&m_vPoints[ETOUI(CELL_POINT::C)])));
+
 	// 한 변의 수직인 법선 구하기(반시계)
 	m_vNormals[ETOUI(LINE::AB)] = _float3((m_vPoints[ETOUI(CELL_POINT::B)].z - m_vPoints[ETOUI(CELL_POINT::A)].z) * -1.f, 0.f, m_vPoints[ETOUI(CELL_POINT::B)].x - m_vPoints[ETOUI(CELL_POINT::A)].x);
 	m_vNormals[ETOUI(LINE::BC)] = _float3((m_vPoints[ETOUI(CELL_POINT::C)].z - m_vPoints[ETOUI(CELL_POINT::B)].z) * -1.f, 0.f, m_vPoints[ETOUI(CELL_POINT::C)].x - m_vPoints[ETOUI(CELL_POINT::B)].x);
@@ -102,6 +106,14 @@ _bool XM_CALLCONV CCell::Compare(_fvector vSourPoint, _fvector vDestPoint, LINE&
 	}
 
 	return false;
+}
+
+_float CCell::Compute_Height(_fvector vTargetPos)
+{
+	/* ax + by + cz + d = 0 */
+	/* y = (-ax -cz - d) / b */
+
+	return (-m_vPlane.x * XMVectorGetX(vTargetPos) - m_vPlane.z * XMVectorGetZ(vTargetPos) - m_vPlane.w) / m_vPlane.y;
 }
 
 #ifdef _DEBUG

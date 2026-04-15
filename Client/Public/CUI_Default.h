@@ -8,7 +8,7 @@ NS_BEGIN(Client)
 class CUI_Default abstract : public CUIObject
 {
 public:
-	enum BLENDSTATE { DEFAULT, ALPHATEST, ALPHABLEND, ALPHABLEDN_GAUGE, MASK };
+	enum BLENDSTATE { DEFAULT, ALPHATEST, ALPHABLEND, ALPHABLEDN_GAUGE, MASK, COLOR_ALPHABLEND };
 
 public:
 	struct CUI_DEFAULT_DESC : public CUIObject::UIOBJECT_DESC
@@ -18,6 +18,7 @@ public:
 		BLENDSTATE eBlendState{};
 
 		_float fImageAlpha{ 1.f };
+		_float3 vColor{};
 	};
 
 protected:
@@ -45,6 +46,7 @@ protected:
 	wstring m_wstrTexturePrototypeTag;
 	BLENDSTATE m_eBlendState{};
 
+	_float3 m_vColor{};
 	_float m_fImageAlpha{ 1.f };
 
 	_uint m_iTexIdx{};

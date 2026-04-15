@@ -6,6 +6,7 @@ Texture2D g_Mask;
 
 int g_FlipX = { false }, g_FlipY = { false };
 float g_Alpha = { 1 };
+float3 g_Color;
 
 float g_UVFillX = { 1.f };
 float g_UVFillCenterY = { 0.5f };
@@ -143,6 +144,30 @@ PS_OUT PS_MAIN_MASK(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_MAIN_COLORALPHA(PS_IN In)
+{
+    PS_OUT Out;
+    
+    if (g_FlipX == 1)
+    {
+        In.vTexcoord.x = -In.vTexcoord.x + 1.f;
+    }
+    
+    if (g_FlipY == 1)
+    {
+        In.vTexcoord.y = -In.vTexcoord.y + 1.f;
+    }
+    
+    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+        
+    Out.vColor.a *= g_Alpha;
+    
+    Out.vColor.x = Out.vColor.x * g_Color.x;
+    Out.vColor.y = Out.vColor.y * g_Color.y;
+    Out.vColor.z = Out.vColor.z * g_Color.z;
+
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -194,5 +219,15 @@ technique11 DefaultTechnique
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_MASK()));
+    }
+
+    pass Color_AlphaBlend
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_COLORALPHA()));
     }
 }

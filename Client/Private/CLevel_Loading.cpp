@@ -25,7 +25,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
     if (m_pLoader == nullptr)
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_Deco"))))
+    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
         return E_FAIL;
 
     return S_OK;

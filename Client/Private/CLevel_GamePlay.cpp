@@ -9,6 +9,8 @@
 #include "CLumia_Structure.h"
 #include "CRoof.h"
 
+#include "CUI_Image.h"
+
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
     , m_pInGame_Manager{ CInGame_Manager::GetInstance() }
@@ -33,6 +35,9 @@ HRESULT CLevel_GamePlay::Initialize()
         return E_FAIL;
 
     if (FAILED(Ready_Layer_Map_Lumia(TEXT("Layer_Map_Lumia"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
         return E_FAIL;
 
     return S_OK;
@@ -128,11 +133,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
     Safe_Release(pMap);
 
     // Structure
-    CLumia_Structure::LUMIA_STRUCTURE_DESC StructureDesc{};
+    //CLumia_Structure::LUMIA_STRUCTURE_DESC StructureDesc{};
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Structure"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StructureDesc)))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Structure"),
+    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StructureDesc)))
+    //    return E_FAIL;
 
     // Roof
     for (_uint i = 0; i < iRoofCnt; ++i)
@@ -156,6 +161,31 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_UI_Image(const _wstring& strLayerTag)
+{
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    //Desc.fScaleRatioX = 0.5f;
+    //Desc.fScaleRatioY = 0.5f;
+    //Desc.fPosRatioX = 0.f;
+    //Desc.fPosRatioY = 0.f;
+
+    //Desc.iUILayer = ETOUI(UILAYER::PANEL);
+
+    //Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    //Desc.wstrTexturePrototypeTag = L"Prototype_Texture_InGameCharBg";
+
+    //Desc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    //Desc.vColor = { 1.f,0.f,1.f };
+    //Desc.fImageAlpha = 0.8f;
+
+    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+    //    return E_FAIL;
 
     return S_OK;
 }

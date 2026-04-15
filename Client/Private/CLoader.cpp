@@ -1093,17 +1093,17 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     );
 
     /* Prototype_Component_Model_Lumia_Structure */
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Structure"),
-                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Structure_NoRoof2.mymodel"))))
-            {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Lumia_Structure");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
+    //m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    //m_pGameInstance->Add_Job(
+    //    [this]()->void {
+    //        if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Structure"),
+    //            CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Structure_NoRoof2.mymodel"))))
+    //        {
+    //            MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Lumia_Structure");
+    //        }
+    //        m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+    //    }
+    //);
 
     string wstrRoofPath = "../Bin/Resources/GamePlay/Map_Lumia_PNG/";
 
@@ -1266,9 +1266,24 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
-                CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/DataFiles/Navigation.dat")))))
+                CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/DataFiles/Navigation.dat"), TEXT("../Bin/DataFiles/Neighbors.dat")))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Navigation");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+#pragma region ÅØ½ºÃ³
+    /* Prototype_Texture_InGameCharBg */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_InGameCharBg"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/InGameCharBg.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_InGameCharBg");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

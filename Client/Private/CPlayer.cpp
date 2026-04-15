@@ -77,6 +77,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
     m_pCurrentState->Update(this, fTimeDelta);
     Apply_WaitState();
 
+    m_pNavigationCom->Compute_OnNavigation(m_pTransformCom);
+
     // PartObject들은 GameObject_Manager에 안 들어간다.
     for (auto& Pair : m_PartObjects)
     {
@@ -110,10 +112,16 @@ void CPlayer::Late_Update(_float fTimeDelta)
         if (nullptr != Pair.second)
             Pair.second->Late_Update(fTimeDelta);
     }
+
+    m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
 
 HRESULT CPlayer::Render()
 {
+#ifdef _DEBUG
+    m_pNavigationCom->Render();
+#endif
+
     return S_OK;
 }
 
