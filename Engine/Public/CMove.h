@@ -44,6 +44,8 @@ public:
 	void Move_To_Pos(_float3 vPos, _bool bOperateNavi = false);
 	void Stop_Move_To_Pos();
 
+	void Go_Straight(_float fTimeDelta, _float fSpeed, _bool bOperateNavi = false);
+
 private:
 	CTransform* m_pTransform{};
 	CNavigation* m_pNavigationCom{};

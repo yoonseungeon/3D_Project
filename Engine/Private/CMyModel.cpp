@@ -259,6 +259,11 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
     return m_bIsFinished;
 }
 
+_float CMyModel::Get_CurAniPlayRatio() const
+{
+    return m_Animations[m_iCurrentAnimationIndex]->Get_AniPlayRatio();
+}
+
 HRESULT CMyModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex)
 {
     if (iMeshIndex >= m_iNumMeshes)

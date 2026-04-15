@@ -21,3 +21,22 @@ struct COMMAND
 	_float3 vTargetPos{};
 	CGameObject* pGameObject{};
 };
+
+struct COOL_INFO
+{
+	_float fMaxCoolDown{};
+	_float fCurCoolDown{};
+	_float fAccCoolDown{};
+};
+
+struct STACK_COOL_INFO {
+	_float fMaxCoolDown{};
+	_float fCurCoolDown{};
+	_float fAccCoolDown{};
+
+	_float fMaxSubCoolDown{};
+	_float fCurSubCoolDown{};
+	_float fAccSubCoolDown{};
+
+	_uint fStack{};
+};

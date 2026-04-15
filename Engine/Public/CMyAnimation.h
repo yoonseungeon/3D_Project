@@ -28,6 +28,8 @@ public:
 
 	void Set_AniSpeed(_float fAniSpeed) { m_fAniSpeed = fAniSpeed; }
 
+	_float Get_AniPlayRatio() { return m_fCurrentTrackPosition / m_fDuration; }
+
 private:
 	// 현재 애니메이션 트랙의 총 길이(시간 아님)
 	_float				m_fDuration{};

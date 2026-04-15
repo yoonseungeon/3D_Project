@@ -57,6 +57,10 @@ void CLiDailinMove::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 		}
 		case COMMAND_TYPE::ATTACK_Q:
 		{
+			if (pPlayer->CanUseQ() == false) {
+				return;
+			}
+
 			pPlayer->Set_CurCommand(eCommand);
 			pPlayer->Set_WaitState(L"CLiDailin_Q");
 			break;

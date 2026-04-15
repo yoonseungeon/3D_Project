@@ -83,6 +83,7 @@ HRESULT CUI_TextBox::Render()
 
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
+
     const _float fTextStartX = static_cast<_float>(m_rcTextRange.left);
     const _float fTextStartY = static_cast<_float>(m_rcTextRange.top);
     const _float fAdjustSize = 0.0452f;

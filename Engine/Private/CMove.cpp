@@ -58,6 +58,20 @@ void CMove::Stop_Move_To_Pos()
     m_iCurMoveFlag &= ~FLAG_MOVE_TO_POS;
 }
 
+void CMove::Go_Straight(_float fTimeDelta, _float fSpeed, _bool bOperateNavi)
+{
+    _vector vPosition = m_pTransform->Get_State(STATE::POSITION);
+    _vector vLook = m_pTransform->Get_State(STATE::LOOK);
+
+    vPosition += XMVector3Normalize(vLook) * fSpeed * fTimeDelta;
+
+    if (bOperateNavi == false ||
+        m_pNavigationCom != nullptr && m_pNavigationCom->isMove(vPosition) == true)
+    {
+        m_pTransform->Set_State(STATE::POSITION, vPosition);
+    }
+}
+
 _bool CMove::Update_Move_To_Pos(_float fTimeDelta)
 {
     if (m_iCurMoveFlag & FLAG_MOVE_TO_POS)
@@ -66,6 +80,8 @@ _bool CMove::Update_Move_To_Pos(_float fTimeDelta)
 
         _vector vMovePos = XMVectorSetW(XMLoadFloat3(&m_vMovePos), 1.f);
         _vector vDistance = vMovePos - vCurPos;
+        // 지형 클릭하고 내비메시 y값 차이 때문에 문제 생김 
+        vDistance = XMVectorSetY(vDistance, 0.f);
         _float fDistanceSq = XMVectorGetX(XMVector3LengthSq(vDistance));
 
         _vector vDir = XMVector3Normalize(vDistance);

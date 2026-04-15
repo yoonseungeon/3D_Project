@@ -307,6 +307,13 @@ void CImGui_Manager::Show_Transform()
         
         ImGui::Text("Parent Size X %f", fPSizeRatioX);
         ImGui::Text("Parent Size Y %f", fPSizeRatioY);
+
+        ImGui::Separator();
+        const _float fSizeRatioX = (vScale.x / g_iWinSizeX);
+        const _float fSizeRatioY = (vScale.y / g_iWinSizeY);
+
+        ImGui::Text("fSizeRatio X %f", fSizeRatioX);
+        ImGui::Text("fSizeRatio Y %f", fSizeRatioY);
     }    
 
     if (ImGui::CollapsingHeader("Pos", ImGuiTreeNodeFlags_DefaultOpen))
@@ -352,6 +359,14 @@ void CImGui_Manager::Show_Transform()
 
         ImGui::Text("Parent Pos X %f", (ChildPosRatioX - ParentPosRatioX) / fParentScaleRatioX);
         ImGui::Text("Parent Pos Y %f", (ChildPosRatioY - ParentPosRatioY) / fParentScaleRatioY);
+
+
+        ImGui::Separator();
+        const _float fPosRatioX = (vFloat4.x / g_iWinSizeX);
+        const _float fPosRatioY = (vFloat4.y / g_iWinSizeY);
+
+        ImGui::Text("fPosRatio X %f", fPosRatioX);
+        ImGui::Text("fPosRatio Y %f", fPosRatioY);
     }
 }
 

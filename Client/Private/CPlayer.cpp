@@ -13,6 +13,8 @@
 #include "CLiDailin_Q.h"
 #include "CLiDailinAttack.h"
 
+#include "CUI_StackSkillIcon.h"
+
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject{ pDevice, pContext }
 {
@@ -66,6 +68,13 @@ HRESULT CPlayer::Initialize(void* pArg)
     m_pCurrentState = pLiDailinIdle;
     m_pCurrentState->Enter(this);
 
+    // cool
+    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 2.f;
+    tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
+
+    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -76,6 +85,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
     m_pCurrentState->Update(this, fTimeDelta);
     Apply_WaitState();
+
+    CoolTimer(fTimeDelta);
 
     m_pNavigationCom->Compute_OnNavigation(m_pTransformCom);
 
@@ -154,7 +165,7 @@ _bool CPlayer::IsTargetInRange()
 {
     // µð¹ö±×
 
-    if (m_pGameInstance->Key_Down(DIK_A)) {
+    if (m_pGameInstance->Key_Pressing(DIK_A)) {
         return true;
     }
 
@@ -250,6 +261,15 @@ void CPlayer::Stop_Move_To_Pos()
     m_pMoveCom->Stop_Move_To_Pos();
 }
 
+_bool CPlayer::CanUseQ()
+{
+    if (tQCool.fAccCoolDown == 0.f) {
+        return true;
+    }
+
+    return false;
+}
+
 HRESULT CPlayer::Ready_Components()
 {
     /* For.Com_Navigation */
@@ -319,6 +339,29 @@ HRESULT CPlayer::Bind_ShaderResources()
     return S_OK;
 }
 
+HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
+{
+    CUI_StackSkillIcon::CUI_STACKSKILLICON_DESC StackSkillIconDesc{};
+
+    StackSkillIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    StackSkillIconDesc.iUILayer = ETOUI(UILAYER::SLOT);
+
+    StackSkillIconDesc.fScaleRatioX = 0.04f;
+    StackSkillIconDesc.fScaleRatioY = 0.071f;
+    StackSkillIconDesc.fPosRatioX = -0.07f;
+    StackSkillIconDesc.fPosRatioY = -0.4f;
+    StackSkillIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_Q";
+    StackSkillIconDesc.eBlendState = CUI_Default::DEFAULT;
+
+    StackSkillIconDesc.pStackCoolInfo = &tQCool;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StackSkillIcon"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StackSkillIconDesc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 void CPlayer::Key_Input()
 {
     if (m_pGameInstance->Key_Down(DIK_Q)) {
@@ -344,6 +387,28 @@ void CPlayer::Key_Input()
         }
 
         m_pCurrentState->HandleCommand(this, tCommand);
+    }
+}
+
+void CPlayer::CoolTimer(_float fTimeDelta)
+{
+    if (tQCool.fAccCoolDown > 0.f)
+    {
+        tQCool.fAccCoolDown -= fTimeDelta;
+        if (tQCool.fAccCoolDown < 0.f) {
+            tQCool.fAccCoolDown = 0.f;
+        }
+    }
+
+    if (tQCool.fAccSubCoolDown > 0.f)
+    {
+        tQCool.fAccSubCoolDown -= fTimeDelta;
+        if (tQCool.fAccSubCoolDown < 0.f) {
+            tQCool.fAccSubCoolDown = 0.f;
+
+            tQCool.fAccCoolDown = tQCool.fCurCoolDown;
+            tQCool.fStack = 0;
+        }
     }
 }
 

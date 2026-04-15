@@ -17,6 +17,9 @@ class CState;
 
 class CPlayer final : public CContainerObject
 {
+public:
+
+
 private:
 	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPlayer(const CPlayer& Prototype);
@@ -48,10 +51,16 @@ public:
 	void Set_AniInterpolationTime(wstring wstrPartObjTag, _float InterpolationTime);
 	void Set_AniSpeed(wstring wstrPartObjTag, _uint iIndex, _float fAniSpeed);
 
+	const CBody_Player* Get_BodyPlayer() const { return m_pBody; }
+
 	// MoveCom
 	_bool Update_Move_To_Pos(_float fTimeDelta);
 	void Move_To_Pos(_float3 vPos, _bool bOperateNavi = false);
 	void Stop_Move_To_Pos();
+
+	// Cool
+	STACK_COOL_INFO& Get_QCoolInfo() { return tQCool; }
+	_bool CanUseQ();
 
 private:
 	// Com
@@ -70,12 +79,20 @@ private:
 	// COMMAND
 	COMMAND m_tCurCommand{};
 
+	// COOL
+	STACK_COOL_INFO tQCool{};
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_PartObjects();
 	HRESULT Bind_ShaderResources();
 
+	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
+
 	void Key_Input();
+
+	// COOL
+	void CoolTimer(_float fTimeDelta);
 
 public:
 	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

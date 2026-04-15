@@ -1,6 +1,8 @@
 #include "CLiDailinAttack.h"
 
+#include "CGameInstance.h"
 #include "CPlayer.h"
+#include "CBody_Player.h"
 
 CLiDailinAttack::CLiDailinAttack()
 {
@@ -23,15 +25,18 @@ void CLiDailinAttack::Enter(CPlayer* pPlayer)
 
 void CLiDailinAttack::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
-	if (pPlayer->IsAnimationFinished(L"Body")) {
-		const COMMAND& tCommand = pPlayer->Get_CurCommand();
+	const COMMAND& tCommand = pPlayer->Get_CurCommand();
+	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 
-		// 몬스터 생기면 수정 필요
-		if (tCommand.eCommandType == COMMAND_TYPE::ATTACK)
-		{
-			pPlayer->Set_WaitState(L"CLiDailinAttack");
-		}
-		else if (tCommand.eCommandType == COMMAND_TYPE::MOVE)
+	// 몬스터 생기면 수정 필요
+	if (tCommand.eCommandType == COMMAND_TYPE::ATTACK && pModel->Get_CurAniPlayRatio() >= 0.75f)
+	{
+		pPlayer->Set_WaitState(L"CLiDailinAttack");
+	}
+
+	if (pPlayer->IsAnimationFinished(L"Body")) {
+
+		if (tCommand.eCommandType == COMMAND_TYPE::MOVE)
 		{
 			pPlayer->Set_WaitState(L"Move");
 		}
@@ -71,6 +76,10 @@ void CLiDailinAttack::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 		}
 		case COMMAND_TYPE::ATTACK_Q:
 		{
+			if (pPlayer->CanUseQ() == false) {
+				return;
+			}
+
 			pPlayer->Set_CurCommand(eCommand);
 			pPlayer->Set_WaitState(L"CLiDailin_Q");
 			break;

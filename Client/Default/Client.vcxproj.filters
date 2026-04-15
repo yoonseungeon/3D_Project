@@ -154,6 +154,9 @@
     <Filter Include="02. GameObject\06. State\03. LiDailin_Q">
       <UniqueIdentifier>{857f8a38-f9fb-4f78-9bdd-c70ab3011b36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon">
+      <UniqueIdentifier>{4a92c609-5f56-4979-84d9-b1f6488dd720}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -312,6 +315,9 @@
     <ClInclude Include="..\Public\CLiDailinAttack.h">
       <Filter>02. GameObject\06. State\02. Attack</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_StackSkillIcon.h">
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -458,6 +464,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailinAttack.cpp">
       <Filter>02. GameObject\06. State\02. Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_StackSkillIcon.cpp">
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
