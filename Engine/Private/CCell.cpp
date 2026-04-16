@@ -38,6 +38,14 @@ HRESULT CCell::Initialize(const _float3* pPoints, _uint iIndex)
 		return E_FAIL;
 #endif
 
+	// Center
+	_vector vCenter = {};
+	for (_uint i = 0; i < 3; ++i)
+	{
+		vCenter += XMLoadFloat3(&m_vPoints[i]);
+	}
+	XMStoreFloat4(&m_vCenter, XMVectorSetW(vCenter / 3.f, 1.f));
+
 	return S_OK;
 }
 _bool XM_CALLCONV CCell::isIn(_fvector vResultPos, _int* pNeighborIndex)
@@ -114,6 +122,11 @@ _float CCell::Compute_Height(_fvector vTargetPos)
 	/* y = (-ax -cz - d) / b */
 
 	return (-m_vPlane.x * XMVectorGetX(vTargetPos) - m_vPlane.z * XMVectorGetZ(vTargetPos) - m_vPlane.w) / m_vPlane.y;
+}
+
+_float CCell::Compute_Cost(const _float4& vCenter)
+{				
+	return XMVectorGetX(XMVector3LengthSq(XMLoadFloat4(&m_vCenter) - XMLoadFloat4(&vCenter)));
 }
 
 #ifdef _DEBUG

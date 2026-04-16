@@ -65,6 +65,16 @@ void CLiDailinMove::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 			pPlayer->Set_WaitState(L"CLiDailin_Q");
 			break;
 		}
+		case COMMAND_TYPE::ATTACK_E:
+		{
+			if (pPlayer->CanUseSkill(L"E") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_WaitState(L"CLiDailin_E");
+			break;
+		}
 	}
 }
 

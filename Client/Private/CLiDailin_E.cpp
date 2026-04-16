@@ -1,0 +1,117 @@
+#include "CLiDailin_E.h"
+
+#include "CPlayer.h"
+#include "CBody_Player.h"
+#include "CGameInstance.h"
+
+CLiDailin_E::CLiDailin_E()
+{
+}
+
+void CLiDailin_E::Enter(CPlayer* pPlayer)
+{
+	m_fChanneling = 0.2f;
+	m_bLock = true;
+
+	// Cool
+	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
+	pECoolInfo->bChanneling = true;
+	pECoolInfo->fAccCoolDown = pECoolInfo->fCurCoolDown;
+
+	// Ani
+	pPlayer->Set_Animation(L"Body", static_cast<_uint>(LiDailin_Ani::Ani_E), false);
+	
+	// Ani Speed
+
+
+	// ÀÌµ¿
+	pPlayer->Stop_Move_To_Pos();
+}
+
+void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
+{
+
+	if (m_fChanneling > 0.f) {
+		m_fChanneling -= fTimeDelta;
+		if (m_fChanneling <= 0.f) {
+			m_fChanneling = 0.f;
+			m_bLock = false;
+
+			COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
+			pECoolInfo->bChanneling = false;
+		}
+	}
+
+	if (pPlayer->IsAnimationFinished(L"Body")) {
+		if (pPlayer->Get_CurCommand().eCommandType == COMMAND_TYPE::MOVE) {
+			pPlayer->Set_WaitState(L"Move");
+		}
+		else
+		{
+			pPlayer->Set_WaitState(L"Idle");
+		}
+	}
+}
+
+void CLiDailin_E::Exit(CPlayer* pPlayer)
+{
+}
+
+void CLiDailin_E::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
+{
+	switch (eCommand.eCommandType) {
+	case COMMAND_TYPE::MOVE:
+	{
+		if(m_bLock != true)
+		{
+			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_WaitState(L"Move");
+		}
+		break;
+	}
+	case COMMAND_TYPE::ATTACK:
+	{
+		if (m_bLock != true)
+		{
+			if (pPlayer->IsTargetInRange())
+			{
+				pPlayer->Set_WaitState(L"CLiDailinAttack");
+			}
+			else
+			{
+				pPlayer->Set_WaitState(L"Move");
+			}
+			pPlayer->Set_CurCommand(eCommand);
+		}
+		break;
+	}
+	case COMMAND_TYPE::ATTACK_Q:
+	{
+		if (m_bLock != true)
+		{
+			if (pPlayer->CanUseQ() == false) {
+				return;
+			}
+
+			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_WaitState(L"CLiDailin_Q");
+		}
+		break;
+	}
+	case COMMAND_TYPE::ATTACK_E:
+	{
+		break;
+	}
+
+	}
+}
+
+CLiDailin_E* CLiDailin_E::Create()
+{
+	return new CLiDailin_E;
+}
+
+void CLiDailin_E::Free()
+{
+	__super::Free();
+}

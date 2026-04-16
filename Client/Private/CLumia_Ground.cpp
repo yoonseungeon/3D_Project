@@ -177,8 +177,8 @@ HRESULT CLumia_Ground::Ready_Components()
 
     /* For.Com_Navigation */
     CNavigation::NAVIGATION_DESC NaviDesc{};
-    NaviDesc.iCurrentCellIndex = -1;
 
+    NaviDesc.bIsGround = true;
     NaviDesc.pParentMarix = m_pTransformCom->Get_WorldMatrixPtr();
 
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Navigation"),

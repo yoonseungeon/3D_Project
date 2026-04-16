@@ -12,14 +12,27 @@ class ENGINE_DLL CNavigation final : public CComponent
 public:
 	struct NAVIGATION_DESC
 	{
-		// 현재 네비게이션을 이용하고자 하는 객체거 어떤 셀 안에 있는지
-		// -1은 지형 안 탐
-		_int				iCurrentCellIndex{};
-
-		_float3				vObjectWorldPos{};
+		_bool		bIsGround{};
+		_float3		vObjectWorldPos{};
 
 		// 지형의 월드 행렬
 		const _float4x4* pParentMarix{ nullptr };
+
+		CTransform* pTransformCom{};
+	};
+
+private:
+	struct AStar_Info
+	{
+		_int ParentCellIndex{};
+		_int CellIndex{};
+		_float fF{};
+		_float fG{};
+		_float fH{};
+
+		_bool operator < (const AStar_Info& rhs) {
+			return fF > rhs.fF;
+		}
 	};
 
 private:
@@ -33,7 +46,9 @@ private:
 
 public:
 	_bool isMove(_fvector vResultPos);
-	void Compute_OnNavigation(CTransform* pTargetTransform);
+	void Compute_OnNavigation();
+
+	const list<_vector>* Make_Route(_float3 vTargetPos);
 
 #ifdef _DEBUG
 public:
@@ -44,8 +59,15 @@ private:
 	vector<CCell*>			m_Cells;
 	_int					m_iCurrentCellIndex{};
 
+	CTransform* m_pParentTransform{};
 	// 지형이 포인터를 넘겨주면 모두가 같은 행렬 사용
 	static const _float4x4* m_pParentMatrixPtr;
+
+
+	_int m_iOldTargetCellIndex{ -1 };
+	list<AStar_Info> CloseList;
+	priority_queue<AStar_Info> OpenPriQ;
+	list<_vector>				m_Route;
 
 #ifdef _DEBUG
 private:

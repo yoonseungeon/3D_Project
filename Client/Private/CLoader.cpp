@@ -28,6 +28,7 @@
 #include "CBottle.h"
 
 #include "CUI_StackSkillIcon.h"
+#include "CUI_NormalSkillIcon.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -1128,7 +1129,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     }
 
     /* Prototype_Component_Model_LiDailin */
-    _matrix PlayerPreTransformMatrix = XMMatrixScaling(2.f, 2.f, 2.f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
+    _matrix PlayerPreTransformMatrix = XMMatrixScaling(1.f, 1.f, 1.f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
 
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -1270,6 +1271,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CUI_StackSkillIcon::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_StackSkillIcon");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CUI_NormalSkillIcon */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_NormalSkillIcon"),
+                CUI_NormalSkillIcon::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_NormalSkillIcon");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

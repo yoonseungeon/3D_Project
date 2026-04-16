@@ -62,6 +62,9 @@ public:
 	STACK_COOL_INFO& Get_QCoolInfo() { return tQCool; }
 	_bool CanUseQ();
 
+	COOL_INFO* Get_CoolInfo(const _tchar* SkillName);
+	_bool CanUseSkill(const _tchar* SkillName);
+
 private:
 	// Com
 	CMove* m_pMoveCom{ nullptr };
@@ -81,6 +84,7 @@ private:
 
 	// COOL
 	STACK_COOL_INFO tQCool{};
+	COOL_INFO tECool{};
 
 private:
 	HRESULT Ready_Components();

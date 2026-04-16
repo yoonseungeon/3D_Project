@@ -13,6 +13,10 @@ enum COMMAND_TYPE
 	MOVE,
 	ATTACK,
 	ATTACK_Q,
+	ATTACK_W,
+	ATTACK_E,
+	ATTACK_R,
+
 };
 
 struct COMMAND
@@ -27,6 +31,8 @@ struct COOL_INFO
 	_float fMaxCoolDown{};
 	_float fCurCoolDown{};
 	_float fAccCoolDown{};
+
+	_bool bChanneling{};
 };
 
 struct STACK_COOL_INFO {

@@ -22,12 +22,18 @@ public:
 	void Set_Neighbor(LINE eLine, CCell* pNeighborCell) { m_iNeighbors[ETOUI(eLine)] = pNeighborCell->m_iIndex; }
 	void Set_Neighbors(const _int* pNeighborIndices) { memcpy(m_iNeighbors, pNeighborIndices, sizeof(_int) * 3); }
 
+	void Get_Neighbors(_int* pNeighborIndices) { memcpy(pNeighborIndices, m_iNeighbors, sizeof(_int) * 3); }
+
 	_uint Get_CellIdx() { return m_iIndex; }
+
+	const _float4& Get_Center() { return m_vCenter; }
 
 	_bool XM_CALLCONV isIn(_fvector vResultPos, _int* pNeighborIndex);
 	_bool XM_CALLCONV Compare(_fvector vSourPoint, _fvector vDestPoint, LINE& eLine);
 
 	_float Compute_Height(_fvector vTargetPos);
+
+	_float Compute_Cost(const _float4& vCenter);
 
 	//const _int* Get_NeighborIndices() { return m_iNeighbors; }
 
@@ -44,6 +50,8 @@ private:
 	_uint					m_iIndex = {};
 	_int					m_iNeighbors[ETOUI(LINE::END)] = { -1, -1, -1 };
 	_float4					m_vPlane = {};
+
+	_float4					m_vCenter{};
 
 #ifdef _DEBUG
 private:

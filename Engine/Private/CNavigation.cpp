@@ -66,15 +66,33 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFile, con
 
 HRESULT CNavigation::Initialize(void* pArg)
 {
+    if (pArg == nullptr) {
+        MSG_BOX("Need Argument Component: CNavigation");
+        return E_FAIL;
+    }
+
     NAVIGATION_DESC* pDesc = static_cast<NAVIGATION_DESC*>(pArg);
 
-    m_iCurrentCellIndex = pDesc->iCurrentCellIndex;
+    if (pDesc->bIsGround == true) {
+        m_iCurrentCellIndex = -1;
 
-    // 지형인 경우
-    if (pDesc->iCurrentCellIndex == -1)
+        if (pDesc->pParentMarix == nullptr) {
+            MSG_BOX("Need m_pParentMatrixPtr Component: CNavigation");
+            return E_FAIL;
+        }
         m_pParentMatrixPtr = pDesc->pParentMarix;
+    }
+    else
+    {
+        if (pDesc->pTransformCom == nullptr) {
+            MSG_BOX("Need Transform Component: CNavigation");
+            return E_FAIL;
+        }
+        m_pParentTransform = pDesc->pTransformCom;
+        Safe_AddRef(m_pParentTransform);
 
-    Find_CurCell_Index(pDesc->vObjectWorldPos);
+        Find_CurCell_Index(pDesc->vObjectWorldPos);
+    }
 
     return S_OK;
 }
@@ -176,16 +194,75 @@ _bool CNavigation::Find_CurCell_Index(_float3& vWorldPos)
     return false;
 }
 
-void CNavigation::Compute_OnNavigation(CTransform* pTargetTransform)
+void CNavigation::Compute_OnNavigation()
 {
     if (-1 == m_iCurrentCellIndex)
         return;
 
-    _vector vCurrentPosition = pTargetTransform->Get_State(STATE::POSITION);
+    _vector vCurrentPosition = m_pParentTransform->Get_State(STATE::POSITION);
 
     _float fHeight = m_Cells[m_iCurrentCellIndex]->Compute_Height(vCurrentPosition);
 
-    pTargetTransform->Set_State(STATE::POSITION, XMVectorSetY(vCurrentPosition, fHeight));
+    m_pParentTransform->Set_State(STATE::POSITION, XMVectorSetY(vCurrentPosition, fHeight));
+}
+
+const list<_vector>* CNavigation::Make_Route(_float3 vTargetPos)
+{
+  /*  _int iTargetCellIndex = -1;
+
+    _int iDumy = { -1 };
+    for (auto pCell : m_Cells)
+    {
+        if (pCell->isIn(XMLoadFloat3(&vTargetPos), &iDumy))
+        {
+            iTargetCellIndex = pCell->Get_CellIdx();
+            break;
+        }
+    }
+
+    if (iTargetCellIndex == -1)
+    {
+        return nullptr;
+    }
+
+    m_iOldTargetCellIndex = iTargetCellIndex;
+
+    CloseList.clear();
+    while (OpenPriQ.empty() != true) {
+        OpenPriQ.pop();
+    }
+    m_Route.clear();
+
+    _float fG = {};
+    _float fH = m_Cells[m_iCurrentCellIndex]->Compute_Cost(m_Cells[iTargetCellIndex]->Get_Center());
+    _float fF = fG + fH;
+
+    OpenPriQ.emplace(-1, m_iCurrentCellIndex, fF, fG, fH);
+
+    while (true) {
+
+        AStar_Info tAStarInfo = OpenPriQ.top();
+
+        CloseList.push_back(tAStarInfo);
+        OpenPriQ.pop();
+
+        _int Neighbors[3];
+        m_Cells[tAStarInfo.CellIndex]->Get_Neighbors(Neighbors);
+
+        for (size_t i = 0; i < 3; ++i)
+        {
+            _float fG = tAStarInfo.fF;
+            _float fH = m_Cells[Neighbors[i]]->Compute_Cost(m_Cells[iTargetCellIndex]->Get_Center());
+            _float fF = fG + fH;
+
+            OpenPriQ.emplace(-1, Neighbors[i], fF, fG, fH);
+        }
+
+
+    }
+*/
+
+    return nullptr;
 }
 
 _bool CNavigation::isMove(_fvector vResultPos)
@@ -298,6 +375,8 @@ void CNavigation::Free()
     //}
 
     //CloseHandle(hFile);
+
+    Safe_Release(m_pParentTransform);
 
     for (auto& pCell : m_Cells)
         Safe_Release(pCell);

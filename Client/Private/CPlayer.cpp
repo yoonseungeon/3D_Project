@@ -10,10 +10,13 @@
 
 #include "CLiDailinIdle.h"
 #include "CLiDailinMove.h"
-#include "CLiDailin_Q.h"
 #include "CLiDailinAttack.h"
+#include "CLiDailin_Q.h"
+#include "CLiDailin_E.h"
 
 #include "CUI_StackSkillIcon.h"
+#include "CUI_NormalSkillIcon.h"
+
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CContainerObject{ pDevice, pContext }
@@ -64,6 +67,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     m_States.emplace(L"Move", CLiDailinMove::Create());
     m_States.emplace(L"CLiDailinAttack", CLiDailinAttack::Create());
     m_States.emplace(L"CLiDailin_Q", CLiDailin_Q::Create());
+    m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
 
     m_pCurrentState = pLiDailinIdle;
     m_pCurrentState->Enter(this);
@@ -71,6 +75,8 @@ HRESULT CPlayer::Initialize(void* pArg)
     // cool
     tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 2.f;
     tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
+
+    tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
 
     if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
         return E_FAIL;
@@ -88,7 +94,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
     CoolTimer(fTimeDelta);
 
-    m_pNavigationCom->Compute_OnNavigation(m_pTransformCom);
+    m_pNavigationCom->Compute_OnNavigation();
 
     // PartObject들은 GameObject_Manager에 안 들어간다.
     for (auto& Pair : m_PartObjects)
@@ -270,12 +276,35 @@ _bool CPlayer::CanUseQ()
     return false;
 }
 
+COOL_INFO* CPlayer::Get_CoolInfo(const _tchar* SkillName)
+{
+    if (SkillName == L"E")
+    {
+        return &tECool;
+    }
+
+    return nullptr;
+}
+
+_bool CPlayer::CanUseSkill(const _tchar* SkillName)
+{
+    if (SkillName == L"E")
+    {
+        if (tECool.fAccCoolDown == 0.f) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 HRESULT CPlayer::Ready_Components()
 {
     /* For.Com_Navigation */
     CNavigation::NAVIGATION_DESC NaviDesc;
 
-    NaviDesc.iCurrentCellIndex = 0;
+    NaviDesc.bIsGround = false;
+    NaviDesc.pTransformCom = m_pTransformCom;
     XMStoreFloat3(&NaviDesc.vObjectWorldPos, m_pTransformCom->Get_State(STATE::POSITION));
 
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
@@ -359,6 +388,23 @@ HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StackSkillIconDesc)))
         return E_FAIL;
 
+    CUI_NormalSkillIcon::CUI_NORMALSKILLICON_DESC EIconDesc{};
+
+   EIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+   EIconDesc.iUILayer = ETOUI(UILAYER::SLOT);
+   
+   EIconDesc.fScaleRatioX = 0.04f;
+   EIconDesc.fScaleRatioY = 0.071f;
+   EIconDesc.fPosRatioX = 0.14f;
+   EIconDesc.fPosRatioY = -0.4f;
+   EIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_E";
+   EIconDesc.eBlendState = CUI_Default::DEFAULT;
+
+   EIconDesc.pCoolInfo = &tECool;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_NormalSkillIcon"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EIconDesc)))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -367,6 +413,12 @@ void CPlayer::Key_Input()
     if (m_pGameInstance->Key_Down(DIK_Q)) {
         COMMAND tCommand{};
         tCommand.eCommandType = COMMAND_TYPE::ATTACK_Q;
+
+        m_pCurrentState->HandleCommand(this, tCommand);
+    }
+    if (m_pGameInstance->Key_Down(DIK_E)) {
+        COMMAND tCommand{};
+        tCommand.eCommandType = COMMAND_TYPE::ATTACK_E;
 
         m_pCurrentState->HandleCommand(this, tCommand);
     }
@@ -408,6 +460,14 @@ void CPlayer::CoolTimer(_float fTimeDelta)
 
             tQCool.fAccCoolDown = tQCool.fCurCoolDown;
             tQCool.fStack = 0;
+        }
+    }
+
+    if (tECool.fAccCoolDown > 0.f && tECool.bChanneling == false)
+    {
+        tECool.fAccCoolDown -= fTimeDelta;
+        if (tECool.fAccCoolDown < 0.f) {
+            tECool.fAccCoolDown = 0.f;
         }
     }
 }

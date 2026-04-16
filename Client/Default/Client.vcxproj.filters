@@ -157,6 +157,18 @@
     <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon">
       <UniqueIdentifier>{4a92c609-5f56-4979-84d9-b1f6488dd720}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. State\05. LiDailin_E">
+      <UniqueIdentifier>{f8274cb4-e6c3-493d-b5bd-c689a8296ffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. State\06. LiDailin_R">
+      <UniqueIdentifier>{1b91ba37-8b65-4fef-905f-2bca49b88e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\Stack">
+      <UniqueIdentifier>{a6789980-1775-4714-9d1a-b343da40343b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal">
+      <UniqueIdentifier>{59d30b4d-0eee-421b-bdfc-16f09de5be5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -315,8 +327,20 @@
     <ClInclude Include="..\Public\CLiDailinAttack.h">
       <Filter>02. GameObject\06. State\02. Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CUI_StackSkillIcon.h">
+    <ClInclude Include="..\Public\CLiDailin_E.h">
+      <Filter>02. GameObject\06. State\05. LiDailin_E</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLiDailin_R.h">
+      <Filter>02. GameObject\06. State\06. LiDailin_R</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_SkillIcon.h">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_StackSkillIcon.h">
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Stack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_NormalSkillIcon.h">
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -465,8 +489,20 @@
     <ClCompile Include="..\Private\CLiDailinAttack.cpp">
       <Filter>02. GameObject\06. State\02. Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CUI_StackSkillIcon.cpp">
+    <ClCompile Include="..\Private\CLiDailin_E.cpp">
+      <Filter>02. GameObject\06. State\05. LiDailin_E</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailin_R.cpp">
+      <Filter>02. GameObject\06. State\06. LiDailin_R</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_SkillIcon.cpp">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_StackSkillIcon.cpp">
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Stack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_NormalSkillIcon.cpp">
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

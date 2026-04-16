@@ -7,19 +7,19 @@
 
 NS_BEGIN(Client)
 
-class CUI_StackSkillIcon final : public CUI_SkillIcon
+class CUI_NormalSkillIcon final : public CUI_SkillIcon
 {
 
 public:
-	struct CUI_STACKSKILLICON_DESC : public CUI_SkillIcon::CUI_SKILLICON_DESC
+	struct CUI_NORMALSKILLICON_DESC : public CUI_SkillIcon::CUI_SKILLICON_DESC
 	{
-		STACK_COOL_INFO* pStackCoolInfo{};
+		COOL_INFO* pCoolInfo{};
 	};
 
 protected:
-	CUI_StackSkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CUI_StackSkillIcon(const CUI_StackSkillIcon& Prototype);
-	virtual ~CUI_StackSkillIcon() = default;
+	CUI_NormalSkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CUI_NormalSkillIcon(const CUI_NormalSkillIcon& Prototype);
+	virtual ~CUI_NormalSkillIcon() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -33,14 +33,14 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	STACK_COOL_INFO* m_pStackCoolInfo{};
+	COOL_INFO* m_pCoolInfo{};
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CUI_StackSkillIcon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CUI_NormalSkillIcon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free() override;

@@ -163,6 +163,7 @@
     <ClInclude Include="..\Public\CLiDailinAttack.h" />
     <ClInclude Include="..\Public\CLiDailinIdle.h" />
     <ClInclude Include="..\Public\CLiDailinMove.h" />
+    <ClInclude Include="..\Public\CLiDailin_E.h" />
     <ClInclude Include="..\Public\CLiDailin_Q.h" />
     <ClInclude Include="..\Public\CLobbySelectBtn.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
@@ -194,12 +195,15 @@
     <ClInclude Include="..\Public\CMainApp.h" />
     <ClInclude Include="..\Public\CUI_MapPanel.h" />
     <ClInclude Include="..\Public\CUI_MaskImage.h" />
+    <ClInclude Include="..\Public\CUI_NormalSkillIcon.h" />
     <ClInclude Include="..\Public\CUI_PickPanel.h" />
+    <ClInclude Include="..\Public\CUI_SkillIcon.h" />
     <ClInclude Include="..\Public\CUI_SkinPanel.h" />
     <ClInclude Include="..\Public\CUI_StackSkillIcon.h" />
     <ClInclude Include="..\Public\CUI_TextBox.h" />
     <ClInclude Include="..\Public\CWeapon.h" />
     <ClInclude Include="..\Public\LiDailin_Info.h" />
+    <ClInclude Include="..\Public\CLiDailin_R.h" />
     <ClInclude Include="..\Public\Map_Meta.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
@@ -217,6 +221,7 @@
     <ClCompile Include="..\Private\CLiDailinAttack.cpp" />
     <ClCompile Include="..\Private\CLiDailinIdle.cpp" />
     <ClCompile Include="..\Private\CLiDailinMove.cpp" />
+    <ClCompile Include="..\Private\CLiDailin_E.cpp" />
     <ClCompile Include="..\Private\CLiDailin_Q.cpp" />
     <ClCompile Include="..\Private\CLobbySelectBtn.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
@@ -246,11 +251,14 @@
     <ClCompile Include="..\Private\CMainApp.cpp" />
     <ClCompile Include="..\Private\CUI_MapPanel.cpp" />
     <ClCompile Include="..\Private\CUI_MaskImage.cpp" />
+    <ClCompile Include="..\Private\CUI_NormalSkillIcon.cpp" />
     <ClCompile Include="..\Private\CUI_PickPanel.cpp" />
+    <ClCompile Include="..\Private\CUI_SkillIcon.cpp" />
     <ClCompile Include="..\Private\CUI_SkinPanel.cpp" />
     <ClCompile Include="..\Private\CUI_StackSkillIcon.cpp" />
     <ClCompile Include="..\Private\CUI_TextBox.cpp" />
     <ClCompile Include="..\Private\CWeapon.cpp" />
+    <ClCompile Include="..\Private\CLiDailin_R.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
