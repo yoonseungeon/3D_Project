@@ -13,6 +13,7 @@
 #include "CLiDailinAttack.h"
 #include "CLiDailin_Q.h"
 #include "CLiDailin_E.h"
+#include "CLiDailin_R.h"
 
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
@@ -68,6 +69,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     m_States.emplace(L"CLiDailinAttack", CLiDailinAttack::Create());
     m_States.emplace(L"CLiDailin_Q", CLiDailin_Q::Create());
     m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
+    m_States.emplace(L"CLiDailin_R", CLiDailin_R::Create());
 
     m_pCurrentState = pLiDailinIdle;
     m_pCurrentState->Enter(this);
@@ -77,6 +79,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
 
     tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
+    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 2.f;
 
     if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
         return E_FAIL;
@@ -282,6 +285,10 @@ COOL_INFO* CPlayer::Get_CoolInfo(const _tchar* SkillName)
     {
         return &tECool;
     }
+    else if (SkillName == L"R")
+    {
+        return &tRCool;
+    }
 
     return nullptr;
 }
@@ -291,6 +298,12 @@ _bool CPlayer::CanUseSkill(const _tchar* SkillName)
     if (SkillName == L"E")
     {
         if (tECool.fAccCoolDown == 0.f) {
+            return true;
+        }
+    }
+    else if (SkillName == L"R")
+    {
+        if (tRCool.fAccCoolDown == 0.f) {
             return true;
         }
     }
@@ -395,7 +408,7 @@ HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
    
    EIconDesc.fScaleRatioX = 0.04f;
    EIconDesc.fScaleRatioY = 0.071f;
-   EIconDesc.fPosRatioX = 0.14f;
+   EIconDesc.fPosRatioX = 0.f;
    EIconDesc.fPosRatioY = -0.4f;
    EIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_E";
    EIconDesc.eBlendState = CUI_Default::DEFAULT;
@@ -405,6 +418,25 @@ HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_NormalSkillIcon"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EIconDesc)))
         return E_FAIL;
+
+    CUI_NormalSkillIcon::CUI_NORMALSKILLICON_DESC RIconDesc{};
+
+    RIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    RIconDesc.iUILayer = ETOUI(UILAYER::SLOT);
+    
+    RIconDesc.fScaleRatioX = 0.04f;
+    RIconDesc.fScaleRatioY = 0.071f;
+    RIconDesc.fPosRatioX = 0.14f;
+    RIconDesc.fPosRatioY = -0.4f;
+    RIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_R";
+    RIconDesc.eBlendState = CUI_Default::DEFAULT;
+    
+    RIconDesc.pCoolInfo = &tRCool;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_NormalSkillIcon"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &RIconDesc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -419,6 +451,12 @@ void CPlayer::Key_Input()
     if (m_pGameInstance->Key_Down(DIK_E)) {
         COMMAND tCommand{};
         tCommand.eCommandType = COMMAND_TYPE::ATTACK_E;
+
+        m_pCurrentState->HandleCommand(this, tCommand);
+    }
+    if (m_pGameInstance->Key_Down(DIK_R)) {
+        COMMAND tCommand{};
+        tCommand.eCommandType = COMMAND_TYPE::ATTACK_R;
 
         m_pCurrentState->HandleCommand(this, tCommand);
     }
@@ -463,11 +501,19 @@ void CPlayer::CoolTimer(_float fTimeDelta)
         }
     }
 
-    if (tECool.fAccCoolDown > 0.f && tECool.bChanneling == false)
+    if (tECool.fAccCoolDown > 0.f && tECool.bCoolWait == false)
     {
         tECool.fAccCoolDown -= fTimeDelta;
         if (tECool.fAccCoolDown < 0.f) {
             tECool.fAccCoolDown = 0.f;
+        }
+    }
+
+    if (tRCool.fAccCoolDown > 0.f && tRCool.bCoolWait == false)
+    {
+        tRCool.fAccCoolDown -= fTimeDelta;
+        if (tRCool.fAccCoolDown < 0.f) {
+            tRCool.fAccCoolDown = 0.f;
         }
     }
 }

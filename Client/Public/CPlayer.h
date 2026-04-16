@@ -85,6 +85,7 @@ private:
 	// COOL
 	STACK_COOL_INFO tQCool{};
 	COOL_INFO tECool{};
+	COOL_INFO tRCool{};
 
 private:
 	HRESULT Ready_Components();

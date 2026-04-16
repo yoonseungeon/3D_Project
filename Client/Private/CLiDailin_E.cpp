@@ -15,12 +15,13 @@ void CLiDailin_E::Enter(CPlayer* pPlayer)
 
 	// Cool
 	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
-	pECoolInfo->bChanneling = true;
+	pECoolInfo->bCoolWait = true;
 	pECoolInfo->fAccCoolDown = pECoolInfo->fCurCoolDown;
 
 	// Ani
 	pPlayer->Set_Animation(L"Body", static_cast<_uint>(LiDailin_Ani::Ani_E), false);
-	
+	pPlayer->Set_Animation(L"Weapon", static_cast<_uint>(Nunchaku_Ani::IDLE_WP), false);
+
 	// Ani Speed
 
 
@@ -38,7 +39,7 @@ void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
 			m_bLock = false;
 
 			COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
-			pECoolInfo->bChanneling = false;
+			pECoolInfo->bCoolWait = false;
 		}
 	}
 
@@ -59,50 +60,62 @@ void CLiDailin_E::Exit(CPlayer* pPlayer)
 
 void CLiDailin_E::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 {
+	if (m_bLock == true)
+	{
+		return;
+	}
+
 	switch (eCommand.eCommandType) {
 	case COMMAND_TYPE::MOVE:
 	{
-		if(m_bLock != true)
-		{
-			pPlayer->Set_CurCommand(eCommand);
-			pPlayer->Set_WaitState(L"Move");
-		}
+
+		pPlayer->Set_CurCommand(eCommand);
+		pPlayer->Set_WaitState(L"Move");
+
 		break;
 	}
 	case COMMAND_TYPE::ATTACK:
 	{
-		if (m_bLock != true)
+
+		if (pPlayer->IsTargetInRange())
 		{
-			if (pPlayer->IsTargetInRange())
-			{
-				pPlayer->Set_WaitState(L"CLiDailinAttack");
-			}
-			else
-			{
-				pPlayer->Set_WaitState(L"Move");
-			}
-			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_WaitState(L"CLiDailinAttack");
 		}
+		else
+		{
+			pPlayer->Set_WaitState(L"Move");
+		}
+		pPlayer->Set_CurCommand(eCommand);
+
 		break;
 	}
 	case COMMAND_TYPE::ATTACK_Q:
 	{
-		if (m_bLock != true)
-		{
-			if (pPlayer->CanUseQ() == false) {
-				return;
-			}
-
-			pPlayer->Set_CurCommand(eCommand);
-			pPlayer->Set_WaitState(L"CLiDailin_Q");
+		if (pPlayer->CanUseQ() == false) {
+			return;
 		}
+
+		pPlayer->Set_CurCommand(eCommand);
+		pPlayer->Set_WaitState(L"CLiDailin_Q");
+
 		break;
 	}
 	case COMMAND_TYPE::ATTACK_E:
 	{
 		break;
 	}
+	case COMMAND_TYPE::ATTACK_R:
+	{
 
+		if (pPlayer->CanUseSkill(L"R") == false) {
+			return;
+		}
+
+		pPlayer->Set_CurCommand(eCommand);
+		pPlayer->Set_WaitState(L"CLiDailin_R");
+
+		break;
+	}
 	}
 }
 

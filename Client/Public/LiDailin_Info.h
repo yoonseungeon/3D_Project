@@ -19,6 +19,4 @@ enum Nunchaku_Ani {
 	ATK_1_WP = 0, ATK_2_WP = 2,
 	ATK_1P_WP = 1, ATK_2P_WP = 3,
 	Q1_WP = 7, Q2_WP = 9, Q3_WP = 10,
-	E_WP,
-	R_WP,
 };

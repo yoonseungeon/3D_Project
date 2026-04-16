@@ -49,7 +49,7 @@ void CUI_NormalSkillIcon::Late_Update(_float fTimeDelta)
 
     _float fTime{};
 
-    if (m_pCoolInfo->fAccCoolDown > 0.f && m_pCoolInfo->bChanneling == false) {
+    if (m_pCoolInfo->fAccCoolDown > 0.f && m_pCoolInfo->bCoolWait == false) {
         fTime = m_pCoolInfo->fAccCoolDown;
         m_bTextRender = true;
     }

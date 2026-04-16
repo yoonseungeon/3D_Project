@@ -94,6 +94,16 @@ void CLiDailinAttack::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 			pPlayer->Set_WaitState(L"CLiDailin_E");
 			break;
 		}
+		case COMMAND_TYPE::ATTACK_R:
+		{
+			if (pPlayer->CanUseSkill(L"R") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_WaitState(L"CLiDailin_R");
+			break;
+		}
 	}
 }
 

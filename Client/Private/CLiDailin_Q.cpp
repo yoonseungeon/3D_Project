@@ -67,7 +67,7 @@ void CLiDailin_Q::Update(CPlayer* pPlayer, _float fTimeDelta)
 		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 7.f, true);
 	}
 	else if(tQCoolInfo.fStack != 0){
-		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 5.f, true);
+		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 4.f, true);
 	}
 
 	if (pPlayer->IsAnimationFinished(L"Body")) {

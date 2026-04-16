@@ -19,6 +19,8 @@ public:
 public:
 	void Update_TransformationMatrix(const vector<CMyBone*>& Bones, _float fCurrentTrackPosition, _uint* pCurrentKeyIndex);
 
+
+
 private:
 	// CModel의 CMyBone 벡터의 인덱스를 들고있어야 함.
 	// 뼈의 접근해서 행렬 업데이트 시켜줘야 해서

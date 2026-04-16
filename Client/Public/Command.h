@@ -32,7 +32,7 @@ struct COOL_INFO
 	_float fCurCoolDown{};
 	_float fAccCoolDown{};
 
-	_bool bChanneling{};
+	_bool bCoolWait{};
 };
 
 struct STACK_COOL_INFO {

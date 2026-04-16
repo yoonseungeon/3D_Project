@@ -483,9 +483,6 @@
     <ClCompile Include="..\Private\CLiDailinMove.cpp">
       <Filter>02. GameObject\06. State\01. Move</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CLiDailin_Q.cpp">
-      <Filter>02. GameObject\06. State\03. LiDailin_Q</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\CLiDailinAttack.cpp">
       <Filter>02. GameObject\06. State\02. Attack</Filter>
     </ClCompile>
@@ -503,6 +500,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_NormalSkillIcon.cpp">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailin_Q.cpp">
+      <Filter>02. GameObject\06. State\03. LiDailin_Q</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
