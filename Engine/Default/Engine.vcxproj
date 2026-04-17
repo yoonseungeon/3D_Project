@@ -173,6 +173,8 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Public\CBounding.h" />
+    <ClInclude Include="..\Public\CBounding_AABB.h" />
     <ClInclude Include="..\Public\CCamera.h" />
     <ClInclude Include="..\Public\CCell.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -182,6 +184,7 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\Public\CCollider.h" />
     <ClInclude Include="..\Public\CComponent.h" />
     <ClInclude Include="..\Public\CContainerObject.h" />
     <ClInclude Include="..\Public\CCustomFont.h" />
@@ -238,6 +241,7 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\CVIBuffer_Rect.h" />
+    <ClInclude Include="..\Public\DebugDraw.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
     <ClInclude Include="..\Public\Engine_Function.h" />
@@ -257,6 +261,8 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Private\CBounding.cpp" />
+    <ClCompile Include="..\Private\CBounding_AABB.cpp" />
     <ClCompile Include="..\Private\CCamera.cpp" />
     <ClCompile Include="..\Private\CCell.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -266,6 +272,7 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\Private\CCollider.cpp" />
     <ClCompile Include="..\Private\CComponent.cpp" />
     <ClCompile Include="..\Private\CContainerObject.cpp" />
     <ClCompile Include="..\Private\CCustomFont.cpp" />
@@ -323,6 +330,7 @@ call UpdateLib.bat Release</Command>
     </ClCompile>
     <ClCompile Include="..\Private\CVIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\CVIBuffer_Cube.cpp" />
+    <ClCompile Include="..\Private\DebugDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Bin\ShaderFiles\Engine_Shader_Defines.hlsli" />

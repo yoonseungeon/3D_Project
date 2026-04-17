@@ -952,6 +952,23 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
 
 HRESULT CLoader::Ready_Resources_For_GamePlay()
 {
+#pragma region 콜라이더
+    // 생성할 때 context 씀
+    if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
+        CCollider::Create(m_pDevice, m_pContext, COLLIDER::AABB))))
+        return E_FAIL;
+
+    ///* Prototype_Component_Collider_OBB */
+    //if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
+    //    CCollider::Create(m_pDevice, m_pContext, COLLIDER::OBB))))
+    //    return E_FAIL;
+
+    ///* Prototype_Component_Collider_Sphere */
+    //if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+    //    CCollider::Create(m_pDevice, m_pContext, COLLIDER::SPHERE))))
+    //    return E_FAIL;
+#pragma endregion
+
 #pragma region 수업 코드
     /* Prototype_Component_Shader_VtxMesh */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);

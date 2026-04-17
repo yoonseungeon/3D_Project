@@ -18,6 +18,8 @@ protected:
 	ID3D11DeviceContext* m_pContext = { nullptr };
 	CGameInstance* m_pGameInstance = { nullptr };
 
+	_bool			m_isCloned = { false };
+
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
 protected:

@@ -114,6 +114,8 @@ void CPlayer::Parallel_Update(_float fTimeDelta)
         if (nullptr != Pair.second)
             Pair.second->Parallel_Update(fTimeDelta);
     }
+
+    m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
 void CPlayer::Update(_float fTimeDelta)
@@ -140,6 +142,7 @@ HRESULT CPlayer::Render()
 {
 #ifdef _DEBUG
     m_pNavigationCom->Render();
+    m_pColliderCom->Render();
 #endif
 
     return S_OK;
@@ -334,6 +337,15 @@ HRESULT CPlayer::Ready_Components()
     /* Com_Move */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Move"),
         TEXT("Com_Move"), reinterpret_cast<CComponent**>(&m_pMoveCom), &Desc)))
+        return E_FAIL;
+
+    /* For.Com_Collider_AABB */
+    CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
+    AABBDesc.vSize = _float3(0.7f, 0.2f, 0.7f);
+    AABBDesc.vCenter = _float3(0.f, AABBDesc.vSize.y * 0.5f, 0.f);
+
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
+        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&m_pColliderCom), &AABBDesc)))
         return E_FAIL;
 
 
@@ -553,6 +565,7 @@ void CPlayer::Free()
 
     Safe_Release(m_pBody);
 
+    Safe_Release(m_pColliderCom);
     Safe_Release(m_pNavigationCom);
     Safe_Release(m_pMoveCom);
 

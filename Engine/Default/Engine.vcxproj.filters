@@ -157,6 +157,18 @@
     <Filter Include="07. Component\05. Navigation\Cell">
       <UniqueIdentifier>{3984095d-3f8a-4e20-8c3f-e45408caa7d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\06. Collider">
+      <UniqueIdentifier>{94a1bff6-d0a3-4299-9f58-d7ee2429d63d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\06. Collider\DebugDraw">
+      <UniqueIdentifier>{446b3574-6d9c-47a3-84d9-aa8f1fa46696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\06. Collider\Bounding">
+      <UniqueIdentifier>{deb97b71-f05e-4b30-b21e-91bbbda362d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\06. Collider\Bounding\AABB">
+      <UniqueIdentifier>{8c5c43ae-95bf-4618-86e4-2fcd7694c8f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -302,6 +314,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\CCell.cpp">
       <Filter>07. Component\05. Navigation\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DebugDraw.cpp">
+      <Filter>07. Component\06. Collider\DebugDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCollider.cpp">
+      <Filter>07. Component\06. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBounding.cpp">
+      <Filter>07. Component\06. Collider\Bounding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBounding_AABB.cpp">
+      <Filter>07. Component\06. Collider\Bounding\AABB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +493,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\CCell.h">
       <Filter>07. Component\05. Navigation\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DebugDraw.h">
+      <Filter>07. Component\06. Collider\DebugDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CCollider.h">
+      <Filter>07. Component\06. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBounding.h">
+      <Filter>07. Component\06. Collider\Bounding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBounding_AABB.h">
+      <Filter>07. Component\06. Collider\Bounding\AABB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

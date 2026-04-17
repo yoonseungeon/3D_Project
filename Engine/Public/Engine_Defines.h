@@ -16,6 +16,10 @@
 #include <directxtk/SpriteBatch.h>
 #include <directxtk/SpriteFont.h>
 
+#include <directxtk/PrimitiveBatch.h>
+#include <directxtk/VertexTypes.h>
+#include <directxtk/Effects.h>
+
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>

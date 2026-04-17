@@ -11,6 +11,7 @@
 #include "CImage.h"
 #include "CMove.h"
 #include "CNavigation.h"
+#include "CCollider.h"
 #pragma endregion
 
 NS_BEGIN(Engine)
