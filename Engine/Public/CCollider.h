@@ -2,8 +2,8 @@
 
 #include "CComponent.h"
 #include "CBounding_AABB.h"
-//#include "CBounding_OBB.h"
-//#include "CBounding_Sphere.h"
+#include "CBounding_OBB.h"
+#include "CBounding_Sphere.h"
 
 NS_BEGIN(Engine)
 

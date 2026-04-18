@@ -16,7 +16,6 @@ public:
 	struct BOTTLE_DESC : public CPartObject::PARTOBJECT_DESC
 	{
 		const _float4x4* pSocketBoneMatrix{ nullptr };
-		const _uint* pCurMoveState{ nullptr };
 	};
 
 protected:
@@ -40,9 +39,6 @@ private:
 
 private:
 	const _float4x4* m_pSocketBoneMatrix{ nullptr };
-
-	const _uint* m_pCurState{ nullptr };
-	_uint m_iCurState{};
 
 private:
 	HRESULT Ready_Components();

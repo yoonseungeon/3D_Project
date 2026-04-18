@@ -67,10 +67,10 @@ HRESULT CCollider::Initialize(void* pArg)
         m_pBounding = CBounding_AABB::Create(m_pDevice, m_pContext, pBoundingDesc);
         break;
     case COLLIDER::OBB:
-        //m_pBounding = CBounding_OBB::Create(m_pDevice, m_pContext, pBoundingDesc);
+        m_pBounding = CBounding_OBB::Create(m_pDevice, m_pContext, pBoundingDesc);
         break;
     case COLLIDER::SPHERE:
-        //m_pBounding = CBounding_Sphere::Create(m_pDevice, m_pContext, pBoundingDesc);
+        m_pBounding = CBounding_Sphere::Create(m_pDevice, m_pContext, pBoundingDesc);
         break;
     }
 

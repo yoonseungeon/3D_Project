@@ -958,15 +958,15 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         CCollider::Create(m_pDevice, m_pContext, COLLIDER::AABB))))
         return E_FAIL;
 
-    ///* Prototype_Component_Collider_OBB */
-    //if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
-    //    CCollider::Create(m_pDevice, m_pContext, COLLIDER::OBB))))
-    //    return E_FAIL;
+    /* Prototype_Component_Collider_OBB */
+    if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
+        CCollider::Create(m_pDevice, m_pContext, COLLIDER::OBB))))
+        return E_FAIL;
 
-    ///* Prototype_Component_Collider_Sphere */
-    //if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
-    //    CCollider::Create(m_pDevice, m_pContext, COLLIDER::SPHERE))))
-    //    return E_FAIL;
+    /* Prototype_Component_Collider_Sphere */
+    if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+        CCollider::Create(m_pDevice, m_pContext, COLLIDER::SPHERE))))
+        return E_FAIL;
 #pragma endregion
 
 #pragma region 수업 코드

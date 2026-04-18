@@ -169,6 +169,12 @@
     <Filter Include="07. Component\06. Collider\Bounding\AABB">
       <UniqueIdentifier>{8c5c43ae-95bf-4618-86e4-2fcd7694c8f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\06. Collider\Bounding\OBB">
+      <UniqueIdentifier>{8a8503d7-9d14-446a-b2fb-ad79be81882f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\06. Collider\Bounding\Sphere">
+      <UniqueIdentifier>{ac46b4e1-1da4-4d92-aa36-9340b5d459c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -326,6 +332,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CBounding_AABB.cpp">
       <Filter>07. Component\06. Collider\Bounding\AABB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBounding_OBB.cpp">
+      <Filter>07. Component\06. Collider\Bounding\OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBounding_Sphere.cpp">
+      <Filter>07. Component\06. Collider\Bounding\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +517,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CBounding_AABB.h">
       <Filter>07. Component\06. Collider\Bounding\AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBounding_OBB.h">
+      <Filter>07. Component\06. Collider\Bounding\OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBounding_Sphere.h">
+      <Filter>07. Component\06. Collider\Bounding\Sphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

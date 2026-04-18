@@ -24,9 +24,6 @@ HRESULT CBottle::Initialize(void* pArg)
 
     m_pSocketBoneMatrix = pDesc->pSocketBoneMatrix;
 
-    m_pCurState = pDesc->pCurMoveState;
-    m_iCurState = *m_pCurState;
-
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 

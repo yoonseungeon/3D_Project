@@ -374,16 +374,15 @@ HRESULT CPlayer::Ready_PartObjects()
         TEXT("Weapon"), &WeaponDesc)))
         return E_FAIL;
 
-    //// Bottle
-    //CBottle::BOTTLE_DESC BottleDesc{};
-    //BottleDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
-    //BottleDesc.pCurMoveState = &m_iCurState;
+    // Bottle
+    CBottle::BOTTLE_DESC BottleDesc{};
+    BottleDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-    //BottleDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Weapon_Special_1");
+    BottleDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Weapon_Special_1");
 
-    //if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Bottle"),
-    //    TEXT("Bottle"), &BottleDesc)))
-    //    return E_FAIL;
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Bottle"),
+        TEXT("Bottle"), &BottleDesc)))
+        return E_FAIL;
 
     return S_OK;
 }

@@ -1,5 +1,6 @@
 #include "CBounding_AABB.h"
-
+#include "CBounding_OBB.h"
+#include "CBounding_Sphere.h"
 #include "DebugDraw.h"
 
 CBounding_AABB::CBounding_AABB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
