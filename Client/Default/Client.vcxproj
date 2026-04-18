@@ -165,6 +165,7 @@
     <ClInclude Include="..\Public\CLiDailinMove.h" />
     <ClInclude Include="..\Public\CLiDailin_E.h" />
     <ClInclude Include="..\Public\CLiDailin_Q.h" />
+    <ClInclude Include="..\Public\CLiDailin_W.h" />
     <ClInclude Include="..\Public\CLobbySelectBtn.h" />
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CLumia_Structure.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="..\Private\CLiDailinMove.cpp" />
     <ClCompile Include="..\Private\CLiDailin_E.cpp" />
     <ClCompile Include="..\Private\CLiDailin_Q.cpp" />
+    <ClCompile Include="..\Private\CLiDailin_W.cpp" />
     <ClCompile Include="..\Private\CLobbySelectBtn.cpp" />
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
     <ClCompile Include="..\Private\CLumia_Structure.cpp" />

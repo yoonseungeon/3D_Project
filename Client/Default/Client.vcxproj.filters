@@ -169,6 +169,9 @@
     <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal">
       <UniqueIdentifier>{59d30b4d-0eee-421b-bdfc-16f09de5be5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. State\04. LiDailin_W">
+      <UniqueIdentifier>{074447ed-aa70-462f-99f6-10fd06b387e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -342,6 +345,9 @@
     <ClInclude Include="..\Public\CUI_NormalSkillIcon.h">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CLiDailin_W.h">
+      <Filter>02. GameObject\06. State\04. LiDailin_W</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -503,6 +509,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_Q.cpp">
       <Filter>02. GameObject\06. State\03. LiDailin_Q</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailin_W.cpp">
+      <Filter>02. GameObject\06. State\04. LiDailin_W</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

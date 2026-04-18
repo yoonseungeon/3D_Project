@@ -5,6 +5,7 @@ enum LiDailin_Ani {
 	Ani_Run = 26,
 	Ani_ATK_1 = 35, Ani_ATK_2 = 33, Ani_ATK_1P = 34, Ani_ATK_2P = 32,
 	Ani_Q1 = 21, Ani_Q2 = 19, Ani_Q3 = 17,
+	Ani_W1 = 8, Ani_W2 = 25,
 	Ani_E = 14,
 	Ani_R1 = 11, Ani_R2 = 12,
 	Ani_RestStart = 83, Ani_RestLoop = 85, Ani_RestEnd = 86,

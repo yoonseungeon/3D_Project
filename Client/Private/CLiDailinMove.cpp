@@ -29,7 +29,7 @@ void CLiDailinMove::Update(CPlayer* pPlayer, _float fTimeDelta)
 
 void CLiDailinMove::Exit(CPlayer* pPlayer)
 {
-	pPlayer->Stop_Move_To_Pos();
+	//pPlayer->Stop_Move_To_Pos();
 }
 
 void CLiDailinMove::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
@@ -63,6 +63,16 @@ void CLiDailinMove::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 
 			pPlayer->Set_CurCommand(eCommand);
 			pPlayer->Set_WaitState(L"CLiDailin_Q");
+			break;
+		}
+		case COMMAND_TYPE::ATTACK_W:
+		{
+			if (pPlayer->CanUseSkill(L"W") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_WaitState(L"CLiDailin_W");
 			break;
 		}
 		case COMMAND_TYPE::ATTACK_E:

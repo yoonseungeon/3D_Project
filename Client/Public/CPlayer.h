@@ -86,6 +86,7 @@ private:
 
 	// COOL
 	STACK_COOL_INFO tQCool{};
+	COOL_INFO tWCool{};
 	COOL_INFO tECool{};
 	COOL_INFO tRCool{};
 

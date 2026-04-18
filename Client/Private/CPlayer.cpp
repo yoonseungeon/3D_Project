@@ -12,6 +12,7 @@
 #include "CLiDailinMove.h"
 #include "CLiDailinAttack.h"
 #include "CLiDailin_Q.h"
+#include "CLiDailin_W.h"
 #include "CLiDailin_E.h"
 #include "CLiDailin_R.h"
 
@@ -68,6 +69,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     m_States.emplace(L"Move", CLiDailinMove::Create());
     m_States.emplace(L"CLiDailinAttack", CLiDailinAttack::Create());
     m_States.emplace(L"CLiDailin_Q", CLiDailin_Q::Create());
+    m_States.emplace(L"CLiDailin_W", CLiDailin_W::Create());
     m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
     m_States.emplace(L"CLiDailin_R", CLiDailin_R::Create());
 
@@ -78,6 +80,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 2.f;
     tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
 
+    tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 2.f;
     tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
     tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 2.f;
 
@@ -284,7 +287,11 @@ _bool CPlayer::CanUseQ()
 
 COOL_INFO* CPlayer::Get_CoolInfo(const _tchar* SkillName)
 {
-    if (SkillName == L"E")
+    if (SkillName == L"W")
+    {
+        return &tWCool;
+    }
+    else if (SkillName == L"E")
     {
         return &tECool;
     }
@@ -298,7 +305,13 @@ COOL_INFO* CPlayer::Get_CoolInfo(const _tchar* SkillName)
 
 _bool CPlayer::CanUseSkill(const _tchar* SkillName)
 {
-    if (SkillName == L"E")
+    if (SkillName == L"W")
+    {
+        if (tWCool.fAccCoolDown == 0.f) {
+            return true;
+        }
+    }
+    else if (SkillName == L"E")
     {
         if (tECool.fAccCoolDown == 0.f) {
             return true;
@@ -459,13 +472,19 @@ void CPlayer::Key_Input()
 
         m_pCurrentState->HandleCommand(this, tCommand);
     }
-    if (m_pGameInstance->Key_Down(DIK_E)) {
+    else if (m_pGameInstance->Key_Down(DIK_W)) {
+        COMMAND tCommand{};
+        tCommand.eCommandType = COMMAND_TYPE::ATTACK_W;
+
+        m_pCurrentState->HandleCommand(this, tCommand);
+    }
+    else if (m_pGameInstance->Key_Down(DIK_E)) {
         COMMAND tCommand{};
         tCommand.eCommandType = COMMAND_TYPE::ATTACK_E;
 
         m_pCurrentState->HandleCommand(this, tCommand);
     }
-    if (m_pGameInstance->Key_Down(DIK_R)) {
+    else if (m_pGameInstance->Key_Down(DIK_R)) {
         COMMAND tCommand{};
         tCommand.eCommandType = COMMAND_TYPE::ATTACK_R;
 
@@ -493,6 +512,7 @@ void CPlayer::Key_Input()
 
 void CPlayer::CoolTimer(_float fTimeDelta)
 {
+    // Q
     if (tQCool.fAccCoolDown > 0.f)
     {
         tQCool.fAccCoolDown -= fTimeDelta;
@@ -512,6 +532,16 @@ void CPlayer::CoolTimer(_float fTimeDelta)
         }
     }
 
+    // W
+    if (tWCool.fAccCoolDown > 0.f && tWCool.bCoolWait == false)
+    {
+        tWCool.fAccCoolDown -= fTimeDelta;
+        if (tWCool.fAccCoolDown < 0.f) {
+            tWCool.fAccCoolDown = 0.f;
+        }
+    }
+
+    // E
     if (tECool.fAccCoolDown > 0.f && tECool.bCoolWait == false)
     {
         tECool.fAccCoolDown -= fTimeDelta;
@@ -520,6 +550,8 @@ void CPlayer::CoolTimer(_float fTimeDelta)
         }
     }
 
+
+    // R
     if (tRCool.fAccCoolDown > 0.f && tRCool.bCoolWait == false)
     {
         tRCool.fAccCoolDown -= fTimeDelta;
