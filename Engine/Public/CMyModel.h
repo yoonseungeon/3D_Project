@@ -31,12 +31,12 @@ public:
 
 public:
 	void Set_AnimationIndex(_uint iIndex, _bool isLoop = false);
-	void Set_AniInterpolationTime(_float InterpolationTime) { m_fAniInterpolationTime = InterpolationTime; }
+	void Set_AniInterpolationTime(_float InterpolationTime) { m_fAniInterpTime = InterpolationTime; }
 	void Set_AniSpeed(_uint iIndex, _float fAniSpeed);
 
 	void Set_AniKeyFrameZero(_uint iIndex, vector<KEYFRAME>& KeyFrames);
 
-	void Set_OverlayAnimationIndex(_uint iIndex, const unordered_set<string>& OverlayBoneNames, _bool isLoop = false);
+	void Set_OverlayAnimationIndex(_uint iIndex, const _char* const* ppBoneName, _uint BoneNameSize, _bool isLoop = false);
 	void Off_OverlayAnimation() { m_bIsOverlay = false; }
 
 public:
@@ -87,9 +87,9 @@ private:
 
 	_uint				m_iPreviousAnimationIndex{};
 	_bool				m_bInterpolationAni{};
-	_float				m_fAniInterpolationTime{ 0.08f }; //0.08f
-	_float				m_fAccAniInterpolationTime{};
-	_bool				m_bAniInterpolationStart{};
+	_float				m_fAniInterpTime{ 0.08f }; //0.08f
+	_float				m_fAccAniInterpTime{};
+	_bool				m_bSetInterpKeyFrame{};
 	vector<KEYFRAME>    m_PreAniFrames;
 	vector<KEYFRAME>    m_NextAniFrames;
 
@@ -99,19 +99,22 @@ private:
 
 	_bool				m_bIsFinished{};
 
-	//Overlay
+	// Overlay
 	_uint						m_iOverlayAnimationIndex{};
 	_bool						m_bIsOverlay{};
 	_bool						m_isOverlayAnimLoop{};
-	unordered_set<string>		m_OverlayBoneNames;
-	_bool						m_bOverlayStart{};
+	unordered_set<_uint>		m_OverlayBoneIndices;
+	_bool						m_bSetInterpKeyFrameOverlayPrologue{};
+	_bool						m_bSetInterpKeyFrameOverlayEpilogue{};
 
-	vector<KEYFRAME>    m_PreAniFramesOverlay;
-	vector<KEYFRAME>    m_NextAniFramesOverlay;
+	vector<KEYFRAME>			m_PreAniFramesOverlay;
+	vector<KEYFRAME>			m_NextAniFramesOverlay;
 
-	_float				m_fAniInterpolationTimeOverlay{ 0.08f };
-	_float				m_fAccAniInterpolationTimeOverlay{};
+	_float						m_fAniInterpTimeOverlay{ 0.5f };
+	_float						m_fAccAniInterpTimeOverlay{};
 
+	_bool						m_bOverlayInterpPrologue{};
+	_bool						m_bOverlayInterpEpilogue{};
 
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
@@ -121,7 +124,12 @@ private:
 	HRESULT				Ready_LocalPos();
 
 	void				Update_OverlayBones(_float fTimeDelta);
-	void				Save_CurKeyFrameForOverlay();
+	void				Save_OverlayInterpolationKeyFrame();
+
+private:
+	void Store_CurAni_SRT(vector<KEYFRAME>& KeyFrames);
+	void InterpKeyFrameToKeyFrame(_uint KeyFrameIndex, _float fRatio, vector<KEYFRAME>& SrcKeyFrames, vector<KEYFRAME>& DstKeyFrames);
+	_float Get_InterpRatio(_float fAccTime, _float fMaxTime);
 
 public:
 	static CMyModel* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix = XMMatrixIdentity(), _bool bStoreVTXIDX = false);

@@ -20,6 +20,8 @@ public:
 	void Update_TransformationMatrix(const vector<CMyBone*>& Bones, _float fCurrentTrackPosition, _uint* pCurrentKeyIndex);
 
 	const string& Get_ChannelName() { return m_strName; }
+	_uint Get_BoneIndex() { return m_iBoneIndex; }
+
 
 	void Get_KeyFrameZeror(vector<KEYFRAME>& KeyFrames);
 

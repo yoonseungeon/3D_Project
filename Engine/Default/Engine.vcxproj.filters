@@ -300,9 +300,6 @@
     <ClCompile Include="..\Private\CVIBuffer_Cube.cpp">
       <Filter>07. Component\01. VIBuffer\01. Cube</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CMyModel.cpp">
-      <Filter>07. Component\04. MyModel</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\CMove.cpp">
       <Filter>07. Component\98. Move</Filter>
     </ClCompile>
@@ -338,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CBounding_Sphere.cpp">
       <Filter>07. Component\06. Collider\Bounding\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMyModel.cpp">
+      <Filter>07. Component\04. MyModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

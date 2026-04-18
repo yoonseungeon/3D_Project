@@ -18,7 +18,7 @@ public:
 	void HandleCommand(CPlayer* pPlayer, COMMAND& eCommand) override;
 
 private:
-	unordered_set<string> m_BoneNames;
+	static const _char* m_pBoneNames[];
 
 public:
 	static CLiDailin_W* Create();

@@ -26,13 +26,14 @@ public:
 
 	void Reset_KeyFrameIndex();
 	void Reset_CurrentTrackPosition() { m_fCurrentTrackPosition = 0.f; }
+	void Reset_Finished() { m_bIsFinished = false; }
 
 	void Set_AniSpeed(_float fAniSpeed) { m_fAniSpeed = fAniSpeed; }
 
 	_float Get_AniPlayRatio() { return m_fCurrentTrackPosition / m_fDuration; }
 
 	// Overlay
-	_bool Update_OverlayBones(const vector<CMyBone*>& Bones, const unordered_set<string>& OverlayBoneNames, _float fTimeDelta, _bool isLoop);
+	_bool Update_OverlayBones(const vector<CMyBone*>& Bones, const unordered_set<_uint>& OverlayBoneIndices, _float fTimeDelta, _bool isLoop);
 
 	void Get_KeyFrameZero(vector<KEYFRAME>& KeyFrames);
 
@@ -54,6 +55,7 @@ private:
 	vector<_uint>		m_CurrentKeyFrameIndices;
 
 	_float m_fAniSpeed{ 1.f };
+	_bool m_bIsFinished{};
 
 public:
 	static CMyAnimation* Create(const myAnimation* pMyAnimation, CMyModel* pModel);

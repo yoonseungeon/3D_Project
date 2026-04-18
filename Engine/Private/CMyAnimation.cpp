@@ -42,6 +42,10 @@ HRESULT CMyAnimation::Initialize(const myAnimation* pMyAnimation, CMyModel* pMod
 
 _bool CMyAnimation::Update_TransformationMatrices(const vector<CMyBone*>& Bones, _float fTimeDelta, _bool isLoop)
 {
+    if (m_bIsFinished == true) {
+        return true;
+    }
+
     m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta * m_fAniSpeed;
 
     // 애니메이션 끝났는지
@@ -50,9 +54,8 @@ _bool CMyAnimation::Update_TransformationMatrices(const vector<CMyBone*>& Bones,
         // 무한 재생이 아니면
         if (isLoop == false)
         {
-            // 그냥 끝
             m_fCurrentTrackPosition = m_fDuration;
-            return true;
+            m_bIsFinished = true;
         }
         else // 무한 재생이면 다시 처음부터 재생
         {
@@ -67,7 +70,7 @@ _bool CMyAnimation::Update_TransformationMatrices(const vector<CMyBone*>& Bones,
         pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_CurrentKeyFrameIndices[iChannelIndex++]);
     }
 
-    return false;
+    return m_bIsFinished;
 }
 
 void CMyAnimation::Update_TransformationMatZeorKeyFrame(const vector<CMyBone*>& Bones)
@@ -103,8 +106,12 @@ void CMyAnimation::Reset_KeyFrameIndex()
     }
 }
 
-_bool CMyAnimation::Update_OverlayBones(const vector<CMyBone*>& Bones, const unordered_set<string>& OverlayBoneNames, _float fTimeDelta, _bool isLoop)
+_bool CMyAnimation::Update_OverlayBones(const vector<CMyBone*>& Bones, const unordered_set<_uint>& OverlayBoneIndices, _float fTimeDelta, _bool isLoop)
 {
+    if (m_bIsFinished == true) {
+        return true;
+    }
+
     m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta * m_fAniSpeed;
 
     // 애니메이션 끝났는지
@@ -115,7 +122,7 @@ _bool CMyAnimation::Update_OverlayBones(const vector<CMyBone*>& Bones, const uno
         {
             // 그냥 끝
             m_fCurrentTrackPosition = m_fDuration;
-            return true;
+            m_bIsFinished = true;
         }
         else // 무한 재생이면 다시 처음부터 재생
         {
@@ -129,16 +136,16 @@ _bool CMyAnimation::Update_OverlayBones(const vector<CMyBone*>& Bones, const uno
     {
         ++iChannelIndex;
 
-        auto iter = OverlayBoneNames.find(pChannel->Get_ChannelName());
+        auto iter = OverlayBoneIndices.find(pChannel->Get_BoneIndex());
        
-        if (iter == OverlayBoneNames.end()) {
+        if (iter == OverlayBoneIndices.end()) {
             continue;
         }
 
         pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_CurrentKeyFrameIndices[iChannelIndex]);
     }
 
-    return false;
+    return m_bIsFinished;
 }
 
 void CMyAnimation::Get_KeyFrameZero(vector<KEYFRAME>& KeyFrames)
