@@ -30,6 +30,9 @@ public:
 
 	_float Get_AniPlayRatio() { return m_fCurrentTrackPosition / m_fDuration; }
 
+	// Overlay
+	_bool Update_OverlayBones(const vector<CMyBone*>& Bones, const unordered_set<string>& OverlayBoneNames, _float fTimeDelta, _bool isLoop);
+
 private:
 	// 현재 애니메이션 트랙의 총 길이(시간 아님)
 	_float				m_fDuration{};

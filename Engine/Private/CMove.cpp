@@ -123,7 +123,7 @@ _bool CMove::Update_Move_To_Pos(_float fTimeDelta)
         return false;
     }
 
-    return false;
+    return true;
 }
 
 CMove* CMove::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

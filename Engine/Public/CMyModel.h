@@ -34,9 +34,13 @@ public:
 	void Set_AniInterpolationTime(_float InterpolationTime) { m_fAniInterpolationTime = InterpolationTime; }
 	void Set_AniSpeed(_uint iIndex, _float fAniSpeed);
 
+	void Set_OverlayAnimationIndex(_uint iIndex, const unordered_set<string>& OverlayBoneNames, _bool isLoop = false);
+	void Off_OverlayAnimation() { m_bIsOverlay = false; }
+
 public:
 	_bool Play_Animation(_float fTimeDelta);
 	_bool IsAnimationFinished() { return m_bIsFinished; }
+	_bool IsAniOverlay() { return m_bIsOverlay; }
 
 	_float Get_CurAniPlayRatio() const;
 
@@ -80,7 +84,7 @@ private:
 
 	_uint				m_iPreviousAnimationIndex{};
 	_bool				m_bInterpolationAni{};
-	_float				m_fAniInterpolationTime{ 0.08f };
+	_float				m_fAniInterpolationTime{ 0.0f }; //0.08f
 	_float				m_fAccAniInterpolationTime{};
 	_bool				m_bAniInterpolationStart{};
 	vector<KEYFRAME>    m_PreAniFrames;
@@ -92,11 +96,19 @@ private:
 
 	_bool				m_bIsFinished{};
 
+	//Overlay
+	_uint						m_iOverlayAnimationIndex{};
+	_bool						m_bIsOverlay{};
+	_bool						m_isOverlayAnimLoop{};
+	unordered_set<string>		m_OverlayBoneNames;
+
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
 	HRESULT				Ready_Materials(const _char* pModelFilePath);
 	HRESULT				Ready_Bones(const myNode* pMyNode, _int iParentIndex);
 	HRESULT				Ready_Animations();
+
+	void				Update_OverlayBones(_float fTimeDelta);
 
 public:
 	static CMyModel* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix = XMMatrixIdentity(), _bool bStoreVTXIDX = false);

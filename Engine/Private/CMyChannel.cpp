@@ -9,6 +9,8 @@ CMyChannel::CMyChannel()
 
 HRESULT CMyChannel::Initialize(const myNodeAnim* pMyNodeAnim, class CMyModel* pModel)
 {
+    m_strName = pMyNodeAnim->mNodeName;
+
     // CModel에서 CBone의 이름을 검색해서 인덱스 가지고 옴.
     m_iBoneIndex = pModel->Get_BoneIndex(pMyNodeAnim->mNodeName.c_str());
 

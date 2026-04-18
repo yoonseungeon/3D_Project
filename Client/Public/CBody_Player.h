@@ -42,7 +42,7 @@ public:
 	void Set_AniInterpolationTime(_float InterpolationTime);
 	void Set_AniSpeed(_uint iIndex, _float fAniSpeed);
 
-	const CMyModel* Get_ModelCom() const { return m_pModelCom; }
+	CMyModel* Get_ModelCom() const { return m_pModelCom; }
 
 private:
 	CShader*	m_pShaderCom{ nullptr };

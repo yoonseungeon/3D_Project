@@ -19,7 +19,7 @@ public:
 public:
 	void Update_TransformationMatrix(const vector<CMyBone*>& Bones, _float fCurrentTrackPosition, _uint* pCurrentKeyIndex);
 
-
+	const string& Get_ChannelName() { return m_strName; }
 
 private:
 	// CModel의 CMyBone 벡터의 인덱스를 들고있어야 함.
@@ -29,6 +29,9 @@ private:
 	_uint				m_iNumKeyFrames{};
 	// 트랙 특정 위치에서 이 뼈의 상태(행렬)
 	vector<KEYFRAME>	m_KeyFrames;
+
+	// Overlay
+	string				m_strName;
 
 public:
 	static CMyChannel* Create(const myNodeAnim* pMyNodeAnim, CMyModel* pModel);

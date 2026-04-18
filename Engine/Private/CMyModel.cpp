@@ -141,6 +141,19 @@ void CMyModel::Set_AniSpeed(_uint iIndex, _float fAniSpeed)
     m_Animations[iIndex]->Set_AniSpeed(fAniSpeed);
 }
 
+void CMyModel::Set_OverlayAnimationIndex(_uint iIndex, const unordered_set<string>& OverlayBoneNames, _bool isLoop)
+{
+    m_iOverlayAnimationIndex = iIndex;
+    m_isOverlayAnimLoop = isLoop;
+
+    m_OverlayBoneNames = OverlayBoneNames;
+
+    m_Animations[m_iOverlayAnimationIndex]->Reset_KeyFrameIndex();
+    m_Animations[m_iOverlayAnimationIndex]->Reset_CurrentTrackPosition();
+
+    m_bIsOverlay = true;
+}
+
 _bool CMyModel::Play_Animation(_float fTimeDelta)
 {
     // 애니메이션이 끝났는지(무한 재생이면 항상 false)
@@ -249,6 +262,10 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
     /* 현재 애니메이션 이용하고 있는 뼈들의 TransformationMatrix를 갱신해준다.  */
     // 현재 애니메이션으로 가서 뼈들의 행렬을 업데이트 해준다.
     m_bIsFinished = m_Animations[m_iCurrentAnimationIndex]->Update_TransformationMatrices(m_Bones, fTimeDelta, m_isAnimLoop);
+
+    if (m_bIsOverlay == true) {
+        Update_OverlayBones(fTimeDelta);
+    }
 
     /* 위의 갱신이 끝났다면, 모든 뼈의 CombinedTransformationMatrix갱신한다. */
     for (auto& pBone : m_Bones)
@@ -386,6 +403,16 @@ HRESULT CMyModel::Ready_Animations()
     }
 
     return S_OK;
+}
+
+void CMyModel::Update_OverlayBones(_float fTimeDelta)
+{
+    _bool bIsOverlayEnd =  m_Animations[m_iOverlayAnimationIndex]->Update_OverlayBones(m_Bones, m_OverlayBoneNames, fTimeDelta, m_isOverlayAnimLoop);
+
+    if (bIsOverlayEnd == true) {
+        m_bIsOverlay = false;
+
+    }
 }
 
 CMyModel* XM_CALLCONV CMyModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)

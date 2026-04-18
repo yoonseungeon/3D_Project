@@ -80,7 +80,10 @@ void CLiDailin_R::Exit(CPlayer* pPlayer)
 
 void CLiDailin_R::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 {
-	if(bIsAniR2Changed == true)
+	if (bIsAniR2Changed == false) {
+		return;
+	}
+	else if(bIsAniR2Changed == true)
 	{
 		const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 		_float fR2 = pModel->Get_CurAniPlayRatio();
@@ -89,6 +92,7 @@ void CLiDailin_R::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 			return;
 		}
 	}
+
 
 	switch (eCommand.eCommandType) {
 	case COMMAND_TYPE::MOVE:

@@ -87,6 +87,44 @@ void CMyAnimation::Reset_KeyFrameIndex()
     }
 }
 
+_bool CMyAnimation::Update_OverlayBones(const vector<CMyBone*>& Bones, const unordered_set<string>& OverlayBoneNames, _float fTimeDelta, _bool isLoop)
+{
+    m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta * m_fAniSpeed;
+
+    // 애니메이션 끝났는지
+    if (m_fCurrentTrackPosition >= m_fDuration)
+    {
+        // 무한 재생이 아니면
+        if (isLoop == false)
+        {
+            // 그냥 끝
+            m_fCurrentTrackPosition = m_fDuration;
+            return true;
+        }
+        else // 무한 재생이면 다시 처음부터 재생
+        {
+            m_fCurrentTrackPosition = 0.f;
+        }
+    }
+
+    _int iChannelIndex{ -1 };
+
+    for (auto& pChannel : m_Channels)
+    {
+        ++iChannelIndex;
+
+        auto iter = OverlayBoneNames.find(pChannel->Get_ChannelName());
+       
+        if (iter == OverlayBoneNames.end()) {
+            continue;
+        }
+
+        pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_CurrentKeyFrameIndices[iChannelIndex]);
+    }
+
+    return false;
+}
+
 CMyAnimation* CMyAnimation::Create(const myAnimation* pMyAnimation, CMyModel* pModel)
 {
     CMyAnimation* pInstance = new CMyAnimation();
