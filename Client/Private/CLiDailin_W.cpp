@@ -60,7 +60,7 @@ void CLiDailin_W::Enter(CPlayer* pPlayer)
 	// Ani
 
 	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_OverlayAnimationIndex(LiDailin_Ani::Ani_W1, m_BoneNames);
-	//pPlayer->Set_Animation(L"Body", static_cast<_uint>(LiDailin_Ani::Ani_W2), false);
+	pPlayer->Set_Animation(L"Body", static_cast<_uint>(LiDailin_Ani::Ani_W2), false);
 	//pPlayer->Set_Animation(L"Weapon", static_cast<_uint>(Nunchaku_Ani::IDLE_WP), false);
 
 	// Ani Speed

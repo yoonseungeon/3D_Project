@@ -27,6 +27,8 @@ public:
 
 	void XM_CALLCONV Set_TransformationMatrix(_fmatrix TransformationMatrix);
 
+	const KEYFRAME& Get_LocalPos() { return m_tLocalPos; }
+
 private:
 	// 이름 저장해야 함.(무기 붙이기, 이팩트 붙이기에 사용.)
 	// aiNode, aiBone, aiNodeAnim: 다 동기화 되어 있음.
@@ -35,6 +37,9 @@ private:
 	_int		m_iParentIndex{ -1 };
 	_float4x4	m_TransformationMatrix{};			// 로컬 행렬
 	_float4x4	m_CombinedTransformationMatrix{};	// 부모 행렬이 곱해진 최종 행렬
+
+	// 기본 뼈 나눠서 보관
+	KEYFRAME m_tLocalPos{};
 
 public:
 	static CMyBone* Create(const myNode* pMyNode, _int iParentIndex);

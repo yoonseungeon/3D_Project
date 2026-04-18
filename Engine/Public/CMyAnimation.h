@@ -22,6 +22,7 @@ public:
 	_bool Update_TransformationMatrices(const vector<CMyBone*>& Bones, _float fTimeDelta, _bool isLoop);
 
 	void Update_TransformationMatZeorKeyFrame(const vector<CMyBone*>& Bones);
+	void Update_OverlayTransformationMatZeorKeyFrame(const vector<CMyBone*>& Bones, const unordered_set<string>& OverlayBoneNames);
 
 	void Reset_KeyFrameIndex();
 	void Reset_CurrentTrackPosition() { m_fCurrentTrackPosition = 0.f; }
@@ -32,6 +33,8 @@ public:
 
 	// Overlay
 	_bool Update_OverlayBones(const vector<CMyBone*>& Bones, const unordered_set<string>& OverlayBoneNames, _float fTimeDelta, _bool isLoop);
+
+	void Get_KeyFrameZero(vector<KEYFRAME>& KeyFrames);
 
 private:
 	// 현재 애니메이션 트랙의 총 길이(시간 아님)

@@ -80,6 +80,22 @@ void CMyAnimation::Update_TransformationMatZeorKeyFrame(const vector<CMyBone*>& 
     }
 }
 
+void CMyAnimation::Update_OverlayTransformationMatZeorKeyFrame(const vector<CMyBone*>& Bones, const unordered_set<string>& OverlayBoneNames)
+{
+    _uint iDumy{ 0 };
+
+    for (size_t i = 0; i < m_Channels.size(); ++i)
+    {
+        auto iter = OverlayBoneNames.find(m_Channels[i]->Get_ChannelName());
+
+        if (iter == OverlayBoneNames.end()) {
+            continue;
+        }
+
+        m_Channels[i]->Update_TransformationMatrix(Bones, 0.f, &iDumy);
+    }
+}
+
 void CMyAnimation::Reset_KeyFrameIndex()
 {
     for (auto& iKeyFrameIdx : m_CurrentKeyFrameIndices) {
@@ -123,6 +139,13 @@ _bool CMyAnimation::Update_OverlayBones(const vector<CMyBone*>& Bones, const uno
     }
 
     return false;
+}
+
+void CMyAnimation::Get_KeyFrameZero(vector<KEYFRAME>& KeyFrames)
+{
+    for (auto pChannel : m_Channels) {
+        pChannel->Get_KeyFrameZeror(KeyFrames);
+    }
 }
 
 CMyAnimation* CMyAnimation::Create(const myAnimation* pMyAnimation, CMyModel* pModel)

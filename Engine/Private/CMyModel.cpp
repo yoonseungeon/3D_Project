@@ -21,6 +21,7 @@ CMyModel::CMyModel(const CMyModel& Prototype)
     , m_PreTransformMatrix{ Prototype.m_PreTransformMatrix }
     , m_iNumAnimations{ Prototype.m_iNumAnimations }
     //, m_Animations{ Prototype.m_Animations }
+    , m_BonesLocalPos{ Prototype.m_BonesLocalPos } // 일단 깊은 복사
 {
     for (auto& pPrototypeAnimation : Prototype.m_Animations)
         m_Animations.push_back(pPrototypeAnimation->Clone());
@@ -60,6 +61,9 @@ HRESULT XM_CALLCONV CMyModel::Initialize_Prototype(MODEL eType, const _char* pMo
         return E_FAIL;
 
     if (FAILED(Ready_Animations()))
+        return E_FAIL;
+
+    if (FAILED(Ready_LocalPos()))
         return E_FAIL;
 
     return S_OK;
@@ -141,6 +145,13 @@ void CMyModel::Set_AniSpeed(_uint iIndex, _float fAniSpeed)
     m_Animations[iIndex]->Set_AniSpeed(fAniSpeed);
 }
 
+void CMyModel::Set_AniKeyFrameZero(_uint iIndex, vector<KEYFRAME>& KeyFrames)
+{
+    KeyFrames.clear();
+    KeyFrames = m_BonesLocalPos;
+    m_Animations[iIndex]->Get_KeyFrameZero(KeyFrames);
+}
+
 void CMyModel::Set_OverlayAnimationIndex(_uint iIndex, const unordered_set<string>& OverlayBoneNames, _bool isLoop)
 {
     m_iOverlayAnimationIndex = iIndex;
@@ -151,6 +162,7 @@ void CMyModel::Set_OverlayAnimationIndex(_uint iIndex, const unordered_set<strin
     m_Animations[m_iOverlayAnimationIndex]->Reset_KeyFrameIndex();
     m_Animations[m_iOverlayAnimationIndex]->Reset_CurrentTrackPosition();
 
+    m_bOverlayStart = true;
     m_bIsOverlay = true;
 }
 
@@ -158,6 +170,11 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
 {
     // 애니메이션이 끝났는지(무한 재생이면 항상 false)
     m_bIsFinished = { false };
+
+    if (m_bOverlayStart == true) {
+        Save_CurKeyFrameForOverlay();
+        m_bOverlayStart = false;
+    }
 
     // Ani To Ani 보간
     if (m_bInterpolationAni == true && m_bAniInterpolationStart == false)
@@ -187,23 +204,26 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
         }
 
         // 다음 애니로 뼈 한 번 업데이트
-        m_Animations[m_iCurrentAnimationIndex]->Update_TransformationMatZeorKeyFrame(m_Bones);
+        //m_Animations[m_iCurrentAnimationIndex]->Update_TransformationMatZeorKeyFrame(m_Bones);
 
-        // 다음 애니 전체 뼈 정보 저장
-        for (auto* pBone : m_Bones)
-        {
-            const _float4x4* pTransformationMatrix = pBone->Get_TransformationMatrixPtr();
+        //// 다음 애니 전체 뼈 정보 저장
+        //for (auto* pBone : m_Bones)
+        //{
+        //    const _float4x4* pTransformationMatrix = pBone->Get_TransformationMatrixPtr();
 
-            XMVECTOR vScale{}, vRotation{}, vTransform{};
-            XMMatrixDecompose(&vScale, &vRotation, &vTransform, XMLoadFloat4x4(pTransformationMatrix));
+        //    XMVECTOR vScale{}, vRotation{}, vTransform{};
+        //    XMMatrixDecompose(&vScale, &vRotation, &vTransform, XMLoadFloat4x4(pTransformationMatrix));
 
-            KEYFRAME tFrame{};
-            XMStoreFloat3(&tFrame.vScale, vScale);
-            XMStoreFloat4(&tFrame.vRotation, vRotation);
-            XMStoreFloat3(&tFrame.vTranslation, vTransform);
+        //    KEYFRAME tFrame{};
+        //    XMStoreFloat3(&tFrame.vScale, vScale);
+        //    XMStoreFloat4(&tFrame.vRotation, vRotation);
+        //    XMStoreFloat3(&tFrame.vTranslation, vTransform);
 
-            m_NextAniFrames.push_back(tFrame);
-        }
+        //    m_NextAniFrames.push_back(tFrame);
+        //}
+
+        // 기본 포즈 적용 후 업데이트 되는 키프레임만 적용시킨 전체 뼈
+        Set_AniKeyFrameZero(m_iCurrentAnimationIndex, m_NextAniFrames);
     }
 
     // 애니와 애니 사이 보간
@@ -405,6 +425,17 @@ HRESULT CMyModel::Ready_Animations()
     return S_OK;
 }
 
+HRESULT CMyModel::Ready_LocalPos()
+{
+    m_BonesLocalPos.reserve(m_Bones.size());   
+
+    for (auto& pBone : m_Bones) {
+        m_BonesLocalPos.push_back(pBone->Get_LocalPos());
+    }
+
+    return S_OK;
+}
+
 void CMyModel::Update_OverlayBones(_float fTimeDelta)
 {
     _bool bIsOverlayEnd =  m_Animations[m_iOverlayAnimationIndex]->Update_OverlayBones(m_Bones, m_OverlayBoneNames, fTimeDelta, m_isOverlayAnimLoop);
@@ -413,6 +444,30 @@ void CMyModel::Update_OverlayBones(_float fTimeDelta)
         m_bIsOverlay = false;
 
     }
+}
+
+void CMyModel::Save_CurKeyFrameForOverlay()
+{
+    m_fAccAniInterpolationTimeOverlay = 0.f;
+    m_PreAniFramesOverlay.clear();
+    m_PreAniFramesOverlay.reserve(m_Bones.size());
+
+    for (auto* pBone : m_Bones)
+    {
+        const _float4x4* pTransformationMatrix = pBone->Get_TransformationMatrixPtr();
+
+        XMVECTOR vScale{}, vRotation{}, vTransform{};   
+        XMMatrixDecompose(&vScale, &vRotation, &vTransform, XMLoadFloat4x4(pTransformationMatrix));
+
+        KEYFRAME tFrame{};
+        XMStoreFloat3(&tFrame.vScale, vScale);
+        XMStoreFloat4(&tFrame.vRotation, vRotation);
+        XMStoreFloat3(&tFrame.vTranslation, vTransform);
+
+        m_PreAniFramesOverlay.push_back(tFrame);
+    }
+
+
 }
 
 CMyModel* XM_CALLCONV CMyModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)

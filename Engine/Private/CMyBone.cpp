@@ -19,6 +19,14 @@ HRESULT CMyBone::Initialize(const myNode* pMyNode, _int iParentIndex)
     // 부모 인덱스(CModel의 vector index)
     m_iParentIndex = iParentIndex;
 
+    // 기본 뼈 나눠서 저장
+    XMVECTOR vScale{}, vRotation{}, vTransform{};
+    XMMatrixDecompose(&vScale, &vRotation, &vTransform, XMLoadFloat4x4(&m_TransformationMatrix));
+
+    XMStoreFloat3(&m_tLocalPos.vScale, vScale);
+    XMStoreFloat4(&m_tLocalPos.vRotation, vRotation);
+    XMStoreFloat3(&m_tLocalPos.vTranslation, vTransform);
+
     return S_OK;
 }
 

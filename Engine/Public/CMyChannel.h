@@ -21,6 +21,8 @@ public:
 
 	const string& Get_ChannelName() { return m_strName; }
 
+	void Get_KeyFrameZeror(vector<KEYFRAME>& KeyFrames);
+
 private:
 	// CModel의 CMyBone 벡터의 인덱스를 들고있어야 함.
 	// 뼈의 접근해서 행렬 업데이트 시켜줘야 해서

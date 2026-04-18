@@ -115,6 +115,12 @@ void CMyChannel::Update_TransformationMatrix(const vector<CMyBone*>& Bones, _flo
     Bones[m_iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 }
 
+void CMyChannel::Get_KeyFrameZeror(vector<KEYFRAME>& KeyFrames)
+{
+
+    KeyFrames[m_iBoneIndex] = m_KeyFrames.front();
+}
+
 CMyChannel* CMyChannel::Create(const myNodeAnim* pMyNodeAnim, class CMyModel* pModel)
 {
     CMyChannel* pInstance = new CMyChannel();

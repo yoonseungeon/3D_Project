@@ -34,6 +34,8 @@ public:
 	void Set_AniInterpolationTime(_float InterpolationTime) { m_fAniInterpolationTime = InterpolationTime; }
 	void Set_AniSpeed(_uint iIndex, _float fAniSpeed);
 
+	void Set_AniKeyFrameZero(_uint iIndex, vector<KEYFRAME>& KeyFrames);
+
 	void Set_OverlayAnimationIndex(_uint iIndex, const unordered_set<string>& OverlayBoneNames, _bool isLoop = false);
 	void Off_OverlayAnimation() { m_bIsOverlay = false; }
 
@@ -69,6 +71,7 @@ private:
 	vector<CMyMaterial*>	m_Materials;
 
 	vector<CMyBone*>		m_Bones;
+	vector<KEYFRAME>		m_BonesLocalPos;
 
 	// Anim인 경우 뼈에게 매 프레임 곱해줘야 한다.
 	// m_TransformationMatrix가 계속 바뀌어서 계속 곱해줘야 함.
@@ -84,7 +87,7 @@ private:
 
 	_uint				m_iPreviousAnimationIndex{};
 	_bool				m_bInterpolationAni{};
-	_float				m_fAniInterpolationTime{ 0.0f }; //0.08f
+	_float				m_fAniInterpolationTime{ 0.08f }; //0.08f
 	_float				m_fAccAniInterpolationTime{};
 	_bool				m_bAniInterpolationStart{};
 	vector<KEYFRAME>    m_PreAniFrames;
@@ -101,14 +104,24 @@ private:
 	_bool						m_bIsOverlay{};
 	_bool						m_isOverlayAnimLoop{};
 	unordered_set<string>		m_OverlayBoneNames;
+	_bool						m_bOverlayStart{};
+
+	vector<KEYFRAME>    m_PreAniFramesOverlay;
+	vector<KEYFRAME>    m_NextAniFramesOverlay;
+
+	_float				m_fAniInterpolationTimeOverlay{ 0.08f };
+	_float				m_fAccAniInterpolationTimeOverlay{};
+
 
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
 	HRESULT				Ready_Materials(const _char* pModelFilePath);
 	HRESULT				Ready_Bones(const myNode* pMyNode, _int iParentIndex);
 	HRESULT				Ready_Animations();
+	HRESULT				Ready_LocalPos();
 
 	void				Update_OverlayBones(_float fTimeDelta);
+	void				Save_CurKeyFrameForOverlay();
 
 public:
 	static CMyModel* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, const _char* pModelFilePath, _fmatrix PreTransformMatrix = XMMatrixIdentity(), _bool bStoreVTXIDX = false);
