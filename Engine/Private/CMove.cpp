@@ -93,9 +93,9 @@ _bool CMove::Update_Move_To_Pos(_float fTimeDelta)
 
         if(fDistanceSq <= fMoveDistanceSq)
         {
-            const _bool m_bCanMove = m_pNavigationCom->isMove(vMovePos);
+            const _bool m_bMoveBlock = m_pNavigationCom->isMove(vMovePos);
 
-            if(m_bOperateNavi == true && m_bCanMove || m_bOperateNavi == false)
+            if(m_bOperateNavi == true && m_bMoveBlock || m_bOperateNavi == false)
             {
                 m_pTransform->Set_Pos(vMovePos);
             }

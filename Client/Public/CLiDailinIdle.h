@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CState.h"
+#include "CMovementState.h"
 
-class CLiDailinIdle : public CState
+class CLiDailinIdle : public CMovementState
 {
 private:
 	CLiDailinIdle();
@@ -12,7 +12,7 @@ public:
 	void Enter(CPlayer* pPlayer) override;
 	void Update(CPlayer* pPlayer, _float fTimeDelta) override;
 	void Exit(CPlayer* pPlayer) override;
-	void HandleCommand(CPlayer* pPlayer, COMMAND& eCommand) override;
+	void HandleMovementCommand(CPlayer* pPlayer, MOVEMENT_COMMAND& eMovement_Command) override;
 
 public:
 	static CLiDailinIdle* Create();

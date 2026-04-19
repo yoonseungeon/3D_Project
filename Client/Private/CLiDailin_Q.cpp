@@ -2,6 +2,7 @@
 
 #include "CPlayer.h"
 #include "CBody_Player.h"
+#include "CWeapon.h"
 #include "CGameInstance.h"
 
 CLiDailin_Q::CLiDailin_Q()
@@ -10,6 +11,7 @@ CLiDailin_Q::CLiDailin_Q()
 
 void CLiDailin_Q::Enter(CPlayer* pPlayer)
 {
+	// Cool
 	STACK_COOL_INFO& tQCoolInfo = pPlayer->Get_QCoolInfo();
 	tQCoolInfo.fAccSubCoolDown = tQCoolInfo.fCurSubCoolDown;
 
@@ -21,25 +23,31 @@ void CLiDailin_Q::Enter(CPlayer* pPlayer)
 		case 0:
 		{
 			iBodyPhase = static_cast<_uint>(LiDailin_Ani::Ani_Q1);
+			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q1);
+			pPlayer->Set_AniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q1_WP);
 			break;
 		}
 		case 1:
 		{
 			iBodyPhase = static_cast<_uint>(LiDailin_Ani::Ani_Q2);
+			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q2);
+			pPlayer->Set_AniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q2_WP);
 			break;
 		}
 		case 2:
 		{
 			iBodyPhase = static_cast<_uint>(LiDailin_Ani::Ani_Q3);
+			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q3);
+			pPlayer->Set_AniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q3_WP);
 			break;
 		}
 	}
 
-	pPlayer->Set_Animation(L"Body", iBodyPhase, false);
-	pPlayer->Set_Animation(L"Weapon", iWeaponPhase, false);
+	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(iBodyPhase, false);
+	pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(iWeaponPhase, false);
 
 	tQCoolInfo.fStack = (++tQCoolInfo.fStack) % 3;
 
@@ -53,7 +61,8 @@ void CLiDailin_Q::Enter(CPlayer* pPlayer)
 	pPlayer->Set_AniSpeed(L"Weapon", iWeaponPhase, 2.f);
 
 	// 이동
-	pPlayer->Stop_Move_To_Pos();
+	pPlayer->Set_MoveBlock(true);
+	pPlayer->Set_WaitMovementState(L"Idle");
 }
 
 void CLiDailin_Q::Update(CPlayer* pPlayer, _float fTimeDelta)
@@ -70,31 +79,76 @@ void CLiDailin_Q::Update(CPlayer* pPlayer, _float fTimeDelta)
 		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 4.f, true);
 	}
 
-	if (pPlayer->IsAnimationFinished(L"Body")) {
-		if (pPlayer->Get_CurCommand().eCommandType == COMMAND_TYPE::MOVE) {
-			pPlayer->Set_WaitState(L"Move");
-		}
-		else
-		{
-			pPlayer->Set_WaitState(L"Idle");
-		}
+	if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
+		pPlayer->Set_ActionEnd();
 	}
 }
 
 void CLiDailin_Q::Exit(CPlayer* pPlayer)
 {
+	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
+	pPlayer->Set_AniBlock(false);
+	pPlayer->Set_MoveBlock(false);
 }
 
-void CLiDailin_Q::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
+void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)
 {
-	switch (eCommand.eCommandType) {
-		case COMMAND_TYPE::MOVE:
+	if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == false) {
+		return;
+	}
+
+	switch (eAction_Command.eCommandType)
+	{
+		case ACTION_COMMAND_TYPE::ATTACK:
 		{
-			pPlayer->Set_CurCommand(eCommand);
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailinAttack");
+
 			break;
 		}
-		
-		// 나머지 무시
+		case ACTION_COMMAND_TYPE::ATTACK_Q:
+		{
+			if (pPlayer->CanUseSkill(L"Q") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailin_Q");
+
+			break;
+		}
+		case ACTION_COMMAND_TYPE::ATTACK_W:
+		{
+			if (pPlayer->CanUseSkill(L"W") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailin_W");
+			break;
+		}
+		case ACTION_COMMAND_TYPE::ATTACK_E:
+		{
+			if (pPlayer->CanUseSkill(L"E") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailin_E");
+			break;
+		}
+		case ACTION_COMMAND_TYPE::ATTACK_R:
+		{
+
+			if (pPlayer->CanUseSkill(L"R") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailin_R");
+
+			break;
+		}
 	}
 }
 

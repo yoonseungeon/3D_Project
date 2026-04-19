@@ -14,7 +14,10 @@ NS_END
 NS_BEGIN(Client)
 
 class CBody_Player;
+class CWeapon;
 class CState;
+class CMovementState;
+class CActionState;
 
 class CPlayer final : public CContainerObject
 {
@@ -35,11 +38,24 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Set_WaitState(wstring wstrState);
-	void Set_CurCommand(COMMAND& tCommand) { m_tCurCommand = tCommand; }
-	void Apply_WaitState();
-	const COMMAND& Get_CurCommand() { return m_tCurCommand; }
+	// MovementState
+	void Set_WaitMovementState(const wstring& wstrState);
+	void Apply_WaitMovementState();
+	void Set_CurMovementCommand(MOVEMENT_COMMAND& tMovement_Command) { m_tCurMovementCommand = tMovement_Command; }
+	const MOVEMENT_COMMAND& Get_CurMovementCommand() { return m_tCurMovementCommand; }
 
+	void Process_MovementCommand(MOVEMENT_COMMAND& tMovement_Command);
+
+	// ActionState
+	void Set_WaitActionState(const wstring& wstrState);
+	void Apply_WaitActionState();
+	void Set_CurActionCommand(ACTION_COMMAND& tAction_Command) { m_tCurActionCommand = tAction_Command; }
+	const ACTION_COMMAND& Get_CurActionCommand() { return m_tCurActionCommand; }
+
+	void Set_ActionEnd() { m_bActionEnd = true; }
+	void Process_ActionCommand(ACTION_COMMAND& tAction_Command);
+
+	// test
 	_bool IsTargetInRange();
 
 	// Part Obj
@@ -50,6 +66,7 @@ public:
 	void Set_AniSpeed(wstring wstrPartObjTag, _uint iIndex, _float fAniSpeed);
 
 	const CBody_Player* Get_BodyPlayer() const { return m_pBody; }
+	const CWeapon* Get_Weapon() const { return m_pWeapon; }
 
 	// MoveCom
 	_bool Update_Move_To_Pos(_float fTimeDelta);
@@ -58,10 +75,17 @@ public:
 
 	// Cool
 	STACK_COOL_INFO& Get_QCoolInfo() { return tQCool; }
-	_bool CanUseQ();
 
 	COOL_INFO* Get_CoolInfo(const _tchar* SkillName);
 	_bool CanUseSkill(const _tchar* SkillName);
+
+	// MoveBlock
+	void Set_MoveBlock(_bool bMoveBlock) { m_bMoveBlock = bMoveBlock; }
+	_bool Get_MoveBlock() { return m_bMoveBlock; }
+	void Set_AniBlock(_bool bAniBlock) { m_bAniBlock = bAniBlock; }
+	_bool Get_AniBlock() { return m_bAniBlock; }
+	void Set_CurAni(LiDailin_Ani eLiDailinCurAni) { m_eLiDailinCurAni = eLiDailinCurAni; }
+	const LiDailin_Ani& Get_CurAni() { return m_eLiDailinCurAni; }
 
 private:
 	// Com
@@ -71,21 +95,32 @@ private:
 
 	// Part Obj
 	CBody_Player* m_pBody{};
+	CWeapon* m_pWeapon{};
 
 	// State
-	CState* m_pCurrentState{};
-	CState* m_pWaitState{};
+	CMovementState* m_pCurMovementState{};
+	CMovementState* m_pWaitMovementState{};
+
+	CActionState* m_pCurActionState{};
+	CActionState* m_pWaitActionState{};
 
 	unordered_map<wstring, CState*> m_States;
 
 	// COMMAND
-	COMMAND m_tCurCommand{};
+	MOVEMENT_COMMAND m_tCurMovementCommand{};
+	ACTION_COMMAND m_tCurActionCommand{};
 
 	// COOL
 	STACK_COOL_INFO tQCool{};
 	COOL_INFO tWCool{};
 	COOL_INFO tECool{};
 	COOL_INFO tRCool{};
+
+	//
+	_bool m_bMoveBlock{};
+	_bool m_bAniBlock{};
+	LiDailin_Ani m_eLiDailinCurAni{};
+	_bool m_bActionEnd{};
 
 private:
 	HRESULT Ready_Components();

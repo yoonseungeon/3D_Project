@@ -73,8 +73,14 @@ HRESULT CPlayer::Initialize(void* pArg)
     m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
     m_States.emplace(L"CLiDailin_R", CLiDailin_R::Create());
 
-    m_pCurrentState = pLiDailinIdle;
-    m_pCurrentState->Enter(this);
+    
+    m_pCurMovementState = dynamic_cast<CMovementState*>(pLiDailinIdle);
+    if (m_pCurMovementState != nullptr)
+    {
+        m_pCurMovementState->Enter(this);
+    }
+
+    m_pCurActionState = nullptr;
 
     // cool
     tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 2.f;
@@ -93,10 +99,20 @@ HRESULT CPlayer::Initialize(void* pArg)
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
     Key_Input();
-    Apply_WaitState();
 
-    m_pCurrentState->Update(this, fTimeDelta);
-    Apply_WaitState();
+    Apply_WaitMovementState();
+    Apply_WaitActionState();
+
+    if (m_pCurMovementState != nullptr) {
+        m_pCurMovementState->Update(this, fTimeDelta);
+    }
+    if (m_pCurActionState != nullptr) {
+        m_pCurActionState->Update(this, fTimeDelta);
+    }
+
+    Apply_WaitMovementState();
+    Apply_WaitActionState();
+
 
     CoolTimer(fTimeDelta);
 
@@ -151,29 +167,136 @@ HRESULT CPlayer::Render()
     return S_OK;
 }
 
-void CPlayer::Set_WaitState(wstring wstrState)
+void CPlayer::Set_WaitMovementState(const wstring& wstrState)
 {
     auto iter = m_States.find(wstrState);
     if (iter == m_States.end()) {
-        MSG_BOX("CPlayer.cpp: No State");
-        m_pWaitState = nullptr;
+        MSG_BOX("CPlayer.cpp: No MovementState");
+        m_pWaitMovementState = nullptr;
+        return;
     }
-
-    m_pWaitState = iter->second;
+    
+    m_pWaitMovementState = dynamic_cast<CMovementState*>(iter->second);
 }
 
-void CPlayer::Apply_WaitState()
+void CPlayer::Apply_WaitMovementState()
 {
-    if (m_pWaitState == nullptr) {
+    if (m_pWaitMovementState == nullptr) {
         return;
     }
 
-    m_pCurrentState->Exit(this);
+    if(m_pCurMovementState != nullptr)
+    {
+        m_pCurMovementState->Exit(this);
+    }
 
-    m_pCurrentState = m_pWaitState;
-    m_pWaitState = nullptr;
+    m_pCurMovementState = m_pWaitMovementState;
+    m_pWaitMovementState = nullptr;
 
-    m_pCurrentState->Enter(this);
+    m_pCurMovementState->Enter(this);
+}
+
+void CPlayer::Process_MovementCommand(MOVEMENT_COMMAND& tMovement_Command)
+{
+    m_pCurMovementState->HandleMovementCommand(this, tMovement_Command);
+}
+
+void CPlayer::Set_WaitActionState(const wstring& wstrState)
+{
+    auto iter = m_States.find(wstrState);
+    if (iter == m_States.end()) {
+        MSG_BOX("CPlayer.cpp: No ActionState");
+        m_pWaitActionState = nullptr;
+        return;
+    }
+
+    m_pWaitActionState = dynamic_cast<CActionState*>(iter->second);
+}
+
+void CPlayer::Apply_WaitActionState()
+{
+    if (m_pWaitActionState == nullptr) {
+        if (m_bActionEnd == true)
+        {
+            if (m_pCurActionState != nullptr)
+            {
+                m_pCurActionState->Exit(this);
+            }
+            m_pCurActionState = nullptr;
+            m_bActionEnd = false;
+        }
+        return;
+    }
+
+    if (m_pCurActionState != nullptr)
+    {
+        m_pCurActionState->Exit(this);
+    }
+
+    m_pCurActionState = m_pWaitActionState;
+    m_pWaitActionState = nullptr;
+
+    m_bActionEnd = false;
+    m_pCurActionState->Enter(this);
+}
+
+void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
+{
+    if (m_pCurActionState != nullptr) {
+        m_pCurActionState->HandleActionCommand(this, tAction_Command);
+        return;
+    }
+
+    switch (tAction_Command.eCommandType)
+    {
+        case ACTION_COMMAND_TYPE::ATTACK:
+        {
+            Set_CurActionCommand(tAction_Command);
+            Set_WaitActionState(L"CLiDailinAttack");
+            
+            break;
+        }
+
+        case ACTION_COMMAND_TYPE::ATTACK_Q:
+        {
+            if(CanUseSkill(L"Q") == true)
+            {
+                Set_CurActionCommand(tAction_Command);
+                Set_WaitActionState(L"CLiDailin_Q");
+            }
+            break;
+        }
+
+        case ACTION_COMMAND_TYPE::ATTACK_W:
+        {
+            if (CanUseSkill(L"W") == true)
+            {
+                Set_CurActionCommand(tAction_Command);
+                Set_WaitActionState(L"CLiDailin_W");
+            }
+            break;
+        }
+
+        case ACTION_COMMAND_TYPE::ATTACK_E:
+        {
+            if (CanUseSkill(L"E") == true)
+            {
+                Set_CurActionCommand(tAction_Command);
+                Set_WaitActionState(L"CLiDailin_E");
+            }
+            break;
+        }
+
+        case ACTION_COMMAND_TYPE::ATTACK_R:
+        {
+            if (CanUseSkill(L"R") == true)
+            {
+                Set_CurActionCommand(tAction_Command);
+                Set_WaitActionState(L"CLiDailin_R");
+            }
+            break;
+        }
+    }
 }
 
 _bool CPlayer::IsTargetInRange()
@@ -276,15 +399,6 @@ void CPlayer::Stop_Move_To_Pos()
     m_pMoveCom->Stop_Move_To_Pos();
 }
 
-_bool CPlayer::CanUseQ()
-{
-    if (tQCool.fAccCoolDown == 0.f) {
-        return true;
-    }
-
-    return false;
-}
-
 COOL_INFO* CPlayer::Get_CoolInfo(const _tchar* SkillName)
 {
     if (SkillName == L"W")
@@ -305,6 +419,12 @@ COOL_INFO* CPlayer::Get_CoolInfo(const _tchar* SkillName)
 
 _bool CPlayer::CanUseSkill(const _tchar* SkillName)
 {
+    if (SkillName == L"Q")
+    {
+        if (tQCool.fAccCoolDown == 0.f) {
+            return true;
+        }
+    }
     if (SkillName == L"W")
     {
         if (tWCool.fAccCoolDown == 0.f) {
@@ -387,6 +507,10 @@ HRESULT CPlayer::Ready_PartObjects()
         TEXT("Weapon"), &WeaponDesc)))
         return E_FAIL;
 
+    m_pWeapon = dynamic_cast<CWeapon*>(m_PartObjects[TEXT("Weapon")]);
+    Safe_AddRef(m_pWeapon);
+
+
     // Bottle
     CBottle::BOTTLE_DESC BottleDesc{};
     BottleDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
@@ -407,7 +531,7 @@ HRESULT CPlayer::Bind_ShaderResources()
 
 HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
-    // A
+    // Q
     CUI_StackSkillIcon::CUI_STACKSKILLICON_DESC StackSkillIconDesc{};
 
     StackSkillIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
@@ -488,47 +612,67 @@ HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
 void CPlayer::Key_Input()
 {
+    // Q
     if (m_pGameInstance->Key_Down(DIK_Q)) {
-        COMMAND tCommand{};
-        tCommand.eCommandType = COMMAND_TYPE::ATTACK_Q;
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_Q;
 
-        m_pCurrentState->HandleCommand(this, tCommand);
+        Process_ActionCommand(tAction_Command);
     }
-    else if (m_pGameInstance->Key_Down(DIK_W)) {
-        COMMAND tCommand{};
-        tCommand.eCommandType = COMMAND_TYPE::ATTACK_W;
 
-        m_pCurrentState->HandleCommand(this, tCommand);
+    // W
+    if (m_pGameInstance->Key_Down(DIK_W)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
+
+        Process_ActionCommand(tAction_Command);
     }
-    else if (m_pGameInstance->Key_Down(DIK_E)) {
-        COMMAND tCommand{};
-        tCommand.eCommandType = COMMAND_TYPE::ATTACK_E;
 
-        m_pCurrentState->HandleCommand(this, tCommand);
-    }
-    else if (m_pGameInstance->Key_Down(DIK_R)) {
-        COMMAND tCommand{};
-        tCommand.eCommandType = COMMAND_TYPE::ATTACK_R;
+    //// E
+    //if (m_pGameInstance->Key_Down(DIK_E)) {
+    //    ACTION_COMMAND tAction_Command{};
+    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
 
-        m_pCurrentState->HandleCommand(this, tCommand);
-    }
-    else if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON)) {
-        COMMAND tCommand{};
+    //    m_pCurActionState->HandleActionCommand(this, tAction_Command);
+    //}
 
-        // if(몬스터)
-        // { ATTACK, 몬스터 위치, tCommand.pGameObject }
-        if (m_pGameInstance->Key_Pressing(DIK_A))
+    //// R
+    //if (m_pGameInstance->Key_Down(DIK_R)) {
+    //    ACTION_COMMAND tAction_Command{};
+    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
+
+    //    m_pCurActionState->HandleActionCommand(this, tAction_Command);
+    //}
+
+
+    if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))
+    {
+        // if(몬스터 클릭)
+        if (m_pGameInstance->Key_Pressing(DIK_A) /* 몬스터 이면 */)
         {
-            tCommand.eCommandType = COMMAND_TYPE::ATTACK;
-            tCommand.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+            ACTION_COMMAND tAction_Command{};
+            tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK;
+            // 몬스터 포인터 넣고
+            tAction_Command.pGameObject = nullptr;
+
+            // 테스트용 위치
+            tAction_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+
+            Process_ActionCommand(tAction_Command);
         }
         else
         {
-            tCommand.eCommandType = COMMAND_TYPE::MOVE;
-            tCommand.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
-        }
+            if (m_tCurActionCommand.eCommandType == ACTION_COMMAND_TYPE::ATTACK) 
+            {
+                Set_ActionEnd();           
+            }
 
-        m_pCurrentState->HandleCommand(this, tCommand);
+            MOVEMENT_COMMAND tMovement_Command{};
+            tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;
+            tMovement_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+
+            Process_MovementCommand(tMovement_Command);
+        }
     }
 }
 
@@ -616,6 +760,7 @@ void CPlayer::Free()
     }
     m_States.clear();
 
+    Safe_Release(m_pWeapon);
     Safe_Release(m_pBody);
 
     Safe_Release(m_pColliderCom);

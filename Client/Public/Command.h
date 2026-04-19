@@ -7,23 +7,33 @@ NS_BEGIN(Engine)
 class CGameObject;
 NS_END
 
-enum COMMAND_TYPE
+enum class MOVEMENT_COMMAND_TYPE
 {
 	NONE,
 	MOVE,
+};
+
+enum class ACTION_COMMAND_TYPE
+{
+	NONE,
 	ATTACK,
 	ATTACK_Q,
 	ATTACK_W,
 	ATTACK_E,
 	ATTACK_R,
-
 };
 
-struct COMMAND
+struct MOVEMENT_COMMAND
 {
-	COMMAND_TYPE eCommandType{};
-	_float3 vTargetPos{};
-	CGameObject* pGameObject{};
+	MOVEMENT_COMMAND_TYPE eCommandType{};
+	_float3					vTargetPos{};
+};
+
+struct ACTION_COMMAND
+{
+	ACTION_COMMAND_TYPE eCommandType{};
+	_float3				vTargetPos{};
+	CGameObject*		pGameObject{};
 };
 
 struct COOL_INFO

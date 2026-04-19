@@ -32,6 +32,8 @@ private:
 	// 마우스 감도
 	_float	m_fMouseSensor{};
 
+	_bool m_bLock{};
+
 public:
 	static CCamera_Free* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

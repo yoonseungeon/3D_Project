@@ -26,7 +26,8 @@ void CLiDailin_R::Enter(CPlayer* pPlayer)
 
 
 	// 이동
-	pPlayer->Stop_Move_To_Pos();
+	pPlayer->Set_WaitMovementState(L"Idle");
+	pPlayer->Set_MoveBlock(true);
 }
 
 void CLiDailin_R::Update(CPlayer* pPlayer, _float fTimeDelta)
@@ -57,16 +58,6 @@ void CLiDailin_R::Update(CPlayer* pPlayer, _float fTimeDelta)
 		bIsAniR2Changed = true;
 	}
 
-
-	if (pPlayer->IsAnimationFinished(L"Body")) {
-		if (pPlayer->Get_CurCommand().eCommandType == COMMAND_TYPE::MOVE) {
-			pPlayer->Set_WaitState(L"Move");
-		}
-		else
-		{
-			pPlayer->Set_WaitState(L"Idle");
-		}
-	}
 }
 
 void CLiDailin_R::Exit(CPlayer* pPlayer)
@@ -76,9 +67,12 @@ void CLiDailin_R::Exit(CPlayer* pPlayer)
 
 	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"R");
 	pECoolInfo->bCoolWait = false;
+
+	//임시
+	pPlayer->Set_MoveBlock(false);
 }
 
-void CLiDailin_R::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
+void CLiDailin_R::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)
 {
 	if (bIsAniR2Changed == false) {
 		return;
@@ -91,76 +85,62 @@ void CLiDailin_R::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
 		if (fR2 < 0.7f) {
 			return;
 		}
+
+		//임시
+		pPlayer->Set_MoveBlock(false);
 	}
 
-
-	switch (eCommand.eCommandType) {
-	case COMMAND_TYPE::MOVE:
-	{
-
-		pPlayer->Set_CurCommand(eCommand);
-		pPlayer->Set_WaitState(L"Move");
-
-		break;
-	}
-	case COMMAND_TYPE::ATTACK:
-	{
-
-		if (pPlayer->IsTargetInRange())
+	switch (eAction_Command.eCommandType) {
+		case ACTION_COMMAND_TYPE::ATTACK:
 		{
-			pPlayer->Set_WaitState(L"CLiDailinAttack");
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailinAttack");
+
+			break;
 		}
-		else
+		case ACTION_COMMAND_TYPE::ATTACK_Q:
 		{
-			pPlayer->Set_WaitState(L"Move");
+			if (pPlayer->CanUseSkill(L"Q") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailin_Q");
+
+			break;
 		}
-		pPlayer->Set_CurCommand(eCommand);
+		case ACTION_COMMAND_TYPE::ATTACK_W:
+		{
+			if (pPlayer->CanUseSkill(L"W") == false) {
+				return;
+			}
 
-		break;
-	}
-	case COMMAND_TYPE::ATTACK_Q:
-	{
-		if (pPlayer->CanUseQ() == false) {
-			return;
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailin_W");
+			break;
 		}
+		case ACTION_COMMAND_TYPE::ATTACK_E:
+		{
+			if (pPlayer->CanUseSkill(L"E") == false) {
+				return;
+			}
 
-		pPlayer->Set_CurCommand(eCommand);
-		pPlayer->Set_WaitState(L"CLiDailin_Q");
-
-		break;
-	}
-	case COMMAND_TYPE::ATTACK_W:
-	{
-		if (pPlayer->CanUseSkill(L"W") == false) {
-			return;
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailin_E");
+			break;
 		}
+		case ACTION_COMMAND_TYPE::ATTACK_R:
+		{
 
-		pPlayer->Set_CurCommand(eCommand);
-		pPlayer->Set_WaitState(L"CLiDailin_W");
-		break;
-	}
-	case COMMAND_TYPE::ATTACK_E:
-	{
-		if (pPlayer->CanUseSkill(L"E") == false) {
-			return;
+			if (pPlayer->CanUseSkill(L"R") == false) {
+				return;
+			}
+
+			pPlayer->Set_CurActionCommand(eAction_Command);
+			pPlayer->Set_WaitActionState(L"CLiDailin_R");
+
+			break;
 		}
-
-		pPlayer->Set_CurCommand(eCommand);
-		pPlayer->Set_WaitState(L"CLiDailin_E");
-		break;
-	}
-	case COMMAND_TYPE::ATTACK_R:
-	{
-
-		if (pPlayer->CanUseSkill(L"R") == false) {
-			return;
-		}
-
-		pPlayer->Set_CurCommand(eCommand);
-		pPlayer->Set_WaitState(L"CLiDailin_R");
-
-		break;
-	}
 	}
 }
 

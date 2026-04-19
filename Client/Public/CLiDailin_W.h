@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CState.h"
+#include "CActionState.h"
 
-class CLiDailin_W : public CState
+class CLiDailin_W : public CActionState
 {
 private:
 	CLiDailin_W();
@@ -15,7 +15,7 @@ public:
 	void Enter(CPlayer* pPlayer) override;
 	void Update(CPlayer* pPlayer, _float fTimeDelta) override;
 	void Exit(CPlayer* pPlayer) override;
-	void HandleCommand(CPlayer* pPlayer, COMMAND& eCommand) override;
+	void HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command) override;
 
 private:
 	static const _char* m_pBoneNames[];

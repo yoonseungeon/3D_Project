@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CState.h"
+#include "CActionState.h"
 
-class CLiDailin_R : public CState
+class CLiDailin_R : public CActionState
 {
 private:
 	CLiDailin_R();
@@ -12,7 +12,7 @@ public:
 	void Enter(CPlayer* pPlayer) override;
 	void Update(CPlayer* pPlayer, _float fTimeDelta) override;
 	void Exit(CPlayer* pPlayer) override;
-	void HandleCommand(CPlayer* pPlayer, COMMAND& eCommand) override;
+	void HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command) override;
 
 private:
 	_float m_fChanneling{};

@@ -152,6 +152,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\CActionState.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
     <ClInclude Include="..\Public\CBottle.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="..\Public\CMapSelectBtn.h" />
     <ClInclude Include="..\Public\CLumia_Ground.h" />
     <ClInclude Include="..\Public\CMonster.h" />
+    <ClInclude Include="..\Public\CMovementState.h" />
     <ClInclude Include="..\Public\Command.h" />
     <ClInclude Include="..\Public\CPickSkin.h" />
     <ClInclude Include="..\Public\CPickSlot.h" />
@@ -212,6 +214,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\CActionState.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />
     <ClCompile Include="..\Private\CBottle.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="..\Private\CMapSelectBtn.cpp" />
     <ClCompile Include="..\Private\CLumia_Ground.cpp" />
     <ClCompile Include="..\Private\CMonster.cpp" />
+    <ClCompile Include="..\Private\CMovementState.cpp" />
     <ClCompile Include="..\Private\CPickSkin.cpp" />
     <ClCompile Include="..\Private\CPickSlot.cpp" />
     <ClCompile Include="..\Private\CPlayer.cpp" />

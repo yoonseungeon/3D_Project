@@ -30,6 +30,15 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
 void CCamera_Free::Priority_Update(_float fTimeDelta)
 {
+    if (m_pGameInstance->Key_Down(DIK_T) || m_pGameInstance->Key_Down(DIK_TAB))
+    {
+        m_bLock = !m_bLock;
+    }
+
+    if (m_bLock == true) {
+        return;
+    }
+
     _float fSpeed = 0.05f;
 
     if (m_pGameInstance->Key_Pressing(DIK_LSHIFT))

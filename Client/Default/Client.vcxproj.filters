@@ -139,29 +139,8 @@
     <Filter Include="02. GameObject\02. Map_Lumia\03. Roof">
       <UniqueIdentifier>{5a9af583-37dd-47b9-bc03-f6d7a3df459a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\06. State">
-      <UniqueIdentifier>{1c69efd9-e441-43d7-965f-88cb97d0e641}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\06. State\00. Idle">
-      <UniqueIdentifier>{a3a40e0f-4731-45d5-8ffb-200ccafbb771}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\06. State\01. Move">
-      <UniqueIdentifier>{c1b1cd04-40ac-4d0b-8a7c-d4451f6afc42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\06. State\02. Attack">
-      <UniqueIdentifier>{269ddc5b-af67-429d-bf31-baedbe48b953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\06. State\03. LiDailin_Q">
-      <UniqueIdentifier>{857f8a38-f9fb-4f78-9bdd-c70ab3011b36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon">
       <UniqueIdentifier>{4a92c609-5f56-4979-84d9-b1f6488dd720}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\06. State\05. LiDailin_E">
-      <UniqueIdentifier>{f8274cb4-e6c3-493d-b5bd-c689a8296ffe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\06. State\06. LiDailin_R">
-      <UniqueIdentifier>{1b91ba37-8b65-4fef-905f-2bca49b88e11}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\Stack">
       <UniqueIdentifier>{a6789980-1775-4714-9d1a-b343da40343b}</UniqueIdentifier>
@@ -169,8 +148,41 @@
     <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal">
       <UniqueIdentifier>{59d30b4d-0eee-421b-bdfc-16f09de5be5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\06. State\04. LiDailin_W">
+    <Filter Include="50. State">
+      <UniqueIdentifier>{1c69efd9-e441-43d7-965f-88cb97d0e641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="50. State\00. MovementState">
+      <UniqueIdentifier>{6aeb5356-a21d-403a-8aa1-83290f347978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="50. State\01. ActionState">
+      <UniqueIdentifier>{ba144dd7-de9e-4aea-941c-13ef12539242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\99. ActionState">
+      <UniqueIdentifier>{4f385dd3-82e8-4a69-8e7e-c763d91a84c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\98. MovementState">
+      <UniqueIdentifier>{354b86c6-9624-46be-bdb8-8ed82e0c7f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\98. MovementState\00. Idle">
+      <UniqueIdentifier>{a3a40e0f-4731-45d5-8ffb-200ccafbb771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\98. MovementState\01. Move">
+      <UniqueIdentifier>{c1b1cd04-40ac-4d0b-8a7c-d4451f6afc42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\99. ActionState\00. Attack">
+      <UniqueIdentifier>{269ddc5b-af67-429d-bf31-baedbe48b953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\99. ActionState\02. LiDailin_W">
       <UniqueIdentifier>{074447ed-aa70-462f-99f6-10fd06b387e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\99. ActionState\01. LiDailin_Q">
+      <UniqueIdentifier>{857f8a38-f9fb-4f78-9bdd-c70ab3011b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\99. ActionState\03. LiDailin_E">
+      <UniqueIdentifier>{f8274cb4-e6c3-493d-b5bd-c689a8296ffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. Player\99. ActionState\04. LiDailin_R">
+      <UniqueIdentifier>{1b91ba37-8b65-4fef-905f-2bca49b88e11}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -310,31 +322,31 @@
       <Filter>02. GameObject\02. Map_Lumia\03. Roof</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CState.h">
-      <Filter>02. GameObject\06. State</Filter>
+      <Filter>50. State</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Command.h">
       <Filter>999. Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailinIdle.h">
-      <Filter>02. GameObject\06. State\00. Idle</Filter>
+      <Filter>02. GameObject\03. Player\98. MovementState\00. Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailinMove.h">
-      <Filter>02. GameObject\06. State\01. Move</Filter>
+      <Filter>02. GameObject\03. Player\98. MovementState\01. Move</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LiDailin_Info.h">
       <Filter>999. Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_Q.h">
-      <Filter>02. GameObject\06. State\03. LiDailin_Q</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\01. LiDailin_Q</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailinAttack.h">
-      <Filter>02. GameObject\06. State\02. Attack</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\00. Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_E.h">
-      <Filter>02. GameObject\06. State\05. LiDailin_E</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\03. LiDailin_E</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_R.h">
-      <Filter>02. GameObject\06. State\06. LiDailin_R</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\04. LiDailin_R</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_SkillIcon.h">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
@@ -346,7 +358,13 @@
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_W.h">
-      <Filter>02. GameObject\06. State\04. LiDailin_W</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\02. LiDailin_W</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CActionState.h">
+      <Filter>50. State\01. ActionState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMovementState.h">
+      <Filter>50. State\00. MovementState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -481,22 +499,22 @@
       <Filter>02. GameObject\02. Map_Lumia\03. Roof</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CState.cpp">
-      <Filter>02. GameObject\06. State</Filter>
+      <Filter>50. State</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailinIdle.cpp">
-      <Filter>02. GameObject\06. State\00. Idle</Filter>
+      <Filter>02. GameObject\03. Player\98. MovementState\00. Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailinMove.cpp">
-      <Filter>02. GameObject\06. State\01. Move</Filter>
+      <Filter>02. GameObject\03. Player\98. MovementState\01. Move</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailinAttack.cpp">
-      <Filter>02. GameObject\06. State\02. Attack</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\00. Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_E.cpp">
-      <Filter>02. GameObject\06. State\05. LiDailin_E</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\03. LiDailin_E</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_R.cpp">
-      <Filter>02. GameObject\06. State\06. LiDailin_R</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\04. LiDailin_R</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_SkillIcon.cpp">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
@@ -508,10 +526,16 @@
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_Q.cpp">
-      <Filter>02. GameObject\06. State\03. LiDailin_Q</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\01. LiDailin_Q</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_W.cpp">
-      <Filter>02. GameObject\06. State\04. LiDailin_W</Filter>
+      <Filter>02. GameObject\03. Player\99. ActionState\02. LiDailin_W</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CActionState.cpp">
+      <Filter>50. State\01. ActionState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMovementState.cpp">
+      <Filter>50. State\00. MovementState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

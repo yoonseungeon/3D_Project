@@ -1,6 +1,9 @@
 #include "CLiDailinIdle.h"
 
 #include "CPlayer.h"
+#include "CBody_Player.h"
+#include "CWeapon.h"
+#include "CGameInstance.h"
 
 CLiDailinIdle::CLiDailinIdle()
 {
@@ -8,82 +11,42 @@ CLiDailinIdle::CLiDailinIdle()
 
 void CLiDailinIdle::Enter(CPlayer* pPlayer)
 {
-	pPlayer->Set_Animation(L"Body", static_cast<_uint>(LiDailin_Ani::Ani_Idle), true);
-	pPlayer->Set_Animation(L"Weapon", static_cast<_uint>(Nunchaku_Ani::IDLE_WP), true);
+	// Ani
+	if (pPlayer->Get_AniBlock() == false)
+	{
+		pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_Idle), true);
+		pPlayer->Set_CurAni(LiDailin_Ani::Ani_Idle);
+		pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::IDLE_WP), true);
+	}
+
+	// ÀÌµ¿
+	pPlayer->Stop_Move_To_Pos();
 }
 
 void CLiDailinIdle::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
+	const LiDailin_Ani& eCurAni = pPlayer->Get_CurAni();
+	if (pPlayer->Get_AniBlock() == false && eCurAni == LiDailin_Ani::Ani_None)
+	{
+		pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_Idle), true);
+		pPlayer->Set_CurAni(LiDailin_Ani::Ani_Idle);
+		pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::IDLE_WP), true);
+	}
 }
 
 void CLiDailinIdle::Exit(CPlayer* pPlayer)
 {
-
 }
 
-void CLiDailinIdle::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
+void CLiDailinIdle::HandleMovementCommand(CPlayer* pPlayer, MOVEMENT_COMMAND& eMovement_Command)
 {
-	switch (eCommand.eCommandType) {
-		case COMMAND_TYPE::MOVE:
+	switch (eMovement_Command.eCommandType) {
+		case MOVEMENT_COMMAND_TYPE::MOVE:
 		{
-			pPlayer->Set_CurCommand(eCommand);
-			pPlayer->Set_WaitState(L"Move");
+			pPlayer->Set_CurMovementCommand(eMovement_Command);
+			pPlayer->Set_WaitMovementState(L"Move");
 			break;
-		}
-		case COMMAND_TYPE::ATTACK:
-		{
-			if (pPlayer->IsTargetInRange())
-			{
-				pPlayer->Set_WaitState(L"CLiDailinAttack");
-			}
-			else
-			{
-				pPlayer->Set_WaitState(L"Move");
-			}
-			pPlayer->Set_CurCommand(eCommand);
-
-			break;
-		}
-		case COMMAND_TYPE::ATTACK_Q:
-		{
-			if (pPlayer->CanUseQ() == false) {
-				return;
-			}
-
-			pPlayer->Set_CurCommand(eCommand);
-			pPlayer->Set_WaitState(L"CLiDailin_Q");
-			break;
-		}
-		case COMMAND_TYPE::ATTACK_W:
-		{
-			if (pPlayer->CanUseSkill(L"W") == false) {
-				return;
-			}
-
-			pPlayer->Set_CurCommand(eCommand);
-			pPlayer->Set_WaitState(L"CLiDailin_W");
-			break;
-		}
-		case COMMAND_TYPE::ATTACK_E:
-		{
-			if (pPlayer->CanUseSkill(L"E") == false) {
-				return;
-			}
-
-			pPlayer->Set_CurCommand(eCommand);
-			pPlayer->Set_WaitState(L"CLiDailin_E");
-			break;
-		}
-		case COMMAND_TYPE::ATTACK_R:
-		{
-			if (pPlayer->CanUseSkill(L"R") == false) {
-				return;
-			}
-
-			pPlayer->Set_CurCommand(eCommand);
-			pPlayer->Set_WaitState(L"CLiDailin_R");
-			break;
-		}
+		}	
 	}
 }
 
