@@ -14,7 +14,7 @@ CMyMesh::CMyMesh(const CMyMesh& Prototype)
 {
 }
 
-HRESULT XM_CALLCONV CMyMesh::Initialize_Prototype(MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
+HRESULT XM_CALLCONV CMyMesh::Initialize_Prototype(MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, MODEL_LOCAL_MIN_MAX& m_tLocalXYZ, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     strcpy_s(m_szName, pMyMesh->mName.c_str());
 
@@ -36,11 +36,11 @@ HRESULT XM_CALLCONV CMyMesh::Initialize_Prototype(MODEL eType, CMyModel* pModel,
 
     if (eType == MODEL::NONANIM)
     {
-        hr = Ready_NonAnimMesh(pMyMesh, PreTransformMatrix, bStoreVTXIDX);
+        hr = Ready_NonAnimMesh(pMyMesh, m_tLocalXYZ, PreTransformMatrix, bStoreVTXIDX);
     }
     else
     {
-        hr = Ready_AnimMesh(pModel, pMyMesh);
+        hr = Ready_AnimMesh(pModel, pMyMesh, m_tLocalXYZ);
     }
 
     if (FAILED(hr))
@@ -121,7 +121,7 @@ const _char* CMyMesh::Get_MeshName(_uint iMeshIdx)
     return m_szName;
 }
 
-HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
+HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, MODEL_LOCAL_MIN_MAX& m_tLocalXYZ, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     // 정점 구조체는 내가 쓰고자 하는 정보로만 구성하면 된다.
     m_iVertexStride = sizeof(VTXMESH);
@@ -148,6 +148,15 @@ HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix P
         memcpy(&pVertices[i].vPosition, &pMyMesh->mVerticesInfo[i].mVertex, sizeof(_float3));
         XMStoreFloat3(&pVertices[i].vPosition,
             XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PreTransformMatrix));
+
+        m_tLocalXYZ.vMin.x = (std::min)(m_tLocalXYZ.vMin.x, pVertices[i].vPosition.x);
+        m_tLocalXYZ.vMin.y = (std::min)(m_tLocalXYZ.vMin.y, pVertices[i].vPosition.y);
+        m_tLocalXYZ.vMin.z = (std::min)(m_tLocalXYZ.vMin.z, pVertices[i].vPosition.z);
+
+        m_tLocalXYZ.vMax.x = (std::max)(m_tLocalXYZ.vMax.x, pVertices[i].vPosition.x);
+        m_tLocalXYZ.vMax.y = (std::max)(m_tLocalXYZ.vMax.y, pVertices[i].vPosition.y);
+        m_tLocalXYZ.vMax.z = (std::max)(m_tLocalXYZ.vMax.z, pVertices[i].vPosition.z);
+
 
         if (bStoreVTXIDX)
         {
@@ -189,7 +198,7 @@ HRESULT XM_CALLCONV CMyMesh::Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix P
     return S_OK;
 }
 
-HRESULT CMyMesh::Ready_AnimMesh(CMyModel* pModel, const myMesh* pMyMesh)
+HRESULT CMyMesh::Ready_AnimMesh(CMyModel* pModel, const myMesh* pMyMesh, MODEL_LOCAL_MIN_MAX& m_tLocalXYZ)
 {
     m_iVertexStride = sizeof(VTXANIMMESH);
 
@@ -326,11 +335,11 @@ HRESULT CMyMesh::Ready_AnimMesh(CMyModel* pModel, const myMesh* pMyMesh)
     return S_OK;
 }
 
-CMyMesh* XM_CALLCONV CMyMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
+CMyMesh* XM_CALLCONV CMyMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, MODEL_LOCAL_MIN_MAX& m_tLocalXYZ, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX)
 {
     CMyMesh* pInstance = new CMyMesh(pDevice, pContext);
 
-    if (FAILED(pInstance->Initialize_Prototype(eType, pModel, pMyMesh, PreTransformMatrix, bStoreVTXIDX)))
+    if (FAILED(pInstance->Initialize_Prototype(eType, pModel, pMyMesh, m_tLocalXYZ, PreTransformMatrix, bStoreVTXIDX)))
     {
         MSG_BOX("Failed to Created: CMyMesh");
         Safe_Release(pInstance);

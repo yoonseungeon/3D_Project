@@ -18,6 +18,7 @@ class CWeapon;
 class CState;
 class CMovementState;
 class CActionState;
+class CInGame_Manager;
 
 class CPlayer final : public CContainerObject
 {
@@ -59,10 +60,9 @@ public:
 	const CBody_Player* Get_BodyPlayer() const { return m_pBody; }
 	CWeapon* Get_Weapon() { return m_pWeapon; }
 
-	// MoveCom
-	_bool Update_Move_To_Pos(_float fTimeDelta);
-	void Move_To_Pos(_float3 vPos, _bool bOperateNavi = false);
-	void Stop_Move_To_Pos();
+	// Get_Com
+	CMove* Get_MoveCom() { return m_pMoveCom; }
+	const CTransform* Get_TransformCom() { return m_pTransformCom; }
 
 	// Cool
 	STACK_COOL_INFO& Get_QCoolInfo() { return tQCool; }
@@ -119,6 +119,9 @@ private:
 
 	// Cancle
 	_bool m_bCanMoveCancle{};
+
+	// Manager
+	CInGame_Manager* m_pImGameManager{};
 
 private:
 	HRESULT Ready_Components();

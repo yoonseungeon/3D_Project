@@ -23,7 +23,7 @@ void CLiDailinMove::Enter(CPlayer* pPlayer)
 	//if (pPlayer->Get_MoveBlock() == false)
 	//{
 		_float3 vTargetPos = pPlayer->Get_CurMovementCommand().vTargetPos;
-		pPlayer->Move_To_Pos(vTargetPos, true);
+		pPlayer->Get_MoveCom()->Move_To_Pos(vTargetPos, true);
 	//}
 }
 
@@ -43,7 +43,7 @@ void CLiDailinMove::Update(CPlayer* pPlayer, _float fTimeDelta)
 	}
 
 	// µµÂøÇÏ¸é
-	if (pPlayer->Update_Move_To_Pos(fTimeDelta))
+	if (pPlayer->Get_MoveCom()->Update_Move_To_Pos(fTimeDelta))
 	{
 		pPlayer->Set_WaitMovementState(L"Idle");
 	}

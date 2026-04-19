@@ -10,6 +10,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CInGame_Manager;
+
 class CRoof final : public CGameObject
 {
 public:
@@ -29,6 +31,7 @@ public:
 
 public:
 	virtual void Priority_Update(_float fTimeDelta) override;
+	virtual void Parallel_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
@@ -38,6 +41,10 @@ private:
 	CMyModel* m_pModelCom = { nullptr };
 
 	wstring m_wstrModelTag;
+
+	CInGame_Manager* m_pImGameManager{};
+
+	_float3 vPlayerPos{};
 
 private:
 	HRESULT Ready_Components();

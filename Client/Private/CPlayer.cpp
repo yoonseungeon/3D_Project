@@ -93,6 +93,9 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
         return E_FAIL;
 
+    m_pImGameManager = CInGame_Manager::GetInstance();
+    Safe_AddRef(m_pImGameManager);
+
     return S_OK;
 }
 
@@ -113,10 +116,14 @@ void CPlayer::Priority_Update(_float fTimeDelta)
     Apply_WaitActionState();
     Apply_WaitMovementState();
 
-
     CoolTimer(fTimeDelta);
 
     m_pNavigationCom->Compute_OnNavigation();
+
+    // Player 위치 캐싱
+    _float3 vPlayerPos{};
+    XMStoreFloat3(&vPlayerPos, m_pTransformCom->Get_State(STATE::POSITION));
+    m_pImGameManager->Set_PlayerPos(vPlayerPos);
 
     // PartObject들은 GameObject_Manager에 안 들어간다.
     for (auto& Pair : m_PartObjects)
@@ -297,21 +304,6 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
             break;
         }
     }
-}
-
-_bool CPlayer::Update_Move_To_Pos(_float fTimeDelta)
-{
-    return m_pMoveCom->Update_Move_To_Pos(fTimeDelta);
-}
-
-void CPlayer::Move_To_Pos(_float3 vPos, _bool bOperateNavi)
-{
-    m_pMoveCom->Move_To_Pos(vPos, bOperateNavi);
-}
-
-void CPlayer::Stop_Move_To_Pos()
-{
-    m_pMoveCom->Stop_Move_To_Pos();
 }
 
 COOL_INFO* CPlayer::Get_CoolInfo(const _tchar* SkillName)
@@ -571,7 +563,7 @@ void CPlayer::Key_Input()
             tAction_Command.pGameObject = nullptr;
 
             // 테스트용 위치
-            tAction_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+            tAction_Command.vTargetPos = m_pImGameManager->MapPIcking();
 
             Process_ActionCommand(tAction_Command);
         }
@@ -584,7 +576,7 @@ void CPlayer::Key_Input()
 
             MOVEMENT_COMMAND tMovement_Command{};
             tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;
-            tMovement_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+            tMovement_Command.vTargetPos = m_pImGameManager->MapPIcking();
 
             Process_MovementCommand(tMovement_Command);
             m_bCanMoveCancle = false;
@@ -671,6 +663,8 @@ CGameObject* CPlayer::Clone(void* pArg)
 
 void CPlayer::Free()
 {
+    Safe_Release(m_pImGameManager);
+
     for (auto& pair : m_States) {
         Safe_Release(pair.second);
     }

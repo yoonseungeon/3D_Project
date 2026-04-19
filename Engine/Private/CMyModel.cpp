@@ -22,6 +22,7 @@ CMyModel::CMyModel(const CMyModel& Prototype)
     , m_iNumAnimations{ Prototype.m_iNumAnimations }
     //, m_Animations{ Prototype.m_Animations }
     , m_BonesLocalPos{ Prototype.m_BonesLocalPos } // 일단 깊은 복사
+    , m_tLocalXYZ{ Prototype.m_tLocalXYZ } // 일단 깊은 복사
 {
     for (auto& pPrototypeAnimation : Prototype.m_Animations)
         m_Animations.push_back(pPrototypeAnimation->Clone());
@@ -333,7 +334,7 @@ HRESULT XM_CALLCONV CMyModel::Ready_Meshes(_fmatrix PreTransformMatrix)
 
     for (size_t i = 0; i < m_iNumMeshes; ++i)
     {
-        CMyMesh* pMesh = CMyMesh::Create(m_pDevice, m_pContext, m_eType, this, &(m_pMyScene->mMeshes[i]), PreTransformMatrix, m_bStoreVtxIdx);
+        CMyMesh* pMesh = CMyMesh::Create(m_pDevice, m_pContext, m_eType, this, &(m_pMyScene->mMeshes[i]), m_tLocalXYZ, PreTransformMatrix, m_bStoreVtxIdx);
         if (pMesh == nullptr)
             return E_FAIL;
         

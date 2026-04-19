@@ -59,6 +59,9 @@ public:
 	const vector<_uint>& Get_IdxData(_uint iMeshIdx);
 	const string Get_MeshName(_uint iMeshIdx);
 
+	// Local Pos
+	const MODEL_LOCAL_MIN_MAX& Get_LocalXYZ() { return m_tLocalXYZ; }
+
 private:	
 	const myScene*	m_pMyScene{ nullptr }; /* 파일로부터 읽어낸 모든 정보를 담고 있는다. */
 	CMyModelImporter		m_Importer{};
@@ -117,6 +120,9 @@ private:
 	_bool						m_bOverlayInterpPrologue{};
 	_bool						m_bOverlayInterpEpilogue{};
 
+	// Local Min Max
+	MODEL_LOCAL_MIN_MAX			m_tLocalXYZ;
+
 private:
 	HRESULT XM_CALLCONV Ready_Meshes(_fmatrix PreTransformMatrix);
 	HRESULT				Ready_Materials(const _char* pModelFilePath);
@@ -128,6 +134,7 @@ private:
 
 	void				Update_OverlayBones(_float fTimeDelta);
 	void				Save_OverlayInterpolationKeyFrame();
+
 
 private:
 	void Store_CurAni_SRT(vector<KEYFRAME>& KeyFrames);

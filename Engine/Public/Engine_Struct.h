@@ -140,6 +140,13 @@ namespace Engine
 			{"BLENDWEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 72, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		};
 	};
+
+
+	struct MODEL_LOCAL_MIN_MAX
+	{
+		XMFLOAT3 vMin{ FLT_MAX, FLT_MAX, FLT_MAX };
+		XMFLOAT3 vMax{ -FLT_MAX, -FLT_MAX, -FLT_MAX };
+	};
 }
 
 #endif // Engine_Struct_h__

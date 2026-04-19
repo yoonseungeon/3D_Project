@@ -1,6 +1,7 @@
 #include "CRoof.h"
 
 #include "CGameInstance.h"
+#include "CInGame_Manager.h"
 
 CRoof::CRoof(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject{ pDevice, pContext }
@@ -29,11 +30,36 @@ HRESULT CRoof::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pImGameManager = CInGame_Manager::GetInstance();
+    Safe_AddRef(m_pImGameManager);
+
     return S_OK;
 }
 
 void CRoof::Priority_Update(_float fTimeDelta)
 {
+    vPlayerPos = m_pImGameManager->Get_PlayerPos();
+}
+
+void CRoof::Parallel_Update(_float fTimeDelta)
+{
+    const MODEL_LOCAL_MIN_MAX& tLocalPos =  m_pModelCom->Get_LocalXYZ();
+
+    const _float fRoofMargin = { 1.f };
+
+    // ÁöºØ ·ÎÄÃ == ÁöºØ ¿ùµå
+    if (vPlayerPos.x >= tLocalPos.vMin.x - fRoofMargin
+        && vPlayerPos.x <= tLocalPos.vMax.x + fRoofMargin
+        && vPlayerPos.z >= tLocalPos.vMin.z - fRoofMargin
+        && vPlayerPos.z <= tLocalPos.vMax.z + fRoofMargin
+       )
+    {
+        m_bIsInactive = true;
+    }
+    else
+    {
+        m_bIsInactive = false;
+    }
 }
 
 void CRoof::Update(_float fTimeDelta)
@@ -42,6 +68,11 @@ void CRoof::Update(_float fTimeDelta)
 
 void CRoof::Late_Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
 
@@ -140,6 +171,8 @@ CGameObject* CRoof::Clone(void* pArg)
 
 void CRoof::Free()
 {
+    Safe_Release(m_pImGameManager);
+
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);
 

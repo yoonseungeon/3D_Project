@@ -14,7 +14,7 @@ private:
 	virtual ~CMyMesh() = default;
 
 private:
-	HRESULT XM_CALLCONV Initialize_Prototype(MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX);
+	HRESULT XM_CALLCONV Initialize_Prototype(MODEL eType, CMyModel* pModel, const myMesh* pMyMesh, MODEL_LOCAL_MIN_MAX& m_tLocalXYZ, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX);
 	HRESULT Initialize(void* pArg);				// 나중에
 
 public:
@@ -49,13 +49,14 @@ private:
 	vector<_uint> vecIndices;
 
 private:
-	HRESULT XM_CALLCONV Ready_NonAnimMesh(const myMesh* pMyMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX);
+	HRESULT XM_CALLCONV Ready_NonAnimMesh(const myMesh* pMyMesh, MODEL_LOCAL_MIN_MAX& m_tLocalXYZ, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX);
 	// 사전 행렬 x -> 뼈의 행렬이 먼저 곱해져야 함.
 	// 따라서 뼈에다가 사전 변환 행렬을 곱해줄 거임.
-	HRESULT Ready_AnimMesh(CMyModel* pModel, const myMesh* pMyMesh);
+	HRESULT Ready_AnimMesh(CMyModel* pModel, const myMesh* pMyMesh, MODEL_LOCAL_MIN_MAX& m_tLocalXYZ);
 
 public:
-	static CMyMesh* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, CMyModel* pModel, const myMesh* pAIMesh, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX);
+	static CMyMesh* XM_CALLCONV Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL eType, CMyModel* pModel
+		, const myMesh* pAIMesh, MODEL_LOCAL_MIN_MAX& m_tLocalXYZ, _fmatrix PreTransformMatrix, _bool bStoreVTXIDX);
 	virtual CComponent* Clone(void* pArg) override;		// 나중에
 protected:
 	virtual void Free() override;

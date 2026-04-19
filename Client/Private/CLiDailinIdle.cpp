@@ -20,7 +20,7 @@ void CLiDailinIdle::Enter(CPlayer* pPlayer)
 	}
 
 	// ÀÌµ¿
-	pPlayer->Stop_Move_To_Pos();
+	pPlayer->Get_MoveCom()->Stop_Move_To_Pos();
 }
 
 void CLiDailinIdle::Update(CPlayer* pPlayer, _float fTimeDelta)
