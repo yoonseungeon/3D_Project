@@ -109,9 +109,9 @@ HRESULT CLiDailin_W::Initialize()
 void CLiDailin_W::Enter(CPlayer* pPlayer)
 {
 	// Cool
-	//COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
-	//pECoolInfo->bCoolWait = true;
-	//pECoolInfo->fAccCoolDown = pECoolInfo->fCurCoolDown;
+	COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(L"W");
+    pWCoolInfo->bCoolWait = true;
+    pWCoolInfo->fAccCoolDown = pWCoolInfo->fCurCoolDown;
 
 	// Ani
 
@@ -143,6 +143,8 @@ void CLiDailin_W::Update(CPlayer* pPlayer, _float fTimeDelta)
 
 void CLiDailin_W::Exit(CPlayer* pPlayer)
 {
+    COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(L"W");
+    pWCoolInfo->bCoolWait = false;
 }
 
 void CLiDailin_W::HandleCommand(CPlayer* pPlayer, COMMAND& eCommand)
@@ -181,7 +183,7 @@ CLiDailin_W* CLiDailin_W::Create()
 
 	if (FAILED(pInstance->Initialize()))
 	{
-		MSG_BOX("Failed to Created : CLiDailin_W");
+		MSG_BOX("Failed to Created: CLiDailin_W");
 		Safe_Release(pInstance);
 	}
 

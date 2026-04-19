@@ -223,7 +223,7 @@ CLumia_Ground* CLumia_Ground::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created : CLumia_Ground");
+        MSG_BOX("Failed to Created: CLumia_Ground");
         Safe_Release(pInstance);
     }
 

@@ -18,9 +18,6 @@ class CState;
 
 class CPlayer final : public CContainerObject
 {
-public:
-
-
 private:
 	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPlayer(const CPlayer& Prototype);

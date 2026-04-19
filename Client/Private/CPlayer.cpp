@@ -407,6 +407,7 @@ HRESULT CPlayer::Bind_ShaderResources()
 
 HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
+    // A
     CUI_StackSkillIcon::CUI_STACKSKILLICON_DESC StackSkillIconDesc{};
 
     StackSkillIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
@@ -425,6 +426,26 @@ HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StackSkillIconDesc)))
         return E_FAIL;
 
+    // W
+    CUI_NormalSkillIcon::CUI_NORMALSKILLICON_DESC WIconDesc{};
+
+    WIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    WIconDesc.iUILayer = ETOUI(UILAYER::SLOT);
+    
+    WIconDesc.fScaleRatioX = 0.04f;
+    WIconDesc.fScaleRatioY = 0.071f;
+    WIconDesc.fPosRatioX = 0.0f;
+    WIconDesc.fPosRatioY = -0.4f;
+    WIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_W";
+    WIconDesc.eBlendState = CUI_Default::DEFAULT;
+    
+    WIconDesc.pCoolInfo = &tWCool;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_NormalSkillIcon"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &WIconDesc)))
+        return E_FAIL;
+
+    // E
     CUI_NormalSkillIcon::CUI_NORMALSKILLICON_DESC EIconDesc{};
 
    EIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
@@ -432,7 +453,7 @@ HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
    
    EIconDesc.fScaleRatioX = 0.04f;
    EIconDesc.fScaleRatioY = 0.071f;
-   EIconDesc.fPosRatioX = 0.f;
+   EIconDesc.fPosRatioX = 0.07f;
    EIconDesc.fPosRatioY = -0.4f;
    EIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_E";
    EIconDesc.eBlendState = CUI_Default::DEFAULT;
@@ -443,6 +464,7 @@ HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EIconDesc)))
         return E_FAIL;
 
+    // R
     CUI_NormalSkillIcon::CUI_NORMALSKILLICON_DESC RIconDesc{};
 
     RIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
