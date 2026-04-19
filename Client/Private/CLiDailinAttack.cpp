@@ -11,6 +11,8 @@ CLiDailinAttack::CLiDailinAttack()
 
 void CLiDailinAttack::Enter(CPlayer* pPlayer)
 {	
+	pPlayer->Set_CanMoveCancle(true);
+
 	//if(pPlayer->Get_CurActionCommand().pGameObject와 거리 비교)
 	if (CGameInstance::GetInstance()->Key_Pressing(DIK_S) /* 범위 안 이면 */) {
 		Attack(pPlayer);
@@ -52,6 +54,8 @@ void CLiDailinAttack::Update(CPlayer* pPlayer, _float fTimeDelta)
 
 void CLiDailinAttack::Exit(CPlayer* pPlayer)
 {
+	pPlayer->Set_CanMoveCancle(false);
+
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
 	pPlayer->Set_AniBlock(false);
 }

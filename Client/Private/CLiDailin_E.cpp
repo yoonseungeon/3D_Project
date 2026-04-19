@@ -39,6 +39,9 @@ void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
 			m_fChanneling = 0.f;
 			m_bCancleLock = false;
 
+            pPlayer->Set_CanMoveCancle(true);
+
+
 			COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
 			pECoolInfo->bCoolWait = false;
 		}
@@ -51,9 +54,12 @@ void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
 
 void CLiDailin_E::Exit(CPlayer* pPlayer)
 {
-    pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
     pPlayer->Set_AniBlock(false);
     pPlayer->Set_MoveBlock(false);
+
+    pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
+
+    pPlayer->Set_CanMoveCancle(false);
 }
 
 void CLiDailin_E::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)

@@ -238,6 +238,8 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
             m_NextAniFrames.clear();
         }
 
+        Update_OverlayAnimation(fTimeDelta);
+
         for (auto& pBone : m_Bones)
         {
             pBone->Update_CombinedTransformMatrices(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
@@ -252,15 +254,7 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
     // 현재 애니메이션으로 가서 뼈들의 행렬을 업데이트 해준다.
     m_bIsFinished = m_Animations[m_iCurrentAnimationIndex]->Update_TransformationMatrices(m_Bones, fTimeDelta, m_isAnimLoop);
 
-    // 덮어 씌우기 전 SRT 저장. 보간 위해
-    if (m_bOverlayInterpEpilogue == true) {
-        Store_CurAni_SRT(m_NextAniFramesOverlay);
-    }
-
-    // 덮어 씌우기
-    if (m_bIsOverlay == true) {
-        Update_OverlayBones(fTimeDelta);
-    }
+    Update_OverlayAnimation(fTimeDelta);
 
     /* 위의 갱신이 끝났다면, 모든 뼈의 CombinedTransformationMatrix 갱신한다. */
     for (auto& pBone : m_Bones)
@@ -274,6 +268,11 @@ _bool CMyModel::Play_Animation(_float fTimeDelta)
 _float CMyModel::Get_CurAniPlayRatio() const
 {
     return m_Animations[m_iCurrentAnimationIndex]->Get_AniPlayRatio();
+}
+
+_float CMyModel::Get_AniPlayRatio(_uint iIndex) const
+{
+    return m_Animations[iIndex]->Get_AniPlayRatio();
 }
 
 HRESULT CMyModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex)
@@ -411,6 +410,19 @@ HRESULT CMyModel::Ready_LocalPos()
     return S_OK;
 }
 
+void CMyModel::Update_OverlayAnimation(_float fTimeDelta)
+{
+    // 덮어 씌우기 전 SRT 저장. 보간 위해
+    if (m_bOverlayInterpEpilogue == true) {
+        Store_CurAni_SRT(m_NextAniFramesOverlay);
+    }
+
+    // 덮어 씌우기
+    if (m_bIsOverlay == true) {
+        Update_OverlayBones(fTimeDelta);
+    }
+}
+
 void CMyModel::Update_OverlayBones(_float fTimeDelta)
 {
     _bool bIsOverlayEnd{};
@@ -446,8 +458,8 @@ void CMyModel::Update_OverlayBones(_float fTimeDelta)
     {
         m_fAccAniInterpTimeOverlay += fTimeDelta;
 
-        // m_NextAniFramesOverlay가 매프레임 fTimeDelta 진행됨. -> 보간 속도 2배 증가.
-        _float fRatio = Get_InterpRatio(m_fAccAniInterpTimeOverlay, m_fAniInterpTimeOverlay * 0.5f);
+        // m_NextAniFramesOverlay가 매프레임 fTimeDelta 진행됨. -> 보간 속도 살짝 증가
+        _float fRatio = Get_InterpRatio(m_fAccAniInterpTimeOverlay, m_fAniInterpTimeOverlay * 0.7f);
 
         for (_uint i = 0; i < m_Bones.size(); ++i)
         {

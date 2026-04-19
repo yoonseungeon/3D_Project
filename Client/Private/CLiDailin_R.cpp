@@ -61,6 +61,16 @@ void CLiDailin_R::Update(CPlayer* pPlayer, _float fTimeDelta)
 		bIsAniR2Changed = true;
 	}
 
+	if (bIsAniR2Changed == true)
+	{
+		const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
+		_float fR2 = pModel->Get_CurAniPlayRatio();
+
+		if (fR2 >= 0.7f) {
+			pPlayer->Set_CanMoveCancle(true);
+		}
+	}
+
 	if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
 		pPlayer->Set_ActionEnd();
 	}
@@ -68,6 +78,9 @@ void CLiDailin_R::Update(CPlayer* pPlayer, _float fTimeDelta)
 
 void CLiDailin_R::Exit(CPlayer* pPlayer)
 {
+	pPlayer->Set_AniBlock(false);
+	pPlayer->Set_MoveBlock(false);
+
 	bIsCol = false;
 	bIsAniR2Changed = false;
 
@@ -75,8 +88,9 @@ void CLiDailin_R::Exit(CPlayer* pPlayer)
 	pECoolInfo->bCoolWait = false;
 
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
-	pPlayer->Set_AniBlock(false);
-	pPlayer->Set_MoveBlock(false);
+
+	pPlayer->Set_CanMoveCancle(false);
+
 }
 
 void CLiDailin_R::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)

@@ -57,7 +57,7 @@ public:
 
 	// Part Obj
 	const CBody_Player* Get_BodyPlayer() const { return m_pBody; }
-	const CWeapon* Get_Weapon() const { return m_pWeapon; }
+	CWeapon* Get_Weapon() { return m_pWeapon; }
 
 	// MoveCom
 	_bool Update_Move_To_Pos(_float fTimeDelta);
@@ -77,6 +77,10 @@ public:
 	_bool Get_AniBlock() { return m_bAniBlock; }
 	void Set_CurAni(LiDailin_Ani eLiDailinCurAni) { m_eLiDailinCurAni = eLiDailinCurAni; }
 	const LiDailin_Ani& Get_CurAni() { return m_eLiDailinCurAni; }
+
+	// Cancle
+	_bool Get_CanMoveCancle() { return m_bCanMoveCancle; }
+	void Set_CanMoveCancle(_bool MoveCanCancle) { m_bCanMoveCancle = MoveCanCancle; }
 
 private:
 	// Com
@@ -112,6 +116,9 @@ private:
 	_bool m_bAniBlock{};
 	LiDailin_Ani m_eLiDailinCurAni{};
 	_bool m_bActionEnd{};
+
+	// Cancle
+	_bool m_bCanMoveCancle{};
 
 private:
 	HRESULT Ready_Components();

@@ -115,6 +115,7 @@ void CLiDailin_W::Enter(CPlayer* pPlayer)
 
 	// Ani
 	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_OverlayAnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_W1), m_pBoneNames, sizeof(m_pBoneNames)/ sizeof(const _char*));
+    pPlayer->Get_Weapon()->Set_IsInactive(true);
 
 	// Ani Speed
 }
@@ -125,15 +126,27 @@ void CLiDailin_W::Update(CPlayer* pPlayer, _float fTimeDelta)
     {
         pPlayer->Set_ActionEnd();
     }
+
+
+    const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
+    _float fOverlayRatio = pModel->Get_AniPlayRatio(static_cast<_uint>(LiDailin_Ani::Ani_W1));
+
+    if (fOverlayRatio >= 0.97f)
+    {
+        pPlayer->Get_Weapon()->Set_IsInactive(false);
+    }
 }
 
 void CLiDailin_W::Exit(CPlayer* pPlayer)
 {
     pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
 
+    pPlayer->Get_Weapon()->Set_IsInactive(false);
+
     //Cool
     COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(L"W");
     pWCoolInfo->bCoolWait = false;
+
 }
 
 void CLiDailin_W::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)

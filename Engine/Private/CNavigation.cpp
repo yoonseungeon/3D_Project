@@ -273,15 +273,18 @@ _bool CNavigation::isMove(_fvector vResultPos)
 
     _int iNeighborIndex = { -1 };
 
+    _int iTempIndex = m_iCurrentCellIndex;
+
     // Cell 안에 있냐?
     while (true)
     {
         iNeighborIndex = -1;
 
         // 현재 셀 위인지 검사
-        if (m_Cells[m_iCurrentCellIndex]->isIn(vResultPos, &iNeighborIndex) == true)
+        if (m_Cells[iTempIndex]->isIn(vResultPos, &iNeighborIndex) == true)
         {
             // 현재 셀 위면 true
+            m_iCurrentCellIndex = iTempIndex;
             return true;
         }
 
@@ -293,8 +296,9 @@ _bool CNavigation::isMove(_fvector vResultPos)
 
         // 나간 방향에 해당하는 인덱스를 현재 인덱스로 바꿈
         // 새로운 이웃이 있으면 저장
-        m_iCurrentCellIndex = iNeighborIndex;
+        iTempIndex = iNeighborIndex;
     }
+
 }
 
 #ifdef _DEBUG

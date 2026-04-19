@@ -48,16 +48,18 @@ HRESULT CCell::Initialize(const _float3* pPoints, _uint iIndex)
 
 	return S_OK;
 }
+
 _bool XM_CALLCONV CCell::isIn(_fvector vResultPos, _int* pNeighborIndex)
 {
 	// 세 변에 대한 검사
 	for (size_t i = 0; i < ETOUI(LINE::END); ++i)
 	{
-		_vector vDir = XMVector3Normalize(vResultPos - XMLoadFloat3(&m_vPoints[i]));
+		_vector vDir = vResultPos - XMLoadFloat3(&m_vPoints[i]);
+		vDir = XMVectorSetY(vDir, 0.f);
 		_vector vNormal = XMLoadFloat3(&m_vNormals[i]);
 
 		// 내적해서 0보다 크면 셀 밖에 있음
-		if (XMVectorGetX(XMVector3Dot(vDir, vNormal)) > 0)
+		if (XMVectorGetX(XMVector3Dot(vDir, vNormal)) > 0.f)
 		{
 			// 이때의 이웃 인덱스 넣어줌
 			*pNeighborIndex = m_iNeighbors[i];

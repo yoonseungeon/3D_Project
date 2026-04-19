@@ -20,11 +20,11 @@ void CLiDailinMove::Enter(CPlayer* pPlayer)
 	}
 
 	// ÀÌµ¿
-	if (pPlayer->Get_MoveBlock() == false)
-	{
+	//if (pPlayer->Get_MoveBlock() == false)
+	//{
 		_float3 vTargetPos = pPlayer->Get_CurMovementCommand().vTargetPos;
 		pPlayer->Move_To_Pos(vTargetPos, true);
-	}
+	//}
 }
 
 void CLiDailinMove::Update(CPlayer* pPlayer, _float fTimeDelta)
@@ -61,7 +61,7 @@ void CLiDailinMove::HandleMovementCommand(CPlayer* pPlayer, MOVEMENT_COMMAND& eM
 	switch (eMovement_Command.eCommandType) {
 		case MOVEMENT_COMMAND_TYPE::MOVE:
 		{
-			if (pPlayer->Get_MoveBlock() == true) {
+			if (pPlayer->Get_MoveBlock() == true && pPlayer->Get_CanMoveCancle() == false) {
 				return;
 			}
 

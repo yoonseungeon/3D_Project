@@ -100,18 +100,18 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 {
     Key_Input();
 
-    Apply_WaitMovementState();
     Apply_WaitActionState();
+    Apply_WaitMovementState();
 
-    if (m_pCurMovementState != nullptr) {
-        m_pCurMovementState->Update(this, fTimeDelta);
-    }
     if (m_pCurActionState != nullptr) {
         m_pCurActionState->Update(this, fTimeDelta);
     }
+    if (m_pCurMovementState != nullptr) {
+        m_pCurMovementState->Update(this, fTimeDelta);
+    }
 
-    Apply_WaitMovementState();
     Apply_WaitActionState();
+    Apply_WaitMovementState();
 
 
     CoolTimer(fTimeDelta);
@@ -577,7 +577,7 @@ void CPlayer::Key_Input()
         }
         else
         {
-            if (m_tCurActionCommand.eCommandType == ACTION_COMMAND_TYPE::ATTACK) 
+            if (m_bCanMoveCancle == true) 
             {
                 Set_ActionEnd();           
             }
@@ -587,6 +587,7 @@ void CPlayer::Key_Input()
             tMovement_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
 
             Process_MovementCommand(tMovement_Command);
+            m_bCanMoveCancle = false;
         }
     }
 }

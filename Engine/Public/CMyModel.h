@@ -45,6 +45,7 @@ public:
 	_bool IsAniOverlay() { return m_bIsOverlay; }
 
 	_float Get_CurAniPlayRatio() const;
+	_float Get_AniPlayRatio(_uint iIndex) const;
 
 public:
 	//특정 텍스처를 셰이더로 던진다.
@@ -110,7 +111,7 @@ private:
 	vector<KEYFRAME>			m_PreAniFramesOverlay;
 	vector<KEYFRAME>			m_NextAniFramesOverlay;
 
-	_float						m_fAniInterpTimeOverlay{ 0.5f };
+	_float						m_fAniInterpTimeOverlay{ 0.2f };
 	_float						m_fAccAniInterpTimeOverlay{};
 
 	_bool						m_bOverlayInterpPrologue{};
@@ -122,6 +123,8 @@ private:
 	HRESULT				Ready_Bones(const myNode* pMyNode, _int iParentIndex);
 	HRESULT				Ready_Animations();
 	HRESULT				Ready_LocalPos();
+
+	void				Update_OverlayAnimation(_float fTimeDelta);
 
 	void				Update_OverlayBones(_float fTimeDelta);
 	void				Save_OverlayInterpolationKeyFrame();
