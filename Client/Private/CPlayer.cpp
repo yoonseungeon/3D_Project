@@ -299,91 +299,6 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
     }
 }
 
-_bool CPlayer::IsTargetInRange()
-{
-    // µð¹ö±×
-
-    if (m_pGameInstance->Key_Pressing(DIK_A)) {
-        return true;
-    }
-
-    return false;
-}
-
-void CPlayer::Set_Animation(wstring wstrPartObjTag, _uint eAniIndex, _bool bLoop)
-{
-    if (wstrPartObjTag == L"Body")
-    {
-        m_pBody->Set_Animation(eAniIndex, bLoop);
-
-    }
-    else if (wstrPartObjTag == L"Weapon")
-    {
-        auto iter = m_PartObjects.find(L"Weapon");
-
-        if (iter != m_PartObjects.end())
-        {
-            static_cast<CWeapon*>(iter->second)->Set_Animation(eAniIndex, bLoop);
-        }
-    }
-}
-
-_bool CPlayer::IsAnimationFinished(wstring wstrPartObjTag)
-{
-    if (wstrPartObjTag == L"Body")
-    {
-        return m_pBody->IsAnimationFinished();
-
-    }
-    else if (wstrPartObjTag == L"Weapon")
-    {
-        auto iter = m_PartObjects.find(L"Weapon");
-
-        if (iter != m_PartObjects.end())
-        {
-            return static_cast<CWeapon*>(iter->second)->IsAnimationFinished();
-        }
-    }
-
-    return false;
-}
-
-void CPlayer::Set_AniInterpolationTime(wstring wstrPartObjTag, _float InterpolationTime)
-{
-    if (wstrPartObjTag == L"Body")
-    {
-        m_pBody->Set_AniInterpolationTime(InterpolationTime);
-
-    }
-    else if (wstrPartObjTag == L"Weapon")
-    {
-        auto iter = m_PartObjects.find(L"Weapon");
-
-        if (iter != m_PartObjects.end())
-        {
-            static_cast<CWeapon*>(iter->second)->Set_AniInterpolationTime(InterpolationTime);
-        }
-    }
-}
-
-void CPlayer::Set_AniSpeed(wstring wstrPartObjTag, _uint iIndex, _float fAniSpeed)
-{
-    if (wstrPartObjTag == L"Body")
-    {
-        m_pBody->Set_AniSpeed(iIndex, fAniSpeed);
-
-    }
-    else if (wstrPartObjTag == L"Weapon")
-    {
-        auto iter = m_PartObjects.find(L"Weapon");
-
-        if (iter != m_PartObjects.end())
-        {
-            static_cast<CWeapon*>(iter->second)->Set_AniSpeed(iIndex, fAniSpeed);
-        }
-    }
-}
-
 _bool CPlayer::Update_Move_To_Pos(_float fTimeDelta)
 {
     return m_pMoveCom->Update_Move_To_Pos(fTimeDelta);
@@ -628,21 +543,21 @@ void CPlayer::Key_Input()
         Process_ActionCommand(tAction_Command);
     }
 
-    //// E
-    //if (m_pGameInstance->Key_Down(DIK_E)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
+    // E
+    if (m_pGameInstance->Key_Down(DIK_E)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
 
-    //    m_pCurActionState->HandleActionCommand(this, tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
-    //// R
-    //if (m_pGameInstance->Key_Down(DIK_R)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
+    // R
+    if (m_pGameInstance->Key_Down(DIK_R)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
 
-    //    m_pCurActionState->HandleActionCommand(this, tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
 
     if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))

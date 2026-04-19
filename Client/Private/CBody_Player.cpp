@@ -81,26 +81,6 @@ const _float4x4* CBody_Player::Get_BoneMatrixPtr(const _char* pBoneName) const
     return m_pModelCom->Get_BoneMatrixPtr(pBoneName);
 }
 
-void CBody_Player::Set_Animation(_uint eAniIndex, _bool bLoop)
-{
-    m_pModelCom->Set_AnimationIndex(eAniIndex, bLoop);
-}
-
-_bool CBody_Player::IsAnimationFinished()
-{
-    return m_pModelCom->IsAnimationFinished();
-}
-
-void CBody_Player::Set_AniInterpolationTime(_float InterpolationTime)
-{
-    m_pModelCom->Set_AniInterpolationTime(InterpolationTime);
-}
-
-void CBody_Player::Set_AniSpeed(_uint iIndex, _float fAniSpeed)
-{
-    m_pModelCom->Set_AniSpeed(iIndex, fAniSpeed);
-}
-
 HRESULT CBody_Player::Ready_Components()
 {
     /* For.Com_Shader */

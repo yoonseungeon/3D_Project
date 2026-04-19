@@ -12,7 +12,7 @@ CLiDailin_E::CLiDailin_E()
 void CLiDailin_E::Enter(CPlayer* pPlayer)
 {
 	m_fChanneling = 0.2f;
-	m_bLock = true;
+	m_bCancleLock = true;
 
 	// Cool
 	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
@@ -22,12 +22,13 @@ void CLiDailin_E::Enter(CPlayer* pPlayer)
 	// Ani
     pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_E), false);
     pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::IDLE_WP), false);
+    pPlayer->Set_AniBlock(true);
 
 	// Ani Speed
 
 	// ÀÌµ¿
-	pPlayer->Set_WaitMovementState(L"Idle");
-	pPlayer->Set_MoveBlock(true);
+    pPlayer->Set_MoveBlock(true);
+    pPlayer->Set_WaitMovementState(L"Idle");
 }
 
 void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
@@ -36,26 +37,28 @@ void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
 		m_fChanneling -= fTimeDelta;
 		if (m_fChanneling <= 0.f) {
 			m_fChanneling = 0.f;
-			m_bLock = false;
+			m_bCancleLock = false;
 
 			COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
 			pECoolInfo->bCoolWait = false;
 		}
 	}
 
-	if (m_bLock == false)
-	{
-		pPlayer->Set_MoveBlock(false);
-	}
+    if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
+        pPlayer->Set_ActionEnd();
+    }
 }
 
 void CLiDailin_E::Exit(CPlayer* pPlayer)
 {
+    pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
+    pPlayer->Set_AniBlock(false);
+    pPlayer->Set_MoveBlock(false);
 }
 
 void CLiDailin_E::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)
 {
-	if (m_bLock == true)
+	if (m_bCancleLock == true)
 	{
 		return;
 	}

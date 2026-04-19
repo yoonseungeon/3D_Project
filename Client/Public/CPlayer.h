@@ -55,16 +55,7 @@ public:
 	void Set_ActionEnd() { m_bActionEnd = true; }
 	void Process_ActionCommand(ACTION_COMMAND& tAction_Command);
 
-	// test
-	_bool IsTargetInRange();
-
 	// Part Obj
-	void Set_Animation(wstring wstrPartObjTag, _uint eAniIndex, _bool bLoop);
-	_bool IsAnimationFinished(wstring wstrPartObjTag);
-
-	void Set_AniInterpolationTime(wstring wstrPartObjTag, _float InterpolationTime);
-	void Set_AniSpeed(wstring wstrPartObjTag, _uint iIndex, _float fAniSpeed);
-
 	const CBody_Player* Get_BodyPlayer() const { return m_pBody; }
 	const CWeapon* Get_Weapon() const { return m_pWeapon; }
 
@@ -116,7 +107,7 @@ private:
 	COOL_INFO tECool{};
 	COOL_INFO tRCool{};
 
-	//
+	// Block
 	_bool m_bMoveBlock{};
 	_bool m_bAniBlock{};
 	LiDailin_Ani m_eLiDailinCurAni{};

@@ -2,6 +2,7 @@
 
 #include "CPlayer.h"
 #include "CBody_Player.h"
+#include "CWeapon.h"
 #include "CGameInstance.h"
 
 CLiDailin_R::CLiDailin_R()
@@ -19,15 +20,15 @@ void CLiDailin_R::Enter(CPlayer* pPlayer)
 	pRCoolInfo->fAccCoolDown = pRCoolInfo->fCurCoolDown;
 
 	// Ani
-	pPlayer->Set_Animation(L"Body", static_cast<_uint>(LiDailin_Ani::Ani_R1), false);
-	pPlayer->Set_Animation(L"Weapon", static_cast<_uint>(Nunchaku_Ani::IDLE_WP), false);
+	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_R1), false);
+	pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::IDLE_WP), false);
+	pPlayer->Set_AniBlock(true);
 
 	// Ani Speed
 
-
 	// 이동
-	pPlayer->Set_WaitMovementState(L"Idle");
 	pPlayer->Set_MoveBlock(true);
+	pPlayer->Set_WaitMovementState(L"Idle");
 }
 
 void CLiDailin_R::Update(CPlayer* pPlayer, _float fTimeDelta)
@@ -48,16 +49,21 @@ void CLiDailin_R::Update(CPlayer* pPlayer, _float fTimeDelta)
 	{
 		const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 		_float fAniRatio = pModel->Get_CurAniPlayRatio();
-		if (fAniRatio >= 0.2f && fAniRatio <= 0.6f) {
+		if (fAniRatio >= 0.2f && fAniRatio <= 0.6f)
+		{
 			static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 22.f, true);
 		}
 	}
 	else if(bIsCol == true && bIsAniR2Changed == false)
 	{
-		pPlayer->Set_Animation(L"Body", static_cast<_uint>(LiDailin_Ani::Ani_R2), false);
+		pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_R2), false);
+
 		bIsAniR2Changed = true;
 	}
 
+	if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
+		pPlayer->Set_ActionEnd();
+	}
 }
 
 void CLiDailin_R::Exit(CPlayer* pPlayer)
@@ -68,7 +74,8 @@ void CLiDailin_R::Exit(CPlayer* pPlayer)
 	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"R");
 	pECoolInfo->bCoolWait = false;
 
-	//임시
+	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
+	pPlayer->Set_AniBlock(false);
 	pPlayer->Set_MoveBlock(false);
 }
 
@@ -85,9 +92,6 @@ void CLiDailin_R::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		if (fR2 < 0.7f) {
 			return;
 		}
-
-		//임시
-		pPlayer->Set_MoveBlock(false);
 	}
 
 	switch (eAction_Command.eCommandType) {

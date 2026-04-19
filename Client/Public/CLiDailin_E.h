@@ -15,8 +15,8 @@ public:
 	void HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command) override;
 
 private:
-	_float m_fChanneling{};
-	_bool m_bLock{};
+	_float	m_fChanneling{};
+	_bool	m_bCancleLock{};
 
 public:
 	static CLiDailin_E* Create();

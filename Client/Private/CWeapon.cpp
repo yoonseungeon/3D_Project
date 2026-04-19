@@ -96,26 +96,6 @@ HRESULT CWeapon::Render()
     return S_OK;
 }
 
-void CWeapon::Set_Animation(_uint eAniIndex, _bool bLoop)
-{
-    m_pModelCom->Set_AnimationIndex(eAniIndex, bLoop);
-}
-
-_bool CWeapon::IsAnimationFinished()
-{
-    return m_pModelCom->IsAnimationFinished();
-}
-
-void CWeapon::Set_AniInterpolationTime(_float InterpolationTime)
-{
-    m_pModelCom->Set_AniInterpolationTime(InterpolationTime);
-}
-
-void CWeapon::Set_AniSpeed(_uint iIndex, _float fAniSpeed)
-{
-    m_pModelCom->Set_AniSpeed(iIndex, fAniSpeed);
-}
-
 HRESULT CWeapon::Ready_Components()
 {
     /* For.Com_Shader */

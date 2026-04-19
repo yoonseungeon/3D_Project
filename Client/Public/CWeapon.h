@@ -37,12 +37,6 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Set_Animation(_uint eAniIndex, _bool bLoop);
-	_bool IsAnimationFinished();
-
-	void Set_AniInterpolationTime(_float InterpolationTime);
-	void Set_AniSpeed(_uint iIndex, _float fAniSpeed);
-
 	CMyModel* Get_ModelCom() const { return m_pModelCom; }
 
 private:

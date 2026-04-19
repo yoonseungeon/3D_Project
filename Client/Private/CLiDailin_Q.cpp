@@ -57,8 +57,8 @@ void CLiDailin_Q::Enter(CPlayer* pPlayer)
 	}
 
 	// Ani Speed
-	pPlayer->Set_AniSpeed(L"Body", iBodyPhase, 2.f);
-	pPlayer->Set_AniSpeed(L"Weapon", iWeaponPhase, 2.f);
+	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AniSpeed(iBodyPhase, 2.f);
+	pPlayer->Get_Weapon()->Get_ModelCom()->Set_AniSpeed(iWeaponPhase, 2.f);
 
 	// ÀÌµ¿
 	pPlayer->Set_MoveBlock(true);
