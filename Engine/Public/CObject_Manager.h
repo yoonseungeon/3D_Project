@@ -36,6 +36,7 @@ public:
 
 public:
 	class CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex);
+	class CComponent* Get_Component(_uint iLevelIndex, const _wstring& strLayerTag, const _wstring& strPartTag, const _wstring& strComponentTag, _uint iIndex);
 
 #ifdef _DEBUG
 	size_t Get_NumLevels() const { return m_iNumLevels; }

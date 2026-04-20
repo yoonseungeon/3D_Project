@@ -32,7 +32,7 @@ HRESULT CMonster::Initialize(void* pArg)
     m_pTransformCom->Set_State(STATE::POSITION,
         XMVectorSet(
             m_pGameInstance->Random(0.f, 30.f),
-            3.f,
+            0.1f,
             m_pGameInstance->Random(0.f, 30.f),
             1.f
         ));
@@ -52,6 +52,9 @@ void CMonster::Parallel_Update(_float fTimeDelta)
 
 void CMonster::Update(_float fTimeDelta)
 {
+    for (auto& pCollider : m_pColliderCom)
+        pCollider->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+    Intersect_To_Player();
 }
 
 void CMonster::Late_Update(_float fTimeDelta)
@@ -81,7 +84,29 @@ HRESULT CMonster::Render()
             return E_FAIL;
     }
 
+#ifdef _DEBUG
+    for (auto& pCollider : m_pColliderCom)
+        pCollider->Render();
+#endif
+
     return S_OK;
+}
+
+void CMonster::Intersect_To_Player()
+{
+    CCollider* pTargetCollider = { nullptr };
+
+    // 플레이어 콜라이더 꺼내오기
+    pTargetCollider = dynamic_cast<CCollider*>(m_pGameInstance->Get_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Com_Collider_AABB")));
+    if (nullptr == pTargetCollider)
+        return;
+
+    //pTargetCollider = dynamic_cast<CCollider*>(m_pGameInstance->Get_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Layer_Player"), TEXT("Weapon"), TEXT("Com_Collider_OBB")));
+    //if (nullptr == pTargetCollider)
+    //    return;
+
+    // 충돌 검사
+    m_pColliderCom[ETOUI(COLLIDER::SPHERE)]->Intersect(pTargetCollider);
 }
 
 HRESULT CMonster::Ready_Components()
@@ -94,6 +119,34 @@ HRESULT CMonster::Ready_Components()
     /* For.Com_Model */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Craft_Tool"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
+        return E_FAIL;
+
+    /* For.Com_Collider_AABB */
+    CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
+    AABBDesc.vSize = _float3(0.7f, 0.2f, 0.7f);
+    AABBDesc.vCenter = _float3(0.f, AABBDesc.vSize.y * 0.5f, 0.f);
+
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
+        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&m_pColliderCom[ETOUI(COLLIDER::AABB)]), &AABBDesc)))
+        return E_FAIL;
+
+    /* For.Com_Collider_Sphere */
+    CBounding_Sphere::BOUNDING_SPHERE_DESC  SphereDesc{ };
+    SphereDesc.fRadius = 0.7f;
+    SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius, 0.f);
+
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+        TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&m_pColliderCom[ETOUI(COLLIDER::SPHERE)]), &SphereDesc)))
+        return E_FAIL;
+
+    /* For.Com_Collider_OBB */
+    CBounding_OBB::BOUNDING_OBB_DESC  OBBDesc{ };
+    OBBDesc.vSize = _float3(0.7f, 0.7f, 0.7f);
+    OBBDesc.vCenter = _float3(0.f, OBBDesc.vSize.y * 0.5f, 0.f);
+    OBBDesc.vRadians = _float3(0.f, 0.f, 0.f);
+
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
+        TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&m_pColliderCom[ETOUI(COLLIDER::OBB)]), &OBBDesc)))
         return E_FAIL;
 
     return S_OK;
@@ -156,6 +209,9 @@ CGameObject* CMonster::Clone(void* pArg)
 
 void CMonster::Free()
 {
+    for (auto& pCollider : m_pColliderCom)
+        Safe_Release(pCollider);
+
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);
 

@@ -47,6 +47,16 @@ HRESULT CContainerObject::Render()
     return S_OK;
 }
 
+CComponent* CContainerObject::Find_PartObjectComponent(const _wstring& strPartTag, const _wstring& strComponentTag)
+{
+    auto    iter = m_PartObjects.find(strPartTag);
+
+    if (iter == m_PartObjects.end())
+        return nullptr;
+
+    return iter->second->Find_Component(strComponentTag);
+}
+
 HRESULT CContainerObject::Add_PartObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strPartTag, void* pArg)
 {
     CPartObject* pPartObject = dynamic_cast<CPartObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, iPrototypeLevelIndex, strPrototypeTag, pArg));

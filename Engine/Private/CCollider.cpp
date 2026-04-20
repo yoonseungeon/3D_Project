@@ -82,6 +82,16 @@ void XM_CALLCONV CCollider::Update(_fmatrix TransformMatrix)
     m_pBounding->Update(TransformMatrix);
 }
 
+_bool CCollider::Intersect(CCollider* pTarget)
+{
+    m_isColl = false;
+
+    // 내 Type은 아는데 상대 어떤 타입 콜라이던지 몰라서 타입도 같이 던져줌.
+    m_isColl = m_pBounding->Intersect(pTarget->m_eType, pTarget->m_pBounding);
+
+    return m_isColl;
+}
+
 #ifdef _DEBUG
 HRESULT CCollider::Render()
 {

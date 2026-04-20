@@ -20,6 +20,10 @@ private:
 	virtual HRESULT Initialize(const CBounding::BOUNDING_DESC* pBoundingDesc) override;
 	virtual void XM_CALLCONV Update(_fmatrix TransformMatrix) override;
 
+public:
+	virtual _bool Intersect(COLLIDER eTargetType, CBounding* pBounding) override;
+	const BoundingSphere* Get_Desc() const { return m_pDesc; }
+
 #ifdef _DEBUG
 public:
 	virtual HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch) override;

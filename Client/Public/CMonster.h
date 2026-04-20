@@ -6,6 +6,7 @@
 NS_BEGIN(Engine)
 class CShader;
 class CMyModel;
+class CCollider;
 NS_END
 
 NS_BEGIN(Client)
@@ -32,9 +33,12 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void Intersect_To_Player();
+
 private:
 	CShader* m_pShaderCom{ nullptr };
 	CMyModel* m_pModelCom{ nullptr };
+	CCollider* m_pColliderCom[ETOUI(COLLIDER::END)] = {};
 
 private:
 	HRESULT Ready_Components();

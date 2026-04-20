@@ -20,6 +20,9 @@ public:
 public:
 	void XM_CALLCONV Update(_fmatrix TransformMatrix);
 
+public:
+	_bool Intersect(CCollider* pTarget);
+
 #ifdef _DEBUG
 public:
 	HRESULT Render();
@@ -28,6 +31,7 @@ public:
 private:
 	COLLIDER			m_eType = { COLLIDER::END };
 	class CBounding* m_pBounding = { nullptr };
+	_bool				m_isColl = { false };
 
 #ifdef _DEBUG
 private:

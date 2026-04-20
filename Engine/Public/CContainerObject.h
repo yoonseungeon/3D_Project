@@ -24,6 +24,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	class CComponent* Find_PartObjectComponent(const _wstring& strPartTag, const _wstring& strComponentTag);
+
 protected:
 	map<const _wstring, CPartObject*> m_PartObjects;
 

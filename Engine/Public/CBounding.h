@@ -20,6 +20,9 @@ public:
 	virtual HRESULT Initialize(const CBounding::BOUNDING_DESC* pBoundingDesc);
 	virtual void XM_CALLCONV Update(_fmatrix TransformMatrix) = 0;
 
+public:
+	virtual _bool Intersect(COLLIDER eTargetType, CBounding* pBounding) = 0;
+
 #ifdef _DEBUG
 public:
 	virtual HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch) = 0;
