@@ -16,6 +16,8 @@ HRESULT CTransform::Initialize_Prototype()
 {
     XMStoreFloat4x4(&m_WorldMatrix, XMMatrixIdentity());
 
+    XMStoreFloat4(&m_RotQuat, XMQuaternionIdentity());
+
     return S_OK;
 }
 
@@ -76,23 +78,13 @@ void CTransform::Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
 
 void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _float fRadian)
 {
-    _float3         vScaled = Get_Scaled();
+    _vector vNewRot = XMQuaternionRotationAxis(vAxis, fRadian);
 
-    _vector         vRight = XMVectorSet(1.f, 0.f, 0.f, 0.f) * vScaled.x;
-    _vector         vUp = XMVectorSet(0.f, 1.f, 0.f, 0.f) * vScaled.y;
-    _vector         vLook = XMVectorSet(0.f, 0.f, 1.f, 0.f) * vScaled.z;
+    vNewRot = XMQuaternionNormalize(vNewRot);
 
-    _matrix         RotationMatrix = XMMatrixRotationAxis(vAxis, fRadian);
+    XMStoreFloat4(&m_RotQuat, vNewRot);
 
-    /*
-    XMVector3TransformCoord();
-    XMVector3TransformNormal();
-    XMVector4Transform();
-    */
-
-    Set_State(STATE::RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
-    Set_State(STATE::UP, XMVector3TransformNormal(vUp, RotationMatrix));
-    Set_State(STATE::LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
+    Reset_Rotation();
 }
 
 //임시 코드
@@ -122,28 +114,35 @@ void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _fvector vDir)
 
 void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta)
 {
-    _vector         vRight = Get_State(STATE::RIGHT);
-    _vector         vUp = Get_State(STATE::UP);
-    _vector         vLook = Get_State(STATE::LOOK);
+    _vector vRotQuat = XMLoadFloat4(&m_RotQuat);
+    // 회전축을 기준으로 회전량을 얻어옴.
+    _vector vDq = XMQuaternionRotationAxis(vAxis, m_fRotationPerSec * fTimeDelta);
 
-    _matrix         RotationMatrix = XMMatrixRotationAxis(vAxis, m_fRotationPerSec * fTimeDelta);
+    // vRotQuat 회전후 vDq 회전
+    vRotQuat = XMQuaternionMultiply(vRotQuat, vDq);
+    vRotQuat = XMQuaternionNormalize(vRotQuat);
 
-    Set_State(STATE::RIGHT, XMVector3TransformNormal(vRight, RotationMatrix));
-    Set_State(STATE::UP, XMVector3TransformNormal(vUp, RotationMatrix));
-    Set_State(STATE::LOOK, XMVector3TransformNormal(vLook, RotationMatrix));
+    XMStoreFloat4(&m_RotQuat, vRotQuat);
+
+    Reset_Rotation();
 }
 
 void XM_CALLCONV CTransform::LookAt(_fvector vAt)
 {
-    _vector         vLook = vAt - Get_State(STATE::POSITION);
-    _vector         vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
-    _vector         vUp = XMVector3Cross(vLook, vRight);
+    _vector vLook = XMVectorSetW(XMVector3Normalize(vAt - Get_State(STATE::POSITION)), 0.f);
+    _vector vRight = XMVectorSetW(XMVector3Normalize(XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook)), 0.f);
+    _vector vUp = XMVectorSetW(XMVector3Normalize(XMVector3Cross(vLook, vRight)), 0.f);
 
-    _float3         vScaled = Get_Scaled();
+    // 회전 행렬 생성
+    _matrix matRot = { vRight , vUp , vLook , XMVectorSet(0.f, 0.f, 0.f, 1.f) };
 
-    Set_State(STATE::RIGHT, XMVector3Normalize(vRight) * vScaled.x);
-    Set_State(STATE::UP, XMVector3Normalize(vUp) * vScaled.y);
-    Set_State(STATE::LOOK, XMVector3Normalize(vLook) * vScaled.z);
+    // 사원수 얻어오기
+    _vector vRotQuat = XMQuaternionRotationMatrix(matRot);
+    vRotQuat = XMQuaternionNormalize(vRotQuat);
+
+    XMStoreFloat4(&m_RotQuat, vRotQuat);
+
+    Reset_Rotation();
 }
 
 void XM_CALLCONV CTransform::Set_Pos(_fvector vPos)
@@ -191,6 +190,19 @@ void CTransform::Go_Right(_float fTimeDelta)
     Set_State(STATE::POSITION, vPosition);
 }
 
+void XM_CALLCONV CTransform::Reset_Rotation()
+{
+    _matrix matWorld = XMLoadFloat4x4(&m_WorldMatrix);
+
+    _vector vS{}, vR{}, vT{};
+    XMMatrixDecompose(&vS, &vR, &vT, matWorld);
+
+    _vector vNewRot = XMLoadFloat4(&m_RotQuat);
+
+    matWorld = XMMatrixAffineTransformation(vS, XMVectorSet(0.f, 0.f, 0.f, 1.f), vNewRot, vT);
+
+    XMStoreFloat4x4(&m_WorldMatrix, matWorld);
+}
 
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

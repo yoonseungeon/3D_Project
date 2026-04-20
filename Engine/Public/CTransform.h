@@ -71,9 +71,15 @@ public:
 	void Go_Right(_float fTimeDelta);
 
 private:
-	_float4x4	m_WorldMatrix		= {};
+	_float4x4	m_WorldMatrix{};
+	_float4		m_RotQuat{};
+
+
 	_float		m_fSpeedPerSec		= {};
 	_float		m_fRotationPerSec	= {};
+
+private:
+	void XM_CALLCONV Reset_Rotation();
 
 public:
 	static CTransform*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
