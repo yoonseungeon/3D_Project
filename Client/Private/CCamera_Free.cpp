@@ -66,21 +66,21 @@ void CCamera_Free::Priority_Update(_float fTimeDelta)
 
     if (m_pGameInstance->Key_Pressing(DIK_Q))
     {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), -fSpeed * fTimeDelta);
+        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), -fSpeed * fTimeDelta, XMConvertToRadians(180.f));
     }
 
     if (m_pGameInstance->Key_Pressing(DIK_E))
     {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fSpeed * fTimeDelta);
+        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fSpeed * fTimeDelta, XMConvertToRadians(180.f));
     }
     if (m_pGameInstance->Key_Pressing(DIK_2))
     {
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), -fSpeed * fTimeDelta);
+        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), -fSpeed * fTimeDelta, XMConvertToRadians(180.f));
     }
 
     if (m_pGameInstance->Key_Pressing(DIK_3))
     {
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), fSpeed * fTimeDelta);
+        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), fSpeed * fTimeDelta, XMConvertToRadians(180.f));
     }
 
     __super::Priority_Update(fTimeDelta);

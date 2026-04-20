@@ -80,16 +80,17 @@ _bool CMove::Update_Move_To_Pos(_float fTimeDelta)
 
         _vector vMovePos = XMVectorSetW(XMLoadFloat3(&m_vMovePos), 1.f);
         _vector vDistance = vMovePos - vCurPos;
+
         // 지형 클릭하고 내비메시 y값 차이 때문에 문제 생김 
         vDistance = XMVectorSetY(vDistance, 0.f);
         _float fDistanceSq = XMVectorGetX(XMVector3LengthSq(vDistance));
 
         _vector vDir = XMVector3Normalize(vDistance);
 
-        m_pTransform->Rotation(XMVectorSet(0.f, 1.f, 0.f, 0.f), vDir);
-
         _vector vMoveDistance = vDir * m_fSpeed * fTimeDelta;
         _float fMoveDistanceSq = XMVectorGetX(XMVector3LengthSq(vMoveDistance));
+
+        m_pTransform->TurnDirDefaultY(vDir, fTimeDelta, XMConvertToRadians(1080.f));
 
         if(fDistanceSq <= fMoveDistanceSq)
         {

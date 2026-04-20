@@ -51,18 +51,21 @@ public:
 	const _float4x4* Get_WorldMatrixPtr() const { return &m_WorldMatrix; }
 
 public:
+	// S
 	void Set_Scale(_float fScaleX = 1.f, _float fScaleY = 1.f, _float fScaleZ = 1.f);
 	void Scaling(_float fScaleX = 1.f, _float fScaleY = 1.f, _float fScaleZ = 1.f);
 
+	// R
 	void XM_CALLCONV Rotation(_fvector vAxis, _float fRadian);
+	void XM_CALLCONV Turn(_fvector vAxis, _float fTimeDelta, _float fRotSpeed);
+	void XM_CALLCONV TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _float fRotSpeed);
+
+	void XM_CALLCONV LookAt(_fvector vAt);
 
 	//임시 코드
 	void XM_CALLCONV Rotation(_fvector vAxis, _fvector vDir);
 
-	void XM_CALLCONV Turn(_fvector vAxis, _float fTimeDelta);
-
-	void XM_CALLCONV LookAt(_fvector vAt);
-
+	// T
 	void XM_CALLCONV Set_Pos(_fvector vPos);
 
 	void Go_Straight(_float fTimeDelta);

@@ -53,6 +53,22 @@ namespace Engine
 		return iRefCnt;
 	}
 
+	namespace MyHelper
+	{
+		static constexpr float fEpsilon = { 0.000001f };
+
+		inline void FloatClamp(float& fFloat, const float& fMin, const float& fMax)
+		{
+			if (fFloat > fMax)
+			{
+				fFloat = fMax;
+			}
+			else if (fFloat < fMin)
+			{
+				fFloat = fMin;
+			}
+		}
+	}
 }
 
 #endif // Engine_Function_h__

@@ -112,11 +112,61 @@ void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _fvector vDir)
     Set_State(STATE::LOOK, vLook * vScaled.z);
 }
 
-void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta)
+void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta, _float fRotSpeed)
 {
     _vector vRotQuat = XMLoadFloat4(&m_RotQuat);
     // 회전축을 기준으로 회전량을 얻어옴.
-    _vector vDq = XMQuaternionRotationAxis(vAxis, m_fRotationPerSec * fTimeDelta);
+    _vector vDq = XMQuaternionRotationAxis(vAxis, fRotSpeed * fTimeDelta);
+
+    // vRotQuat 회전후 vDq 회전
+    vRotQuat = XMQuaternionMultiply(vRotQuat, vDq);
+    vRotQuat = XMQuaternionNormalize(vRotQuat);
+
+    XMStoreFloat4(&m_RotQuat, vRotQuat);
+
+    Reset_Rotation();
+}
+
+void XM_CALLCONV CTransform::TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _float fRotSpeed)
+{
+    _vector vLook = XMVector3Normalize(Get_State(STATE::LOOK));
+    _vector vNormalizedDir = XMVector3Normalize(vDir);
+
+    // 안하면 XMQuaternionRotationAxis 여기서 assert
+    if (XMVector3Equal(vNormalizedDir, XMVectorZero()))
+    {
+        return;
+    }
+
+    // 남은 각도
+    _float fDot = XMVectorGetX(XMVector3Dot(vLook, vNormalizedDir));   
+    MyHelper::FloatClamp(fDot, -1.f, 1.f);  // 이거 안하면 nan뜸
+    _float fSeta = acosf(fDot);
+    
+    if (fSeta <= MyHelper::fEpsilon)
+    {
+        return;
+    }
+    
+    // 축
+    _vector vAxis{};
+    // 180인 경우 회전할 수 있는 축이 무한대이기 때문에 Y로 고정
+    if (fDot <= -1.f + MyHelper::fEpsilon)
+    {
+        vAxis = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+    }
+    else
+    {
+        vAxis = XMVector3Normalize(XMVector3Cross(vLook, vNormalizedDir));
+    }
+
+    // 오버 슈팅 방지
+    _float fDRadian = (std::min)(fSeta, fTimeDelta * fRotSpeed);
+
+    // Turn
+    _vector vRotQuat = XMLoadFloat4(&m_RotQuat);
+    // 회전축을 기준으로 회전량을 얻어옴.
+    _vector vDq = XMQuaternionRotationAxis(vAxis, fDRadian);
 
     // vRotQuat 회전후 vDq 회전
     vRotQuat = XMQuaternionMultiply(vRotQuat, vDq);
