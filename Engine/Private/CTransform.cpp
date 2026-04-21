@@ -87,31 +87,6 @@ void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _float fRadian)
     Reset_Rotation();
 }
 
-//임시 코드
-void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _fvector vDir)
-{
-    _vector vAxisN = XMVector3Normalize(vAxis);
-    _vector vLook = vDir;
-
-    // 축 방향 성분 제거
-    // 예: Y축 회전이면, 위/아래 성분 제거하고 XZ 평면 방향만 사용
-    vLook -= vAxisN * XMVector3Dot(vLook, vAxisN);
-
-    if (XMVectorGetX(XMVector3LengthSq(vLook)) <= 0.000001f)
-        return;
-
-    vLook = XMVector3Normalize(vLook);
-
-    _float3 vScaled = Get_Scaled();
-
-    _vector vRight = XMVector3Normalize(XMVector3Cross(vAxisN, vLook));
-    _vector vUp = XMVector3Normalize(XMVector3Cross(vLook, vRight));
-
-    Set_State(STATE::RIGHT, vRight * vScaled.x);
-    Set_State(STATE::UP, vUp * vScaled.y);
-    Set_State(STATE::LOOK, vLook * vScaled.z);
-}
-
 void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta, _float fRotSpeed)
 {
     _vector vRotQuat = XMLoadFloat4(&m_RotQuat);

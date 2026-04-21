@@ -62,9 +62,6 @@ public:
 
 	void XM_CALLCONV LookAt(_fvector vAt);
 
-	//임시 코드
-	void XM_CALLCONV Rotation(_fvector vAxis, _fvector vDir);
-
 	// T
 	void XM_CALLCONV Set_Pos(_fvector vPos);
 

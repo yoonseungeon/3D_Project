@@ -167,25 +167,55 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
-    CUI_Image::CUI_IMAGE_DESC Desc{};
+    // char panel
+    CUI_Image::CUI_IMAGE_DESC CharPanelDesc{};
 
-    //Desc.fScaleRatioX = 0.5f;
-    //Desc.fScaleRatioY = 0.5f;
-    //Desc.fPosRatioX = 0.f;
-    //Desc.fPosRatioY = 0.f;
+    CharPanelDesc.fScaleRatioX = 0.035f;
+    CharPanelDesc.fScaleRatioY = 0.125f;
+    CharPanelDesc.fPosRatioX = -0.12f;
+    CharPanelDesc.fPosRatioY = -0.436945f;
 
-    //Desc.iUILayer = ETOUI(UILAYER::PANEL);
+    CharPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
 
-    //Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    //Desc.wstrTexturePrototypeTag = L"Prototype_Texture_InGameCharBg";
+    CharPanelDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    CharPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_InGameCharBg";
 
-    //Desc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
-    //Desc.vColor = { 1.f,0.f,1.f };
-    //Desc.fImageAlpha = 0.8f;
+    CharPanelDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    CharPanelDesc.vColor = COLOR_TO_FLOAT(33, 45, 51);
+    
+    CharPanelDesc.fImageAlpha = 0.8f;
 
-    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
-    //    return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &CharPanelDesc)))
+        return E_FAIL;
+
+    CharPanelDesc.fPosRatioX += -0.070f;
+    CharPanelDesc.iFlipX = true;
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &CharPanelDesc)))
+        return E_FAIL;
+
+    // skill panel
+    CUI_Image::CUI_IMAGE_DESC SkillPanelDesc{};
+
+    SkillPanelDesc.fScaleRatioX = 0.3f;
+    SkillPanelDesc.fScaleRatioY = CharPanelDesc.fScaleRatioY;
+    SkillPanelDesc.fPosRatioX = 0.047344f;
+    SkillPanelDesc.fPosRatioY = CharPanelDesc.fPosRatioY;
+    
+    SkillPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
+    
+    SkillPanelDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    SkillPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
+    
+    SkillPanelDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    SkillPanelDesc.vColor = CharPanelDesc.vColor;
+    
+    SkillPanelDesc.fImageAlpha = 0.8f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &SkillPanelDesc)))
+        return E_FAIL;
 
     return S_OK;
 }

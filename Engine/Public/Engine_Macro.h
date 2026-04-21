@@ -4,6 +4,8 @@
 #define ETOI(_enum) static_cast<signed int>(_enum)
 #define ETOUI(_enum) static_cast<unsigned int>(_enum)
 
+#define COLOR_TO_FLOAT(R, G, B) { static_cast<float>(R)/255.f, static_cast<float>(G)/255.f, static_cast<float>(B)/255.f }
+
 #ifndef			MSG_BOX
 #define			MSG_BOX(_message)			MessageBox(NULL, TEXT(_message), L"System Message", MB_OK)
 #endif
