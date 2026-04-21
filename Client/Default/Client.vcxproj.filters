@@ -196,6 +196,9 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel">
       <UniqueIdentifier>{0d31f7b9-be45-487d-9dd3-34acc11e86c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty">
+      <UniqueIdentifier>{031f721d-5f57-4783-bd2d-04dee2bbecd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -390,6 +393,9 @@
     <ClInclude Include="..\Public\CUI_CharSkillPanel.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CInGameCharLevel_Empty.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -569,6 +575,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CInGameCharHUD_Empty.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInGameCharLevel_Empty.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -161,6 +161,7 @@
     <ClInclude Include="..\Public\CGame_Manager.h" />
     <ClInclude Include="..\Public\Character_Meta.h" />
     <ClInclude Include="..\Public\CInGameCharHUD_Empty.h" />
+    <ClInclude Include="..\Public\CInGameCharLevel_Empty.h" />
     <ClInclude Include="..\Public\CInGame_Manager.h" />
     <ClInclude Include="..\Public\CLiDailinAttack.h" />
     <ClInclude Include="..\Public\CLiDailinIdle.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="..\Private\CForkLift.cpp" />
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
     <ClCompile Include="..\Private\CInGameCharHUD_Empty.cpp" />
+    <ClCompile Include="..\Private\CInGameCharLevel_Empty.cpp" />
     <ClCompile Include="..\Private\CInGame_Manager.cpp" />
     <ClCompile Include="..\Private\CLiDailinAttack.cpp" />
     <ClCompile Include="..\Private\CLiDailinIdle.cpp" />

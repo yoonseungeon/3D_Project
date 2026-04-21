@@ -73,7 +73,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
 
-    vector vTextureDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vTextureDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
     if (vTextureDiffuse.a < 0.1f)
         discard;
         

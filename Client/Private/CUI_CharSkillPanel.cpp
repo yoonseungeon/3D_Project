@@ -115,6 +115,7 @@ HRESULT CUI_CharSkillPanel::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
     m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
+    m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(m_vColor));
 
     return S_OK;
 }
@@ -133,7 +134,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
     QDesc.fScaleRatioX = 0.04f;
     QDesc.fScaleRatioY = 0.071f;
-    QDesc.fPosRatioX = -0.07f;
+    QDesc.fPosRatioX = m_fPosRatioX + (-0.5f) * m_fScaleRatioX + QDesc.fScaleRatioX * 0.5f;
     QDesc.fPosRatioY = -0.4f;
     QDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_Q";
     QDesc.eBlendState = CUI_Default::DEFAULT;

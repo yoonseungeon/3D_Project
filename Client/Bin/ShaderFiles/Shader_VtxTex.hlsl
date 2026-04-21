@@ -65,7 +65,7 @@ PS_OUT PS_MAIN(PS_IN In)
         In.vTexcoord.y = -In.vTexcoord.y + 1.f;
     }
     
-    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
     Out.vColor.a *= g_Alpha;
     
     return Out;
@@ -85,7 +85,7 @@ PS_OUT PS_MAIN_ALPHATEST(PS_IN In)
         In.vTexcoord.y = -In.vTexcoord.y + 1.f;
     }
     
-    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
     
     if (Out.vColor.a < 0.1f)
         discard;
@@ -117,7 +117,7 @@ PS_OUT PS_MAIN_UIGAUGE(PS_IN In)
         In.vTexcoord.y = -In.vTexcoord.y + 1.f;
     }
 
-    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
     Out.vColor.a *= g_Alpha;
     
     return Out;
@@ -127,15 +127,15 @@ PS_OUT PS_MAIN_MASK(PS_IN In)
 {
     PS_OUT Out;
     
-    //Out.vColor = g_Mask.Sample(DefaultSampler, In.vTexcoord);
+    //Out.vColor = g_Mask.Sample(LinearSampler, In.vTexcoord);
     //if (Out.vColor.a <= 0.5f)
     //    discard;    
     
-    //Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    //Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
     
     
-    float4 vMask = g_Mask.Sample(DefaultSampler, In.vTexcoord);
-    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 vMask = g_Mask.Sample(PointSampler, In.vTexcoord);
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
     Out.vColor.a *= vMask.a;
     
     if (Out.vColor.a <= 0.1f)
@@ -158,7 +158,7 @@ PS_OUT PS_MAIN_COLORALPHA(PS_IN In)
         In.vTexcoord.y = -In.vTexcoord.y + 1.f;
     }
     
-    Out.vColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
         
     Out.vColor.a *= g_Alpha;
     

@@ -68,41 +68,18 @@ HRESULT CInGameCharHUD_Empty::Render()
 
 HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
-    // char panel
-    CUI_Image::CUI_IMAGE_DESC CharPanelDesc{};
-
-    CharPanelDesc.fScaleRatioX = 0.035f;
-    CharPanelDesc.fScaleRatioY = 0.125f;
-    CharPanelDesc.fPosRatioX = -0.12f;
-    CharPanelDesc.fPosRatioY = -0.436945f;
-
-    CharPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
-
-    CharPanelDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    CharPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_InGameCharBg";
-
-    CharPanelDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
-    CharPanelDesc.vColor = COLOR_TO_FLOAT(33, 45, 51);
-
-    CharPanelDesc.fImageAlpha = 0.8f;
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &CharPanelDesc)))
-        return E_FAIL;
-
-    CharPanelDesc.fPosRatioX += -0.070f;
-    CharPanelDesc.iFlipX = true;
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &CharPanelDesc)))
+    // CInGameCharLevel_Empty
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CInGameCharLevel_Empty"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;
 
     // CUI_CharSkillPanel
     CUI_CharSkillPanel::CUI_CAHRSKILLPANEL_DESC SkillPanelDesc{};
 
-    SkillPanelDesc.fScaleRatioX = 0.3f;
-    SkillPanelDesc.fScaleRatioY = CharPanelDesc.fScaleRatioY;
-    SkillPanelDesc.fPosRatioX = 0.047344f;
-    SkillPanelDesc.fPosRatioY = CharPanelDesc.fPosRatioY;
+    SkillPanelDesc.fScaleRatioX = 0.2764f;
+    SkillPanelDesc.fScaleRatioY = 0.125f;
+    SkillPanelDesc.fPosRatioX = -0.025f;
+    SkillPanelDesc.fPosRatioY = -0.436945f;
 
     SkillPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
 
@@ -110,7 +87,7 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     SkillPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
 
     SkillPanelDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
-    SkillPanelDesc.vColor = CharPanelDesc.vColor;
+    SkillPanelDesc.vColor = COLOR_TO_FLOAT(33, 45, 51);
 
     SkillPanelDesc.fImageAlpha = 0.8f;
 

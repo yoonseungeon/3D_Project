@@ -1,6 +1,15 @@
-SamplerState DefaultSampler
+SamplerState LinearSampler
 {
     Filter = min_mag_mip_linear;
+
+    AddressU = clamp;
+    AddressV = clamp;
+};
+
+
+SamplerState PointSampler
+{
+    Filter = min_mag_mip_point;
 
     AddressU = clamp;
     AddressV = clamp;
