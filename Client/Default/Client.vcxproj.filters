@@ -106,12 +106,6 @@
     <Filter Include="02. GameObject\02. Map_Lumia">
       <UniqueIdentifier>{c4e51e4b-3791-4ff8-a431-391228665e0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. Monster">
-      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\05. ForkLift">
-      <UniqueIdentifier>{2938a3e3-44df-481a-bb13-f5847b3fb5ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\03. Player">
       <UniqueIdentifier>{24a3e4e2-0a9f-40de-b411-d8a541662615}</UniqueIdentifier>
     </Filter>
@@ -190,6 +184,18 @@
     <Filter Include="02. GameObject\99. Particles\00. Snow">
       <UniqueIdentifier>{8919b18e-a516-4b7a-a1e4-8b4ae4b423a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\97. Monster">
+      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\98. ForkLift">
+      <UniqueIdentifier>{2938a3e3-44df-481a-bb13-f5847b3fb5ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty">
+      <UniqueIdentifier>{aaa1eb01-a244-41f4-a0e5-58186c63fab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel">
+      <UniqueIdentifier>{0d31f7b9-be45-487d-9dd3-34acc11e86c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -259,7 +265,7 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMonster.h">
-      <Filter>02. GameObject\04. Monster</Filter>
+      <Filter>02. GameObject\97. Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_PickPanel.h">
       <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
@@ -286,7 +292,7 @@
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\LobbySelectBtn</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CForkLift.h">
-      <Filter>02. GameObject\05. ForkLift</Filter>
+      <Filter>02. GameObject\98. ForkLift</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_MapPanel.h">
       <Filter>02. GameObject\01. UI_Default\04. UI_MapPanel</Filter>
@@ -378,6 +384,12 @@
     <ClInclude Include="..\Public\Skill_Info.h">
       <Filter>999. Defines</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CInGameCharHUD_Empty.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_CharSkillPanel.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -448,7 +460,7 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMonster.cpp">
-      <Filter>02. GameObject\04. Monster</Filter>
+      <Filter>02. GameObject\97. Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_PickPanel.cpp">
       <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
@@ -472,7 +484,7 @@
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\LobbySelectBtn</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CForkLift.cpp">
-      <Filter>02. GameObject\05. ForkLift</Filter>
+      <Filter>02. GameObject\98. ForkLift</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_MapPanel.cpp">
       <Filter>02. GameObject\01. UI_Default\04. UI_MapPanel</Filter>
@@ -551,6 +563,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CSnow.cpp">
       <Filter>02. GameObject\99. Particles\00. Snow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_CharSkillPanel.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInGameCharHUD_Empty.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

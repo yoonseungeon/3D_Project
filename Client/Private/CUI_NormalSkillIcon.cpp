@@ -1,6 +1,9 @@
 #include "CUI_NormalSkillIcon.h"
 
 #include "CGameInstance.h"
+#include "CInGame_Manager.h"
+#include "CPlayer.h"
+
 
 CUI_NormalSkillIcon::CUI_NormalSkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_SkillIcon{ pDevice, pContext }
@@ -27,8 +30,6 @@ HRESULT CUI_NormalSkillIcon::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pCoolInfo = pDesc->pCoolInfo;
-
     return S_OK;
 }
 
@@ -46,11 +47,12 @@ void CUI_NormalSkillIcon::Update(_float fTimeDelta)
 
 void CUI_NormalSkillIcon::Late_Update(_float fTimeDelta)
 {
+    COOL_INFO* pCoolInfo = m_pInGameManager->Get_Player()->Get_CoolInfo(m_eSkillSlot);
 
     _float fTime{};
 
-    if (m_pCoolInfo->fAccCoolDown > 0.f && m_pCoolInfo->bCoolWait == false) {
-        fTime = m_pCoolInfo->fAccCoolDown;
+    if (pCoolInfo->fAccCoolDown > 0.f && pCoolInfo->bCoolWait == false) {
+        fTime = pCoolInfo->fAccCoolDown;
         m_bTextRender = true;
     }
     else

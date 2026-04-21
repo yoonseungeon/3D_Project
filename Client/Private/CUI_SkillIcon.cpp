@@ -1,6 +1,7 @@
 #include "CUI_SkillIcon.h"
 
 #include "CGameInstance.h"
+#include "CInGame_Manager.h"
 
 CUI_SkillIcon::CUI_SkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Image{ pDevice, pContext }
@@ -19,10 +20,15 @@ HRESULT CUI_SkillIcon::Initialize_Prototype()
 
 HRESULT CUI_SkillIcon::Initialize(void* pArg)
 {
+    m_pInGameManager = CInGame_Manager::GetInstance();
+    Safe_AddRef(m_pInGameManager);
+
     CUI_SKILLICON_DESC* pDesc = static_cast<CUI_SKILLICON_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
+
+    m_eSkillSlot = pDesc->eSkillSlot;
 
     _float fCenterX = (pDesc->fPosRatioX + 0.5f) * static_cast<_float>(g_iWinSizeX);
     _float fCenterY = -(pDesc->fPosRatioY - 0.5f) * static_cast<_float>(g_iWinSizeY);
@@ -84,5 +90,7 @@ CGameObject* CUI_SkillIcon::Clone(void* pArg)
 
 void CUI_SkillIcon::Free()
 {
+    Safe_Release(m_pInGameManager);
+
     __super::Free();
 }

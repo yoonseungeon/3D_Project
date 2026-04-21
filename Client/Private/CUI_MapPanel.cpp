@@ -260,6 +260,5 @@ void CUI_MapPanel::Free()
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
 
-
     __super::Free();
 }

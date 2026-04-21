@@ -7,12 +7,15 @@
 
 NS_BEGIN(Client)
 
+class CInGame_Manager;
+
 class CUI_SkillIcon abstract : public CUI_Image
 {
 
 public:
 	struct CUI_SKILLICON_DESC : public CUI_Image::CUI_IMAGE_DESC
 	{
+		SKILL_SLOT eSkillSlot{};
 	};
 
 protected:
@@ -38,6 +41,10 @@ protected:
 
 	_bool m_bTextRender{};
 	wstring m_wstCoolText;
+
+	SKILL_SLOT m_eSkillSlot{};
+
+	CInGame_Manager* m_pInGameManager{};
 
 protected:
 	virtual HRESULT RenderText();

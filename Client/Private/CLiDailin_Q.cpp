@@ -12,7 +12,7 @@ CLiDailin_Q::CLiDailin_Q()
 void CLiDailin_Q::Enter(CPlayer* pPlayer)
 {
 	// Cool
-	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(ICON_TYPE::Q));
+	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(SKILL_SLOT::Q));
 	pQCoolInfo->fAccSubCoolDown = pQCoolInfo->fCurSubCoolDown;
 
 	// Ani
@@ -67,7 +67,7 @@ void CLiDailin_Q::Enter(CPlayer* pPlayer)
 
 void CLiDailin_Q::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
-	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(ICON_TYPE::Q));
+	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(SKILL_SLOT::Q));
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 
 	// 0인 경우는 3타
@@ -108,7 +108,7 @@ void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_Q:
 		{
-			if (pPlayer->CanUseSkill(ICON_TYPE::Q) == false) {
+			if (pPlayer->CanUseSkill(SKILL_SLOT::Q) == false) {
 				return;
 			}
 
@@ -119,7 +119,7 @@ void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_W:
 		{
-			if (pPlayer->CanUseSkill(ICON_TYPE::W) == false) {
+			if (pPlayer->CanUseSkill(SKILL_SLOT::W) == false) {
 				return;
 			}
 
@@ -129,7 +129,7 @@ void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_E:
 		{
-			if (pPlayer->CanUseSkill(ICON_TYPE::E) == false) {
+			if (pPlayer->CanUseSkill(SKILL_SLOT::E) == false) {
 				return;
 			}
 
@@ -140,7 +140,7 @@ void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		case ACTION_COMMAND_TYPE::ATTACK_R:
 		{
 
-			if (pPlayer->CanUseSkill(ICON_TYPE::R) == false) {
+			if (pPlayer->CanUseSkill(SKILL_SLOT::R) == false) {
 				return;
 			}
 

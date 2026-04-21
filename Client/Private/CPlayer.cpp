@@ -90,9 +90,6 @@ HRESULT CPlayer::Initialize(void* pArg)
     tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
     tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 2.f;
 
-    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
-        return E_FAIL;
-
     CInGame_Manager::GetInstance()->Set_Player(this);
 
     return S_OK;
@@ -260,7 +257,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 
         case ACTION_COMMAND_TYPE::ATTACK_Q:
         {
-            if(CanUseSkill(ICON_TYPE::Q) == true)
+            if(CanUseSkill(SKILL_SLOT::Q) == true)
             {
                 Set_CurActionCommand(tAction_Command);
                 Set_WaitActionState(L"CLiDailin_Q");
@@ -270,7 +267,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 
         case ACTION_COMMAND_TYPE::ATTACK_W:
         {
-            if (CanUseSkill(ICON_TYPE::W) == true)
+            if (CanUseSkill(SKILL_SLOT::W) == true)
             {
                 Set_CurActionCommand(tAction_Command);
                 Set_WaitActionState(L"CLiDailin_W");
@@ -280,7 +277,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 
         case ACTION_COMMAND_TYPE::ATTACK_E:
         {
-            if (CanUseSkill(ICON_TYPE::E) == true)
+            if (CanUseSkill(SKILL_SLOT::E) == true)
             {
                 Set_CurActionCommand(tAction_Command);
                 Set_WaitActionState(L"CLiDailin_E");
@@ -290,7 +287,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 
         case ACTION_COMMAND_TYPE::ATTACK_R:
         {
-            if (CanUseSkill(ICON_TYPE::R) == true)
+            if (CanUseSkill(SKILL_SLOT::R) == true)
             {
                 Set_CurActionCommand(tAction_Command);
                 Set_WaitActionState(L"CLiDailin_R");
@@ -300,26 +297,26 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
     }
 }
 
-COOL_INFO* CPlayer::Get_CoolInfo(const ICON_TYPE eType)
+COOL_INFO* CPlayer::Get_CoolInfo(const SKILL_SLOT eType)
 {
     switch (eType)
     {
-        case ICON_TYPE::Q:
+        case SKILL_SLOT::Q:
         {
             return &tQCool;
             break;
         }
-        case ICON_TYPE::W:
+        case SKILL_SLOT::W:
         {
             return &tWCool;
             break;
         }
-        case ICON_TYPE::E:
+        case SKILL_SLOT::E:
         {
             return &tECool;
             break;
         }
-        case ICON_TYPE::R:
+        case SKILL_SLOT::R:
         {
             return &tRCool;
             break;
@@ -329,29 +326,29 @@ COOL_INFO* CPlayer::Get_CoolInfo(const ICON_TYPE eType)
     return nullptr;
 }
 
-_bool CPlayer::CanUseSkill(const ICON_TYPE eType)
+_bool CPlayer::CanUseSkill(const SKILL_SLOT eType)
 {
     switch (eType)
     {
-        case ICON_TYPE::Q:
+        case SKILL_SLOT::Q:
         {
             if (tQCool.fAccCoolDown == 0.f)
                 return true;          
             break;
         }
-        case ICON_TYPE::W:
+        case SKILL_SLOT::W:
         {
             if (tWCool.fAccCoolDown == 0.f)
                 return true;       
             break;
         }
-        case ICON_TYPE::E:
+        case SKILL_SLOT::E:
         {
             if (tECool.fAccCoolDown == 0.f)
                 return true;
             break;
         }
-        case ICON_TYPE::R:
+        case SKILL_SLOT::R:
         {
             if (tRCool.fAccCoolDown == 0.f)
                 return true;
@@ -360,6 +357,35 @@ _bool CPlayer::CanUseSkill(const ICON_TYPE eType)
     }   
 
     return false;
+}
+
+void CPlayer::Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc)
+{
+    tDesc.eSkillSlot = eType;
+
+    switch (eType)
+    {
+        case SKILL_SLOT::Q:
+        {
+            tDesc.eCoolDownType = COOLDOWN_TYPE::STACK;
+            break;
+        }
+        case SKILL_SLOT::W:
+        {
+            tDesc.eCoolDownType = COOLDOWN_TYPE::NORMAL;
+            break;
+        }
+        case SKILL_SLOT::E:
+        {
+            tDesc.eCoolDownType = COOLDOWN_TYPE::NORMAL;
+            break;
+        }
+        case SKILL_SLOT::R:
+        {
+            tDesc.eCoolDownType = COOLDOWN_TYPE::NORMAL;
+            break;
+        }
+    }
 }
 
 HRESULT CPlayer::Ready_Components()
@@ -442,88 +468,7 @@ HRESULT CPlayer::Ready_PartObjects()
 HRESULT CPlayer::Bind_ShaderResources()
 {
     return S_OK;
-}
-
-HRESULT CPlayer::Ready_Layer_UI_Image(const _wstring& strLayerTag)
-{
-    // Q
-    CUI_StackSkillIcon::CUI_STACKSKILLICON_DESC StackSkillIconDesc{};
-
-    StackSkillIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    StackSkillIconDesc.iUILayer = ETOUI(UILAYER::SLOT);
-
-    StackSkillIconDesc.fScaleRatioX = 0.04f;
-    StackSkillIconDesc.fScaleRatioY = 0.071f;
-    StackSkillIconDesc.fPosRatioX = -0.07f;
-    StackSkillIconDesc.fPosRatioY = -0.4f;
-    StackSkillIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_Q";
-    StackSkillIconDesc.eBlendState = CUI_Default::DEFAULT;
-
-    StackSkillIconDesc.pStackCoolInfo = &tQCool;
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StackSkillIcon"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StackSkillIconDesc)))
-        return E_FAIL;
-
-    // W
-    CUI_NormalSkillIcon::CUI_NORMALSKILLICON_DESC WIconDesc{};
-
-    WIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    WIconDesc.iUILayer = ETOUI(UILAYER::SLOT);
-    
-    WIconDesc.fScaleRatioX = 0.04f;
-    WIconDesc.fScaleRatioY = 0.071f;
-    WIconDesc.fPosRatioX = 0.0f;
-    WIconDesc.fPosRatioY = -0.4f;
-    WIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_W";
-    WIconDesc.eBlendState = CUI_Default::DEFAULT;
-    
-    WIconDesc.pCoolInfo = &tWCool;
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_NormalSkillIcon"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &WIconDesc)))
-        return E_FAIL;
-
-    // E
-    CUI_NormalSkillIcon::CUI_NORMALSKILLICON_DESC EIconDesc{};
-
-   EIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-   EIconDesc.iUILayer = ETOUI(UILAYER::SLOT);
-   
-   EIconDesc.fScaleRatioX = 0.04f;
-   EIconDesc.fScaleRatioY = 0.071f;
-   EIconDesc.fPosRatioX = 0.07f;
-   EIconDesc.fPosRatioY = -0.4f;
-   EIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_E";
-   EIconDesc.eBlendState = CUI_Default::DEFAULT;
-
-   EIconDesc.pCoolInfo = &tECool;
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_NormalSkillIcon"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EIconDesc)))
-        return E_FAIL;
-
-    // R
-    CUI_NormalSkillIcon::CUI_NORMALSKILLICON_DESC RIconDesc{};
-
-    RIconDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    RIconDesc.iUILayer = ETOUI(UILAYER::SLOT);
-    
-    RIconDesc.fScaleRatioX = 0.04f;
-    RIconDesc.fScaleRatioY = 0.071f;
-    RIconDesc.fPosRatioX = 0.14f;
-    RIconDesc.fPosRatioY = -0.4f;
-    RIconDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_R";
-    RIconDesc.eBlendState = CUI_Default::DEFAULT;
-    
-    RIconDesc.pCoolInfo = &tRCool;
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_NormalSkillIcon"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &RIconDesc)))
-        return E_FAIL;
-
-    return S_OK;
-}
+} 
 
 void CPlayer::Key_Input()
 {

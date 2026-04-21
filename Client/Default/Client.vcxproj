@@ -160,6 +160,7 @@
     <ClInclude Include="..\Public\CForkLift.h" />
     <ClInclude Include="..\Public\CGame_Manager.h" />
     <ClInclude Include="..\Public\Character_Meta.h" />
+    <ClInclude Include="..\Public\CInGameCharHUD_Empty.h" />
     <ClInclude Include="..\Public\CInGame_Manager.h" />
     <ClInclude Include="..\Public\CLiDailinAttack.h" />
     <ClInclude Include="..\Public\CLiDailinIdle.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="..\Public\CState.h" />
     <ClInclude Include="..\Public\CUI_Btn.h" />
     <ClInclude Include="..\Public\CUI_AniImage.h" />
+    <ClInclude Include="..\Public\CUI_CharSkillPanel.h" />
     <ClInclude Include="..\Public\CUI_Default.h" />
     <ClInclude Include="..\Public\CUI_Image.h" />
     <ClInclude Include="..\Public\CImGui_Manager.h" />
@@ -223,6 +225,7 @@
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
     <ClCompile Include="..\Private\CForkLift.cpp" />
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
+    <ClCompile Include="..\Private\CInGameCharHUD_Empty.cpp" />
     <ClCompile Include="..\Private\CInGame_Manager.cpp" />
     <ClCompile Include="..\Private\CLiDailinAttack.cpp" />
     <ClCompile Include="..\Private\CLiDailinIdle.cpp" />
@@ -248,6 +251,7 @@
     <ClCompile Include="..\Private\CState.cpp" />
     <ClCompile Include="..\Private\CUI_Btn.cpp" />
     <ClCompile Include="..\Private\CUI_AniImage.cpp" />
+    <ClCompile Include="..\Private\CUI_CharSkillPanel.cpp" />
     <ClCompile Include="..\Private\CUI_Default.cpp" />
     <ClCompile Include="..\Private\CUI_Image.cpp" />
     <ClCompile Include="..\Private\CImGui_Manager.cpp" />

@@ -23,7 +23,7 @@ public:
 		function<void()> funcStartGame{};
 	};
 
-protected:
+private:
 	CUI_MapPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CUI_MapPanel(const CUI_MapPanel& Prototype);
 	virtual ~CUI_MapPanel() = default;
@@ -42,7 +42,7 @@ public:
 public:
 	virtual void Set_IsInactive(_bool bIsInactive) override;
 
-protected:
+private:
 	CShader* m_pShaderCom{ nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
 	CTexture* m_pTextureCom{ nullptr };

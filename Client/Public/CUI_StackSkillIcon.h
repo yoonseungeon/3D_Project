@@ -13,7 +13,6 @@ class CUI_StackSkillIcon final : public CUI_SkillIcon
 public:
 	struct CUI_STACKSKILLICON_DESC : public CUI_SkillIcon::CUI_SKILLICON_DESC
 	{
-		STACK_COOL_INFO* pStackCoolInfo{};
 	};
 
 protected:
@@ -31,9 +30,6 @@ public:
 	virtual void	Update(_float fTimeDelta) override;
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
-private:
-	STACK_COOL_INFO* m_pStackCoolInfo{};
 
 private:
 	HRESULT Ready_Components();

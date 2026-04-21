@@ -65,8 +65,11 @@ public:
 	const CTransform* Get_TransformCom() { return m_pTransformCom; }
 
 	// Cool
-	COOL_INFO* Get_CoolInfo(const ICON_TYPE eType);
-	_bool CanUseSkill(const ICON_TYPE eType);
+	COOL_INFO* Get_CoolInfo(const SKILL_SLOT eType);
+	_bool CanUseSkill(const SKILL_SLOT eType);
+
+	// Icon Info
+	void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc);
 
 	// MoveBlock
 	void Set_MoveBlock(_bool bMoveBlock) { m_bMoveBlock = bMoveBlock; }
@@ -122,8 +125,6 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Ready_PartObjects();
 	HRESULT Bind_ShaderResources();
-
-	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 
 	void Key_Input();
 

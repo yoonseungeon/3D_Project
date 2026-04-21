@@ -15,7 +15,7 @@ void CLiDailin_R::Enter(CPlayer* pPlayer)
 	m_fChanneling = 0.1f;
 
 	// Cool
-	COOL_INFO* pRCoolInfo = pPlayer->Get_CoolInfo(ICON_TYPE::R);
+	COOL_INFO* pRCoolInfo = pPlayer->Get_CoolInfo(SKILL_SLOT::R);
 	pRCoolInfo->bCoolWait = true;
 	pRCoolInfo->fAccCoolDown = pRCoolInfo->fCurCoolDown;
 
@@ -84,7 +84,7 @@ void CLiDailin_R::Exit(CPlayer* pPlayer)
 	bIsCol = false;
 	bIsAniR2Changed = false;
 
-	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(ICON_TYPE::R);
+	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(SKILL_SLOT::R);
 	pECoolInfo->bCoolWait = false;
 
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
@@ -118,7 +118,7 @@ void CLiDailin_R::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_Q:
 		{
-			if (pPlayer->CanUseSkill(ICON_TYPE::Q) == false) {
+			if (pPlayer->CanUseSkill(SKILL_SLOT::Q) == false) {
 				return;
 			}
 
@@ -129,7 +129,7 @@ void CLiDailin_R::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_W:
 		{
-			if (pPlayer->CanUseSkill(ICON_TYPE::W) == false) {
+			if (pPlayer->CanUseSkill(SKILL_SLOT::W) == false) {
 				return;
 			}
 
@@ -139,7 +139,7 @@ void CLiDailin_R::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_E:
 		{
-			if (pPlayer->CanUseSkill(ICON_TYPE::E) == false) {
+			if (pPlayer->CanUseSkill(SKILL_SLOT::E) == false) {
 				return;
 			}
 
@@ -150,7 +150,7 @@ void CLiDailin_R::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		case ACTION_COMMAND_TYPE::ATTACK_R:
 		{
 
-			if (pPlayer->CanUseSkill(ICON_TYPE::R) == false) {
+			if (pPlayer->CanUseSkill(SKILL_SLOT::R) == false) {
 				return;
 			}
 

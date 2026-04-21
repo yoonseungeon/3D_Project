@@ -1,6 +1,8 @@
 #include "CUI_StackSkillIcon.h"
 
 #include "CGameInstance.h"
+#include "CInGame_Manager.h"
+#include "CPlayer.h"
 
 CUI_StackSkillIcon::CUI_StackSkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_SkillIcon{ pDevice, pContext }
@@ -27,8 +29,6 @@ HRESULT CUI_StackSkillIcon::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pStackCoolInfo = pDesc->pStackCoolInfo;
-
     return S_OK;
 }
 
@@ -46,15 +46,16 @@ void CUI_StackSkillIcon::Update(_float fTimeDelta)
 
 void CUI_StackSkillIcon::Late_Update(_float fTimeDelta)
 {
+    STACK_COOL_INFO* pStackCoolInfo = static_cast<STACK_COOL_INFO*>(m_pInGameManager->Get_Player()->Get_CoolInfo(m_eSkillSlot));
 
     _float fTime{};
 
-    if (m_pStackCoolInfo->fAccCoolDown > 0.f) {
-        fTime = m_pStackCoolInfo->fAccCoolDown;
+    if (pStackCoolInfo->fAccCoolDown > 0.f) {
+        fTime = pStackCoolInfo->fAccCoolDown;
         m_bTextRender = true;
     }
-    else if (m_pStackCoolInfo->fAccSubCoolDown > 0.f) {
-        fTime = m_pStackCoolInfo->fAccSubCoolDown;
+    else if (pStackCoolInfo->fAccSubCoolDown > 0.f) {
+        fTime = pStackCoolInfo->fAccSubCoolDown;
         m_bTextRender = true;
     }
     else

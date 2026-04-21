@@ -28,6 +28,8 @@
 #include "CWeapon.h"
 #include "CBottle.h"
 
+#include "CInGameCharHUD_Empty.h"
+#include "CUI_CharSkillPanel.h"
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
 
@@ -1325,6 +1327,31 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
+    /* Prototype_GameObject_CInGameCharHUD_Empty */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CInGameCharHUD_Empty"),
+                CInGameCharHUD_Empty::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CInGameCharHUD_Empty");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CUI_CharSkillPanel */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_CharSkillPanel"),
+                CUI_CharSkillPanel::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_CharSkillPanel");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 
     /* Prototype_GameObject_CUI_StackSkillIcon */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);

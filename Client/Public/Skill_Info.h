@@ -1,11 +1,5 @@
 #pragma once
 
-enum class SKILL_ICON_TYPE
-{
-	NORMAL,
-	STAKC
-};
-
 struct COOL_INFO
 {
 	float fMaxCoolDown{};
@@ -24,10 +18,22 @@ struct STACK_COOL_INFO : public COOL_INFO
 	unsigned int fStack{};
 };
 
-enum class ICON_TYPE
+enum class COOLDOWN_TYPE
+{
+	NORMAL,
+	STACK
+};
+
+enum class SKILL_SLOT
 {
 	Q,
 	W,
 	E,
 	R
+};
+
+struct SKILL_DESC
+{
+	SKILL_SLOT eSkillSlot{};
+	COOLDOWN_TYPE eCoolDownType{};
 };

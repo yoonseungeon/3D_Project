@@ -13,7 +13,6 @@ class CUI_NormalSkillIcon final : public CUI_SkillIcon
 public:
 	struct CUI_NORMALSKILLICON_DESC : public CUI_SkillIcon::CUI_SKILLICON_DESC
 	{
-		COOL_INFO* pCoolInfo{};
 	};
 
 protected:
@@ -31,9 +30,6 @@ public:
 	virtual void	Update(_float fTimeDelta) override;
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
-private:
-	COOL_INFO* m_pCoolInfo{};
 
 private:
 	HRESULT Ready_Components();

@@ -23,6 +23,7 @@ public:
 	_float3 MapPIcking();
 
 	void Set_Player(CPlayer* pPlayer);
+	CPlayer* Get_Player() { return m_pPlayer; }
 	void Release_Player();
 
 	_float3 Get_PlayerPos();
