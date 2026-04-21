@@ -83,7 +83,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     m_pCurActionState = nullptr;
 
     // cool
-    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 2.f;
+    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 5.f;
     tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
 
     tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 2.f;
@@ -266,7 +266,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 
         case ACTION_COMMAND_TYPE::ATTACK_Q:
         {
-            if(CanUseSkill(L"Q") == true)
+            if(CanUseSkill(ICON_TYPE::Q) == true)
             {
                 Set_CurActionCommand(tAction_Command);
                 Set_WaitActionState(L"CLiDailin_Q");
@@ -276,7 +276,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 
         case ACTION_COMMAND_TYPE::ATTACK_W:
         {
-            if (CanUseSkill(L"W") == true)
+            if (CanUseSkill(ICON_TYPE::W) == true)
             {
                 Set_CurActionCommand(tAction_Command);
                 Set_WaitActionState(L"CLiDailin_W");
@@ -286,7 +286,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 
         case ACTION_COMMAND_TYPE::ATTACK_E:
         {
-            if (CanUseSkill(L"E") == true)
+            if (CanUseSkill(ICON_TYPE::E) == true)
             {
                 Set_CurActionCommand(tAction_Command);
                 Set_WaitActionState(L"CLiDailin_E");
@@ -296,7 +296,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 
         case ACTION_COMMAND_TYPE::ATTACK_R:
         {
-            if (CanUseSkill(L"R") == true)
+            if (CanUseSkill(ICON_TYPE::R) == true)
             {
                 Set_CurActionCommand(tAction_Command);
                 Set_WaitActionState(L"CLiDailin_R");
@@ -306,50 +306,64 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
     }
 }
 
-COOL_INFO* CPlayer::Get_CoolInfo(const _tchar* SkillName)
+COOL_INFO* CPlayer::Get_CoolInfo(const ICON_TYPE eType)
 {
-    if (SkillName == L"W")
+    switch (eType)
     {
-        return &tWCool;
-    }
-    else if (SkillName == L"E")
-    {
-        return &tECool;
-    }
-    else if (SkillName == L"R")
-    {
-        return &tRCool;
+        case ICON_TYPE::Q:
+        {
+            return &tQCool;
+            break;
+        }
+        case ICON_TYPE::W:
+        {
+            return &tWCool;
+            break;
+        }
+        case ICON_TYPE::E:
+        {
+            return &tECool;
+            break;
+        }
+        case ICON_TYPE::R:
+        {
+            return &tRCool;
+            break;
+        }
     }
 
     return nullptr;
 }
 
-_bool CPlayer::CanUseSkill(const _tchar* SkillName)
+_bool CPlayer::CanUseSkill(const ICON_TYPE eType)
 {
-    if (SkillName == L"Q")
+    switch (eType)
     {
-        if (tQCool.fAccCoolDown == 0.f) {
-            return true;
+        case ICON_TYPE::Q:
+        {
+            if (tQCool.fAccCoolDown == 0.f)
+                return true;          
+            break;
         }
-    }
-    if (SkillName == L"W")
-    {
-        if (tWCool.fAccCoolDown == 0.f) {
-            return true;
+        case ICON_TYPE::W:
+        {
+            if (tWCool.fAccCoolDown == 0.f)
+                return true;       
+            break;
         }
-    }
-    else if (SkillName == L"E")
-    {
-        if (tECool.fAccCoolDown == 0.f) {
-            return true;
+        case ICON_TYPE::E:
+        {
+            if (tECool.fAccCoolDown == 0.f)
+                return true;
+            break;
         }
-    }
-    else if (SkillName == L"R")
-    {
-        if (tRCool.fAccCoolDown == 0.f) {
-            return true;
+        case ICON_TYPE::R:
+        {
+            if (tRCool.fAccCoolDown == 0.f)
+                return true;
+            break;
         }
-    }
+    }   
 
     return false;
 }

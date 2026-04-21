@@ -209,6 +209,7 @@
     <ClInclude Include="..\Public\LiDailin_Info.h" />
     <ClInclude Include="..\Public\CLiDailin_R.h" />
     <ClInclude Include="..\Public\Map_Meta.h" />
+    <ClInclude Include="..\Public\Skill_Info.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />

@@ -109,7 +109,7 @@ HRESULT CLiDailin_W::Initialize()
 void CLiDailin_W::Enter(CPlayer* pPlayer)
 {
 	// Cool
-	COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(L"W");
+	COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(ICON_TYPE::W);
     pWCoolInfo->bCoolWait = true;
     pWCoolInfo->fAccCoolDown = pWCoolInfo->fCurCoolDown;
 
@@ -144,7 +144,7 @@ void CLiDailin_W::Exit(CPlayer* pPlayer)
     pPlayer->Get_Weapon()->Set_IsInactive(false);
 
     //Cool
-    COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(L"W");
+    COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(ICON_TYPE::W);
     pWCoolInfo->bCoolWait = false;
 
 }
@@ -167,7 +167,7 @@ void CLiDailin_W::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
         }
         case ACTION_COMMAND_TYPE::ATTACK_Q:
         {
-            if (pPlayer->CanUseSkill(L"Q") == false) {
+            if (pPlayer->CanUseSkill(ICON_TYPE::Q) == false) {
                 return;
             }
 
@@ -178,7 +178,7 @@ void CLiDailin_W::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
         }
         case ACTION_COMMAND_TYPE::ATTACK_W:
         {
-            if (pPlayer->CanUseSkill(L"W") == false) {
+            if (pPlayer->CanUseSkill(ICON_TYPE::W) == false) {
                 return;
             }
 
@@ -188,7 +188,7 @@ void CLiDailin_W::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
         }
         case ACTION_COMMAND_TYPE::ATTACK_E:
         {
-            if (pPlayer->CanUseSkill(L"E") == false) {
+            if (pPlayer->CanUseSkill(ICON_TYPE::E) == false) {
                 return;
             }
 
@@ -199,7 +199,7 @@ void CLiDailin_W::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
         case ACTION_COMMAND_TYPE::ATTACK_R:
         {
 
-            if (pPlayer->CanUseSkill(L"R") == false) {
+            if (pPlayer->CanUseSkill(ICON_TYPE::R) == false) {
                 return;
             }
 

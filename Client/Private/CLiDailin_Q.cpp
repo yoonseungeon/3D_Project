@@ -12,14 +12,14 @@ CLiDailin_Q::CLiDailin_Q()
 void CLiDailin_Q::Enter(CPlayer* pPlayer)
 {
 	// Cool
-	STACK_COOL_INFO& tQCoolInfo = pPlayer->Get_QCoolInfo();
-	tQCoolInfo.fAccSubCoolDown = tQCoolInfo.fCurSubCoolDown;
+	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(ICON_TYPE::Q));
+	pQCoolInfo->fAccSubCoolDown = pQCoolInfo->fCurSubCoolDown;
 
 	// Ani
 	_uint iBodyPhase{};
 	_uint iWeaponPhase{};
 
-	switch (tQCoolInfo.fStack) {
+	switch (pQCoolInfo->fStack) {
 		case 0:
 		{
 			iBodyPhase = static_cast<_uint>(LiDailin_Ani::Ani_Q1);
@@ -49,11 +49,11 @@ void CLiDailin_Q::Enter(CPlayer* pPlayer)
 	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(iBodyPhase, false);
 	pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(iWeaponPhase, false);
 
-	tQCoolInfo.fStack = (++tQCoolInfo.fStack) % 3;
+	pQCoolInfo->fStack = (++(pQCoolInfo->fStack)) % 3;
 
-	if (tQCoolInfo.fStack == 0) {
-		tQCoolInfo.fAccCoolDown = tQCoolInfo.fCurCoolDown;
-		tQCoolInfo.fAccSubCoolDown = 0.f;
+	if ((pQCoolInfo->fStack) == 0) {
+		pQCoolInfo->fAccCoolDown = pQCoolInfo->fCurCoolDown;
+		pQCoolInfo->fAccSubCoolDown = 0.f;
 	}
 
 	// Ani Speed
@@ -67,15 +67,15 @@ void CLiDailin_Q::Enter(CPlayer* pPlayer)
 
 void CLiDailin_Q::Update(CPlayer* pPlayer, _float fTimeDelta)
 {
-	STACK_COOL_INFO& tQCoolInfo = pPlayer->Get_QCoolInfo();
+	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(ICON_TYPE::Q));
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 
 	// 0인 경우는 3타
-	if (tQCoolInfo.fStack == 0 && pModel->Get_CurAniPlayRatio() <= 0.5f)
+	if ((pQCoolInfo->fStack) == 0 && pModel->Get_CurAniPlayRatio() <= 0.5f)
 	{
 		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 7.f, true);
 	}
-	else if(tQCoolInfo.fStack != 0){
+	else if((pQCoolInfo->fStack) != 0){
 		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 4.f, true);
 	}
 
@@ -108,7 +108,7 @@ void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_Q:
 		{
-			if (pPlayer->CanUseSkill(L"Q") == false) {
+			if (pPlayer->CanUseSkill(ICON_TYPE::Q) == false) {
 				return;
 			}
 
@@ -119,7 +119,7 @@ void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_W:
 		{
-			if (pPlayer->CanUseSkill(L"W") == false) {
+			if (pPlayer->CanUseSkill(ICON_TYPE::W) == false) {
 				return;
 			}
 
@@ -129,7 +129,7 @@ void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_E:
 		{
-			if (pPlayer->CanUseSkill(L"E") == false) {
+			if (pPlayer->CanUseSkill(ICON_TYPE::E) == false) {
 				return;
 			}
 
@@ -140,7 +140,7 @@ void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
 		case ACTION_COMMAND_TYPE::ATTACK_R:
 		{
 
-			if (pPlayer->CanUseSkill(L"R") == false) {
+			if (pPlayer->CanUseSkill(ICON_TYPE::R) == false) {
 				return;
 			}
 

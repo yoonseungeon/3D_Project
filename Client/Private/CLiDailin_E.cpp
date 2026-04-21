@@ -15,7 +15,7 @@ void CLiDailin_E::Enter(CPlayer* pPlayer)
 	m_bCancleLock = true;
 
 	// Cool
-	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
+	COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(ICON_TYPE::E);
 	pECoolInfo->bCoolWait = true;
 	pECoolInfo->fAccCoolDown = pECoolInfo->fCurCoolDown;
 
@@ -42,7 +42,7 @@ void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
             pPlayer->Set_CanMoveCancle(true);
 
 
-			COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(L"E");
+			COOL_INFO* pECoolInfo = pPlayer->Get_CoolInfo(ICON_TYPE::E);
 			pECoolInfo->bCoolWait = false;
 		}
 	}
@@ -79,7 +79,7 @@ void CLiDailin_E::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
         }
         case ACTION_COMMAND_TYPE::ATTACK_Q:
         {
-            if (pPlayer->CanUseSkill(L"Q") == false) {
+            if (pPlayer->CanUseSkill(ICON_TYPE::Q) == false) {
                 return;
             }
 
@@ -90,7 +90,7 @@ void CLiDailin_E::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
         }
         case ACTION_COMMAND_TYPE::ATTACK_W:
         {
-            if (pPlayer->CanUseSkill(L"W") == false) {
+            if (pPlayer->CanUseSkill(ICON_TYPE::W) == false) {
                 return;
             }
 
@@ -100,7 +100,7 @@ void CLiDailin_E::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
         }
         case ACTION_COMMAND_TYPE::ATTACK_E:
         {
-            if (pPlayer->CanUseSkill(L"E") == false) {
+            if (pPlayer->CanUseSkill(ICON_TYPE::W) == false) {
                 return;
             }
 
@@ -111,7 +111,7 @@ void CLiDailin_E::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_
         case ACTION_COMMAND_TYPE::ATTACK_R:
         {
 
-            if (pPlayer->CanUseSkill(L"R") == false) {
+            if (pPlayer->CanUseSkill(ICON_TYPE::R) == false) {
                 return;
             }
 

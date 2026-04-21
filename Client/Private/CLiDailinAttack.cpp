@@ -72,7 +72,7 @@ void CLiDailinAttack::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAct
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_Q:
 		{
-			if (pPlayer->CanUseSkill(L"Q") == false) {
+			if (pPlayer->CanUseSkill(ICON_TYPE::Q) == false) {
 				return;
 			}
 
@@ -83,7 +83,7 @@ void CLiDailinAttack::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAct
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_W:
 		{
-			if (pPlayer->CanUseSkill(L"W") == false) {
+			if (pPlayer->CanUseSkill(ICON_TYPE::W) == false) {
 				return;
 			}
 
@@ -93,7 +93,7 @@ void CLiDailinAttack::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAct
 		}
 		case ACTION_COMMAND_TYPE::ATTACK_E:
 		{
-			if (pPlayer->CanUseSkill(L"E") == false) {
+			if (pPlayer->CanUseSkill(ICON_TYPE::E) == false) {
 				return;
 			}
 
@@ -104,7 +104,7 @@ void CLiDailinAttack::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAct
 		case ACTION_COMMAND_TYPE::ATTACK_R:
 		{
 
-			if (pPlayer->CanUseSkill(L"R") == false) {
+			if (pPlayer->CanUseSkill(ICON_TYPE::R) == false) {
 				return;
 			}
 

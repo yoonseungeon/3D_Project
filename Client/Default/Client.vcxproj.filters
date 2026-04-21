@@ -375,6 +375,9 @@
     <ClInclude Include="..\Public\CSnow.h">
       <Filter>02. GameObject\99. Particles\00. Snow</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Skill_Info.h">
+      <Filter>999. Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

@@ -65,10 +65,8 @@ public:
 	const CTransform* Get_TransformCom() { return m_pTransformCom; }
 
 	// Cool
-	STACK_COOL_INFO& Get_QCoolInfo() { return tQCool; }
-
-	COOL_INFO* Get_CoolInfo(const _tchar* SkillName);
-	_bool CanUseSkill(const _tchar* SkillName);
+	COOL_INFO* Get_CoolInfo(const ICON_TYPE eType);
+	_bool CanUseSkill(const ICON_TYPE eType);
 
 	// MoveBlock
 	void Set_MoveBlock(_bool bMoveBlock) { m_bMoveBlock = bMoveBlock; }
