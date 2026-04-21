@@ -6,6 +6,7 @@
 NS_BEGIN(Client)
 
 class CLumia_Ground;
+class CPlayer;
 
 class CInGame_Manager final : public CBase
 {
@@ -21,13 +22,14 @@ public:
 
 	_float3 MapPIcking();
 
-	void Set_PlayerPos(const _float3& vPlayerPos) { m_vPlayerPos = vPlayerPos; }
-	const _float3& Get_PlayerPos() { return m_vPlayerPos; }
+	void Set_Player(CPlayer* pPlayer);
+	void Release_Player();
+
+	_float3 Get_PlayerPos();
 
 private:
 	CLumia_Ground* m_pMap_Lumia{ nullptr };
-
-	_float3 m_vPlayerPos{};
+	CPlayer* m_pPlayer{ nullptr };
 
 protected:
 	virtual void Free() override;

@@ -1,6 +1,7 @@
 #include "CInGame_Manager.h"
 
 #include "CLumia_Ground.h"
+#include "CPlayer.h"
 
 IMPLEMENT_SINGLETON(CInGame_Manager)
 
@@ -34,9 +35,40 @@ _float3 CInGame_Manager::MapPIcking()
     return vPos;
 }
 
+void CInGame_Manager::Set_Player(CPlayer* pPlayer)
+{
+    if (m_pPlayer == nullptr) {
+        m_pPlayer = pPlayer;
+        Safe_AddRef(m_pPlayer);
+    }
+}
+
+void CInGame_Manager::Release_Player()
+{
+    Safe_Release(m_pPlayer);
+    m_pPlayer = nullptr;
+}
+
+_float3 CInGame_Manager::Get_PlayerPos()
+{
+    _float3 vPos{};
+
+    if (m_pPlayer == nullptr)
+    {
+        return vPos;
+    }
+
+    const _float4x4* pWorldMatrix = m_pPlayer->Get_TransformCom()->Get_WorldMatrixPtr();
+
+    memcpy(&vPos, (*pWorldMatrix).m[3], sizeof(_float3));
+
+    return vPos;
+}
+
 void CInGame_Manager::Free()
 {
     Safe_Release(m_pMap_Lumia);
+    Safe_Release(m_pPlayer);
 
     __super::Free();
 }

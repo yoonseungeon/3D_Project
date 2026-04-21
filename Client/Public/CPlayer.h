@@ -118,9 +118,6 @@ private:
 	// Cancle
 	_bool m_bCanMoveCancle{};
 
-	// Manager
-	CInGame_Manager* m_pImGameManager{};
-
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_PartObjects();

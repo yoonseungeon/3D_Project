@@ -239,7 +239,9 @@ CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceCont
 
 void CLevel_GamePlay::Free()
 {
-    m_pInGame_Manager->Release_Map();
+    m_pInGame_Manager->Release_Map();   
+    m_pInGame_Manager->Release_Player();
+
     Safe_Release(m_pInGame_Manager);
 
     __super::Free();
