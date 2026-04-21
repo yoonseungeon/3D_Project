@@ -15,6 +15,7 @@
 
 #include <directxtk/SpriteBatch.h>
 #include <directxtk/SpriteFont.h>
+#include <directxtk/ScreenGrab.h>
 
 #include <directxtk/PrimitiveBatch.h>
 #include <directxtk/VertexTypes.h>

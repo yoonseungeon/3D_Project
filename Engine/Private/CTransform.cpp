@@ -16,7 +16,7 @@ HRESULT CTransform::Initialize_Prototype()
 {
     XMStoreFloat4x4(&m_WorldMatrix, XMMatrixIdentity());
 
-    XMStoreFloat4(&m_RotQuat, XMQuaternionIdentity());
+    XMStoreFloat4(&m_vRotQuat, XMQuaternionIdentity());
 
     return S_OK;
 }
@@ -76,20 +76,29 @@ void CTransform::Scaling(_float fScaleX, _float fScaleY, _float fScaleZ)
     Set_State(STATE::LOOK, Get_State(STATE::LOOK) * fScaleZ);
 }
 
-void XM_CALLCONV CTransform::Rotation(_fvector vAxis, _float fRadian)
+void XM_CALLCONV CTransform::Set_Rotation(_fvector vAxis, _float fRadian)
 {
     _vector vNewRot = XMQuaternionRotationAxis(vAxis, fRadian);
 
     vNewRot = XMQuaternionNormalize(vNewRot);
 
-    XMStoreFloat4(&m_RotQuat, vNewRot);
+    XMStoreFloat4(&m_vRotQuat, vNewRot);
+
+    Reset_Rotation();
+}
+
+void CTransform::Set_Rotation(_float fRotationX, _float fRotationY, _float fRotationZ)
+{
+    _vector vRotQuat = XMQuaternionRotationRollPitchYaw(fRotationX, fRotationY, fRotationZ);
+    vRotQuat = XMQuaternionNormalize(vRotQuat);
+    XMStoreFloat4(&m_vRotQuat, vRotQuat);
 
     Reset_Rotation();
 }
 
 void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta, _float fRotSpeed)
 {
-    _vector vRotQuat = XMLoadFloat4(&m_RotQuat);
+    _vector vRotQuat = XMLoadFloat4(&m_vRotQuat);
     // 회전축을 기준으로 회전량을 얻어옴.
     _vector vDq = XMQuaternionRotationAxis(vAxis, fRotSpeed * fTimeDelta);
 
@@ -97,7 +106,7 @@ void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta, _float fRot
     vRotQuat = XMQuaternionMultiply(vRotQuat, vDq);
     vRotQuat = XMQuaternionNormalize(vRotQuat);
 
-    XMStoreFloat4(&m_RotQuat, vRotQuat);
+    XMStoreFloat4(&m_vRotQuat, vRotQuat);
 
     Reset_Rotation();
 }
@@ -139,7 +148,7 @@ void XM_CALLCONV CTransform::TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _
     _float fDRadian = (std::min)(fSeta, fTimeDelta * fRotSpeed);
 
     // Turn
-    _vector vRotQuat = XMLoadFloat4(&m_RotQuat);
+    _vector vRotQuat = XMLoadFloat4(&m_vRotQuat);
     // 회전축을 기준으로 회전량을 얻어옴.
     _vector vDq = XMQuaternionRotationAxis(vAxis, fDRadian);
 
@@ -147,7 +156,7 @@ void XM_CALLCONV CTransform::TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _
     vRotQuat = XMQuaternionMultiply(vRotQuat, vDq);
     vRotQuat = XMQuaternionNormalize(vRotQuat);
 
-    XMStoreFloat4(&m_RotQuat, vRotQuat);
+    XMStoreFloat4(&m_vRotQuat, vRotQuat);
 
     Reset_Rotation();
 }
@@ -165,7 +174,7 @@ void XM_CALLCONV CTransform::LookAt(_fvector vAt)
     _vector vRotQuat = XMQuaternionRotationMatrix(matRot);
     vRotQuat = XMQuaternionNormalize(vRotQuat);
 
-    XMStoreFloat4(&m_RotQuat, vRotQuat);
+    XMStoreFloat4(&m_vRotQuat, vRotQuat);
 
     Reset_Rotation();
 }
@@ -222,7 +231,7 @@ void XM_CALLCONV CTransform::Reset_Rotation()
     _vector vS{}, vR{}, vT{};
     XMMatrixDecompose(&vS, &vR, &vT, matWorld);
 
-    _vector vNewRot = XMLoadFloat4(&m_RotQuat);
+    _vector vNewRot = XMLoadFloat4(&m_vRotQuat);
 
     matWorld = XMMatrixAffineTransformation(vS, XMVectorSet(0.f, 0.f, 0.f, 1.f), vNewRot, vT);
 

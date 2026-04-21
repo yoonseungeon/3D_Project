@@ -171,7 +171,7 @@ PS_OUT PS_MAIN_COLORALPHA(PS_IN In)
 
 technique11 DefaultTechnique
 {
-    pass DefaultPassW
+    pass DefaultPass
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Z_Disable, 0);

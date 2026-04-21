@@ -184,6 +184,12 @@
     <Filter Include="02. GameObject\03. Player\99. ActionState\04. LiDailin_R">
       <UniqueIdentifier>{1b91ba37-8b65-4fef-905f-2bca49b88e11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\99. Particles">
+      <UniqueIdentifier>{5a854d33-65bb-4fa7-adaa-36a1be190a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\99. Particles\00. Snow">
+      <UniqueIdentifier>{8919b18e-a516-4b7a-a1e4-8b4ae4b423a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -366,6 +372,9 @@
     <ClInclude Include="..\Public\CMovementState.h">
       <Filter>50. State\00. MovementState</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CSnow.h">
+      <Filter>02. GameObject\99. Particles\00. Snow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -537,6 +546,9 @@
     <ClCompile Include="..\Private\CMovementState.cpp">
       <Filter>50. State\00. MovementState</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CSnow.cpp">
+      <Filter>02. GameObject\99. Particles\00. Snow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
@@ -552,6 +564,9 @@
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl">
+      <Filter>997. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxRectInstance.hlsl">
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

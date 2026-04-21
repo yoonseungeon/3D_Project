@@ -12,6 +12,7 @@
 #include "CMove.h"
 #include "CNavigation.h"
 #include "CCollider.h"
+#include "CVIBuffer_Rect_Instance.h"
 #pragma endregion
 
 NS_BEGIN(Engine)

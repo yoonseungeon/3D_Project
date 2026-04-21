@@ -175,6 +175,12 @@
     <Filter Include="07. Component\06. Collider\Bounding\Sphere">
       <UniqueIdentifier>{ac46b4e1-1da4-4d92-aa36-9340b5d459c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\01. VIBuffer\03. Instance">
+      <UniqueIdentifier>{89c3ab56-d78c-41e5-ab60-90e1169bb894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Component\01. VIBuffer\03. Instance\Rect">
+      <UniqueIdentifier>{401e7060-aa6b-4c66-b4e8-f57e4b662f54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -338,6 +344,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CMyModel.cpp">
       <Filter>07. Component\04. MyModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CVIBuffer_Instance.cpp">
+      <Filter>07. Component\01. VIBuffer\03. Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CVIBuffer_Rect_Instance.cpp">
+      <Filter>07. Component\01. VIBuffer\03. Instance\Rect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +535,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\CBounding_Sphere.h">
       <Filter>07. Component\06. Collider\Bounding\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CVIBuffer_Instance.h">
+      <Filter>07. Component\01. VIBuffer\03. Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CVIBuffer_Rect_Instance.h">
+      <Filter>07. Component\01. VIBuffer\03. Instance\Rect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

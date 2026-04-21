@@ -141,6 +141,31 @@ namespace Engine
 		};
 	};
 
+	struct VTXPARTICLE_INSTANCE
+	{
+		XMFLOAT4 vRight{};
+		XMFLOAT4 vUp{};
+		XMFLOAT4 vLook{};
+		XMFLOAT4 vTranslation{};
+	};
+
+	// 따로 정의. 왜냐하면 한 번에 전달되기 때문에 합쳐줘야 함.
+	struct VTXPARTICLE_INSTANCE_DESC
+	{
+		static const unsigned int iNumElements = { 6 };
+
+		static constexpr D3D11_INPUT_ELEMENT_DESC   Elements[] = {
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			// 4. Input 슬롯(장치의 바인딩 버텍스 버퍼 중 몇 번째) 
+			// 6. 입력 데이터가 정점마다 바뀌는지 인스턴스마다 바뀌는지
+			// 7. InstanceDataStepRate 인스턴스 몇 개마다 넘길지
+			{"TEXCOORD", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1},
+			{"TEXCOORD", 2, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1},
+			{"TEXCOORD", 3, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 32, D3D11_INPUT_PER_INSTANCE_DATA, 1},
+			{"TEXCOORD", 4, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 48, D3D11_INPUT_PER_INSTANCE_DATA, 1},
+		};
+	};
 
 	struct MODEL_LOCAL_MIN_MAX
 	{

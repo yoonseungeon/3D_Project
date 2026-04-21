@@ -179,6 +179,7 @@
     <ClInclude Include="..\Public\CPickSlot.h" />
     <ClInclude Include="..\Public\CPlayer.h" />
     <ClInclude Include="..\Public\CRoof.h" />
+    <ClInclude Include="..\Public\CSnow.h" />
     <ClInclude Include="..\Public\CStage.h" />
     <ClInclude Include="..\Public\CStage_Lobby.h" />
     <ClInclude Include="..\Public\CStage_Select.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="..\Private\CPickSlot.cpp" />
     <ClCompile Include="..\Private\CPlayer.cpp" />
     <ClCompile Include="..\Private\CRoof.cpp" />
+    <ClCompile Include="..\Private\CSnow.cpp" />
     <ClCompile Include="..\Private\CStage.cpp" />
     <ClCompile Include="..\Private\CStage_Lobby.cpp" />
     <ClCompile Include="..\Private\CStage_Select.cpp" />
@@ -279,6 +281,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxRectInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>

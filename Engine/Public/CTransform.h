@@ -56,7 +56,9 @@ public:
 	void Scaling(_float fScaleX = 1.f, _float fScaleY = 1.f, _float fScaleZ = 1.f);
 
 	// R
-	void XM_CALLCONV Rotation(_fvector vAxis, _float fRadian);
+	void XM_CALLCONV Set_Rotation(_fvector vAxis, _float fRadian);
+	void Set_Rotation(_float fRotationX, _float fRotationY, _float fRotationZ);
+
 	void XM_CALLCONV Turn(_fvector vAxis, _float fTimeDelta, _float fRotSpeed);
 	void XM_CALLCONV TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _float fRotSpeed);
 
@@ -72,7 +74,7 @@ public:
 
 private:
 	_float4x4	m_WorldMatrix{};
-	_float4		m_RotQuat{};
+	_float4		m_vRotQuat{};
 
 
 	_float		m_fSpeedPerSec		= {};

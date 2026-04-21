@@ -22,6 +22,7 @@
 
 #include "CMonster.h"
 #include "CForkLift.h"
+#include "CSnow.h"
 #include "CPlayer.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
@@ -970,6 +971,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 #pragma endregion
 
 #pragma region 수업 코드
+    /* Prototype_Component_Shader_VtxRectInstance */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxRectInstance"),
+                CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxRectInstance.hlsl"), VTXPARTICLE_INSTANCE_DESC::Elements, VTXPARTICLE_INSTANCE_DESC::iNumElements))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Shader_VtxMesh");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
     /* Prototype_Component_Shader_VtxMesh */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -989,6 +1003,25 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
                 CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxAnimMesh.hlsl"), VTXANIMMESH::Elements, VTXANIMMESH::iNumElements))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Shader_VtxAnimMesh");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Component_VIBuffer_Instance_Snow */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            CVIBuffer_Rect_Instance::RECT_INSTANCE_DESC     SnowDesc{};
+            SnowDesc.iNumInstance = 3000;
+            SnowDesc.vCenter = _float3(0.f, 1.f, 0.f);
+            SnowDesc.vRange = _float3(129.f, 0.3f, 129.f);
+            SnowDesc.vSize = _float2(0.2f, 0.5f);
+
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_Snow"),
+                CVIBuffer_Rect_Instance::Create(m_pDevice, m_pContext, &SnowDesc))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Shader_VtxAnimMesh");
             }
@@ -1088,6 +1121,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Weapon"),
                 CWeapon::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Weapon");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Snow */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow"),
+                CSnow::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Weapon");
             }
