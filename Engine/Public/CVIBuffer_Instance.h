@@ -41,6 +41,10 @@ protected:
 	// 인스턴스당 인덱스 몇개 쓸지
 	_uint					m_iIndexCountPerInstance = {};
 
+
+	D3D11_BUFFER_DESC		m_InstanceBufferDesc = {};
+	VTXPARTICLE_INSTANCE* m_pInstanceVertices = { nullptr };
+
 public:
 	virtual CComponent* Clone(void* pArg) = 0;
 protected:

@@ -9,6 +9,8 @@ CVIBuffer_Rect_Instance::CVIBuffer_Rect_Instance(ID3D11Device* pDevice, ID3D11De
 
 CVIBuffer_Rect_Instance::CVIBuffer_Rect_Instance(const CVIBuffer_Rect_Instance& Prototype)
     : CVIBuffer_Instance{ Prototype }
+    , m_pSpeeds{ Prototype.m_pSpeeds }
+    , m_isLoop{ Prototype.m_isLoop }
 {
 }
 
@@ -95,46 +97,83 @@ HRESULT CVIBuffer_Rect_Instance::Initialize_Prototype(void* pInitialDesc)
 
 
     // Instance 버퍼 채우기
-    D3D11_BUFFER_DESC InstanceBufferDesc{};
-    InstanceBufferDesc.ByteWidth = m_iNumInstances * m_iInstanceStride;
-    InstanceBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-    InstanceBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    InstanceBufferDesc.CPUAccessFlags = 0;
-    InstanceBufferDesc.MiscFlags = 0;
-    InstanceBufferDesc.StructureByteStride = m_iInstanceStride;
+    m_InstanceBufferDesc.ByteWidth = m_iNumInstances * m_iInstanceStride;
+    m_InstanceBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    m_InstanceBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    m_InstanceBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    m_InstanceBufferDesc.MiscFlags = 0;
+    m_InstanceBufferDesc.StructureByteStride = m_iInstanceStride;
 
-    VTXPARTICLE_INSTANCE* pInstanceVertices = new VTXPARTICLE_INSTANCE[m_iNumInstances];
-    ZeroMemory(pInstanceVertices, sizeof(VTXPARTICLE_INSTANCE) * m_iNumInstances);
+    m_pInstanceVertices = new VTXPARTICLE_INSTANCE[m_iNumInstances];
+    ZeroMemory(m_pInstanceVertices, sizeof(VTXPARTICLE_INSTANCE) * m_iNumInstances);
+
+    m_pSpeeds = new _float[m_iNumInstances];
+    m_isLoop = pDesc->isLoop;
 
     for (size_t i = 0; i < m_iNumInstances; ++i)
     {
+        m_pSpeeds[i] = m_pGameInstance->Random(pDesc->vSpeed.x, pDesc->vSpeed.y);
+
         _float fSize = m_pGameInstance->Random(pDesc->vSize.x, pDesc->vSize.y);
 
-        pInstanceVertices[i].vRight = _float4(fSize, 0.f, 0.f, 0.f);
-        pInstanceVertices[i].vUp = _float4(0.f, fSize, 0.f, 0.f);
-        pInstanceVertices[i].vLook = _float4(0.f, 0.f, fSize, 0.f);
-        pInstanceVertices[i].vTranslation = _float4(
+        m_pInstanceVertices[i].vRight = _float4(fSize, 0.f, 0.f, 0.f);
+        m_pInstanceVertices[i].vUp = _float4(0.f, fSize, 0.f, 0.f);
+        m_pInstanceVertices[i].vLook = _float4(0.f, 0.f, fSize, 0.f);
+        m_pInstanceVertices[i].vTranslation = _float4(
             m_pGameInstance->Random(pDesc->vCenter.x - pDesc->vRange.x * 0.5f, pDesc->vCenter.x + pDesc->vRange.x * 0.5f),
             m_pGameInstance->Random(pDesc->vCenter.y - pDesc->vRange.y * 0.5f, pDesc->vCenter.y + pDesc->vRange.y * 0.5f),
             m_pGameInstance->Random(pDesc->vCenter.z - pDesc->vRange.z * 0.5f, pDesc->vCenter.z + pDesc->vRange.z * 0.5f),
             1.f
         );
+
+        m_pInstanceVertices[i].vLifeTime = _float2(
+            m_pGameInstance->Random(pDesc->vLifeTime.x, pDesc->vLifeTime.y),
+            0.f
+        );
     }
-
-    D3D11_SUBRESOURCE_DATA InstanceInitialData{};
-    InstanceInitialData.pSysMem = pInstanceVertices;
-
-    if (FAILED(m_pDevice->CreateBuffer(&InstanceBufferDesc, &InstanceInitialData, &m_pVBInstance)))
-        return E_FAIL;
-
-    Safe_Delete_Array(pInstanceVertices);
 
     return S_OK;
 }
 
 HRESULT CVIBuffer_Rect_Instance::Initialize(void* pArg)
 {
+    D3D11_SUBRESOURCE_DATA InstanceInitialData{};
+    InstanceInitialData.pSysMem = m_pInstanceVertices;
+
+    if (FAILED(m_pDevice->CreateBuffer(&m_InstanceBufferDesc, &InstanceInitialData, &m_pVBInstance)))
+        return E_FAIL;
+
     return S_OK;
+}
+
+void CVIBuffer_Rect_Instance::Drop(_float fTimeDelta)
+{
+    D3D11_MAPPED_SUBRESOURCE SubResource{};
+
+    m_pContext->Map(m_pVBInstance, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
+
+    // SubResource.pData는 void임.
+    VTXPARTICLE_INSTANCE* pInstanceVertices = static_cast<VTXPARTICLE_INSTANCE*>(SubResource.pData);
+
+    for (size_t i = 0; i < m_iNumInstances; ++i)
+    {
+        pInstanceVertices[i].vTranslation.y -= m_pSpeeds[i] * fTimeDelta;
+        pInstanceVertices[i].vLifeTime.y += fTimeDelta;
+
+        if (true == m_isLoop &&
+            pInstanceVertices[i].vLifeTime.x < pInstanceVertices[i].vLifeTime.y)
+        {
+            // 처음 위치로
+            pInstanceVertices[i].vTranslation = m_pInstanceVertices[i].vTranslation;
+            pInstanceVertices[i].vLifeTime.y = 0.f;
+        }
+    }
+
+    m_pContext->Unmap(m_pVBInstance, 0);
+}
+
+void CVIBuffer_Rect_Instance::Spread(_float fTimeDelta)
+{
 }
 
 CVIBuffer_Rect_Instance* CVIBuffer_Rect_Instance::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, void* pInitialDesc)
@@ -165,5 +204,8 @@ CComponent* CVIBuffer_Rect_Instance::Clone(void* pArg)
 
 void CVIBuffer_Rect_Instance::Free()
 {
+    if (false == m_isCloned)
+        Safe_Delete_Array(m_pSpeeds);
+
     __super::Free();
 }

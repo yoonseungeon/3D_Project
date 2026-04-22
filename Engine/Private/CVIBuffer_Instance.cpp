@@ -7,12 +7,12 @@ CVIBuffer_Instance::CVIBuffer_Instance(ID3D11Device* pDevice, ID3D11DeviceContex
 
 CVIBuffer_Instance::CVIBuffer_Instance(const CVIBuffer_Instance& Prototype)
 	: CVIBuffer{ Prototype }
-	, m_pVBInstance{ Prototype.m_pVBInstance }
 	, m_iNumInstances{ Prototype.m_iNumInstances }
 	, m_iInstanceStride{ Prototype.m_iInstanceStride }
 	, m_iIndexCountPerInstance{ Prototype.m_iIndexCountPerInstance }
+	, m_InstanceBufferDesc{ Prototype.m_InstanceBufferDesc }
+	, m_pInstanceVertices{ Prototype.m_pInstanceVertices }
 {
-	Safe_AddRef(m_pVBInstance);
 }
 
 HRESULT CVIBuffer_Instance::Initialize_Prototype()
@@ -61,6 +61,9 @@ HRESULT CVIBuffer_Instance::Render()
 
 void CVIBuffer_Instance::Free()
 {
+	if (false == m_isCloned)
+		Safe_Delete_Array(m_pInstanceVertices);
+
 	Safe_Release(m_pVBInstance);
 
 	__super::Free();

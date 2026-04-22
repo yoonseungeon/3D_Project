@@ -1018,16 +1018,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
-            CVIBuffer_Rect_Instance::RECT_INSTANCE_DESC     SnowDesc{};
-            SnowDesc.iNumInstance = 3000;
-            SnowDesc.vCenter = _float3(0.f, 1.f, 0.f);
-            SnowDesc.vRange = _float3(129.f, 0.3f, 129.f);
-            SnowDesc.vSize = _float2(0.2f, 0.5f);
+            CVIBuffer_Rect_Instance::RECT_INSTANCE_DESC SnowDesc{};
+            SnowDesc.iNumInstance = 10;
+            SnowDesc.vCenter = _float3(0.f, 0.f, 0.f);
+            SnowDesc.vRange = _float3(10.f, 0.3f, 10.f);
+            SnowDesc.vSize = _float2(1.0f, 1.f);
+            SnowDesc.vSpeed = _float2(1.f, 3.f);
+            SnowDesc.vLifeTime = _float2(4.f, 8.f);
+            SnowDesc.isLoop = true;
 
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_Snow"),
                 CVIBuffer_Rect_Instance::Create(m_pDevice, m_pContext, &SnowDesc))))
             {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Shader_VtxAnimMesh");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_VIBuffer_Instance_Snow");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

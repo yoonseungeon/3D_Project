@@ -12,12 +12,14 @@ struct VS_IN
     float4 vUp : TEXCOORD2;
     float4 vLook : TEXCOORD3;
     float4 vTranslation : TEXCOORD4;
+    float2 vLifeTime : TEXCOORD5;
 };
 
 struct VS_OUT
 {
     float4 vPosition : SV_POSITION;
     float2 vTexcoord : TEXCOORD0;
+    float2 vLifeTime : TEXCOORD1;
 };
     
 VS_OUT VS_MAIN(VS_IN In)
@@ -34,7 +36,8 @@ VS_OUT VS_MAIN(VS_IN In)
     
     Out.vPosition = vPosition;
     Out.vTexcoord = In.vTexcoord;
-    
+    Out.vLifeTime = In.vLifeTime;
+
     return Out;
 }
 
@@ -42,6 +45,7 @@ struct PS_IN
 {
     float4 vPosition : SV_POSITION;
     float2 vTexcoord : TEXCOORD0;
+    float2 vLifeTime : TEXCOORD1;
 };
 
 struct PS_OUT
@@ -55,9 +59,12 @@ PS_OUT PS_MAIN(PS_IN In)
     
     Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
     if (Out.vColor.a < 0.4f)
-        discard;      
+        discard;
     
-    return Out;
+    Out.vColor.rgb += 1.f - saturate(In.vLifeTime.x - In.vLifeTime.y);
+    Out.vColor.a = saturate(In.vLifeTime.x - In.vLifeTime.y);
+       
+    return Out;    
 }
 
 technique11 DefaultTechnique

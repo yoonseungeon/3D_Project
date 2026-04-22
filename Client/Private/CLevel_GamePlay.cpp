@@ -171,6 +171,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI_Image(const _wstring& strLayerTag)
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;
 
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
+
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CInGameCharHUD_Empty"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;

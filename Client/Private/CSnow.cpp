@@ -25,6 +25,13 @@ HRESULT CSnow::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    static _float fX = 64.5f;
+
+    m_pTransformCom->Set_State(STATE::POSITION,
+        XMVectorSet(fX, 20.f, 64.5f, 1.f));
+
+    fX += 10.f;
+
     return S_OK;
 }
 
@@ -34,6 +41,7 @@ void CSnow::Priority_Update(_float fTimeDelta)
 
 void CSnow::Update(_float fTimeDelta)
 {
+    m_pVIBufferCom->Drop(fTimeDelta);
 }
 
 void CSnow::Late_Update(_float fTimeDelta)
