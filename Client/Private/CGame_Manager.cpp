@@ -12,9 +12,10 @@ void CGame_Manager::Set_SelectChar(CHAR_NAME eCharName)
     m_tSelectedChar.eCharName = eCharName;
 }
 
-void CGame_Manager::Set_SelectSkin(const wstring& wstrSkinName)
+void CGame_Manager::Set_SelectSkin(const wstring& wstrSkinName, _uint iSkinIndex)
 {
     m_tSelectedChar.wstrSkinName = wstrSkinName;
+    m_tSelectedChar.iSkinIndex = iSkinIndex;
 }
 
 void CGame_Manager::Set_SelectSpawnMap(MAP_NAME eSpawnMap)
@@ -30,6 +31,11 @@ CHAR_NAME CGame_Manager::Get_SelectedChar()
 MAP_NAME CGame_Manager::Get_SelectedMap()
 {
     return m_tSelectedChar.eSpawn_Map;
+}
+
+_uint CGame_Manager::Get_SkinIndex()
+{
+    return m_tSelectedChar.iSkinIndex;
 }
 
 void CGame_Manager::Free()

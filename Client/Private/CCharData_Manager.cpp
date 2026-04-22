@@ -38,6 +38,9 @@ HRESULT CCharData_Manager::Initialize()
         tDesc.wstrSkinTag = Character.SkinTag;
         tDesc.wstrSkinPath = Character.SkinPath;
 
+        tDesc.wstrProfileTag = Character.InGameProfileTag;
+        tDesc.wstrProfilePath = Character.InGameProfilePath;
+
         tDesc.Skins.reserve(Character.SkinCnt);
 
         for (size_t i = 0; i < Character.SkinCnt; ++i)

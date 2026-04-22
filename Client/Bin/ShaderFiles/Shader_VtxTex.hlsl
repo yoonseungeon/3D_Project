@@ -11,6 +11,8 @@ float3 g_Color;
 float g_UVFillX = { 1.f };
 float g_UVFillCenterY = { 0.5f };
 
+float2 g_ClipYRatio;
+
 struct VS_IN
 {
     float3 vPosition : POSITION;
@@ -134,7 +136,7 @@ PS_OUT PS_MAIN_MASK(PS_IN In)
     //Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
     
     
-    float4 vMask = g_Mask.Sample(PointSampler, In.vTexcoord);
+    float4 vMask = g_Mask.Sample(LinearSampler, In.vTexcoord);
     Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
     Out.vColor.a *= vMask.a;
     
@@ -168,6 +170,24 @@ PS_OUT PS_MAIN_COLORALPHA(PS_IN In)
 
     return Out;
 }
+
+PS_OUT PS_MAIN_CHARPROFILE(PS_IN In)
+{
+    PS_OUT Out;
+        
+    float4 vMask = g_Mask.Sample(LinearSampler, In.vTexcoord);
+    
+    In.vTexcoord.y = g_ClipYRatio.x + In.vTexcoord.y * (g_ClipYRatio.y - g_ClipYRatio.x);
+    
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    Out.vColor.a *= vMask.a;
+    
+    if (Out.vColor.a <= 0.1f)
+        discard;
+        
+    return Out;
+}
+
 
 technique11 DefaultTechnique
 {
@@ -229,5 +249,15 @@ technique11 DefaultTechnique
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_COLORALPHA()));
+    }
+
+    pass CharProfile
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_CHARPROFILE()));
     }
 }

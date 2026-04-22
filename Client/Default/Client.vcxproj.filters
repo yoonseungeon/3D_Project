@@ -202,6 +202,9 @@
     <Filter Include="02. GameObject\03. AbstarctPlayer\LiDailin\98. MovementState\01. Move">
       <UniqueIdentifier>{c1b1cd04-40ac-4d0b-8a7c-d4451f6afc42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. InGameProfile">
+      <UniqueIdentifier>{db3c740b-3b2b-4843-8844-d9663fbf9600}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -402,6 +405,9 @@
     <ClInclude Include="..\Public\CAbstractPlayer.h">
       <Filter>02. GameObject\03. AbstarctPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_InGameCharProfile.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. InGameProfile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -587,6 +593,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CAbstractPlayer.cpp">
       <Filter>02. GameObject\03. AbstarctPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_InGameCharProfile.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. InGameProfile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

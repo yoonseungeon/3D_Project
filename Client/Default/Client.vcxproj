@@ -158,6 +158,7 @@
     <ClInclude Include="..\Public\CBottle.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
+    <ClInclude Include="..\Public\CUI_InGameCharProfile.h" />
     <ClInclude Include="..\Public\CForkLift.h" />
     <ClInclude Include="..\Public\CGame_Manager.h" />
     <ClInclude Include="..\Public\Character_Meta.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="..\Private\CBottle.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
+    <ClCompile Include="..\Private\CUI_InGameCharProfile.cpp" />
     <ClCompile Include="..\Private\CForkLift.cpp" />
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
     <ClCompile Include="..\Private\CInGameCharHUD_Empty.cpp" />

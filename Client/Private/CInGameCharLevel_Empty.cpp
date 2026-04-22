@@ -2,6 +2,7 @@
 
 #include "CGameInstance.h"
 #include "CUI_Image.h"
+#include "CUI_InGameCharProfile.h"
 
 CInGameCharLevel_Empty::CInGameCharLevel_Empty(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -100,7 +101,7 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
     CircleDesc.iUILayer = ETOUI(UILAYER::PANEL);
     
     CircleDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    CircleDesc.wstrTexturePrototypeTag = L"Prototype_Texture_CircleMask";
+    CircleDesc.wstrTexturePrototypeTag = L"Prototype_Texture_ProfileBg";
     
     CircleDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
     CircleDesc.vColor = COLOR_TO_FLOAT(59, 88, 99);
@@ -111,6 +112,20 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &CircleDesc)))
         return E_FAIL;
 
+
+    // CharProfile
+    CUI_InGameCharProfile::CUI_INGAMECHARPROFILE_DESC ProfileDesc{};
+
+    ProfileDesc.fScaleRatioY = CircleDesc.fScaleRatioY;
+    ProfileDesc.fScaleRatioX = CircleDesc.fScaleRatioX;
+    ProfileDesc.fPosRatioX = CircleDesc.fPosRatioX;
+    ProfileDesc.fPosRatioY = CircleDesc.fPosRatioY;
+    
+    ProfileDesc.iUILayer = ETOUI(UILAYER::SLOT);
+            
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_InGameCharProfile"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &ProfileDesc)))
+        return E_FAIL;
 
     return S_OK;
 }

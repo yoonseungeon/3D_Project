@@ -30,6 +30,9 @@ public:
 		wstring wstrFullSkinTag;
 		wstring wstrFullSkinPath;
 
+		wstring wstrProfileTag;
+		wstring wstrProfilePath;
+
 		vector<SKIN_INFO_DESC> Skins;
 	};
 

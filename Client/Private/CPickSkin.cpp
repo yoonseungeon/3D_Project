@@ -171,7 +171,7 @@ void CPickSkin::Set_Select()
     const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(m_eCharName);
     m_funcSetFullSkin(pCharInfo->wstrFullSkinTag, m_iSkinIdx);
 
-    m_pGame_Manager->Set_SelectSkin(m_wstrSkinName);
+    m_pGame_Manager->Set_SelectSkin(m_wstrSkinName, m_iSkinIdx);
 }
 
 void CPickSkin::Set_SkinName(const wstring& wstrSkinName)
@@ -221,7 +221,7 @@ HRESULT CPickSkin::Bind_ShaderResources()
 
 void CPickSkin::BtnClick()
 {
-    m_pGame_Manager->Set_SelectSkin(m_wstrSkinName);
+    m_pGame_Manager->Set_SelectSkin(m_wstrSkinName, m_iSkinIdx);
     m_funcCallBack();
 
     const auto pCharInfo = m_pCharData_Manager->Get_CharInfo(m_eCharName);
