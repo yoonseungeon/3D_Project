@@ -152,6 +152,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\CAbstractPlayer.h" />
     <ClInclude Include="..\Public\CActionState.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
     <ClInclude Include="..\Public\CBottle.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\CAbstractPlayer.cpp" />
     <ClCompile Include="..\Private\CActionState.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />
     <ClCompile Include="..\Private\CBottle.cpp" />

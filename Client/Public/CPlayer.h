@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Client_Defines.h"
-#include "CContainerObject.h"
-
-#include "Command.h"
+#include "CAbstractPlayer.h"
 
 NS_BEGIN(Engine)
 class CMove;
@@ -20,7 +17,7 @@ class CMovementState;
 class CActionState;
 class CInGame_Manager;
 
-class CPlayer final : public CContainerObject
+class CPlayer final : public CAbstractPlayer
 {
 private:
 	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -28,8 +25,8 @@ private:
 	virtual ~CPlayer() = default;
 
 private:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
+	HRESULT Initialize_Prototype();
+	HRESULT Initialize(void* pArg);
 
 public:
 	virtual void Priority_Update(_float fTimeDelta) override;
@@ -62,14 +59,13 @@ public:
 
 	// Get_Com
 	CMove* Get_MoveCom() { return m_pMoveCom; }
-	const CTransform* Get_TransformCom() { return m_pTransformCom; }
 
 	// Cool
-	COOL_INFO* Get_CoolInfo(const SKILL_SLOT eType);
-	_bool CanUseSkill(const SKILL_SLOT eType);
+	virtual COOL_INFO* Get_CoolInfo(const SKILL_SLOT eType) override;
+	virtual _bool CanUseSkill(const SKILL_SLOT eType) override;
 
 	// Icon Info
-	void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc);
+	virtual void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc) override;
 
 	// MoveBlock
 	void Set_MoveBlock(_bool bMoveBlock) { m_bMoveBlock = bMoveBlock; }

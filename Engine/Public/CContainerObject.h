@@ -14,8 +14,8 @@ protected:
 	virtual ~CContainerObject() = default;
 
 protected:
-	virtual HRESULT Initialize_Prototype();
-	virtual HRESULT Initialize(void* pArg);
+	HRESULT Initialize_Prototype();
+	HRESULT Initialize(void* pArg);
 
 public:
 	virtual void Priority_Update(_float fTimeDelta) override;

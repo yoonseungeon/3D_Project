@@ -2,7 +2,7 @@
 
 #include "CGameInstance.h"
 #include "CInGame_Manager.h"
-#include "CPlayer.h"
+#include "CAbstractPlayer.h"
 
 
 CUI_NormalSkillIcon::CUI_NormalSkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

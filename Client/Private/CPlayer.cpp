@@ -21,12 +21,12 @@
 
 
 CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-    : CContainerObject{ pDevice, pContext }
+    : CAbstractPlayer{ pDevice, pContext }
 {
 }
 
 CPlayer::CPlayer(const CPlayer& Prototype)
-    : CContainerObject{ Prototype }
+    : CAbstractPlayer{ Prototype }
 {
 }
 
@@ -116,41 +116,24 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
     m_pNavigationCom->Compute_OnNavigation();
 
-    // PartObject들은 GameObject_Manager에 안 들어간다.
-    for (auto& Pair : m_PartObjects)
-    {
-        if (nullptr != Pair.second)
-            Pair.second->Priority_Update(fTimeDelta);
-    }
+    __super::Priority_Update(fTimeDelta);
 }
 
 void CPlayer::Parallel_Update(_float fTimeDelta)
 {
-    for (auto& Pair : m_PartObjects)
-    {
-        if (nullptr != Pair.second)
-            Pair.second->Parallel_Update(fTimeDelta);
-    }
+    __super::Parallel_Update(fTimeDelta);
 
     m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
 void CPlayer::Update(_float fTimeDelta)
 {    
-    for (auto& Pair : m_PartObjects)
-    {
-        if (nullptr != Pair.second)
-            Pair.second->Update(fTimeDelta);
-    }
+    __super::Update(fTimeDelta);
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-    for (auto& Pair : m_PartObjects)
-    {
-        if (nullptr != Pair.second)
-            Pair.second->Late_Update(fTimeDelta);
-    }
+    __super::Late_Update(fTimeDelta);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
@@ -422,7 +405,6 @@ HRESULT CPlayer::Ready_Components()
         TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&m_pColliderCom), &AABBDesc)))
         return E_FAIL;
 
-
     return S_OK;
 }
 
@@ -540,52 +522,17 @@ void CPlayer::Key_Input()
 void CPlayer::CoolTimer(_float fTimeDelta)
 {
     // Q
-    if (tQCool.fAccCoolDown > 0.f)
-    {
-        tQCool.fAccCoolDown -= fTimeDelta;
-        if (tQCool.fAccCoolDown < 0.f) {
-            tQCool.fAccCoolDown = 0.f;
-        }
-    }
-
-    if (tQCool.fAccSubCoolDown > 0.f)
-    {
-        tQCool.fAccSubCoolDown -= fTimeDelta;
-        if (tQCool.fAccSubCoolDown < 0.f) {
-            tQCool.fAccSubCoolDown = 0.f;
-
-            tQCool.fAccCoolDown = tQCool.fCurCoolDown;
-            tQCool.fStack = 0;
-        }
-    }
+    tQCool.Update_Cool(fTimeDelta);
+    tQCool.Update_SubCool(fTimeDelta);
 
     // W
-    if (tWCool.fAccCoolDown > 0.f && tWCool.bCoolWait == false)
-    {
-        tWCool.fAccCoolDown -= fTimeDelta;
-        if (tWCool.fAccCoolDown < 0.f) {
-            tWCool.fAccCoolDown = 0.f;
-        }
-    }
+    tWCool.Update_Cool(fTimeDelta);
 
     // E
-    if (tECool.fAccCoolDown > 0.f && tECool.bCoolWait == false)
-    {
-        tECool.fAccCoolDown -= fTimeDelta;
-        if (tECool.fAccCoolDown < 0.f) {
-            tECool.fAccCoolDown = 0.f;
-        }
-    }
-
+    tECool.Update_Cool(fTimeDelta);
 
     // R
-    if (tRCool.fAccCoolDown > 0.f && tRCool.bCoolWait == false)
-    {
-        tRCool.fAccCoolDown -= fTimeDelta;
-        if (tRCool.fAccCoolDown < 0.f) {
-            tRCool.fAccCoolDown = 0.f;
-        }
-    }
+    tRCool.Update_Cool(fTimeDelta);
 }
 
 CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

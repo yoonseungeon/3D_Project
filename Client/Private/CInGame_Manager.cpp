@@ -1,7 +1,7 @@
 #include "CInGame_Manager.h"
 
 #include "CLumia_Ground.h"
-#include "CPlayer.h"
+#include "CAbstractPlayer.h"
 
 IMPLEMENT_SINGLETON(CInGame_Manager)
 
@@ -35,7 +35,7 @@ _float3 CInGame_Manager::MapPIcking()
     return vPos;
 }
 
-void CInGame_Manager::Set_Player(CPlayer* pPlayer)
+void CInGame_Manager::Set_Player(CAbstractPlayer* pPlayer)
 {
     if (m_pPlayer == nullptr) {
         m_pPlayer = pPlayer;

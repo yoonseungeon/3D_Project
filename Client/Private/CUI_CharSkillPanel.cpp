@@ -3,7 +3,7 @@
 #include "CGameInstance.h"
 #include "CInGame_Manager.h"
 
-#include "CPlayer.h"
+#include "CAbstractPlayer.h"
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
 
@@ -123,7 +123,7 @@ HRESULT CUI_CharSkillPanel::Bind_ShaderResources()
 HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
     SKILL_DESC Desc{};
-    CPlayer* pPlayer = CInGame_Manager::GetInstance()->Get_Player();
+    CAbstractPlayer* pPlayer = CInGame_Manager::GetInstance()->Get_Player();
     pPlayer->Get_SkillSlotType(SKILL_SLOT::Q, Desc);
 
     // Q
