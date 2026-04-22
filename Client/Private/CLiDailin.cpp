@@ -1,4 +1,4 @@
-#include "CPlayer.h"
+#include "CLiDailin.h"
 
 #include "CGameInstance.h"
 
@@ -20,22 +20,22 @@
 #include "CUI_NormalSkillIcon.h"
 
 
-CPlayer::CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
 {
 }
 
-CPlayer::CPlayer(const CPlayer& Prototype)
+CLiDailin::CLiDailin(const CLiDailin& Prototype)
     : CAbstractPlayer{ Prototype }
 {
 }
 
-HRESULT CPlayer::Initialize_Prototype()
+HRESULT CLiDailin::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CPlayer::Initialize(void* pArg)
+HRESULT CLiDailin::Initialize(void* pArg)
 {
     if (pArg == nullptr) {
         GAMEOBJECT_DESC Desc{};
@@ -95,7 +95,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     return S_OK;
 }
 
-void CPlayer::Priority_Update(_float fTimeDelta)
+void CLiDailin::Priority_Update(_float fTimeDelta)
 {
     Key_Input();
 
@@ -119,26 +119,26 @@ void CPlayer::Priority_Update(_float fTimeDelta)
     __super::Priority_Update(fTimeDelta);
 }
 
-void CPlayer::Parallel_Update(_float fTimeDelta)
+void CLiDailin::Parallel_Update(_float fTimeDelta)
 {
     __super::Parallel_Update(fTimeDelta);
 
     m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
-void CPlayer::Update(_float fTimeDelta)
+void CLiDailin::Update(_float fTimeDelta)
 {    
     __super::Update(fTimeDelta);
 }
 
-void CPlayer::Late_Update(_float fTimeDelta)
+void CLiDailin::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
 
-HRESULT CPlayer::Render()
+HRESULT CLiDailin::Render()
 {
 #ifdef _DEBUG
     m_pNavigationCom->Render();
@@ -148,11 +148,11 @@ HRESULT CPlayer::Render()
     return S_OK;
 }
 
-void CPlayer::Set_WaitMovementState(const wstring& wstrState)
+void CLiDailin::Set_WaitMovementState(const wstring& wstrState)
 {
     auto iter = m_States.find(wstrState);
     if (iter == m_States.end()) {
-        MSG_BOX("CPlayer.cpp: No MovementState");
+        MSG_BOX("CLiDailin.cpp: No MovementState");
         m_pWaitMovementState = nullptr;
         return;
     }
@@ -160,7 +160,7 @@ void CPlayer::Set_WaitMovementState(const wstring& wstrState)
     m_pWaitMovementState = dynamic_cast<CMovementState*>(iter->second);
 }
 
-void CPlayer::Apply_WaitMovementState()
+void CLiDailin::Apply_WaitMovementState()
 {
     if (m_pWaitMovementState == nullptr) {
         return;
@@ -177,16 +177,16 @@ void CPlayer::Apply_WaitMovementState()
     m_pCurMovementState->Enter(this);
 }
 
-void CPlayer::Process_MovementCommand(MOVEMENT_COMMAND& tMovement_Command)
+void CLiDailin::Process_MovementCommand(MOVEMENT_COMMAND& tMovement_Command)
 {
     m_pCurMovementState->HandleMovementCommand(this, tMovement_Command);
 }
 
-void CPlayer::Set_WaitActionState(const wstring& wstrState)
+void CLiDailin::Set_WaitActionState(const wstring& wstrState)
 {
     auto iter = m_States.find(wstrState);
     if (iter == m_States.end()) {
-        MSG_BOX("CPlayer.cpp: No ActionState");
+        MSG_BOX("CLiDailin.cpp: No ActionState");
         m_pWaitActionState = nullptr;
         return;
     }
@@ -194,7 +194,7 @@ void CPlayer::Set_WaitActionState(const wstring& wstrState)
     m_pWaitActionState = dynamic_cast<CActionState*>(iter->second);
 }
 
-void CPlayer::Apply_WaitActionState()
+void CLiDailin::Apply_WaitActionState()
 {
     if (m_pWaitActionState == nullptr) {
         if (m_bActionEnd == true)
@@ -221,7 +221,7 @@ void CPlayer::Apply_WaitActionState()
     m_pCurActionState->Enter(this);
 }
 
-void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
+void CLiDailin::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
 {
     if (m_pCurActionState != nullptr) {
         m_pCurActionState->HandleActionCommand(this, tAction_Command);
@@ -280,7 +280,7 @@ void CPlayer::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
     }
 }
 
-COOL_INFO* CPlayer::Get_CoolInfo(const SKILL_SLOT eType)
+COOL_INFO* CLiDailin::Get_CoolInfo(const SKILL_SLOT eType)
 {
     switch (eType)
     {
@@ -309,7 +309,7 @@ COOL_INFO* CPlayer::Get_CoolInfo(const SKILL_SLOT eType)
     return nullptr;
 }
 
-_bool CPlayer::CanUseSkill(const SKILL_SLOT eType)
+_bool CLiDailin::CanUseSkill(const SKILL_SLOT eType)
 {
     switch (eType)
     {
@@ -342,7 +342,7 @@ _bool CPlayer::CanUseSkill(const SKILL_SLOT eType)
     return false;
 }
 
-void CPlayer::Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc)
+void CLiDailin::Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc)
 {
     tDesc.eSkillSlot = eType;
 
@@ -351,27 +351,31 @@ void CPlayer::Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc)
         case SKILL_SLOT::Q:
         {
             tDesc.eCoolDownType = COOLDOWN_TYPE::STACK;
+            tDesc.TexturePrototypeTag = L"Prototype_Texture_LiDailin_Q";
             break;
         }
         case SKILL_SLOT::W:
         {
             tDesc.eCoolDownType = COOLDOWN_TYPE::NORMAL;
+            tDesc.TexturePrototypeTag = L"Prototype_Texture_LiDailin_W";
             break;
         }
         case SKILL_SLOT::E:
         {
             tDesc.eCoolDownType = COOLDOWN_TYPE::NORMAL;
+            tDesc.TexturePrototypeTag = L"Prototype_Texture_LiDailin_E";
             break;
         }
         case SKILL_SLOT::R:
         {
             tDesc.eCoolDownType = COOLDOWN_TYPE::NORMAL;
+            tDesc.TexturePrototypeTag = L"Prototype_Texture_LiDailin_R";
             break;
         }
     }
 }
 
-HRESULT CPlayer::Ready_Components()
+HRESULT CLiDailin::Ready_Components()
 {
     /* For.Com_Navigation */
     CNavigation::NAVIGATION_DESC NaviDesc;
@@ -408,7 +412,7 @@ HRESULT CPlayer::Ready_Components()
     return S_OK;
 }
 
-HRESULT CPlayer::Ready_PartObjects()
+HRESULT CLiDailin::Ready_PartObjects()
 {
     // Body
     CBody_Player::BODY_PLAYER_DESC BodyDesc{};
@@ -447,12 +451,12 @@ HRESULT CPlayer::Ready_PartObjects()
     return S_OK;
 }
 
-HRESULT CPlayer::Bind_ShaderResources()
+HRESULT CLiDailin::Bind_ShaderResources()
 {
     return S_OK;
 } 
 
-void CPlayer::Key_Input()
+void CLiDailin::Key_Input()
 {
     // Q
     if (m_pGameInstance->Key_Down(DIK_Q)) {
@@ -519,7 +523,7 @@ void CPlayer::Key_Input()
     }
 }
 
-void CPlayer::CoolTimer(_float fTimeDelta)
+void CLiDailin::CoolTimer(_float fTimeDelta)
 {
     // Q
     tQCool.Update_Cool(fTimeDelta);
@@ -535,33 +539,33 @@ void CPlayer::CoolTimer(_float fTimeDelta)
     tRCool.Update_Cool(fTimeDelta);
 }
 
-CPlayer* CPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLiDailin* CLiDailin::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CPlayer* pInstance = new CPlayer(pDevice, pContext);
+    CLiDailin* pInstance = new CLiDailin(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CPlayer");
+        MSG_BOX("Failed to Created: CLiDailin");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CPlayer::Clone(void* pArg)
+CGameObject* CLiDailin::Clone(void* pArg)
 {
-    CPlayer* pInstance = new CPlayer(*this);
+    CLiDailin* pInstance = new CLiDailin(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CPlayer");
+        MSG_BOX("Failed to Cloned: CLiDailin");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CPlayer::Free()
+void CLiDailin::Free()
 {
     for (auto& pair : m_States) {
         Safe_Release(pair.second);

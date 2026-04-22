@@ -1,6 +1,6 @@
 #include "CLiDailin_Q.h"
 
-#include "CPlayer.h"
+#include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CGameInstance.h"
@@ -9,7 +9,7 @@ CLiDailin_Q::CLiDailin_Q()
 {
 }
 
-void CLiDailin_Q::Enter(CPlayer* pPlayer)
+void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 {
 	// Cool
 	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(SKILL_SLOT::Q));
@@ -65,7 +65,7 @@ void CLiDailin_Q::Enter(CPlayer* pPlayer)
 	pPlayer->Set_WaitMovementState(L"Idle");
 }
 
-void CLiDailin_Q::Update(CPlayer* pPlayer, _float fTimeDelta)
+void CLiDailin_Q::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
 	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(SKILL_SLOT::Q));
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
@@ -84,14 +84,14 @@ void CLiDailin_Q::Update(CPlayer* pPlayer, _float fTimeDelta)
 	}
 }
 
-void CLiDailin_Q::Exit(CPlayer* pPlayer)
+void CLiDailin_Q::Exit(CLiDailin* pPlayer)
 {
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
 	pPlayer->Set_AniBlock(false);
 	pPlayer->Set_MoveBlock(false);
 }
 
-void CLiDailin_Q::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)
+void CLiDailin_Q::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
 {
 	if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == false) {
 		return;

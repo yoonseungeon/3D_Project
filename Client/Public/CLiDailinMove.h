@@ -9,10 +9,10 @@ private:
 	virtual ~CLiDailinMove() = default;
 
 public:
-	void Enter(CPlayer* pPlayer) override;
-	void Update(CPlayer* pPlayer, _float fTimeDelta) override;
-	void Exit(CPlayer* pPlayer) override;
-	void HandleMovementCommand(CPlayer* pPlayer, MOVEMENT_COMMAND& eMovement_Command) override;
+	void Enter(CLiDailin* pPlayer) override;
+	void Update(CLiDailin* pPlayer, _float fTimeDelta) override;
+	void Exit(CLiDailin* pPlayer) override;
+	void HandleMovementCommand(CLiDailin* pPlayer, MOVEMENT_COMMAND& eMovement_Command) override;
 
 public:
 	static CLiDailinMove* Create();

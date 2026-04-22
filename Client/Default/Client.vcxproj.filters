@@ -312,7 +312,7 @@
     <ClInclude Include="..\Public\CInGame_Manager.h">
       <Filter>99. Manager\02. InGame_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CPlayer.h">
+    <ClInclude Include="..\Public\CLiDailin.h">
       <Filter>02. GameObject\03. AbstarctPlayer\LiDailin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CBody_Player.h">
@@ -507,7 +507,7 @@
     <ClCompile Include="..\Private\CInGame_Manager.cpp">
       <Filter>99. Manager\02. InGame_Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CPlayer.cpp">
+    <ClCompile Include="..\Private\CLiDailin.cpp">
       <Filter>02. GameObject\03. AbstarctPlayer\LiDailin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CBody_Player.cpp">

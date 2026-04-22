@@ -1,11 +1,12 @@
 #include "CLiDailin_W.h"
 
-#include "CPlayer.h"
+#include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CGameInstance.h"
 
-const char* CLiDailin_W::m_pBoneNames[] = {
+const char* CLiDailin_W::m_pBoneNames[] =
+{
     "Bip001 Spine",
     "Bip001 Spine1",
     "Bip001 Spine2",
@@ -106,7 +107,7 @@ HRESULT CLiDailin_W::Initialize()
 	return S_OK;
 }
 
-void CLiDailin_W::Enter(CPlayer* pPlayer)
+void CLiDailin_W::Enter(CLiDailin* pPlayer)
 {
 	// Cool
 	COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(SKILL_SLOT::W);
@@ -120,7 +121,7 @@ void CLiDailin_W::Enter(CPlayer* pPlayer)
 	// Ani Speed
 }
 
-void CLiDailin_W::Update(CPlayer* pPlayer, _float fTimeDelta)
+void CLiDailin_W::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
     if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAniOverlay() == false)
     {
@@ -137,7 +138,7 @@ void CLiDailin_W::Update(CPlayer* pPlayer, _float fTimeDelta)
     }
 }
 
-void CLiDailin_W::Exit(CPlayer* pPlayer)
+void CLiDailin_W::Exit(CLiDailin* pPlayer)
 {
     pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
 
@@ -149,7 +150,7 @@ void CLiDailin_W::Exit(CPlayer* pPlayer)
 
 }
 
-void CLiDailin_W::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)
+void CLiDailin_W::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
 {
     if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAniOverlay() == true)
     {

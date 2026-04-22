@@ -62,4 +62,5 @@ struct SKILL_DESC
 {
 	SKILL_SLOT eSkillSlot{};
 	COOLDOWN_TYPE eCoolDownType{};
+	const wchar_t* TexturePrototypeTag{};
 };

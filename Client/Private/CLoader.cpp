@@ -23,7 +23,7 @@
 #include "CMonster.h"
 #include "CForkLift.h"
 #include "CSnow.h"
-#include "CPlayer.h"
+#include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CBottle.h"
@@ -1097,7 +1097,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
-                CPlayer::Create(m_pDevice, m_pContext))))
+                CLiDailin::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Player");
             }

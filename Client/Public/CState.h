@@ -7,7 +7,7 @@
 
 NS_BEGIN(Client)
 
-class CPlayer;
+class CLiDailin;
 
 class CState abstract : public CBase
 {
@@ -16,9 +16,9 @@ protected:
 	virtual ~CState() = default;
 
 public:
-	virtual void Enter(CPlayer* pPlayer) = 0;
-	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) = 0;
-	virtual void Exit(CPlayer* pPlayer) = 0;
+	virtual void Enter(CLiDailin* pPlayer) = 0;
+	virtual void Update(CLiDailin* pPlayer, _float fTimeDelta) = 0;
+	virtual void Exit(CLiDailin* pPlayer) = 0;
 
 protected:
 	virtual void Free();

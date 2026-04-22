@@ -1,7 +1,7 @@
 #include "CBody_Player.h"
 
 #include "CGameInstance.h"
-#include "CPlayer.h"
+#include "CLiDailin.h"
 
 CBody_Player::CBody_Player(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject{ pDevice, pContext }

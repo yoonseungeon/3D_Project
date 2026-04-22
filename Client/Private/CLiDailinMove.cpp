@@ -1,6 +1,6 @@
 #include "CLiDailinMove.h"
 
-#include "CPlayer.h"
+#include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CGameInstance.h"
@@ -9,7 +9,7 @@ CLiDailinMove::CLiDailinMove()
 {
 }
 
-void CLiDailinMove::Enter(CPlayer* pPlayer)
+void CLiDailinMove::Enter(CLiDailin* pPlayer)
 {
 	// Ani
 	if (pPlayer->Get_AniBlock() == false)
@@ -27,7 +27,7 @@ void CLiDailinMove::Enter(CPlayer* pPlayer)
 	//}
 }
 
-void CLiDailinMove::Update(CPlayer* pPlayer, _float fTimeDelta)
+void CLiDailinMove::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
 	if (pPlayer->Get_MoveBlock() == true)
 	{
@@ -49,14 +49,14 @@ void CLiDailinMove::Update(CPlayer* pPlayer, _float fTimeDelta)
 	}
 }
 
-void CLiDailinMove::Exit(CPlayer* pPlayer)
+void CLiDailinMove::Exit(CLiDailin* pPlayer)
 {
 	if (pPlayer->Get_MoveBlock() == true) {
 		return;
 	}
 }
 
-void CLiDailinMove::HandleMovementCommand(CPlayer* pPlayer, MOVEMENT_COMMAND& eMovement_Command)
+void CLiDailinMove::HandleMovementCommand(CLiDailin* pPlayer, MOVEMENT_COMMAND& eMovement_Command)
 {
 	switch (eMovement_Command.eCommandType) {
 		case MOVEMENT_COMMAND_TYPE::MOVE:

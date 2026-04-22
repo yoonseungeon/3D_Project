@@ -1,6 +1,6 @@
 #include "CLiDailin_R.h"
 
-#include "CPlayer.h"
+#include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CGameInstance.h"
@@ -9,7 +9,7 @@ CLiDailin_R::CLiDailin_R()
 {
 }
 
-void CLiDailin_R::Enter(CPlayer* pPlayer)
+void CLiDailin_R::Enter(CLiDailin* pPlayer)
 {
 	// Cool
 	m_fChanneling = 0.1f;
@@ -31,7 +31,7 @@ void CLiDailin_R::Enter(CPlayer* pPlayer)
 	pPlayer->Set_WaitMovementState(L"Idle");
 }
 
-void CLiDailin_R::Update(CPlayer* pPlayer, _float fTimeDelta)
+void CLiDailin_R::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
 	if (m_fChanneling > 0.f) {
 		m_fChanneling -= fTimeDelta;
@@ -76,7 +76,7 @@ void CLiDailin_R::Update(CPlayer* pPlayer, _float fTimeDelta)
 	}
 }
 
-void CLiDailin_R::Exit(CPlayer* pPlayer)
+void CLiDailin_R::Exit(CLiDailin* pPlayer)
 {
 	pPlayer->Set_AniBlock(false);
 	pPlayer->Set_MoveBlock(false);
@@ -93,7 +93,7 @@ void CLiDailin_R::Exit(CPlayer* pPlayer)
 
 }
 
-void CLiDailin_R::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)
+void CLiDailin_R::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
 {
 	if (bIsAniR2Changed == false) {
 		return;

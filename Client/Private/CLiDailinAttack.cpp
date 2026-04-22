@@ -1,6 +1,6 @@
 #include "CLiDailinAttack.h"
 
-#include "CPlayer.h"
+#include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CGameInstance.h"
@@ -9,7 +9,7 @@ CLiDailinAttack::CLiDailinAttack()
 {
 }
 
-void CLiDailinAttack::Enter(CPlayer* pPlayer)
+void CLiDailinAttack::Enter(CLiDailin* pPlayer)
 {	
 	pPlayer->Set_CanMoveCancle(true);
 
@@ -23,7 +23,7 @@ void CLiDailinAttack::Enter(CPlayer* pPlayer)
 	}
 }
 
-void CLiDailinAttack::Update(CPlayer* pPlayer, _float fTimeDelta)
+void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
 	if (m_bChase == true)
 	{
@@ -52,7 +52,7 @@ void CLiDailinAttack::Update(CPlayer* pPlayer, _float fTimeDelta)
 	}
 }
 
-void CLiDailinAttack::Exit(CPlayer* pPlayer)
+void CLiDailinAttack::Exit(CLiDailin* pPlayer)
 {
 	pPlayer->Set_CanMoveCancle(false);
 
@@ -60,7 +60,7 @@ void CLiDailinAttack::Exit(CPlayer* pPlayer)
 	pPlayer->Set_AniBlock(false);
 }
 
-void CLiDailinAttack::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)
+void CLiDailinAttack::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
 {
 	switch (eAction_Command.eCommandType) {
 		case ACTION_COMMAND_TYPE::ATTACK:
@@ -116,7 +116,7 @@ void CLiDailinAttack::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAct
 	}
 }
 
-void CLiDailinAttack::Attack(CPlayer* pPlayer)
+void CLiDailinAttack::Attack(CLiDailin* pPlayer)
 {
 	// Ani
 	if (rand() % 2 == 0) {
@@ -136,7 +136,7 @@ void CLiDailinAttack::Attack(CPlayer* pPlayer)
 	m_bChase = false;
 }
 
-void CLiDailinAttack::Chase(CPlayer* pPlayer)
+void CLiDailinAttack::Chase(CLiDailin* pPlayer)
 {
 	MOVEMENT_COMMAND tMovement_Command{};
 	tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;
@@ -148,7 +148,7 @@ void CLiDailinAttack::Chase(CPlayer* pPlayer)
 	m_bChase = true;
 }
 
-void CLiDailinAttack::DoAttackOrChase(CPlayer* pPlayer)
+void CLiDailinAttack::DoAttackOrChase(CLiDailin* pPlayer)
 {
 	//if(pPlayer->Get_CurActionCommand().pGameObject와 거리 비교)
 	if (CGameInstance::GetInstance()->Key_Pressing(DIK_S) /* 범위 안 이면 */) {

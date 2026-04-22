@@ -1,7 +1,7 @@
 #include "CBottle.h"
 
 #include "CGameInstance.h"
-#include "CPlayer.h"
+#include "CLiDailin.h"
 
 CBottle::CBottle(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject{ pDevice, pContext }

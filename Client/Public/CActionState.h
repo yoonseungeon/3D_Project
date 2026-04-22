@@ -5,7 +5,7 @@
 
 NS_BEGIN(Client)
 
-class CPlayer;
+class CLiDailin;
 
 class CActionState abstract : public CState
 {
@@ -14,10 +14,10 @@ protected:
 	virtual ~CActionState() = default;
 
 public:
-	virtual void Enter(CPlayer* pPlayer) = 0;
-	virtual void Update(CPlayer* pPlayer, _float fTimeDelta) = 0;
-	virtual void Exit(CPlayer* pPlayer) = 0;
-	virtual void HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command) = 0;
+	virtual void Enter(CLiDailin* pPlayer) = 0;
+	virtual void Update(CLiDailin* pPlayer, _float fTimeDelta) = 0;
+	virtual void Exit(CLiDailin* pPlayer) = 0;
+	virtual void HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command) = 0;
 
 protected:
 	virtual void Free();

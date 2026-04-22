@@ -136,7 +136,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     QDesc.fScaleRatioY = 0.071f;
     QDesc.fPosRatioX = m_fPosRatioX + (-0.5f) * m_fScaleRatioX + QDesc.fScaleRatioX * 0.5f;
     QDesc.fPosRatioY = -0.4f;
-    QDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_Q";
+    QDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
     QDesc.eBlendState = CUI_Default::DEFAULT;
 
     QDesc.eSkillSlot = Desc.eSkillSlot;
@@ -155,7 +155,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     WDesc.fScaleRatioY = 0.071f;
     WDesc.fPosRatioX = 0.0f;
     WDesc.fPosRatioY = -0.4f;
-    WDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_W";
+    WDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
     WDesc.eBlendState = CUI_Default::DEFAULT;
 
     WDesc.eSkillSlot = Desc.eSkillSlot;
@@ -174,7 +174,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     EDesc.fScaleRatioY = 0.071f;
     EDesc.fPosRatioX = 0.07f;
     EDesc.fPosRatioY = -0.4f;
-    EDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_E";
+    EDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
     EDesc.eBlendState = CUI_Default::DEFAULT;
 
     EDesc.eSkillSlot = Desc.eSkillSlot;
@@ -193,7 +193,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
    RDesc.fScaleRatioY = 0.071f;
    RDesc.fPosRatioX = 0.14f;
    RDesc.fPosRatioY = -0.4f;
-   RDesc.wstrTexturePrototypeTag = L"Prototype_Texture_LiDailin_R";
+   RDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
    RDesc.eBlendState = CUI_Default::DEFAULT;
 
    RDesc.eSkillSlot = Desc.eSkillSlot;

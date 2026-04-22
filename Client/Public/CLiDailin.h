@@ -17,12 +17,12 @@ class CMovementState;
 class CActionState;
 class CInGame_Manager;
 
-class CPlayer final : public CAbstractPlayer
+class CLiDailin final : public CAbstractPlayer
 {
 private:
-	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CPlayer(const CPlayer& Prototype);
-	virtual ~CPlayer() = default;
+	CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CLiDailin(const CLiDailin& Prototype);
+	virtual ~CLiDailin() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -128,7 +128,7 @@ private:
 	void CoolTimer(_float fTimeDelta);
 
 public:
-	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CLiDailin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();

@@ -9,10 +9,10 @@ private:
 	virtual ~CLiDailin_E() = default;
 
 public:
-	void Enter(CPlayer* pPlayer) override;
-	void Update(CPlayer* pPlayer, _float fTimeDelta) override;
-	void Exit(CPlayer* pPlayer) override;
-	void HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command) override;
+	void Enter(CLiDailin* pPlayer) override;
+	void Update(CLiDailin* pPlayer, _float fTimeDelta) override;
+	void Exit(CLiDailin* pPlayer) override;
+	void HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command) override;
 
 private:
 	_float	m_fChanneling{};

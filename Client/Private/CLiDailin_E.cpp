@@ -1,6 +1,6 @@
 #include "CLiDailin_E.h"
 
-#include "CPlayer.h"
+#include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CGameInstance.h"
@@ -9,7 +9,7 @@ CLiDailin_E::CLiDailin_E()
 {
 }
 
-void CLiDailin_E::Enter(CPlayer* pPlayer)
+void CLiDailin_E::Enter(CLiDailin* pPlayer)
 {
 	m_fChanneling = 0.2f;
 	m_bCancleLock = true;
@@ -31,7 +31,7 @@ void CLiDailin_E::Enter(CPlayer* pPlayer)
     pPlayer->Set_WaitMovementState(L"Idle");
 }
 
-void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
+void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
 	if (m_fChanneling > 0.f) {
 		m_fChanneling -= fTimeDelta;
@@ -52,7 +52,7 @@ void CLiDailin_E::Update(CPlayer* pPlayer, _float fTimeDelta)
     }
 }
 
-void CLiDailin_E::Exit(CPlayer* pPlayer)
+void CLiDailin_E::Exit(CLiDailin* pPlayer)
 {
     pPlayer->Set_AniBlock(false);
     pPlayer->Set_MoveBlock(false);
@@ -62,7 +62,7 @@ void CLiDailin_E::Exit(CPlayer* pPlayer)
     pPlayer->Set_CanMoveCancle(false);
 }
 
-void CLiDailin_E::HandleActionCommand(CPlayer* pPlayer, ACTION_COMMAND& eAction_Command)
+void CLiDailin_E::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
 {
 	if (m_bCancleLock == true)
 	{

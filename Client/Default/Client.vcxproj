@@ -180,7 +180,7 @@
     <ClInclude Include="..\Public\Command.h" />
     <ClInclude Include="..\Public\CPickSkin.h" />
     <ClInclude Include="..\Public\CPickSlot.h" />
-    <ClInclude Include="..\Public\CPlayer.h" />
+    <ClInclude Include="..\Public\CLiDailin.h" />
     <ClInclude Include="..\Public\CRoof.h" />
     <ClInclude Include="..\Public\CSnow.h" />
     <ClInclude Include="..\Public\CStage.h" />
@@ -246,7 +246,7 @@
     <ClCompile Include="..\Private\CMovementState.cpp" />
     <ClCompile Include="..\Private\CPickSkin.cpp" />
     <ClCompile Include="..\Private\CPickSlot.cpp" />
-    <ClCompile Include="..\Private\CPlayer.cpp" />
+    <ClCompile Include="..\Private\CLiDailin.cpp" />
     <ClCompile Include="..\Private\CRoof.cpp" />
     <ClCompile Include="..\Private\CSnow.cpp" />
     <ClCompile Include="..\Private\CStage.cpp" />
