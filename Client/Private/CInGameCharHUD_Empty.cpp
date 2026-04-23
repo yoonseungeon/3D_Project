@@ -5,6 +5,7 @@
 
 #include "CUI_Image.h"
 #include "CUI_CharSkillPanel.h"
+#include "CUI_StatPanel.h"
 
 CInGameCharHUD_Empty::CInGameCharHUD_Empty(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -93,6 +94,29 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_CharSkillPanel"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &SkillPanelDesc)))
+        return E_FAIL;
+
+
+    // CUI_StatPanel
+    CUI_StatPanel::CUI_STATPANEL_DESC StatPanelDesc{};
+
+    StatPanelDesc.fScaleRatioX = 0.09f;
+    StatPanelDesc.fScaleRatioY = SkillPanelDesc.fScaleRatioY;
+    StatPanelDesc.fPosRatioX = -0.338516f;
+    StatPanelDesc.fPosRatioY = SkillPanelDesc.fPosRatioY;
+
+    StatPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
+
+    StatPanelDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    StatPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
+
+    StatPanelDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    StatPanelDesc.vColor = COLOR_TO_FLOAT(33, 45, 51);
+
+    StatPanelDesc.fImageAlpha = 0.8f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatPanel"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatPanelDesc)))
         return E_FAIL;
 
     return S_OK;

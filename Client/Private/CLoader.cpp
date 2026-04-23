@@ -34,6 +34,8 @@
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
 #include "CUI_InGameCharProfile.h"
+#include "CUI_StatPanel.h"
+#include "CUI_StatBox.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -156,6 +158,22 @@ void CLoader::Show_Loading_Status()
 
 HRESULT CLoader::Ready_Resources_For_Static()
 {
+#pragma region Font
+    // .\MakeSpriteFont.exe "Pretendard Medium" / fontSize:10 / Sharp / fastPack / characterRegion : 0x0020 - 0x00FF / characterRegion : 0x3131 - 0x3163 / characterRegion : 0xAC00 - 0xD7A3 / defaultCharacter : 0xAC00 Pretendard_Middle_10.spritefont
+
+    // Font_Pretendard_Middle
+    if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_Middle"), TEXT("../Bin/Resources/Fonts/Pretendard_Middle.spritefont"))))
+    {
+        MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_Middle");
+    }
+
+    // Font_Pretendard_SemiBold
+    if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_SemiBold"), TEXT("../Bin/Resources/Fonts/Pretendard_SemiBold.spritefont"))))
+    {
+        MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_SemiBold");
+    }
+#pragma endregion
+
 #pragma region 버퍼
     /* Prototype_Component_VIBuffer_Rect */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
@@ -296,23 +314,6 @@ HRESULT CLoader::Ready_Resources_For_Static()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
-#pragma endregion
-
-#pragma region Font
-    // MakeSpriteFont.exe "Pretendard 중간" / FontSize:20 / FastPack / CharacterRegion : 0x0020 - 0x00FF / CharacterRegion : 0x3131 - 0x3163 / CharacterRegion : 0xAC00 - 0xD800 / DefaultCharacter : 0xAC00 Pretendard_Middle.spritefont
-
-    // Font_Pretendard_Middle
-    if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_Middle"), TEXT("../Bin/Resources/Fonts/Pretendard_Middle.spritefont"))))
-    {
-        MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_Middle");
-    }
-
-
-    // Font_Pretendard_SemiBold
-    if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_SemiBold"), TEXT("../Bin/Resources/Fonts/Pretendard_SemiBold.spritefont"))))
-    {
-        MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_SemiBold");
-    }
 #pragma endregion
 
     return S_OK;
@@ -1345,6 +1346,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
+    /* Prototype_GameObject_CUI_StatPanel */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatPanel"),
+                CUI_StatPanel::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_StatPanel");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CUI_StatBox */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
+                CUI_StatBox::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_StatBox");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
     /* Prototype_GameObject_CUI_CharSkillPanel */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -1550,6 +1577,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/CircleMask.png"), 1))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_CircleMask");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_IcoStat */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_IcoStat"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Ico_ChaStat%d.png"), 8))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_IcoStat");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

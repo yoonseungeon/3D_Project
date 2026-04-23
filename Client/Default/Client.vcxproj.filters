@@ -208,6 +208,12 @@
     <Filter Include="02. GameObject\03. Unit\AbstarctPlayer\LiDailin\98. MovementState\01. Move">
       <UniqueIdentifier>{c1b1cd04-40ac-4d0b-8a7c-d4451f6afc42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel">
+      <UniqueIdentifier>{ab6918be-fa52-4325-8036-61e2347d8da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox">
+      <UniqueIdentifier>{c84d3ebf-cb4b-4b00-92fa-4f6b51a72029}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -414,6 +420,12 @@
     <ClInclude Include="..\Public\CUnit.h">
       <Filter>02. GameObject\03. Unit</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_StatPanel.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_StatBox.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -605,6 +617,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUnit.cpp">
       <Filter>02. GameObject\03. Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_StatPanel.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_StatBox.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ NS_BEGIN(Client)
 class CUnit abstract : public CContainerObject
 {
 public:
-	struct PLATER_STAT
+	struct UNIT_STAT
 	{
 		_ubyte iLevel{};//최대 o
 		_ushort iEXP{}; //최대 o 최대가 변함
@@ -30,7 +30,7 @@ public:
 		_ushort iCritical{};
 		_float fSpeed{};
 
-		PLATER_STAT& operator += (const PLATER_STAT& rhs) {
+		UNIT_STAT& operator += (const UNIT_STAT& rhs) {
 			iLevel += rhs.iLevel;
 			iEXP += rhs.iEXP;
 
@@ -72,13 +72,13 @@ public:
 	// TransformCom
 	const CTransform* Get_TransformCom() { return m_pTransformCom; }
 
-	const PLATER_STAT& Get_FinalStat() { return m_tFinalStat; }
-	const PLATER_STAT& Get_CurStat() { return m_tCurStat; }
+	const UNIT_STAT& Get_FinalStat() { return m_tFinalStat; }
+	const UNIT_STAT& Get_CurStat() { return m_tCurStat; }
 
 protected:
 	void LevelUp();
 
-	void SetStat(PLATER_STAT& tStat,
+	void SetStat(UNIT_STAT& tStat,
 		_ubyte iLevel, _ushort iExp, _ushort iHp, _ushort iMp,
 		_float fHpRec, _float fMpRec, _ushort iATK, _ushort iSkillAmp,
 		_ushort iPen, _ushort iPenPct, _ushort iDef,
@@ -87,14 +87,14 @@ protected:
 	void SetFinalStat();
 
 protected:
-	PLATER_STAT m_tFinalStat{}; // Base와 Item의 합산
-	PLATER_STAT m_tBaseStat{};
+	UNIT_STAT m_tFinalStat{}; // Base와 Item의 합산
+	UNIT_STAT m_tBaseStat{};
 
-	PLATER_STAT m_tItemStat{};
+	UNIT_STAT m_tItemStat{};
 
-	PLATER_STAT m_tLevelUpStat{}; // 레벨업 할 때 base와 cur에 더해줘야 할 값
+	UNIT_STAT m_tLevelUpStat{}; // 레벨업 할 때 base와 cur에 더해줘야 할 값
 
-	PLATER_STAT m_tCurStat{};
+	UNIT_STAT m_tCurStat{};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

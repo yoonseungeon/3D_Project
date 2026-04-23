@@ -78,7 +78,7 @@ void CUnit::LevelUp()
     m_tCurStat.iEXP = 0;
 }
 
-void CUnit::SetStat(PLATER_STAT& tStat
+void CUnit::SetStat(UNIT_STAT& tStat
     , _ubyte iLevel, _ushort iExp, _ushort iHp, _ushort iMp,
     _float fHpRec, _float fMpRec, _ushort iATK, _ushort iSkillAmp,
     _ushort iPen, _ushort iPenPct, _ushort iDef,

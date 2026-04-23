@@ -97,7 +97,8 @@ HRESULT CLiDailin::Initialize(void* pArg)
 
     SetStat(m_tLevelUpStat, 0, 7, 188, 0, 0.63f, 0.f, 5, 0, 0, 0, 3, 0.03f, 0, 0, 0.01f);
     
-    
+    SetFinalStat();
+
     return S_OK;
 }
 
