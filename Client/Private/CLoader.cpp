@@ -981,13 +981,26 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxRectInstance"),
-                CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxRectInstance.hlsl"), VTXPARTICLE_INSTANCE_DESC::Elements, VTXPARTICLE_INSTANCE_DESC::iNumElements))))
+                CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxRectInstance.hlsl"), VTXRECT_INSTANCE_DESC::Elements, VTXRECT_INSTANCE_DESC::iNumElements))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Shader_VtxMesh");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    ///* Prototype_Component_Shader_VtxPointInstance */
+    //m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    //m_pGameInstance->Add_Job(
+    //    [this]()->void {
+    //        if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxPointInstance"),
+    //            CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxPointInstance.hlsl"), VTXPOINT_INSTANCE_DESC::Elements, VTXPOINT_INSTANCE_DESC::iNumElements))))
+    //        {
+    //            MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Shader_VtxMesh");
+    //        }
+    //        m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+    //    }
+    //);
 
     /* Prototype_Component_Shader_VtxMesh */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
@@ -1037,6 +1050,29 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
+    /* Prototype_Component_VIBuffer_Instance_Explosion */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            CVIBuffer_Point_Instance::POINT_INSTANCE_DESC     ExploDesc{};
+            ExploDesc.iNumInstance = 600;
+            ExploDesc.vCenter = _float3(0.f, 0.f, 0.f);
+            ExploDesc.vRange = _float3(0.3f, 0.3f, 0.3f);
+            ExploDesc.vSize = _float2(0.1f, 0.2f);
+            ExploDesc.vSpeed = _float2(1.f, 3.f);
+            ExploDesc.vLifeTime = _float2(0.5f, 0.8f);
+            ExploDesc.vPivot = _float3(0.f, -0.5f, 0.f);
+            ExploDesc.isLoop = true;
+
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_Explosion"),
+                CVIBuffer_Point_Instance::Create(m_pDevice, m_pContext, &ExploDesc))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_VIBuffer_Instance_Snow");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+ 
     /* Prototype_GameObject_Monster */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(

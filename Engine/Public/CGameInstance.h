@@ -13,6 +13,7 @@
 #include "CNavigation.h"
 #include "CCollider.h"
 #include "CVIBuffer_Rect_Instance.h"
+#include "CVIBuffer_Point_Instance.h"
 #pragma endregion
 
 NS_BEGIN(Engine)
