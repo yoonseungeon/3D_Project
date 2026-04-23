@@ -5,7 +5,6 @@
     "tbb",
     "effects11",
     "directxtk",
-    "assimp",
     "directxtex",
     "nlohmann-json",
     {
@@ -16,5 +15,6 @@
         "dx11-binding"
       ]
     }
-  ]
+  ],
+  "builtin-baseline": "b781af668027bbf77f2f827f47b5c6cd8d825c08"
 }

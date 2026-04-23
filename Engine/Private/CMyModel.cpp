@@ -276,7 +276,7 @@ _float CMyModel::Get_AniPlayRatio(_uint iIndex) const
     return m_Animations[iIndex]->Get_AniPlayRatio();
 }
 
-HRESULT CMyModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex)
+HRESULT CMyModel::Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, MyTextureType eType, _uint iIndex)
 {
     if (iMeshIndex >= m_iNumMeshes)
         return E_FAIL;

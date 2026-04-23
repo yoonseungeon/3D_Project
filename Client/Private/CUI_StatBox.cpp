@@ -28,8 +28,8 @@ HRESULT CUI_StatBox::Initialize(void* pArg)
 
     static const _float fStartAdjust{ 0.5f };
 
-    m_fImagePosX = (pDesc->fPosRatioX + fStartAdjust) * g_iWinSizeX + g_iWinSizeX * 0.01f + 0.2f;
-    m_fImagePosY = (pDesc->fPosRatioY + fStartAdjust) * g_iWinSizeY - g_iWinSizeY * 0.012f + 0.3f;
+    m_fImagePosX = (pDesc->fPosRatioX + fStartAdjust) * g_iWinSizeX + g_iWinSizeX * 0.01f;
+    m_fImagePosY = (pDesc->fPosRatioY + fStartAdjust) * g_iWinSizeY - g_iWinSizeY * 0.012f;
 
     m_eStatBoxType = pDesc->eStatBoxType;
 
@@ -157,7 +157,7 @@ HRESULT CUI_StatBox::Render()
     m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
         m_wstrText.data(),
         _float2(m_fImagePosX, m_fImagePosY), XMVectorSet(1.f, 1.f, 1.f, 1.f),
-        _float2(1.1f, 1.1f)
+        _float2(fDefaultFontSize * fAdjustFontSize, fDefaultFontSize * fAdjustFontSize)
     );
 
     return S_OK;

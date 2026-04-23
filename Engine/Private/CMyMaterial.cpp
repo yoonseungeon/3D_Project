@@ -78,7 +78,7 @@ HRESULT CMyMaterial::Initialize(const myMaterial* pMyMaterial, const _char* pMod
 	return S_OK;
 }
 
-HRESULT CMyMaterial::Bind_ShaderResource(CShader* pShader, const _char* pConstantName, aiTextureType eType, _uint iIndex)
+HRESULT CMyMaterial::Bind_ShaderResource(CShader* pShader, const _char* pConstantName, MyTextureType eType, _uint iIndex)
 {
 	if (eType >= TEXTURE_TYPE_MAX || iIndex >= m_Materials[eType].size())
 		return E_FAIL;

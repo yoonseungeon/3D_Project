@@ -16,7 +16,7 @@ private:
 	HRESULT Initialize(const myMaterial* pMyMaterial, const _char* pModelFilePath);
 
 public:
-	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName, aiTextureType eType, _uint iIndex);
+	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName, MyTextureType eType, _uint iIndex);
 
 private:
 	ID3D11Device*			m_pDevice{ nullptr };

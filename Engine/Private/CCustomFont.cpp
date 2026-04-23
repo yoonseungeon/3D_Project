@@ -13,6 +13,9 @@ HRESULT CCustomFont::Initialize(const _tchar* pFontFilePath)
 	m_pBatch = new SpriteBatch(m_pContext);
 	m_pFont = new SpriteFont(m_pDevice, pFontFilePath);
 
+	// 글자를 픽셀 경계에 맞춰서 그리게 강제하는 옵션
+	m_pFont->SetPixelAlignment(true);
+
 	return S_OK;
 }
 

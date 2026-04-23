@@ -3,6 +3,30 @@
 
 #define TEXTURE_TYPE_MAX 27
 
+enum MyTextureType
+{
+	MyTextureType_NONE = 0,
+	MyTextureType_DIFFUSE,
+	MyTextureType_SPECULAR,
+	MyTextureType_AMBIENT,
+	MyTextureType_EMISSIVE,
+	MyTextureType_HEIGHT,
+	MyTextureType_NORMALS,
+	MyTextureType_SHININESS,
+	MyTextureType_OPACITY,
+	MyTextureType_DISPLACEMENT,
+	MyTextureType_LIGHTMAP,
+	MyTextureType_REFLECTION,
+	MyTextureType_BASE_COLOR,
+	MyTextureType_NORMAL_CAMERA,
+	MyTextureType_EMISSION_COLOR,
+	MyTextureType_METALNESS,
+	MyTextureType_DIFFUSE_ROUGHNESS,
+	MyTextureType_AMBIENT_OCCLUSION,
+	MyTextureType_UNKNOWN,
+	MyTextureType_MAX
+};
+
 namespace Engine
 {
 	struct myVtxInfo

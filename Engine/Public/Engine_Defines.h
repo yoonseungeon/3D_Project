@@ -21,11 +21,6 @@
 #include <directxtk/VertexTypes.h>
 #include <directxtk/Effects.h>
 
-#include <assimp/scene.h>
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-using namespace Assimp;
-
 using namespace DirectX;
 
 
@@ -33,10 +28,12 @@ using namespace DirectX;
 #include <list>
 #include <queue>
 #include <map>
+#include <set>
 #include <algorithm>
 #include <functional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <ctime>
 #include <atomic>
 #include <fstream>

@@ -49,7 +49,7 @@ public:
 
 public:
 	//특정 텍스처를 셰이더로 던진다.
-	HRESULT Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eType, _uint iIndex);
+	HRESULT Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, MyTextureType eType, _uint iIndex);
 	// 정점, 인덱스 버퍼 바인딩 및 draw 호출
 	HRESULT Render(_uint iMeshIndex);
 	HRESULT Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex);
