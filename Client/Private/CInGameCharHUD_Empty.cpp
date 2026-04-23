@@ -100,9 +100,9 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     // CUI_StatPanel
     CUI_StatPanel::CUI_STATPANEL_DESC StatPanelDesc{};
 
-    StatPanelDesc.fScaleRatioX = 0.09f;
+    StatPanelDesc.fScaleRatioX = 0.105f;
     StatPanelDesc.fScaleRatioY = SkillPanelDesc.fScaleRatioY;
-    StatPanelDesc.fPosRatioX = -0.338516f;
+    StatPanelDesc.fPosRatioX = -0.34f;
     StatPanelDesc.fPosRatioY = SkillPanelDesc.fPosRatioY;
 
     StatPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);

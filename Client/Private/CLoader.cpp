@@ -1587,7 +1587,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_IcoStat"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Ico_ChaStat%d.png"), 8))))
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Ico_ChaStat%d.dds"), 8))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_IcoStat");
             }

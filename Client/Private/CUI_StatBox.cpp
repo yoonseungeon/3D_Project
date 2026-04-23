@@ -28,12 +28,16 @@ HRESULT CUI_StatBox::Initialize(void* pArg)
 
     static const _float fStartAdjust{ 0.5f };
 
-    m_fImagePosX = (pDesc->fPosRatioX + fStartAdjust) * g_iWinSizeX + g_iWinSizeX * 0.01f;
-    m_fImagePosY = (pDesc->fPosRatioY + fStartAdjust) * g_iWinSizeY - g_iWinSizeY * 0.012f;
+    m_fImagePosX = (pDesc->fPosRatioX + fStartAdjust) *  static_cast<_float>(g_iWinSizeX) + static_cast<_float>(g_iWinSizeX) * 0.01f;
+    m_fImagePosY = -(pDesc->fPosRatioY - fStartAdjust) *  static_cast<_float>(g_iWinSizeY) - static_cast<_float>(g_iWinSizeY) * 0.012f;
 
     m_eStatBoxType = pDesc->eStatBoxType;
 
     pDesc->wstrTexturePrototypeTag = TEXT("Prototype_Texture_IcoStat");
+    pDesc->eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    pDesc->eTexPrototypeLV = LEVEL::GAMEPLAY;
+    pDesc->iUILayer = ETOUI(UILAYER::SLOT);
+
     m_iTexIdx = m_eStatBoxType;
 
     if (FAILED(__super::Initialize(pDesc)))
@@ -152,7 +156,7 @@ HRESULT CUI_StatBox::Render()
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
-    static const _float fAdjustFontSize = 0.5f;
+    static const _float fAdjustFontSize = 0.45f;
 
     m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
         m_wstrText.data(),

@@ -122,22 +122,105 @@ HRESULT CUI_StatPanel::Bind_ShaderResources()
 
 HRESULT CUI_StatPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
+    static const _float fAdjustX = m_fScaleRatioX * 0.1f;
+    static const _float fAdjustY = m_fScaleRatioY * 0.13f;
+
+    static const _float fStartX = m_fPosRatioX + (-0.5f) * m_fScaleRatioX + fAdjustX;
+    static const _float fStartY = m_fPosRatioY - (-0.5f) * m_fScaleRatioY - fAdjustY;
+
+    static const _float fNextCol = m_fScaleRatioX * 0.5f;
+    static const _float fNextRaw = m_fScaleRatioY * 0.25f;
+
     CUI_StatBox::CUI_STATBOX_DESC StatBoxDesc{};
 
-    StatBoxDesc.fScaleRatioX = 0.015f;
+    // 1
+    StatBoxDesc.fScaleRatioX = 0.014f;
     StatBoxDesc.fScaleRatioY = StatBoxDesc.fScaleRatioX / g_iWinSizeY * g_iWinSizeX;
-    StatBoxDesc.fPosRatioX = 0.f;
-    StatBoxDesc.fPosRatioY = 0.f;
+    StatBoxDesc.fPosRatioX = fStartX;
+    StatBoxDesc.fPosRatioY = fStartY;
+  
+    StatBoxDesc.vColor = COLOR_TO_FLOAT(255, 215, 117);
+    StatBoxDesc.eStatBoxType = CUI_StatBox::ATKPower;
 
-    StatBoxDesc.iUILayer = ETOUI(UILAYER::SLOT);
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatBoxDesc)))
+        return E_FAIL;
 
-    StatBoxDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    // 2
+    StatBoxDesc.fPosRatioX = fStartX + fNextCol;
+    StatBoxDesc.fPosRatioY = fStartY;
 
-    StatBoxDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
-    StatBoxDesc.vColor = COLOR_TO_FLOAT(33, 45, 51);
+    StatBoxDesc.vColor = COLOR_TO_FLOAT(221, 160, 221);
+    StatBoxDesc.eStatBoxType = CUI_StatBox::SkillAmp;
 
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatBoxDesc)))
+        return E_FAIL;
+
+    // 3
+    StatBoxDesc.fPosRatioX = fStartX;
+    StatBoxDesc.fPosRatioY = fStartY - fNextRaw;
+
+    StatBoxDesc.vColor = COLOR_TO_FLOAT(192, 79, 124);
     StatBoxDesc.eStatBoxType = CUI_StatBox::PenetrationDefense;
 
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatBoxDesc)))
+        return E_FAIL;
+
+    // 4
+    StatBoxDesc.fPosRatioX = fStartX + fNextCol;
+    StatBoxDesc.fPosRatioY = fStartY - fNextRaw;
+
+    StatBoxDesc.vColor = COLOR_TO_FLOAT(147, 201, 231);
+    StatBoxDesc.eStatBoxType = CUI_StatBox::Defense;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatBoxDesc)))
+        return E_FAIL;
+
+
+    // 5
+    StatBoxDesc.fPosRatioX = fStartX;
+    StatBoxDesc.fPosRatioY = fStartY - fNextRaw * 2.f;
+
+    StatBoxDesc.vColor = COLOR_TO_FLOAT(166, 158, 116);
+    StatBoxDesc.eStatBoxType = CUI_StatBox::ATKSpeed;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatBoxDesc)))
+        return E_FAIL;
+
+
+    // 6
+    StatBoxDesc.fPosRatioX = fStartX + fNextCol;
+    StatBoxDesc.fPosRatioY = fStartY - fNextRaw * 2.f;
+
+    StatBoxDesc.vColor = COLOR_TO_FLOAT(200, 200, 200);
+    StatBoxDesc.eStatBoxType = CUI_StatBox::CoolDown;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatBoxDesc)))
+        return E_FAIL;
+
+    // 7
+    StatBoxDesc.fPosRatioX = fStartX;
+    StatBoxDesc.fPosRatioY = fStartY - fNextRaw * 3.f;
+
+    StatBoxDesc.vColor = COLOR_TO_FLOAT(221, 83, 98);
+    StatBoxDesc.eStatBoxType = CUI_StatBox::Critical;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatBoxDesc)))
+        return E_FAIL;
+
+
+    // 8
+    StatBoxDesc.fPosRatioX = fStartX + fNextCol;
+    StatBoxDesc.fPosRatioY = fStartY - fNextRaw * 3.f;
+
+    StatBoxDesc.vColor = COLOR_TO_FLOAT(174, 174, 174);
+    StatBoxDesc.eStatBoxType = CUI_StatBox::Speed;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatBox"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatBoxDesc)))
