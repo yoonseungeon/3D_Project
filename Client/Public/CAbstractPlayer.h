@@ -1,13 +1,10 @@
 #pragma once
 
-#include "Client_Defines.h"
-#include "CContainerObject.h"
-
-#include "Command.h"
+#include "CUnit.h"
 
 NS_BEGIN(Client)
 
-class CAbstractPlayer abstract : public CContainerObject
+class CAbstractPlayer abstract : public CUnit
 {
 protected:
 	CAbstractPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -32,9 +29,6 @@ public:
 
 	// Skill Icon
 	virtual void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc);
-
-	// TransformCom
-	const CTransform* Get_TransformCom() { return m_pTransformCom; }
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

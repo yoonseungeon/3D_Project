@@ -5,12 +5,12 @@
 #include "CPartObject.h"
 
 CAbstractPlayer::CAbstractPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-    : CContainerObject{ pDevice, pContext }
+    : CUnit{ pDevice, pContext }
 {
 }
 
 CAbstractPlayer::CAbstractPlayer(const CAbstractPlayer& Prototype)
-    : CContainerObject{ Prototype }
+    : CUnit{ Prototype }
 {
 }
 
