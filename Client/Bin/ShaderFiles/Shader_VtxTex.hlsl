@@ -9,6 +9,8 @@ float g_Alpha = { 1 };
 float3 g_Color;
 
 float g_UVFillX = { 1.f };
+float g_UVFillY = { 1.f };
+
 float g_UVFillCenterY = { 0.5f };
 
 float2 g_ClipYRatio;
@@ -95,7 +97,7 @@ PS_OUT PS_MAIN_ALPHATEST(PS_IN In)
     return Out;
 }
 
-PS_OUT PS_MAIN_UIGAUGE(PS_IN In)
+PS_OUT PS_MAIN_LOBBY_TAB_BTN(PS_IN In)
 {
     PS_OUT Out;
             
@@ -164,10 +166,8 @@ PS_OUT PS_MAIN_COLORALPHA(PS_IN In)
         
     Out.vColor.a *= g_Alpha;
     
-    Out.vColor.x = Out.vColor.x * g_Color.x;
-    Out.vColor.y = Out.vColor.y * g_Color.y;
-    Out.vColor.z = Out.vColor.z * g_Color.z;
-
+    Out.vColor.xyz = Out.vColor.xyz * g_Color.xyz;
+    
     return Out;
 }
 
@@ -185,6 +185,38 @@ PS_OUT PS_MAIN_CHARPROFILE(PS_IN In)
     if (Out.vColor.a <= 0.1f)
         discard;
         
+    return Out;
+}
+
+PS_OUT PS_MAIN_GAUGE(PS_IN In)
+{
+    PS_OUT Out;
+            
+    if (g_UVFillX < In.vTexcoord.x)
+    {
+        discard;
+    }
+    
+    if (1.f - g_UVFillY > In.vTexcoord.y)
+    {
+        discard;
+    }
+    
+    if (g_FlipX == 1)
+    {
+        In.vTexcoord.x = -In.vTexcoord.x + 1.f;
+    }
+    
+    if (g_FlipY == 1)
+    {
+        In.vTexcoord.y = -In.vTexcoord.y + 1.f;
+    }
+
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    Out.vColor.a *= g_Alpha;
+    
+    Out.vColor.xyz = Out.vColor.xyz * g_Color.xyz;
+
     return Out;
 }
 
@@ -224,7 +256,7 @@ technique11 DefaultTechnique
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }
 
-    pass AlphaBlend_Gauge
+    pass AlphaBlend_Lobby_Tab_Btn
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Z_Disable, 0);
@@ -232,7 +264,7 @@ technique11 DefaultTechnique
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
-        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_UIGAUGE()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_LOBBY_TAB_BTN()));
     }
 
     pass Mask
@@ -266,5 +298,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_CHARPROFILE()));
+    }
+
+    pass AlphaBlend_Gauge
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_GAUGE()));
     }
 }

@@ -160,9 +160,6 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty">
       <UniqueIdentifier>{031f721d-5f57-4783-bd2d-04dee2bbecd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. InGameProfile">
-      <UniqueIdentifier>{db3c740b-3b2b-4843-8844-d9663fbf9600}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\03. Unit">
       <UniqueIdentifier>{a1dccc14-65ab-4cd7-9358-622bc2860bff}</UniqueIdentifier>
     </Filter>
@@ -216,6 +213,12 @@
     </Filter>
     <Filter Include="02. GameObject\99. Particles\01. Explosion">
       <UniqueIdentifier>{3826573f-49fa-409f-9c78-ba71d6e05e65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. UI_InGameProfile">
+      <UniqueIdentifier>{db3c740b-3b2b-4843-8844-d9663fbf9600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\01. UI_EXPGauge">
+      <UniqueIdentifier>{1cbb3462-c557-4e1b-adde-4a0d1af2bf59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -418,7 +421,7 @@
       <Filter>02. GameObject\03. Unit\AbstarctPlayer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_InGameCharProfile.h">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. InGameProfile</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. UI_InGameProfile</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUnit.h">
       <Filter>02. GameObject\03. Unit</Filter>
@@ -431,6 +434,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CExplosion.h">
       <Filter>02. GameObject\99. Particles\01. Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_EXPGauge.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\01. UI_EXPGauge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -619,7 +625,7 @@
       <Filter>02. GameObject\03. Unit\AbstarctPlayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_InGameCharProfile.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. InGameProfile</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. UI_InGameProfile</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUnit.cpp">
       <Filter>02. GameObject\03. Unit</Filter>
@@ -632,6 +638,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CExplosion.cpp">
       <Filter>02. GameObject\99. Particles\01. Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_EXPGauge.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\01. UI_EXPGauge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

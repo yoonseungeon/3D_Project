@@ -75,6 +75,8 @@ public:
 	const UNIT_STAT& Get_FinalStat() { return m_tFinalStat; }
 	const UNIT_STAT& Get_CurStat() { return m_tCurStat; }
 
+	void AddEXP(_uint iEXP);
+
 protected:
 	void LevelUp();
 

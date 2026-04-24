@@ -153,7 +153,7 @@ HRESULT CStage_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
     Desc.iUILayer = ETOUI(UILAYER::BUTTON);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
-    Desc.eBlendState = CUI_Default::ALPHABLEDN_GAUGE;
+    Desc.eBlendState = CUI_Default::ALPHABLEDN_LOBBY_TAB_BTN;
     Desc.wstrTexturePrototypeTag = TEXT("Prototype_Texture_LobbyTabBtnOrange");
     Desc.funcLobbyCallBack = m_funcBtnCallBack;
     Desc.eNextStage = STAGE::SELECT;
@@ -172,7 +172,7 @@ HRESULT CStage_Lobby::Ready_Layer_Btn(const _wstring& strLayerTag)
     Desc.iUILayer = ETOUI(UILAYER::BUTTON);
 
     Desc.eTexPrototypeLV = LEVEL::LOBBY;
-    Desc.eBlendState = CUI_Default::ALPHABLEDN_GAUGE;
+    Desc.eBlendState = CUI_Default::ALPHABLEDN_LOBBY_TAB_BTN;
     Desc.wstrTexturePrototypeTag = TEXT("Prototype_Texture_LobbyTabBtnBlue");
     Desc.funcLobbyCallBack = m_funcBtnCallBack;
     Desc.eNextStage = STAGE::SELECT;

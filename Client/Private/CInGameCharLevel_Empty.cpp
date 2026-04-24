@@ -3,6 +3,7 @@
 #include "CGameInstance.h"
 #include "CUI_Image.h"
 #include "CUI_InGameCharProfile.h"
+#include "CUI_EXPGauge.h"
 
 CInGameCharLevel_Empty::CInGameCharLevel_Empty(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -68,7 +69,7 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
     CharPanelDesc.fPosRatioX = -0.180469f;
     CharPanelDesc.fPosRatioY = -0.436945f;
 
-    CharPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
+    CharPanelDesc.iUILayer = ETOUI(UILAYER::BACKGROUND);
 
     CharPanelDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     CharPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_InGameCharBg";
@@ -92,7 +93,7 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
     DecoRightDesc.fPosRatioX = CharPanelDesc.fPosRatioX;
     DecoRightDesc.fPosRatioY = CharPanelDesc.fPosRatioY + g_iWinSizeY * 0.0000025f;
     
-    DecoRightDesc.iUILayer = ETOUI(UILAYER::PANEL_DECO);
+    DecoRightDesc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
     
     DecoRightDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     DecoRightDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_Img_HudDecoRight";
@@ -106,7 +107,6 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
         return E_FAIL;
 
 
-
     //Left
     CharPanelDesc.fPosRatioX += -0.066f;
     CharPanelDesc.iFlipX = true;
@@ -114,6 +114,48 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &CharPanelDesc)))
         return E_FAIL;
     
+    // EXPPanel
+    CUI_Image::CUI_IMAGE_DESC EXPPanelDesc{};
+
+    EXPPanelDesc.fScaleRatioX = 0.0245f;
+    EXPPanelDesc.fScaleRatioY = CharPanelDesc.fScaleRatioY;
+    EXPPanelDesc.fPosRatioX = CharPanelDesc.fPosRatioX;
+    EXPPanelDesc.fPosRatioY = CharPanelDesc.fPosRatioY;
+    
+    EXPPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
+    
+    EXPPanelDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    EXPPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_LevelGage";
+    
+    EXPPanelDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    EXPPanelDesc.vColor = COLOR_TO_FLOAT(24, 24, 24);
+
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EXPPanelDesc)))
+        return E_FAIL;
+
+    // EXPGauge
+    CUI_EXPGauge::CUI_EXPGAUGE_DESC EXPGaugeDesc{};
+
+    EXPGaugeDesc.fScaleRatioX = EXPPanelDesc.fScaleRatioX;
+    EXPGaugeDesc.fScaleRatioY = EXPPanelDesc.fScaleRatioY;
+    EXPGaugeDesc.fPosRatioX = EXPPanelDesc.fPosRatioX;
+    EXPGaugeDesc.fPosRatioY = EXPPanelDesc.fPosRatioY;
+    
+    EXPGaugeDesc.iUILayer = ETOUI(UILAYER::SLOT);
+    
+    EXPGaugeDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    EXPGaugeDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_LevelGage";
+
+    EXPGaugeDesc.eBlendState = CUI_Default::ALPHABLEND_GAUGE;
+    EXPGaugeDesc.vColor = COLOR_TO_FLOAT(15, 188, 170);
+
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_EXPGauge"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EXPGaugeDesc)))
+        return E_FAIL;
+
 
     // Circle
     CUI_Image::CUI_IMAGE_DESC CircleDesc{};

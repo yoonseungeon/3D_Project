@@ -69,13 +69,26 @@ HRESULT CUnit::Render()
     return S_OK;
 }
 
+void CUnit::AddEXP(_uint iEXP)
+{
+    m_tCurStat.iEXP += iEXP;
+
+    while (m_tCurStat.iEXP >= m_tFinalStat.iEXP)
+    {
+        LevelUp();
+    }
+}
+
 void CUnit::LevelUp()
 {
+    m_tCurStat.iEXP -= m_tFinalStat.iEXP;
+
     m_tBaseStat += m_tLevelUpStat;
     m_tCurStat += m_tLevelUpStat;
 
     m_tCurStat.iLevel += 1;
-    m_tCurStat.iEXP = 0;
+
+    SetFinalStat();
 }
 
 void CUnit::SetStat(UNIT_STAT& tStat
