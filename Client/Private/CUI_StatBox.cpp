@@ -156,7 +156,7 @@ HRESULT CUI_StatBox::Render()
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
-    static const _float fAdjustFontSize = 0.45f;
+    static const _float fAdjustFontSize = 0.46f;
 
     m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
         m_wstrText.data(),
