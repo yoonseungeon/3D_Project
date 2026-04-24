@@ -78,11 +78,36 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
 
     CharPanelDesc.fImageAlpha = 0.8f;
 
+    //Right
     CharPanelDesc.iFlipX = false;
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &CharPanelDesc)))
         return E_FAIL;
 
+    // DecoRight
+    CUI_Image::CUI_IMAGE_DESC DecoRightDesc{};
+
+    DecoRightDesc.fScaleRatioX = 0.022f;
+    DecoRightDesc.fScaleRatioY = CharPanelDesc.fScaleRatioY - CharPanelDesc.fScaleRatioY * 0.015f;
+    DecoRightDesc.fPosRatioX = CharPanelDesc.fPosRatioX;
+    DecoRightDesc.fPosRatioY = CharPanelDesc.fPosRatioY + g_iWinSizeY * 0.0000025f;
+    
+    DecoRightDesc.iUILayer = ETOUI(UILAYER::PANEL_DECO);
+    
+    DecoRightDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    DecoRightDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_Img_HudDecoRight";
+    
+    DecoRightDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    DecoRightDesc.vColor = COLOR_TO_FLOAT(71, 92, 111);
+
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &DecoRightDesc)))
+        return E_FAIL;
+
+
+
+    //Left
     CharPanelDesc.fPosRatioX += -0.066f;
     CharPanelDesc.iFlipX = true;
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
