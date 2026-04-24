@@ -158,6 +158,7 @@
     <ClInclude Include="..\Public\CBottle.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
+    <ClInclude Include="..\Public\CExplosion.h" />
     <ClInclude Include="..\Public\CUI_InGameCharProfile.h" />
     <ClInclude Include="..\Public\CForkLift.h" />
     <ClInclude Include="..\Public\CGame_Manager.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="..\Private\CBottle.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
+    <ClCompile Include="..\Private\CExplosion.cpp" />
     <ClCompile Include="..\Private\CUI_InGameCharProfile.cpp" />
     <ClCompile Include="..\Private\CForkLift.cpp" />
     <ClCompile Include="..\Private\CGame_Manager.cpp" />
@@ -298,6 +300,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxRectInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

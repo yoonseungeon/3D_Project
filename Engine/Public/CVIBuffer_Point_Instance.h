@@ -13,6 +13,7 @@ public:
 		_float2			vLifeTime;
 		_bool			isLoop;
 
+		// 현재 생성된 정점의 처음 위치에서 Pivot을 빼서 Look 구하고 움직이게
 		_float3			vPivot;
 	};
 

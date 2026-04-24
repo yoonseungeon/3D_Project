@@ -178,8 +178,10 @@ void CVIBuffer_Point_Instance::Spread(_float fTimeDelta)
 
     for (size_t i = 0; i < m_iNumInstances; i++)
     {
-        _vector     vDir = XMVectorSetW(XMLoadFloat4(&pInstanceVertices[i].vTranslation) - XMLoadFloat3(&m_vPivot), 0.f);
+        // 이동할 방향 벡터
+        _vector vDir = XMVectorSetW(XMLoadFloat4(&pInstanceVertices[i].vTranslation) - XMLoadFloat3(&m_vPivot), 0.f);
 
+        // 구한 방향으로 이동
         XMStoreFloat4(&pInstanceVertices[i].vTranslation,
             XMLoadFloat4(&pInstanceVertices[i].vTranslation) + XMVector3Normalize(vDir) * m_pSpeeds[i] * fTimeDelta);
 

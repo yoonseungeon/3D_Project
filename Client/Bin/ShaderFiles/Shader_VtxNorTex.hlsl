@@ -103,6 +103,7 @@ technique11 DefaultTechnique
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }
 }

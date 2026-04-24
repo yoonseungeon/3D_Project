@@ -198,6 +198,7 @@ technique11 DefaultTechnique
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }
 
@@ -208,6 +209,7 @@ technique11 DefaultTechnique
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_ALPHATEST()));
     }
 
@@ -218,6 +220,7 @@ technique11 DefaultTechnique
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
     }
 
@@ -228,6 +231,7 @@ technique11 DefaultTechnique
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_UIGAUGE()));
     }
 
@@ -238,6 +242,7 @@ technique11 DefaultTechnique
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_MASK()));
     }
 
@@ -248,6 +253,7 @@ technique11 DefaultTechnique
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_COLORALPHA()));
     }
 
@@ -258,6 +264,7 @@ technique11 DefaultTechnique
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_CHARPROFILE()));
     }
 }

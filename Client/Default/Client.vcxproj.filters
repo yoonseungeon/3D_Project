@@ -214,6 +214,9 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox">
       <UniqueIdentifier>{c84d3ebf-cb4b-4b00-92fa-4f6b51a72029}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\99. Particles\01. Explosion">
+      <UniqueIdentifier>{3826573f-49fa-409f-9c78-ba71d6e05e65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -426,6 +429,9 @@
     <ClInclude Include="..\Public\CUI_StatBox.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CExplosion.h">
+      <Filter>02. GameObject\99. Particles\01. Explosion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -624,6 +630,9 @@
     <ClCompile Include="..\Private\CUI_StatBox.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CExplosion.cpp">
+      <Filter>02. GameObject\99. Particles\01. Explosion</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
@@ -642,6 +651,9 @@
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxRectInstance.hlsl">
+      <Filter>997. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance.hlsl">
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
