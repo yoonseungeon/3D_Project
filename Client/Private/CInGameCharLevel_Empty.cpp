@@ -151,9 +151,28 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
     EXPGaugeDesc.eBlendState = CUI_Default::ALPHABLEND_GAUGE;
     EXPGaugeDesc.vColor = COLOR_TO_FLOAT(15, 188, 170);
 
-
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_EXPGauge"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EXPGaugeDesc)))
+        return E_FAIL;
+
+    // LeftDeco
+    CUI_Image::CUI_IMAGE_DESC LeftDecoDesc{};
+
+    LeftDecoDesc.fScaleRatioX = EXPPanelDesc.fScaleRatioX * 0.43f;
+    LeftDecoDesc.fScaleRatioY = EXPPanelDesc.fScaleRatioY * 0.7f;
+    LeftDecoDesc.fPosRatioX = EXPPanelDesc.fPosRatioX - EXPPanelDesc.fScaleRatioX * 0.5f;
+    LeftDecoDesc.fPosRatioY = EXPPanelDesc.fPosRatioY - EXPPanelDesc.fScaleRatioY * 0.03f;
+
+    LeftDecoDesc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
+
+    LeftDecoDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    LeftDecoDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_Img_HudDecoLeft";
+
+    LeftDecoDesc.eBlendState = CUI_Default::ALPHABLEND;
+    LeftDecoDesc.fImageAlpha = 0.5f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &LeftDecoDesc)))
         return E_FAIL;
 
 
