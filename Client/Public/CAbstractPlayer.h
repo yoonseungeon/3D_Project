@@ -30,6 +30,11 @@ public:
 	// Skill Icon
 	virtual void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc);
 
+	const MAINGAUGE_TYPE& Get_MPType() { return m_eMPType; }
+
+protected:
+	MAINGAUGE_TYPE m_eMPType{};
+
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
 protected:

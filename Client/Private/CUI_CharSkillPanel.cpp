@@ -6,6 +6,7 @@
 #include "CAbstractPlayer.h"
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
+#include "CUI_MainGauge.h"
 
 CUI_CharSkillPanel::CUI_CharSkillPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -200,6 +201,42 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
    SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &RDesc);
 
+   // Point 1
+   CUI_MainGauge::CUI_MAINGAUGE_DESC MainGaugeDesc{};
+
+   MainGaugeDesc.fScaleRatioX = m_fScaleRatioX * 0.75f;
+   MainGaugeDesc.fScaleRatioY = m_fScaleRatioY * 0.19f;
+   MainGaugeDesc.fPosRatioX = m_fPosRatioX + (-0.5f) * m_fScaleRatioX + MainGaugeDesc.fScaleRatioX * 0.5f;
+   MainGaugeDesc.fPosRatioY = m_fPosRatioY + (-0.5f) * m_fScaleRatioY + m_fScaleRatioY * 0.32f;
+
+   MainGaugeDesc.iUILayer = ETOUI(UILAYER::PANEL_OVER);
+
+   MainGaugeDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+   MainGaugeDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_MainGauge";
+
+   MainGaugeDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+   MainGaugeDesc.vColor = COLOR_TO_FLOAT(0, 0, 0);
+
+   MainGaugeDesc.eMainGaugeType = MAINGAUGE_TYPE::HP;
+
+   if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGauge"),
+       ETOUI(LEVEL::GAMEPLAY), strLayerTag, &MainGaugeDesc)))
+       return E_FAIL;
+
+
+   if (pPlayer->Get_MPType() != MAINGAUGE_TYPE::NONE)
+   {
+       // Point 2
+       MainGaugeDesc.fScaleRatioY = m_fScaleRatioY * 0.14f;
+       MainGaugeDesc.fPosRatioY = MainGaugeDesc.fPosRatioY - m_fScaleRatioY * 0.2f;
+
+       MainGaugeDesc.eMainGaugeType = pPlayer->Get_MPType();
+
+       if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGauge"),
+           ETOUI(LEVEL::GAMEPLAY), strLayerTag, &MainGaugeDesc)))
+           return E_FAIL;
+   }
+  
     return S_OK;
 }
 

@@ -147,7 +147,7 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
     EXPPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
     
     EXPPanelDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    EXPPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_LevelGage";
+    EXPPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_LevelGauge";
     
     EXPPanelDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
     EXPPanelDesc.vColor = COLOR_TO_FLOAT(24, 24, 24);
@@ -168,7 +168,7 @@ HRESULT CInGameCharLevel_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag
     EXPGaugeDesc.iUILayer = ETOUI(UILAYER::SLOT);
     
     EXPGaugeDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    EXPGaugeDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_LevelGage";
+    EXPGaugeDesc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_LevelGauge";
 
     EXPGaugeDesc.eBlendState = CUI_Default::ALPHABLEND_GAUGE;
     EXPGaugeDesc.vColor = COLOR_TO_FLOAT(15, 188, 170);

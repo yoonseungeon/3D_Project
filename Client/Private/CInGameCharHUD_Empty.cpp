@@ -79,7 +79,7 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
     SkillPanelDesc.fScaleRatioX = 0.2764f;
     SkillPanelDesc.fScaleRatioY = 0.125f;
-    SkillPanelDesc.fPosRatioX = -0.025f;
+    SkillPanelDesc.fPosRatioX = -0.023906f;
     SkillPanelDesc.fPosRatioY = -0.436945f;
 
     SkillPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);

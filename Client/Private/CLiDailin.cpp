@@ -99,6 +99,8 @@ HRESULT CLiDailin::Initialize(void* pArg)
     
     SetFinalStat();
 
+    m_eMPType = MAINGAUGE_TYPE::INTOXICATION;
+
     return S_OK;
 }
 

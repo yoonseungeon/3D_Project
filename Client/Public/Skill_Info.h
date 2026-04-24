@@ -64,3 +64,12 @@ struct SKILL_DESC
 	COOLDOWN_TYPE eCoolDownType{};
 	const wchar_t* TexturePrototypeTag{};
 };
+
+// MP
+enum class MAINGAUGE_TYPE
+{
+	NONE,
+	HP,
+	MP,	
+	INTOXICATION
+};

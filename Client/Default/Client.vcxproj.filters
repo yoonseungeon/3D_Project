@@ -208,9 +208,6 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel">
       <UniqueIdentifier>{ab6918be-fa52-4325-8036-61e2347d8da3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox">
-      <UniqueIdentifier>{c84d3ebf-cb4b-4b00-92fa-4f6b51a72029}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\99. Particles\01. Explosion">
       <UniqueIdentifier>{3826573f-49fa-409f-9c78-ba71d6e05e65}</UniqueIdentifier>
     </Filter>
@@ -222,6 +219,12 @@
     </Filter>
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\02. UI_LevelPanel">
       <UniqueIdentifier>{0919f4e9-0c62-4d4f-a063-fba3909b62f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\00. UI_StatBox">
+      <UniqueIdentifier>{c84d3ebf-cb4b-4b00-92fa-4f6b51a72029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\01. UI_MainGauge">
+      <UniqueIdentifier>{69cf9f96-4b24-4cf5-9589-1efc86e96965}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -433,7 +436,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_StatBox.h">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\00. UI_StatBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CExplosion.h">
       <Filter>02. GameObject\99. Particles\01. Explosion</Filter>
@@ -443,6 +446,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CUI_LevelPanel.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\02. UI_LevelPanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_MainGauge.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\01. UI_MainGauge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -636,11 +642,8 @@
     <ClCompile Include="..\Private\CUnit.cpp">
       <Filter>02. GameObject\03. Unit</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CUI_StatPanel.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\CUI_StatBox.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\UI_StatBox</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\00. UI_StatBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CExplosion.cpp">
       <Filter>02. GameObject\99. Particles\01. Explosion</Filter>
@@ -650,6 +653,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_LevelPanel.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\02. UI_LevelPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_MainGauge.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\01. UI_MainGauge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_StatPanel.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
