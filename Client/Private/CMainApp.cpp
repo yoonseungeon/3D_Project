@@ -5,6 +5,7 @@
 #include "CGame_Manager.h"
 #include "CCharData_Manager.h"
 #include "CInGame_Manager.h"
+#include "CItem_Manager.h"
 
 #ifdef _DEBUG
 #include "CImGui_Manager.h"
@@ -15,13 +16,14 @@ CMainApp::CMainApp()
 	, m_pGame_Manager {CGame_Manager::GetInstance()}
 	, m_pCharData_Manager{ CCharData_Manager::GetInstance() }
 	, m_pInGame_Manager{ CInGame_Manager::GetInstance() }
-
+	, m_pItem_Manager{ CItem_Manager::GetInstance() }
 {
 	Safe_AddRef(m_pGameInstance);
 
 	Safe_AddRef(m_pGame_Manager);
 	Safe_AddRef(m_pCharData_Manager);
 	Safe_AddRef(m_pInGame_Manager);
+	Safe_AddRef(m_pItem_Manager);
 }
 
 HRESULT CMainApp::Initialize()
@@ -126,6 +128,8 @@ void CMainApp::Free()
 	m_pCharData_Manager->DestroyInstance();
 	Safe_Release(m_pGame_Manager);
 	m_pGame_Manager->DestroyInstance();
+	Safe_Release(m_pItem_Manager);
+	m_pItem_Manager->DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 

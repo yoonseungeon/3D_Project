@@ -229,6 +229,12 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel\UI_MainGaugeBar">
       <UniqueIdentifier>{4ecf6b2a-4437-40ad-9980-ff67ace2e73a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99. Manager\03. Item_Manager">
+      <UniqueIdentifier>{e638eb83-43a0-4816-956c-1d6f313639df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="51. Inventory">
+      <UniqueIdentifier>{4d5eccf2-fa31-439f-adaa-bfae4e4d70de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -459,6 +465,9 @@
     <ClInclude Include="..\Public\Item_Meta.h">
       <Filter>999. Defines</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CItem_Manager.h">
+      <Filter>99. Manager\03. Item_Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -671,6 +680,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_MainGaugeBar.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel\UI_MainGaugeBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CItem_Manager.cpp">
+      <Filter>99. Manager\03. Item_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

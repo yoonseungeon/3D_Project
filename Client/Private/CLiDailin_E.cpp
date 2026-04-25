@@ -100,7 +100,7 @@ void CLiDailin_E::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eActio
         }
         case ACTION_COMMAND_TYPE::ATTACK_E:
         {
-            if (pPlayer->CanUseSkill(SKILL_SLOT::W) == false) {
+            if (pPlayer->CanUseSkill(SKILL_SLOT::E) == false) {
                 return;
             }
 

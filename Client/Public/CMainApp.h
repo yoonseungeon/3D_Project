@@ -19,6 +19,7 @@ class CImGui_Manager;
 class CGame_Manager;
 class CCharData_Manager;
 class CInGame_Manager;
+class CItem_Manager;
 
 class CMainApp final : public CBase
 {
@@ -42,6 +43,7 @@ private:
 	CGame_Manager*			m_pGame_Manager{};
 	CCharData_Manager*		m_pCharData_Manager{};
 	CInGame_Manager*		m_pInGame_Manager{};
+	CItem_Manager*			m_pItem_Manager{};
 
 #ifdef _DEBUG
 	CImGui_Manager*			m_pImGui_Manager{ nullptr };
