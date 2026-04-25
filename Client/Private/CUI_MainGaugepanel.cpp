@@ -1,26 +1,27 @@
-#include "CUI_MainGauge.h"
+#include "CUI_MainGaugePanel.h"
 
 #include "CGameInstance.h"
 #include "CInGame_Manager.h"
 
 #include "CAbstractPlayer.h"
+#include "CUI_MainGaugeBar.h"
 
-CUI_MainGauge::CUI_MainGauge(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_MainGaugePanel::CUI_MainGaugePanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
 {
 }
 
-CUI_MainGauge::CUI_MainGauge(const CUI_MainGauge& Prototype)
+CUI_MainGaugePanel::CUI_MainGaugePanel(const CUI_MainGaugePanel& Prototype)
     : CUI_Default{ Prototype }
 {
 }
 
-HRESULT CUI_MainGauge::Initialize_Prototype()
+HRESULT CUI_MainGaugePanel::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CUI_MainGauge::Initialize(void* pArg)
+HRESULT CUI_MainGaugePanel::Initialize(void* pArg)
 {
     CUI_MAINGAUGE_DESC* pDesc = static_cast<CUI_MAINGAUGE_DESC*>(pArg);
 
@@ -43,35 +44,24 @@ HRESULT CUI_MainGauge::Initialize(void* pArg)
     return S_OK;
 }
 
-void CUI_MainGauge::Priority_Update(_float fTimeDelta)
+void CUI_MainGaugePanel::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_MainGauge::Parallel_Update(_float fTimeDelta)
+void CUI_MainGaugePanel::Parallel_Update(_float fTimeDelta)
 {
 }
 
-void CUI_MainGauge::Update(_float fTimeDelta)
+void CUI_MainGaugePanel::Update(_float fTimeDelta)
 {
-    //CAbstractPlayer* pPlayer = CInGame_Manager::GetInstance()->Get_Player();
-    //const CUnit::UNIT_STAT& tFinalStat = pPlayer->Get_FinalStat();
-    //const CUnit::UNIT_STAT& tCurStat = pPlayer->Get_CurStat();
-
-    //const _float fCurPoint = static_cast<_float>(tCurStat.iHP) / static_cast<_float>(tFinalStat.iHP);
-
-    //if (fCurPoint != m_fData)
-    //{
-    //    m_fData = fCurPoint;
-    //    m_fFillX = m_fData;
-    //}
 }
 
-void CUI_MainGauge::Late_Update(_float fTimeDelta)
+void CUI_MainGaugePanel::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
-HRESULT CUI_MainGauge::Render()
+HRESULT CUI_MainGaugePanel::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -88,7 +78,7 @@ HRESULT CUI_MainGauge::Render()
     return S_OK;
 }
 
-HRESULT CUI_MainGauge::Ready_Components()
+HRESULT CUI_MainGaugePanel::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -108,7 +98,7 @@ HRESULT CUI_MainGauge::Ready_Components()
     return S_OK;
 }
 
-HRESULT CUI_MainGauge::Bind_ShaderResources()
+HRESULT CUI_MainGaugePanel::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -126,60 +116,66 @@ HRESULT CUI_MainGauge::Bind_ShaderResources()
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
     m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(m_vColor));
 
-    m_pShaderCom->Bind_RawValue("g_UVFillX", &m_fFillX, sizeof(m_fFillX));
-    m_pShaderCom->Bind_RawValue("g_UVFillY", &m_fFillY, sizeof(m_fFillY));
-
     return S_OK;
 }
 
-HRESULT CUI_MainGauge::Ready_Layer_MainGaugeBar(const _wstring& strLayerTag)
+HRESULT CUI_MainGaugePanel::Ready_Layer_MainGaugeBar(const _wstring& strLayerTag)
 {
-    switch (m_eMainGaugeType)
+    if (m_eMainGaugeType == MAINGAUGE_TYPE::NONE)
     {
-    case MAINGAUGE_TYPE::HP:
-        break;
-
-    case MAINGAUGE_TYPE::MP:
-        break;
-
-    case MAINGAUGE_TYPE::INTOXICATION:
-        break;
-
-    default:
-        return E_FAIL;
-        break;
+        return S_OK;
     }
 
+    CUI_MainGaugeBar::CUI_MAINGAUGEBAR_DESC Desc{};
+
+    Desc.fScaleRatioX = m_fScaleRatioX;
+    Desc.fScaleRatioY = m_fScaleRatioY * 0.95f;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY;
+
+    Desc.iUILayer = ETOUI(UILAYER::PANEL_SLOT_OVER);
+
+    Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+
+    Desc.eBlendState = CUI_Default::ALPHABLEND_GAUGE;
+    Desc.vColor = COLOR_TO_FLOAT(255, 255, 255);
+
+    Desc.eGaugeType = m_eMainGaugeType;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGaugeBar"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
-CUI_MainGauge* CUI_MainGauge::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_MainGaugePanel* CUI_MainGaugePanel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CUI_MainGauge* pInstance = new CUI_MainGauge(pDevice, pContext);
+    CUI_MainGaugePanel* pInstance = new CUI_MainGaugePanel(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CUI_MainGauge");
+        MSG_BOX("Failed to Created: CUI_MainGaugePanel");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CUI_MainGauge::Clone(void* pArg)
+CGameObject* CUI_MainGaugePanel::Clone(void* pArg)
 {
-    CUI_MainGauge* pInstance = new CUI_MainGauge(*this);
+    CUI_MainGaugePanel* pInstance = new CUI_MainGaugePanel(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CUI_MainGauge");
+        MSG_BOX("Failed to Cloned: CUI_MainGaugePanel");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CUI_MainGauge::Free()
+void CUI_MainGaugePanel::Free()
 {
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);

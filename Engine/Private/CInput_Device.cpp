@@ -91,14 +91,13 @@ HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
 	}
 	
 	// 키보드 입력 받을 준비 끝났으니 장치를 활성화해라(입력 장치에 대한 접근 권한을 얻는다.)
-	if (FAILED(m_pKeyBoard->Acquire()))
-		return E_FAIL;
-
-
+	m_pKeyBoard->Acquire();
 
 	// 마우스 객체 생성
 	if (FAILED(m_pInputSDK->CreateDevice(GUID_SysMouse, &m_pMouse, nullptr)))
+	{
 		return E_FAIL;
+	}
 
 	// 마우스 상태를 읽을 때 어떤 형식으로 받을지(DInput이 제공하는 표준 포맷 사용)
 	if (FAILED(m_pMouse->SetDataFormat(&c_dfDIMouse)))
@@ -112,8 +111,7 @@ HRESULT Engine::CInput_Device::Initialize(HINSTANCE hInst, HWND hWnd)
 	}
 	
 	// 마우스 입력 받을 준비 끝났으니 장치를 활성화해라(입력 장치에 대한 접근 권한을 얻는다.)
-	if (FAILED(m_pMouse->Acquire()))
-		return E_FAIL;
+	m_pMouse->Acquire();
 
 	return S_OK;
 }

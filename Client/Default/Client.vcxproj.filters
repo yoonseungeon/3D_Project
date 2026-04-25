@@ -223,8 +223,11 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\00. UI_StatBox">
       <UniqueIdentifier>{c84d3ebf-cb4b-4b00-92fa-4f6b51a72029}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\01. UI_MainGauge">
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel">
       <UniqueIdentifier>{69cf9f96-4b24-4cf5-9589-1efc86e96965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel\UI_MainGaugeBar">
+      <UniqueIdentifier>{4ecf6b2a-4437-40ad-9980-ff67ace2e73a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -447,8 +450,11 @@
     <ClInclude Include="..\Public\CUI_LevelPanel.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\02. UI_LevelPanel</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CUI_MainGauge.h">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\01. UI_MainGauge</Filter>
+    <ClInclude Include="..\Public\CUI_MainGaugePanel.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_MainGaugeBar.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel\UI_MainGaugeBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -654,11 +660,14 @@
     <ClCompile Include="..\Private\CUI_LevelPanel.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\02. UI_LevelPanel</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CUI_MainGauge.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel\01. UI_MainGauge</Filter>
+    <ClCompile Include="..\Private\CUI_MainGaugepanel.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_StatPanel.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\02. UI_StatPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_MainGaugeBar.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel\UI_MainGaugeBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

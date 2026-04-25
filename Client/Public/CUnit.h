@@ -76,6 +76,10 @@ public:
 	const UNIT_STAT& Get_CurStat() { return m_tCurStat; }
 
 	void AddEXP(_uint iEXP);
+	void AddHP(_uint iHP);
+	void AddMP(_uint iMP);
+
+	const MAINGAUGE_TYPE& Get_MPType() { return m_eMPType; }
 
 protected:
 	void LevelUp();
@@ -97,6 +101,8 @@ protected:
 	UNIT_STAT m_tLevelUpStat{}; // 레벨업 할 때 base와 cur에 더해줘야 할 값
 
 	UNIT_STAT m_tCurStat{};
+
+	MAINGAUGE_TYPE m_eMPType{};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

@@ -26,7 +26,7 @@ HRESULT CUI_LevelPanel::Initialize(void* pArg)
 {
     CUI_LEVELPANEL_DESC* pDesc = static_cast<CUI_LEVELPANEL_DESC*>(pArg);
 
-    static const _float fStartAdjust{ 0.5f };
+    const _float fStartAdjust{ 0.5f };
 
     const _float fAdjustXDigit1 = pDesc->fScaleRatioX * static_cast<_float>(g_iWinSizeX) * 0.24f;
     const _float fAdjustXDigit2 = pDesc->fScaleRatioX * static_cast<_float>(g_iWinSizeX) * 0.38f;

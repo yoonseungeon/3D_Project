@@ -36,7 +36,8 @@
 #include "CUI_CharSkillPanel.h"
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
-#include "CUI_MainGauge.h"
+#include "CUI_MainGaugePanel.h"
+#include "CUI_MainGaugeBar.h"
 #include "CUI_InGameCharProfile.h"
 #include "CUI_StatPanel.h"
 #include "CUI_StatBox.h"
@@ -1516,14 +1517,27 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
-    /* Prototype_GameObject_CUI_MainGauge */
+    /* Prototype_GameObject_CUI_MainGaugePanel */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGauge"),
-                CUI_MainGauge::Create(m_pDevice, m_pContext))))
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGaugePanel"),
+                CUI_MainGaugePanel::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_MainGauge");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_MainGaugePanel");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CUI_MainGaugeBar */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGaugeBar"),
+                CUI_MainGaugeBar::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_MainGaugeBar");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

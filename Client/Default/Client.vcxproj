@@ -205,7 +205,8 @@
     <ClInclude Include="..\Public\CLoader.h" />
     <ClInclude Include="..\Public\CMainApp.h" />
     <ClInclude Include="..\Public\CUI_LevelPanel.h" />
-    <ClInclude Include="..\Public\CUI_MainGauge.h" />
+    <ClInclude Include="..\Public\CUI_MainGaugeBar.h" />
+    <ClInclude Include="..\Public\CUI_MainGaugePanel.h" />
     <ClInclude Include="..\Public\CUI_MapPanel.h" />
     <ClInclude Include="..\Public\CUI_MaskImage.h" />
     <ClInclude Include="..\Public\CUI_NormalSkillIcon.h" />
@@ -278,7 +279,8 @@
     <ClCompile Include="..\Private\CLoader.cpp" />
     <ClCompile Include="..\Private\CMainApp.cpp" />
     <ClCompile Include="..\Private\CUI_LevelPanel.cpp" />
-    <ClCompile Include="..\Private\CUI_MainGauge.cpp" />
+    <ClCompile Include="..\Private\CUI_MainGaugeBar.cpp" />
+    <ClCompile Include="..\Private\CUI_MainGaugepanel.cpp" />
     <ClCompile Include="..\Private\CUI_MapPanel.cpp" />
     <ClCompile Include="..\Private\CUI_MaskImage.cpp" />
     <ClCompile Include="..\Private\CUI_NormalSkillIcon.cpp" />

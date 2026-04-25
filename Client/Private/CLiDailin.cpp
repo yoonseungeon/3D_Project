@@ -93,7 +93,9 @@ HRESULT CLiDailin::Initialize(void* pArg)
     CInGame_Manager::GetInstance()->Set_Player(this);
 
     SetStat(m_tBaseStat, 20, 40, 970, 100, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
-    SetStat(m_tCurStat, 1, 0, 970, 100, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
+    SetStat(m_tCurStat, 1, 0, 970, 0, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
+
+    m_tCurStat.iHP = 0;
 
     SetStat(m_tLevelUpStat, 0, 7, 188, 0, 0.63f, 0.f, 5, 0, 0, 0, 3, 0.03f, 0, 0, 0.01f);
     
@@ -471,6 +473,12 @@ void CLiDailin::Key_Input()
     // +
     if (m_pGameInstance->Key_Down(DIK_EQUALS)) {
         AddEXP(20);
+    }
+    if (m_pGameInstance->Key_Down(DIK_F9)) {
+        AddHP(110);
+    }
+    if (m_pGameInstance->Key_Down(DIK_F11)) {
+        AddMP(20);
     }
 
     // Q

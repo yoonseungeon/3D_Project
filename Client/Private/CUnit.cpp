@@ -71,11 +71,44 @@ HRESULT CUnit::Render()
 
 void CUnit::AddEXP(_uint iEXP)
 {
+    if (m_tCurStat.iLevel >= 20)
+    {
+        return;
+    }
+
     m_tCurStat.iEXP += iEXP;
 
     while (m_tCurStat.iEXP >= m_tFinalStat.iEXP)
     {
         LevelUp();
+    }
+}
+
+void CUnit::AddHP(_uint iHP)
+{
+    m_tCurStat.iHP += iHP;
+
+    if (m_tCurStat.iHP > m_tFinalStat.iHP)
+    {
+        m_tCurStat.iHP = m_tFinalStat.iHP;
+    }
+    else if (m_tCurStat.iHP < 0)
+    {
+        m_tCurStat.iHP = 0;
+    }
+}
+
+void CUnit::AddMP(_uint iMP)
+{
+    m_tCurStat.iMP += iMP;
+
+    if (m_tCurStat.iMP > m_tFinalStat.iMP)
+    {
+        m_tCurStat.iMP = m_tFinalStat.iMP;
+    }
+    else if (m_tCurStat.iMP < 0)
+    {
+        m_tCurStat.iMP = 0;
     }
 }
 

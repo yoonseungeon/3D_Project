@@ -6,7 +6,7 @@
 #include "CAbstractPlayer.h"
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
-#include "CUI_MainGauge.h"
+#include "CUI_MainGaugePanel.h"
 
 CUI_CharSkillPanel::CUI_CharSkillPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -202,7 +202,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
    SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &RDesc);
 
    // Point 1
-   CUI_MainGauge::CUI_MAINGAUGE_DESC MainGaugeDesc{};
+   CUI_MainGaugePanel::CUI_MAINGAUGE_DESC MainGaugeDesc{};
 
    MainGaugeDesc.fScaleRatioX = m_fScaleRatioX * 0.75f;
    MainGaugeDesc.fScaleRatioY = m_fScaleRatioY * 0.19f;
@@ -219,7 +219,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
    MainGaugeDesc.eMainGaugeType = MAINGAUGE_TYPE::HP;
 
-   if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGauge"),
+   if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGaugePanel"),
        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &MainGaugeDesc)))
        return E_FAIL;
 
@@ -232,7 +232,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
        MainGaugeDesc.eMainGaugeType = pPlayer->Get_MPType();
 
-       if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGauge"),
+       if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MainGaugePanel"),
            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &MainGaugeDesc)))
            return E_FAIL;
    }
