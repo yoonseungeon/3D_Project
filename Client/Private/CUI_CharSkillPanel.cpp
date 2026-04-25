@@ -133,8 +133,8 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     QDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     QDesc.iUILayer = ETOUI(UILAYER::SLOT);
 
-    QDesc.fScaleRatioX = 0.04f;
-    QDesc.fScaleRatioY = 0.071f;
+    QDesc.fScaleRatioX = 0.03f;
+    QDesc.fScaleRatioY = QDesc.fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
     QDesc.fPosRatioX = m_fPosRatioX + (-0.5f) * m_fScaleRatioX + QDesc.fScaleRatioX * 0.5f;
     QDesc.fPosRatioY = -0.4f;
     QDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
@@ -152,9 +152,9 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     WDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     WDesc.iUILayer = ETOUI(UILAYER::SLOT);
     
-    WDesc.fScaleRatioX = 0.04f;
-    WDesc.fScaleRatioY = 0.071f;
-    WDesc.fPosRatioX = 0.0f;
+    WDesc.fScaleRatioX = 0.03f;
+    WDesc.fScaleRatioY = WDesc.fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
+    WDesc.fPosRatioX = -0.09f;
     WDesc.fPosRatioY = -0.4f;
     WDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
     WDesc.eBlendState = CUI_Default::DEFAULT;
@@ -171,9 +171,9 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     EDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     EDesc.iUILayer = ETOUI(UILAYER::SLOT);
     
-    EDesc.fScaleRatioX = 0.04f;
-    EDesc.fScaleRatioY = 0.071f;
-    EDesc.fPosRatioX = 0.07f;
+    EDesc.fScaleRatioX = 0.03f;
+    EDesc.fScaleRatioY = EDesc.fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
+    EDesc.fPosRatioX = -0.02f;
     EDesc.fPosRatioY = -0.4f;
     EDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
     EDesc.eBlendState = CUI_Default::DEFAULT;
@@ -190,9 +190,9 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
    RDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
    RDesc.iUILayer = ETOUI(UILAYER::SLOT);
    
-   RDesc.fScaleRatioX = 0.04f;
-   RDesc.fScaleRatioY = 0.071f;
-   RDesc.fPosRatioX = 0.14f;
+   RDesc.fScaleRatioX = 0.03f;
+   RDesc.fScaleRatioY = RDesc.fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
+   RDesc.fPosRatioX = 0.05f;
    RDesc.fPosRatioY = -0.4f;
    RDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
    RDesc.eBlendState = CUI_Default::DEFAULT;

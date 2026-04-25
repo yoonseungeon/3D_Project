@@ -207,6 +207,8 @@
     <ClInclude Include="..\Public\CLevel_Loading.h" />
     <ClInclude Include="..\Public\CLoader.h" />
     <ClInclude Include="..\Public\CMainApp.h" />
+    <ClInclude Include="..\Public\CUI_Inventory.h" />
+    <ClInclude Include="..\Public\CUI_InventorySlot.h" />
     <ClInclude Include="..\Public\CUI_LevelPanel.h" />
     <ClInclude Include="..\Public\CUI_MainGaugeBar.h" />
     <ClInclude Include="..\Public\CUI_MainGaugePanel.h" />
@@ -285,6 +287,8 @@
     <ClCompile Include="..\Private\CLevel_Loading.cpp" />
     <ClCompile Include="..\Private\CLoader.cpp" />
     <ClCompile Include="..\Private\CMainApp.cpp" />
+    <ClCompile Include="..\Private\CUI_Inventory.cpp" />
+    <ClCompile Include="..\Private\CUI_InventorySlot.cpp" />
     <ClCompile Include="..\Private\CUI_LevelPanel.cpp" />
     <ClCompile Include="..\Private\CUI_MainGaugeBar.cpp" />
     <ClCompile Include="..\Private\CUI_MainGaugepanel.cpp" />

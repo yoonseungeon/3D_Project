@@ -6,6 +6,7 @@
 #include "CUI_Image.h"
 #include "CUI_CharSkillPanel.h"
 #include "CUI_StatPanel.h"
+#include "CUI_Inventory.h"
 
 CInGameCharHUD_Empty::CInGameCharHUD_Empty(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -40,6 +41,9 @@ HRESULT CInGameCharHUD_Empty::Initialize(void* pArg)
     }
 
     if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_UI_Inventory(TEXT("Layer_UI_Inventory"))))
         return E_FAIL;
 
     return S_OK;
@@ -77,9 +81,9 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     // CUI_CharSkillPanel
     CUI_CharSkillPanel::CUI_CAHRSKILLPANEL_DESC SkillPanelDesc{};
 
-    SkillPanelDesc.fScaleRatioX = 0.2764f;
+    SkillPanelDesc.fScaleRatioX = 0.24f;
     SkillPanelDesc.fScaleRatioY = 0.125f;
-    SkillPanelDesc.fPosRatioX = -0.023906f;
+    SkillPanelDesc.fPosRatioX = -0.042031f;
     SkillPanelDesc.fPosRatioY = -0.436945f;
 
     SkillPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
@@ -117,6 +121,16 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_StatPanel"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &StatPanelDesc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Inventory(const _wstring& strLayerTag)
+{
+    // CUI_Inventory
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_Inventory"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;
 
     return S_OK;
