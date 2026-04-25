@@ -85,9 +85,6 @@
     <Filter Include="99. Manager\00. CharData_Manager">
       <UniqueIdentifier>{a4376f57-7def-47d0-8a26-14dc28330034}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99. Manager\01. CGame_Manager">
-      <UniqueIdentifier>{6170fe61-0410-4c90-8962-3c8d1ac16b55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. UI_Default\01. UI_Btn\PickSkin">
       <UniqueIdentifier>{035a5d7c-1808-47c4-8517-3f5ae3cdaaa1}</UniqueIdentifier>
     </Filter>
@@ -235,6 +232,9 @@
     <Filter Include="51. Inventory">
       <UniqueIdentifier>{4d5eccf2-fa31-439f-adaa-bfae4e4d70de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99. Manager\01. Game_Manager">
+      <UniqueIdentifier>{6170fe61-0410-4c90-8962-3c8d1ac16b55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -319,7 +319,7 @@
       <Filter>99. Manager\00. CharData_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CGame_Manager.h">
-      <Filter>99. Manager\01. CGame_Manager</Filter>
+      <Filter>99. Manager\01. Game_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CPickSkin.h">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSkin</Filter>
@@ -468,6 +468,9 @@
     <ClInclude Include="..\Public\CItem_Manager.h">
       <Filter>99. Manager\03. Item_Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CInventory.h">
+      <Filter>51. Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -553,7 +556,7 @@
       <Filter>99. Manager\00. CharData_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CGame_Manager.cpp">
-      <Filter>99. Manager\01. CGame_Manager</Filter>
+      <Filter>99. Manager\01. Game_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CPickSkin.cpp">
       <Filter>02. GameObject\01. UI_Default\01. UI_Btn\PickSkin</Filter>
@@ -683,6 +686,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CItem_Manager.cpp">
       <Filter>99. Manager\03. Item_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInventory.cpp">
+      <Filter>51. Inventory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

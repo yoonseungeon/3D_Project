@@ -8,6 +8,16 @@ CItem_Manager::CItem_Manager()
         MSG_BOX("CItem_Manager: Error");
 }
 
+const ITEM_DESC* CItem_Manager::Find_ItemInfo(_uint iItemIdx) const
+{
+    auto iter = m_ItemInfos.find(iItemIdx);
+
+    if(iter == m_ItemInfos.end())
+        return nullptr;
+
+    return &(iter->second);
+}
+
 HRESULT CItem_Manager::Initialize()
 {   
     if (FAILED(Set_ItemInfos()))
@@ -27,7 +37,7 @@ HRESULT CItem_Manager::Set_ItemInfos()
 
     for (_uint i = 0; i < sizeof(ItemInfos) / sizeof(ITEM_DESC); ++i)
     {
-        m_ItemInfos.emplace(i, ItemInfos[i]);
+        m_ItemInfos.emplace(ItemInfos[i].iItemID, ItemInfos[i]);
     }
 
     return S_OK;

@@ -13,6 +13,9 @@ private:
 	CItem_Manager();
 	virtual ~CItem_Manager() = default;
 
+public:
+	const ITEM_DESC* Find_ItemInfo(_uint iItemIdx) const;
+
 private:
 	HRESULT Initialize();
 

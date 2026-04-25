@@ -159,6 +159,7 @@
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
     <ClInclude Include="..\Public\CExplosion.h" />
+    <ClInclude Include="..\Public\CInventory.h" />
     <ClInclude Include="..\Public\CItem_Manager.h" />
     <ClInclude Include="..\Public\CUI_EXPGauge.h" />
     <ClInclude Include="..\Public\CUI_InGameCharProfile.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
     <ClCompile Include="..\Private\CExplosion.cpp" />
+    <ClCompile Include="..\Private\CInventory.cpp" />
     <ClCompile Include="..\Private\CItem_Manager.cpp" />
     <ClCompile Include="..\Private\CUI_EXPGauge.cpp" />
     <ClCompile Include="..\Private\CUI_InGameCharProfile.cpp" />
