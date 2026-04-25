@@ -1,13 +1,11 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "CContainerObject.h"
-
-#include "Command.h"
+#include "CInvenOwner.h"
 
 NS_BEGIN(Client)
 
-class CUnit abstract : public CContainerObject
+class CUnit abstract : public CInvenOwner
 {
 public:
 	struct UNIT_STAT
@@ -69,9 +67,6 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	// TransformCom
-	const CTransform* Get_TransformCom() { return m_pTransformCom; }
-
 	const UNIT_STAT& Get_FinalStat() { return m_tFinalStat; }
 	const UNIT_STAT& Get_CurStat() { return m_tCurStat; }
 

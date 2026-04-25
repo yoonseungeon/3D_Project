@@ -235,6 +235,9 @@
     <Filter Include="99. Manager\01. Game_Manager">
       <UniqueIdentifier>{6170fe61-0410-4c90-8962-3c8d1ac16b55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner">
+      <UniqueIdentifier>{8f339f2b-b2e1-4b6e-b401-1465cb5b9295}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -471,6 +474,9 @@
     <ClInclude Include="..\Public\CInventory.h">
       <Filter>51. Inventory</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CInvenOwner.h">
+      <Filter>02. GameObject\03. InvenOwner</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -689,6 +695,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CInventory.cpp">
       <Filter>51. Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInvenOwner.cpp">
+      <Filter>02. GameObject\03. InvenOwner</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

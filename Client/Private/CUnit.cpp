@@ -5,12 +5,12 @@
 #include "CPartObject.h"
 
 CUnit::CUnit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-    : CContainerObject{ pDevice, pContext }
+    : CInvenOwner{ pDevice, pContext }
 {
 }
 
 CUnit::CUnit(const CUnit& Prototype)
-    : CContainerObject{ Prototype }
+    : CInvenOwner{ Prototype }
 {
 }
 
