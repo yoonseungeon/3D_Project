@@ -456,6 +456,9 @@
     <ClInclude Include="..\Public\CUI_MainGaugeBar.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\00. UI_CharSkillPanel\01. UI_MainGaugePanel\UI_MainGaugeBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Item_Meta.h">
+      <Filter>999. Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

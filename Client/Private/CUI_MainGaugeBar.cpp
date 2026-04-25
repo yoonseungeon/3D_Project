@@ -45,6 +45,7 @@ HRESULT CUI_MainGaugeBar::Initialize(void* pArg)
         case MAINGAUGE_TYPE::HP:
             m_iTexIdx = 0;
             m_wstrTexturePrototypeTag = L"Prototype_Texture_Img_MainGauge";
+            m_vColor = COLOR_TO_FLOAT(220, 220, 220);
             break;
 
         case MAINGAUGE_TYPE::MP:

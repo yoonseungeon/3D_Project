@@ -219,6 +219,7 @@
     <ClInclude Include="..\Public\CUI_TextBox.h" />
     <ClInclude Include="..\Public\CUnit.h" />
     <ClInclude Include="..\Public\CWeapon.h" />
+    <ClInclude Include="..\Public\Item_Meta.h" />
     <ClInclude Include="..\Public\LiDailin_Info.h" />
     <ClInclude Include="..\Public\CLiDailin_R.h" />
     <ClInclude Include="..\Public\Map_Meta.h" />

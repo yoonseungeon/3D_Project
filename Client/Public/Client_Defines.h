@@ -3,6 +3,7 @@
 #include "Character_Meta.h"
 #include "Map_Meta.h"
 #include "Skill_Info.h"
+#include "Item_Meta.h"
 
 #include <Windows.h>
 

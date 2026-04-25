@@ -138,7 +138,6 @@ HRESULT CUI_MainGaugePanel::Ready_Layer_MainGaugeBar(const _wstring& strLayerTag
     Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
 
     Desc.eBlendState = CUI_Default::ALPHABLEND_GAUGE;
-    Desc.vColor = COLOR_TO_FLOAT(255, 255, 255);
 
     Desc.eGaugeType = m_eMainGaugeType;
 
