@@ -77,6 +77,11 @@ HRESULT CLiDailin::Initialize(void* pArg)
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
 
+    m_pInvetory->Add_Item(4);
+    m_pInvetory->Add_Item(34);
+    m_pInvetory->Add_Item(55);
+    m_pInvetory->Add_Item(33);
+
     return S_OK;
 }
 

@@ -171,7 +171,7 @@ HRESULT CMapSelectBtn::Ready_Components()
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
-    /* For.Com_Texture*/
+    /* For.Com_Image*/
     if (FAILED(__super::Add_Component(ETOUI(m_eTexPrototypeLV), MAPS[static_cast<_uint>(m_eMapName)].IMAGE_OVER_TAG,
         TEXT("Com_Image"), reinterpret_cast<CComponent**>(&m_pImageCom))))
         return E_FAIL;

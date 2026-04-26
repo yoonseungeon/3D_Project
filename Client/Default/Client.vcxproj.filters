@@ -244,6 +244,9 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot">
       <UniqueIdentifier>{52667fcf-d935-40a3-9dec-756880209686}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage">
+      <UniqueIdentifier>{db35e0c3-e665-4cbc-b820-be4d7118ba8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -489,6 +492,9 @@
     <ClInclude Include="..\Public\CUI_InventorySlot.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_ItemImage.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -716,6 +722,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_InventorySlot.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_ItemImage.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

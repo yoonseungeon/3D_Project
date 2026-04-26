@@ -47,6 +47,7 @@
 // Inven
 #include "CUI_Inventory.h"
 #include "CUI_InventorySlot.h"
+#include "CUI_ItemImage.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -1574,6 +1575,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_GameObject_CUI_ItemImage */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_ItemImage"),
+                CUI_ItemImage::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_ItemImage");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region Navigation
@@ -1714,7 +1728,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_CircleMask"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/CircleMask.png"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_CircleMask");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_CircleMask");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1727,7 +1741,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_IcoStat"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Ico_ChaStat%d.dds"), 8))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_IcoStat");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_IcoStat");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1740,7 +1754,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Img_Img_HudDecoRight"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Img_HudDecoRight.dds"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Img_Img_HudDecoRight");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Img_Img_HudDecoRight");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1753,7 +1767,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Img_Img_HudDecoLeft"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Img_HudDecoLeft.dds"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Img_Img_HudDecoLeft");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Img_Img_HudDecoLeft");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1766,7 +1780,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Img_LevelGauge"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Img_LevelGage.dds"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Img_LevelGauge");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Img_LevelGauge");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1779,7 +1793,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_LevelPanelDeco"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/LevelPanelDeco.dds"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_LevelPanelDeco");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_LevelPanelDeco");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1792,7 +1806,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Img_MainGauge"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Img_MainGauge%d.dds"), 3))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Img_MainGauge");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Img_MainGauge");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1805,7 +1819,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Ico_Crafting"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Ico_Crafting.dds"), 1))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Ico_Crafting");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Ico_Crafting");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1818,7 +1832,35 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Ico_ItemGradeBg"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Ico_ItemGradeBg%d.png"), 6))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Ico_ItemGradeBg");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Ico_ItemGradeBg");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Item */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Item"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Item/Item%d.png"), 89))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Item");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+#pragma region ÀÌ¹ÌÁö
+    /* Prototype_Image_Item */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Image_Item"),
+                CImage::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Item/Item%d.png"), 89))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Image_Item");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

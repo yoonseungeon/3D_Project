@@ -17,52 +17,58 @@ CImage::CImage(const CImage& Prototype)
 
 HRESULT CImage::Initialize_Prototype(const _tchar* pImageFilePath, _uint iImages)
 {
-	_tchar szEXT[MAX_PATH] = {};
+	m_iNumImages = iImages;
+	m_vecAlphaImages.reserve(m_iNumImages);
 
-	_wsplitpath_s(
-		pImageFilePath,	// 문자열
-		nullptr, 0,			// 드라이브 경로, 버퍼 크기
-		nullptr, 0,			// 디렉토리 경로, 버퍼 크기
-		nullptr, 0,			// 파일 이름,	  버퍼 크기
-		szEXT, MAX_PATH		// 확장자,        버퍼 크기
-	);
+	_tchar szImageFilePath[MAX_PATH] = TEXT("");
 
-	if (lstrcmp(szEXT, TEXT(".png")) != 0)
+	for (size_t i = 0; i < m_iNumImages; ++i)
 	{
-		return E_FAIL;
-	}
+		_tchar szEXT[MAX_PATH] = {};
+		wsprintf(szImageFilePath, pImageFilePath, i);
 
-	ScratchImage image;
+		_wsplitpath_s(
+			szImageFilePath,	// 문자열
+			nullptr, 0,			// 드라이브 경로, 버퍼 크기
+			nullptr, 0,			// 디렉토리 경로, 버퍼 크기
+			nullptr, 0,			// 파일 이름,	  버퍼 크기
+			szEXT, MAX_PATH		// 확장자,        버퍼 크기
+		);
 
-	// m_iNumImages = iImages;
-	m_iNumImages = 1;
-
-	HRESULT hr = LoadFromWICFile(pImageFilePath, WIC_FLAGS_NONE, nullptr, image);
-	if (FAILED(hr)) {
-		return E_FAIL;
-	}
-
-	const Image* pImage = image.GetImage(0, 0, 0);
-	if (pImage == nullptr) {
-		return E_FAIL;
-	}
-
-	shared_ptr<IMAGE_ALPHA> tImageAlpha = make_shared<IMAGE_ALPHA>();
-	tImageAlpha->iWidth = pImage->width;
-	tImageAlpha->iHeight = pImage->height;
-	tImageAlpha->vecAlphaImage.reserve(pImage->width * pImage->height);
-
-	for (size_t i = 0; i < pImage->height; ++i)
-	{
-		// 실제 픽셀 시작 주소 pImage->pixels
-		_ubyte* pAlphaPixels = pImage->pixels + i * pImage->rowPitch;
-		for (size_t j = 0; j < pImage->width; ++j)
+		if (lstrcmp(szEXT, TEXT(".png")) != 0)
 		{
-			tImageAlpha->vecAlphaImage.push_back(pAlphaPixels[j * 4 + 3]);
+			return E_FAIL;
 		}
-	}
 
-	m_vecAlphaImages.push_back(tImageAlpha);
+		ScratchImage image;
+
+		HRESULT hr = LoadFromWICFile(szImageFilePath, WIC_FLAGS_NONE, nullptr, image);
+		if (FAILED(hr)) {
+			return E_FAIL;
+		}
+
+		const Image* pImage = image.GetImage(0, 0, 0);
+		if (pImage == nullptr) {
+			return E_FAIL;
+		}
+
+		shared_ptr<IMAGE_ALPHA> tImageAlpha = make_shared<IMAGE_ALPHA>();
+		tImageAlpha->iWidth = pImage->width;
+		tImageAlpha->iHeight = pImage->height;
+		tImageAlpha->vecAlphaImage.reserve(pImage->width * pImage->height);
+
+		for (size_t j = 0; j < pImage->height; ++j)
+		{
+			// 실제 픽셀 시작 주소 pImage->pixels
+			_ubyte* pAlphaPixels = pImage->pixels + j * pImage->rowPitch;
+			for (size_t k = 0; k < pImage->width; ++k)
+			{
+				tImageAlpha->vecAlphaImage.push_back(pAlphaPixels[k * 4 + 3]);
+			}
+		}
+
+		m_vecAlphaImages.push_back(tImageAlpha);
+	}
 
 	return S_OK;
 }
@@ -90,6 +96,26 @@ _bool CImage::AlphaClick(_float fU, _float fV, _ubyte byAlpha, _uint iImageIdx)
 	}
 
 	return false;
+}
+
+size_t CImage::Get_Width(_uint iImageIdx)
+{
+	if (iImageIdx >= m_iNumImages)
+	{
+		return 0;
+	}
+
+	return m_vecAlphaImages[iImageIdx]->iWidth;
+}
+
+size_t CImage::Get_Height(_uint iImageIdx)
+{
+	if (iImageIdx >= m_iNumImages)
+	{
+		return 0;
+	}
+
+	return m_vecAlphaImages[iImageIdx]->iHeight;
 }
 
 CImage* CImage::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pImageFilePath, _uint iImages)

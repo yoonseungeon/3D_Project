@@ -25,6 +25,8 @@ private:
 
 public:
 	_bool AlphaClick(_float fU, _float fV, _ubyte byAlpha, _uint iImageIdx = 0);
+	size_t Get_Width(_uint iImageIdx);
+	size_t Get_Height(_uint iImageIdx);
 
 private:
 	_uint m_iNumImages = {};

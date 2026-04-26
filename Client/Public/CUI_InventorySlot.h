@@ -12,6 +12,7 @@ NS_END
 NS_BEGIN(Client)
 
 class CUI_Image;
+class CUI_ItemImage;
 
 class CUI_InventorySlot final : public CUI_Btn
 {
@@ -43,10 +44,12 @@ private:
 	HRESULT Bind_ShaderResources();
 
 	HRESULT Ready_Layer_UI_InventoryItemBg(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_UI_InventoryItem(const _wstring& strLayerTag);
 
 	virtual void BtnClick() override;
 
 	void Set_ItemBg(_int iItemId);
+	void Set_Item(_int iItemId);
 
 private:
 	CShader* m_pShaderCom{ nullptr };
@@ -54,6 +57,7 @@ private:
 	CTexture* m_pTextureCom{ nullptr };
 
 	CUI_Image* m_pItemBg{};
+	CUI_ItemImage* m_pItemImage{};
 
 private:
 	_float m_fScaleRatioX{};

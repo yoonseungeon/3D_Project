@@ -1,5 +1,6 @@
 #include "CUIObject.h"
 
+#include "CGameInstance.h"
 #include "CShader.h"
 
 CUIObject::CUIObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -31,23 +32,21 @@ HRESULT CUIObject::Initialize(void* pArg)
     m_iFlipX = pDesc->iFlipX;
     m_iFlipY = pDesc->iFlipY;
 
-    _uint iNumViewport = { 1 };
-    D3D11_VIEWPORT ViewportDesc = {};
-    m_pContext->RSGetViewports(&iNumViewport, &ViewportDesc);
+    auto tViewportDesc = m_pGameInstance->Get_ViewportDesc();
 
     /* 직교 투영으로 그려주기위한 월드행렬 셋 */
     // 윈도우 크기 대비 UI 크기 비율
-    m_pTransformCom->Set_Scale(ViewportDesc.Width * pDesc->fScaleRatioX, ViewportDesc.Height * pDesc->fScaleRatioY, 1.f);
+    m_pTransformCom->Set_Scale(tViewportDesc.x * pDesc->fScaleRatioX, tViewportDesc.y * pDesc->fScaleRatioY, 1.f);
 
     // 화면 중심 기준 UI 위치 비율(범위 -0.5 ~ 0.5)
     m_pTransformCom->Set_State(STATE::POSITION,
-        XMVectorSet(ViewportDesc.Width * pDesc->fPosRatioX, ViewportDesc.Height * pDesc->fPosRatioY, 0.1f, 1.f));
+        XMVectorSet(tViewportDesc.x * pDesc->fPosRatioX, tViewportDesc.y * pDesc->fPosRatioY, 0.1f, 1.f));
 
     /* 직교 투영으로 그려주기위한 뷰행렬 셋 */
     XMStoreFloat4x4(&m_TransformMatrices[ETOUI(D3DTS::VIEW)], XMMatrixIdentity());
 
     /* 직교 투영으로 그려주기위한 투영행렬 셋 */
-    XMStoreFloat4x4(&m_TransformMatrices[ETOUI(D3DTS::PROJ)], XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.1f, 1.f));
+    XMStoreFloat4x4(&m_TransformMatrices[ETOUI(D3DTS::PROJ)], XMMatrixOrthographicLH(static_cast<_float>(tViewportDesc.x), static_cast<_float>(tViewportDesc.y), 0.1f, 1.f));
 
     return S_OK;
 }
