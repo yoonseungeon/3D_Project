@@ -80,7 +80,7 @@ HRESULT CLiDailin::Initialize(void* pArg)
     m_pInvetory->Add_Item(4);
     m_pInvetory->Add_Item(34);
     m_pInvetory->Add_Item(55);
-    m_pInvetory->Add_Item(33);
+    m_pInvetory->Add_Item(52);
 
     return S_OK;
 }
@@ -449,15 +449,18 @@ HRESULT CLiDailin::Bind_ShaderResources()
 void CLiDailin::Key_Input()
 {
 
-    // +
-    if (m_pGameInstance->Key_Down(DIK_EQUALS)) {
+    // debug
+    if (m_pGameInstance->Key_Down(DIK_7)) {
         AddEXP(20);
     }
-    if (m_pGameInstance->Key_Down(DIK_F9)) {
+    if (m_pGameInstance->Key_Down(DIK_8)) {
         AddHP(110);
     }
-    if (m_pGameInstance->Key_Down(DIK_F11)) {
+    if (m_pGameInstance->Key_Down(DIK_9)) {
         AddMP(20);
+    }
+    if (m_pGameInstance->Key_Down(DIK_0)) {
+        m_pInvetory->Add_Item(33);
     }
 
     // Q

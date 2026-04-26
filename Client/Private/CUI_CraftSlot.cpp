@@ -25,12 +25,24 @@ HRESULT CUI_CraftSlot::Initialize_Prototype()
 
 HRESULT CUI_CraftSlot::Initialize(void* pArg)
 {
+    m_pCItem_Manager = CItem_Manager::GetInstance();
+    Safe_AddRef(m_pCItem_Manager);
+
     CUI_CRAFTSLOT_DESC* pDesc = static_cast<CUI_CRAFTSLOT_DESC*>(pArg);
 
     m_fScaleRatioX = pDesc->fScaleRatioX;
     m_fScaleRatioY = pDesc->fScaleRatioY;
     m_fPosRatioX = pDesc->fPosRatioX;
     m_fPosRatioY = pDesc->fPosRatioY;
+
+    static const _float fStartAdjust{ 0.5f };
+
+    // ½½·Ô Å©±â ºñ·Ê·Î ³»¸²
+    static const _float fAdjustX = pDesc->fScaleRatioX * static_cast<_float>(g_iWinSizeX) * 0.28f;
+    static const _float fAdjustY = pDesc->fScaleRatioY * static_cast<_float>(g_iWinSizeY) * 0.1f;
+
+    m_fImagePosX = (pDesc->fPosRatioX + fStartAdjust) * static_cast<_float>(g_iWinSizeX) + fAdjustX;
+    m_fImagePosY = -(pDesc->fPosRatioY - fStartAdjust) * static_cast<_float>(g_iWinSizeY);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
@@ -81,21 +93,40 @@ HRESULT CUI_CraftSlot::Render()
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
+    static const _float fAdjustFontSize = 0.4f;
+
+    if (m_iCraftCnt > 1) {
+        m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
+            m_wstrCraftCnt.data(),
+            _float2(m_fImagePosX, m_fImagePosY), XMVectorSet(1.f, 1.f, 1.f, 1.f),
+            _float2(fDefaultFontSize * fAdjustFontSize, fDefaultFontSize * fAdjustFontSize)
+        );
+    }
+
     return S_OK;
 }
 
-void CUI_CraftSlot::Set_Item(_int iItemId)
+void CUI_CraftSlot::Set_CraftItem(_int iItemId, _int iCraftCnt)
 {
-  /*  if (iItemId == -1)
+    if (iItemId == -1)
     {
+        m_bIsInactive = true;
         m_pItemImage->Set_IsInactive(true);
+        m_iCraftCnt = 0;
+        m_wstrCraftCnt = to_wstring(m_iCraftCnt);
         return;
     }
 
+    m_bIsInactive = false;
     m_pItemImage->Set_IsInactive(false);
 
-    const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
-    m_pItemImage->Set_CurItem(iItemId);*/
+    const ITEM_DESC* tItemDesc = m_pCItem_Manager->Find_ItemInfo(iItemId);
+
+    m_iTexIdx = ETOUI(tItemDesc->eGrade);    
+    m_pItemImage->Set_CurItem(iItemId, iCraftCnt);
+
+    m_iCraftCnt = iCraftCnt;
+    m_wstrCraftCnt = to_wstring(m_iCraftCnt);
 }
 
 HRESULT CUI_CraftSlot::Ready_Components()
@@ -140,25 +171,25 @@ HRESULT CUI_CraftSlot::Bind_ShaderResources()
 
 HRESULT CUI_CraftSlot::Ready_Layer_UI_CraftItem(const _wstring& strLayerTag)
 {
-    //CUI_Image::CUI_IMAGE_DESC Desc{};
+    CUI_Image::CUI_IMAGE_DESC Desc{};
 
-    //Desc.fScaleRatioX = m_fScaleRatioX;
-    //Desc.fScaleRatioY = m_fScaleRatioY;
-    //Desc.fPosRatioX = m_fPosRatioX;
-    //Desc.fPosRatioY = m_fPosRatioY;
+    Desc.fScaleRatioX = m_fScaleRatioX;
+    Desc.fScaleRatioY = m_fScaleRatioY;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY;
 
-    //Desc.iUILayer = ETOUI(UILAYER::SLOT);
+    Desc.iUILayer = ETOUI(UILAYER::SLOT);
 
-    //Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
-    //Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Item";
+    Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Item";
 
-    //Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
 
-    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_ItemImage"),
-    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pItemImage))))
-    //    return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_ItemImage"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pItemImage))))
+        return E_FAIL;
 
-    //m_pItemImage->Set_IsInactive(true);
+    m_pItemImage->Set_IsInactive(true);
 
     return S_OK;
 }
@@ -196,6 +227,8 @@ CGameObject* CUI_CraftSlot::Clone(void* pArg)
 
 void CUI_CraftSlot::Free()
 {
+    Safe_Release(m_pCItem_Manager);
+
     Safe_Release(m_pItemImage);
 
     Safe_Release(m_pTextureCom);

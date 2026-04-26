@@ -18,6 +18,16 @@ const ITEM_DESC* CItem_Manager::Find_ItemInfo(_uint iItemIdx) const
     return &(iter->second);
 }
 
+const vector<_uint>* CItem_Manager::Get_CanCraftItemCandidates(_uint iItemIdx) const
+{
+    auto iter = m_Reversematerials.find(iItemIdx);
+
+    if (iter == m_Reversematerials.end())
+        return nullptr;
+
+    return &(iter->second);
+}
+
 HRESULT CItem_Manager::Initialize()
 {   
     if (FAILED(Set_ItemInfos()))

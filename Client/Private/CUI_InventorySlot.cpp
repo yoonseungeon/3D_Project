@@ -85,7 +85,9 @@ HRESULT CUI_InventorySlot::Render()
 void CUI_InventorySlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
 {
     Set_ItemBg(iItemId);
-    Set_Item(iItemId);
+    Set_Item(iItemId, iItemCnt);
+
+    iItemCnt = iItemCnt;
 }
 
 void CUI_InventorySlot::Set_ItemBg(_int iItemId)
@@ -102,7 +104,7 @@ void CUI_InventorySlot::Set_ItemBg(_int iItemId)
     m_pItemBg->Set_TexIdx(ETOUI(pItemDesc->eGrade));    
 }
 
-void CUI_InventorySlot::Set_Item(_int iItemId)
+void CUI_InventorySlot::Set_Item(_int iItemId, _uint iItemCnt)
 {
     if (iItemId == -1)
     {
@@ -112,8 +114,7 @@ void CUI_InventorySlot::Set_Item(_int iItemId)
 
     m_pItemImage->Set_IsInactive(false);
 
-    const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
-    m_pItemImage->Set_CurItem(iItemId);
+    m_pItemImage->Set_CurItem(iItemId, iItemCnt);
 }
 
 HRESULT CUI_InventorySlot::Ready_Components()

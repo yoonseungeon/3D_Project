@@ -2,11 +2,14 @@
 
 #include "CGameInstance.h"
 #include "CInGame_Manager.h"
+#include "CItem_Manager.h"
+
 #include "CAbstractPlayer.h"
 #include "CInventory.h"
 
 #include "CUI_InventorySlot.h"
 #include "CUI_Image.h"
+#include "CUI_Craft.h"
 
 CUI_Inventory::CUI_Inventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -27,6 +30,9 @@ HRESULT CUI_Inventory::Initialize_Prototype()
 
 HRESULT CUI_Inventory::Initialize(void* pArg)
 {
+    m_pCItem_Manager = CItem_Manager::GetInstance();
+    Safe_AddRef(m_pCItem_Manager);
+
     CUI_DEFAULT_DESC Desc{};
     Desc.fScaleRatioX = 1.f;
     Desc.fScaleRatioY = 1.f;
@@ -173,7 +179,7 @@ HRESULT CUI_Inventory::Ready_Layer_UI_Craft(const _wstring& strLayerTag)
 {
     // CUI_Craft
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_Craft"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, nullptr, reinterpret_cast<CGameObject**>(&m_pCraft))))
         return E_FAIL;
 
     return S_OK;
@@ -216,6 +222,7 @@ void CUI_Inventory::Sync_Inventory()
     
     if (m_iChangeFlag == pInventory->Get_ChangeFlag())
     {
+        m_UICraft;
         return;
     }
 
@@ -225,6 +232,9 @@ void CUI_Inventory::Sync_Inventory()
     m_UIInventory = Inventory;
 
     Sync_InventorySlot();
+
+    // UIInventory 갱신된 후 호출
+    Sync_Craft();
 }
 
 void CUI_Inventory::Sync_InventorySlot()
@@ -233,6 +243,86 @@ void CUI_Inventory::Sync_InventorySlot()
     {        
         m_Slots[i]->Sync_Slot_Bg_Item(m_UIInventory[i].iItemId, m_UIInventory[i].iItemCnt);
     }
+}
+
+void CUI_Inventory::Sync_Craft()
+{
+    m_UICraft.clear();
+
+    unordered_set<_uint> CandidateItems;
+
+    for (_uint i = 0; i < m_UIInventory.size(); ++i)
+    {
+        _int iItemIdx = m_UIInventory[i].iItemId;
+
+        if (iItemIdx == -1)
+        {
+            continue;
+        }
+
+        const vector<_uint>* CanCraftItemCandidates = m_pCItem_Manager->Get_CanCraftItemCandidates(iItemIdx);
+
+        if (CanCraftItemCandidates == nullptr)
+        {
+            continue;
+        }
+
+        // 중복 제거
+        for (_int iItemIdx : *CanCraftItemCandidates)
+        {
+            CandidateItems.insert(iItemIdx);
+        }
+    }
+    
+    for (_int iItemIdx : CandidateItems)
+    {
+        if (Can_Craft(iItemIdx) == true)
+        {
+            const ITEM_DESC* tItemDesc = m_pCItem_Manager->Find_ItemInfo(iItemIdx);
+            m_UICraft.emplace_back(INVENTORY_SLOT{ iItemIdx, tItemDesc->iCraftCnt });
+        }
+    }
+
+    m_pCraft->Set_CraftItem(m_UICraft);
+}
+
+_bool CUI_Inventory::Can_Craft(_uint iItemIdx)
+{
+    // 같은 아이템이 제작에 두 개 필요한 아이템은 없음 -> 체크 로직 없음
+
+    const ITEM_DESC* tItem_Desc = m_pCItem_Manager->Find_ItemInfo(iItemIdx);
+        
+    if (tItem_Desc == nullptr)
+    {
+        MSG_BOX("No ITEM_DESC In CItem_Manager: CUI_Inventory");
+        return false;
+    }
+
+    for (_uint i = 0; i < sizeof(tItem_Desc->materials) / sizeof(_int); ++i)
+    {
+        if (tItem_Desc->materials[i] == -1)
+        {
+            continue;
+        }
+
+        _bool bFind{};
+
+        for (_uint j = 0; j < m_UIInventory.size(); ++j)
+        {
+            if(m_UIInventory[j].iItemId == tItem_Desc->materials[i])
+            {
+                bFind = true;
+                break;
+            }
+        }
+
+        if (bFind == false)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 CUI_Inventory* CUI_Inventory::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -263,11 +353,15 @@ CGameObject* CUI_Inventory::Clone(void* pArg)
 
 void CUI_Inventory::Free()
 {
+    Safe_Release(m_pCItem_Manager);
+
     for (auto& pSlot : m_Slots)
     {
         Safe_Release(pSlot);
     }
     m_Slots.clear();
+
+    Safe_Release(m_pCraft);
 
     __super::Free();
 }

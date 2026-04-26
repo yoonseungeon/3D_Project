@@ -37,7 +37,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Set_CurItem(_uint iItemIdx);
+	void Set_CurItem(_int iItemIdx, _uint iItemCnt);
 
 private:
 	HRESULT Ready_Components();
@@ -50,6 +50,8 @@ private:
 	CImage* m_pImageCom{ nullptr };
 
 	_float m_fScaleRatioSlotY{};
+
+	_uint m_iCnt{};
 
 public:
 	static CUI_ItemImage* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

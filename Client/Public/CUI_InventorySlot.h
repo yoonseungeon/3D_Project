@@ -49,7 +49,13 @@ private:
 	virtual void BtnClick() override;
 
 	void Set_ItemBg(_int iItemId);
-	void Set_Item(_int iItemId);
+	void Set_Item(_int iItemId, _uint iItemCnt);
+
+private:
+	_float m_fScaleRatioX{};
+	_float m_fScaleRatioY{};
+	_float m_fPosRatioX{};
+	_float m_fPosRatioY{};
 
 private:
 	CShader* m_pShaderCom{ nullptr };
@@ -59,11 +65,7 @@ private:
 	CUI_Image* m_pItemBg{};
 	CUI_ItemImage* m_pItemImage{};
 
-private:
-	_float m_fScaleRatioX{};
-	_float m_fScaleRatioY{};
-	_float m_fPosRatioX{};
-	_float m_fPosRatioY{};
+	_uint iItemCnt{};
 
 public:
 	static CUI_InventorySlot* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

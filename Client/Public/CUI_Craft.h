@@ -26,8 +26,10 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void Set_CraftItem(const vector<INVENTORY_SLOT>& UICraft);
+
 private:
-	vector<INVENTORY_SLOT> m_UICraft;
 	vector<CUI_CraftSlot*> m_Slots;
 
 private:

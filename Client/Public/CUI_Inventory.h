@@ -6,6 +6,8 @@
 NS_BEGIN(Client)
 
 class CUI_InventorySlot;
+class CItem_Manager;
+class CUI_Craft;
 
 class CUI_Inventory : public CUI_Default
 {
@@ -31,6 +33,11 @@ private:
 	vector<INVENTORY_SLOT> m_UIInventory;
 	_uint m_iChangeFlag{};
 
+	vector<INVENTORY_SLOT> m_UICraft;
+	CUI_Craft* m_pCraft{};
+
+	CItem_Manager* m_pCItem_Manager{};
+
 private:
 	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI_Inventory(const _wstring& strLayerTag);
@@ -41,6 +48,9 @@ private:
 	HRESULT Initialize_Inventory();
 	void Sync_Inventory();
 	void Sync_InventorySlot();
+
+	void Sync_Craft();
+	_bool Can_Craft(_uint iItemIdx);
 
 public:
 	static CUI_Inventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

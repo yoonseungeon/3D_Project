@@ -16,6 +16,8 @@ private:
 public:
 	const ITEM_DESC* Find_ItemInfo(_uint iItemIdx) const;
 
+	const vector<_uint>* Get_CanCraftItemCandidates(_uint iItemIdx) const;
+
 private:
 	HRESULT Initialize();
 

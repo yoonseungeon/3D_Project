@@ -119,9 +119,10 @@ HRESULT CUI_ItemImage::Bind_ShaderResources()
     return S_OK;
 }
 
-void CUI_ItemImage::Set_CurItem(_uint iItemIdx)
+void CUI_ItemImage::Set_CurItem(int iItemIdx, _uint iItemCnt)
 {
     m_iTexIdx = iItemIdx;
+    m_iCnt = iItemCnt;
 
     auto tViewportDesc = m_pGameInstance->Get_ViewportDesc();
 

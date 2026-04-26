@@ -30,8 +30,6 @@ HRESULT CUI_Craft::Initialize(void* pArg)
     if (FAILED(Ready_Layer_UI_CraftSlot(TEXT("Layer_UI_CraftSlot"))))
         return E_FAIL;
 
-    m_UICraft.reserve(5);
-
     return S_OK;
 }
 
@@ -54,6 +52,22 @@ void CUI_Craft::Late_Update(_float fTimeDelta)
 HRESULT CUI_Craft::Render()
 {
     return S_OK;
+}
+
+void CUI_Craft::Set_CraftItem(const vector<INVENTORY_SLOT>& UICraft)
+{
+    _uint iCanCraftCnt = static_cast<_uint>(UICraft.size());
+
+    for (_uint i = 0; i < m_Slots.size(); ++i)
+    {
+        if (iCanCraftCnt < i + 1)
+        {
+            m_Slots[i]->Set_CraftItem(-1, 0);
+            continue;
+        }
+
+        m_Slots[i]->Set_CraftItem(UICraft[i].iItemId, UICraft[i].iItemCnt);
+    }
 }
 
 HRESULT CUI_Craft::Ready_Layer_UI_CraftSlot(const _wstring& strLayerTag)
@@ -97,6 +111,8 @@ HRESULT CUI_Craft::Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc)
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_CraftSlot"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, pSlotDesc, reinterpret_cast<CGameObject**>(&pCraftSlot))))
         return E_FAIL;
+
+    pCraftSlot->Set_IsInactive(true);
 
     m_Slots.push_back(pCraftSlot);
 
