@@ -87,6 +87,8 @@ protected:
 
 	void SetFinalStat();
 
+	virtual HRESULT Initialize_Stat();
+
 protected:
 	UNIT_STAT m_tFinalStat{}; // Base와 Item의 합산
 	UNIT_STAT m_tBaseStat{};

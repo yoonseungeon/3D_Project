@@ -159,6 +159,11 @@ void CUnit::SetFinalStat()
     m_tFinalStat.iLevel = 20;
 }
 
+HRESULT CUnit::Initialize_Stat()
+{
+    return S_OK;
+}
+
 void CUnit::Free()
 {
     __super::Free();

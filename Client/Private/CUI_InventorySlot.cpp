@@ -1,6 +1,9 @@
 #include "CUI_InventorySlot.h"
 
 #include "CGameInstance.h"
+#include "CItem_Manager.h"
+
+#include "Cui_Image.h"
 
 CUI_InventorySlot::CUI_InventorySlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Btn{ pDevice, pContext }
@@ -23,10 +26,18 @@ HRESULT CUI_InventorySlot::Initialize(void* pArg)
 {
     CUI_INVENTORYSLOT_DESC* pDesc = static_cast<CUI_INVENTORYSLOT_DESC*>(pArg);
 
+    m_fScaleRatioX = pDesc->fScaleRatioX;
+    m_fScaleRatioY = pDesc->fScaleRatioY;
+    m_fPosRatioX = pDesc->fPosRatioX;
+    m_fPosRatioY = pDesc->fPosRatioY;
+
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_UI_InventoryItemBg(TEXT("Layer_UI_InventoryItemBg"))))
         return E_FAIL;
 
     return S_OK;
@@ -65,6 +76,25 @@ HRESULT CUI_InventorySlot::Render()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CUI_InventorySlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
+{
+    Set_ItemBg(iItemId);
+}
+
+void CUI_InventorySlot::Set_ItemBg(_int iItemId)
+{
+    if (iItemId == -1)
+    {
+        m_pItemBg->Set_IsInactive(true);
+        return;
+    }
+
+    m_pItemBg->Set_IsInactive(false);
+
+    const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
+    m_pItemBg->Set_TexIdx(ETOUI(pItemDesc->eGrade));    
 }
 
 HRESULT CUI_InventorySlot::Ready_Components()
@@ -107,6 +137,31 @@ HRESULT CUI_InventorySlot::Bind_ShaderResources()
     return S_OK;
 }
 
+HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItemBg(const _wstring& strLayerTag)
+{
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = m_fScaleRatioX;
+    Desc.fScaleRatioY = m_fScaleRatioY;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY;
+
+    Desc.iUILayer = ETOUI(UILAYER::PANEL_DECO);
+
+    Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Ico_ItemGradeBg";
+
+    Desc.eBlendState = CUI_Default::DEFAULT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pItemBg))))
+        return E_FAIL;
+
+    m_pItemBg->Set_IsInactive(true);
+
+    return S_OK;
+}
+
 void CUI_InventorySlot::BtnClick()
 {
 
@@ -140,6 +195,8 @@ CGameObject* CUI_InventorySlot::Clone(void* pArg)
 
 void CUI_InventorySlot::Free()
 {
+    Safe_Release(m_pItemBg);
+
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);

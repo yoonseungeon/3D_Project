@@ -127,6 +127,10 @@ private:
 	// COOL
 	void CoolTimer(_float fTimeDelta);
 
+	virtual HRESULT Initialize_Stat() override;
+	virtual HRESULT Initialize_Skill() override;
+	virtual HRESULT Initialize_State() override;
+
 public:
 	static CLiDailin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

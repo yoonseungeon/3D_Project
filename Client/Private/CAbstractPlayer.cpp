@@ -1,6 +1,7 @@
 #include "CAbstractPlayer.h"
 
 #include "CGameInstance.h"
+#include "CInventory.h"
 
 #include "CPartObject.h"
 
@@ -81,6 +82,16 @@ _bool CAbstractPlayer::CanUseSkill(const SKILL_SLOT eType)
 
 void CAbstractPlayer::Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc)
 {
+}
+
+HRESULT CAbstractPlayer::Initialize_Skill()
+{
+    return S_OK;
+}
+
+HRESULT CAbstractPlayer::Initialize_State()
+{
+    return S_OK;
 }
 
 void CAbstractPlayer::Free()

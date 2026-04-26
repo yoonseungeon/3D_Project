@@ -14,7 +14,7 @@ enum class ITEM_TYPE
 
 enum class ITEM_GRADE
 {
-    NORMAL, HIGH, RARE, HERO
+    NORMAL, HIGH, RARE, HERO, LEGENDARY, TRANSCENDENCE
 };
 
 enum class SPAWN_MAP {
@@ -164,4 +164,10 @@ static ITEM_DESC ItemInfos[89] = {
     { 86, 86, L"Empty", L"None", (MAP_NAME)0, ITEM_TYPE::CLOTH,    ITEM_GRADE::HERO,   0, 0.f, 0, 0, 0.f, 0, 0.f, 1, {57, 61} },
     { 87, 87, L"Empty", L"None", (MAP_NAME)0, ITEM_TYPE::ARM,      ITEM_GRADE::HERO,   0, 0.f, 0, 0, 0.f, 0, 0.f, 1, {58, 60} },
     { 88, 88, L"Empty", L"None", (MAP_NAME)0, ITEM_TYPE::LEG,      ITEM_GRADE::HERO,   0, 0.f, 0, 0, 0.f, 0, 0.f, 1, {59, 61} }
+};
+
+struct INVENTORY_SLOT
+{
+    int iItemId{ -1 };
+    unsigned int iItemCnt{};
 };

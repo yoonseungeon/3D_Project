@@ -2,6 +2,8 @@
 
 #include "CGameInstance.h"
 
+#include "CInventory.h"
+
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CBottle.h"
@@ -64,44 +66,16 @@ HRESULT CLiDailin::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
     
-    CState* pLiDailinIdle = CLiDailinIdle::Create();
-    m_States.emplace(L"Idle", pLiDailinIdle);
-    m_States.emplace(L"Move", CLiDailinMove::Create());
-    m_States.emplace(L"CLiDailinAttack", CLiDailinAttack::Create());
-    m_States.emplace(L"CLiDailin_Q", CLiDailin_Q::Create());
-    m_States.emplace(L"CLiDailin_W", CLiDailin_W::Create());
-    m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
-    m_States.emplace(L"CLiDailin_R", CLiDailin_R::Create());
+    if (FAILED(Initialize_State()))
+        return E_FAIL;
 
-    
-    m_pCurMovementState = dynamic_cast<CMovementState*>(pLiDailinIdle);
-    if (m_pCurMovementState != nullptr)
-    {
-        m_pCurMovementState->Enter(this);
-    }
-
-    m_pCurActionState = nullptr;
-
-    // cool
-    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 5.f;
-    tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
-
-    tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 2.f;
-    tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
-    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 2.f;
+    if (FAILED(Initialize_Skill()))
+        return E_FAIL;
 
     CInGame_Manager::GetInstance()->Set_Player(this);
-
-    SetStat(m_tBaseStat, 20, 40, 970, 100, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
-    SetStat(m_tCurStat, 1, 0, 970, 0, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
-
-    m_tCurStat.iHP = 0;
-
-    SetStat(m_tLevelUpStat, 0, 7, 188, 0, 0.63f, 0.f, 5, 0, 0, 0, 3, 0.03f, 0, 0, 0.01f);
     
-    SetFinalStat();
-
-    m_eMPType = MAINGAUGE_TYPE::INTOXICATION;
+    if (FAILED(Initialize_Stat()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -560,6 +534,58 @@ void CLiDailin::CoolTimer(_float fTimeDelta)
 
     // R
     tRCool.Update_Cool(fTimeDelta);
+}
+
+HRESULT CLiDailin::Initialize_Stat()
+{
+    SetStat(m_tBaseStat, 20, 40, 970, 100, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
+    SetStat(m_tCurStat, 1, 0, 970, 0, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
+
+    m_tCurStat.iHP = 0;
+
+    SetStat(m_tLevelUpStat, 0, 7, 188, 0, 0.63f, 0.f, 5, 0, 0, 0, 3, 0.03f, 0, 0, 0.01f);
+
+    SetFinalStat();
+
+    m_eMPType = MAINGAUGE_TYPE::INTOXICATION;
+
+    return S_OK;
+}
+
+HRESULT CLiDailin::Initialize_Skill()
+{
+    // cool
+    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 5.f;
+    tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
+
+    tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 2.f;
+    tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
+    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 2.f;
+
+    return S_OK;
+}
+
+HRESULT CLiDailin::Initialize_State()
+{
+    CState* pLiDailinIdle = CLiDailinIdle::Create();
+    m_States.emplace(L"Idle", pLiDailinIdle);
+    m_States.emplace(L"Move", CLiDailinMove::Create());
+    m_States.emplace(L"CLiDailinAttack", CLiDailinAttack::Create());
+    m_States.emplace(L"CLiDailin_Q", CLiDailin_Q::Create());
+    m_States.emplace(L"CLiDailin_W", CLiDailin_W::Create());
+    m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
+    m_States.emplace(L"CLiDailin_R", CLiDailin_R::Create());
+
+
+    m_pCurMovementState = dynamic_cast<CMovementState*>(pLiDailinIdle);
+    if (m_pCurMovementState != nullptr)
+    {
+        m_pCurMovementState->Enter(this);
+    }
+
+    m_pCurActionState = nullptr;
+
+    return S_OK;
 }
 
 CLiDailin* CLiDailin::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

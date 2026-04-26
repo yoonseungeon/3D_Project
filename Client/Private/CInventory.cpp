@@ -10,7 +10,7 @@ CInventory::CInventory()
 
 HRESULT CInventory::Initialize()
 {
-	Inventory.resize(10);
+	m_Inventory.resize(10);
 
 	return S_OK;
 }
@@ -19,16 +19,16 @@ _bool CInventory::Add_Item(_int iItemId)
 {
 	_int iFrontIdx = { -1 };
 
-	for (_uint i = 0; i < Inventory.size(); ++i)
+	for (_uint i = 0; i < m_Inventory.size(); ++i)
 	{
 
-		if (iFrontIdx == -1 && Inventory[i].iItemId == -1)
+		if (iFrontIdx == -1 && m_Inventory[i].iItemId == -1)
 		{
 			iFrontIdx = i;
 		}
 
 
-		if (Inventory[i].iItemId == iItemId)
+		if (m_Inventory[i].iItemId == iItemId)
 		{
 			const ITEM_DESC* pItemDesc = m_pItem_Manager->Find_ItemInfo(iItemId);
 			
@@ -38,9 +38,10 @@ _bool CInventory::Add_Item(_int iItemId)
 				return false;
 			}
 
-			if (Inventory[i].iItemCnt < pItemDesc->iMaxCnt)
+			if (m_Inventory[i].iItemCnt < pItemDesc->iMaxCnt)
 			{
-				++(Inventory[i].iItemCnt);
+				++(m_Inventory[i].iItemCnt);
+				Add_ChangeFlag();
 				return true;
 			}
 		}
@@ -48,8 +49,9 @@ _bool CInventory::Add_Item(_int iItemId)
 
 	if (iFrontIdx != -1)
 	{
-		Inventory[iFrontIdx].iItemId = iItemId;
-		Inventory[iFrontIdx].iItemCnt = 1;
+		m_Inventory[iFrontIdx].iItemId = iItemId;
+		m_Inventory[iFrontIdx].iItemCnt = 1;
+		Add_ChangeFlag();
 		return true;
 	}
 
@@ -58,12 +60,14 @@ _bool CInventory::Add_Item(_int iItemId)
 
 _bool CInventory::Decrease_Item(_uint iInvenIdx)
 {
-	if (iInvenIdx >= Inventory.size()) {
-		MSG_BOX("Inventory Out Of Range: CInventory");
+	if (iInvenIdx >= m_Inventory.size()) {
+		MSG_BOX("m_Inventory Out Of Range: CInventory");
 		return false;
 	}
 
-	INVENTORY_SLOT& tSlot = Inventory[iInvenIdx];
+	Add_ChangeFlag();
+
+	INVENTORY_SLOT& tSlot = m_Inventory[iInvenIdx];
 
 	if (tSlot.iItemId == -1)
 	{
@@ -77,14 +81,15 @@ _bool CInventory::Decrease_Item(_uint iInvenIdx)
 		tSlot.iItemId = -1;
 	}
 
+	Add_ChangeFlag();
 	return true;
 }
 
 _int CInventory::FindItem(_int iItemId)
 {
-	for (_int i = 0; i < Inventory.size(); ++i)
+	for (_int i = 0; i < m_Inventory.size(); ++i)
 	{
-		if (Inventory[i].iItemId == iItemId)
+		if (m_Inventory[i].iItemId == iItemId)
 		{
 			return i;
 		}

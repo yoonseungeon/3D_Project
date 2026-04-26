@@ -28,10 +28,17 @@ public:
 private:
 	vector<CUI_InventorySlot*> m_Slots;
 
+	vector<INVENTORY_SLOT> m_UIInventory;
+	_uint m_iChangeFlag{};
+
 private:
 	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI_Inventory(const _wstring& strLayerTag);
 	HRESULT Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc);
+
+	HRESULT Initialize_Inventory();
+	void Sync_Inventory();
+	void Sync_InventorySlot();
 
 public:
 	static CUI_Inventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

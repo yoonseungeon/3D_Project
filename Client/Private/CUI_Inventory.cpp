@@ -2,6 +2,8 @@
 
 #include "CGameInstance.h"
 #include "CInGame_Manager.h"
+#include "CAbstractPlayer.h"
+#include "CInventory.h"
 
 #include "CUI_InventorySlot.h"
 #include "CUI_Image.h"
@@ -38,6 +40,9 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
     if (FAILED(Ready_Layer_UI_Inventory(TEXT("Layer_UI_Inventory"))))
         return E_FAIL;
 
+    if (FAILED(Initialize_Inventory()))
+        return E_FAIL;    
+
     return S_OK;
 }
 
@@ -55,6 +60,7 @@ void CUI_Inventory::Update(_float fTimeDelta)
 
 void CUI_Inventory::Late_Update(_float fTimeDelta)
 {
+    Sync_Inventory();
 }
 
 HRESULT CUI_Inventory::Render()
@@ -146,11 +152,71 @@ HRESULT CUI_Inventory::Ready_Layer_UI_Inventory(const _wstring& strLayerTag)
 
 HRESULT CUI_Inventory::Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc)
 {
+    CUI_InventorySlot* pInventorySlot = { nullptr };
+
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_InventorySlot"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, pSlotDesc)))
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, pSlotDesc, reinterpret_cast<CGameObject**>(&pInventorySlot))))
         return E_FAIL;
 
+    m_Slots.push_back(pInventorySlot);
+
     return S_OK;
+}
+
+HRESULT CUI_Inventory::Initialize_Inventory()
+{
+    const CAbstractPlayer* pPlayer = CInGame_Manager::GetInstance()->Get_Player();        
+
+    if (pPlayer == nullptr)
+    {
+        MSG_BOX("Failed to Initialize Inventory: CUI_Inventory");
+        return E_FAIL;
+    }
+
+    const CInventory* pInventory = pPlayer->Get_Inventory();
+
+    if (pInventory == nullptr)
+    {
+        MSG_BOX("Failed to Initialize Inventory: CUI_Inventory");
+        return E_FAIL;
+    }
+
+    const vector<INVENTORY_SLOT>& Inventory = pInventory->Get_InventoryVec();
+
+    if (Inventory.size() == 0)
+    {
+        MSG_BOX("Failed to Initialize Inventory: CUI_Inventory");
+        return E_FAIL;
+    }
+
+    m_UIInventory = Inventory;
+
+    return S_OK;
+}
+
+void CUI_Inventory::Sync_Inventory()
+{
+    const CInventory* pInventory = CInGame_Manager::GetInstance()->Get_Player()->Get_Inventory();
+    
+    if (m_iChangeFlag == pInventory->Get_ChangeFlag())
+    {
+        return;
+    }
+
+    m_iChangeFlag = pInventory->Get_ChangeFlag();
+
+    const vector<INVENTORY_SLOT>& Inventory = pInventory->Get_InventoryVec();
+    m_UIInventory = Inventory;
+
+    Sync_InventorySlot();
+}
+
+void CUI_Inventory::Sync_InventorySlot()
+{
+    for (_uint i = 0; i < m_Slots.size(); ++i)
+    {        
+        m_Slots[i]->Sync_Slot_Bg_Item(m_UIInventory[i].iItemId, m_UIInventory[i].iItemCnt);
+    }
 }
 
 CUI_Inventory* CUI_Inventory::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

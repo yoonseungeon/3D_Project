@@ -30,6 +30,10 @@ public:
 	// Skill Icon
 	virtual void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc);
 
+protected:
+	virtual HRESULT Initialize_Skill();
+	virtual HRESULT Initialize_State();
+
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
 protected:
