@@ -283,6 +283,16 @@ void CUI_Inventory::Sync_Craft()
         }
     }
 
+    std::sort(m_UICraft.begin(), m_UICraft.end(),
+        [this](const INVENTORY_SLOT& tLeft, const INVENTORY_SLOT& tRight)->_bool
+        {
+            const ITEM_DESC* tLeftItemDesc = m_pCItem_Manager->Find_ItemInfo(tLeft.iItemId);
+            const ITEM_DESC* tRightItemDesc = m_pCItem_Manager->Find_ItemInfo(tRight.iItemId);
+
+            return tLeftItemDesc->eGrade > tRightItemDesc->eGrade;
+        }
+    );
+
     m_pCraft->Set_CraftItem(m_UICraft);
 }
 
