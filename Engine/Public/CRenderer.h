@@ -8,6 +8,7 @@
 NS_BEGIN(Engine)
 
 class CGameObject;
+class CGameInstance;
 
 class CRenderer final : public CBase
 {
@@ -29,6 +30,7 @@ private:
 
 private:
 	list<CGameObject*>	m_RenderObjects[ETOUI(RENDERID::END)];
+	CGameInstance* m_pGameInstance = { nullptr };
 
 private:
 	HRESULT Render_Priority();

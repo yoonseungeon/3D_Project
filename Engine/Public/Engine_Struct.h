@@ -191,6 +191,12 @@ namespace Engine
 		};
 	};
 
+	struct VIEWPORT_SIZE
+	{
+		unsigned int x{};
+		unsigned int y{};
+	};
+
 	struct MODEL_LOCAL_MIN_MAX
 	{
 		XMFLOAT3 vMin{ FLT_MAX, FLT_MAX, FLT_MAX };

@@ -10,6 +10,7 @@
 #include "CInput_Device.h"
 #include "CLight_Manager.h"
 #include "CFont_Manager.h"
+#include "CTarget_Manager.h"
 
 #include "CThread_Manager.h"
 
@@ -24,6 +25,8 @@ CGameInstance::CGameInstance()
 #pragma region ENGINE
 HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11Device** ppDevice, ID3D11DeviceContext** ppContext)
 {
+	m_tViewportDesc = { EngineDesc.iViewportWidth, EngineDesc.iViewportHeight };
+
 	m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.eWinMode, EngineDesc.iViewportWidth, EngineDesc.iViewportHeight, ppDevice, ppContext);
 	if (m_pGraphic_Device == nullptr)
 		return E_FAIL;
@@ -42,6 +45,11 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 
 	m_pObject_Manager = CObject_Manager::Create(EngineDesc.iNumLevels);
 	if (m_pObject_Manager == nullptr)
+		return E_FAIL;
+
+	// Render 생성보다 위에 있어야 함.
+	m_pTarget_Manager = CTarget_Manager::Create(*ppDevice, *ppContext);
+	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
 	m_pRenderer = CRenderer::Create(*ppDevice, *ppContext);
@@ -144,6 +152,7 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 
+	Safe_Release(m_pTarget_Manager);
 	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pLight_Manager);
 	Safe_Release(m_pInput_Device);
@@ -341,6 +350,13 @@ HRESULT CGameInstance::Add_Font(const _wstring& strFontTag, const _tchar* pFontF
 HRESULT CGameInstance::Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPosition, _fvector vColor, const _float2& vScale, _float fRotation, const _float2& vOrigin)
 {
 	return m_pFont_Manager->Draw(strFontTag, pText, vPosition, vColor, vScale, fRotation, vOrigin);
+}
+#pragma endregion
+
+#pragma region TARGET_MANAGER
+HRESULT CGameInstance::Add_RenderTarget(const _wstring& strTargetTag, _uint iWidth, _uint iHeight, DXGI_FORMAT ePixelFormat, const _float4& vClearColor)
+{
+	return m_pTarget_Manager->Add_RenderTarget(strTargetTag, iWidth, iHeight, ePixelFormat, vClearColor);
 }
 #pragma endregion
 

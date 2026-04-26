@@ -29,6 +29,7 @@ class CPipeline;
 class CInput_Device;
 class CLight_Manager;
 class CFont_Manager;
+class CTarget_Manager;
 
 class CThread_Manager;
 
@@ -53,6 +54,7 @@ public:
 	void	Release_Engine();
 
 	_float Random(_float fMin, _float fMax);
+	VIEWPORT_SIZE Get_ViewportDesc() { return m_tViewportDesc; }
 #pragma endregion
 
 #pragma region TIMER_MANAGER
@@ -134,6 +136,10 @@ public:
 	void Add_Job(function<void()> func);
 #pragma endregion
 
+#pragma region TARGET_MANAGER
+	HRESULT Add_RenderTarget(const _wstring& strTargetTag, _uint iWidth, _uint iHeight, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
+#pragma endregion
+
 private:
 	CGraphic_Device*	m_pGraphic_Device		= { nullptr };
 	CTimer_Manager*		m_pTimer_Manager		= { nullptr };
@@ -145,8 +151,11 @@ private:
 	CInput_Device*		m_pInput_Device			= { nullptr };
 	CLight_Manager*		m_pLight_Manager			= { nullptr };
 	CFont_Manager*		m_pFont_Manager = { nullptr };
+	CTarget_Manager*	m_pTarget_Manager = { nullptr };
 
 	CThread_Manager*	m_pThread_Manager		= { nullptr };
+
+	VIEWPORT_SIZE m_tViewportDesc{};
 
 protected:
 	virtual void Free() override;

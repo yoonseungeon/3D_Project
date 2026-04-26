@@ -1,18 +1,31 @@
 #include "CRenderer.h"
 
 #include "CGameObject.h"
+#include "CGameInstance.h"
+
 #include "CUIObject.h"
 
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
     , m_pContext{ pContext }
+    , m_pGameInstance{ CGameInstance::GetInstance() }
 {
+    Safe_AddRef(m_pGameInstance);
     Safe_AddRef(m_pDevice);
     Safe_AddRef(m_pContext);
 }
 
 HRESULT CRenderer::Initialize()
 {
+    auto tViewportDesc = m_pGameInstance->Get_ViewportDesc();
+
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Diffuse"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Normal"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R16G16B16A16_FLOAT, _float4(0.f, 0.f, 0.f, 1.f))))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Shade"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R16G16B16A16_FLOAT, _float4(0.f, 0.f, 0.f, 1.f))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -127,6 +140,7 @@ void CRenderer::Free()
         RenderObjects.clear();
     }
 
+    Safe_Release(m_pGameInstance);
     Safe_Release(m_pContext);
     Safe_Release(m_pDevice);
 
