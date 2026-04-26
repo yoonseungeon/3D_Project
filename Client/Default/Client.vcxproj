@@ -209,6 +209,7 @@
     <ClInclude Include="..\Public\CLevel_Loading.h" />
     <ClInclude Include="..\Public\CLoader.h" />
     <ClInclude Include="..\Public\CMainApp.h" />
+    <ClInclude Include="..\Public\CUI_InvenItemBg.h" />
     <ClInclude Include="..\Public\CUI_Inventory.h" />
     <ClInclude Include="..\Public\CUI_InventorySlot.h" />
     <ClInclude Include="..\Public\CUI_ItemImage.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="..\Private\CLevel_Loading.cpp" />
     <ClCompile Include="..\Private\CLoader.cpp" />
     <ClCompile Include="..\Private\CMainApp.cpp" />
+    <ClCompile Include="..\Private\CUI_InvenItemBg.cpp" />
     <ClCompile Include="..\Private\CUI_Inventory.cpp" />
     <ClCompile Include="..\Private\CUI_InventorySlot.cpp" />
     <ClCompile Include="..\Private\CUI_ItemImage.cpp" />

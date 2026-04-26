@@ -241,17 +241,20 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory">
       <UniqueIdentifier>{32664581-8d84-460e-a04e-b320ded5256e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot">
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot">
       <UniqueIdentifier>{52667fcf-d935-40a3-9dec-756880209686}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage">
-      <UniqueIdentifier>{db35e0c3-e665-4cbc-b820-be4d7118ba8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft">
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft">
       <UniqueIdentifier>{0233d826-eb36-482e-8f7e-0bb76cb5b2d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft\UI_CraftSlot">
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft\UI_CraftSlot">
       <UniqueIdentifier>{68b6ab4a-b14d-455d-bab2-b573dd6f44c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\99. CUI_ItemImage">
+      <UniqueIdentifier>{db35e0c3-e665-4cbc-b820-be4d7118ba8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot\UI_InvenItenBg">
+      <UniqueIdentifier>{02b5cee1-1da5-465b-a1bf-4838e8052512}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -496,16 +499,19 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_InventorySlot.h">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_ItemImage.h">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\99. CUI_ItemImage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_Craft.h">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_CraftSlot.h">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft\UI_CraftSlot</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft\UI_CraftSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_InvenItemBg.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot\UI_InvenItenBg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -733,16 +739,19 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_InventorySlot.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_ItemImage.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\99. CUI_ItemImage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_Craft.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_CraftSlot.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft\UI_CraftSlot</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft\UI_CraftSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_InvenItemBg.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot\UI_InvenItenBg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
 
-#include "CUI_Image.h"
+#include "CUI_InvenItemBg.h"
 #include "CUI_ItemImage.h"
 
 CUI_InventorySlot::CUI_InventorySlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -84,17 +84,18 @@ HRESULT CUI_InventorySlot::Render()
 
 void CUI_InventorySlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
 {
-    Set_ItemBg(iItemId);
+    Set_ItemBg(iItemId, iItemCnt);
     Set_Item(iItemId, iItemCnt);
 
     iItemCnt = iItemCnt;
 }
 
-void CUI_InventorySlot::Set_ItemBg(_int iItemId)
+void CUI_InventorySlot::Set_ItemBg(_int iItemId, _uint iItemCnt)
 {
     if (iItemId == -1)
     {
         m_pItemBg->Set_IsInactive(true);
+        m_pItemBg->Set_ItemCnt(0);
         return;
     }
 
@@ -102,6 +103,8 @@ void CUI_InventorySlot::Set_ItemBg(_int iItemId)
 
     const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
     m_pItemBg->Set_TexIdx(ETOUI(pItemDesc->eGrade));    
+
+    m_pItemBg->Set_ItemCnt(iItemCnt);
 }
 
 void CUI_InventorySlot::Set_Item(_int iItemId, _uint iItemCnt)
@@ -159,7 +162,7 @@ HRESULT CUI_InventorySlot::Bind_ShaderResources()
 
 HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItemBg(const _wstring& strLayerTag)
 {
-    CUI_Image::CUI_IMAGE_DESC Desc{};
+    CUI_InvenItemBg::CUI_INVENITEMBG_DESC Desc{};
 
     Desc.fScaleRatioX = m_fScaleRatioX;
     Desc.fScaleRatioY = m_fScaleRatioY;
@@ -173,7 +176,7 @@ HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItemBg(const _wstring& strLay
 
     Desc.eBlendState = CUI_Default::DEFAULT;
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_InvenItemBg"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pItemBg))))
         return E_FAIL;
 
@@ -184,7 +187,7 @@ HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItemBg(const _wstring& strLay
 
 HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItem(const _wstring& strLayerTag)
 {
-    CUI_Image::CUI_IMAGE_DESC Desc{};
+    CUI_ItemImage::CUI_ITEMIMAGE_DESC Desc{};
 
     Desc.fScaleRatioX = m_fScaleRatioX;
     Desc.fScaleRatioY = m_fScaleRatioY;

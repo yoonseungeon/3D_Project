@@ -3,7 +3,6 @@
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
 
-#include "CUI_Image.h"
 #include "CUI_ItemImage.h"
 
 CUI_CraftSlot::CUI_CraftSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -39,7 +38,6 @@ HRESULT CUI_CraftSlot::Initialize(void* pArg)
 
     // ½½·Ô Å©±â ºñ·Ê·Î ³»¸²
     static const _float fAdjustX = pDesc->fScaleRatioX * static_cast<_float>(g_iWinSizeX) * 0.28f;
-    static const _float fAdjustY = pDesc->fScaleRatioY * static_cast<_float>(g_iWinSizeY) * 0.1f;
 
     m_fImagePosX = (pDesc->fPosRatioX + fStartAdjust) * static_cast<_float>(g_iWinSizeX) + fAdjustX;
     m_fImagePosY = -(pDesc->fPosRatioY - fStartAdjust) * static_cast<_float>(g_iWinSizeY);
@@ -171,7 +169,7 @@ HRESULT CUI_CraftSlot::Bind_ShaderResources()
 
 HRESULT CUI_CraftSlot::Ready_Layer_UI_CraftItem(const _wstring& strLayerTag)
 {
-    CUI_Image::CUI_IMAGE_DESC Desc{};
+    CUI_ItemImage::CUI_ITEMIMAGE_DESC Desc{};
 
     Desc.fScaleRatioX = m_fScaleRatioX;
     Desc.fScaleRatioY = m_fScaleRatioY;

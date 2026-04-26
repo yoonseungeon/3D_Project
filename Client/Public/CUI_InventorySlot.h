@@ -11,7 +11,7 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CUI_Image;
+class CUI_InvenItemBg;
 class CUI_ItemImage;
 
 class CUI_InventorySlot final : public CUI_Btn
@@ -48,7 +48,7 @@ private:
 
 	virtual void BtnClick() override;
 
-	void Set_ItemBg(_int iItemId);
+	void Set_ItemBg(_int iItemId, _uint iItemCnt);
 	void Set_Item(_int iItemId, _uint iItemCnt);
 
 private:
@@ -62,7 +62,7 @@ private:
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
 	CTexture* m_pTextureCom{ nullptr };
 
-	CUI_Image* m_pItemBg{};
+	CUI_InvenItemBg* m_pItemBg{};
 	CUI_ItemImage* m_pItemImage{};
 
 	_uint iItemCnt{};
