@@ -247,6 +247,12 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage">
       <UniqueIdentifier>{db35e0c3-e665-4cbc-b820-be4d7118ba8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft">
+      <UniqueIdentifier>{0233d826-eb36-482e-8f7e-0bb76cb5b2d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft\UI_CraftSlot">
+      <UniqueIdentifier>{68b6ab4a-b14d-455d-bab2-b573dd6f44c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -495,6 +501,12 @@
     <ClInclude Include="..\Public\CUI_ItemImage.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_Craft.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_CraftSlot.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft\UI_CraftSlot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -725,6 +737,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_ItemImage.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_InventorySlot\CUI_ItemImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_Craft.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_CraftSlot.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\UI_Craft\UI_CraftSlot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

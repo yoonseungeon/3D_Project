@@ -43,6 +43,9 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
     if (FAILED(Initialize_Inventory()))
         return E_FAIL;    
 
+    if (FAILED(Ready_Layer_UI_Craft(TEXT("Layer_UI_Craft"))))
+        return E_FAIL;
+    
     return S_OK;
 }
 
@@ -116,6 +119,9 @@ HRESULT CUI_Inventory::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
 HRESULT CUI_Inventory::Ready_Layer_UI_Inventory(const _wstring& strLayerTag)
 {
+    const _uint iMaxSlotCnt = { 10 };
+    m_Slots.reserve(iMaxSlotCnt);
+
     CUI_InventorySlot::CUI_INVENTORYSLOT_DESC SlotDesc{};
 
     SlotDesc.iUILayer = ETOUI(UILAYER::PANEL);
@@ -159,6 +165,16 @@ HRESULT CUI_Inventory::Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc
         return E_FAIL;
 
     m_Slots.push_back(pInventorySlot);
+
+    return S_OK;
+}
+
+HRESULT CUI_Inventory::Ready_Layer_UI_Craft(const _wstring& strLayerTag)
+{
+    // CUI_Craft
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_Craft"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
 
     return S_OK;
 }

@@ -162,6 +162,8 @@
     <ClInclude Include="..\Public\CInvenOwner.h" />
     <ClInclude Include="..\Public\CInventory.h" />
     <ClInclude Include="..\Public\CItem_Manager.h" />
+    <ClInclude Include="..\Public\CUI_Craft.h" />
+    <ClInclude Include="..\Public\CUI_CraftSlot.h" />
     <ClInclude Include="..\Public\CUI_EXPGauge.h" />
     <ClInclude Include="..\Public\CUI_InGameCharProfile.h" />
     <ClInclude Include="..\Public\CForkLift.h" />
@@ -246,6 +248,8 @@
     <ClCompile Include="..\Private\CInvenOwner.cpp" />
     <ClCompile Include="..\Private\CInventory.cpp" />
     <ClCompile Include="..\Private\CItem_Manager.cpp" />
+    <ClCompile Include="..\Private\CUI_Craft.cpp" />
+    <ClCompile Include="..\Private\CUI_CraftSlot.cpp" />
     <ClCompile Include="..\Private\CUI_EXPGauge.cpp" />
     <ClCompile Include="..\Private\CUI_InGameCharProfile.cpp" />
     <ClCompile Include="..\Private\CForkLift.cpp" />
