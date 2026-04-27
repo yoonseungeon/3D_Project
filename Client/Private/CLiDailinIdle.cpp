@@ -12,7 +12,7 @@ CLiDailinIdle::CLiDailinIdle()
 void CLiDailinIdle::Enter(CLiDailin* pPlayer)
 {
 	// Ani
-	if (pPlayer->Get_AniBlock() == false)
+	if (pPlayer->Get_MovementAniBlock() == false)
 	{
 		pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_Idle), true);
 		pPlayer->Set_CurAni(LiDailin_Ani::Ani_Idle);
@@ -26,7 +26,7 @@ void CLiDailinIdle::Enter(CLiDailin* pPlayer)
 void CLiDailinIdle::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
 	const LiDailin_Ani& eCurAni = pPlayer->Get_CurAni();
-	if (pPlayer->Get_AniBlock() == false && eCurAni == LiDailin_Ani::Ani_None)
+	if (pPlayer->Get_MovementAniBlock() == false && eCurAni == LiDailin_Ani::Ani_None)
 	{
 		pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_Idle), true);
 		pPlayer->Set_CurAni(LiDailin_Ani::Ani_Idle);

@@ -22,7 +22,7 @@ void CLiDailin_E::Enter(CLiDailin* pPlayer)
 	// Ani
     pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_E), false);
     pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::IDLE_WP), false);
-    pPlayer->Set_AniBlock(true);
+    pPlayer->Set_MovementAniBlock(true);
 
 	// Ani Speed
 
@@ -54,7 +54,7 @@ void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CLiDailin_E::Exit(CLiDailin* pPlayer)
 {
-    pPlayer->Set_AniBlock(false);
+    pPlayer->Set_MovementAniBlock(false);
     pPlayer->Set_MoveBlock(false);
 
     pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);

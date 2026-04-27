@@ -24,7 +24,7 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 		{
 			iBodyPhase = static_cast<_uint>(LiDailin_Ani::Ani_Q1);
 			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q1);
-			pPlayer->Set_AniBlock(true);
+			pPlayer->Set_MovementAniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q1_WP);
 			break;
 		}
@@ -32,7 +32,7 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 		{
 			iBodyPhase = static_cast<_uint>(LiDailin_Ani::Ani_Q2);
 			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q2);
-			pPlayer->Set_AniBlock(true);
+			pPlayer->Set_MovementAniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q2_WP);
 			break;
 		}
@@ -40,7 +40,7 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 		{
 			iBodyPhase = static_cast<_uint>(LiDailin_Ani::Ani_Q3);
 			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q3);
-			pPlayer->Set_AniBlock(true);
+			pPlayer->Set_MovementAniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q3_WP);
 			break;
 		}
@@ -87,7 +87,7 @@ void CLiDailin_Q::Update(CLiDailin* pPlayer, _float fTimeDelta)
 void CLiDailin_Q::Exit(CLiDailin* pPlayer)
 {
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
-	pPlayer->Set_AniBlock(false);
+	pPlayer->Set_MovementAniBlock(false);
 	pPlayer->Set_MoveBlock(false);
 }
 

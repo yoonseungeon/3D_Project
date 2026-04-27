@@ -411,6 +411,7 @@ vcpkg_installed/
 !/Client/[Bb]in/ShaderFiles/
 /Client/[Bb]in/ShaderFiles/Engine_Shader_Defines.hlsli
 /Client/[Bb]in/ShaderFiles/Shader_Cell.hlsl
+/Client/[Bb]in/ShaderFiles/Shader_Deferred.hlsl
 
 !/Engine/[Bb]in/
 /Engine/[Bb]in/*

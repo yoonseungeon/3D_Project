@@ -256,6 +256,9 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot\UI_InvenItenBg">
       <UniqueIdentifier>{02b5cee1-1da5-465b-a1bf-4838e8052512}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft">
+      <UniqueIdentifier>{84f1f479-50aa-4399-b406-35159ab3e66b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -513,6 +516,9 @@
     <ClInclude Include="..\Public\CUI_InvenItemBg.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot\UI_InvenItenBg</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CAction_Craft.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -752,6 +758,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_InvenItemBg.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot\UI_InvenItenBg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CAction_Craft.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

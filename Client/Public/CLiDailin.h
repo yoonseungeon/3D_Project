@@ -70,8 +70,12 @@ public:
 	// MoveBlock
 	void Set_MoveBlock(_bool bMoveBlock) { m_bMoveBlock = bMoveBlock; }
 	_bool Get_MoveBlock() { return m_bMoveBlock; }
-	void Set_AniBlock(_bool bAniBlock) { m_bAniBlock = bAniBlock; }
-	_bool Get_AniBlock() { return m_bAniBlock; }
+
+	// MoveAniBlock
+	void Set_MovementAniBlock(_bool bAniBlock) { m_bAniBlock = bAniBlock; }
+	_bool Get_MovementAniBlock() { return m_bAniBlock; }
+
+	// Ani
 	void Set_CurAni(LiDailin_Ani eLiDailinCurAni) { m_eLiDailinCurAni = eLiDailinCurAni; }
 	const LiDailin_Ani& Get_CurAni() { return m_eLiDailinCurAni; }
 

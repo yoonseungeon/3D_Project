@@ -57,7 +57,7 @@ void CLiDailinAttack::Exit(CLiDailin* pPlayer)
 	pPlayer->Set_CanMoveCancle(false);
 
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
-	pPlayer->Set_AniBlock(false);
+	pPlayer->Set_MovementAniBlock(false);
 }
 
 void CLiDailinAttack::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
@@ -131,7 +131,7 @@ void CLiDailinAttack::Attack(CLiDailin* pPlayer)
 		pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::ATK_2_WP), false);
 	}
 
-	pPlayer->Set_AniBlock(true);
+	pPlayer->Set_MovementAniBlock(true);
 	pPlayer->Set_WaitMovementState(L"Idle");
 	m_bChase = false;
 }
@@ -144,7 +144,7 @@ void CLiDailinAttack::Chase(CLiDailin* pPlayer)
 
 	pPlayer->Process_MovementCommand(tMovement_Command);
 
-	pPlayer->Set_AniBlock(false);
+	pPlayer->Set_MovementAniBlock(false);
 	m_bChase = true;
 }
 

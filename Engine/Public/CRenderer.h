@@ -32,11 +32,24 @@ private:
 	list<CGameObject*>	m_RenderObjects[ETOUI(RENDERID::END)];
 	CGameInstance* m_pGameInstance = { nullptr };
 
+	// 사각형 그리기 위한 셰이더
+	class CShader* m_pShader = { nullptr };
+	// 후처리, 디버깅 용
+	class CVIBuffer_Rect* m_pVIBuffer = { nullptr };
+	// 직교 투영으로 그릴 것이기 때문에 재사용을 위해 Render에서
+	_float4x4					m_ViewMatrix{};
+	_float4x4					m_ProjMatrix{};
+
 private:
 	HRESULT Render_Priority();
 	HRESULT Render_NonBlend();
 	HRESULT Render_Blend();
 	HRESULT Render_UI();
+
+#ifdef _DEBUG
+private:
+	HRESULT Render_Debug();
+#endif
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
