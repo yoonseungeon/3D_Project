@@ -21,11 +21,15 @@ void CAction_Craft::Enter(CLiDailin* pPlayer)
     // 이동
     pPlayer->Set_MoveBlock(true);
     pPlayer->Set_WaitMovementState(L"Idle");
+
+    pPlayer->Set_CanMoveCancle(true);
 }
 
 void CAction_Craft::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
-
+    if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
+        pPlayer->Set_ActionEnd();
+    }
 }
 
 void CAction_Craft::Exit(CLiDailin* pPlayer)
@@ -37,6 +41,8 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
 
     // 이동
     pPlayer->Set_MoveBlock(false);
+
+    pPlayer->Set_CanMoveCancle(false);
 }
 
 void CAction_Craft::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)

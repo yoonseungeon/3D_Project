@@ -18,6 +18,8 @@
 #include "CLiDailin_E.h"
 #include "CLiDailin_R.h"
 
+#include "CAction_Craft.h"
+
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
 
@@ -267,6 +269,15 @@ void CLiDailin::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
             }
             break;
         }
+
+        case ACTION_COMMAND_TYPE::CRAFT:
+        {
+
+            Set_CurActionCommand(tAction_Command);
+            Set_WaitActionState(L"CAction_Craft");
+            
+            break;
+        }
     }
 }
 
@@ -462,6 +473,12 @@ void CLiDailin::Key_Input()
     if (m_pGameInstance->Key_Down(DIK_0)) {
         m_pInvetory->Add_Item(33);
     }
+    if (m_pGameInstance->Key_Down(DIK_Z)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::CRAFT;
+
+        Process_ActionCommand(tAction_Command);
+    }
 
     // Q
     if (m_pGameInstance->Key_Down(DIK_Q)) {
@@ -583,6 +600,8 @@ HRESULT CLiDailin::Initialize_State()
     m_States.emplace(L"CLiDailin_W", CLiDailin_W::Create());
     m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
     m_States.emplace(L"CLiDailin_R", CLiDailin_R::Create());
+
+    m_States.emplace(L"CAction_Craft", CAction_Craft::Create());
 
 
     m_pCurMovementState = dynamic_cast<CMovementState*>(pLiDailinIdle);
