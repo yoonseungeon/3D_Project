@@ -30,9 +30,16 @@ struct MOVEMENT_COMMAND
 	_float3					vTargetPos{};
 };
 
+union ACTION_DATA_UINT
+{
+	_uint iItemIdx{};
+};
+
 struct ACTION_COMMAND
 {
 	ACTION_COMMAND_TYPE eCommandType{};
 	_float3				vTargetPos{};
 	CGameObject*		pGameObject{};
+
+	ACTION_DATA_UINT Data_UInt{};
 };

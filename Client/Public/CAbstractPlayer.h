@@ -23,6 +23,13 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	// ActionState
+	virtual void Process_ActionCommand(ACTION_COMMAND& tAction_Command) = 0;
+
+	// ¿ÜºÎ Input
+	void Try_Craft(_uint iItemIndex);
+
+public:
 	// Cool;
 	virtual COOL_INFO* Get_CoolInfo(const SKILL_SLOT eType);
 	virtual _bool CanUseSkill(const SKILL_SLOT eType);

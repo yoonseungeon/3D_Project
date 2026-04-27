@@ -14,7 +14,12 @@ enum class ITEM_TYPE
 
 enum class ITEM_GRADE
 {
-    NORMAL, HIGH, RARE, HERO, LEGENDARY, TRANSCENDENCE
+    NORMAL, HIGH, RARE, HERO, LEGENDARY, TRANSCENDENCE, ITEM_GRADE_END
+};
+
+static float ItemCraftTime[static_cast<int>(ITEM_GRADE::ITEM_GRADE_END)]
+{
+    3.f, 3.f, 3.f, 3.f, 3.f, 3.f
 };
 
 enum class SPAWN_MAP {

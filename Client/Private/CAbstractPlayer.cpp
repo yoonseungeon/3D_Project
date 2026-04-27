@@ -70,6 +70,15 @@ HRESULT CAbstractPlayer::Render()
     return S_OK;
 }
 
+void CAbstractPlayer::Try_Craft(_uint iItemIndex)
+{
+    ACTION_COMMAND tAction_Command{};
+    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::CRAFT;
+    tAction_Command.Data_UInt.iItemIdx = iItemIndex;
+
+    Process_ActionCommand(tAction_Command);
+}
+
 COOL_INFO* CAbstractPlayer::Get_CoolInfo(const SKILL_SLOT eType)
 {
     return nullptr;

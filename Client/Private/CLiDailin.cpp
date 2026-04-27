@@ -459,7 +459,6 @@ HRESULT CLiDailin::Bind_ShaderResources()
 
 void CLiDailin::Key_Input()
 {
-
     // debug
     if (m_pGameInstance->Key_Down(DIK_7)) {
         AddEXP(20);
@@ -474,10 +473,8 @@ void CLiDailin::Key_Input()
         m_pInvetory->Add_Item(33);
     }
     if (m_pGameInstance->Key_Down(DIK_Z)) {
-        ACTION_COMMAND tAction_Command{};
-        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::CRAFT;
-
-        Process_ActionCommand(tAction_Command);
+  /*      if(m_)
+        Try_Craft(,2.f);*/
     }
 
     // Q
@@ -601,7 +598,7 @@ HRESULT CLiDailin::Initialize_State()
     m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
     m_States.emplace(L"CLiDailin_R", CLiDailin_R::Create());
 
-    m_States.emplace(L"CAction_Craft", CAction_Craft::Create());
+    m_States.emplace(L"CAction_Craft", CAction_Craft::Create(static_cast<_uint>(LiDailin_Ani::Ani_Craft)));
 
 
     m_pCurMovementState = dynamic_cast<CMovementState*>(pLiDailinIdle);

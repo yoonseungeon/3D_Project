@@ -2,7 +2,10 @@
 
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
+#include "CInGame_Manager.h"
 
+#include "CAbstractPlayer.h"
+#include "CInventory.h"
 #include "CUI_ItemImage.h"
 
 CUI_CraftSlot::CUI_CraftSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -60,11 +63,27 @@ void CUI_CraftSlot::Priority_Update(_float fTimeDelta)
 
 void CUI_CraftSlot::Parallel_Update(_float fTimeDelta)
 {
-    __super::Update_BtnState();
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
+    __super::Update_BtnState();   
+    Execute_Btn();
+
 }
 
 void CUI_CraftSlot::Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
+    if (m_bIsClicked) {
+        BtnClick();
+        m_bIsClicked = false;
+    }
 }
 
 void CUI_CraftSlot::Late_Update(_float fTimeDelta)
@@ -106,6 +125,8 @@ HRESULT CUI_CraftSlot::Render()
 
 void CUI_CraftSlot::Set_CraftItem(_int iItemId, _int iCraftCnt)
 {
+    m_iCurItemId = iItemId;
+
     if (iItemId == -1)
     {
         m_bIsInactive = true;
@@ -194,7 +215,29 @@ HRESULT CUI_CraftSlot::Ready_Layer_UI_CraftItem(const _wstring& strLayerTag)
 
 void CUI_CraftSlot::BtnClick()
 {
+    if (m_iCurItemId == -1)
+    {
+        return;
+    }
 
+    CInGame_Manager::GetInstance()->Get_Player()->Try_Craft(m_iCurItemId);
+}
+
+void CUI_CraftSlot::Execute_Btn()
+{
+    switch (m_eCurBtnState)
+    {
+        case BTN_STATE::NORMAL:
+        case BTN_STATE::HOVER:
+        case BTN_STATE::PRESSED:
+            break;
+
+        case BTN_STATE::CLICKED:
+        {
+            m_bIsClicked = true;
+            break;
+        }
+    }
 }
 
 CUI_CraftSlot* CUI_CraftSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

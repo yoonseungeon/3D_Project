@@ -51,7 +51,7 @@ public:
 	const ACTION_COMMAND& Get_CurActionCommand() { return m_tCurActionCommand; }
 
 	void Set_ActionEnd() { m_bActionEnd = true; }
-	void Process_ActionCommand(ACTION_COMMAND& tAction_Command);
+	virtual void Process_ActionCommand(ACTION_COMMAND& tAction_Command) override;
 
 	// Part Obj
 	const CBody_Player* Get_BodyPlayer() const { return m_pBody; }
@@ -94,17 +94,25 @@ private:
 	CWeapon* m_pWeapon{};
 
 	// State
+	unordered_map<wstring, CState*> m_States;
+
 	CMovementState* m_pCurMovementState{};
 	CMovementState* m_pWaitMovementState{};
 
 	CActionState* m_pCurActionState{};
 	CActionState* m_pWaitActionState{};
 
-	unordered_map<wstring, CState*> m_States;
-
 	// COMMAND
 	MOVEMENT_COMMAND m_tCurMovementCommand{};
 	ACTION_COMMAND m_tCurActionCommand{};
+
+	// Block
+	_bool m_bMoveBlock{};
+	_bool m_bAniBlock{};
+	_bool m_bActionEnd{};
+
+	// Cancle
+	_bool m_bCanMoveCancle{};
 
 	// COOL
 	STACK_COOL_INFO tQCool{};
@@ -112,14 +120,8 @@ private:
 	COOL_INFO tECool{};
 	COOL_INFO tRCool{};
 
-	// Block
-	_bool m_bMoveBlock{};
-	_bool m_bAniBlock{};
+	// Ani
 	LiDailin_Ani m_eLiDailinCurAni{};
-	_bool m_bActionEnd{};
-
-	// Cancle
-	_bool m_bCanMoveCancle{};
 
 private:
 	HRESULT Ready_Components();

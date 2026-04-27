@@ -28,6 +28,16 @@ const vector<_uint>* CItem_Manager::Get_CanCraftItemCandidates(_uint iItemIdx) c
     return &(iter->second);
 }
 
+_float CItem_Manager::Get_CurItemCraftTime(_uint iItemIdx)
+{
+    const ITEM_DESC*  pItemDesc = Find_ItemInfo(iItemIdx);
+    if (pItemDesc == nullptr) {
+        return 0.f;
+    }
+
+    return m_fItemCraftTimes[ETOUI(pItemDesc->eGrade)];
+}
+
 HRESULT CItem_Manager::Initialize()
 {   
     if (FAILED(Set_ItemInfos()))
@@ -36,6 +46,9 @@ HRESULT CItem_Manager::Initialize()
     if (FAILED(Set_Reversematerials()))
         return E_FAIL;
 
+    if (FAILED(Set_ItemCraftTime()))
+        return E_FAIL;
+    
     return S_OK;
 }
 
@@ -69,6 +82,13 @@ HRESULT CItem_Manager::Set_Reversematerials()
             m_Reversematerials[pair.second.materials[i]].push_back(pair.second.iItemID);
         }        
     }
+
+    return S_OK;
+}
+
+HRESULT CItem_Manager::Set_ItemCraftTime()
+{
+    memcpy(m_fItemCraftTimes, ItemCraftTime, sizeof(m_fItemCraftTimes));
 
     return S_OK;
 }

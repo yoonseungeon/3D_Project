@@ -46,6 +46,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 	virtual void BtnClick() override;
+	void Execute_Btn();
 
 	HRESULT Ready_Layer_UI_CraftItem(const _wstring& strLayerTag);
 
@@ -58,6 +59,7 @@ private:
 
 	CItem_Manager* m_pCItem_Manager{};
 
+	_int m_iCurItemId{};
 	_uint m_iCraftCnt{};
 	wstring m_wstrCraftCnt{ L"" };
 

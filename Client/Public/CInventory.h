@@ -17,8 +17,11 @@ private:
 	HRESULT Initialize();
 
 public:
-	_bool Add_Item(_int iItemId);
-	_bool Decrease_Item(_uint iInvenIdx);
+	_bool Add_Item(_int iItemId, _uint iItemCount = 1);
+	_bool Decrease_ItemByItemId(_int iItemId, _uint iItemCount = 1);
+	_bool Decrease_ItemBySlotIndex(_uint iSlotIndex, _uint iItemCount = 1);
+
+	_bool Craft_Item(_int iItemId);
 
 	const vector<INVENTORY_SLOT>& Get_InventoryVec() const { return m_Inventory; }
 
@@ -31,6 +34,7 @@ private:
 
 private:
 	vector<INVENTORY_SLOT> m_Inventory;
+	_uint iFullSlotCnt{};
 
 	CItem_Manager* m_pItem_Manager{};
 
