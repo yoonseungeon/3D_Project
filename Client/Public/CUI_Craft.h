@@ -26,15 +26,19 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-public:
-	void Set_CraftItem(const vector<INVENTORY_SLOT>& UICraft);
-
 private:
+	vector<INVENTORY_SLOT> m_UICanCraftItems;
+	_uint m_iCraftChangeFlag{};
+
 	vector<CUI_CraftSlot*> m_Slots;
 
 private:
+	HRESULT Initialize_CraftSlot();
 	HRESULT Ready_Layer_UI_CraftSlot(const _wstring& strLayerTag);
 	HRESULT Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc);
+
+	void Sync_CanCraftItems();
+	void Reset_CraftItemSlot(const vector<INVENTORY_SLOT>& UICanCraftItems);
 
 public:
 	static CUI_Craft* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

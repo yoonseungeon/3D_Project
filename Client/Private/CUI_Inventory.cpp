@@ -220,21 +220,17 @@ void CUI_Inventory::Sync_Inventory()
 {
     const CInventory* pInventory = CInGame_Manager::GetInstance()->Get_Player()->Get_Inventory();
     
-    if (m_iChangeFlag == pInventory->Get_ChangeFlag())
+    if (m_iInvenChangeFlag == pInventory->Get_ChangeInvenFlag())
     {
-        m_UICraft;
         return;
     }
 
-    m_iChangeFlag = pInventory->Get_ChangeFlag();
+    m_iInvenChangeFlag = pInventory->Get_ChangeInvenFlag();
 
     const vector<INVENTORY_SLOT>& Inventory = pInventory->Get_InventoryVec();
     m_UIInventory = Inventory;
 
     Sync_InventorySlot();
-
-    // UIInventory 갱신된 후 호출
-    Sync_Craft();
 }
 
 void CUI_Inventory::Sync_InventorySlot()
@@ -243,96 +239,6 @@ void CUI_Inventory::Sync_InventorySlot()
     {        
         m_Slots[i]->Sync_Slot_Bg_Item(m_UIInventory[i].iItemId, m_UIInventory[i].iItemCnt);
     }
-}
-
-void CUI_Inventory::Sync_Craft()
-{
-    m_UICraft.clear();
-
-    unordered_set<_uint> CandidateItems;
-
-    for (_uint i = 0; i < m_UIInventory.size(); ++i)
-    {
-        _int iItemIdx = m_UIInventory[i].iItemId;
-
-        if (iItemIdx == -1)
-        {
-            continue;
-        }
-
-        const vector<_uint>* CanCraftItemCandidates = m_pCItem_Manager->Get_CanCraftItemCandidates(iItemIdx);
-
-        if (CanCraftItemCandidates == nullptr)
-        {
-            continue;
-        }
-
-        // 중복 제거
-        for (_int iItemIdx : *CanCraftItemCandidates)
-        {
-            CandidateItems.insert(iItemIdx);
-        }
-    }
-    
-    for (_int iItemIdx : CandidateItems)
-    {
-        if (Can_Craft(iItemIdx) == true)
-        {
-            const ITEM_DESC* tItemDesc = m_pCItem_Manager->Find_ItemInfo(iItemIdx);
-            m_UICraft.emplace_back(INVENTORY_SLOT{ iItemIdx, tItemDesc->iCraftCnt });
-        }
-    }
-
-    std::sort(m_UICraft.begin(), m_UICraft.end(),
-        [this](const INVENTORY_SLOT& tLeft, const INVENTORY_SLOT& tRight)->_bool
-        {
-            const ITEM_DESC* tLeftItemDesc = m_pCItem_Manager->Find_ItemInfo(tLeft.iItemId);
-            const ITEM_DESC* tRightItemDesc = m_pCItem_Manager->Find_ItemInfo(tRight.iItemId);
-
-            return tLeftItemDesc->eGrade > tRightItemDesc->eGrade;
-        }
-    );
-
-    m_pCraft->Set_CraftItem(m_UICraft);
-}
-
-_bool CUI_Inventory::Can_Craft(_uint iItemIdx)
-{
-    // 같은 아이템이 제작에 두 개 필요한 아이템은 없음 -> 체크 로직 없음
-
-    const ITEM_DESC* tItem_Desc = m_pCItem_Manager->Find_ItemInfo(iItemIdx);
-        
-    if (tItem_Desc == nullptr)
-    {
-        MSG_BOX("No ITEM_DESC In CItem_Manager: CUI_Inventory");
-        return false;
-    }
-
-    for (_uint i = 0; i < sizeof(tItem_Desc->materials) / sizeof(_int); ++i)
-    {
-        if (tItem_Desc->materials[i] == -1)
-        {
-            continue;
-        }
-
-        _bool bFind{};
-
-        for (_uint j = 0; j < m_UIInventory.size(); ++j)
-        {
-            if(m_UIInventory[j].iItemId == tItem_Desc->materials[i])
-            {
-                bFind = true;
-                break;
-            }
-        }
-
-        if (bFind == false)
-        {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 CUI_Inventory* CUI_Inventory::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

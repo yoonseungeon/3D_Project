@@ -18,27 +18,40 @@ private:
 
 public:
 	_bool Add_Item(_int iItemId, _uint iItemCount = 1);
-	_bool Decrease_ItemByItemId(_int iItemId, _uint iItemCount = 1);
-	_bool Decrease_ItemBySlotIndex(_uint iSlotIndex, _uint iItemCount = 1);
+	_bool Subtract_ItemByItemId(_int iItemId, _uint iItemCount = 1);
+	_bool Subtract_ItemBySlotIndex(_uint iSlotIndex, _uint iItemCount = 1);
 
 	_bool Craft_Item(_int iItemId);
 
 	const vector<INVENTORY_SLOT>& Get_InventoryVec() const { return m_Inventory; }
+	_uint Get_ChangeInvenFlag() const { return m_iInvenChangeFlag; }
 
-	_uint Get_ChangeFlag() const { return m_iChangeFlag; }
-
-private:
-	_int FindItem(_int iItemId);
-
-	void Add_ChangeFlag() { ++m_iChangeFlag; }
+	const vector<INVENTORY_SLOT>& Get_CanCraftItemsVec() const { return m_CanCraftItems; }
+	_uint Get_ChangeCraftFlag() const { return m_iCraftChangeFlag; }
 
 private:
 	vector<INVENTORY_SLOT> m_Inventory;
-	_uint iFullSlotCnt{};
+	_uint m_iInvenChangeFlag{};
+	_uint iUseSlotCnt{};
+
+	vector<INVENTORY_SLOT> m_CanCraftItems;
+	_uint m_iCraftChangeFlag{};
 
 	CItem_Manager* m_pItem_Manager{};
 
-	_uint m_iChangeFlag{};
+private:
+	_int FindItemSlot(_int iItemId);
+
+	void Add_InvenChangeFlag() { ++m_iInvenChangeFlag; }
+	void Add_CraftChangeFlag() { ++m_iCraftChangeFlag; }
+
+	void Reset_CraftItems();
+	_bool Can_Craft(_uint iItemIdx);
+
+private:
+	_bool Add_Item_CraftNoReset(_int iItemId, _uint iItemCount = 1);
+	_bool Subtract_ItemByItemId_CraftNoReset(_int iItemId, _uint iItemCount = 1);
+	_bool Subtract_ItemBySlotIndex_CraftNoReset(_uint iSlotIndex, _uint iItemCount = 1);
 
 public:
 	static CInventory* Create();

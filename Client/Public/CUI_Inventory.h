@@ -31,9 +31,7 @@ private:
 	vector<CUI_InventorySlot*> m_Slots;
 
 	vector<INVENTORY_SLOT> m_UIInventory;
-	_uint m_iChangeFlag{};
-
-	vector<INVENTORY_SLOT> m_UICraft;
+	_uint m_iInvenChangeFlag{};
 	CUI_Craft* m_pCraft{};
 
 	CItem_Manager* m_pCItem_Manager{};
@@ -44,13 +42,9 @@ private:
 	HRESULT Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc);
 	HRESULT Ready_Layer_UI_Craft(const _wstring& strLayerTag);
 
-
 	HRESULT Initialize_Inventory();
 	void Sync_Inventory();
 	void Sync_InventorySlot();
-
-	void Sync_Craft();
-	_bool Can_Craft(_uint iItemIdx);
 
 public:
 	static CUI_Inventory* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

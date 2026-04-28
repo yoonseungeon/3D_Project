@@ -1,6 +1,11 @@
 #include "CUI_Craft.h"
 
 #include "CGameInstance.h"
+#include "CInGame_Manager.h"
+
+#include "CAbstractPlayer.h"
+#include "CInventory.h"
+
 #include "CUI_CraftSlot.h"
 
 CUI_Craft::CUI_Craft(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -30,6 +35,9 @@ HRESULT CUI_Craft::Initialize(void* pArg)
     if (FAILED(Ready_Layer_UI_CraftSlot(TEXT("Layer_UI_CraftSlot"))))
         return E_FAIL;
 
+    if (FAILED(Initialize_CraftSlot()))
+        return E_FAIL;
+    
     return S_OK;
 }
 
@@ -47,6 +55,7 @@ void CUI_Craft::Update(_float fTimeDelta)
 
 void CUI_Craft::Late_Update(_float fTimeDelta)
 {
+    Sync_CanCraftItems();
 }
 
 HRESULT CUI_Craft::Render()
@@ -54,20 +63,28 @@ HRESULT CUI_Craft::Render()
     return S_OK;
 }
 
-void CUI_Craft::Set_CraftItem(const vector<INVENTORY_SLOT>& UICraft)
+HRESULT CUI_Craft::Initialize_CraftSlot()
 {
-    _uint iCanCraftCnt = static_cast<_uint>(UICraft.size());
+     const CAbstractPlayer* pPlayer = CInGame_Manager::GetInstance()->Get_Player();        
 
-    for (_uint i = 0; i < m_Slots.size(); ++i)
+    if (pPlayer == nullptr)
     {
-        if (iCanCraftCnt < i + 1)
-        {
-            m_Slots[i]->Set_CraftItem(-1, 0);
-            continue;
-        }
-
-        m_Slots[i]->Set_CraftItem(UICraft[i].iItemId, UICraft[i].iItemCnt);
+        MSG_BOX("Failed to Initialize Inventory: CUI_Inventory");
+        return E_FAIL;
     }
+
+    const CInventory* pInventory = pPlayer->Get_Inventory();
+
+    if (pInventory == nullptr)
+    {
+        MSG_BOX("Failed to Initialize Inventory: CUI_Inventory");
+        return E_FAIL;
+    }
+
+    const vector<INVENTORY_SLOT>& CraftItems = pInventory->Get_CanCraftItemsVec();
+    m_UICanCraftItems = CraftItems;
+
+    return S_OK;
 }
 
 HRESULT CUI_Craft::Ready_Layer_UI_CraftSlot(const _wstring& strLayerTag)
@@ -117,6 +134,40 @@ HRESULT CUI_Craft::Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc)
     m_Slots.push_back(pCraftSlot);
 
     return S_OK;
+}
+
+void CUI_Craft::Sync_CanCraftItems()
+{
+    const CInventory* pInventory = CInGame_Manager::GetInstance()->Get_Player()->Get_Inventory();
+
+    if (m_iCraftChangeFlag == pInventory->Get_ChangeCraftFlag())
+    {
+        m_UICanCraftItems;
+        return;
+    }
+
+    m_iCraftChangeFlag = pInventory->Get_ChangeCraftFlag();
+
+    const vector<INVENTORY_SLOT>& CraftItems = pInventory->Get_CanCraftItemsVec();
+    m_UICanCraftItems = CraftItems;
+
+    Reset_CraftItemSlot(m_UICanCraftItems);
+}
+
+void CUI_Craft::Reset_CraftItemSlot(const vector<INVENTORY_SLOT>& UICanCraftItems)
+{
+    _uint iCanCraftCnt = static_cast<_uint>(UICanCraftItems.size());
+
+    for (_uint i = 0; i < m_Slots.size(); ++i)
+    {
+        if (iCanCraftCnt < i + 1)
+        {
+            m_Slots[i]->Set_CraftItem(-1, 0);
+            continue;
+        }
+
+        m_Slots[i]->Set_CraftItem(UICanCraftItems[i].iItemId, UICanCraftItems[i].iItemCnt);
+    }
 }
 
 CUI_Craft* CUI_Craft::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
