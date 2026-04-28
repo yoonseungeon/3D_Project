@@ -21,6 +21,9 @@ HRESULT CCustomFont::Initialize(const _tchar* pFontFilePath)
 
 HRESULT CCustomFont::Draw(const _tchar* pText, const _float2& vPosition, _fvector vColor, const _float2& vScale, _float fRotation, const _float2& vOrigin)
 {
+	// GS 바인딩 해제
+	m_pContext->GSSetShader(nullptr, nullptr, 0);
+
 	//m_pBatch->Begin();
 	m_pBatch->Begin(
 		DirectX::SpriteSortMode_Deferred,

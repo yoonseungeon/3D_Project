@@ -93,6 +93,10 @@ public:
 
 #pragma region RENDERER
 	void Add_RenderGroup(RENDERID eGroupID, class CGameObject* pGameObject);
+
+#ifdef _DEBUG
+	void Add_DebugComponent(class CComponent* pComponent);
+#endif
 #pragma endregion
 
 #pragma region PIPELINE
@@ -124,6 +128,7 @@ public:
 #pragma region LIGHT_MANAGER
 	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
 	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
+	HRESULT Render_Light(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #pragma endregion
 
 #pragma region FONT_MANAGER
@@ -141,6 +146,7 @@ public:
 	HRESULT Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag);
 	HRESULT Begin_MRT(const _wstring& strMRTTag);
 	HRESULT End_MRT();
+	HRESULT Bind_RT_ShaderResource(const _wstring& strTargetTag, class CShader* pShader, const _char* pConstantName);
 
 #ifdef _DEBUG
 public:

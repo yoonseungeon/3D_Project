@@ -2,23 +2,7 @@
 
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
-vector g_vCamPosition;
-
 Texture2D g_DiffuseTexture;
-
-/* 재질 */
-vector g_vMtrlDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-vector g_vMtrlAmbient = vector(0.4f, 0.4f, 0.4f, 1.f);
-vector g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
-
-/* 빛 */
-vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
-
-vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
-vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
-
-float fPower = 50.f;
 
 // 512개 넘는 게임 거의 없다고 한다.
 float4x4 g_BoneMatrices[512];
@@ -67,7 +51,7 @@ VS_OUT VS_MAIN(VS_IN In)
     Out.vPosition = mul(vPosition, matWVP);
     Out.vNormal = normalize(mul(vNormal, g_WorldMatrix));
     Out.vTexcoord = In.vTexcoord;
-    Out.vWorldPos = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    Out.vWorldPos = mul(float4(vPosition.xyz, 1.f), g_WorldMatrix);
     
     return Out;
 }
@@ -82,7 +66,8 @@ struct PS_IN
 
 struct PS_OUT
 {
-    float4 vColor : SV_TARGET0;
+    float4 vDiffuse : SV_TARGET0;
+    float4 vNormal : SV_TARGET1;
 };
     
 /* 픽셀셰이더 : 픽셀의 최종적인 색을 결정해준다. */
@@ -91,23 +76,14 @@ PS_OUT PS_MAIN(PS_IN In)
     PS_OUT Out;
 
     vector vTextureDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
-    //if (vTextureDiffuse.a < 0.1f)
-    //    discard;
+    if (vTextureDiffuse.a < 0.1f)
+        discard;
         
-    // N: 법선 벡터, L: 빛을 향하는 벡터, R: 빛의 반사 벡터, V: 카메라를 향하는 벡터
-    float4 N = normalize(In.vNormal); // 보간된 법선 정규화가 필요하다.
-    float4 L = normalize(-g_vLightDir);
-    float4 R = normalize(reflect(-L, N)); // 정규화해서 넣어줘야 함.
-    vector V = normalize(g_vCamPosition - In.vWorldPos);
+    Out.vDiffuse = vTextureDiffuse;
+    /* -1 ~ 1 -> 0 ~ 1 */
+    float3 vNormal = normalize(In.vNormal.xyz);
+    Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
 
-    // 실수 + vector -> 실수가 vector가 됨.
-    vector vAmbient = g_vLightAmbient * g_vMtrlAmbient;
-    vector vDiffuse = g_vLightDiffuse * g_vMtrlDiffuse * max(0.f, dot(N, L));
-    vector vSpecular = g_vLightSpecular * g_vMtrlSpecular * pow(max(0.f, dot(R, V)), fPower);
-    
-    // saturate: 0 ~ 1 범위 밖 커트(벡터, 실수 다 됨)
-    Out.vColor = saturate((vDiffuse + vAmbient) * vTextureDiffuse + vSpecular);
-    
     return Out;
 }
 

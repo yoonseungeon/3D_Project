@@ -19,6 +19,7 @@ public:
 	HRESULT Begin_MRT(const _wstring& strMRTTag);
 	// 백버퍼로 복구
 	HRESULT End_MRT();
+	HRESULT Bind_ShaderResource(const _wstring& strTargetTag, class CShader* pShader, const _char* pConstantName);
 
 #ifdef _DEBUG
 public:

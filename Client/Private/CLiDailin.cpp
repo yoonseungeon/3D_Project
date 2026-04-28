@@ -128,15 +128,15 @@ void CLiDailin::Late_Update(_float fTimeDelta)
     __super::Late_Update(fTimeDelta);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
+
+#ifdef _DEBUG
+    m_pGameInstance->Add_DebugComponent(m_pColliderCom);
+    m_pGameInstance->Add_DebugComponent(m_pNavigationCom);
+#endif   
 }
 
 HRESULT CLiDailin::Render()
 {
-#ifdef _DEBUG
-    m_pNavigationCom->Render();
-    m_pColliderCom->Render();
-#endif
-
     return S_OK;
 }
 

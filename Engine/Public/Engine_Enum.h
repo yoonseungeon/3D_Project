@@ -7,7 +7,7 @@ namespace Engine
 
 	enum class PROTOTYPE { GAMEOBJECT, COMPONENT };
 
-	enum class RENDERID { PRIORITY, NONBLEND, BLEND, UI, END };
+	enum class RENDERID { PRIORITY, NONBLEND, NONLIGHT, BLEND, UI, END };
 
 	enum class STATE { RIGHT, UP, LOOK, POSITION, END };
 
@@ -18,6 +18,8 @@ namespace Engine
 	enum class MODEL { NONANIM, ANIM, END };
 
 	enum class COLLIDER { AABB, OBB, SPHERE, END };
+
+	enum class DEFERRED { DEBUG, DIRECTIONAL, POINT, COMBINED, END };
 
 	//// Dynamic 컴포넌트 경우 매 프레임마다 갱신해야하는 컴포넌트 집단
 	//enum COMPONENTID { ID_DYNAMIC, ID_STATIC, ID_END };

@@ -1,5 +1,7 @@
 #include "CLight.h"
 
+#include "CGameInstance.h"
+
 CLight::CLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
     , m_pContext{ pContext }
@@ -11,6 +13,37 @@ CLight::CLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 HRESULT CLight::Initialize(const LIGHT_DESC& LightDesc)
 {
     m_LightDesc = LightDesc;
+
+    return S_OK;
+}
+
+HRESULT CLight::Render(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+    _uint iPassIndex = {};
+
+    // 방향
+    if (LIGHT::DIRECTIONAL == m_LightDesc.eType)
+    {
+        // 빛 방향 셰이더에 던지기
+        if (FAILED(pShader->Bind_RawValue("g_vLightDir", &m_LightDesc.vDirection, sizeof m_LightDesc.vDirection)))
+            return E_FAIL;
+
+        iPassIndex = ETOUI(DEFERRED::DIRECTIONAL);
+    } // 점 조명
+    else if (LIGHT::POINT == m_LightDesc.eType)
+    {
+        iPassIndex = ETOUI(DEFERRED::POINT);
+    }
+    else
+    {
+        return E_FAIL;
+    }
+
+    if (FAILED(pShader->Begin(iPassIndex)))
+        return E_FAIL;
+
+    if (FAILED(pVIBuffer->Render()))
+        return E_FAIL;
 
     return S_OK;
 }

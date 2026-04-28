@@ -23,6 +23,10 @@ public:
 	void Add_RenderGroup(RENDERID eGroupID, class CGameObject* pGameObject);
 	HRESULT Draw();
 
+#ifdef _DEBUG
+	void Add_DebugComponent(class CComponent* pComponent);
+#endif
+
 private:
 	// 후처리 셰이더에서 사용 예정
 	ID3D11Device* m_pDevice = { nullptr };
@@ -37,12 +41,18 @@ private:
 	// 후처리, 디버깅 용
 	class CVIBuffer_Rect* m_pVIBuffer = { nullptr };
 	// 직교 투영으로 그릴 것이기 때문에 재사용을 위해 Render에서
-	_float4x4					m_ViewMatrix{};
-	_float4x4					m_ProjMatrix{};
+	_float4x4					m_WorldMatrix{}, m_ViewMatrix{}, m_ProjMatrix{};
+
+#ifdef _DEBUG
+	list<class CComponent*>		m_DebugComponents;
+#endif
 
 private:
 	HRESULT Render_Priority();
 	HRESULT Render_NonBlend();
+	HRESULT Render_Lights();
+	HRESULT Render_Combined();
+	HRESULT Render_NonLight();
 	HRESULT Render_Blend();
 	HRESULT Render_UI();
 

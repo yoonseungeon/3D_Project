@@ -110,7 +110,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 HRESULT CGameInstance::Begin_Draw()
 {
-	_float4     vColor = _float4(0.f, 0.f, 0.f, 1.f);
+	_float4     vColor = _float4(0.f, 0.f, 1.f, 1.f);
 
 	if (FAILED(m_pGraphic_Device->Clear_BackBuffer_View(&vColor)))
 		return E_FAIL;
@@ -254,6 +254,10 @@ void CGameInstance::Add_RenderGroup(RENDERID eGroupID, CGameObject* pGameObject)
 {
 	m_pRenderer->Add_RenderGroup(eGroupID, pGameObject);
 }
+void CGameInstance::Add_DebugComponent(CComponent* pComponent)
+{
+	m_pRenderer->Add_DebugComponent(pComponent);
+}
 #pragma endregion
 
 #pragma region PIPELINE
@@ -339,6 +343,10 @@ HRESULT CGameInstance::Add_Light(const LIGHT_DESC& LightDesc)
 {
 	return m_pLight_Manager->Add_Light(LightDesc);
 }
+HRESULT CGameInstance::Render_Light(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+	return m_pLight_Manager->Render(pShader, pVIBuffer);
+}
 #pragma endregion
 
 #pragma region FONT_MANAGER
@@ -372,6 +380,11 @@ HRESULT CGameInstance::Begin_MRT(const _wstring& strMRTTag)
 HRESULT CGameInstance::End_MRT()
 {
 	return m_pTarget_Manager->End_MRT();
+}
+
+HRESULT CGameInstance::Bind_RT_ShaderResource(const _wstring& strTargetTag, CShader* pShader, const _char* pConstantName)
+{
+	return m_pTarget_Manager->Bind_ShaderResource(strTargetTag, pShader, pConstantName);
 }
 
 #ifdef _DEBUG

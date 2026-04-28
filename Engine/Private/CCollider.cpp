@@ -95,6 +95,9 @@ _bool CCollider::Intersect(CCollider* pTarget)
 #ifdef _DEBUG
 HRESULT CCollider::Render()
 {
+    // GS 바인딩 해제
+    m_pContext->GSSetShader(nullptr, nullptr, 0);
+
     // 이미 월드가 곱해진 상태
     m_pEffect->SetWorld(XMMatrixIdentity());
     m_pEffect->SetView(XMLoadFloat4x4(m_pGameInstance->Get_Transform(D3DTS::VIEW)));

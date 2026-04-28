@@ -99,6 +99,15 @@ HRESULT CTarget_Manager::End_MRT()
 	return S_OK;
 }
 
+HRESULT CTarget_Manager::Bind_ShaderResource(const _wstring& strTargetTag, CShader* pShader, const _char* pConstantName)
+{
+	auto		pRenderTarget = Find_RenderTarget(strTargetTag);
+	if (pRenderTarget == nullptr)
+		return E_FAIL;
+
+	return pRenderTarget->Bind_ShaderResource(pShader, pConstantName);
+}
+
 #ifdef _DEBUG
 HRESULT CTarget_Manager::Ready_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
 {
