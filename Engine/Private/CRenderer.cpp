@@ -278,21 +278,21 @@ HRESULT CRenderer::Render_Debug()
     m_DebugComponents.clear();
 
 
-    // 항등
-    if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
-        return E_FAIL;
-    // 직교 투영 행렬
-    if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
-        return E_FAIL;
+    //// 항등
+    //if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+    //    return E_FAIL;
+    //// 직교 투영 행렬
+    //if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+    //    return E_FAIL;
 
-    // 버퍼 바인딩
-    if (FAILED(m_pVIBuffer->Bind_Resources()))
-        return E_FAIL;
+    //// 버퍼 바인딩
+    //if (FAILED(m_pVIBuffer->Bind_Resources()))
+    //    return E_FAIL;
 
-    // 이 그룹 그려줘
-    // 월드 행렬과 텍스처는 각자
-    m_pGameInstance->Render_RT_Debug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer);
-    m_pGameInstance->Render_RT_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
+    //// 이 그룹 그려줘
+    //// 월드 행렬과 텍스처는 각자
+    //m_pGameInstance->Render_RT_Debug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer);
+    //m_pGameInstance->Render_RT_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
 
     return S_OK;
 }

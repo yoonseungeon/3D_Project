@@ -2,6 +2,7 @@
 
 #include "CGameInstance.h"
 #include "CInventory.h"
+#include "CEquipment.h"
 
 #include "CPartObject.h"
 
@@ -22,8 +23,12 @@ HRESULT CAbstractPlayer::Initialize_Prototype()
 
 HRESULT CAbstractPlayer::Initialize(void* pArg)
 {
-    if (FAILED(__super::Initialize(pArg)))
+    CABSTRACTPLAYER_DESC* pDesc = static_cast<CABSTRACTPLAYER_DESC*>(pArg);
+
+    if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
+
+    m_pEquipment = CEquipment::Create(pDesc->eItemType);    
 
     return S_OK;
 }
@@ -105,5 +110,7 @@ HRESULT CAbstractPlayer::Initialize_State()
 
 void CAbstractPlayer::Free()
 {
+    Safe_Release(m_pEquipment);
+
     __super::Free();
 }

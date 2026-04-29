@@ -51,6 +51,9 @@
 #include "CUI_Craft.h"
 #include "CUI_CraftSlot.h"
 #include "CUI_InvenItemBg.h"
+// Equipment
+#include "CUI_Equipment.h"
+#include "CUI_EquipmentSlot.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -1626,6 +1629,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CUI_CraftSlot::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_CraftSlot");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CUI_Equipment */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_Equipment"),
+                CUI_Equipment::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_Equipment");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CUI_EquipmentSlot */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_EquipmentSlot"),
+                CUI_EquipmentSlot::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_EquipmentSlot");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

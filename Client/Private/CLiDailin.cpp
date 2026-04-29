@@ -42,8 +42,9 @@ HRESULT CLiDailin::Initialize_Prototype()
 HRESULT CLiDailin::Initialize(void* pArg)
 {
     if (pArg == nullptr) {
-        GAMEOBJECT_DESC Desc{};
+        CABSTRACTPLAYER_DESC Desc{};
 
+        Desc.eItemType = ITEM_TYPE::NUNCHAKU;
         Desc.tTransformDesc.fSpeedPerSec = 10.f;
         Desc.tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
 
@@ -51,8 +52,9 @@ HRESULT CLiDailin::Initialize(void* pArg)
             return E_FAIL;
     }
     else {
-        GAMEOBJECT_DESC* pDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
+        CABSTRACTPLAYER_DESC* pDesc = static_cast<CABSTRACTPLAYER_DESC*>(pArg);
 
+        pDesc->eItemType = ITEM_TYPE::NUNCHAKU;
         pDesc->tTransformDesc.fSpeedPerSec = 10.f;
         pDesc->tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
 

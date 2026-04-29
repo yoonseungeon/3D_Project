@@ -26,6 +26,11 @@ public:
 private:
 	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI_Inventory(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_UI_Equipment(const _wstring& strLayerTag);
+
+private:
+	_float m_fScaleRatioY{ 0.125f };
+	_float m_fPosRatioY{ -0.436945f };
 
 public:
 	static CInGameCharHUD_Empty* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

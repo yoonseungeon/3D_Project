@@ -259,6 +259,15 @@
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft">
       <UniqueIdentifier>{84f1f479-50aa-4399-b406-35159ab3e66b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="52. Equipment">
+      <UniqueIdentifier>{7b09f4ee-9114-4755-b957-e311209514b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment">
+      <UniqueIdentifier>{3b33077f-6593-4e67-991f-1b326e813cfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment\UI_EquipmentSlot">
+      <UniqueIdentifier>{dac26b50-46ad-4402-9222-f5ee13a3e00d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -519,6 +528,15 @@
     <ClInclude Include="..\Public\CAction_Craft.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CEquipment.h">
+      <Filter>52. Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_Equipment.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_EquipmentSlot.h">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment\UI_EquipmentSlot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -623,9 +641,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\CInGame_Manager.cpp">
       <Filter>99. Manager\02. InGame_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\CLiDailin.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CBody_Player.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\00. Body</Filter>
@@ -744,9 +759,6 @@
     <ClCompile Include="..\Private\CUI_Inventory.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CUI_InventorySlot.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\CUI_ItemImage.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\99. CUI_ItemImage</Filter>
     </ClCompile>
@@ -761,6 +773,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\CAction_Craft.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CEquipment.cpp">
+      <Filter>52. Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_EquipmentSlot.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment\UI_EquipmentSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_InventorySlot.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_Equipment.cpp">
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailin.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

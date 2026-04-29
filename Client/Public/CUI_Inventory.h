@@ -38,7 +38,7 @@ private:
 
 private:
 	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_UI_Inventory(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_UI_InventorySlot(const _wstring& strLayerTag);
 	HRESULT Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc);
 	HRESULT Ready_Layer_UI_Craft(const _wstring& strLayerTag);
 

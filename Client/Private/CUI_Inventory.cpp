@@ -43,7 +43,7 @@ HRESULT CUI_Inventory::Initialize(void* pArg)
     if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_UI_Inventory(TEXT("Layer_UI_Inventory"))))
+    if (FAILED(Ready_Layer_UI_InventorySlot(TEXT("Layer_UI_InventorySlot"))))
         return E_FAIL;
 
     if (FAILED(Initialize_Inventory()))
@@ -123,7 +123,7 @@ HRESULT CUI_Inventory::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     return S_OK;
 }
 
-HRESULT CUI_Inventory::Ready_Layer_UI_Inventory(const _wstring& strLayerTag)
+HRESULT CUI_Inventory::Ready_Layer_UI_InventorySlot(const _wstring& strLayerTag)
 {
     const _uint iMaxSlotCnt = { 10 };
     m_Slots.reserve(iMaxSlotCnt);

@@ -7,6 +7,7 @@
 #include "CUI_CharSkillPanel.h"
 #include "CUI_StatPanel.h"
 #include "CUI_Inventory.h"
+#include "CUI_Equipment.h"
 
 CInGameCharHUD_Empty::CInGameCharHUD_Empty(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -46,6 +47,9 @@ HRESULT CInGameCharHUD_Empty::Initialize(void* pArg)
     if (FAILED(Ready_Layer_UI_Inventory(TEXT("Layer_UI_Inventory"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_UI_Equipment(TEXT("Layer_UI_Equipment"))))
+        return E_FAIL;
+    
     return S_OK;
 }
 
@@ -82,9 +86,9 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     CUI_CharSkillPanel::CUI_CAHRSKILLPANEL_DESC SkillPanelDesc{};
 
     SkillPanelDesc.fScaleRatioX = 0.24f;
-    SkillPanelDesc.fScaleRatioY = 0.125f;
+    SkillPanelDesc.fScaleRatioY = m_fScaleRatioY;
     SkillPanelDesc.fPosRatioX = -0.042031f;
-    SkillPanelDesc.fPosRatioY = -0.436945f;
+    SkillPanelDesc.fPosRatioY = m_fPosRatioY;
 
     SkillPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
 
@@ -105,9 +109,9 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     CUI_StatPanel::CUI_STATPANEL_DESC StatPanelDesc{};
 
     StatPanelDesc.fScaleRatioX = 0.105f;
-    StatPanelDesc.fScaleRatioY = SkillPanelDesc.fScaleRatioY;
+    StatPanelDesc.fScaleRatioY = m_fScaleRatioY;
     StatPanelDesc.fPosRatioX = -0.34f;
-    StatPanelDesc.fPosRatioY = SkillPanelDesc.fPosRatioY;
+    StatPanelDesc.fPosRatioY = m_fPosRatioY;
 
     StatPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
 
@@ -131,6 +135,33 @@ HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Inventory(const _wstring& strLayerT
     // CUI_Inventory
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_Inventory"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CInGameCharHUD_Empty::Ready_Layer_UI_Equipment(const _wstring& strLayerTag)
+{
+    // CUI_Equipment
+    CUI_Equipment::CUI_EQUIPMENT_DESC EquipmentDesc{};
+
+    EquipmentDesc.fScaleRatioX = 0.022813f;
+    EquipmentDesc.fScaleRatioY = m_fScaleRatioY;
+    EquipmentDesc.fPosRatioX = -0.276250f;
+    EquipmentDesc.fPosRatioY = m_fPosRatioY;
+
+    EquipmentDesc.iUILayer = ETOUI(UILAYER::PANEL);
+
+    EquipmentDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    EquipmentDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
+
+    EquipmentDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    EquipmentDesc.vColor = COLOR_TO_FLOAT(33, 45, 51);
+
+    EquipmentDesc.fImageAlpha = 0.8f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_Equipment"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EquipmentDesc)))
         return E_FAIL;
 
     return S_OK;
