@@ -38,10 +38,10 @@ HRESULT CUI_StatBox::Initialize(void* pArg)
     pDesc->eTexPrototypeLV = LEVEL::GAMEPLAY;
     pDesc->iUILayer = ETOUI(UILAYER::SLOT);
 
-    m_iTexIdx = m_eStatBoxType;
-
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
+
+    m_iTexIdx = m_eStatBoxType;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;

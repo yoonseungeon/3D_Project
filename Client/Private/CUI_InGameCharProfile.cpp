@@ -24,12 +24,12 @@ HRESULT CUI_InGameCharProfile::Initialize(void* pArg)
     CUI_INGAMECHARPROFILE_DESC* pDesc = static_cast<CUI_INGAMECHARPROFILE_DESC*>(pArg);
 
     CHAR_NAME eCharName = CGame_Manager::GetInstance()->Get_SelectedChar();
-    m_iTexIdx = CGame_Manager::GetInstance()->Get_SkinIndex();
+    pDesc->iTexIdx = CGame_Manager::GetInstance()->Get_SkinIndex();
 
     // enter로 스킵하면 일단 용다이린
     if (eCharName == CHAR_NAME::CHARNAME_END) {
         eCharName = CHAR_NAME::LIDAILIN;
-        m_iTexIdx = 1;
+        pDesc->iTexIdx = 1;
     }
 
     const auto pCharInfo = CCharData_Manager::GetInstance()->Get_CharInfo(eCharName);

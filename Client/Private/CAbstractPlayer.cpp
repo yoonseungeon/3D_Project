@@ -88,7 +88,7 @@ void CAbstractPlayer::Try_Craft(_uint iItemId)
 
 _bool CAbstractPlayer::Craft_Item(_int iItemId)
 {
-    return m_pCraftList->Craft_Item(iItemId, m_pInvetory, m_pEquipment);
+    return m_pCraftList->Craft_Item(iItemId, this);
 }
 
 _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)

@@ -4,6 +4,7 @@
 
 #include "CInventory.h"
 #include "CEquipment.h"
+#include "CAbstractPlayer.h"
 
 CCraftList::CCraftList()
 	: m_pItem_Manager(CItem_Manager::GetInstance())
@@ -42,7 +43,7 @@ void CCraftList::Sync_CraftList(const CInventory* pInventory, const CEquipment* 
 	Reset_CraftItems();
 }
 
-_bool CCraftList::Craft_Item(_int iItemId, CInventory* pInventory, CEquipment* pEquipment)
+_bool CCraftList::Craft_Item(_int iItemId, CAbstractPlayer* pAbstractPlayer)
 {
 	// 조합 아이템이 똑같은 거 두 개인 경우는 없음 -> 구현 x
 
@@ -58,8 +59,11 @@ _bool CCraftList::Craft_Item(_int iItemId, CInventory* pInventory, CEquipment* p
 		return false;
 	}
 
-	vector<_int> InventoryIndex;
-	vector<_int> EquipmentIndex;
+	vector<pair<_int, _int>> InventoryIndex;
+	vector<pair<_int, _int>> EquipmentIndex;
+
+	CInventory* pInventory = pAbstractPlayer->Get_Inventory();
+	CEquipment* pEquipment = pAbstractPlayer->Get_Equipment();
 
 	// 재료 있는지 검사
 	for (_int i = 0; i < sizeof(pItemDesc->materials) / sizeof(_int); ++i)
@@ -74,40 +78,52 @@ _bool CCraftList::Craft_Item(_int iItemId, CInventory* pInventory, CEquipment* p
 		_int iInvenSlotIndex = pInventory->FindItemSlotByItemId(iItemIdx);
 		if (iInvenSlotIndex != -1)
 		{
-			InventoryIndex.push_back(iInvenSlotIndex);
+			InventoryIndex.emplace_back(iInvenSlotIndex, iItemIdx);
 			continue;
 		}
 
 		_int iEquipmentSlotIndex = pEquipment->Find_SlotByItemId(iItemIdx);
 		if (iEquipmentSlotIndex != -1)
 		{
-			EquipmentIndex.push_back(iEquipmentSlotIndex);
+			EquipmentIndex.emplace_back(iEquipmentSlotIndex, iItemIdx);
 			continue;
 		}
 
 		return false;
 	}
 
-	_bool bInvenAddResult = pInventory->Add_Item(iItemId, pItemDesc->iCraftCnt);
-
-	if (bInvenAddResult == false)
+	for (auto& pair : InventoryIndex)
 	{
-		return false;
+		pInventory->Subtract_ItemBySlotIndex(pair.first);
 	}
 
-	for (_int iSlotIndex : InventoryIndex)
-	{
-		pInventory->Subtract_ItemBySlotIndex(iSlotIndex);
-	}
-
-	for (_int iSlotIndex : EquipmentIndex)
+	for (auto& pair : EquipmentIndex)
 	{
 		_int iDummy{};
-		pEquipment->Unequip_ItemBySlotIndex(iSlotIndex, iDummy);
+		pEquipment->Unequip_ItemBySlotIndex(pair.first, iDummy);
 	}
 
-	Sync_CraftList(pInventory, pEquipment);
-	return true;
+	_bool bInvenAddResult = pAbstractPlayer->TryEquip_AddInven(iItemId, pItemDesc->iCraftCnt);
+
+	if (bInvenAddResult == true)
+	{
+		return true;
+	}
+
+	// 원상 복구
+	for (auto& pair : InventoryIndex)
+	{
+		pInventory->Add_Item(pair.second);
+	}
+
+	for (auto& pair : EquipmentIndex)
+	{
+		_int iDummy{};
+		pEquipment->Equip_ItemByItemId(pair.second, iDummy);
+	}
+
+	//Sync_CraftList(pInventory, pEquipment);
+	return false;
 }
 
 void CCraftList::Reset_CraftItems()

@@ -8,6 +8,7 @@ NS_BEGIN(Client)
 class CItem_Manager;
 class CInventory;
 class CEquipment;
+class CAbstractPlayer;
 
 class CCraftList final : public CBase
 {
@@ -21,7 +22,7 @@ private:
 public:
 	void Sync_CraftList(const CInventory* pInventory, const CEquipment* pEquipment);
 
-	_bool Craft_Item(_int iItemId, CInventory* pInventory, CEquipment* pEquipment);
+	_bool Craft_Item(_int iItemId, CAbstractPlayer* pAbstractPlayer);
 
 	const vector<INVENTORY_SLOT>& Get_CanCraftItemsVec() const { return m_CanCraftItems; }
 	_uint Get_ChangeCraftFlag() const { return m_iCraftChangeFlag; }
