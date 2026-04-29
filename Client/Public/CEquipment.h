@@ -20,7 +20,12 @@ public:
 	const vector<EQUIPMENT_SLOT>& Get_EquipmentsVec() const { return m_Equipments; }
 	_uint Get_ChangeEquipmentChangeFlag() const { return m_iEquipmentChangeFlag; }
 
-	_bool Equip_Item(_int iItemIndex, _int& iPreItemIndex);
+	_bool Equip_ItemByItemId(_int iItemId, _int& iPreItemId);
+
+	_bool Unequip_ItemBySlotIndex(_uint iSlotIndex, _int& iPreItemId);
+
+
+	_int Find_SlotByItemId(_int iItemId);
 
 private:
 	CItem_Manager* m_pItem_Manager{};
@@ -32,6 +37,7 @@ private:
 
 private:
 	_int Find_Slot(ITEM_TYPE eItemType);
+
 	void Add_EquipmentChangeFlag() { ++m_iEquipmentChangeFlag; }
 
 private:

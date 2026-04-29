@@ -23,7 +23,7 @@ private:
 	_float m_fMaxTime{};
 	_float m_fAccTime{};
 
-	_int m_iItemIndex{ -1 };
+	_int m_iItemId{ -1 };
 
 public:
 	static CAction_Craft* Create(_uint iCurAni);

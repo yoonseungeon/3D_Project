@@ -4,7 +4,7 @@
 #include "CInGame_Manager.h"
 
 #include "CAbstractPlayer.h"
-#include "CInventory.h"
+#include "CCraftList.h"
 
 #include "CUI_CraftSlot.h"
 
@@ -73,15 +73,15 @@ HRESULT CUI_Craft::Initialize_CraftSlot()
         return E_FAIL;
     }
 
-    const CInventory* pInventory = pPlayer->Get_Inventory();
+    const CCraftList* pCraftList = pPlayer->Get_CraftList();
 
-    if (pInventory == nullptr)
+    if (pCraftList == nullptr)
     {
         MSG_BOX("Failed to Initialize Inventory: CUI_Inventory");
         return E_FAIL;
     }
 
-    const vector<INVENTORY_SLOT>& CraftItems = pInventory->Get_CanCraftItemsVec();
+    const vector<INVENTORY_SLOT>& CraftItems = pCraftList->Get_CanCraftItemsVec();
     m_UICanCraftItems = CraftItems;
 
     return S_OK;
@@ -138,17 +138,17 @@ HRESULT CUI_Craft::Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc)
 
 void CUI_Craft::Sync_CanCraftItems()
 {
-    const CInventory* pInventory = CInGame_Manager::GetInstance()->Get_Player()->Get_Inventory();
+    const CCraftList* pCraftList = CInGame_Manager::GetInstance()->Get_Player()->Get_CraftList();
 
-    if (m_iCraftChangeFlag == pInventory->Get_ChangeCraftFlag())
+    if (m_iCraftChangeFlag == pCraftList->Get_ChangeCraftFlag())
     {
         m_UICanCraftItems;
         return;
     }
 
-    m_iCraftChangeFlag = pInventory->Get_ChangeCraftFlag();
+    m_iCraftChangeFlag = pCraftList->Get_ChangeCraftFlag();
 
-    const vector<INVENTORY_SLOT>& CraftItems = pInventory->Get_CanCraftItemsVec();
+    const vector<INVENTORY_SLOT>& CraftItems = pCraftList->Get_CanCraftItemsVec();
     m_UICanCraftItems = CraftItems;
 
     Reset_CraftItemSlot(m_UICanCraftItems);

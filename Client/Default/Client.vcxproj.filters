@@ -268,6 +268,9 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\99. CUI_ItemImage">
       <UniqueIdentifier>{db35e0c3-e665-4cbc-b820-be4d7118ba8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="53. CraftList">
+      <UniqueIdentifier>{3c44de70-e708-4edd-bad4-89d1f28decd8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -537,6 +540,9 @@
     <ClInclude Include="..\Public\CUI_EquipmentSlot.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment\UI_EquipmentSlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CCraftList.h">
+      <Filter>53. CraftList</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -788,6 +794,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCraftList.cpp">
+      <Filter>53. CraftList</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

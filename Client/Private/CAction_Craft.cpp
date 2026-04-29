@@ -21,8 +21,8 @@ HRESULT CAction_Craft::Initialize(_uint iCurAni)
 
 void CAction_Craft::Enter(CLiDailin* pPlayer)
 {
-    m_iItemIndex = pPlayer->Get_CurActionCommand().Data_UInt.iItemIdx;
-    m_fMaxTime = CItem_Manager::GetInstance()->Get_CurItemCraftTime(m_iItemIndex);
+    m_iItemId = pPlayer->Get_CurActionCommand().Data_UInt.iItemIdx;
+    m_fMaxTime = CItem_Manager::GetInstance()->Get_CurItemCraftTime(m_iItemId);
 
     // Ani
     pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(m_iCurAni, false);
@@ -45,14 +45,14 @@ void CAction_Craft::Update(CLiDailin* pPlayer, _float fTimeDelta)
     if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true
         || m_fAccTime >= m_fMaxTime)
     {
-        pPlayer->Get_Inventory()->Craft_Item(m_iItemIndex);
+        pPlayer->Craft_Item(m_iItemId);
         pPlayer->Set_ActionEnd();
     }
 }
 
 void CAction_Craft::Exit(CLiDailin* pPlayer)
 {
-    m_iItemIndex = -1;
+    m_iItemId = -1;
     m_fAccTime = 0.f;
 
     // Ani

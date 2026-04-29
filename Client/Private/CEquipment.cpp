@@ -25,11 +25,11 @@ HRESULT CEquipment::Initialize(ITEM_TYPE eWeaponType)
 	return S_OK;
 }
 
-_bool CEquipment::Equip_Item(_int iItemIndex, _int& iPreItemIndex)
+_bool CEquipment::Equip_ItemByItemId(_int iItemId, _int& iPreItemId)
 {
-	iPreItemIndex = -1;
+	iPreItemId = -1;
 
-	const ITEM_DESC* pItemDesc = m_pItem_Manager->Find_ItemInfo(iItemIndex);
+	const ITEM_DESC* pItemDesc = m_pItem_Manager->Find_ItemInfo(iItemId);
 	if (pItemDesc == nullptr)
 	{
 		MSG_BOX("No ItemInfo In CItem_Manger: CEquipment");
@@ -42,9 +42,25 @@ _bool CEquipment::Equip_Item(_int iItemIndex, _int& iPreItemIndex)
 		return false;
 	}
 
-	iPreItemIndex = m_Equipments[iSlotIndex].iItemId;
-	m_Equipments[iSlotIndex].iItemId = iItemIndex;
+	iPreItemId = m_Equipments[iSlotIndex].iItemId;
+	m_Equipments[iSlotIndex].iItemId = iItemId;
 	
+	Add_EquipmentChangeFlag();
+
+	return true;
+}
+
+_bool CEquipment::Unequip_ItemBySlotIndex(_uint iSlotIndex, _int& iPreItemId)
+{
+	if (iSlotIndex >= m_Equipments.size())
+	{		
+		return false;
+	}
+
+	iPreItemId = m_Equipments[iSlotIndex].iItemId;
+
+	m_Equipments[iSlotIndex].iItemId = -1;
+
 	Add_EquipmentChangeFlag();
 
 	return true;
@@ -55,6 +71,17 @@ _int CEquipment::Find_Slot(ITEM_TYPE eItemType)
 	for (_uint i = 0; i < m_Equipments.size(); ++i)
 	{
 		if (m_Equipments[i].eItemType == eItemType)
+			return i;
+	}
+
+	return -1;
+}
+
+_int CEquipment::Find_SlotByItemId(_int iItemId)
+{
+	for (_uint i = 0; i < m_Equipments.size(); ++i)
+	{
+		if (m_Equipments[i].iItemId == iItemId)
 			return i;
 	}
 

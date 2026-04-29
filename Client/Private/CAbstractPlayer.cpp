@@ -3,6 +3,7 @@
 #include "CGameInstance.h"
 #include "CInventory.h"
 #include "CEquipment.h"
+#include "CCraftList.h"
 
 #include "CPartObject.h"
 
@@ -29,6 +30,7 @@ HRESULT CAbstractPlayer::Initialize(void* pArg)
         return E_FAIL;
 
     m_pEquipment = CEquipment::Create(pDesc->eItemType);    
+    m_pCraftList = CCraftList::Create();
 
     return S_OK;
 }
@@ -75,13 +77,18 @@ HRESULT CAbstractPlayer::Render()
     return S_OK;
 }
 
-void CAbstractPlayer::Try_Craft(_uint iItemIndex)
+void CAbstractPlayer::Try_Craft(_uint iItemId)
 {
     ACTION_COMMAND tAction_Command{};
     tAction_Command.eCommandType = ACTION_COMMAND_TYPE::CRAFT;
-    tAction_Command.Data_UInt.iItemIdx = iItemIndex;
+    tAction_Command.Data_UInt.iItemIdx = iItemId;
 
     Process_ActionCommand(tAction_Command);
+}
+
+_bool CAbstractPlayer::Craft_Item(_int iItemId)
+{
+    return m_pCraftList->Craft_Item(iItemId, m_pInvetory, m_pEquipment);
 }
 
 _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
@@ -90,14 +97,17 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
     {
         // 일단 장착 시도
         _int iPreItemIndex = { -1 };
-        _bool bEquipResult = m_pEquipment->Equip_Item(iItemId, iPreItemIndex);
+        _bool bEquipResult = m_pEquipment->Equip_ItemByItemId(iItemId, iPreItemIndex);
 
         // 장착 성공한 경우
         if (bEquipResult == true)
         {
             // 이전 아이템이 없으면
             if (iPreItemIndex == -1)
+            {
+                m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
                 return true;
+            }
 
             // 이전 아이템이 있으면
 
@@ -106,20 +116,31 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
 
             // Add 성공했으면
             if(bAddInvenResult == true)
+            {
+                m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
                 return true;
+            }
 
             // 인벤토리 Add 실패 했으면
  
             // 다시 원상 복구
             _int iDummy = { -1 };
-            m_pEquipment->Equip_Item(iPreItemIndex, iDummy);
+            m_pEquipment->Equip_ItemByItemId(iPreItemIndex, iDummy);
 
             return false;
         }
     }
 
     // 개수가 1개가 아니거나, 장착 실패하면
-    return m_pInvetory->Add_Item(iItemId, iItemCount);
+
+    _bool bResult = m_pInvetory->Add_Item(iItemId, iItemCount);
+
+    if (bResult == true)
+    {
+        m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
+    }
+
+    return bResult;
 }
 
 COOL_INFO* CAbstractPlayer::Get_CoolInfo(const SKILL_SLOT eType)
@@ -148,6 +169,7 @@ HRESULT CAbstractPlayer::Initialize_State()
 
 void CAbstractPlayer::Free()
 {
+    Safe_Release(m_pCraftList);
     Safe_Release(m_pEquipment);
 
     __super::Free();

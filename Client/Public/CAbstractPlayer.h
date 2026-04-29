@@ -5,6 +5,7 @@
 NS_BEGIN(Client)
 
 class CEquipment;
+class CCraftList;
 
 class CAbstractPlayer abstract : public CUnit
 {
@@ -33,11 +34,17 @@ public:
 public:
 	// ActionState
 	virtual void Process_ActionCommand(ACTION_COMMAND& tAction_Command) = 0;
-	void Try_Craft(_uint iItemIndex);
+	void Try_Craft(_uint iItemId);
 
 	// Equipment
 	const CEquipment* Get_Equipment() const { return m_pEquipment; }
 	CEquipment* Get_Equipment() { return m_pEquipment; }
+
+	// CraftList
+	const CCraftList* Get_CraftList() const { return m_pCraftList; }
+	CCraftList* Get_CraftList() { return m_pCraftList; }
+
+	_bool Craft_Item(_int iItemId);
 
 	// Inven, Equipment
 	_bool TryEquip_AddInven(_int iItemId, _uint iItemCount = 1);
@@ -51,6 +58,7 @@ public:
 
 protected:
 	CEquipment* m_pEquipment{};
+	CCraftList* m_pCraftList{};
 
 protected:
 	virtual HRESULT Initialize_Skill();

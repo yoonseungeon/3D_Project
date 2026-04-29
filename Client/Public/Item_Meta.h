@@ -161,7 +161,7 @@ static ITEM_DESC ItemInfos[89] = {
     { 75, 75, L"이온 전지",     L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HIGH,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {41, 48} },
     { 76, 76, L"덧댄 가죽",     L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HIGH,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {34, 43} },
     // HERO                                                                                                                            
-     { 77, 77, L"생명의 나무",  L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HERO,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {-1, -1} },
+    { 77, 77, L"생명의 나무",   L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HERO,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {-1, -1} },
     { 78, 78, L"운석",          L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HERO,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {-1, -1} },
     { 79, 79, L"미스릴",        L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HERO,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {-1, -1} },
     { 80, 80, L"VF 혈액 샘플",  L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HERO,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {-1, -1} },
