@@ -82,10 +82,10 @@ HRESULT CLiDailin::Initialize(void* pArg)
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
 
-    m_pInvetory->Add_Item(4);
-    m_pInvetory->Add_Item(34);
-    m_pInvetory->Add_Item(55);
-    m_pInvetory->Add_Item(52);
+    TryEquip_AddInven(4);
+    TryEquip_AddInven(34);
+    TryEquip_AddInven(55);
+    TryEquip_AddInven(52);
 
     return S_OK;
 }
@@ -473,7 +473,7 @@ void CLiDailin::Key_Input()
         AddMP(20);
     }
     if (m_pGameInstance->Key_Down(DIK_0)) {
-        m_pInvetory->Add_Item(33);
+        TryEquip_AddInven(33);
     }
     if (m_pGameInstance->Key_Down(DIK_Z)) {
   /*      if(m_)

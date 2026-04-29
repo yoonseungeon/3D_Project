@@ -33,15 +33,15 @@ public:
 public:
 	// ActionState
 	virtual void Process_ActionCommand(ACTION_COMMAND& tAction_Command) = 0;
-
-	//Inven
 	void Try_Craft(_uint iItemIndex);
 
 	// Equipment
 	const CEquipment* Get_Equipment() const { return m_pEquipment; }
 	CEquipment* Get_Equipment() { return m_pEquipment; }
 
-public:
+	// Inven, Equipment
+	_bool TryEquip_AddInven(_int iItemId, _uint iItemCount = 1);
+
 	// Cool;
 	virtual COOL_INFO* Get_CoolInfo(const SKILL_SLOT eType);
 	virtual _bool CanUseSkill(const SKILL_SLOT eType);

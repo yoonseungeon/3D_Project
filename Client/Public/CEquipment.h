@@ -20,7 +20,7 @@ public:
 	const vector<EQUIPMENT_SLOT>& Get_EquipmentsVec() const { return m_Equipments; }
 	_uint Get_ChangeEquipmentChangeFlag() const { return m_iEquipmentChangeFlag; }
 
-	_int Equip_Item(_int iItemIndex);
+	_bool Equip_Item(_int iItemIndex, _int& iPreItemIndex);
 
 private:
 	CItem_Manager* m_pItem_Manager{};

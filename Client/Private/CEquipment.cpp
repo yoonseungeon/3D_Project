@@ -25,27 +25,29 @@ HRESULT CEquipment::Initialize(ITEM_TYPE eWeaponType)
 	return S_OK;
 }
 
-_int CEquipment::Equip_Item(_int iItemIndex)
+_bool CEquipment::Equip_Item(_int iItemIndex, _int& iPreItemIndex)
 {
+	iPreItemIndex = -1;
+
 	const ITEM_DESC* pItemDesc = m_pItem_Manager->Find_ItemInfo(iItemIndex);
 	if (pItemDesc == nullptr)
 	{
 		MSG_BOX("No ItemInfo In CItem_Manger: CEquipment");
-		return -1;
+		return false;
 	}
 
 	_int iSlotIndex = Find_Slot(pItemDesc->eType);
 
 	if (iSlotIndex == -1) {
-		return -1;
+		return false;
 	}
 
-	_int iPreItemIndex = m_Equipments[iSlotIndex].iItemId;
+	iPreItemIndex = m_Equipments[iSlotIndex].iItemId;
 	m_Equipments[iSlotIndex].iItemId = iItemIndex;
 	
 	Add_EquipmentChangeFlag();
 
-	return iPreItemIndex;
+	return true;
 }
 
 _int CEquipment::Find_Slot(ITEM_TYPE eItemType)

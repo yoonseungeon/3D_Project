@@ -84,6 +84,44 @@ void CAbstractPlayer::Try_Craft(_uint iItemIndex)
     Process_ActionCommand(tAction_Command);
 }
 
+_bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
+{
+    if (iItemCount == 1)
+    {
+        // 일단 장착 시도
+        _int iPreItemIndex = { -1 };
+        _bool bEquipResult = m_pEquipment->Equip_Item(iItemId, iPreItemIndex);
+
+        // 장착 성공한 경우
+        if (bEquipResult == true)
+        {
+            // 이전 아이템이 없으면
+            if (iPreItemIndex == -1)
+                return true;
+
+            // 이전 아이템이 있으면
+
+            // 인벤토리에 Add
+            _bool bAddInvenResult = m_pInvetory->Add_Item(iPreItemIndex, 1);
+
+            // Add 성공했으면
+            if(bAddInvenResult == true)
+                return true;
+
+            // 인벤토리 Add 실패 했으면
+ 
+            // 다시 원상 복구
+            _int iDummy = { -1 };
+            m_pEquipment->Equip_Item(iPreItemIndex, iDummy);
+
+            return false;
+        }
+    }
+
+    // 개수가 1개가 아니거나, 장착 실패하면
+    return m_pInvetory->Add_Item(iItemId, iItemCount);
+}
+
 COOL_INFO* CAbstractPlayer::Get_CoolInfo(const SKILL_SLOT eType)
 {
     return nullptr;
