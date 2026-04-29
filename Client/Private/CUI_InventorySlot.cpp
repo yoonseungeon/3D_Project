@@ -237,7 +237,7 @@ HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItem(const _wstring& strLayer
 
 void CUI_InventorySlot::BtnClick()
 {
-    CInGame_Manager::GetInstance()->Get_Player()->Equip(m_iSlotIndex);
+    CInGame_Manager::GetInstance()->Get_Player()->Use_Inventory(m_iSlotIndex);
 }
 
 void CUI_InventorySlot::Execute_Btn()

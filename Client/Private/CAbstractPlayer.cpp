@@ -4,6 +4,7 @@
 #include "CInventory.h"
 #include "CEquipment.h"
 #include "CCraftList.h"
+#include "CItem_Manager.h"
 
 #include "CPartObject.h"
 
@@ -37,39 +38,23 @@ HRESULT CAbstractPlayer::Initialize(void* pArg)
 
 void CAbstractPlayer::Priority_Update(_float fTimeDelta)
 {
-    // PartObject들은 GameObject_Manager에 안 들어간다.
-    for (auto& Pair : m_PartObjects)
-    {
-        if (nullptr != Pair.second)
-            Pair.second->Priority_Update(fTimeDelta);
-    }
+    __super::Priority_Update(fTimeDelta);
 }
 
 void CAbstractPlayer::Parallel_Update(_float fTimeDelta)
 {
-    for (auto& Pair : m_PartObjects)
-    {
-        if (nullptr != Pair.second)
-            Pair.second->Parallel_Update(fTimeDelta);
-    }
+    __super::Parallel_Update(fTimeDelta);
+
 }
 
 void CAbstractPlayer::Update(_float fTimeDelta)
 {
-    for (auto& Pair : m_PartObjects)
-    {
-        if (nullptr != Pair.second)
-            Pair.second->Update(fTimeDelta);
-    }
+    __super::Update(fTimeDelta);
 }
 
 void CAbstractPlayer::Late_Update(_float fTimeDelta)
 {
-    for (auto& Pair : m_PartObjects)
-    {
-        if (nullptr != Pair.second)
-            Pair.second->Late_Update(fTimeDelta);
-    }
+    __super::Late_Update(fTimeDelta);
 }
 
 HRESULT CAbstractPlayer::Render()
@@ -86,7 +71,7 @@ void CAbstractPlayer::Try_Craft(_uint iItemId)
     Process_ActionCommand(tAction_Command);
 }
 
-_bool CAbstractPlayer::Equip(_uint iSlotIndex)
+_bool CAbstractPlayer::Use_Inventory(_uint iSlotIndex)
 {
     _int iItemId = m_pInvetory->FindItemIdBySlotIndex(iSlotIndex);
 
@@ -95,22 +80,21 @@ _bool CAbstractPlayer::Equip(_uint iSlotIndex)
         return false;
     }
 
-    _int iPreItemId = { -1 };
-    _bool bResult = m_pEquipment->Equip_ItemByItemId(iItemId, iPreItemId);
-
-    if (bResult == false)
+    const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
+    if (pItemDesc == nullptr)
     {
+        MSG_BOX("No ItemInfo In CItem_Manger: CCraftList");
         return false;
     }
 
-    m_pInvetory->Subtract_ItemBySlotIndex(iSlotIndex);
-
-    if(iPreItemId != -1)
+    if (pItemDesc->eType == ITEM_TYPE::FOOD)
     {
-        m_pInvetory->Add_Item(iPreItemId);
+        return Use_Consumable(iSlotIndex);
     }
-
-    return true;
+    else
+    {
+        return Equip(iSlotIndex);
+    }
 }
 
 _bool CAbstractPlayer::Unequip(_uint iSlotIndex)
@@ -129,6 +113,7 @@ _bool CAbstractPlayer::Unequip(_uint iSlotIndex)
     _int iDummy{};
     m_pEquipment->Unequip_ItemBySlotIndex(iSlotIndex, iDummy);
 
+    m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
     return true;
 }
 
@@ -211,6 +196,58 @@ HRESULT CAbstractPlayer::Initialize_Skill()
 HRESULT CAbstractPlayer::Initialize_State()
 {
     return S_OK;
+}
+
+_bool CAbstractPlayer::Equip(_uint iSlotIndex)
+{
+    _int iItemId = m_pInvetory->FindItemIdBySlotIndex(iSlotIndex);
+
+    if (iItemId == -1)
+    {
+        return false;
+    }
+
+    _int iPreItemId = { -1 };
+    _bool bResult = m_pEquipment->Equip_ItemByItemId(iItemId, iPreItemId);
+
+    if (bResult == false)
+    {
+        return false;
+    }
+
+    m_pInvetory->Subtract_ItemBySlotIndex(iSlotIndex);
+
+    if (iPreItemId != -1)
+    {
+        m_pInvetory->Add_Item(iPreItemId);
+    }
+
+    m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
+    return true;
+}
+
+_bool CAbstractPlayer::Use_Consumable(_uint iSlotIndex)
+{
+    _int iItemId = m_pInvetory->FindItemIdBySlotIndex(iSlotIndex);
+
+    if (iItemId == -1)
+    {
+        return false;
+    }
+
+    const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
+    if (pItemDesc == nullptr)
+    {
+        MSG_BOX("No ItemInfo In CItem_Manger: CCraftList");
+        return false;
+    }
+
+    Add_Recovery(pItemDesc->iConsumableHP);
+
+    m_pInvetory->Subtract_ItemBySlotIndex(iSlotIndex, 1);
+    m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
+
+    return true;
 }
 
 void CAbstractPlayer::Free()

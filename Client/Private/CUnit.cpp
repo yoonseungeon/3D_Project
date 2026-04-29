@@ -53,6 +53,8 @@ void CUnit::Update(_float fTimeDelta)
         if (nullptr != Pair.second)
             Pair.second->Update(fTimeDelta);
     }
+
+    Update_Recovery(fTimeDelta);
 }
 
 void CUnit::Late_Update(_float fTimeDelta)
@@ -112,6 +114,17 @@ void CUnit::AddMP(_uint iMP)
     }
 }
 
+void CUnit::Add_Recovery(_uint iConsumableHP)
+{
+    RECOVERY tRecovery{};
+    tRecovery.fRemainTime = { 15.f };
+    tRecovery.fAccTime = { 1.f };
+    tRecovery.iRemainHPRecovery = iConsumableHP;
+    tRecovery.iHPRecoveryPerSec = iConsumableHP / static_cast<_uint>(tRecovery.fRemainTime);
+
+    m_Recoverys.push_back(tRecovery);
+}
+
 void CUnit::LevelUp()
 {
     m_tCurStat.iEXP -= m_tFinalStat.iEXP;
@@ -162,6 +175,38 @@ void CUnit::SetFinalStat()
 HRESULT CUnit::Initialize_Stat()
 {
     return S_OK;
+}
+
+void CUnit::Update_Recovery(_float fTimeDelta)
+{
+    for (auto iter = m_Recoverys.begin(); iter != m_Recoverys.end();)
+    {
+        iter->fAccTime += fTimeDelta;
+        iter->fRemainTime -= fTimeDelta;
+
+        while (iter->fAccTime >= 1.f)
+        {
+            iter->fAccTime -= 1.f;
+
+            _uint iHPRecover = iter->iHPRecoveryPerSec;
+
+            if (iHPRecover > iter->iRemainHPRecovery)
+            {
+                iHPRecover = iter->iRemainHPRecovery;
+            }
+
+            AddHP(iHPRecover);
+            iter->iRemainHPRecovery -= iHPRecover;
+        }
+
+        if (iter->fRemainTime <= 0.f)
+        {
+            iter = m_Recoverys.erase(iter);
+        }
+        else {
+            ++iter;
+        }
+    }
 }
 
 void CUnit::Free()

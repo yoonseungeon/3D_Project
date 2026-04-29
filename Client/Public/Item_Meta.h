@@ -167,7 +167,7 @@ static ITEM_DESC ItemInfos[89] = {
     { 80, 80, L"VF 혈액 샘플",  L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HERO,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {-1, -1} },
     { 81, 81, L"포스 코어",     L"None", (MAP_NAME)0, ITEM_TYPE::MATERIAL, ITEM_GRADE::HERO,   0, 0,     0.f, 0,  0,  0.f, 0, 0.f,     0, 1, 2, {-1, -1} },
     // RARE                                                                                                          
-    { 82, 82, L"Empty", L"None", (MAP_NAME)0, ITEM_TYPE::FOOD,     ITEM_GRADE::RARE,   0, 0, 0.f, 0, 0, 0.f, 0, 0.f, 0, 3, 6, {52, -1} },
+    { 82, 82, L"월던 스테이크", L"None", (MAP_NAME)0, ITEM_TYPE::FOOD,     ITEM_GRADE::RARE,   0, 0,     0.f, 0, 0, 0.f, 0, 0.f,     550, 3, 6, {52, -1} },
     { 83, 83, L"Empty", L"None", (MAP_NAME)0, ITEM_TYPE::NUNCHAKU, ITEM_GRADE::RARE,   0, 0, 0.f, 0, 0, 0.f, 0, 0.f, 0, 1, 1, {55, 33} },
     // HERO                                                                                                          
     { 84, 84, L"Empty", L"None", (MAP_NAME)0, ITEM_TYPE::NUNCHAKU, ITEM_GRADE::HERO,   0, 0, 0.f, 0, 0, 0.f, 0, 0.f, 0, 1, 1, {83, 41} },

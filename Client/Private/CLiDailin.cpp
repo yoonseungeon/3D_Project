@@ -485,8 +485,7 @@ void CLiDailin::Key_Input()
         TryEquip_AddInven(33);
     }
     if (m_pGameInstance->Key_Down(DIK_Z)) {
-  /*      if(m_)
-        Try_Craft(,2.f);*/
+        Add_Recovery(550);
     }
 
     // Q

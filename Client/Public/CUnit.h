@@ -50,6 +50,16 @@ public:
 		}
 	};
 
+private:
+	struct RECOVERY
+	{
+		_float fRemainTime{ 15.f };
+		_float fAccTime{ 0.f };
+
+		_uint iRemainHPRecovery{};
+		_uint iHPRecoveryPerSec{};
+	};
+
 protected:
 	CUnit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CUnit(const CUnit& Prototype);
@@ -76,6 +86,8 @@ public:
 
 	const MAINGAUGE_TYPE& Get_MPType() { return m_eMPType; }
 
+	void Add_Recovery(_uint iConsumableHP);
+
 protected:
 	void LevelUp();
 
@@ -89,6 +101,8 @@ protected:
 
 	virtual HRESULT Initialize_Stat();
 
+	void Update_Recovery(_float fTimeDelta);
+
 protected:
 	UNIT_STAT m_tFinalStat{}; // Base와 Item의 합산
 	UNIT_STAT m_tBaseStat{};
@@ -100,6 +114,8 @@ protected:
 	UNIT_STAT m_tCurStat{};
 
 	MAINGAUGE_TYPE m_eMPType{};
+
+	vector<RECOVERY> m_Recoverys;
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

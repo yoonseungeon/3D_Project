@@ -37,7 +37,7 @@ public:
 	void Try_Craft(_uint iItemId);
 
 	// Inventory, Equipment
-	_bool Equip(_uint iSlotIndex);
+	_bool Use_Inventory(_uint iSlotIndex); 
 	_bool Unequip(_uint iSlotIndex);
 
 	// Equipment
@@ -67,6 +67,9 @@ protected:
 protected:
 	virtual HRESULT Initialize_Skill();
 	virtual HRESULT Initialize_State();
+
+	_bool Equip(_uint iSlotIndex);
+	_bool Use_Consumable(_uint iSlotIndex);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
