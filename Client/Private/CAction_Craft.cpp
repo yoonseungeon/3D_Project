@@ -6,6 +6,7 @@
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CCraftTool.h"
+#include "CCraftHammer.h"
 
 #include "CItem_Manager.h"
 #include "CInventory.h"
@@ -48,11 +49,19 @@ void CAction_Craft::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
     m_fAccTime += fTimeDelta;
 
-    if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true
+    CMyModel* pPlayerBodyModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
+
+    if (pPlayerBodyModel->IsAnimationFinished() == true
         || m_fAccTime >= m_fMaxTime)
     {
         pPlayer->Craft_Item(m_iItemId);
         pPlayer->Set_ActionEnd();
+    }
+
+    if (m_bOnHammer == false && pPlayerBodyModel->Get_CurAniPlayRatio() >= 0.1f)
+    {
+        pPlayer->Get_CraftHammer()->Set_IsInactive(false);
+        m_bOnHammer = true;
     }
 
     CCraftTool* pCraftTool = pPlayer->Get_CraftTool();
@@ -70,6 +79,8 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
     pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
     pPlayer->Get_Weapon()->Set_IsInactive(false);
     pPlayer->Set_MovementAniBlock(false);
+    pPlayer->Get_CraftHammer()->Set_IsInactive(true);
+    m_bOnHammer = false;
     pPlayer->Get_CraftTool()->Set_IsInactive(true);
 
     // ¿Ãµø

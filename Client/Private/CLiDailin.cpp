@@ -9,6 +9,7 @@
 #include "CWeapon.h"
 #include "CBottle.h"
 #include "CCraftTool.h"
+#include "CCraftHammer.h"
 
 #include "CInGame_Manager.h"
 
@@ -475,6 +476,21 @@ HRESULT CLiDailin::Ready_PartObjects()
 
     m_pCraftTool->Set_IsInactive(true);
 
+
+    // CraftHammer
+    CCraftHammer::CRAFTHAMMER_DESC CraftHammerDesc{};
+    CraftHammerDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    CraftHammerDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Craft_R_Hammer");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CraftHammer"),
+        TEXT("CraftHammer"), &CraftHammerDesc)))
+        return E_FAIL;
+
+    m_pCraftHammer = dynamic_cast<CCraftHammer*>(m_PartObjects[TEXT("CraftHammer")]);
+    Safe_AddRef(m_pCraftHammer);
+
+    m_pCraftHammer->Set_IsInactive(true);
+
     return S_OK;
 }
 
@@ -497,9 +513,6 @@ void CLiDailin::Key_Input()
     }
     if (m_pGameInstance->Key_Down(DIK_0)) {
         TryEquip_AddInven(33);
-    }
-    if (m_pGameInstance->Key_Down(DIK_Z)) {
-        Add_Recovery(550);
     }
 
     // Q

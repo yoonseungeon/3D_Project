@@ -8,6 +8,7 @@ class CEquipment;
 class CCraftList;
 
 class CCraftTool;
+class CCraftHammer;
 
 class CAbstractPlayer abstract : public CUnit
 {
@@ -67,6 +68,7 @@ public:
 
 	// Part Obj
 	CCraftTool* Get_CraftTool() { return m_pCraftTool; }
+	CCraftHammer* Get_CraftHammer() { return m_pCraftHammer; }
 
 protected:
 	CEquipment* m_pEquipment{};
@@ -74,6 +76,7 @@ protected:
 
 	// Part Obj
 	CCraftTool* m_pCraftTool{};
+	CCraftHammer* m_pCraftHammer{};
 
 protected:
 	virtual HRESULT Initialize_Skill();

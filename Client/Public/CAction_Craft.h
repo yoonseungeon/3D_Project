@@ -25,6 +25,8 @@ private:
 
 	_int m_iItemId{ -1 };
 
+	_bool m_bOnHammer{};
+
 public:
 	static CAction_Craft* Create(_uint iCurAni);
 protected:

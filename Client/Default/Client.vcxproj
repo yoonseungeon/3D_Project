@@ -159,6 +159,7 @@
     <ClInclude Include="..\Public\CBottle.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
+    <ClInclude Include="..\Public\CCraftHammer.h" />
     <ClInclude Include="..\Public\CCraftList.h" />
     <ClInclude Include="..\Public\CCraftTool.h" />
     <ClInclude Include="..\Public\CEquipment.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="..\Private\CBottle.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
+    <ClCompile Include="..\Private\CCraftHammer.cpp" />
     <ClCompile Include="..\Private\CCraftList.cpp" />
     <ClCompile Include="..\Private\CCraftTool.cpp" />
     <ClCompile Include="..\Private\CEquipment.cpp" />

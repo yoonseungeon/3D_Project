@@ -552,6 +552,9 @@
     <ClInclude Include="..\Public\CCraftTool.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\03. CraftTool</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CCraftHammer.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -809,6 +812,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CCraftTool.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\03. CraftTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCraftHammer.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
