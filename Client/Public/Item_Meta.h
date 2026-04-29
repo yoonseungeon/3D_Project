@@ -48,36 +48,33 @@ enum class SPAWN_MAP {
 
 struct ITEM_DESC
 {
-    unsigned int iItemID{};
-    unsigned int iTextureIdx{};
-    const wchar_t* ItemName{};
-    const wchar_t* Instruction{};
-    MAP_NAME eSpawnMap{};
+    unsigned int    iItemID{};
+    unsigned int    iTextureIdx{};
+    const wchar_t*  ItemName{};
+    const wchar_t*  Instruction{};
+    MAP_NAME        eSpawnMap{};
 
-    ITEM_TYPE eType{};
-    ITEM_GRADE eGrade{};
+    ITEM_TYPE   eType{};
+    ITEM_GRADE  eGrade{};
 
+    int     iATKPower{};
 
-    unsigned int iATKPower{};
+    int     iHP{};
+    float   fHPRecoveryPercent{};
 
-    unsigned int iHP{};
-    float fHPRecoveryPercent{};
+    int     iPenetrationDefense{};
+    int     iDefense{};
 
-    unsigned int iPenetrationDefense{};
-
-    unsigned int iDefense{};
-
-    float fATKSpeed{};
-    unsigned int iCritical{};
-    float fSpeed{};
+    float   fATKSpeed{};
+    int     iCritical{};
+    float   fSpeed{};
 
     unsigned int iConsumableHP{};
 
     unsigned int iCraftCnt{};
 
-    //
-    unsigned int iMaxCnt{1};
-    int materials[2]{ -1, -1 };
+    int     iMaxCnt{1};
+    int     materials[2]{ -1, -1 };
 };
 
 static ITEM_DESC ItemInfos[89] = {

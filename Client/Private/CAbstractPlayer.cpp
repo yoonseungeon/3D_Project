@@ -113,6 +113,8 @@ _bool CAbstractPlayer::Unequip(_uint iSlotIndex)
     _int iDummy{};
     m_pEquipment->Unequip_ItemBySlotIndex(iSlotIndex, iDummy);
 
+    SetItemStat(iItemId, false);
+
     m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
     return true;
 }
@@ -133,6 +135,8 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
         // 장착 성공한 경우
         if (bEquipResult == true)
         {
+            SetItemStat(iItemId, true);
+
             // 이전 아이템이 없으면
             if (iPreItemIndex == -1)
             {
@@ -148,6 +152,8 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
             // Add 성공했으면
             if(bAddInvenResult == true)
             {
+                SetItemStat(iPreItemIndex, false);
+
                 m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
                 return true;
             }
@@ -157,6 +163,7 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
             // 다시 원상 복구
             _int iDummy = { -1 };
             m_pEquipment->Equip_ItemByItemId(iPreItemIndex, iDummy);
+            SetItemStat(iItemId, false);
 
             return false;
         }
@@ -215,11 +222,16 @@ _bool CAbstractPlayer::Equip(_uint iSlotIndex)
         return false;
     }
 
+    // 장착 성공한 경우
+    SetItemStat(iItemId, true);
+
     m_pInvetory->Subtract_ItemBySlotIndex(iSlotIndex);
 
+    // 이전 아이템이 있는 경우
     if (iPreItemId != -1)
     {
         m_pInvetory->Add_Item(iPreItemId);
+        SetItemStat(iPreItemId, false);
     }
 
     m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
@@ -248,6 +260,47 @@ _bool CAbstractPlayer::Use_Consumable(_uint iSlotIndex)
     m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
 
     return true;
+}
+
+void CAbstractPlayer::SetItemStat(_int iItemId, _bool bAdd)
+{
+    if (iItemId == -1)
+    {
+        return;
+    }
+
+    const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
+    if (pItemDesc == nullptr)
+    {
+        MSG_BOX("No ItemInfo In CItem_Manger: CCraftList");
+        return;
+    }
+
+    UNIT_STAT tAddStat{};
+
+    tAddStat.iLevel = 0;
+    tAddStat.iEXP = 0;
+
+    tAddStat.iHP = pItemDesc->iHP;
+    tAddStat.iMP = 0;
+
+    tAddStat.fHPRecoveryP = pItemDesc->fHPRecoveryPercent;
+    tAddStat.fMPRecoveryP = 0.f;
+
+    tAddStat.iATKPower = pItemDesc->iATKPower;
+    tAddStat.iSkillAmp = 0;
+    tAddStat.iPenetrationDefense = pItemDesc->iPenetrationDefense;
+    tAddStat.iPenetrationDefensePercent = 0;
+
+    tAddStat.iDefense = pItemDesc->iDefense;
+    tAddStat.fATKSpeed = pItemDesc->fATKSpeed;
+    tAddStat.iCoolDown = 0;
+    tAddStat.iCritical = pItemDesc->iCritical;
+    tAddStat.fSpeed = pItemDesc->fSpeed;
+
+    AddStat(m_tItemStat, tAddStat, bAdd);
+
+    SetFinalStat();
 }
 
 void CAbstractPlayer::Free()

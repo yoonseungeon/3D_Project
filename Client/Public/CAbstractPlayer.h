@@ -71,6 +71,8 @@ protected:
 	_bool Equip(_uint iSlotIndex);
 	_bool Use_Consumable(_uint iSlotIndex);
 
+	void SetItemStat(_int iItemId, _bool bAdd);
+
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
 protected:

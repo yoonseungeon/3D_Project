@@ -148,8 +148,8 @@ void CUnit::SetStat(UNIT_STAT& tStat
     tStat.iHP = iHp;
     tStat.iMP = iMp;
 
-    tStat.fHPRecovery = fHpRec;
-    tStat.fMPRecovery = fMpRec;
+    tStat.fHPRecoveryP = fHpRec;
+    tStat.fMPRecoveryP = fMpRec;
 
     tStat.iATKPower = iATK;
     tStat.iSkillAmp = iSkillAmp;
@@ -160,6 +160,17 @@ void CUnit::SetStat(UNIT_STAT& tStat
     tStat.iCoolDown = iCool;
     tStat.iCritical = iCrit;
     tStat.fSpeed = fSpeed;
+}
+
+void CUnit::AddStat(UNIT_STAT& tStat, const UNIT_STAT& tAddStat, _bool bAdd)
+{
+    if (bAdd == true) {
+        tStat += tAddStat;
+    }
+    else
+    {
+        tStat -= tAddStat;
+    }
 }
 
 void CUnit::SetFinalStat()

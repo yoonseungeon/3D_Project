@@ -10,42 +10,53 @@ class CUnit abstract : public CInvenOwner
 public:
 	struct UNIT_STAT
 	{
-		_ubyte iLevel{};//최대 o
-		_ushort iEXP{}; //최대 o 최대가 변함
+		_int iLevel{};
+		_int iEXP{}; 
 
-		_ushort iHP{};//최대 o 최대가 변함
-		_ushort iMP{};//최대 o 최대가 변함
+		_int iHP{};
+		_int iMP{};
 
-		_float fHPRecovery{};
-		_float fMPRecovery{};
+		_float fHPRecoveryP{};
+		_float fMPRecoveryP{};
 
-		_ushort iATKPower{};
-		_ushort iSkillAmp{};
-		_ushort iPenetrationDefense{}; _ushort iPenetrationDefensePercent{};
-		_ushort iDefense{};
+		_int iATKPower{};
+		_int iSkillAmp{};
+		_int iPenetrationDefense{}; _uint iPenetrationDefensePercent{};
+		_int iDefense{};
 		_float fATKSpeed{};
-		_ushort iCoolDown{};
-		_ushort iCritical{};
+		_int iCoolDown{};
+		_int iCritical{};
 		_float fSpeed{};
 
 		UNIT_STAT& operator += (const UNIT_STAT& rhs) {
-			iLevel += rhs.iLevel;
-			iEXP += rhs.iEXP;
+			iLevel += rhs.iLevel;					iEXP += rhs.iEXP;
 
-			iHP += rhs.iHP;
-			iMP += rhs.iMP;
-			fHPRecovery += rhs.fHPRecovery;
-			fMPRecovery += rhs.fMPRecovery;
+			iHP += rhs.iHP;							iMP += rhs.iMP;
+			fHPRecoveryP += rhs.fHPRecoveryP;		fMPRecoveryP += rhs.fMPRecoveryP;
 
-			iATKPower += rhs.iATKPower;
-			iSkillAmp += rhs.iSkillAmp;
+			iATKPower += rhs.iATKPower;				iSkillAmp += rhs.iSkillAmp;
 			iPenetrationDefense += rhs.iPenetrationDefense;
 			iPenetrationDefensePercent += rhs.iPenetrationDefensePercent;
-			iDefense += rhs.iDefense;
-			fATKSpeed += rhs.fATKSpeed;
-			iCoolDown += rhs.iCoolDown;
-			iCritical += rhs.iCritical;
+			iDefense += rhs.iDefense;				fATKSpeed += rhs.fATKSpeed;
+			iCoolDown += rhs.iCoolDown;				iCritical += rhs.iCritical;
 			fSpeed += rhs.fSpeed;
+			return *this;
+		}
+
+		UNIT_STAT& operator -= (const UNIT_STAT& rhs)
+		{
+			iLevel -= rhs.iLevel;                    iEXP -= rhs.iEXP;
+
+			iHP -= rhs.iHP;                          iMP -= rhs.iMP;
+			fHPRecoveryP -= rhs.fHPRecoveryP;        fMPRecoveryP -= rhs.fMPRecoveryP;
+
+			iATKPower -= rhs.iATKPower;              iSkillAmp -= rhs.iSkillAmp;
+			iPenetrationDefense -= rhs.iPenetrationDefense;
+			iPenetrationDefensePercent -= rhs.iPenetrationDefensePercent;
+			iDefense -= rhs.iDefense;                fATKSpeed -= rhs.fATKSpeed;
+			iCoolDown -= rhs.iCoolDown;              iCritical -= rhs.iCritical;
+			fSpeed -= rhs.fSpeed;
+
 			return *this;
 		}
 	};
@@ -96,6 +107,8 @@ protected:
 		_float fHpRec, _float fMpRec, _ushort iATK, _ushort iSkillAmp,
 		_ushort iPen, _ushort iPenPct, _ushort iDef,
 		_float fATKSpeed, _ushort iCool, _ushort iCrit, _float fSpeed);
+
+	void AddStat(UNIT_STAT& tStat, const UNIT_STAT& tAddStat, _bool bAdd);
 
 	void SetFinalStat();
 
