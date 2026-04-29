@@ -103,6 +103,7 @@ _bool CCraftList::Craft_Item(_int iItemId, CAbstractPlayer* pAbstractPlayer)
 		pEquipment->Unequip_ItemBySlotIndex(pair.first, iDummy);
 	}
 
+	// 내부에서 Sync_CraftList 호출
 	_bool bInvenAddResult = pAbstractPlayer->TryEquip_AddInven(iItemId, pItemDesc->iCraftCnt);
 
 	if (bInvenAddResult == true)

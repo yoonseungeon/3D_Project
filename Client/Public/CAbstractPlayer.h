@@ -36,10 +36,18 @@ public:
 	virtual void Process_ActionCommand(ACTION_COMMAND& tAction_Command) = 0;
 	void Try_Craft(_uint iItemId);
 
+	// Begin 동기화 필요 함수들
 	// Inventory, Equipment
 	_bool Use_Inventory(_uint iSlotIndex); 
 	_bool Unequip(_uint iSlotIndex);
 
+	// Inven, Equipment, CraftList
+	_bool TryEquip_AddInven(_int iItemId, _uint iItemCount = 1);
+
+	// CraftList
+	_bool Craft_Item(_int iItemId);
+	// End
+	 
 	// Equipment
 	const CEquipment* Get_Equipment() const { return m_pEquipment; }
 	CEquipment* Get_Equipment() { return m_pEquipment; }
@@ -48,12 +56,7 @@ public:
 	const CCraftList* Get_CraftList() const { return m_pCraftList; }
 	CCraftList* Get_CraftList() { return m_pCraftList; }
 
-	_bool Craft_Item(_int iItemId);
-
-	// Inven, Equipment, Craft
-	_bool TryEquip_AddInven(_int iItemId, _uint iItemCount = 1);
-
-	// Cool;
+	// SkillCool;
 	virtual COOL_INFO* Get_CoolInfo(const SKILL_SLOT eType);
 	virtual _bool CanUseSkill(const SKILL_SLOT eType);
 
@@ -68,6 +71,7 @@ protected:
 	virtual HRESULT Initialize_Skill();
 	virtual HRESULT Initialize_State();
 
+	// 동기화 필요 함수
 	_bool Equip(_uint iSlotIndex);
 	_bool Use_Consumable(_uint iSlotIndex);
 
