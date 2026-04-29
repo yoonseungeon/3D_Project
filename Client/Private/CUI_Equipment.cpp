@@ -187,6 +187,7 @@ HRESULT CUI_Equipment::Ready_Layer_UI_EquipmentSlot(const _wstring& strLayerTag)
 
     for (_uint i = 0; i < 5; ++i)
     {
+        SlotDesc.iSlotIndex = i;
         SlotDesc.eSlotType = static_cast<CUI_EquipmentSlot::EQUIPMENT_SLOT_TYPE>(i);
         SlotDesc.fPosRatioY = fStartPosY - fGapRow * i;
 

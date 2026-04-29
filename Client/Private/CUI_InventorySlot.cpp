@@ -2,7 +2,9 @@
 
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
+#include "CInGame_Manager.h"
 
+#include "CAbstractPlayer.h"
 #include "CUI_InvenItemBg.h"
 #include "CUI_ItemImage.h"
 
@@ -26,6 +28,8 @@ HRESULT CUI_InventorySlot::Initialize_Prototype()
 HRESULT CUI_InventorySlot::Initialize(void* pArg)
 {
     CUI_INVENTORYSLOT_DESC* pDesc = static_cast<CUI_INVENTORYSLOT_DESC*>(pArg);
+
+    m_iSlotIndex = pDesc->iSlotIndex;
 
     m_fScaleRatioX = pDesc->fScaleRatioX;
     m_fScaleRatioY = pDesc->fScaleRatioY;
@@ -53,15 +57,35 @@ void CUI_InventorySlot::Priority_Update(_float fTimeDelta)
 
 void CUI_InventorySlot::Parallel_Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
     __super::Update_BtnState();
+    Execute_Btn();
 }
 
 void CUI_InventorySlot::Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
+    if (m_bIsClicked) {
+        BtnClick();
+        m_bIsClicked = false;
+    }
 }
 
 void CUI_InventorySlot::Late_Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
@@ -213,7 +237,24 @@ HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItem(const _wstring& strLayer
 
 void CUI_InventorySlot::BtnClick()
 {
+    CInGame_Manager::GetInstance()->Get_Player()->Equip(m_iSlotIndex);
+}
 
+void CUI_InventorySlot::Execute_Btn()
+{
+    switch (m_eCurBtnState)
+    {
+    case BTN_STATE::NORMAL:
+    case BTN_STATE::HOVER:
+    case BTN_STATE::PRESSED:
+        break;
+
+    case BTN_STATE::CLICKED:
+    {
+        m_bIsClicked = true;
+        break;
+    }
+    }
 }
 
 CUI_InventorySlot* CUI_InventorySlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

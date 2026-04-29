@@ -86,6 +86,52 @@ void CAbstractPlayer::Try_Craft(_uint iItemId)
     Process_ActionCommand(tAction_Command);
 }
 
+_bool CAbstractPlayer::Equip(_uint iSlotIndex)
+{
+    _int iItemId = m_pInvetory->FindItemIdBySlotIndex(iSlotIndex);
+
+    if (iItemId == -1)
+    {
+        return false;
+    }
+
+    _int iPreItemId = { -1 };
+    _bool bResult = m_pEquipment->Equip_ItemByItemId(iItemId, iPreItemId);
+
+    if (bResult == false)
+    {
+        return false;
+    }
+
+    m_pInvetory->Subtract_ItemBySlotIndex(iSlotIndex);
+
+    if(iPreItemId != -1)
+    {
+        m_pInvetory->Add_Item(iPreItemId);
+    }
+
+    return true;
+}
+
+_bool CAbstractPlayer::Unequip(_uint iSlotIndex)
+{
+    _int iItemId = m_pEquipment->Find_ItemIdBySlotIndex(iSlotIndex);
+
+    if (iItemId == -1)
+        return false;
+
+    _bool bResult = m_pInvetory->Add_Item(iItemId);
+    if (bResult == false)
+    {
+        return false;
+    }
+
+    _int iDummy{};
+    m_pEquipment->Unequip_ItemBySlotIndex(iSlotIndex, iDummy);
+
+    return true;
+}
+
 _bool CAbstractPlayer::Craft_Item(_int iItemId)
 {
     return m_pCraftList->Craft_Item(iItemId, this);
@@ -97,7 +143,7 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
     {
         // 일단 장착 시도
         _int iPreItemIndex = { -1 };
-        _bool bEquipResult = m_pEquipment->Equip_ItemByItemId(iItemId, iPreItemIndex);
+        _bool bEquipResult = m_pEquipment->Equip_HigherItemByItemId(iItemId, iPreItemIndex);
 
         // 장착 성공한 경우
         if (bEquipResult == true)

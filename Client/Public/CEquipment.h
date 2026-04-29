@@ -21,11 +21,13 @@ public:
 	_uint Get_ChangeEquipmentChangeFlag() const { return m_iEquipmentChangeFlag; }
 
 	_bool Equip_ItemByItemId(_int iItemId, _int& iPreItemId);
+	_bool Equip_HigherItemByItemId(_int iItemId, _int& iPreItemId);
 
 	_bool Unequip_ItemBySlotIndex(_uint iSlotIndex, _int& iPreItemId);
 
 
-	_int Find_SlotByItemId(_int iItemId);
+	_int Find_SlotIndexByItemId(_int iItemId);
+	_int Find_ItemIdBySlotIndex(_uint iSlotIndex);
 
 private:
 	CItem_Manager* m_pItem_Manager{};

@@ -19,6 +19,7 @@ class CUI_InventorySlot final : public CUI_Btn
 public:
 	struct CUI_INVENTORYSLOT_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
+		_uint iSlotIndex{};
 	};
 
 protected:
@@ -47,6 +48,7 @@ private:
 	HRESULT Ready_Layer_UI_InventoryItem(const _wstring& strLayerTag);
 
 	virtual void BtnClick() override;
+	void Execute_Btn();
 
 	void Set_ItemBg(_int iItemId, _uint iItemCnt);
 	void Set_Item(_int iItemId, _uint iItemCnt);
@@ -66,6 +68,8 @@ private:
 	CUI_ItemImage* m_pItemImage{};
 
 	_uint iItemCnt{};
+
+	_uint m_iSlotIndex{};
 
 public:
 	static CUI_InventorySlot* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

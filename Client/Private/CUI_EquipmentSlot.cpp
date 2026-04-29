@@ -2,6 +2,8 @@
 
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
+#include "CInGame_Manager.h"
+#include "CAbstractPlayer.h"
 
 #include "CUI_Image.h"
 #include "CUI_ItemImage.h"
@@ -31,6 +33,7 @@ HRESULT CUI_EquipmentSlot::Initialize(void* pArg)
         return E_FAIL;
 
     m_eSlotType = pDesc->eSlotType;
+    m_iSlotIndex = pDesc->iSlotIndex;
 
     m_fScaleRatioX = pDesc->fScaleRatioX;
     m_fScaleRatioY = pDesc->fScaleRatioY;
@@ -61,15 +64,35 @@ void CUI_EquipmentSlot::Priority_Update(_float fTimeDelta)
 
 void CUI_EquipmentSlot::Parallel_Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
     __super::Update_BtnState();
+    Execute_Btn();
 }
 
 void CUI_EquipmentSlot::Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
+    if (m_bIsClicked) {
+        BtnClick();
+        m_bIsClicked = false;
+    }
 }
 
 void CUI_EquipmentSlot::Late_Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
@@ -139,7 +162,24 @@ HRESULT CUI_EquipmentSlot::Bind_ShaderResources()
 
 void CUI_EquipmentSlot::BtnClick()
 {
+    CInGame_Manager::GetInstance()->Get_Player()->Unequip(m_iSlotIndex);    
+}
 
+void CUI_EquipmentSlot::Execute_Btn()
+{
+    switch (m_eCurBtnState)
+    {
+    case BTN_STATE::NORMAL:
+    case BTN_STATE::HOVER:
+    case BTN_STATE::PRESSED:
+        break;
+
+    case BTN_STATE::CLICKED:
+    {
+        m_bIsClicked = true;
+        break;
+    }
+    }
 }
 
 HRESULT CUI_EquipmentSlot::Ready_Layer_UI_EquipmentBg(const _wstring& strLayerTag)

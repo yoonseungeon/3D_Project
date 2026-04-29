@@ -24,6 +24,7 @@ public:
 	struct CUI_EQUIPMENT_SLOT_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
 		EQUIPMENT_SLOT_TYPE eSlotType{ EQUIPMENT_SLOT_TYPE_END };
+		_uint iSlotIndex{};
 	};
 
 
@@ -50,6 +51,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 	virtual void BtnClick() override;
+	void Execute_Btn();
 
 	HRESULT Ready_Layer_UI_EquipmentBg(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI_EquipmentItemBg(const _wstring& strLayerTag);
@@ -71,6 +73,8 @@ private:
 
 	CUI_Image* m_pItemBg{};
 	CUI_ItemImage* m_pItemImage{};
+
+	_uint m_iSlotIndex{};
 
 	EQUIPMENT_SLOT_TYPE m_eSlotType{ EQUIPMENT_SLOT_TYPE_END };
 

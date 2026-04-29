@@ -48,6 +48,16 @@ _int CInventory::FindItemSlotByItemId(_int iItemId)
 	return -1;
 }
 
+_int CInventory::FindItemIdBySlotIndex(_uint iSlotIndex)
+{
+	if (iSlotIndex >= m_Inventory.size())
+	{
+		return -1;
+	}
+
+	return m_Inventory[iSlotIndex].iItemId;
+}
+
 _bool CInventory::Add_Item_CraftNoReset(_int iItemId, _uint iItemCount)
 {
 	if (iItemId == -1 || iItemCount == 0)

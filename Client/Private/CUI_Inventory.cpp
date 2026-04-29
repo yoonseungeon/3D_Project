@@ -152,6 +152,7 @@ HRESULT CUI_Inventory::Ready_Layer_UI_InventorySlot(const _wstring& strLayerTag)
     {
         for (_uint j = 0; j < 5; ++j)
         {
+            SlotDesc.iSlotIndex = i * 5 + j;
             SlotDesc.fPosRatioX = fStartPosX + fGapCol * j;
             SlotDesc.fPosRatioY = fStartPosY - fGapRow * i;
 

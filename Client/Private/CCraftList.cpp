@@ -82,7 +82,7 @@ _bool CCraftList::Craft_Item(_int iItemId, CAbstractPlayer* pAbstractPlayer)
 			continue;
 		}
 
-		_int iEquipmentSlotIndex = pEquipment->Find_SlotByItemId(iItemIdx);
+		_int iEquipmentSlotIndex = pEquipment->Find_SlotIndexByItemId(iItemIdx);
 		if (iEquipmentSlotIndex != -1)
 		{
 			EquipmentIndex.emplace_back(iEquipmentSlotIndex, iItemIdx);

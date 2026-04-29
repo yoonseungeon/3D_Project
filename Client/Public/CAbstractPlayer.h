@@ -36,6 +36,10 @@ public:
 	virtual void Process_ActionCommand(ACTION_COMMAND& tAction_Command) = 0;
 	void Try_Craft(_uint iItemId);
 
+	// Inventory, Equipment
+	_bool Equip(_uint iSlotIndex);
+	_bool Unequip(_uint iSlotIndex);
+
 	// Equipment
 	const CEquipment* Get_Equipment() const { return m_pEquipment; }
 	CEquipment* Get_Equipment() { return m_pEquipment; }
@@ -46,7 +50,7 @@ public:
 
 	_bool Craft_Item(_int iItemId);
 
-	// Inven, Equipment
+	// Inven, Equipment, Craft
 	_bool TryEquip_AddInven(_int iItemId, _uint iItemCount = 1);
 
 	// Cool;

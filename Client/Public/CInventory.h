@@ -22,6 +22,7 @@ public:
 	_bool Subtract_ItemBySlotIndex(_uint iSlotIndex, _uint iItemCount = 1);
 
 	_int FindItemSlotByItemId(_int iItemId);
+	_int FindItemIdBySlotIndex(_uint iSlotIndex);
 
 	const vector<INVENTORY_SLOT>& Get_InventoryVec() const { return m_Inventory; }
 	_uint Get_ChangeInvenFlag() const { return m_iInvenChangeFlag; }

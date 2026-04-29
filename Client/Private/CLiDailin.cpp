@@ -86,7 +86,16 @@ HRESULT CLiDailin::Initialize(void* pArg)
     TryEquip_AddInven(34);
     TryEquip_AddInven(55);
     TryEquip_AddInven(52);
+    TryEquip_AddInven(34);
+    TryEquip_AddInven(55);
+    TryEquip_AddInven(52);
 
+    TryEquip_AddInven(84);
+    TryEquip_AddInven(85);
+    TryEquip_AddInven(86);
+    TryEquip_AddInven(87);
+    TryEquip_AddInven(88);
+    
     return S_OK;
 }
 
