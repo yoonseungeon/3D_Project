@@ -18,7 +18,7 @@ private:
 
 public:
 	const vector<EQUIPMENT_SLOT>& Get_EquipmentsVec() const { return m_Equipments; }
-	_uint Get_ChangeCraftFlag() const { return m_iEquipmentChangeFlag; }
+	_uint Get_ChangeEquipmentChangeFlag() const { return m_iEquipmentChangeFlag; }
 
 	_int Equip_Item(_int iItemIndex);
 

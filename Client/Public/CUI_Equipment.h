@@ -38,32 +38,35 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	vector<EQUIPMENT_SLOT> m_UIEquipments;
-	_uint m_iEquipmentChangeFlag{};
-
-	CItem_Manager* m_pCItem_Manager{};
-
-private:
 	CShader* m_pShaderCom{ nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
 	CTexture* m_pTextureCom{ nullptr };
 
-private:
+	CItem_Manager* m_pCItem_Manager{};
+
+
 	_float m_fScaleRatioX{};
 	_float m_fScaleRatioY{};
 	_float m_fPosRatioX{};
 	_float m_fPosRatioY{};
 
-private:
+
+	vector<EQUIPMENT_SLOT> m_UIEquipments;
+	_uint m_iEquipmentChangeFlag{};
+
 	vector<CUI_EquipmentSlot*> m_Slots;
+
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
-	HRESULT Initialize_Equipment();
 	HRESULT Ready_Layer_UI_EquipmentSlot(const _wstring& strLayerTag);
+
+	HRESULT Initialize_Equipment();
 	HRESULT Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc);
+	void Sync_Equipment();
+	void Sync_EquipmentSlot();
 
 public:
 	static CUI_Equipment* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

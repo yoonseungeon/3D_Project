@@ -3,6 +3,7 @@
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
 
+#include "CUI_Image.h"
 #include "CUI_ItemImage.h"
 
 CUI_EquipmentSlot::CUI_EquipmentSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -26,6 +27,11 @@ HRESULT CUI_EquipmentSlot::Initialize(void* pArg)
 {
     CUI_EQUIPMENT_SLOT_DESC* pDesc = static_cast<CUI_EQUIPMENT_SLOT_DESC*>(pArg);
 
+    if (pDesc->eSlotType >= EQUIPMENT_SLOT_TYPE_END)
+        return E_FAIL;
+
+    m_eSlotType = pDesc->eSlotType;
+
     m_fScaleRatioX = pDesc->fScaleRatioX;
     m_fScaleRatioY = pDesc->fScaleRatioY;
     m_fPosRatioX = pDesc->fPosRatioX;
@@ -38,6 +44,12 @@ HRESULT CUI_EquipmentSlot::Initialize(void* pArg)
         return E_FAIL;
 
     if (FAILED(Ready_Layer_UI_EquipmentBg(TEXT("Layer_UI_EquipmentBg"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_UI_EquipmentItemBg(TEXT("Layer_UI_EquipmentItemBg"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_UI_EquipmentItem(TEXT("Layer_UI_EquipmentItem"))))
         return E_FAIL;
 
     return S_OK;
@@ -76,6 +88,12 @@ HRESULT CUI_EquipmentSlot::Render()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CUI_EquipmentSlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
+{
+    Set_ItemBg(iItemId);
+    Set_Item(iItemId, iItemCnt);
 }
 
 HRESULT CUI_EquipmentSlot::Ready_Components()
@@ -126,9 +144,104 @@ void CUI_EquipmentSlot::BtnClick()
 
 HRESULT CUI_EquipmentSlot::Ready_Layer_UI_EquipmentBg(const _wstring& strLayerTag)
 {
+    CUI_Image::CUI_IMAGE_DESC Desc{};
 
+    Desc.fScaleRatioY = m_fScaleRatioY;
+    Desc.fScaleRatioX = Desc.fScaleRatioY * g_iWinSizeY / g_iWinSizeX;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY;
+
+    Desc.iUILayer = ETOUI(UILAYER::PANEL_DECO);
+
+    Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Ico_Equipment";
+
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+
+    Desc.iTexIdx = m_eSlotType;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
 
     return S_OK;
+}
+
+HRESULT CUI_EquipmentSlot::Ready_Layer_UI_EquipmentItemBg(const _wstring& strLayerTag)
+{
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = m_fScaleRatioX;
+    Desc.fScaleRatioY = m_fScaleRatioY;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY;
+
+    Desc.iUILayer = ETOUI(UILAYER::SLOT);
+
+    Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Ico_ItemGradeBg";
+
+    Desc.eBlendState = CUI_Default::DEFAULT;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pItemBg))))
+        return E_FAIL;
+
+    m_pItemBg->Set_IsInactive(true);
+
+    return S_OK;
+}
+
+HRESULT CUI_EquipmentSlot::Ready_Layer_UI_EquipmentItem(const _wstring& strLayerTag)
+{
+    CUI_ItemImage::CUI_ITEMIMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = m_fScaleRatioX;
+    Desc.fScaleRatioY = m_fScaleRatioY;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY;
+
+    Desc.iUILayer = ETOUI(UILAYER::SLOT_DECO);
+
+    Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Item";
+
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_ItemImage"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pItemImage))))
+        return E_FAIL;
+
+    m_pItemImage->Set_IsInactive(true);
+
+    return S_OK;
+}
+
+void CUI_EquipmentSlot::Set_ItemBg(_int iItemId)
+{
+    if (iItemId == -1)
+    {
+        m_pItemBg->Set_IsInactive(true);
+        return;
+    }
+
+    m_pItemBg->Set_IsInactive(false);
+
+    const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
+    m_pItemBg->Set_TexIdx(ETOUI(pItemDesc->eGrade));
+}
+
+void CUI_EquipmentSlot::Set_Item(_int iItemId, _uint iItemCnt)
+{
+    if (iItemId == -1)
+    {
+        m_pItemImage->Set_IsInactive(true);
+        return;
+    }
+
+    m_pItemImage->Set_IsInactive(false);
+
+    m_pItemImage->Set_CurItem(iItemId, iItemCnt);
 }
 
 CUI_EquipmentSlot* CUI_EquipmentSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -159,6 +272,9 @@ CGameObject* CUI_EquipmentSlot::Clone(void* pArg)
 
 void CUI_EquipmentSlot::Free()
 {
+    Safe_Release(m_pItemImage);
+    Safe_Release(m_pItemBg);
+
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);

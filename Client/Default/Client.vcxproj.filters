@@ -250,9 +250,6 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft\UI_CraftSlot">
       <UniqueIdentifier>{68b6ab4a-b14d-455d-bab2-b573dd6f44c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\99. CUI_ItemImage">
-      <UniqueIdentifier>{db35e0c3-e665-4cbc-b820-be4d7118ba8f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot\UI_InvenItenBg">
       <UniqueIdentifier>{02b5cee1-1da5-465b-a1bf-4838e8052512}</UniqueIdentifier>
     </Filter>
@@ -267,6 +264,9 @@
     </Filter>
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment\UI_EquipmentSlot">
       <UniqueIdentifier>{dac26b50-46ad-4402-9222-f5ee13a3e00d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. InGameCharHUD_Empty\99. CUI_ItemImage">
+      <UniqueIdentifier>{db35e0c3-e665-4cbc-b820-be4d7118ba8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -514,7 +514,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_InventorySlot</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_ItemImage.h">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\99. CUI_ItemImage</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\99. CUI_ItemImage</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_Craft.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft</Filter>
@@ -760,7 +760,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_ItemImage.cpp">
-      <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\99. CUI_ItemImage</Filter>
+      <Filter>02. GameObject\04. InGameCharHUD_Empty\99. CUI_ItemImage</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_Craft.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\01. UI_Craft</Filter>

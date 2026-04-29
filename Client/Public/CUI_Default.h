@@ -17,6 +17,7 @@ public:
 		wstring wstrTexturePrototypeTag;
 		BLENDSTATE eBlendState{};
 
+		_uint iTexIdx{};
 		_float fImageAlpha{ 1.f };
 		_float3 vColor{};
 	};

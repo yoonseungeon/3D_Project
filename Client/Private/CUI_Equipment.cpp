@@ -66,6 +66,8 @@ void CUI_Equipment::Update(_float fTimeDelta)
 
 void CUI_Equipment::Late_Update(_float fTimeDelta)
 {
+    Sync_Equipment();
+
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
@@ -185,6 +187,7 @@ HRESULT CUI_Equipment::Ready_Layer_UI_EquipmentSlot(const _wstring& strLayerTag)
 
     for (_uint i = 0; i < 5; ++i)
     {
+        SlotDesc.eSlotType = static_cast<CUI_EquipmentSlot::EQUIPMENT_SLOT_TYPE>(i);
         SlotDesc.fPosRatioY = fStartPosY - fGapRow * i;
 
         Slot_Creator(strLayerTag, &SlotDesc);
@@ -205,6 +208,31 @@ HRESULT CUI_Equipment::Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc
     m_Slots.push_back(pEquipmentSlot);
 
     return S_OK;
+}
+
+void CUI_Equipment::Sync_Equipment()
+{
+    const CEquipment* pEquipment = CInGame_Manager::GetInstance()->Get_Player()->Get_Equipment();
+
+    if (m_iEquipmentChangeFlag == pEquipment->Get_ChangeEquipmentChangeFlag())
+    {
+        return;
+    }
+
+    m_iEquipmentChangeFlag = pEquipment->Get_ChangeEquipmentChangeFlag();
+
+    const vector<EQUIPMENT_SLOT>& Equipment = pEquipment->Get_EquipmentsVec();
+    m_UIEquipments = Equipment;
+
+    Sync_EquipmentSlot();
+}
+
+void CUI_Equipment::Sync_EquipmentSlot()
+{
+    for (_uint i = 0; i < m_Slots.size(); ++i)
+    {
+        m_Slots[i]->Sync_Slot_Bg_Item(m_UIEquipments[i].iItemId);
+    }
 }
 
 CUI_Equipment* CUI_Equipment::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

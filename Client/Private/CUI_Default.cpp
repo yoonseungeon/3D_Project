@@ -28,6 +28,7 @@ HRESULT CUI_Default::Initialize(void* pArg)
     m_wstrTexturePrototypeTag = pDesc->wstrTexturePrototypeTag;
     m_eBlendState = pDesc->eBlendState;
 
+    m_iTexIdx = pDesc->iTexIdx;
     m_fImageAlpha = pDesc->fImageAlpha;
     m_vColor = pDesc->vColor;
 

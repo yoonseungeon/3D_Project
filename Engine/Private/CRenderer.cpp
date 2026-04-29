@@ -121,6 +121,11 @@ HRESULT CRenderer::Render_Priority()
 
 HRESULT CRenderer::Render_NonBlend()
 {
+    // 같은 Texture를 SRV로 읽기 RTV로 쓰기 동시에 안되어서 경고 계속 뜸
+    // 그래서 SRV 셰이더에 바인딩된 거 해제
+    ID3D11ShaderResourceView* pResetSRV[8] = {};
+    m_pContext->PSSetShaderResources(0, 8, pResetSRV);
+
     // 빛 연산이 필요한 객체들을 그린다.
     // 백버퍼 빼고 Diffuse, Normal 버퍼 세팅
     if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_GameObjects"))))

@@ -3,6 +3,7 @@
 #include "CGameInstance.h"
 
 #include "CInventory.h"
+#include "CEquipment.h"
 
 #include "CBody_Player.h"
 #include "CWeapon.h"
