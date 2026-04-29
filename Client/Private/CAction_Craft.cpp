@@ -1,9 +1,11 @@
 #include "CAction_Craft.h"
 
+#include "CGameInstance.h"
+
 #include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
-#include "CGameInstance.h"
+#include "CCraftTool.h"
 
 #include "CItem_Manager.h"
 #include "CInventory.h"
@@ -28,7 +30,11 @@ void CAction_Craft::Enter(CLiDailin* pPlayer)
     pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(m_iCurAni, false);
     pPlayer->Get_Weapon()->Set_IsInactive(true);
     pPlayer->Set_MovementAniBlock(true);
+    CCraftTool* pCraftTool = pPlayer->Get_CraftTool();
+    pCraftTool->Set_IsInactive(false);
+    pCraftTool->Get_ModelCom()->Set_AnimationIndex(CCraftTool::APPEAR, false);
 
+    
     // Ani Speed
 
     // 이동
@@ -48,6 +54,11 @@ void CAction_Craft::Update(CLiDailin* pPlayer, _float fTimeDelta)
         pPlayer->Craft_Item(m_iItemId);
         pPlayer->Set_ActionEnd();
     }
+
+    CCraftTool* pCraftTool = pPlayer->Get_CraftTool();
+    if (pCraftTool->Get_ModelCom()->IsAnimationFinished() == true) {
+        pCraftTool->Get_ModelCom()->Set_AnimationIndex(CCraftTool::CRAFT, false);
+    }
 }
 
 void CAction_Craft::Exit(CLiDailin* pPlayer)
@@ -59,6 +70,7 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
     pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
     pPlayer->Get_Weapon()->Set_IsInactive(false);
     pPlayer->Set_MovementAniBlock(false);
+    pPlayer->Get_CraftTool()->Set_IsInactive(true);
 
     // 이동
     pPlayer->Set_MoveBlock(false);

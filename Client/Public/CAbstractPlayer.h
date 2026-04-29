@@ -7,6 +7,8 @@ NS_BEGIN(Client)
 class CEquipment;
 class CCraftList;
 
+class CCraftTool;
+
 class CAbstractPlayer abstract : public CUnit
 {
 public:
@@ -63,9 +65,15 @@ public:
 	// Skill Icon
 	virtual void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc);
 
+	// Part Obj
+	CCraftTool* Get_CraftTool() { return m_pCraftTool; }
+
 protected:
 	CEquipment* m_pEquipment{};
 	CCraftList* m_pCraftList{};
+
+	// Part Obj
+	CCraftTool* m_pCraftTool{};
 
 protected:
 	virtual HRESULT Initialize_Skill();

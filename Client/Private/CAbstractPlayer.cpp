@@ -7,6 +7,7 @@
 #include "CItem_Manager.h"
 
 #include "CPartObject.h"
+#include "CCraftTool.h"
 
 CAbstractPlayer::CAbstractPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUnit{ pDevice, pContext }
@@ -305,6 +306,8 @@ void CAbstractPlayer::SetItemStat(_int iItemId, _bool bAdd)
 
 void CAbstractPlayer::Free()
 {
+    Safe_Release(m_pCraftTool);
+
     Safe_Release(m_pCraftList);
     Safe_Release(m_pEquipment);
 

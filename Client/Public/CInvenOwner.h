@@ -31,6 +31,7 @@ public:
 	// TransformCom
 	const CTransform* Get_TransformCom() { return m_pTransformCom; }
 
+	// Inventory
 	const CInventory* Get_Inventory() const { return m_pInvetory; }
 	CInventory* Get_Inventory() { return m_pInvetory; }
 

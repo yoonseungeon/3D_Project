@@ -271,6 +271,12 @@
     <Filter Include="53. CraftList">
       <UniqueIdentifier>{3c44de70-e708-4edd-bad4-89d1f28decd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\03. CraftTool">
+      <UniqueIdentifier>{644b3430-5128-4366-8363-1916e9266edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer">
+      <UniqueIdentifier>{90bed114-d26c-4c92-bad3-5838cd061ee6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -543,6 +549,9 @@
     <ClInclude Include="..\Public\CCraftList.h">
       <Filter>53. CraftList</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CCraftTool.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\03. CraftTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -797,6 +806,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CCraftList.cpp">
       <Filter>53. CraftList</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCraftTool.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\03. CraftTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

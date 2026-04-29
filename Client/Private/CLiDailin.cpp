@@ -8,6 +8,7 @@
 #include "CBody_Player.h"
 #include "CWeapon.h"
 #include "CBottle.h"
+#include "CCraftTool.h"
 
 #include "CInGame_Manager.h"
 
@@ -454,12 +455,25 @@ HRESULT CLiDailin::Ready_PartObjects()
     // Bottle
     CBottle::BOTTLE_DESC BottleDesc{};
     BottleDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
-
     BottleDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Weapon_Special_1");
 
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Bottle"),
         TEXT("Bottle"), &BottleDesc)))
         return E_FAIL;
+    
+    // CraftTool
+    CCraftTool::CRAFTTOOL_DESC CraftToolDesc{};
+    CraftToolDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    CraftToolDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Craft_M_Tool");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CraftTool"),
+        TEXT("CraftTool"), &CraftToolDesc)))
+        return E_FAIL;
+
+    m_pCraftTool = dynamic_cast<CCraftTool*>(m_PartObjects[TEXT("CraftTool")]);
+    Safe_AddRef(m_pCraftTool);
+
+    m_pCraftTool->Set_IsInactive(true);
 
     return S_OK;
 }
