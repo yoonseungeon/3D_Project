@@ -43,15 +43,15 @@ void CRoof::Priority_Update(_float fTimeDelta)
 
 void CRoof::Parallel_Update(_float fTimeDelta)
 {
-    const MODEL_LOCAL_MIN_MAX& tLocalPos =  m_pModelCom->Get_LocalXYZ();
+    const MODEL_LOCAL_MIN_MAX* pLocalPos =  m_pModelCom->Get_LocalXYZ();
 
     const _float fRoofMargin = { 1.f };
 
     // ÁöºØ ·ÎÄÃ == ÁöºØ ¿ùµå
-    if (vPlayerPos.x >= tLocalPos.vMin.x - fRoofMargin
-        && vPlayerPos.x <= tLocalPos.vMax.x + fRoofMargin
-        && vPlayerPos.z >= tLocalPos.vMin.z - fRoofMargin
-        && vPlayerPos.z <= tLocalPos.vMax.z + fRoofMargin
+    if (vPlayerPos.x >= pLocalPos->vMin.x - fRoofMargin
+        && vPlayerPos.x <= pLocalPos->vMax.x + fRoofMargin
+        && vPlayerPos.z >= pLocalPos->vMin.z - fRoofMargin
+        && vPlayerPos.z <= pLocalPos->vMax.z + fRoofMargin
        )
     {
         m_bIsInactive = true;

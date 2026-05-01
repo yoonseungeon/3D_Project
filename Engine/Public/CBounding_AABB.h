@@ -17,7 +17,7 @@ private:
 	virtual ~CBounding_AABB() = default;
 
 public:
-	virtual HRESULT Initialize(const CBounding::BOUNDING_DESC* pBoundingDesc) override;
+	virtual HRESULT Initialize(CBounding::BOUNDING_DESC* pBoundingDesc) override;
 	virtual void XM_CALLCONV Update(_fmatrix TransformMatrix) override;
 
 public:
@@ -34,7 +34,7 @@ private:
 	BoundingBox* m_pDesc = { nullptr };
 
 public:
-	static CBounding_AABB* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CBounding::BOUNDING_DESC* pDesc);
+	static CBounding_AABB* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CBounding::BOUNDING_DESC* pDesc);
 protected:
 	virtual void Free() override;
 };

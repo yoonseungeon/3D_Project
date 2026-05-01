@@ -40,6 +40,9 @@ HRESULT XM_CALLCONV CMyMesh::Initialize_Prototype(MODEL eType, CMyModel* pModel,
     }
     else
     {
+        if (bStoreVTXIDX == true)
+            return E_FAIL;
+
         hr = Ready_AnimMesh(pModel, pMyMesh, m_tLocalXYZ);
     }
 
@@ -217,6 +220,15 @@ HRESULT CMyMesh::Ready_AnimMesh(CMyModel* pModel, const myMesh* pMyMesh, MODEL_L
     {
         // 사전 변환 행렬 생략
         memcpy(&pVertices[i].vPosition, &pMyMesh->mVerticesInfo[i].mVertex, sizeof(_float3));
+
+        m_tLocalXYZ.vMin.x = (std::min)(m_tLocalXYZ.vMin.x, pVertices[i].vPosition.x);
+        m_tLocalXYZ.vMin.y = (std::min)(m_tLocalXYZ.vMin.y, pVertices[i].vPosition.y);
+        m_tLocalXYZ.vMin.z = (std::min)(m_tLocalXYZ.vMin.z, pVertices[i].vPosition.z);
+
+        m_tLocalXYZ.vMax.x = (std::max)(m_tLocalXYZ.vMax.x, pVertices[i].vPosition.x);
+        m_tLocalXYZ.vMax.y = (std::max)(m_tLocalXYZ.vMax.y, pVertices[i].vPosition.y);
+        m_tLocalXYZ.vMax.z = (std::max)(m_tLocalXYZ.vMax.z, pVertices[i].vPosition.z);
+
         memcpy(&pVertices[i].vNormal, &pMyMesh->mVerticesInfo[i].mNormal, sizeof(_float3));
         memcpy(&pVertices[i].vTexcoord, &pMyMesh->mVerticesInfo[i].mTexcoord, sizeof(_float2));
         memcpy(&pVertices[i].vTangent, &pMyMesh->mVerticesInfo[i].mTangent, sizeof(_float3));

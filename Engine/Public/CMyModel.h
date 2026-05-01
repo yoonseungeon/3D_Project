@@ -60,7 +60,7 @@ public:
 	const string Get_MeshName(_uint iMeshIdx);
 
 	// Local Pos
-	const MODEL_LOCAL_MIN_MAX& Get_LocalXYZ() { return m_tLocalXYZ; }
+	const MODEL_LOCAL_MIN_MAX* Get_LocalXYZ() { return &m_tLocalXYZ; }
 
 private:	
 	const myScene*	m_pMyScene{ nullptr }; /* 파일로부터 읽어낸 모든 정보를 담고 있는다. */

@@ -8,11 +8,28 @@ CBounding_AABB::CBounding_AABB(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 {
 }
 
-HRESULT CBounding_AABB::Initialize(const CBounding::BOUNDING_DESC* pBoundingDesc)
+HRESULT CBounding_AABB::Initialize(CBounding::BOUNDING_DESC* pBoundingDesc)
 {
-    auto pDesc = static_cast<const CBounding_AABB::BOUNDING_AABB_DESC*>(pBoundingDesc);
+    auto pDesc = static_cast<CBounding_AABB::BOUNDING_AABB_DESC*>(pBoundingDesc);
+    
+    if (pDesc->pLocalXYZ == nullptr)
+    {
+        m_pOriginalDesc = new BoundingBox(pDesc->vCenter, _float3(pDesc->vSize.x * 0.5f, pDesc->vSize.y * 0.5f, pDesc->vSize.z * 0.5f));
+    }
+    else
+    {
+        pDesc->vCenter.x = (pDesc->pLocalXYZ->vMin.x + pDesc->pLocalXYZ->vMax.x) * 0.5f;
+        pDesc->vCenter.y = (pDesc->pLocalXYZ->vMin.y + pDesc->pLocalXYZ->vMax.y) * 0.5f;
+        pDesc->vCenter.z = (pDesc->pLocalXYZ->vMin.z + pDesc->pLocalXYZ->vMax.z) * 0.5f;
 
-    m_pOriginalDesc = new BoundingBox(pDesc->vCenter, _float3(pDesc->vSize.x * 0.5f, pDesc->vSize.y * 0.5f, pDesc->vSize.z * 0.5f));
+        _float3 Extents;
+        Extents.x = (pDesc->pLocalXYZ->vMax.x - pDesc->pLocalXYZ->vMin.x) * 0.5f;
+        Extents.y = (pDesc->pLocalXYZ->vMax.y - pDesc->pLocalXYZ->vMin.y) * 0.5f;
+        Extents.z = (pDesc->pLocalXYZ->vMax.z - pDesc->pLocalXYZ->vMin.z) * 0.5f;
+
+        m_pOriginalDesc = new BoundingBox(pDesc->vCenter, Extents);
+    }
+
     m_pDesc = new BoundingBox(*m_pOriginalDesc);
 
     return S_OK;
@@ -62,7 +79,7 @@ HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch)
 }
 #endif
 
-CBounding_AABB* CBounding_AABB::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CBounding::BOUNDING_DESC* pDesc)
+CBounding_AABB* CBounding_AABB::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CBounding::BOUNDING_DESC* pDesc)
 {
     CBounding_AABB* pInstance = new CBounding_AABB(pDevice, pContext);
 

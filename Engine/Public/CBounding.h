@@ -10,6 +10,8 @@ public:
 	struct BOUNDING_DESC
 	{
 		_float3 vCenter{};
+
+		const MODEL_LOCAL_MIN_MAX* pLocalXYZ{ nullptr };
 	};
 
 protected:
@@ -17,7 +19,7 @@ protected:
 	virtual ~CBounding() = default;
 
 public:
-	virtual HRESULT Initialize(const CBounding::BOUNDING_DESC* pBoundingDesc);
+	virtual HRESULT Initialize(CBounding::BOUNDING_DESC* pBoundingDesc);
 	virtual void XM_CALLCONV Update(_fmatrix TransformMatrix) = 0;
 
 public:

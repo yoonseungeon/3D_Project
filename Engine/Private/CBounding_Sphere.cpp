@@ -8,11 +8,28 @@ CBounding_Sphere::CBounding_Sphere(ID3D11Device* pDevice, ID3D11DeviceContext* p
 {
 }
 
-HRESULT CBounding_Sphere::Initialize(const CBounding::BOUNDING_DESC* pBoundingDesc)
+HRESULT CBounding_Sphere::Initialize(CBounding::BOUNDING_DESC* pBoundingDesc)
 {
-    auto pDesc = static_cast<const CBounding_Sphere::BOUNDING_SPHERE_DESC*>(pBoundingDesc);
+    auto pDesc = static_cast<CBounding_Sphere::BOUNDING_SPHERE_DESC*>(pBoundingDesc);
 
-    m_pOriginalDesc = new BoundingSphere(pDesc->vCenter, pDesc->fRadius);
+    if (pDesc->pLocalXYZ == nullptr)
+    {
+        m_pOriginalDesc = new BoundingSphere(pDesc->vCenter, pDesc->fRadius);
+    }
+    else
+    {
+        pDesc->vCenter.x = (pDesc->pLocalXYZ->vMin.x + pDesc->pLocalXYZ->vMax.x) * 0.5f;
+        pDesc->vCenter.y = (pDesc->pLocalXYZ->vMin.y + pDesc->pLocalXYZ->vMax.y) * 0.5f;
+        pDesc->vCenter.z = (pDesc->pLocalXYZ->vMin.z + pDesc->pLocalXYZ->vMax.z) * 0.5f;
+
+        pDesc->fRadius = 0.f;
+        pDesc->fRadius = (std::max)(pDesc->fRadius, (pDesc->pLocalXYZ->vMax.x - pDesc->pLocalXYZ->vMin.x) * 0.5f);
+        pDesc->fRadius = (std::max)(pDesc->fRadius, (pDesc->pLocalXYZ->vMax.y - pDesc->pLocalXYZ->vMin.y) * 0.5f);
+        pDesc->fRadius = (std::max)(pDesc->fRadius, (pDesc->pLocalXYZ->vMax.z - pDesc->pLocalXYZ->vMin.z) * 0.5f);
+
+        m_pOriginalDesc = new BoundingSphere(pDesc->vCenter, pDesc->fRadius);
+    }
+
     m_pDesc = new BoundingSphere(*m_pOriginalDesc);
 
     return S_OK;
@@ -54,7 +71,7 @@ HRESULT CBounding_Sphere::Render(PrimitiveBatch<VertexPositionColor>* pBatch)
 }
 #endif
 
-CBounding_Sphere* CBounding_Sphere::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CBounding::BOUNDING_DESC* pDesc)
+CBounding_Sphere* CBounding_Sphere::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CBounding::BOUNDING_DESC* pDesc)
 {
     CBounding_Sphere* pInstance = new CBounding_Sphere(pDevice, pContext);
 
