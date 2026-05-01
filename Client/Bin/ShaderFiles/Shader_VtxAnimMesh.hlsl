@@ -95,7 +95,7 @@ PS_OUT PS_MAIN(PS_IN In)
     // x: z의 범위는 0 ~ far -> w 나누기 하면 0 ~ 1이됨.
     // y: 뷰스페이스 상의 z 범위 near ~ far임
     // UNORM이라 0.0 ~ 1.0으로 저장해야 해서 far로 나눠서 저장
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.f);
+    Out.vDepth = vector(In.vPosition.z, 0.f, 0.f, 0.f);
     
     return Out;
 }

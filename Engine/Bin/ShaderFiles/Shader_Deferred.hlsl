@@ -79,7 +79,7 @@ PS_OUT_BACKBUFFER PS_MAIN_DEBUG(PS_IN In)
 }
 
 
-
+// + 픽셀 별로 다르게 스페큘러 표현할려면 스페큘러 타겟을 만들어야 함.
 
 // Shade, Specular
 struct PS_OUT_LIGHT
@@ -95,38 +95,33 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
     vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);
     vector vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexcoord);
     
-    // y: 뷰스페이스 상의 z 범위 near ~ far임
-    // UNORM이라 0.0 ~ 1.0으로 저장해야 해서 far로 나눠서 저장
-    // 다시 복원하는 과정
-    float fViewZ = vDepthDesc.y * 500.f;
-    
-    vector vWorldPos;
-    
+    // vDepthDesc.y: 뷰스페이스 상의 z 범위 near ~ far임 -> 변경 -> 안 쓰고도 가능
+    //float fViewZ = vDepthDesc.y * 500.f;
+        
     /* 투영공간상의 위치 */ // (NDC)
     // 텍스처 (0, 0) ~ (1, 1)에서 (-1, 1) ~ (1, -1)로 변경
     // z(0 ~ 1)만 잘 구해주면 NDC를 구할 수 있다.
     // w는 1 w 나누기 했기 때문에
     // 이후 원근 투영의 역행렬, 뷰스페이스 행렬의 역행렬을 곱하면 월드를 얻을 수 있다.
-    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
-    vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+    vector vNDCPos;
+    vNDCPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vNDCPos.y = In.vTexcoord.y * -2.f + 1.f;
     // x는 w 나누기까지 한 z(범위 0 ~ 1)
-    vWorldPos.z = vDepthDesc.x;
-    vWorldPos.w = 1.f;
+    vNDCPos.z = vDepthDesc.x;
+    vNDCPos.w = 1.f;
     
     /* 뷰스페이스 상의 위치 */
     // XMVector3TransformCoord는 w 나누기 알아서 해준다.
     // 뷰스페이스에서 투영 행렬을 곱하면 뷰스페이스에서 clip space를 거친 뒤 NDC로 바뀐다.(결과 NDC)
-    // 반대로 NDC에서 투영 행렬의 역행렬을 곱할 때 w 나누기가 돼서 바로 NDC에서 뷰스페이스가 된다.(e.g. 피킹)
+    // 반대로 NDC에서 투영 행렬의 역행렬을 곱할 때 w 나누기가 돼서 바로 NDC에서 뷰스페이스가 된다.(e.g. 피킹)    
     // 근데 mul은 단순히 행렬의 곱셈만한다. 그래서 NDC에서 뷰스페이스로 갈 때 clip space로 직접 만들어주고 역행렬을 곱해야 한다.
-    // w 곱하기
-    vWorldPos *= fViewZ;
-    vWorldPos = mul(vWorldPos, g_ProjMatrixInverse);
+    // -> 변경 -> mul을 XMVector3TransformCoord과 동일하게 처리하면 NDC에서 바로 뷰스페이스를 얻는다.
+    vector vViewPos;
+    vViewPos = mul(vNDCPos, g_ProjMatrixInverse);
+    vViewPos /= vViewPos.w;
     
-    /* 월드스페이스 상의 위치 */
-    vWorldPos = mul(vWorldPos, g_ViewMatrixInverse);
-    
-    
-    
+    vector vWorldPos = mul(vViewPos, g_ViewMatrixInverse);
+            
     // N: 법선 벡터, L: 빛을 향하는 벡터, R: 빛의 반사 벡터, V: 카메라를 향하는 벡터
     float4 N = normalize(float4(vNormalDesc.xyz * 2.f - 1.f, 0.f)); // 0.0 ~ 1.0 -> -1.0 ~ 1.0
     float4 L = normalize(-g_vLightDir);               
@@ -140,9 +135,7 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
     // 밝기 값 저장
     Out.vShade = saturate(vDiffuse + vAmbient);
     Out.vSpecular = (g_vLightSpecular * g_vMtrlSpecular) * pow(max(0.f, dot(R, V)), fPower);
-    
-    // + 픽셀 별로 다르게 스페큘러 표현할려면 스페큘러 타겟을 만들어야 함.
-    
+        
     return Out;
 }
 
@@ -153,35 +146,32 @@ PS_OUT_LIGHT PS_MAIN_POINT(PS_IN In)
     vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);
     vector vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexcoord);
     
-    // y: 뷰스페이스 상의 z 범위 near ~ far임
-    // UNORM이라 0.0 ~ 1.0으로 저장해야 해서 far로 나눠서 저장
-    // 다시 복원하는 과정
-    float fViewZ = vDepthDesc.y * 500.f;
-    
-    vector vWorldPos;
-    
+       // vDepthDesc.y: 뷰스페이스 상의 z 범위 near ~ far임 -> 변경 -> 안 쓰고도 가능
+    //float fViewZ = vDepthDesc.y * 500.f;
+        
     /* 투영공간상의 위치 */ // (NDC)
     // 텍스처 (0, 0) ~ (1, 1)에서 (-1, 1) ~ (1, -1)로 변경
     // z(0 ~ 1)만 잘 구해주면 NDC를 구할 수 있다.
     // w는 1 w 나누기 했기 때문에
     // 이후 원근 투영의 역행렬, 뷰스페이스 행렬의 역행렬을 곱하면 월드를 얻을 수 있다.
-    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
-    vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+    vector vNDCPos;
+    vNDCPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vNDCPos.y = In.vTexcoord.y * -2.f + 1.f;
     // x는 w 나누기까지 한 z(범위 0 ~ 1)
-    vWorldPos.z = vDepthDesc.x;
-    vWorldPos.w = 1.f;
+    vNDCPos.z = vDepthDesc.x;
+    vNDCPos.w = 1.f;
     
     /* 뷰스페이스 상의 위치 */
     // XMVector3TransformCoord는 w 나누기 알아서 해준다.
     // 뷰스페이스에서 투영 행렬을 곱하면 뷰스페이스에서 clip space를 거친 뒤 NDC로 바뀐다.(결과 NDC)
-    // 반대로 NDC에서 투영 행렬의 역행렬을 곱할 때 w 나누기가 돼서 바로 NDC에서 뷰스페이스가 된다.(e.g. 피킹)
+    // 반대로 NDC에서 투영 행렬의 역행렬을 곱할 때 w 나누기가 돼서 바로 NDC에서 뷰스페이스가 된다.(e.g. 피킹)    
     // 근데 mul은 단순히 행렬의 곱셈만한다. 그래서 NDC에서 뷰스페이스로 갈 때 clip space로 직접 만들어주고 역행렬을 곱해야 한다.
-    // w 곱하기
-    vWorldPos *= fViewZ;
-    vWorldPos = mul(vWorldPos, g_ProjMatrixInverse);
+    // -> 변경 -> mul을 XMVector3TransformCoord과 동일하게 처리하면 NDC에서 바로 뷰스페이스를 얻는다.
+    vector vViewPos;
+    vViewPos = mul(vNDCPos, g_ProjMatrixInverse);
+    vViewPos /= vViewPos.w;
     
-    /* 월드스페이스 상의 위치 */
-    vWorldPos = mul(vWorldPos, g_ViewMatrixInverse);
+    vector vWorldPos = mul(vViewPos, g_ViewMatrixInverse);
     
     
     // 점 광원은 빛의 방향을 구해줘야 함.
@@ -202,9 +192,7 @@ PS_OUT_LIGHT PS_MAIN_POINT(PS_IN In)
     // 밝기 값 저장
     Out.vShade = saturate(vDiffuse + vAmbient);
     Out.vSpecular = (g_vLightSpecular * g_vMtrlSpecular) * pow(max(0.f, dot(R, V)), fPower) * fAtt;
-    
-    // + 픽셀 별로 다르게 스페큘러 표현할려면 스페큘러 타겟을 만들어야 함.
-    
+        
     return Out;
 }
 

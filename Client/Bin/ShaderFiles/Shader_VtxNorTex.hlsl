@@ -70,7 +70,7 @@ PS_OUT PS_MAIN(PS_IN In)
     /* -1 ~ 1 -> 0 ~ 1 */
     float3 vNormal = normalize(In.vNormal.xyz);
     Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, 0.f, 0.f, 0.f);
 
     return Out;
 }
