@@ -32,12 +32,24 @@ HRESULT CLight::Render(CShader* pShader, CVIBuffer_Rect* pVIBuffer)
     } // Α΅ Α¶Έν
     else if (LIGHT::POINT == m_LightDesc.eType)
     {
+        if (FAILED(pShader->Bind_RawValue("g_vLightPos", &m_LightDesc.vPosition, sizeof m_LightDesc.vPosition)))
+            return E_FAIL;
+        if (FAILED(pShader->Bind_RawValue("g_fLightRange", &m_LightDesc.fRange, sizeof m_LightDesc.fRange)))
+            return E_FAIL;
+
         iPassIndex = ETOUI(DEFERRED::POINT);
     }
     else
     {
         return E_FAIL;
     }
+
+    if (FAILED(pShader->Bind_RawValue("g_vLightDiffuse", &m_LightDesc.vDiffuse, sizeof m_LightDesc.vDiffuse)))
+        return E_FAIL;
+    if (FAILED(pShader->Bind_RawValue("g_vLightAmbient", &m_LightDesc.vAmbient, sizeof m_LightDesc.vAmbient)))
+        return E_FAIL;
+    if (FAILED(pShader->Bind_RawValue("g_vLightSpecular", &m_LightDesc.vSpecular, sizeof m_LightDesc.vSpecular)))
+        return E_FAIL;
 
     if (FAILED(pShader->Begin(iPassIndex)))
         return E_FAIL;

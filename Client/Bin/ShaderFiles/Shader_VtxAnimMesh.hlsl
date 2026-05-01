@@ -26,6 +26,8 @@ struct VS_OUT
     float4 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
+    
+    float4 vProjPos : TEXCOORD2;
 };
     
 /* 정점셰이더 : 정점 데이터의 변환 과정을 수행한다. */
@@ -52,7 +54,10 @@ VS_OUT VS_MAIN(VS_IN In)
     Out.vNormal = normalize(mul(vNormal, g_WorldMatrix));
     Out.vTexcoord = In.vTexcoord;
     Out.vWorldPos = mul(float4(vPosition.xyz, 1.f), g_WorldMatrix);
-    
+    // w 나누기 안된 Clip space 좌표
+    // Out.vPosition는 w 나누기 -> NDC -> 뷰포트 변환 -> 윈도우 좌표의 픽셀
+    // 근데 z만 필요한 것이 아니라 w값도 필요해서 변환안된 좌표(Clip space)가 필요
+    Out.vProjPos = Out.vPosition;
     return Out;
 }
 
@@ -62,12 +67,15 @@ struct PS_IN
     float4 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
+    float4 vProjPos : TEXCOORD2;
 };
 
 struct PS_OUT
 {
     float4 vDiffuse : SV_TARGET0;
     float4 vNormal : SV_TARGET1;
+    // 타겟 하나 추가
+    float4 vDepth : SV_TARGET2;
 };
     
 /* 픽셀셰이더 : 픽셀의 최종적인 색을 결정해준다. */
@@ -83,7 +91,12 @@ PS_OUT PS_MAIN(PS_IN In)
     /* -1 ~ 1 -> 0 ~ 1 */
     float3 vNormal = normalize(In.vNormal.xyz);
     Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
-
+     // clip space 좌표라서 w 나누기 해줘야 함.
+    // x: z의 범위는 0 ~ far -> w 나누기 하면 0 ~ 1이됨.
+    // y: 뷰스페이스 상의 z 범위 near ~ far임
+    // UNORM이라 0.0 ~ 1.0으로 저장해야 해서 far로 나눠서 저장
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.f);
+    
     return Out;
 }
 

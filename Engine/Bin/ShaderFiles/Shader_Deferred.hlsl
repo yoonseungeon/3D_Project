@@ -1,12 +1,29 @@
 #include "Engine_Shader_Defines.hlsli"
 
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+float4x4 g_ViewMatrixInverse, g_ProjMatrixInverse;
 Texture2D g_Texture;
 Texture2D g_NormalTexture;
 Texture2D g_DiffuseTexture;
 Texture2D g_ShadeTexture;
+Texture2D g_DepthTexture;
+Texture2D g_SpecularTexture;
+
+vector g_vCamPosition;
 
 vector g_vLightDir;
+vector g_vLightPos;
+float g_fLightRange;
+
+vector g_vLightDiffuse;
+vector g_vLightAmbient;
+vector g_vLightSpecular;
+
+vector g_vMtrlDiffuse = 1.f;
+vector g_vMtrlAmbient = 1.f;
+vector g_vMtrlSpecular = 1.f;
+
+float fPower = 50.f;
 
 struct VS_IN
 {
@@ -34,11 +51,17 @@ VS_OUT VS_MAIN(VS_IN In)
     return Out;
 }
 
+
+
+
 struct PS_IN
 {
     float4 vPosition : SV_POSITION;
     float2 vTexcoord : TEXCOORD0;
 };
+
+
+
 
 struct PS_OUT_BACKBUFFER
 {
@@ -55,10 +78,14 @@ PS_OUT_BACKBUFFER PS_MAIN_DEBUG(PS_IN In)
     return Out;
 }
 
-// Shade
+
+
+
+// Shade, Specular
 struct PS_OUT_LIGHT
 {
     float4 vShade : SV_TARGET0;
+    float4 vSpecular : SV_TARGET1;
 };
     
 PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
@@ -66,16 +93,122 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
     PS_OUT_LIGHT Out = (PS_OUT_LIGHT) 0;
     
     vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);
+    vector vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexcoord);
     
-    // 0.0 ~ 1.0 -> -1.0 ~ 1.0
-    float3 N = normalize(vNormalDesc.xyz * 2.f - 1.f);        
-    float3 L = normalize(g_vLightDir * -1.f);
+    // y: 뷰스페이스 상의 z 범위 near ~ far임
+    // UNORM이라 0.0 ~ 1.0으로 저장해야 해서 far로 나눠서 저장
+    // 다시 복원하는 과정
+    float fViewZ = vDepthDesc.y * 500.f;
+    
+    vector vWorldPos;
+    
+    /* 투영공간상의 위치 */ // (NDC)
+    // 텍스처 (0, 0) ~ (1, 1)에서 (-1, 1) ~ (1, -1)로 변경
+    // z(0 ~ 1)만 잘 구해주면 NDC를 구할 수 있다.
+    // w는 1 w 나누기 했기 때문에
+    // 이후 원근 투영의 역행렬, 뷰스페이스 행렬의 역행렬을 곱하면 월드를 얻을 수 있다.
+    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+    // x는 w 나누기까지 한 z(범위 0 ~ 1)
+    vWorldPos.z = vDepthDesc.x;
+    vWorldPos.w = 1.f;
+    
+    /* 뷰스페이스 상의 위치 */
+    // XMVector3TransformCoord는 w 나누기 알아서 해준다.
+    // 뷰스페이스에서 투영 행렬을 곱하면 뷰스페이스에서 clip space를 거친 뒤 NDC로 바뀐다.(결과 NDC)
+    // 반대로 NDC에서 투영 행렬의 역행렬을 곱할 때 w 나누기가 돼서 바로 NDC에서 뷰스페이스가 된다.(e.g. 피킹)
+    // 근데 mul은 단순히 행렬의 곱셈만한다. 그래서 NDC에서 뷰스페이스로 갈 때 clip space로 직접 만들어주고 역행렬을 곱해야 한다.
+    // w 곱하기
+    vWorldPos *= fViewZ;
+    vWorldPos = mul(vWorldPos, g_ProjMatrixInverse);
+    
+    /* 월드스페이스 상의 위치 */
+    vWorldPos = mul(vWorldPos, g_ViewMatrixInverse);
+    
+    
+    
+    // N: 법선 벡터, L: 빛을 향하는 벡터, R: 빛의 반사 벡터, V: 카메라를 향하는 벡터
+    float4 N = normalize(float4(vNormalDesc.xyz * 2.f - 1.f, 0.f)); // 0.0 ~ 1.0 -> -1.0 ~ 1.0
+    float4 L = normalize(-g_vLightDir);               
+    float4 R = normalize(reflect(-L, N)); // 정규화해서 넣어줘야 함.
+    vector V = normalize(g_vCamPosition - vWorldPos);
+    
+    // 실수 + vector -> 실수가 vector가 됨.
+    vector vDiffuse = g_vLightDiffuse * g_vMtrlDiffuse * max(0.f, dot(N, L));
+    vector vAmbient = g_vLightAmbient * g_vMtrlAmbient;
     
     // 밝기 값 저장
-    Out.vShade = saturate(dot(N, L));
+    Out.vShade = saturate(vDiffuse + vAmbient);
+    Out.vSpecular = (g_vLightSpecular * g_vMtrlSpecular) * pow(max(0.f, dot(R, V)), fPower);
+    
+    // + 픽셀 별로 다르게 스페큘러 표현할려면 스페큘러 타겟을 만들어야 함.
     
     return Out;
 }
+
+PS_OUT_LIGHT PS_MAIN_POINT(PS_IN In)
+{
+    PS_OUT_LIGHT Out = (PS_OUT_LIGHT) 0;
+    
+    vector vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexcoord);
+    vector vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexcoord);
+    
+    // y: 뷰스페이스 상의 z 범위 near ~ far임
+    // UNORM이라 0.0 ~ 1.0으로 저장해야 해서 far로 나눠서 저장
+    // 다시 복원하는 과정
+    float fViewZ = vDepthDesc.y * 500.f;
+    
+    vector vWorldPos;
+    
+    /* 투영공간상의 위치 */ // (NDC)
+    // 텍스처 (0, 0) ~ (1, 1)에서 (-1, 1) ~ (1, -1)로 변경
+    // z(0 ~ 1)만 잘 구해주면 NDC를 구할 수 있다.
+    // w는 1 w 나누기 했기 때문에
+    // 이후 원근 투영의 역행렬, 뷰스페이스 행렬의 역행렬을 곱하면 월드를 얻을 수 있다.
+    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vWorldPos.y = In.vTexcoord.y * -2.f + 1.f;
+    // x는 w 나누기까지 한 z(범위 0 ~ 1)
+    vWorldPos.z = vDepthDesc.x;
+    vWorldPos.w = 1.f;
+    
+    /* 뷰스페이스 상의 위치 */
+    // XMVector3TransformCoord는 w 나누기 알아서 해준다.
+    // 뷰스페이스에서 투영 행렬을 곱하면 뷰스페이스에서 clip space를 거친 뒤 NDC로 바뀐다.(결과 NDC)
+    // 반대로 NDC에서 투영 행렬의 역행렬을 곱할 때 w 나누기가 돼서 바로 NDC에서 뷰스페이스가 된다.(e.g. 피킹)
+    // 근데 mul은 단순히 행렬의 곱셈만한다. 그래서 NDC에서 뷰스페이스로 갈 때 clip space로 직접 만들어주고 역행렬을 곱해야 한다.
+    // w 곱하기
+    vWorldPos *= fViewZ;
+    vWorldPos = mul(vWorldPos, g_ProjMatrixInverse);
+    
+    /* 월드스페이스 상의 위치 */
+    vWorldPos = mul(vWorldPos, g_ViewMatrixInverse);
+    
+    
+    // 점 광원은 빛의 방향을 구해줘야 함.
+    vector vLightDir = vWorldPos - g_vLightPos;    
+    float fAtt = saturate((g_fLightRange - length(vLightDir)) / g_fLightRange);
+
+    
+    // N: 법선 벡터, L: 빛을 향하는 벡터, R: 빛의 반사 벡터, V: 카메라를 향하는 벡터
+    float4 N = normalize(float4(vNormalDesc.xyz * 2.f - 1.f, 0.f)); // 0.0 ~ 1.0 -> -1.0 ~ 1.0
+    float4 L = normalize(-vLightDir);
+    float4 R = normalize(reflect(-L, N)); // 정규화해서 넣어줘야 함.
+    vector V = normalize(g_vCamPosition - vWorldPos);
+    
+    // 실수 + vector -> 실수가 vector가 됨.
+    vector vDiffuse = g_vLightDiffuse * g_vMtrlDiffuse * max(0.f, dot(N, L)) * fAtt;
+    vector vAmbient = g_vLightAmbient * g_vMtrlAmbient;
+    
+    // 밝기 값 저장
+    Out.vShade = saturate(vDiffuse + vAmbient);
+    Out.vSpecular = (g_vLightSpecular * g_vMtrlSpecular) * pow(max(0.f, dot(R, V)), fPower) * fAtt;
+    
+    // + 픽셀 별로 다르게 스페큘러 표현할려면 스페큘러 타겟을 만들어야 함.
+    
+    return Out;
+}
+
+
 
 // 백버퍼
 PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
@@ -83,13 +216,15 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     PS_OUT_BACKBUFFER Out;
     
     // Diffuse와 Shade를 곱해서 백버퍼에 그림
-    
+
     vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
-    if (vDiffuse.a == 0.f)
+    if (0.f == vDiffuse.a)
         discard;
     vector vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexcoord);
+    // 스페큘러 받아와서 던짐
+    vector vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexcoord);
     
-    Out.vBackBuffer = vDiffuse * vShade;
+    Out.vBackBuffer = vDiffuse * vShade + vSpecular;
     
     return Out;
 }
@@ -111,7 +246,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Z_Disable, 0);
-        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Blend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
@@ -122,11 +257,11 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Z_Disable, 0);
-        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Blend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
-        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_DIRECTIONAL()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_POINT()));
     }
 
     pass Combined

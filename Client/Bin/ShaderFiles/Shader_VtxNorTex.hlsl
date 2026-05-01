@@ -17,6 +17,7 @@ struct VS_OUT
     float4 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
+    float4 vProjPos : TEXCOORD2;
 };
     
 /* 정점셰이더 : 정점 데이터의 변환 과정을 수행한다. */
@@ -35,6 +36,7 @@ VS_OUT VS_MAIN(VS_IN In)
     Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), g_WorldMatrix));
     Out.vTexcoord = In.vTexcoord;
     Out.vWorldPos = vWorldPos;
+    Out.vProjPos = Out.vPosition;
     
     return Out;
 }
@@ -45,12 +47,14 @@ struct PS_IN
     float4 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
+    float4 vProjPos : TEXCOORD2;
 };
 
 struct PS_OUT
 {
     float4 vDiffuse : SV_TARGET0;
     float4 vNormal : SV_TARGET1;
+    float4 vDepth : SV_TARGET2;
 };
     
 /* 픽셀셰이더 : 픽셀의 최종적인 색을 결정해준다. */
@@ -66,6 +70,7 @@ PS_OUT PS_MAIN(PS_IN In)
     /* -1 ~ 1 -> 0 ~ 1 */
     float3 vNormal = normalize(In.vNormal.xyz);
     Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.f);
 
     return Out;
 }
