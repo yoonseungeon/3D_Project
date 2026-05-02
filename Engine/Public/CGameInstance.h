@@ -31,6 +31,7 @@ class CLight_Manager;
 class CFont_Manager;
 class CTarget_Manager;
 
+class CPicking_Manager;
 class CCollision_Manager;
 class CThread_Manager;
 
@@ -152,6 +153,10 @@ public:
 #endif
 #pragma endregion
 
+#pragma region PICKING_MANAGER
+	void Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir);
+#pragma endregion
+
 #pragma region COLLISION_MANAGER
 	HRESULT Add_Collider(CCollider* pCollider);
 	HRESULT Substract_Collider(CCollider* pCollider);
@@ -174,6 +179,7 @@ private:
 	CFont_Manager*		m_pFont_Manager			= { nullptr };
 	CTarget_Manager*	m_pTarget_Manager		= { nullptr };
 
+	CPicking_Manager*	m_pPicking_Manager		= { nullptr };
 	CCollision_Manager* m_pCollision_Mananger	= { nullptr };
 	CThread_Manager*	m_pThread_Manager		= { nullptr };
 

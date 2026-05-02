@@ -12,6 +12,7 @@
 #include "CFont_Manager.h"
 #include "CTarget_Manager.h"
 
+#include "CPicking_Manager.h"
 #include "CCollision_Manager.h"
 #include "CThread_Manager.h"
 
@@ -79,6 +80,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 
 	m_pCollision_Mananger = CCollision_Manager::Create();
 	if (m_pCollision_Mananger == nullptr)
+		return E_FAIL;
+
+	m_pPicking_Manager = CPicking_Manager::Create();
+	if (m_pPicking_Manager == nullptr)
 		return E_FAIL;
 
 	//&m_pTimer_Manager
@@ -158,7 +163,8 @@ void CGameInstance::Clear_Resources(_int iLevelIndex)
 void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
-
+	
+	Safe_Release(m_pPicking_Manager);
 	Safe_Release(m_pCollision_Mananger);
 	Safe_Release(m_pTarget_Manager);
 	Safe_Release(m_pFont_Manager);
@@ -407,6 +413,13 @@ HRESULT CGameInstance::Render_RT_Debug(const _wstring& strMRTTag, CShader* pShad
 	return m_pTarget_Manager->Render_Debug(strMRTTag, pShader, pVIBuffer);
 }
 #endif
+
+#pragma region COLLISION_MANAGER
+void CGameInstance::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
+{
+	m_pPicking_Manager->Get_WorldRay(vOutRayPos, vOutRayDir);
+}
+#pragma endregion
 
 #pragma region COLLISION_MANAGER
 HRESULT CGameInstance::Add_Collider(CCollider* pCollider)

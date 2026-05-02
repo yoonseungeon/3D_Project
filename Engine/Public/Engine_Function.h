@@ -55,7 +55,7 @@ namespace Engine
 
 	namespace MyHelper
 	{
-		static constexpr float fEpsilon = { 0.000001f };
+		static constexpr float fEpsilon = { 0.0001f };
 
 		inline void FloatClamp(float& fFloat, const float& fMin, const float& fMax)
 		{

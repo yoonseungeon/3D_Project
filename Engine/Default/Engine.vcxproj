@@ -228,6 +228,7 @@ call UpdateLib.bat Release</Command>
     </ClInclude>
     <ClInclude Include="..\Public\CObject_Manager.h" />
     <ClInclude Include="..\Public\CPartObject.h" />
+    <ClInclude Include="..\Public\CPicking_Manager.h" />
     <ClInclude Include="..\Public\CPipeline.h" />
     <ClInclude Include="..\Public\CPrototype_Manager.h" />
     <ClInclude Include="..\Public\CRenderer.h" />
@@ -324,6 +325,7 @@ call UpdateLib.bat Release</Command>
     </ClCompile>
     <ClCompile Include="..\Private\CObject_Manager.cpp" />
     <ClCompile Include="..\Private\CPartObject.cpp" />
+    <ClCompile Include="..\Private\CPicking_Manager.cpp" />
     <ClCompile Include="..\Private\CPipeline.cpp" />
     <ClCompile Include="..\Private\CPrototype_Manager.cpp" />
     <ClCompile Include="..\Private\CRenderer.cpp" />

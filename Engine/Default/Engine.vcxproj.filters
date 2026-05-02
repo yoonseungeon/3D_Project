@@ -193,6 +193,9 @@
     <Filter Include="98. Collision_Manager">
       <UniqueIdentifier>{ffd26796-2bc5-4e48-8d40-134ada30356a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97. Picking_Manager">
+      <UniqueIdentifier>{5c423377-9d33-49f4-9761-80d60b31bb41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -374,6 +377,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CCollision_Manager.cpp">
       <Filter>98. Collision_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPicking_Manager.cpp">
+      <Filter>97. Picking_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -577,6 +583,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CCollision_Manager.h">
       <Filter>98. Collision_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPicking_Manager.h">
+      <Filter>97. Picking_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

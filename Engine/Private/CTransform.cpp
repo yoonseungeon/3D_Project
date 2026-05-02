@@ -141,7 +141,12 @@ void XM_CALLCONV CTransform::TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _
     }
     else
     {
-        vAxis = XMVector3Normalize(XMVector3Cross(vLook, vNormalizedDir));
+        vAxis = XMVector3Cross(vLook, vNormalizedDir);
+        if (XMVector3Equal(vAxis, XMVectorZero())) // fSeta 검사해도 터질 때가 있음
+        {
+            return;
+        }
+        vAxis = XMVector3Normalize(vAxis);
     }
 
     // 오버 슈팅 방지

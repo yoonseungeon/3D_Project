@@ -70,35 +70,15 @@ HRESULT CLumia_Ground::Render()
 
 _float3 CLumia_Ground::Picking()
 {
-    const POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
+    _float4 vWorldRayPos{};
+    _float4 vWorldRayDir{};
+    m_pGameInstance->Get_WorldRay(vWorldRayPos, vWorldRayDir);
 
-    _uint iNumViewport = { 1 };
-    D3D11_VIEWPORT ViewportDesc = {};
-    m_pContext->RSGetViewports(&iNumViewport, &ViewportDesc);
+    XMVECTOR vRayPos{};
+    XMVECTOR vRayDir{};
 
-    _float4 vMouse = { (static_cast<_float>(ptMouse.x) / ViewportDesc.Width) * 2.f -1.f,
-                        (static_cast<_float>(ptMouse.y) / ViewportDesc.Height) * -2.f + 1.f,
-                         0.f,
-                         1.f
-                     };
-
-    // 투영
-    XMVECTOR vMouseViewPos = XMVector3TransformCoord(XMLoadFloat4(&vMouse),
-            XMLoadFloat4x4(m_pGameInstance->Get_Transform_Inverse(D3DTS::PROJ))
-    );
-
-    // 뷰 스페이스
-    XMVECTOR vRayPos = XMVectorSet(0.f, 0.f, 0.f, 1.f);
-    XMVECTOR vRayDir = vMouseViewPos - vRayPos;
-
-    vRayPos = XMVector3TransformCoord(vRayPos,
-        XMLoadFloat4x4(m_pGameInstance->Get_Transform_Inverse(D3DTS::VIEW))
-    );
-
-    vRayDir = XMVector3TransformNormal(vRayDir,
-        XMLoadFloat4x4(m_pGameInstance->Get_Transform_Inverse(D3DTS::VIEW))
-    );
-
+    vRayPos = XMLoadFloat4(&vWorldRayPos);
+    vRayDir = XMLoadFloat4(&vWorldRayDir);
 
     // 월드
     XMMATRIX matInvWorld = XMMatrixInverse(nullptr, XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
