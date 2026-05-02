@@ -277,6 +277,9 @@
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer">
       <UniqueIdentifier>{90bed114-d26c-4c92-bad3-5838cd061ee6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\05. ItemBox">
+      <UniqueIdentifier>{4ecf41d1-3dec-433a-9f16-3cef1027c3e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -555,6 +558,9 @@
     <ClInclude Include="..\Public\CCraftHammer.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CItemBox.h">
+      <Filter>02. GameObject\05. ItemBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -815,6 +821,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CCraftHammer.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CItemBox.cpp">
+      <Filter>02. GameObject\05. ItemBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -58,6 +58,7 @@ public:
 	// R
 	void XM_CALLCONV Set_Rotation(_fvector vAxis, _float fRadian);
 	void Set_Rotation(_float fRotationX, _float fRotationY, _float fRotationZ);
+	void Set_Rotation(_float4 vQuaternion);
 
 	void XM_CALLCONV Turn(_fvector vAxis, _float fTimeDelta, _float fRotSpeed);
 	void XM_CALLCONV TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _float fRotSpeed);

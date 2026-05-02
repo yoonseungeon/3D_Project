@@ -96,6 +96,15 @@ void CTransform::Set_Rotation(_float fRotationX, _float fRotationY, _float fRota
     Reset_Rotation();
 }
 
+void CTransform::Set_Rotation(_float4 vQuaternion)
+{
+    _vector vRotQuat = XMLoadFloat4(&vQuaternion);
+    vRotQuat = XMQuaternionNormalize(vRotQuat);
+    XMStoreFloat4(&m_vRotQuat, vRotQuat);
+
+    Reset_Rotation();
+}
+
 void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta, _float fRotSpeed)
 {
     _vector vRotQuat = XMLoadFloat4(&m_vRotQuat);

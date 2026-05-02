@@ -29,6 +29,7 @@ private:
 
 	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 
+	HRESULT Ready_Layer_ItemBox(const _wstring& strLayerTag);
 
 	CInGame_Manager* m_pInGame_Manager{};
 

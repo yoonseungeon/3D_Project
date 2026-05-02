@@ -166,6 +166,7 @@
     <ClInclude Include="..\Public\CExplosion.h" />
     <ClInclude Include="..\Public\CInvenOwner.h" />
     <ClInclude Include="..\Public\CInventory.h" />
+    <ClInclude Include="..\Public\CItemBox.h" />
     <ClInclude Include="..\Public\CItem_Manager.h" />
     <ClInclude Include="..\Public\CUI_Craft.h" />
     <ClInclude Include="..\Public\CUI_CraftSlot.h" />
@@ -260,6 +261,7 @@
     <ClCompile Include="..\Private\CExplosion.cpp" />
     <ClCompile Include="..\Private\CInvenOwner.cpp" />
     <ClCompile Include="..\Private\CInventory.cpp" />
+    <ClCompile Include="..\Private\CItemBox.cpp" />
     <ClCompile Include="..\Private\CItem_Manager.cpp" />
     <ClCompile Include="..\Private\CUI_Craft.cpp" />
     <ClCompile Include="..\Private\CUI_CraftSlot.cpp" />

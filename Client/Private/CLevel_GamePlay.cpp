@@ -40,6 +40,9 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_ItemBox(TEXT("Layer_ItemBox"))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -71,7 +74,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
     LightDesc.eType = LIGHT::DIRECTIONAL;
     LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-    LightDesc.vAmbient = _float4(0.f, 0.f, 0.f, 1.f);
+    LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
     LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
     LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
 
@@ -176,8 +179,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 {
-    
-
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;
@@ -202,6 +203,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CInGameCharHUD_Empty"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_ItemBox(const _wstring& strLayerTag)
+{
 
     return S_OK;
 }

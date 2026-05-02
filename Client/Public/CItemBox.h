@@ -10,18 +10,20 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CForkLift final : public CGameObject
+class CItemBox final : public CGameObject
 {
 public:
-	struct FORKLIFT_DESC : public CGameObject::GAMEOBJECT_DESC
+	struct ITEMBOX_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
-
+		wstring wstrModelPrototypeTag;
+		_float4 vQuaternion{};
+		_float3 vScale{};
 	};
 
 protected:
-	CForkLift(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CForkLift(const CForkLift& Prototype);
-	virtual ~CForkLift() = default;
+	CItemBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CItemBox(const CItemBox& Prototype);
+	virtual ~CItemBox() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -39,11 +41,11 @@ private:
 	CMyModel* m_pModelCom = { nullptr };
 
 private:
-	HRESULT Ready_Components();
+	HRESULT Ready_Components(wstring wstrModelPrototypeTag);
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CForkLift* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CItemBox* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();

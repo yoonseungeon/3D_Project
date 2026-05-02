@@ -56,6 +56,8 @@
 // Equipment
 #include "CUI_Equipment.h"
 #include "CUI_EquipmentSlot.h"
+// ItemBox
+#include "CItemBox.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -1248,11 +1250,11 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
-    string wstrRoofPath = "../Bin/Resources/GamePlay/Map_Lumia_PNG/";
+    string strRoofPath = "../Bin/Resources/GamePlay/Map_Lumia_PNG/";
 
-    for (_uint i = 0; i < iRoofCnt; i++)
+    for (_uint i = 0; i < iRoofCnt; ++i)
     {
-        const string strFinalPath = wstrRoofPath + ROOFS[i].MODEL_PATH;
+        const string strFinalPath = strRoofPath + ROOFS[i].MODEL_PATH;
         const wstring wstrPrototypeTag = ROOFS[i].PROTYPE_TAG;
 
         m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
@@ -1334,6 +1336,27 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_Component_Model_ItemBox */
+    string strItemBoxPath = "../Bin/Resources/GamePlay/ItemBox/";
+
+    for (_uint i = 0; i < sizeof(ItemBoxMeta) / sizeof(ItemBoxMeta[0]); ++i)
+    {
+        const string strFinalPath = strItemBoxPath + ItemBoxMeta[i].MODEL_PATH;
+        const wstring wstrPrototypeTag = ItemBoxMeta[i].PROTYPE_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, strFinalPath, wstrPrototypeTag]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), wstrPrototypeTag,
+                    CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, strFinalPath.c_str()))))
+                {
+                    MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_ItemBox");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
@@ -1683,6 +1706,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CUI_EquipmentSlot::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_EquipmentSlot");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CItemBox */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CItemBox"),
+               CItemBox::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CItemBox");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

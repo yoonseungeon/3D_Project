@@ -78,6 +78,12 @@ _bool XM_CALLCONV CBounding_Sphere::Intersect_Ray(_fvector vRayPos, _fvector vRa
 HRESULT CBounding_Sphere::Render(PrimitiveBatch<VertexPositionColor>* pBatch)
 {
 #ifdef _DEBUG
+    if (m_isColl == true)
+    {
+        DX::Draw(pBatch, *m_pDesc, XMVectorSet(1.f, 0.f, 0.f, 1.f));
+        return S_OK;
+    }
+
     DX::Draw(pBatch, *m_pDesc, m_isPicked == true ? XMVectorSet(0.f, 0.f, 1.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f));
     return S_OK;
 #endif

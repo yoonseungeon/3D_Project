@@ -174,14 +174,79 @@ static ITEM_DESC ItemInfos[89] = {
     { 88, 88, L"ºÎÄÉÆÈ·Î½º",    L"None", (MAP_NAME)0, ITEM_TYPE::LEG,      ITEM_GRADE::HERO,    8, 0,    0.f, 0,  0,   0.f, 25, 0.22f,     0, 1, 1, {59, 61} }
 };
 
-struct INVENTORY_SLOT
+struct ITEMBOX_META
 {
-    int iItemId{ -1 };
-    unsigned int iItemCnt{};
+    const char* MODEL_PATH;
+    const wchar_t* PROTYPE_TAG;
 };
 
-struct EQUIPMENT_SLOT
-{
-    int iItemId{ -1 };
-    ITEM_TYPE eItemType{};
+static const ITEMBOX_META ItemBoxMeta[]{
+    {"ItemBox_AltarBig_Re.mymodel",         L"Prototype_Component_Model_ItemBox_AltarBig_Re"},
+    {"ItemBox_AltarTable.mymodel",          L"Prototype_Component_Model_ItemBox_AltarTable"},
+    {"ItemBox_ATM_01.mymodel",              L"Prototype_Component_Model_ItemBox_ATM_01"},
+    {"ItemBox_Bag_01.mymodel",              L"Prototype_Component_Model_ItemBox_Bag_01"},
+    {"ItemBox_Bag_02.mymodel",              L"Prototype_Component_Model_ItemBox_Bag_02"},
+    {"ItemBox_BarbequeGrill_01.mymodel",    L"Prototype_Component_Model_ItemBox_BarbequeGrill_01"},
+    {"ItemBox_BeachChair.mymodel",          L"Prototype_Component_Model_ItemBox_BeachChair"},
+    {"ItemBox_Biotoilet_01.mymodel",        L"Prototype_Component_Model_ItemBox_Biotoilet_01"},
+    {"ItemBox_Boat_01.mymodel",             L"Prototype_Component_Model_ItemBox_Boat_01"},
+    {"ItemBox_Box_01.mymodel",              L"Prototype_Component_Model_ItemBox_Box_01"},
+    {"ItemBox_Box_02.mymodel",              L"Prototype_Component_Model_ItemBox_Box_02"},
+    {"ItemBox_CartonBox_01.mymodel",        L"Prototype_Component_Model_ItemBox_CartonBox_01"},
+    {"ItemBox_CementMixer.mymodel",         L"Prototype_Component_Model_ItemBox_CementMixer"},
+    {"ItemBox_CoffeeMachine_01.mymodel",    L"Prototype_Component_Model_ItemBox_CoffeeMachine_01"},
+    {"ItemBox_Coffin_Large.mymodel",        L"Prototype_Component_Model_ItemBox_Coffin_Large"},
+    {"ItemBox_Coffin_Middle.mymodel",       L"Prototype_Component_Model_ItemBox_Coffin_Middle"},
+    {"ItemBox_ConcreteBag_Set_01.mymodel",  L"Prototype_Component_Model_ItemBox_ConcreteBag_Set_01"},
+    {"ItemBox_ConcreteBag_Set_02.mymodel",  L"Prototype_Component_Model_ItemBox_ConcreteBag_Set_02"},
+    {"ItemBox_Confessional_01.mymodel",     L"Prototype_Component_Model_ItemBox_Confessional_01"},
+    {"ItemBox_Drum_W.mymodel",              L"Prototype_Component_Model_ItemBox_Drum_W"},
+    {"ItemBox_Dumpster_01.mymodel",         L"Prototype_Component_Model_ItemBox_Dumpster_01"},
+    {"ItemBox_EraserCleaner_01.mymodel",    L"Prototype_Component_Model_ItemBox_EraserCleaner_01"},
+    {"ItemBox_FilingCabinets_01.mymodel",   L"Prototype_Component_Model_ItemBox_FilingCabinets_01"},
+    {"ItemBox_FilingCabinets_02.mymodel",   L"Prototype_Component_Model_ItemBox_FilingCabinets_02"},
+    {"ItemBox_GarbageBag_Set.mymodel",      L"Prototype_Component_Model_ItemBox_GarbageBag_Set"},
+    {"ItemBox_Hospital_Cabinet_01.mymodel", L"Prototype_Component_Model_ItemBox_Hospital_Cabinet_01"},
+    {"ItemBox_Hospital_Cart_01.mymodel",    L"Prototype_Component_Model_ItemBox_Hospital_Cart_01"},
+    {"ItemBox_IceBox_B.mymodel",            L"Prototype_Component_Model_ItemBox_IceBox_B"},
+    {"ItemBox_IceBox_R.mymodel",            L"Prototype_Component_Model_ItemBox_IceBox_R"},
+    {"ItemBox_Jar_01.mymodel",              L"Prototype_Component_Model_ItemBox_Jar_01"},
+    {"ItemBox_Jar_Big_01.mymodel",          L"Prototype_Component_Model_ItemBox_Jar_Big_01"},
+    {"ItemBox_Locker_01.mymodel",           L"Prototype_Component_Model_ItemBox_Locker_01"},
+    {"ItemBox_Organ_01.mymodel",            L"Prototype_Component_Model_ItemBox_Organ_01"},
+    {"ItemBox_Pallet_Loaded_01.mymodel",    L"Prototype_Component_Model_ItemBox_Pallet_Loaded_01"},
+    {"ItemBox_Quiver_01.mymodel",           L"Prototype_Component_Model_ItemBox_Quiver_01"},
+    {"ItemBox_Sedan_Brown_01.mymodel",      L"Prototype_Component_Model_ItemBox_Sedan_Brown_01"},
+    {"ItemBox_Sedan_Police_01.mymodel",     L"Prototype_Component_Model_ItemBox_Sedan_Police_01"},
+    {"ItemBox_Sedan_Taxi_01.mymodel",       L"Prototype_Component_Model_ItemBox_Sedan_Taxi_01"},
+    {"ItemBox_SteelBox_02.mymodel",         L"Prototype_Component_Model_ItemBox_SteelBox_02"},
+    {"ItemBox_SteelBox_03.mymodel",         L"Prototype_Component_Model_ItemBox_SteelBox_03"},
+    {"ItemBox_Suitcase_01.mymodel",         L"Prototype_Component_Model_ItemBox_Suitcase_01"},
+    {"ItemBox_Suitcase_02.mymodel",         L"Prototype_Component_Model_ItemBox_Suitcase_02"},
+    {"ItemBox_Suitcase_03.mymodel",         L"Prototype_Component_Model_ItemBox_Suitcase_03"},
+    {"ItemBox_Suitcase_04.mymodel",         L"Prototype_Component_Model_ItemBox_Suitcase_04"},
+    {"ItemBox_Switchboard_01.mymodel",      L"Prototype_Component_Model_ItemBox_Switchboard_01"},
+    {"ItemBox_Temple_Box_01.mymodel",       L"Prototype_Component_Model_ItemBox_Temple_Box_01"},
+    {"ItemBox_Temple_Box_02.mymodel",       L"Prototype_Component_Model_ItemBox_Temple_Box_02"},
+    {"ItemBox_Temple_Lamp_01.mymodel",      L"Prototype_Component_Model_ItemBox_Temple_Lamp_01"},
+    {"ItemBox_Temple_Thurible_01.mymodel",  L"Prototype_Component_Model_ItemBox_Temple_Thurible_01"},
+    {"ItemBox_Tomb.mymodel",                L"Prototype_Component_Model_ItemBox_Tomb"},
+    {"ItemBox_TrashCan_01.mymodel",         L"Prototype_Component_Model_ItemBox_TrashCan_01"},
+    {"ItemBox_TrashCan_02.mymodel",         L"Prototype_Component_Model_ItemBox_TrashCan_02"},
+    {"ItemBox_TrashCan_03.mymodel",         L"Prototype_Component_Model_ItemBox_TrashCan_03"},
+    {"ItemBox_TreeofLife.mymodel",          L"Prototype_Component_Model_ItemBox_TreeofLife"},
+    {"ItemBox_TreeofLife_Branch.mymodel",   L"Prototype_Component_Model_ItemBox_TreeofLife_Branch"},
+    {"ItemBox_TreeStump_01.mymodel",        L"Prototype_Component_Model_ItemBox_TreeStump_01"},
+    {"ItemBox_TreeStump_02.mymodel",        L"Prototype_Component_Model_ItemBox_TreeStump_02"},
+    {"ItemBox_Uptown_BookCase_01.mymodel",  L"Prototype_Component_Model_ItemBox_Uptown_BookCase_01"},
+    {"ItemBox_Uptown_Drawer_01.mymodel",    L"Prototype_Component_Model_ItemBox_Uptown_Drawer_01"},
+    {"ItemBox_Uptown_FirePlace_01.mymodel", L"Prototype_Component_Model_ItemBox_Uptown_FirePlace_01"},
+    {"ItemBox_VendingMachine_01.mymodel",   L"Prototype_Component_Model_ItemBox_VendingMachine_01"},
+    {"ItemBox_VendingMachine_02.mymodel",   L"Prototype_Component_Model_ItemBox_VendingMachine_02"},
+    {"ItemBox_Water_Dispenser_01.mymodel",  L"Prototype_Component_Model_ItemBox_Water_Dispenser_01"},
+    {"ItemBox_WaterTank_01.mymodel",        L"Prototype_Component_Model_ItemBox_WaterTank_01"},
+    {"ItemBox_Wheelbarrow.mymodel",         L"Prototype_Component_Model_ItemBox_Wheelbarrow"},
+    {"ItemBox_WreckCar_Blue_01.mymodel",    L"Prototype_Component_Model_ItemBox_WreckCar_Blue_01"},
+    {"ItemBox_WreckCar_White_01.mymodel",   L"Prototype_Component_Model_ItemBox_WreckCar_White_01"},
+    {"ItemBox_WreckCar_Yellow_01.mymodel",  L"Prototype_Component_Model_ItemBox_WreckCar_Yellow_01"}
 };

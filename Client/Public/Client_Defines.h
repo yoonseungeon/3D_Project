@@ -28,6 +28,20 @@ namespace Client
 	{
 		PLAYER = 1 << 0,
 		MONSTER = 1 << 1,
+		ITEMBOX = 1 << 2,
+	};
+
+
+	struct INVENTORY_SLOT
+	{
+		int iItemId{ -1 };
+		unsigned int iItemCnt{};
+	};
+
+	struct EQUIPMENT_SLOT
+	{
+		int iItemId{ -1 };
+		ITEM_TYPE eItemType{};
 	};
 }
 
