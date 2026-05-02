@@ -7,6 +7,8 @@
 
 NS_BEGIN(Engine)
 
+class CGameObject;
+
 class ENGINE_DLL CCollider final : public CComponent
 {
 private:
@@ -23,6 +25,19 @@ public:
 public:
 	_bool Intersect(CCollider* pTarget);
 
+	void Set_Owner(CGameObject* pOwner) { m_pOwner = pOwner; }
+	void Set_Layer(_uint iLayer) { m_iLayer = iLayer; }
+	void Set_Mask(_uint iMask) { m_iMask = iMask; }
+
+	CGameObject* Get_Owner() { return m_pOwner; }
+	_uint Get_Layer() { return m_iLayer; }
+	_uint Get_Mask() { return m_iMask; }
+
+	void Set_IsColl(_bool isColl);
+
+	void Set_ID(_uint iId) { m_iId = iId; }
+	_uint Get_ID() { return m_iId; }
+
 #ifdef _DEBUG
 public:
 	virtual HRESULT Render() override;
@@ -30,8 +45,14 @@ public:
 
 private:
 	COLLIDER			m_eType = { COLLIDER::END };
-	class CBounding* m_pBounding = { nullptr };
+	class CBounding*	m_pBounding = { nullptr };
 	_bool				m_isColl = { false };
+
+	CGameObject* m_pOwner{};
+	_uint m_iLayer{};
+	_uint m_iMask{};
+
+	_uint m_iId{};
 
 #ifdef _DEBUG
 private:

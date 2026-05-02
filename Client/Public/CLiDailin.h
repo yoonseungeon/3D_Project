@@ -87,7 +87,6 @@ private:
 	// Com
 	CMove* m_pMoveCom{ nullptr };
 	CNavigation* m_pNavigationCom{ nullptr };
-	CCollider* m_pColliderCom = { nullptr };
 
 	// Part Obj
 	CBody_Player* m_pBody{};

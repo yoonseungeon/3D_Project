@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 
 class CGameInstance;
+class CCollider;
 
 class ENGINE_DLL CGameObject abstract : public CBase
 {
@@ -34,6 +35,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
+	virtual void OnCollision_Enter(const COLLISION_INFO& tCollision);
+	virtual void OnCollision_Stay(const COLLISION_INFO& tCollision);
+	virtual void OnCollision_Exit(const COLLISION_INFO& tCollision);
+
 public:
 	class CComponent* Find_Component(const _wstring& wstrComponentTag);
 	virtual void Set_IsInactive(_bool bIsInactive) { m_bIsInactive = bIsInactive; }
@@ -52,6 +57,8 @@ protected:
 	CTransform*										m_pTransformCom{ nullptr };
 
 	_bool											m_bIsInactive{};
+
+	vector<CCollider*>								m_Colliders;
 
 protected:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag,

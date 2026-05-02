@@ -31,6 +31,7 @@ class CLight_Manager;
 class CFont_Manager;
 class CTarget_Manager;
 
+class CCollision_Manager;
 class CThread_Manager;
 
 class CGameObject;
@@ -137,10 +138,6 @@ public:
 		_fvector vColor = XMVectorSet(1.f, 1.f, 1.f, 1.f), const _float2& vScale = _float2(1.f, 1.f), _float fRotation = 0.f, const _float2& vOrigin = _float2(0.f, 0.f));
 #pragma endregion
 
-#pragma region THREAD_MANAGER
-	void Add_Job(function<void()> func);
-#pragma endregion
-
 #pragma region TARGET_MANAGER
 	HRESULT Add_RenderTarget(const _wstring& strTargetTag, _uint iWidth, _uint iHeight, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
 	HRESULT Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag);
@@ -155,6 +152,15 @@ public:
 #endif
 #pragma endregion
 
+#pragma region COLLISION_MANAGER
+	HRESULT Add_Collider(CCollider* pCollider);
+	HRESULT Substract_Collider(CCollider* pCollider);
+#pragma endregion
+
+#pragma region THREAD_MANAGER
+	void Add_Job(function<void()> func);
+#pragma endregion
+
 private:
 	CGraphic_Device*	m_pGraphic_Device		= { nullptr };
 	CTimer_Manager*		m_pTimer_Manager		= { nullptr };
@@ -164,10 +170,11 @@ private:
 	CRenderer*			m_pRenderer				= { nullptr };
 	CPipeline*			m_pPipeline				= { nullptr };
 	CInput_Device*		m_pInput_Device			= { nullptr };
-	CLight_Manager*		m_pLight_Manager			= { nullptr };
-	CFont_Manager*		m_pFont_Manager = { nullptr };
-	CTarget_Manager*	m_pTarget_Manager = { nullptr };
+	CLight_Manager*		m_pLight_Manager		= { nullptr };
+	CFont_Manager*		m_pFont_Manager			= { nullptr };
+	CTarget_Manager*	m_pTarget_Manager		= { nullptr };
 
+	CCollision_Manager* m_pCollision_Mananger	= { nullptr };
 	CThread_Manager*	m_pThread_Manager		= { nullptr };
 
 	VIEWPORT_SIZE m_tViewportDesc{};

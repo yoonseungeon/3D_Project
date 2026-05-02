@@ -49,24 +49,24 @@ void XM_CALLCONV CBounding_AABB::Update(_fmatrix TransformMatrix)
 
 _bool CBounding_AABB::Intersect(COLLIDER eTargetType, CBounding* pBounding)
 {
-    m_isColl = false;
+    _bool isColl = false;
 
     switch (eTargetType)
     {
     case COLLIDER::AABB:
-        m_isColl = m_pDesc->Intersects(*dynamic_cast<CBounding_AABB*>(pBounding)->Get_Desc());
+        isColl = m_pDesc->Intersects(*dynamic_cast<CBounding_AABB*>(pBounding)->Get_Desc());
         break;
 
     case COLLIDER::OBB:
-        m_isColl = m_pDesc->Intersects(*dynamic_cast<CBounding_OBB*>(pBounding)->Get_Desc());
+        isColl = m_pDesc->Intersects(*dynamic_cast<CBounding_OBB*>(pBounding)->Get_Desc());
         break;
 
     case COLLIDER::SPHERE:
-        m_isColl = m_pDesc->Intersects(*dynamic_cast<CBounding_Sphere*>(pBounding)->Get_Desc());
+        isColl = m_pDesc->Intersects(*dynamic_cast<CBounding_Sphere*>(pBounding)->Get_Desc());
         break;
     }
 
-    return m_isColl;
+    return isColl;
 }
 
 #ifdef _DEBUG

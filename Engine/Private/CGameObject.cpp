@@ -1,6 +1,7 @@
 #include "CGameObject.h"
 
 #include "CGameInstance.h"
+#include "CCollider.h"
 
 CGameObject::CGameObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -75,6 +76,18 @@ HRESULT CGameObject::Render()
     return S_OK;
 }
 
+void CGameObject::OnCollision_Enter(const COLLISION_INFO& tCollision)
+{
+}
+
+void CGameObject::OnCollision_Stay(const COLLISION_INFO& tCollision)
+{
+}
+
+void CGameObject::OnCollision_Exit(const COLLISION_INFO& tCollision)
+{
+}
+
 HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag, const _wstring& wstrComponentTag, CComponent** ppOut, void* pArg)
 {
     CComponent* pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, iPrototypeLevelIndex, wstrPrototypeTag, pArg));
@@ -116,6 +129,10 @@ void CGameObject::Free()
     m_Components.clear();
 
     Safe_Release(m_pTransformCom);
+
+    for (auto& pCollider : m_Colliders)
+        Safe_Release(pCollider);
+    m_Colliders.clear();
 
     Safe_Release(m_pGameInstance);
     Safe_Release(m_pContext);

@@ -190,6 +190,9 @@
     <Filter Include="11. RenderTargets\Mananger">
       <UniqueIdentifier>{45ab9422-3ddd-4007-8504-14f275e215d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98. Collision_Manager">
+      <UniqueIdentifier>{ffd26796-2bc5-4e48-8d40-134ada30356a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -368,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CTarget_Manager.cpp">
       <Filter>11. RenderTargets\Mananger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CCollision_Manager.cpp">
+      <Filter>98. Collision_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -568,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CTarget_Manager.h">
       <Filter>11. RenderTargets\Mananger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CCollision_Manager.h">
+      <Filter>98. Collision_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

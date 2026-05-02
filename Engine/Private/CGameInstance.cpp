@@ -12,6 +12,7 @@
 #include "CFont_Manager.h"
 #include "CTarget_Manager.h"
 
+#include "CCollision_Manager.h"
 #include "CThread_Manager.h"
 
 #include "CGameObject.h"
@@ -76,6 +77,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 	if (m_pFont_Manager == nullptr)
 		return E_FAIL;
 
+	m_pCollision_Mananger = CCollision_Manager::Create();
+	if (m_pCollision_Mananger == nullptr)
+		return E_FAIL;
+
 	//&m_pTimer_Manager
 	return S_OK;
 }
@@ -104,6 +109,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pPipeline->Update();
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
+
+	m_pCollision_Mananger->Update_Collision();
 
 	m_pLevel_Manager->Update(fTimeDelta);
 }
@@ -152,6 +159,7 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 
+	Safe_Release(m_pCollision_Mananger);
 	Safe_Release(m_pTarget_Manager);
 	Safe_Release(m_pFont_Manager);
 	Safe_Release(m_pLight_Manager);
@@ -399,6 +407,17 @@ HRESULT CGameInstance::Render_RT_Debug(const _wstring& strMRTTag, CShader* pShad
 	return m_pTarget_Manager->Render_Debug(strMRTTag, pShader, pVIBuffer);
 }
 #endif
+
+#pragma region COLLISION_MANAGER
+HRESULT CGameInstance::Add_Collider(CCollider* pCollider)
+{
+	return m_pCollision_Mananger->Add_Collider(pCollider);
+}
+HRESULT CGameInstance::Substract_Collider(CCollider* pCollider)
+{
+	return m_pCollision_Mananger->Substract_Collider(pCollider);
+}
+#pragma endregion
 
 #pragma region THREAD_MANAGER
 void CGameInstance::Add_Job(function<void()> func)

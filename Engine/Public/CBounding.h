@@ -24,6 +24,7 @@ public:
 
 public:
 	virtual _bool Intersect(COLLIDER eTargetType, CBounding* pBounding) = 0;
+	void Set_IsColl(_bool isColl) { m_isColl = isColl; }
 
 #ifdef _DEBUG
 public:

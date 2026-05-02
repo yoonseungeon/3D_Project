@@ -129,7 +129,8 @@ void CLiDailin::Parallel_Update(_float fTimeDelta)
 {
     __super::Parallel_Update(fTimeDelta);
 
-    m_pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+    for (auto& pColliderCom : m_Colliders)
+        pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr())); 
 }
 
 void CLiDailin::Update(_float fTimeDelta)
@@ -144,7 +145,6 @@ void CLiDailin::Late_Update(_float fTimeDelta)
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 
 #ifdef _DEBUG
-    m_pGameInstance->Add_DebugComponent(m_pColliderCom);
     m_pGameInstance->Add_DebugComponent(m_pNavigationCom);
 #endif   
 }
@@ -415,14 +415,24 @@ HRESULT CLiDailin::Ready_Components()
         TEXT("Com_Move"), reinterpret_cast<CComponent**>(&m_pMoveCom), &Desc)))
         return E_FAIL;
 
+
+    CCollider* pColliderCom;
+
     /* For.Com_Collider_AABB */
     CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
     AABBDesc.vSize = _float3(0.7f, 0.2f, 0.7f);
     AABBDesc.vCenter = _float3(0.f, AABBDesc.vSize.y * 0.5f, 0.f);
 
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
-        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&m_pColliderCom), &AABBDesc)))
+        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
         return E_FAIL;
+
+    m_Colliders.push_back(pColliderCom);
+
+    m_pGameInstance->Add_Collider(pColliderCom);
+    pColliderCom->Set_Owner(this);
+    pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
+    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
 
     return S_OK;
 }
@@ -686,7 +696,6 @@ void CLiDailin::Free()
     Safe_Release(m_pWeapon);
     Safe_Release(m_pBody);
 
-    Safe_Release(m_pColliderCom);
     Safe_Release(m_pNavigationCom);
     Safe_Release(m_pMoveCom);
 

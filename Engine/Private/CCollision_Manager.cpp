@@ -1,0 +1,180 @@
+#include "CCollision_Manager.h"
+
+#include "CGameInstance.h"
+#include "CCollider.h"
+#include "CGameObject.h"
+
+CCollision_Manager::CCollision_Manager()
+	: m_pGameInstance{ CGameInstance::GetInstance() }
+{
+	Safe_AddRef(m_pGameInstance);
+}
+
+HRESULT CCollision_Manager::Initialize()
+{
+	return S_OK;
+}
+
+HRESULT CCollision_Manager::Add_Collider(CCollider* pCollider)
+{
+	if (pCollider == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	auto iter = std::find(m_Colliders.begin(), m_Colliders.end(), pCollider);
+
+	if (iter != m_Colliders.end())
+	{
+		return E_FAIL;
+	}
+
+	Safe_AddRef(pCollider);
+	m_Colliders.push_back(pCollider);
+	pCollider->Set_ID(Acquire_ColliderId());
+
+	return S_OK;
+}
+
+HRESULT CCollision_Manager::Substract_Collider(CCollider* pCollider)
+{
+	if (pCollider == nullptr)
+	{
+		return E_FAIL;
+	}
+
+	auto iter = std::find(m_Colliders.begin(), m_Colliders.end(), pCollider);
+
+	if (iter == m_Colliders.end())
+	{
+		return E_FAIL;
+	}
+
+	Safe_Release(*iter);
+	m_Colliders.erase(iter);
+
+	return S_OK;
+}
+
+void CCollision_Manager::Update_Collision()
+{
+	for (auto pCollider : m_Colliders)
+	{
+		pCollider->Set_IsColl(false);
+
+#ifdef _DEBUG
+		m_pGameInstance->Add_DebugComponent(pCollider);
+#endif   
+	}
+
+	for (_uint i = 0; i < m_Colliders.size(); ++i)
+	{
+		for (_uint j = i + 1; j < m_Colliders.size(); ++j)
+		{
+			if (CanCollision(m_Colliders[i], m_Colliders[j]) == false)
+				continue;
+
+			if (m_Colliders[i]->Intersect(m_Colliders[j]) == false)
+			{
+				Call_CollisionExitFunc(m_Colliders[i], m_Colliders[j]);
+				continue;
+			}
+
+			m_Colliders[i]->Set_IsColl(true);
+			m_Colliders[j]->Set_IsColl(true);
+
+			Call_CollisionFunc(m_Colliders[i], m_Colliders[j]);
+		}
+	}
+
+	m_PreColPairs = m_CurColPairs;
+	m_CurColPairs.clear();
+}
+
+_bool CCollision_Manager::CanCollision(CCollider* pSrc, CCollider* pDst)
+{
+	if ((pSrc->Get_Layer() & pDst->Get_Mask())|| (pDst->Get_Layer() & pSrc->Get_Mask()))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void CCollision_Manager::Call_CollisionFunc(CCollider* pSrc, CCollider* pDst)
+{
+	_ulonglong ullColPair = COLLISION_PAIR(pSrc->Get_ID(), pDst->Get_ID()).Get_CollisionPair();
+
+	auto iter = m_PreColPairs.find(ullColPair);
+
+	COLLISION_INFO tSrcCol = MakeCollisionInfo(pSrc, pDst);
+	COLLISION_INFO tDstCol = MakeCollisionInfo(pDst, pSrc);
+
+	if (iter == m_PreColPairs.end())
+	{	
+		pSrc->Get_Owner()->OnCollision_Enter(tSrcCol);
+		pDst->Get_Owner()->OnCollision_Enter(tDstCol);
+	}
+	else
+	{
+		pSrc->Get_Owner()->OnCollision_Stay(tSrcCol);
+		pDst->Get_Owner()->OnCollision_Stay(tDstCol);
+	}
+
+	m_CurColPairs.insert(ullColPair);
+}
+
+void CCollision_Manager::Call_CollisionExitFunc(CCollider* pSrc, CCollider* pDst)
+{
+	_ulonglong ullColPair = COLLISION_PAIR(pSrc->Get_ID(), pDst->Get_ID()).Get_CollisionPair();
+
+	auto iter = m_PreColPairs.find(ullColPair);
+
+	COLLISION_INFO tSrcCol= MakeCollisionInfo(pSrc, pDst);	
+	COLLISION_INFO tDstCol = MakeCollisionInfo(pDst, pSrc);
+
+	if (iter != m_PreColPairs.end())
+	{
+		pSrc->Get_Owner()->OnCollision_Exit(tSrcCol);
+		pDst->Get_Owner()->OnCollision_Exit(tDstCol);
+	}
+}
+
+COLLISION_INFO CCollision_Manager::MakeCollisionInfo(CCollider* pSrc, CCollider* pDst)
+{
+	COLLISION_INFO tSrcCol{};
+	tSrcCol.pColObject = pDst->Get_Owner();
+	tSrcCol.pMyCollider = pSrc;
+	tSrcCol.pColCollider = pDst;
+
+	return tSrcCol;
+}
+
+_uint CCollision_Manager::Acquire_ColliderId()
+{
+	return m_iNextColliderId++;
+}
+
+CCollision_Manager* CCollision_Manager::Create()
+{
+	CCollision_Manager* pInstance = new CCollision_Manager();
+
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX("Failed to Created: CCollision_Manager");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+void CCollision_Manager::Free()
+{
+	for (auto pCollider : m_Colliders)
+		Safe_Release(pCollider);
+	m_Colliders.clear();
+
+	Safe_Release(m_pGameInstance);
+
+	__super::Free();
+}

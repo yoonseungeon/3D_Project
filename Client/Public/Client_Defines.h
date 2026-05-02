@@ -22,7 +22,15 @@ namespace Client
 	};
 
 	enum class STAGE { LOBBY, SELECT, STAGE_END };
+
+
+	enum class Collision_Layer
+	{
+		PLAYER = 1 << 0,
+		MONSTER = 1 << 1,
+	};
 }
+
 
 // 이 변수가 다른 곳에 정의되어 있다고 선언만 한다.
 // 링크 단계에서 실제 정의(주소)와 연결된다.(이 헤더파일 포함하면 사용 가능)

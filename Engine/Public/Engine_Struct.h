@@ -202,6 +202,14 @@ namespace Engine
 		XMFLOAT3 vMin{ FLT_MAX, FLT_MAX, FLT_MAX };
 		XMFLOAT3 vMax{ -FLT_MAX, -FLT_MAX, -FLT_MAX };
 	};
+
+	struct COLLISION_INFO
+	{
+		class CGameObject* pColObject{};
+
+		class CCollider* pMyCollider{};
+		class CCollider* pColCollider{};
+	};
 }
 
 #endif // Engine_Struct_h__

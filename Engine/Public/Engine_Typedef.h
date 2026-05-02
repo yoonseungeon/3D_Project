@@ -25,6 +25,9 @@ namespace Engine
 	typedef		float						_float;
 	typedef		double						_double;
 
+	typedef		long long					longlong;
+	typedef		unsigned long long			_ulonglong;
+
 
 	typedef		XMFLOAT2					_float2;
 	typedef		XMFLOAT3					_float3;

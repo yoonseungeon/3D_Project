@@ -187,6 +187,7 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\Public\CCollider.h" />
+    <ClInclude Include="..\Public\CCollision_Manager.h" />
     <ClInclude Include="..\Public\CComponent.h" />
     <ClInclude Include="..\Public\CContainerObject.h" />
     <ClInclude Include="..\Public\CCustomFont.h" />
@@ -282,6 +283,7 @@ call UpdateLib.bat Release</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Private\CCollider.cpp" />
+    <ClCompile Include="..\Private\CCollision_Manager.cpp" />
     <ClCompile Include="..\Private\CComponent.cpp" />
     <ClCompile Include="..\Private\CContainerObject.cpp" />
     <ClCompile Include="..\Private\CCustomFont.cpp" />
