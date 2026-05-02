@@ -210,6 +210,13 @@ namespace Engine
 		class CCollider* pMyCollider{};
 		class CCollider* pColCollider{};
 	};
+
+	struct COLLISION_RAY_INFO
+	{
+		class CGameObject* pColObject{};
+
+		class CCollider* pColCollider{};
+	};
 }
 
 #endif // Engine_Struct_h__

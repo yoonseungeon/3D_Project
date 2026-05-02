@@ -560,6 +560,9 @@ void CLiDailin::Key_Input()
 
     if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))
     {
+        COLLISION_RAY_INFO tRayInfo{};
+        m_pGameInstance->Picking_Object(tRayInfo);
+
         // if(몬스터 클릭)
         if (m_pGameInstance->Key_Pressing(DIK_A) /* 몬스터 이면 */)
         {

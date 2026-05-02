@@ -24,6 +24,8 @@ public:
 
 public:
 	virtual _bool Intersect(COLLIDER eTargetType, CBounding* pBounding) = 0;
+	virtual _bool XM_CALLCONV Intersect_Ray(_fvector vRayPos, _fvector vRayDir, _float& fDist) = 0;
+
 	void Set_IsColl(_bool isColl) { m_isColl = isColl; }
 
 #ifdef _DEBUG
@@ -36,6 +38,11 @@ protected:
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
 	_bool					m_isColl = { false };
+
+#ifdef _DEBUG
+	_bool					m_isPicked = { false };
+#endif
+
 
 protected:
 	virtual void Free() override;

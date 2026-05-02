@@ -88,6 +88,11 @@ _bool CCollider::Intersect(CCollider* pTarget)
     return m_pBounding->Intersect(pTarget->m_eType, pTarget->m_pBounding);
 }
 
+_bool XM_CALLCONV CCollider::Intersect_Ray(_fvector vRayPos, _fvector vRayDir, _float& fDist)
+{
+    return m_pBounding->Intersect_Ray(vRayPos, vRayDir, fDist);
+}
+
 void CCollider::Set_IsColl(_bool isColl)
 {
     m_pBounding->Set_IsColl(isColl);

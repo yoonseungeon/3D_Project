@@ -155,11 +155,13 @@ public:
 
 #pragma region PICKING_MANAGER
 	void Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir);
+	_bool Picking_Object(COLLISION_RAY_INFO& tOutColInfo);
 #pragma endregion
 
 #pragma region COLLISION_MANAGER
 	HRESULT Add_Collider(CCollider* pCollider);
 	HRESULT Substract_Collider(CCollider* pCollider);
+	_bool XM_CALLCONV Collision_Ray(_fvector vRayPos, _fvector vRayDir, COLLISION_RAY_INFO& tOutColInfo);
 #pragma endregion
 
 #pragma region THREAD_MANAGER

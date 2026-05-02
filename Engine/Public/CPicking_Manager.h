@@ -18,6 +18,7 @@ private:
 
 public:
 	void Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir);
+	_bool Picking_Object(COLLISION_RAY_INFO& tOutColInfo);
 
 private:
 	CGameInstance* m_pGameInstance = { nullptr };

@@ -69,11 +69,28 @@ _bool CBounding_AABB::Intersect(COLLIDER eTargetType, CBounding* pBounding)
     return isColl;
 }
 
+_bool XM_CALLCONV CBounding_AABB::Intersect_Ray(_fvector vRayPos, _fvector vRayDir, _float& fDist)
+{
+    _bool m_bResult = m_pDesc->Intersects(vRayPos, vRayDir, fDist);
+
+#ifdef _DEBUG
+    if(m_bResult == true)
+        m_isPicked = true;
+#endif
+
+    return m_bResult;
+}
+
 #ifdef _DEBUG
 HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch)
 {
+#ifdef _DEBUG
+    DX::Draw(pBatch, *m_pDesc, m_isPicked == true ? XMVectorSet(0.f, 0.f, 1.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f));
+    return S_OK;
+#endif
+
     // 1. Batch 2. BoundingBox 3. »ö±ò ¼³Á¤
-    DX::Draw(pBatch, *m_pDesc, true == m_isColl ? XMVectorSet(1.f, 0.f, 0.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f));
+    DX::Draw(pBatch, *m_pDesc, m_isColl == true ? XMVectorSet(1.f, 0.f, 0.f, 1.f) : XMVectorSet(0.f, 1.f, 0.f, 1.f));
 
     return S_OK;
 }

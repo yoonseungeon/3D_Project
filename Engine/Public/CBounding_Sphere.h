@@ -22,6 +22,8 @@ private:
 
 public:
 	virtual _bool Intersect(COLLIDER eTargetType, CBounding* pBounding) override;
+	virtual _bool XM_CALLCONV Intersect_Ray(_fvector vRayPos, _fvector vRayDir, _float& fDist) override;
+
 	const BoundingSphere* Get_Desc() const { return m_pDesc; }
 
 #ifdef _DEBUG

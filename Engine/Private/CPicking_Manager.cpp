@@ -46,6 +46,21 @@ void CPicking_Manager::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
     XMStoreFloat4(&vOutRayDir, XMVector3Normalize(vRayDir));
 }
 
+_bool CPicking_Manager::Picking_Object(COLLISION_RAY_INFO& tOutColInfo)
+{
+    _float4 vWorldRayPos{};
+    _float4 vWorldRayDir{};
+    m_pGameInstance->Get_WorldRay(vWorldRayPos, vWorldRayDir);
+
+    XMVECTOR vRayPos{};
+    XMVECTOR vRayDir{};
+
+    vRayPos = XMLoadFloat4(&vWorldRayPos);
+    vRayDir = XMLoadFloat4(&vWorldRayDir);
+
+    return m_pGameInstance->Collision_Ray(vRayPos, vRayDir, tOutColInfo);
+}
+
 CPicking_Manager* CPicking_Manager::Create()
 {
 	CPicking_Manager* pInstance = new CPicking_Manager();

@@ -24,7 +24,9 @@ public:
 
 public:
 	_bool Intersect(CCollider* pTarget);
+	_bool XM_CALLCONV Intersect_Ray(_fvector vRayPos, _fvector vRayDir, _float& fDist);
 
+public:
 	void Set_Owner(CGameObject* pOwner) { m_pOwner = pOwner; }
 	void Set_Layer(_uint iLayer) { m_iLayer = iLayer; }
 	void Set_Mask(_uint iMask) { m_iMask = iMask; }
@@ -41,6 +43,9 @@ public:
 	void Set_Active(_bool bIsActive) { m_bIsActive = bIsActive; }
 	_bool Get_Active() { return m_bIsActive; }
 
+	void Set_CanMousePicking(_bool bCanMousePicking) { m_bCanMousePicking = bCanMousePicking; }
+	_bool Get_CanMousePicking() { return m_bCanMousePicking; }
+
 #ifdef _DEBUG
 public:
 	virtual HRESULT Render() override;
@@ -51,13 +56,14 @@ private:
 	class CBounding*	m_pBounding = { nullptr };
 	_bool				m_isColl = { false };
 
-	CGameObject* m_pOwner{};
-	_uint m_iLayer{};
-	_uint m_iMask{};
+	CGameObject*	m_pOwner{};
+	_uint			m_iLayer{};
+	_uint			m_iMask{};
 
-	_uint m_iId{};
+	_uint			m_iId{};
 
-	_bool m_bIsActive{ true };
+	_bool			m_bIsActive{ true };
+	_bool			m_bCanMousePicking{ true };
 
 #ifdef _DEBUG
 private:

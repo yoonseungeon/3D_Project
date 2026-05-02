@@ -419,6 +419,10 @@ void CGameInstance::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
 {
 	m_pPicking_Manager->Get_WorldRay(vOutRayPos, vOutRayDir);
 }
+_bool CGameInstance::Picking_Object(COLLISION_RAY_INFO& tOutColInfo)
+{
+	return m_pPicking_Manager->Picking_Object(tOutColInfo);
+}
 #pragma endregion
 
 #pragma region COLLISION_MANAGER
@@ -429,6 +433,10 @@ HRESULT CGameInstance::Add_Collider(CCollider* pCollider)
 HRESULT CGameInstance::Substract_Collider(CCollider* pCollider)
 {
 	return m_pCollision_Mananger->Substract_Collider(pCollider);
+}
+_bool XM_CALLCONV CGameInstance::Collision_Ray(_fvector vRayPos, _fvector vRayDir, COLLISION_RAY_INFO& tOutColInfo)
+{
+	return m_pCollision_Mananger->Collision_Ray(vRayPos, vRayDir, tOutColInfo);
 }
 #pragma endregion
 
