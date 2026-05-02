@@ -63,6 +63,7 @@ private:
 
 	_uint Acquire_ColliderId();
 
+	void Substract_CollisionPair(CCollider* pCollider);
 
 public:
 	static CCollision_Manager* Create();

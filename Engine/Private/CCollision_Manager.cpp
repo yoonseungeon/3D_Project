@@ -50,6 +50,8 @@ HRESULT CCollision_Manager::Substract_Collider(CCollider* pCollider)
 		return E_FAIL;
 	}
 
+	Substract_CollisionPair(pCollider);
+
 	Safe_Release(*iter);
 	m_Colliders.erase(iter);
 
@@ -71,6 +73,9 @@ void CCollision_Manager::Update_Collision()
 	{
 		for (_uint j = i + 1; j < m_Colliders.size(); ++j)
 		{
+			if (m_Colliders[i]->Get_Active() == false || m_Colliders[j]->Get_Active() == false)
+				continue;
+
 			if (CanCollision(m_Colliders[i], m_Colliders[j]) == false)
 				continue;
 
@@ -153,6 +158,25 @@ COLLISION_INFO CCollision_Manager::MakeCollisionInfo(CCollider* pSrc, CCollider*
 _uint CCollision_Manager::Acquire_ColliderId()
 {
 	return m_iNextColliderId++;
+}
+
+void CCollision_Manager::Substract_CollisionPair(CCollider* pCollider)
+{
+	_uint iColliderId = pCollider->Get_ID();
+
+	for (auto iter = m_PreColPairs.begin(); iter != m_PreColPairs.end();) {
+		_uint iLeftId = static_cast<_uint>((*iter) >> 32);
+		_uint iRightId = static_cast<_uint>(*iter);
+
+		if (iLeftId == iColliderId || iRightId == iColliderId)
+		{
+			iter = m_PreColPairs.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
 }
 
 CCollision_Manager* CCollision_Manager::Create()

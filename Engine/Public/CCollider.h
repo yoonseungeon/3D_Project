@@ -38,6 +38,9 @@ public:
 	void Set_ID(_uint iId) { m_iId = iId; }
 	_uint Get_ID() { return m_iId; }
 
+	void Set_Active(_bool bIsActive) { m_bIsActive = bIsActive; }
+	_bool Get_Active() { return m_bIsActive; }
+
 #ifdef _DEBUG
 public:
 	virtual HRESULT Render() override;
@@ -53,6 +56,8 @@ private:
 	_uint m_iMask{};
 
 	_uint m_iId{};
+
+	_bool m_bIsActive{ true };
 
 #ifdef _DEBUG
 private:
