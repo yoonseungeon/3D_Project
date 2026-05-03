@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "CGameObject.h"
+#include "CInvenOwner.h"
 
 NS_BEGIN(Engine)
 class CShader;
@@ -10,7 +10,7 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CItemBox final : public CGameObject
+class CItemBox final : public CInvenOwner
 {
 public:
 	struct ITEMBOX_DESC : public CGameObject::GAMEOBJECT_DESC
@@ -18,6 +18,8 @@ public:
 		wstring wstrModelPrototypeTag;
 		_float4 vQuaternion{};
 		_float3 vScale{};
+
+		SPAWN_MAP eSpawnArea{};
 	};
 
 protected:
@@ -39,6 +41,8 @@ public:
 private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
+
+	SPAWN_MAP m_eSpawnArea{};
 
 private:
 	HRESULT Ready_Components(wstring wstrModelPrototypeTag);

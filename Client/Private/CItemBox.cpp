@@ -3,12 +3,12 @@
 #include "CGameInstance.h"
 
 CItemBox::CItemBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-    : CGameObject{ pDevice, pContext }
+    : CInvenOwner{ pDevice, pContext }
 {
 }
 
 CItemBox::CItemBox(const CItemBox& Prototype)
-    : CGameObject{ Prototype }
+    : CInvenOwner{ Prototype }
 {
 }
 
@@ -29,6 +29,8 @@ HRESULT CItemBox::Initialize(void* pArg)
 
     m_pTransformCom->Set_Rotation(pDesc->vQuaternion);
     m_pTransformCom->Set_Scale(pDesc->vScale.x, pDesc->vScale.y, pDesc->vScale.z);
+
+    m_eSpawnArea = pDesc->eSpawnArea;
 
     return S_OK;
 }
@@ -92,11 +94,11 @@ HRESULT CItemBox::Ready_Components(wstring wstrModelPrototypeTag)
     CCollider* pColliderCom;
 
     /* For.Com_Collider_AABB */
-    CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
-    AABBDesc.pLocalXYZ = m_pModelCom->Get_LocalXYZ();
+    CBounding_OBB::BOUNDING_OBB_DESC  OBBDesc{ };
+    OBBDesc.pLocalXYZ = m_pModelCom->Get_LocalXYZ();
 
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
-        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
+        TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&pColliderCom), &OBBDesc)))
         return E_FAIL;
 
     m_Colliders.push_back(pColliderCom);

@@ -35,7 +35,6 @@ HRESULT CForkLift::Initialize(void* pArg)
         1.f
     ));
 
-    m_pTransformCom->Set_Scale(0.01f, 0.01f, 0.01f);
 
     return S_OK;
 }
@@ -93,25 +92,9 @@ HRESULT CForkLift::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), ItemBoxMeta[1].PROTYPE_TAG,
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), L"Prototype_Component_Model_ForkLift",
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
-
-    CCollider* pColliderCom;
-
-    /* For.Com_Collider_AABB */
-    CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
-    AABBDesc.pLocalXYZ = m_pModelCom->Get_LocalXYZ();
-
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
-        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
-        return E_FAIL;
-
-    m_Colliders.push_back(pColliderCom);
-
-    m_pGameInstance->Add_Collider(pColliderCom);
-    pColliderCom->Set_Owner(this);
-    pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
 
     return S_OK;
 }

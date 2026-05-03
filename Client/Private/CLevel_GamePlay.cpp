@@ -8,6 +8,7 @@
 #include "CLumia_Ground.h"
 #include "CLumia_Structure.h"
 #include "CRoof.h"
+#include "CItemBox.h"
 
 #include "CUI_Image.h"
 
@@ -209,8 +210,92 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_ItemBox(const _wstring& strLayerTag)
 {
+    std::ifstream ifs("../Bin/Data/ItemBox.json");
+    if (!ifs.is_open())
+    {
+        MSG_BOX("File Open Failed");
+        return E_FAIL;
+    }
+
+    nlohmann::json root;
+    ifs >> root;
+    ifs.close();
+
+    if (!root.contains("spawnBoxes") || !root["spawnBoxes"].is_array())
+    {
+        MSG_BOX("Json Format Error");
+        return E_FAIL;
+    }
+
+    wstring wstrPrefix = { L"Prototype_Component_Model_" };
+
+    for (const auto& jsonObj : root["spawnBoxes"])
+    {
+        CItemBox::ITEMBOX_DESC tItemBoxDesc{};
+
+        string strArea = jsonObj["area"].get<string>();
+        Set_ItemBoxSpwanArea(strArea, tItemBoxDesc.eSpawnArea);
+
+        string strBoxType = jsonObj["boxType"].get<string>();
+
+        auto pos = jsonObj["position"];
+        auto rot = jsonObj["rotationQuat"];
+        auto scale = jsonObj["scale"];
+
+        tItemBoxDesc.wstrModelPrototypeTag = wstrPrefix + wstring(strBoxType.begin(), strBoxType.end());
+
+        tItemBoxDesc.tTransformDesc.vStartPos = _float3(
+            pos[0].get<_float>(),
+            pos[1].get<_float>(),
+            pos[2].get<_float>()
+        );
+
+        tItemBoxDesc.vQuaternion = _float4(
+            rot[0].get<_float>(),
+            rot[1].get<_float>(),
+            rot[2].get<_float>(),
+            rot[3].get<_float>()
+        );
+
+        tItemBoxDesc.vScale = _float3(
+            scale[0].get<_float>(),
+            scale[1].get<_float>(),
+            scale[2].get<_float>()
+        );
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CItemBox"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &tItemBoxDesc)))
+            return E_FAIL;
+    }
 
     return S_OK;
+}
+
+void CLevel_GamePlay::Set_ItemBoxSpwanArea(const string& strArea, SPAWN_MAP& eSpawnArea)
+{    
+    if (strArea == "ALLEY")              eSpawnArea = SPAWN_MAP::ALLEY;
+    else if (strArea == "ARCHERY")          eSpawnArea = SPAWN_MAP::ARCHERY;
+    else if (strArea == "CEMETERY")         eSpawnArea = SPAWN_MAP::CEMETERY;
+    else if (strArea == "CHURCH")           eSpawnArea = SPAWN_MAP::CHURCH;
+    else if (strArea == "FACTORY")          eSpawnArea = SPAWN_MAP::FACTORY;
+    else if (strArea == "FIRESTATION")      eSpawnArea = SPAWN_MAP::FIRE_STATION;
+    else if (strArea == "FOREST")           eSpawnArea = SPAWN_MAP::FOREST;
+    else if (strArea == "GASSTATION")       eSpawnArea = SPAWN_MAP::GAS_STATION;
+    else if (strArea == "HARBOR")           eSpawnArea = SPAWN_MAP::HARBOR;
+    else if (strArea == "HOSPITAL")            eSpawnArea = SPAWN_MAP::HOSPITAL;
+    else if (strArea == "HOTEL")            eSpawnArea = SPAWN_MAP::HOTEL;
+    else if (strArea == "POLICESTATION")    eSpawnArea = SPAWN_MAP::POLICE_STATION;
+    else if (strArea == "POND")             eSpawnArea = SPAWN_MAP::POND;
+    else if (strArea == "SANDYBEACH")       eSpawnArea = SPAWN_MAP::SANDY_BEACH;
+    else if (strArea == "SCHOOL")           eSpawnArea = SPAWN_MAP::SCHOOL;
+    else if (strArea == "STREAM")           eSpawnArea = SPAWN_MAP::STREAM;
+    else if (strArea == "TEMPLE")           eSpawnArea = SPAWN_MAP::TEMPLE;
+    else if (strArea == "UPTOWN")           eSpawnArea = SPAWN_MAP::UPTOWN;
+    else if (strArea == "WAREHOUSE")        eSpawnArea = SPAWN_MAP::WAREHOUSE;
+    else
+    {
+        MSG_BOX("SPAWN_MAP Error: CLevel_GamePlay.cpp");
+    }
 }
 
 CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

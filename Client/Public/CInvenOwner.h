@@ -3,8 +3,6 @@
 #include "Client_Defines.h"
 #include "CContainerObject.h"
 
-#include "Command.h"
-
 NS_BEGIN(Client)
 
 class CInventory;

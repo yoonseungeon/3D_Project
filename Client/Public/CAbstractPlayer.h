@@ -2,6 +2,8 @@
 
 #include "CUnit.h"
 
+#include "Command.h"
+
 NS_BEGIN(Client)
 
 class CEquipment;
