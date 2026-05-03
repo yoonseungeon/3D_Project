@@ -168,6 +168,7 @@
     <ClInclude Include="..\Public\CInventory.h" />
     <ClInclude Include="..\Public\CItemBox.h" />
     <ClInclude Include="..\Public\CItem_Manager.h" />
+    <ClInclude Include="..\Public\CSharedUI_Manager.h" />
     <ClInclude Include="..\Public\CUI_Craft.h" />
     <ClInclude Include="..\Public\CUI_CraftSlot.h" />
     <ClInclude Include="..\Public\CUI_Equipment.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="..\Public\CUI_InvenItemBg.h" />
     <ClInclude Include="..\Public\CUI_Inventory.h" />
     <ClInclude Include="..\Public\CUI_InventorySlot.h" />
+    <ClInclude Include="..\Public\CUI_ItemBoxPanel.h" />
     <ClInclude Include="..\Public\CUI_ItemImage.h" />
     <ClInclude Include="..\Public\CUI_LevelPanel.h" />
     <ClInclude Include="..\Public\CUI_MainGaugeBar.h" />
@@ -263,6 +265,7 @@
     <ClCompile Include="..\Private\CInventory.cpp" />
     <ClCompile Include="..\Private\CItemBox.cpp" />
     <ClCompile Include="..\Private\CItem_Manager.cpp" />
+    <ClCompile Include="..\Private\CSharedUI_Manager.cpp" />
     <ClCompile Include="..\Private\CUI_Craft.cpp" />
     <ClCompile Include="..\Private\CUI_CraftSlot.cpp" />
     <ClCompile Include="..\Private\CUI_Equipment.cpp" />
@@ -312,6 +315,7 @@
     <ClCompile Include="..\Private\CUI_InvenItemBg.cpp" />
     <ClCompile Include="..\Private\CUI_Inventory.cpp" />
     <ClCompile Include="..\Private\CUI_InventorySlot.cpp" />
+    <ClCompile Include="..\Private\CUI_ItemBoxPanel.cpp" />
     <ClCompile Include="..\Private\CUI_ItemImage.cpp" />
     <ClCompile Include="..\Private\CUI_LevelPanel.cpp" />
     <ClCompile Include="..\Private\CUI_MainGaugeBar.cpp" />

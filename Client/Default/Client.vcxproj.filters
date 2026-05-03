@@ -280,6 +280,12 @@
     <Filter Include="02. GameObject\05. ItemBox">
       <UniqueIdentifier>{4ecf41d1-3dec-433a-9f16-3cef1027c3e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99. Manager\04. SharedUI_Manager">
+      <UniqueIdentifier>{0f5846e9-fae1-4979-add2-6875d0fc2f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. SharedUI">
+      <UniqueIdentifier>{1f385eea-f455-4463-b2f7-914e019d4a64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -561,6 +567,12 @@
     <ClInclude Include="..\Public\CItemBox.h">
       <Filter>02. GameObject\05. ItemBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CSharedUI_Manager.h">
+      <Filter>99. Manager\04. SharedUI_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_ItemBoxPanel.h">
+      <Filter>02. GameObject\06. SharedUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -824,6 +836,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CItemBox.cpp">
       <Filter>02. GameObject\05. ItemBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSharedUI_Manager.cpp">
+      <Filter>99. Manager\04. SharedUI_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_ItemBoxPanel.cpp">
+      <Filter>02. GameObject\06. SharedUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

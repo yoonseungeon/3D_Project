@@ -36,15 +36,15 @@ public:
 		vector<SKIN_INFO_DESC> Skins;
 	};
 
-public:
-	CHAR_INFO_DESC* Get_CharInfo(CHAR_NAME eCharName);
-
 private:
 	CCharData_Manager();
 	virtual ~CCharData_Manager() = default;
 
 private:
 	HRESULT Initialize();
+
+public:
+	CHAR_INFO_DESC* Get_CharInfo(CHAR_NAME eCharName);
 
 private:
 	unordered_map<CHAR_NAME, CHAR_INFO_DESC> m_CharSkins;

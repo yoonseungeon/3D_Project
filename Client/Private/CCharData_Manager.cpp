@@ -2,20 +2,6 @@
 
 IMPLEMENT_SINGLETON(CCharData_Manager)
 
-CCharData_Manager::CHAR_INFO_DESC* CCharData_Manager::Get_CharInfo(CHAR_NAME eCharName)
-{
-    auto iter = m_CharSkins.find(eCharName);
-
-    if(iter == m_CharSkins.end())
-    {
-        MSG_BOX("No Char_Skin_Info: CCharData_Manager");
-
-        return nullptr;
-    }
-
-    return &(iter->second);
-}
-
 CCharData_Manager::CCharData_Manager()
 {
     if (FAILED(Initialize()))
@@ -59,6 +45,20 @@ HRESULT CCharData_Manager::Initialize()
     }
 
     return S_OK;
+}
+
+CCharData_Manager::CHAR_INFO_DESC* CCharData_Manager::Get_CharInfo(CHAR_NAME eCharName)
+{
+    auto iter = m_CharSkins.find(eCharName);
+
+    if (iter == m_CharSkins.end())
+    {
+        MSG_BOX("No Char_Skin_Info: CCharData_Manager");
+
+        return nullptr;
+    }
+
+    return &(iter->second);
 }
 
 void CCharData_Manager::Free()

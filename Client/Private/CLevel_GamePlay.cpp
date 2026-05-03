@@ -3,6 +3,7 @@
 #include "CLevel_Loading.h"
 #include "CGameInstance.h"
 #include "CInGame_Manager.h"
+#include "CSharedUI_Manager.h"
 
 #include "CCamera_Free.h"
 #include "CLumia_Ground.h"
@@ -43,6 +44,9 @@ HRESULT CLevel_GamePlay::Initialize()
 
     if (FAILED(Ready_Layer_ItemBox(TEXT("Layer_ItemBox"))))
         return E_FAIL;
+
+    m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
+    Safe_AddRef(m_pSharedUI_Manager);
 
     return S_OK;
 }
@@ -316,7 +320,10 @@ void CLevel_GamePlay::Free()
     m_pInGame_Manager->Release_Map();   
     m_pInGame_Manager->Release_Player();
 
-    Safe_Release(m_pInGame_Manager);
+    Safe_Release(m_pSharedUI_Manager);
+    CSharedUI_Manager::DestroyInstance();
 
+    Safe_Release(m_pInGame_Manager);
+    
     __super::Free();
 }

@@ -6,6 +6,7 @@
 NS_BEGIN(Client)
 
 class CInGame_Manager;
+class CSharedUI_Manager;
 
 class CLevel_GamePlay : public CLevel
 {
@@ -32,7 +33,8 @@ private:
 	HRESULT Ready_Layer_ItemBox(const _wstring& strLayerTag);
 	void Set_ItemBoxSpwanArea(const string& strArea, SPAWN_MAP& eSpawnArea);
 
-	CInGame_Manager* m_pInGame_Manager{};
+	CInGame_Manager*	m_pInGame_Manager{};
+	CSharedUI_Manager*	m_pSharedUI_Manager{};
 
 public:
 	static CLevel_GamePlay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

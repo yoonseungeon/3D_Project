@@ -123,13 +123,13 @@ void CMainApp::Free()
 	Safe_Release(m_pDevice);
 
 	Safe_Release(m_pInGame_Manager);
-	m_pInGame_Manager->DestroyInstance();
+	CInGame_Manager::DestroyInstance();
 	Safe_Release(m_pCharData_Manager);
-	m_pCharData_Manager->DestroyInstance();
+	CCharData_Manager::DestroyInstance();
 	Safe_Release(m_pGame_Manager);
-	m_pGame_Manager->DestroyInstance();
+	CGame_Manager::DestroyInstance();
 	Safe_Release(m_pItem_Manager);
-	m_pItem_Manager->DestroyInstance();
+	CItem_Manager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 

@@ -9,6 +9,7 @@ class ENGINE_DLL CBase abstract
 {
 protected:
 	CBase();
+	CBase(const CBase& Prototype);
 	virtual ~CBase() = default;
 
 public:
@@ -16,7 +17,7 @@ public:
 	_uint Release();
 
 protected:
-	_uint m_iRefCnt = { 0 };
+	atomic_uint m_iRefCnt = { 1 };
 
 protected:
 	virtual void Free() = 0;
