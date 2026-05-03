@@ -118,7 +118,8 @@ void CUI_ItemBoxSlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
     Set_ItemBg(iItemId, iItemCnt);
     Set_Item(iItemId, iItemCnt);
 
-    iItemCnt = iItemCnt;
+    m_iItemId = iItemId;
+    m_iItemCnt = iItemCnt;
 }
 
 void CUI_ItemBoxSlot::Set_ItemBg(_int iItemId, _uint iItemCnt)
@@ -244,6 +245,10 @@ HRESULT CUI_ItemBoxSlot::Ready_Layer_UI_InventoryItem(const _wstring& strLayerTa
 
 void CUI_ItemBoxSlot::BtnClick()
 {
+    if (m_iItemId == -1)
+        return;
+
+    m_funcCallBack();
 }
 
 void CUI_ItemBoxSlot::Execute_Btn()

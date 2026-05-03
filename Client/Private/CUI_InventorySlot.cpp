@@ -111,7 +111,7 @@ void CUI_InventorySlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
     Set_ItemBg(iItemId, iItemCnt);
     Set_Item(iItemId, iItemCnt);
 
-    iItemCnt = iItemCnt;
+    m_iItemCnt = iItemCnt;
 }
 
 void CUI_InventorySlot::Set_ItemBg(_int iItemId, _uint iItemCnt)

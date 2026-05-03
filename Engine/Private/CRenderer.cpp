@@ -107,13 +107,14 @@ HRESULT CRenderer::Draw()
 
     if (FAILED(Render_Blend()))
         return E_FAIL;
-    if (FAILED(Render_UI()))
-        return E_FAIL;
 
 #ifdef _DEBUG
     if (FAILED(Render_Debug()))
         return E_FAIL;
 #endif
+
+    if (FAILED(Render_UI()))
+        return E_FAIL;
 
     return S_OK;
 }

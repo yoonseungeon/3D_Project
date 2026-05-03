@@ -58,6 +58,38 @@ _int CInventory::FindItemIdBySlotIndex(_uint iSlotIndex)
 	return m_Inventory[iSlotIndex].iItemId;
 }
 
+_int CInventory::FindItemIdBySlotIndex(_uint iSlotIndex, _uint& iOutItemCnt)
+{
+	if (iSlotIndex >= m_Inventory.size())
+	{
+		return -1;
+	}
+
+	iOutItemCnt = m_Inventory[iSlotIndex].iItemCnt;
+	return m_Inventory[iSlotIndex].iItemId;
+}
+
+void CInventory::PullSlots()
+{
+	_uint iCurSlotIndex = { 0 };
+
+	for (_uint i = 0; i < m_Inventory.size(); ++i)
+	{
+		if (m_Inventory[i].iItemId == -1)
+			continue;
+
+		m_Inventory[iCurSlotIndex].iItemId = m_Inventory[i].iItemId;
+		m_Inventory[iCurSlotIndex].iItemCnt = m_Inventory[i].iItemCnt;
+		++iCurSlotIndex;
+	}
+
+	for (_uint i = iCurSlotIndex; i < m_Inventory.size(); ++i)
+	{
+		m_Inventory[i].iItemId = -1;
+		m_Inventory[i].iItemCnt = 0;
+	}
+}
+
 _bool CInventory::Add_Item_CraftNoReset(_int iItemId, _uint iItemCount)
 {
 	if (iItemId == -1 || iItemCount == 0)

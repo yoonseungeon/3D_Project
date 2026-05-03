@@ -23,9 +23,13 @@ public:
 
 	_int FindItemSlotByItemId(_int iItemId);
 	_int FindItemIdBySlotIndex(_uint iSlotIndex);
+	_int FindItemIdBySlotIndex(_uint iSlotIndex, _uint& iOutItemCnt);
 
 	const vector<INVENTORY_SLOT>& Get_InventoryVec() const { return m_Inventory; }
 	_uint Get_ChangeInvenFlag() const { return m_iInvenChangeFlag; }
+	size_t Get_InventorySize() { return m_Inventory.size(); }
+
+	void PullSlots();
 
 private:
 	vector<INVENTORY_SLOT> m_Inventory;

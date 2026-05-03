@@ -197,9 +197,21 @@ HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_ItemBoxSlot(const _wstring& strLayerTag
                 break;
             }
 
-            SlotDesc.iSlotIndex = i * 4 + j;
+            SlotDesc.iSlotIndex = iCurSlotCnt;
             SlotDesc.fPosRatioX = fStartPosX + fGapCol * j;
             SlotDesc.fPosRatioY = fStartPosY - fGapRow * i;
+
+            const _uint iCurSlotIndex = iCurSlotCnt;
+            SlotDesc.funcCallBack = [this, iCurSlotIndex]()->void
+                {
+                    if (m_pItemBox == nullptr)
+                        return;
+
+                    if (m_pItemBox->TakeItemToInventory(iCurSlotIndex) == true)
+                    {
+                        Sync_ItemBoxSlot();
+                    }
+                };
 
             Slot_Creator(strLayerTag, &SlotDesc);
             ++iCurSlotCnt;

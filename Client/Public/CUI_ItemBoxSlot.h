@@ -69,7 +69,8 @@ private:
 	CUI_InvenItemBg* m_pItemBg{};
 	CUI_ItemImage* m_pItemImage{};
 
-	_uint iItemCnt{};
+	_int m_iItemId{ -1 };
+	_uint m_iItemCnt{};
 
 	_uint m_iSlotIndex{};
 

@@ -38,6 +38,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	_bool TakeItemToInventory(_uint iSlotIndex);
+
 private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };

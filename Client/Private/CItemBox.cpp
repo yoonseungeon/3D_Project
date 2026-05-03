@@ -2,8 +2,10 @@
 
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
+#include "CInGame_Manager.h"
 
 #include "CInventory.h"
+#include "CAbstractPlayer.h"
 
 CItemBox::CItemBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CInvenOwner{ pDevice, pContext }
@@ -82,6 +84,30 @@ HRESULT CItemBox::Render()
     }
 
     return S_OK;
+}
+
+_bool CItemBox::TakeItemToInventory(_uint iSlotIndex)
+{
+    if (iSlotIndex >= m_pInvetory->Get_InventorySize())
+        return false;
+
+    _uint iItemCnt{};
+    _int iItemId = m_pInvetory->FindItemIdBySlotIndex(iSlotIndex, iItemCnt);
+
+    CAbstractPlayer* pPlayer = CInGame_Manager::GetInstance()->Get_Player();
+
+    if (pPlayer == nullptr)
+        return false;
+
+    _bool bResult = pPlayer ->TryEquip_AddInven(iItemId, iItemCnt);
+
+    if (bResult == true)
+    {
+        m_pInvetory->Subtract_ItemBySlotIndex(iSlotIndex, iItemCnt);
+        m_pInvetory->PullSlots();
+    }
+
+    return bResult;
 }
 
 HRESULT CItemBox::Ready_Components(wstring wstrModelPrototypeTag)
