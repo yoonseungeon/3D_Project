@@ -44,9 +44,13 @@ private:
 
 	SPAWN_MAP m_eSpawnArea{};
 
+	_uint m_iMaxSize{ 10 };
+
 private:
 	HRESULT Ready_Components(wstring wstrModelPrototypeTag);
 	HRESULT Bind_ShaderResources();
+
+	HRESULT Generate_Item();
 
 public:
 	static CItemBox* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

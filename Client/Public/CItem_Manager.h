@@ -16,6 +16,8 @@ private:
 public:
 	const ITEM_DESC* Find_ItemInfo(_uint iItemIdx) const;
 
+	const unordered_map<_uint, ITEM_DESC>& Get_ItemInfos() const { return m_ItemInfos; }
+
 	const vector<_uint>* Get_CanCraftItemCandidates(_uint iItemIdx) const;
 
 	_float Get_CurItemCraftTime(_uint iItemIdx);

@@ -1,6 +1,9 @@
 #include "CItemBox.h"
 
 #include "CGameInstance.h"
+#include "CItem_Manager.h"
+
+#include "CInventory.h"
 
 CItemBox::CItemBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CInvenOwner{ pDevice, pContext }
@@ -31,6 +34,8 @@ HRESULT CItemBox::Initialize(void* pArg)
     m_pTransformCom->Set_Scale(pDesc->vScale.x, pDesc->vScale.y, pDesc->vScale.z);
 
     m_eSpawnArea = pDesc->eSpawnArea;
+    if (FAILED(Generate_Item()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -119,6 +124,30 @@ HRESULT CItemBox::Bind_ShaderResources()
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", m_pGameInstance->Get_Transform(D3DTS::PROJ))))
         return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CItemBox::Generate_Item()
+{
+    _uint iGenerateItemCnt{};
+
+    const unordered_map<_uint, ITEM_DESC>& ItemInfos = CItem_Manager::GetInstance()->Get_ItemInfos();
+
+    for (const auto& pair : ItemInfos)
+    {
+        if (iGenerateItemCnt == m_iMaxSize) {
+            return S_OK;
+        }
+
+        if (ETOUI(pair.second.eSpawnMap) & ETOUI(m_eSpawnArea)) {
+            if(rand() % 100 <= 60)
+            {
+                m_pInvetory->Add_Item(pair.second.iItemID);
+                ++iGenerateItemCnt;
+            }
+        }
+    }
 
     return S_OK;
 }
