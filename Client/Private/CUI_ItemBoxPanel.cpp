@@ -3,7 +3,9 @@
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
 
-#include "CUI_InventorySlot.h"
+#include "CUI_ItemBoxSlot.h"
+#include "CItemBox.h"
+#include "CInventory.h"
 
 CUI_ItemBoxPanel::CUI_ItemBoxPanel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Default{ pDevice, pContext }
@@ -29,19 +31,19 @@ HRESULT CUI_ItemBoxPanel::Initialize(void* pArg)
 
     CUI_ITEMBOXPANEL_DESC* pDesc = static_cast<CUI_ITEMBOXPANEL_DESC*>(pArg);
 
+    m_fScaleRatioX = pDesc->fScaleRatioX;
+    m_fScaleRatioY = pDesc->fScaleRatioY;
+    m_fPosRatioX = pDesc->fPosRatioX;
+    m_fPosRatioY = pDesc->fPosRatioY;
+
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    if (FAILED(Ready_Layer_UI_InventorySlot(TEXT("Layer_UI_InventorySlot"))))
+    if (FAILED(Ready_Layer_UI_ItemBoxSlot(TEXT("Layer_UI_ItemBoxSlot"))))
         return E_FAIL;
-
-    if (FAILED(Initialize_Inventory()))
-        return E_FAIL;
-
-
 
     return S_OK;
 }
@@ -60,6 +62,9 @@ void CUI_ItemBoxPanel::Update(_float fTimeDelta)
 
 void CUI_ItemBoxPanel::Late_Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+        return;
+
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
@@ -78,6 +83,42 @@ HRESULT CUI_ItemBoxPanel::Render()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CUI_ItemBoxPanel::Set_IsInactive(_bool bIsInactive)
+{
+    m_bIsInactive = bIsInactive;
+    for (_uint i = 0; i < m_Slots.size(); ++i)
+    {
+        m_Slots[i]->Set_IsInactive(bIsInactive);
+    }
+}
+
+void CUI_ItemBoxPanel::PopUp_ItemBoxUI(CItemBox* pItemBox)
+{
+    if (m_pItemBox != nullptr)
+    {
+        Safe_Release(m_pItemBox);
+        m_pItemBox = nullptr;
+    }
+
+    m_pItemBox = pItemBox;
+    Safe_AddRef(m_pItemBox);
+
+    Set_IsInactive(false);
+
+    Sync_ItemBoxSlot();
+}
+
+void CUI_ItemBoxPanel::PopDown_ItemBoxUI()
+{
+    if (m_pItemBox != nullptr)
+    {
+        Safe_Release(m_pItemBox);
+        m_pItemBox = nullptr;
+    }
+
+    Set_IsInactive(true);
 }
 
 HRESULT CUI_ItemBoxPanel::Ready_Components()
@@ -121,21 +162,20 @@ HRESULT CUI_ItemBoxPanel::Bind_ShaderResources()
     return S_OK;
 }
 
-HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_InventorySlot(const _wstring& strLayerTag)
+HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_ItemBoxSlot(const _wstring& strLayerTag)
 {
-   /* const _uint iMaxSlotCnt = { 10 };
-    m_Slots.reserve(iMaxSlotCnt);
+    m_Slots.reserve(iSlotCnt);
 
-    CUI_InventorySlot::CUI_INVENTORYSLOT_DESC SlotDesc{};
+    CUI_ItemBoxSlot::CUI_ITEMBOXSLOT_DESC SlotDesc{};
 
-    SlotDesc.iUILayer = ETOUI(UILAYER::PANEL);
+    SlotDesc.iUILayer = ETOUI(UILAYER::SLOT_PANEL);
 
     SlotDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     SlotDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
 
     SlotDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
-    SlotDesc.vColor = COLOR_TO_FLOAT(33, 45, 51);
-    SlotDesc.fImageAlpha = 0.5f;
+    SlotDesc.vColor = COLOR_TO_FLOAT(54, 65, 68);
+    SlotDesc.fImageAlpha = 0.8f;
 
     SlotDesc.fScaleRatioX = 0.044219f;
     SlotDesc.fScaleRatioY = 0.045897f;
@@ -143,50 +183,64 @@ HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_InventorySlot(const _wstring& strLayerT
     const _float fGapCol = SlotDesc.fScaleRatioX * 1.1f;
     const _float fGapRow = SlotDesc.fScaleRatioY * 1.2f;
 
-    const _float fStartPosX = 0.107578f;
-    const _float fStartPosY = -0.415139f;
+    const _float fStartPosX = m_fPosRatioX - (m_fScaleRatioX * 0.5f) + (SlotDesc.fScaleRatioX * 0.5f) + m_fScaleRatioX * 0.066f;
+    const _float fStartPosY = m_fPosRatioY + m_fScaleRatioY * 0.08f;
 
-    for (_uint i = 0; i < 2; ++i)
+    _uint iCurSlotCnt{};
+
+    for (_uint i = 0; i < 3; ++i)
     {
-        for (_uint j = 0; j < 5; ++j)
+        for (_uint j = 0; j < 4; ++j)
         {
-            SlotDesc.iSlotIndex = i * 5 + j;
+            if (iCurSlotCnt == iSlotCnt)
+            {
+                break;
+            }
+
+            SlotDesc.iSlotIndex = i * 4 + j;
             SlotDesc.fPosRatioX = fStartPosX + fGapCol * j;
             SlotDesc.fPosRatioY = fStartPosY - fGapRow * i;
 
             Slot_Creator(strLayerTag, &SlotDesc);
+            ++iCurSlotCnt;
         }
-    }*/
+
+        if (iCurSlotCnt == iSlotCnt)
+        {
+            break;
+        }
+    }
 
     return S_OK;
 }
 
 HRESULT CUI_ItemBoxPanel::Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc)
 {
-    //CUI_InventorySlot* pInventorySlot = { nullptr };
+    CUI_ItemBoxSlot* pItemBoxSlot = { nullptr };
 
-    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_InventorySlot"),
-    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag, pSlotDesc, reinterpret_cast<CGameObject**>(&pInventorySlot))))
-    //    return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_ItemBoxSlot"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, pSlotDesc, reinterpret_cast<CGameObject**>(&pItemBoxSlot))))
+        return E_FAIL;
 
-    //m_Slots.push_back(pInventorySlot);
-
-    return S_OK;
-}
-
-HRESULT CUI_ItemBoxPanel::Initialize_Inventory()
-{
-    m_ItemBoxInventory.reserve(10);
+    pItemBoxSlot->Set_IsInactive(true);
+    m_Slots.push_back(pItemBoxSlot);
 
     return S_OK;
 }
 
-void CUI_ItemBoxPanel::Sync_InventorySlot()
+void CUI_ItemBoxPanel::Sync_ItemBoxSlot()
 {
-    //for (_uint i = 0; i < m_Slots.size(); ++i)
-    //{
-    //    m_Slots[i]->Sync_Slot_Bg_Item(m_ItemBoxInventory[i].iItemId, m_ItemBoxInventory[i].iItemCnt);
-    //}
+    const vector<INVENTORY_SLOT>& ItemBoxInventory = m_pItemBox->Get_Inventory()->Get_InventoryVec();
+
+    for (_uint i = 0; i < m_Slots.size(); ++i)
+    {
+        if (i >= ItemBoxInventory.size()) {
+            m_Slots[i]->Sync_Slot_Bg_Item(-1, 0);
+            continue;
+        }
+
+        m_Slots[i]->Sync_Slot_Bg_Item(ItemBoxInventory[i].iItemId, ItemBoxInventory[i].iItemCnt);
+    }
 }
 
 CUI_ItemBoxPanel* CUI_ItemBoxPanel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -217,11 +271,13 @@ CGameObject* CUI_ItemBoxPanel::Clone(void* pArg)
 
 void CUI_ItemBoxPanel::Free()
 {
-    //for (auto& pSlot : m_Slots)
-    //{
-    //    Safe_Release(pSlot);
-    //}
-    //m_Slots.clear();
+    for (auto& pSlot : m_Slots)
+    {
+        Safe_Release(pSlot);
+    }
+    m_Slots.clear();
+
+    Safe_Release(m_pItemBox);
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);

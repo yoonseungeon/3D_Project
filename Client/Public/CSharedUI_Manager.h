@@ -9,6 +9,9 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CUI_ItemBoxPanel;
+class CItemBox;
+
 class CSharedUI_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CSharedUI_Manager)
@@ -20,11 +23,17 @@ private:
 private:
 	HRESULT Initialize();
 
-	HRESULT Ready_Layer_UI_ItemBox_Inventory(const _wstring& strLayerTag);
+public:
+	void PopUp_ItemBoxUI(CItemBox* pItemBox);
+	void PopDown_ItemBoxUI();
 
 private:
 	CGameInstance* m_pGameInstance{ nullptr };
 
+	CUI_ItemBoxPanel* m_pItemBoxPanel{};
+
+private:
+	HRESULT Ready_Layer_UI_ItemBox_Inventory(const _wstring& strLayerTag);
 
 protected:
 	virtual void Free() override;

@@ -23,6 +23,16 @@ HRESULT CSharedUI_Manager::Initialize()
     return S_OK;
 }
 
+void CSharedUI_Manager::PopUp_ItemBoxUI(CItemBox* pItemBox)
+{
+    m_pItemBoxPanel->PopUp_ItemBoxUI(pItemBox);
+}
+
+void CSharedUI_Manager::PopDown_ItemBoxUI()
+{
+    m_pItemBoxPanel->PopDown_ItemBoxUI();
+}
+
 HRESULT CSharedUI_Manager::Ready_Layer_UI_ItemBox_Inventory(const _wstring& strLayerTag)
 {
     CUI_ItemBoxPanel::CUI_ITEMBOXPANEL_DESC ItemBoxPanelDesc{};
@@ -32,7 +42,7 @@ HRESULT CSharedUI_Manager::Ready_Layer_UI_ItemBox_Inventory(const _wstring& strL
     ItemBoxPanelDesc.fPosRatioX = 0.f;
     ItemBoxPanelDesc.fPosRatioY = 0.f;
 
-    ItemBoxPanelDesc.iUILayer = ETOUI(UILAYER::PANEL);
+    ItemBoxPanelDesc.iUILayer = ETOUI(UILAYER::BACKGROUND);
 
     ItemBoxPanelDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     ItemBoxPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
@@ -43,14 +53,18 @@ HRESULT CSharedUI_Manager::Ready_Layer_UI_ItemBox_Inventory(const _wstring& strL
     ItemBoxPanelDesc.fImageAlpha = 0.8f;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_ItemBoxPanel"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &ItemBoxPanelDesc)))
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &ItemBoxPanelDesc, reinterpret_cast<CGameObject**>(&m_pItemBoxPanel))))
         return E_FAIL;
+
+    m_pItemBoxPanel->Set_IsInactive(true);
 
     return S_OK;
 }
 
 void CSharedUI_Manager::Free()
 {
+    Safe_Release(m_pItemBoxPanel);
+
     Safe_Release(m_pGameInstance);
 
     __super::Free();

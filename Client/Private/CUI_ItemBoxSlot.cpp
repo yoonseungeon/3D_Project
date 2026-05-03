@@ -1,4 +1,4 @@
-#include "CUI_InventorySlot.h"
+#include "CUI_ItemBoxSlot.h"
 
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
@@ -8,26 +8,26 @@
 #include "CUI_InvenItemBg.h"
 #include "CUI_ItemImage.h"
 
-CUI_InventorySlot::CUI_InventorySlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_ItemBoxSlot::CUI_ItemBoxSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Btn{ pDevice, pContext }
 {
 
 }
 
-CUI_InventorySlot::CUI_InventorySlot(const CUI_InventorySlot& Prototype)
+CUI_ItemBoxSlot::CUI_ItemBoxSlot(const CUI_ItemBoxSlot& Prototype)
     : CUI_Btn{ Prototype }
 {
 
 }
 
-HRESULT CUI_InventorySlot::Initialize_Prototype()
+HRESULT CUI_ItemBoxSlot::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CUI_InventorySlot::Initialize(void* pArg)
+HRESULT CUI_ItemBoxSlot::Initialize(void* pArg)
 {
-    CUI_INVENTORYSLOT_DESC* pDesc = static_cast<CUI_INVENTORYSLOT_DESC*>(pArg);
+    CUI_ITEMBOXSLOT_DESC* pDesc = static_cast<CUI_ITEMBOXSLOT_DESC*>(pArg);
 
     m_iSlotIndex = pDesc->iSlotIndex;
 
@@ -47,15 +47,15 @@ HRESULT CUI_InventorySlot::Initialize(void* pArg)
 
     if (FAILED(Ready_Layer_UI_InventoryItem(TEXT("Layer_UI_InventoryItem"))))
         return E_FAIL;
-    
+
     return S_OK;
 }
 
-void CUI_InventorySlot::Priority_Update(_float fTimeDelta)
+void CUI_ItemBoxSlot::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CUI_InventorySlot::Parallel_Update(_float fTimeDelta)
+void CUI_ItemBoxSlot::Parallel_Update(_float fTimeDelta)
 {
     if (m_bIsInactive == true)
     {
@@ -66,7 +66,7 @@ void CUI_InventorySlot::Parallel_Update(_float fTimeDelta)
     Execute_Btn();
 }
 
-void CUI_InventorySlot::Update(_float fTimeDelta)
+void CUI_ItemBoxSlot::Update(_float fTimeDelta)
 {
     if (m_bIsInactive == true)
     {
@@ -79,7 +79,7 @@ void CUI_InventorySlot::Update(_float fTimeDelta)
     }
 }
 
-void CUI_InventorySlot::Late_Update(_float fTimeDelta)
+void CUI_ItemBoxSlot::Late_Update(_float fTimeDelta)
 {
     if (m_bIsInactive == true)
     {
@@ -89,7 +89,7 @@ void CUI_InventorySlot::Late_Update(_float fTimeDelta)
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
 
-HRESULT CUI_InventorySlot::Render()
+HRESULT CUI_ItemBoxSlot::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -106,7 +106,14 @@ HRESULT CUI_InventorySlot::Render()
     return S_OK;
 }
 
-void CUI_InventorySlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
+void CUI_ItemBoxSlot::Set_IsInactive(_bool bIsInactive)
+{
+    m_bIsInactive = bIsInactive;
+    m_pItemBg->Set_IsInactive(bIsInactive);
+    m_pItemImage->Set_IsInactive(bIsInactive);
+}
+
+void CUI_ItemBoxSlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
 {
     Set_ItemBg(iItemId, iItemCnt);
     Set_Item(iItemId, iItemCnt);
@@ -114,7 +121,7 @@ void CUI_InventorySlot::Sync_Slot_Bg_Item(_int iItemId, _uint iItemCnt)
     iItemCnt = iItemCnt;
 }
 
-void CUI_InventorySlot::Set_ItemBg(_int iItemId, _uint iItemCnt)
+void CUI_ItemBoxSlot::Set_ItemBg(_int iItemId, _uint iItemCnt)
 {
     if (iItemId == -1)
     {
@@ -126,12 +133,12 @@ void CUI_InventorySlot::Set_ItemBg(_int iItemId, _uint iItemCnt)
     m_pItemBg->Set_IsInactive(false);
 
     const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(iItemId);
-    m_pItemBg->Set_TexIdx(ETOUI(pItemDesc->eGrade));    
+    m_pItemBg->Set_TexIdx(ETOUI(pItemDesc->eGrade));
 
     m_pItemBg->Set_ItemCnt(iItemCnt);
 }
 
-void CUI_InventorySlot::Set_Item(_int iItemId, _uint iItemCnt)
+void CUI_ItemBoxSlot::Set_Item(_int iItemId, _uint iItemCnt)
 {
     if (iItemId == -1)
     {
@@ -144,7 +151,7 @@ void CUI_InventorySlot::Set_Item(_int iItemId, _uint iItemCnt)
     m_pItemImage->Set_CurItem(iItemId, iItemCnt);
 }
 
-HRESULT CUI_InventorySlot::Ready_Components()
+HRESULT CUI_ItemBoxSlot::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -164,7 +171,7 @@ HRESULT CUI_InventorySlot::Ready_Components()
     return S_OK;
 }
 
-HRESULT CUI_InventorySlot::Bind_ShaderResources()
+HRESULT CUI_ItemBoxSlot::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -185,7 +192,7 @@ HRESULT CUI_InventorySlot::Bind_ShaderResources()
     return S_OK;
 }
 
-HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItemBg(const _wstring& strLayerTag)
+HRESULT CUI_ItemBoxSlot::Ready_Layer_UI_InventoryItemBg(const _wstring& strLayerTag)
 {
     CUI_InvenItemBg::CUI_INVENITEMBG_DESC Desc{};
 
@@ -210,7 +217,7 @@ HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItemBg(const _wstring& strLay
     return S_OK;
 }
 
-HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItem(const _wstring& strLayerTag)
+HRESULT CUI_ItemBoxSlot::Ready_Layer_UI_InventoryItem(const _wstring& strLayerTag)
 {
     CUI_ItemImage::CUI_ITEMIMAGE_DESC Desc{};
 
@@ -235,12 +242,11 @@ HRESULT CUI_InventorySlot::Ready_Layer_UI_InventoryItem(const _wstring& strLayer
     return S_OK;
 }
 
-void CUI_InventorySlot::BtnClick()
+void CUI_ItemBoxSlot::BtnClick()
 {
-    CInGame_Manager::GetInstance()->Get_Player()->Use_Inventory(m_iSlotIndex);
 }
 
-void CUI_InventorySlot::Execute_Btn()
+void CUI_ItemBoxSlot::Execute_Btn()
 {
     switch (m_eCurBtnState)
     {
@@ -257,33 +263,33 @@ void CUI_InventorySlot::Execute_Btn()
     }
 }
 
-CUI_InventorySlot* CUI_InventorySlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CUI_ItemBoxSlot* CUI_ItemBoxSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CUI_InventorySlot* pInstance = new CUI_InventorySlot(pDevice, pContext);
+    CUI_ItemBoxSlot* pInstance = new CUI_ItemBoxSlot(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CUI_InventorySlot");
+        MSG_BOX("Failed to Created: CUI_ItemBoxSlot");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CUI_InventorySlot::Clone(void* pArg)
+CGameObject* CUI_ItemBoxSlot::Clone(void* pArg)
 {
-    CUI_InventorySlot* pInstance = new CUI_InventorySlot(*this);
+    CUI_ItemBoxSlot* pInstance = new CUI_ItemBoxSlot(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CUI_InventorySlot");
+        MSG_BOX("Failed to Cloned: CUI_ItemBoxSlot");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CUI_InventorySlot::Free()
+void CUI_ItemBoxSlot::Free()
 {
     Safe_Release(m_pItemBg);
     Safe_Release(m_pItemImage);

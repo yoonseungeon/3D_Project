@@ -26,6 +26,9 @@
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
 
+// test
+#include "CSharedUI_Manager.h"
+#include "CItemBox.h"
 
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
@@ -560,8 +563,22 @@ void CLiDailin::Key_Input()
 
     if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))
     {
+        // test
         COLLISION_RAY_INFO tRayInfo{};
-        m_pGameInstance->Picking_Object(tRayInfo);
+        if(m_pGameInstance->Picking_Object(tRayInfo) == true)
+        {
+            if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ITEMBOX))
+            {
+                auto pItemBox = dynamic_cast<CItemBox*>(tRayInfo.pColObject);
+                if (pItemBox != nullptr) {
+                    CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pItemBox);
+                }
+            }
+        }
+        else
+        {
+            CSharedUI_Manager::GetInstance()->PopDown_ItemBoxUI();
+        }
 
         // if(몬스터 클릭)
         if (m_pGameInstance->Key_Pressing(DIK_A) /* 몬스터 이면 */)

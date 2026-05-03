@@ -130,7 +130,7 @@ HRESULT CUI_Inventory::Ready_Layer_UI_InventorySlot(const _wstring& strLayerTag)
 
     CUI_InventorySlot::CUI_INVENTORYSLOT_DESC SlotDesc{};
 
-    SlotDesc.iUILayer = ETOUI(UILAYER::PANEL);
+    SlotDesc.iUILayer = ETOUI(UILAYER::SLOT_PANEL);
 
     SlotDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     SlotDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
