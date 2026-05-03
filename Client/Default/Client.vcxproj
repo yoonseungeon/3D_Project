@@ -164,6 +164,7 @@
     <ClInclude Include="..\Public\CCraftTool.h" />
     <ClInclude Include="..\Public\CEquipment.h" />
     <ClInclude Include="..\Public\CExplosion.h" />
+    <ClInclude Include="..\Public\CInteract_ItemBox.h" />
     <ClInclude Include="..\Public\CInvenOwner.h" />
     <ClInclude Include="..\Public\CInventory.h" />
     <ClInclude Include="..\Public\CItemBox.h" />
@@ -262,6 +263,7 @@
     <ClCompile Include="..\Private\CCraftTool.cpp" />
     <ClCompile Include="..\Private\CEquipment.cpp" />
     <ClCompile Include="..\Private\CExplosion.cpp" />
+    <ClCompile Include="..\Private\CInteract_ItemBox.cpp" />
     <ClCompile Include="..\Private\CInvenOwner.cpp" />
     <ClCompile Include="..\Private\CInventory.cpp" />
     <ClCompile Include="..\Private\CItemBox.cpp" />

@@ -73,7 +73,7 @@ HRESULT CUnit::Render()
 
 void CUnit::AddEXP(_uint iEXP)
 {
-    if (m_tCurStat.iLevel >= 20)
+    if (m_tCurStat.iLevel >= m_tFinalStat.iLevel)
     {
         return;
     }
@@ -134,6 +134,11 @@ void CUnit::LevelUp()
 
     m_tCurStat.iLevel += 1;
 
+    if (m_tCurStat.iLevel >= m_tFinalStat.iLevel)
+    {
+        m_tCurStat.iEXP = m_tFinalStat.iEXP;
+    }
+
     SetFinalStat();
 }
 
@@ -164,7 +169,8 @@ void CUnit::SetStat(UNIT_STAT& tStat
 
 void CUnit::AddStat(UNIT_STAT& tStat, const UNIT_STAT& tAddStat, _bool bAdd)
 {
-    if (bAdd == true) {
+    if (bAdd == true)
+    {
         tStat += tAddStat;
     }
     else
@@ -181,6 +187,11 @@ void CUnit::SetFinalStat()
     m_tFinalStat += m_tItemStat;
 
     m_tFinalStat.iLevel = 20;
+
+    if (m_tCurStat.iHP > m_tFinalStat.iHP)
+    {
+        m_tCurStat.iHP = m_tFinalStat.iHP;
+    }
 }
 
 HRESULT CUnit::Initialize_Stat()

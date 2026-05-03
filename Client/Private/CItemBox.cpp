@@ -39,6 +39,9 @@ HRESULT CItemBox::Initialize(void* pArg)
     if (FAILED(Generate_Item()))
         return E_FAIL;
 
+    for (auto& pColliderCom : m_Colliders)
+        pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+
     return S_OK;
 }
 
@@ -49,8 +52,6 @@ void CItemBox::Priority_Update(_float fTimeDelta)
 
 void CItemBox::Parallel_Update(_float fTimeDelta)
 {
-    for (auto& pColliderCom : m_Colliders)
-        pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
 void CItemBox::Update(_float fTimeDelta)
@@ -108,6 +109,38 @@ _bool CItemBox::TakeItemToInventory(_uint iSlotIndex)
     }
 
     return bResult;
+}
+
+_bool XM_CALLCONV CItemBox::IsInOpenRange(_fvector vPos, _float fWorldDistance)
+{
+    _matrix matWorld = XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr());
+    _matrix matWorldInverse = XMMatrixInverse(nullptr, matWorld);
+    
+    _vector vPlayerLocalPos = XMVector3TransformCoord(vPos, matWorldInverse);
+
+    _float fX = XMVectorGetX(vPlayerLocalPos);
+    _float fY = XMVectorGetY(vPlayerLocalPos);
+    _float fZ = XMVectorGetZ(vPlayerLocalPos);
+
+    const MODEL_LOCAL_MIN_MAX* pLocalXYZ = m_pModelCom->Get_LocalXYZ();
+
+    MyHelper::FloatClamp(fX, pLocalXYZ->vMin.x, pLocalXYZ->vMax.x);
+    MyHelper::FloatClamp(fY, pLocalXYZ->vMin.y, pLocalXYZ->vMax.y);
+    MyHelper::FloatClamp(fZ, pLocalXYZ->vMin.z, pLocalXYZ->vMax.z);
+
+    _vector vWorldClosePoint = XMVector3TransformCoord(XMVectorSet(fX, fY, fZ, 1.f), matWorld);
+
+    // 2D로 볼 때 가장 가까운 거리는 아닌데... 쓸만함.
+    _float fLength = XMVectorGetX(
+                                     XMVector3Length(
+                                         XMVectorSetY(vWorldClosePoint, 0.f) - XMVectorSetY(vPos, 0.f)
+                                     )
+                                 );
+
+    if (fLength <= fWorldDistance)
+        return true;
+
+    return false;
 }
 
 HRESULT CItemBox::Ready_Components(wstring wstrModelPrototypeTag)

@@ -27,7 +27,8 @@ public:
 
 public:
 	// TransformCom
-	const CTransform* Get_TransformCom() { return m_pTransformCom; }
+	const CTransform* Get_TransformCom() const { return m_pTransformCom; }
+	CTransform* Get_TransformCom() { return m_pTransformCom; }
 
 	// Inventory
 	const CInventory* Get_Inventory() const { return m_pInvetory; }

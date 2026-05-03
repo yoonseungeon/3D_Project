@@ -241,9 +241,6 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory">
       <UniqueIdentifier>{32664581-8d84-460e-a04e-b320ded5256e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft">
-      <UniqueIdentifier>{84f1f479-50aa-4399-b406-35159ab3e66b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="52. Equipment">
       <UniqueIdentifier>{7b09f4ee-9114-4755-b957-e311209514b8}</UniqueIdentifier>
     </Filter>
@@ -291,6 +288,12 @@
     </Filter>
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_Craft\UI_CraftSlot">
       <UniqueIdentifier>{68b6ab4a-b14d-455d-bab2-b573dd6f44c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft">
+      <UniqueIdentifier>{84f1f479-50aa-4399-b406-35159ab3e66b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox">
+      <UniqueIdentifier>{7abb86b5-1765-4717-95cd-eba105643a26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -550,7 +553,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\98. UI_InventorySlot\UI_InvenItemBg</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CAction_Craft.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CEquipment.h">
       <Filter>52. Equipment</Filter>
@@ -581,6 +584,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CUI_ItemBoxSlot.h">
       <Filter>02. GameObject\06. SharedUI\ItemBoxPanel\ItemBoxSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CInteract_ItemBox.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -817,7 +823,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\98. UI_InventorySlot\UI_InvenItemBg</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CAction_Craft.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Action_Craft</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CEquipment.cpp">
       <Filter>52. Equipment</Filter>
@@ -854,6 +860,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_ItemBoxSlot.cpp">
       <Filter>02. GameObject\06. SharedUI\ItemBoxPanel\ItemBoxSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInteract_ItemBox.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

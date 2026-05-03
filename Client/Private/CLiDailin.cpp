@@ -21,14 +21,11 @@
 #include "CLiDailin_E.h"
 #include "CLiDailin_R.h"
 
+#include "CInteract_ItemBox.h"
 #include "CAction_Craft.h"
 
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
-
-// test
-#include "CSharedUI_Manager.h"
-#include "CItemBox.h"
 
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
@@ -285,14 +282,19 @@ void CLiDailin::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
                 Set_WaitActionState(L"CLiDailin_R");
             }
             break;
+        
+        case ACTION_COMMAND_TYPE::INTERACT_ITEMBOX:
+        {
+            Set_CurActionCommand(tAction_Command);
+            Set_WaitActionState(L"CInteract_ItemBox");
+            break;
+        }
         }
 
         case ACTION_COMMAND_TYPE::CRAFT:
         {
-
             Set_CurActionCommand(tAction_Command);
-            Set_WaitActionState(L"CAction_Craft");
-            
+            Set_WaitActionState(L"CAction_Craft");            
             break;
         }
     }
@@ -569,16 +571,15 @@ void CLiDailin::Key_Input()
         {
             if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ITEMBOX))
             {
-                auto pItemBox = dynamic_cast<CItemBox*>(tRayInfo.pColObject);
-                if (pItemBox != nullptr) {
-                    CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pItemBox);
-                }
+                ACTION_COMMAND tAction_Command{};
+                tAction_Command.eCommandType = ACTION_COMMAND_TYPE::INTERACT_ITEMBOX;
+                tAction_Command.pGameObject = tRayInfo.pColObject;
+                Process_ActionCommand(tAction_Command);
+
+                return;
             }
         }
-        else
-        {
-            CSharedUI_Manager::GetInstance()->PopDown_ItemBoxUI();
-        }
+ 
 
         // if(몬스터 클릭)
         if (m_pGameInstance->Key_Pressing(DIK_A) /* 몬스터 이면 */)
@@ -665,6 +666,8 @@ HRESULT CLiDailin::Initialize_State()
     m_States.emplace(L"CLiDailin_W", CLiDailin_W::Create());
     m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());
     m_States.emplace(L"CLiDailin_R", CLiDailin_R::Create());
+
+    m_States.emplace(L"CInteract_ItemBox", CInteract_ItemBox::Create());
 
     m_States.emplace(L"CAction_Craft", CAction_Craft::Create(static_cast<_uint>(LiDailin_Ani::Ani_Craft)));
 

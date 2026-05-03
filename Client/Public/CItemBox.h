@@ -40,6 +40,8 @@ public:
 
 	_bool TakeItemToInventory(_uint iSlotIndex);
 
+	_bool XM_CALLCONV IsInOpenRange(_fvector vPos, _float fWorldDistance);
+
 private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
@@ -47,6 +49,9 @@ private:
 	SPAWN_MAP m_eSpawnArea{};
 
 	_uint m_iMaxSize{ 10 };
+
+	_float3 vLoaclCenter{};
+	_float3 vLocalExtents{};
 
 private:
 	HRESULT Ready_Components(wstring wstrModelPrototypeTag);

@@ -90,7 +90,6 @@ void CLiDailin_R::Exit(CLiDailin* pPlayer)
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
 
 	pPlayer->Set_CanMoveCancle(false);
-
 }
 
 void CLiDailin_R::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
