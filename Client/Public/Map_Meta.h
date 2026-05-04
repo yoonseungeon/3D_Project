@@ -68,7 +68,7 @@ constexpr MAP_META MAPS[]
     { L"Ã¢°í",        L"Map_Warehouse_Over.png",      L"Map_Warehouse_Select.png",      L"Prototype_Tex_Warehouse_Over",      L"Prototype_Tex_Warehouse_Select"      , L"Prototype_Image_Warehouse_Over",       0.247548f, 0.201632f, -0.047221f, -0.351450f}
 };
 
-constexpr unsigned int iRoofCnt = { 31 };
+constexpr unsigned int iRoofCnt = { 32 };
 
 struct ROOF_META
 {
@@ -105,6 +105,7 @@ constexpr ROOF_META ROOFS[]
     { "Temple_Roof1.mymodel",        L"Prototype_Component_Model_Temple_Roof1" },
     { "Uptown_Roof1.mymodel",        L"Prototype_Component_Model_Uptown_Roof1" },
     { "Uptown_Roof2.mymodel",        L"Prototype_Component_Model_Uptown_Roof2" },
+    { "Uptown_Roof3.mymodel",        L"Prototype_Component_Model_Uptown_Roof3" },
     { "Warehouse_Roof1.mymodel",     L"Prototype_Component_Model_Warehouse_Roof1" },
     { "Warehouse_Roof2.mymodel",     L"Prototype_Component_Model_Warehouse_Roof2" },
     { "Warehouse_Roof3.mymodel",     L"Prototype_Component_Model_Warehouse_Roof3" },

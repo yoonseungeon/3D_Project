@@ -1245,7 +1245,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Structure"),
-                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Structure_NoRoof2.mymodel"))))
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Structure_NoRoof3_NoRiver.mymodel"))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Lumia_Structure");
             }
