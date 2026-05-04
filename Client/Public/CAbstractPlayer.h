@@ -39,6 +39,8 @@ public:
 public:
 	// ActionState
 	virtual void Process_ActionCommand(ACTION_COMMAND& tAction_Command) = 0;
+	virtual void DefaultProcess_ActionCommand(ACTION_COMMAND& tAction_Command) = 0;
+
 	void Try_Craft(_uint iItemId);
 
 	// Begin 동기화 필요 함수들

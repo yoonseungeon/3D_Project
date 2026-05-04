@@ -52,6 +52,7 @@ public:
 
 	void Set_ActionEnd() { m_bActionEnd = true; }
 	virtual void Process_ActionCommand(ACTION_COMMAND& tAction_Command) override;
+	virtual void DefaultProcess_ActionCommand(ACTION_COMMAND& tAction_Command) override;
 
 	// Part Obj
 	const CBody_Player* Get_BodyPlayer() const { return m_pBody; }

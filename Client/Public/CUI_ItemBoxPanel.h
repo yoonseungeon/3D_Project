@@ -14,6 +14,7 @@ NS_BEGIN(Client)
 class CItem_Manager;
 class CUI_ItemBoxSlot;
 class CItemBox;
+class CUI_Image;
 
 class CUI_ItemBoxPanel : public CUI_Default
 {
@@ -51,6 +52,9 @@ private:
 	_float m_fPosRatioX{};
 	_float m_fPosRatioY{};
 
+	_float m_fTextPosX{};
+	_float m_fTextPosY{};
+
 private:
 	CShader* m_pShaderCom{ nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
@@ -59,6 +63,8 @@ private:
 	CItem_Manager* m_pCItem_Manager{};
 
 	vector<CUI_ItemBoxSlot*> m_Slots;
+	vector<CUI_Image*> m_EmptySlots;
+	CUI_Image* m_pDecoImage{};
 
 	_uint iSlotCnt{ 10 };
 	CItemBox* m_pItemBox{};
@@ -69,6 +75,9 @@ private:
 
 	HRESULT Ready_Layer_UI_ItemBoxSlot(const _wstring& strLayerTag);
 	HRESULT Slot_Creator(const _wstring& strLayerTag, void* pSlotDesc);
+	HRESULT EmptySlot_Creator(const _wstring& strLayerTag, _float fScaleX, _float fScaleY, _float fPosX, _float fPosY);
+
+	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 
 	void Sync_ItemBoxSlot();
 

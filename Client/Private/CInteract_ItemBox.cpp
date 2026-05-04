@@ -40,7 +40,7 @@ void CInteract_ItemBox::Exit(CLiDailin* pPlayer)
 
 void CInteract_ItemBox::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
 {
-
+    pPlayer->DefaultProcess_ActionCommand(eAction_Command);
 }
 
 void CInteract_ItemBox::MoveToPos(CLiDailin* pPlayer, _float3& vPos)

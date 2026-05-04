@@ -234,69 +234,74 @@ void CLiDailin::Process_ActionCommand(ACTION_COMMAND& tAction_Command)
         return;
     }
 
+    DefaultProcess_ActionCommand(tAction_Command);
+}
+
+void CLiDailin::DefaultProcess_ActionCommand(ACTION_COMMAND& tAction_Command)
+{
     switch (tAction_Command.eCommandType)
     {
-        case ACTION_COMMAND_TYPE::ATTACK:
+    case ACTION_COMMAND_TYPE::ATTACK:
+    {
+        Set_CurActionCommand(tAction_Command);
+        Set_WaitActionState(L"CLiDailinAttack");
+
+        break;
+    }
+
+    case ACTION_COMMAND_TYPE::ATTACK_Q:
+    {
+        if (CanUseSkill(SKILL_SLOT::Q) == true)
         {
             Set_CurActionCommand(tAction_Command);
-            Set_WaitActionState(L"CLiDailinAttack");
-            
-            break;
+            Set_WaitActionState(L"CLiDailin_Q");
         }
+        break;
+    }
 
-        case ACTION_COMMAND_TYPE::ATTACK_Q:
-        {
-            if(CanUseSkill(SKILL_SLOT::Q) == true)
-            {
-                Set_CurActionCommand(tAction_Command);
-                Set_WaitActionState(L"CLiDailin_Q");
-            }
-            break;
-        }
-
-        case ACTION_COMMAND_TYPE::ATTACK_W:
-        {
-            if (CanUseSkill(SKILL_SLOT::W) == true)
-            {
-                Set_CurActionCommand(tAction_Command);
-                Set_WaitActionState(L"CLiDailin_W");
-            }
-            break;
-        }
-
-        case ACTION_COMMAND_TYPE::ATTACK_E:
-        {
-            if (CanUseSkill(SKILL_SLOT::E) == true)
-            {
-                Set_CurActionCommand(tAction_Command);
-                Set_WaitActionState(L"CLiDailin_E");
-            }
-            break;
-        }
-
-        case ACTION_COMMAND_TYPE::ATTACK_R:
-        {
-            if (CanUseSkill(SKILL_SLOT::R) == true)
-            {
-                Set_CurActionCommand(tAction_Command);
-                Set_WaitActionState(L"CLiDailin_R");
-            }
-            break;
-        
-        case ACTION_COMMAND_TYPE::INTERACT_ITEMBOX:
+    case ACTION_COMMAND_TYPE::ATTACK_W:
+    {
+        if (CanUseSkill(SKILL_SLOT::W) == true)
         {
             Set_CurActionCommand(tAction_Command);
-            Set_WaitActionState(L"CInteract_ItemBox");
-            break;
+            Set_WaitActionState(L"CLiDailin_W");
         }
-        }
+        break;
+    }
 
-        case ACTION_COMMAND_TYPE::CRAFT:
+    case ACTION_COMMAND_TYPE::ATTACK_E:
+    {
+        if (CanUseSkill(SKILL_SLOT::E) == true)
         {
             Set_CurActionCommand(tAction_Command);
-            Set_WaitActionState(L"CAction_Craft");            
-            break;
+            Set_WaitActionState(L"CLiDailin_E");
         }
+        break;
+    }
+
+    case ACTION_COMMAND_TYPE::ATTACK_R:
+    {
+        if (CanUseSkill(SKILL_SLOT::R) == true)
+        {
+            Set_CurActionCommand(tAction_Command);
+            Set_WaitActionState(L"CLiDailin_R");
+        }
+        break;
+
+    case ACTION_COMMAND_TYPE::INTERACT_ITEMBOX:
+    {
+        Set_CurActionCommand(tAction_Command);
+        Set_WaitActionState(L"CInteract_ItemBox");
+        break;
+    }
+    }
+
+    case ACTION_COMMAND_TYPE::CRAFT:
+    {
+        Set_CurActionCommand(tAction_Command);
+        Set_WaitActionState(L"CAction_Craft");
+        break;
+    }
     }
 }
 

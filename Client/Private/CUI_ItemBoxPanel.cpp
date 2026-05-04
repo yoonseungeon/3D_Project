@@ -3,6 +3,7 @@
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
 
+#include "CUI_Image.h"
 #include "CUI_ItemBoxSlot.h"
 #include "CItemBox.h"
 #include "CInventory.h"
@@ -45,6 +46,17 @@ HRESULT CUI_ItemBoxPanel::Initialize(void* pArg)
     if (FAILED(Ready_Layer_UI_ItemBoxSlot(TEXT("Layer_UI_ItemBoxSlot"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_ImageTest"))))
+        return E_FAIL;
+
+    const _float fStartAdjust{ 0.5f };
+
+    const _float fAdjustX = pDesc->fScaleRatioX * static_cast<_float>(g_iWinSizeX) * 0.385f;
+    const _float fAdjustY = pDesc->fScaleRatioY * static_cast<_float>(g_iWinSizeY) * 0.375f;
+
+    m_fTextPosX = (pDesc->fPosRatioX + fStartAdjust) * static_cast<_float>(g_iWinSizeX)- fAdjustX;
+    m_fTextPosY = -(pDesc->fPosRatioY - fStartAdjust) * static_cast<_float>(g_iWinSizeY) - fAdjustY;
+
     return S_OK;
 }
 
@@ -82,6 +94,14 @@ HRESULT CUI_ItemBoxPanel::Render()
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
+    const _float fAdjustFontSize = { 0.65f };
+
+    m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
+       L"»óÀÚ",
+        _float2(m_fTextPosX, m_fTextPosY), XMVectorSet(1.f, 1.f, 1.f, 1.f),
+        _float2(fDefaultFontSize* fAdjustFontSize, fDefaultFontSize * fAdjustFontSize)
+    );
+
     return S_OK;
 }
 
@@ -92,6 +112,13 @@ void CUI_ItemBoxPanel::Set_IsInactive(_bool bIsInactive)
     {
         m_Slots[i]->Set_IsInactive(bIsInactive);
     }
+
+    for (_uint i = 0; i < m_EmptySlots.size(); ++i)
+    {
+        m_EmptySlots[i]->Set_IsInactive(bIsInactive);
+    }
+
+    m_pDecoImage->Set_IsInactive(bIsInactive);
 }
 
 void CUI_ItemBoxPanel::PopUp_ItemBoxUI(CItemBox* pItemBox)
@@ -174,7 +201,7 @@ HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_ItemBoxSlot(const _wstring& strLayerTag
     SlotDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
 
     SlotDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
-    SlotDesc.vColor = COLOR_TO_FLOAT(54, 65, 68);
+    SlotDesc.vColor = COLOR_TO_FLOAT(53, 63, 68);
     SlotDesc.fImageAlpha = 0.8f;
 
     SlotDesc.fScaleRatioX = 0.044219f;
@@ -192,14 +219,15 @@ HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_ItemBoxSlot(const _wstring& strLayerTag
     {
         for (_uint j = 0; j < 4; ++j)
         {
-            if (iCurSlotCnt == iSlotCnt)
-            {
-                break;
-            }
-
             SlotDesc.iSlotIndex = iCurSlotCnt;
             SlotDesc.fPosRatioX = fStartPosX + fGapCol * j;
             SlotDesc.fPosRatioY = fStartPosY - fGapRow * i;
+
+            if (iCurSlotCnt >= iSlotCnt)
+            {
+                EmptySlot_Creator(strLayerTag, SlotDesc.fScaleRatioX, SlotDesc.fScaleRatioY, SlotDesc.fPosRatioX, SlotDesc.fPosRatioY);
+                continue;
+            }
 
             const _uint iCurSlotIndex = iCurSlotCnt;
             SlotDesc.funcCallBack = [this, iCurSlotIndex]()->void
@@ -216,11 +244,6 @@ HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_ItemBoxSlot(const _wstring& strLayerTag
             Slot_Creator(strLayerTag, &SlotDesc);
             ++iCurSlotCnt;
         }
-
-        if (iCurSlotCnt == iSlotCnt)
-        {
-            break;
-        }
     }
 
     return S_OK;
@@ -236,6 +259,62 @@ HRESULT CUI_ItemBoxPanel::Slot_Creator(const _wstring& strLayerTag, void* pSlotD
 
     pItemBoxSlot->Set_IsInactive(true);
     m_Slots.push_back(pItemBoxSlot);
+
+    return S_OK;
+}
+
+HRESULT CUI_ItemBoxPanel::EmptySlot_Creator(const _wstring& strLayerTag, _float fScaleRatioX, _float fScaleRatioY, _float fPosRatioX, _float fPosRatioY)
+{
+    CUI_Image* pImage{};
+
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = fScaleRatioX;
+    Desc.fScaleRatioY = fScaleRatioY;
+    Desc.fPosRatioX = fPosRatioX;
+    Desc.fPosRatioY = fPosRatioY;
+    Desc.iFlipX = false;
+    Desc.iFlipY = false;
+    Desc.iUILayer = ETOUI(UILAYER::SLOT_PANEL);
+
+    Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    Desc.eBlendState = CUI_Default::ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_IItemEmptySlot";
+
+    Desc.fImageAlpha = 0.8f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&pImage))))
+        return E_FAIL;
+
+    m_EmptySlots.push_back(pImage);
+    pImage->Set_IsInactive(true);
+
+    return S_OK;
+}
+
+HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
+{
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.002266f;
+    Desc.fScaleRatioY = 0.044f;
+    Desc.fPosRatioX = m_fPosRatioX - (m_fScaleRatioX * 0.5f) + (Desc.fScaleRatioX * 0.5f) + m_fScaleRatioX * 0.08f;
+    Desc.fPosRatioY = m_fPosRatioY + (m_fScaleRatioY * 0.5f) - (Desc.fScaleRatioY * 0.5f) - m_fScaleRatioY * 0.1f;
+    Desc.iFlipX = false;
+    Desc.iFlipY = false;
+    Desc.iUILayer = ETOUI(UILAYER::PANEL_DECO);
+
+    Desc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    Desc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
+    Desc.vColor = COLOR_TO_FLOAT(83, 120, 134);
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pDecoImage))))
+        return E_FAIL;
+
+    m_pDecoImage->Set_IsInactive(true);
 
     return S_OK;
 }
@@ -282,7 +361,13 @@ CGameObject* CUI_ItemBoxPanel::Clone(void* pArg)
 }
 
 void CUI_ItemBoxPanel::Free()
-{
+{    
+    for (auto& pEmptySlot : m_EmptySlots)
+    {
+        Safe_Release(pEmptySlot);
+    }
+    m_EmptySlots.clear();
+
     for (auto& pSlot : m_Slots)
     {
         Safe_Release(pSlot);
@@ -290,6 +375,7 @@ void CUI_ItemBoxPanel::Free()
     m_Slots.clear();
 
     Safe_Release(m_pItemBox);
+    Safe_Release(m_pDecoImage);
 
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);

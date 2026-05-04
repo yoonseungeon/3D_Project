@@ -143,10 +143,10 @@ void CUnit::LevelUp()
 }
 
 void CUnit::SetStat(UNIT_STAT& tStat
-    , _ubyte iLevel, _ushort iExp, _ushort iHp, _ushort iMp,
-    _float fHpRec, _float fMpRec, _ushort iATK, _ushort iSkillAmp,
-    _ushort iPen, _ushort iPenPct, _ushort iDef,
-    _float fATKSpeed, _ushort iCool, _ushort iCrit, _float fSpeed)
+    , _int iLevel, _int iExp, _int iHp, _int iMp,
+    _float fHpRec, _float fMpRec, _int iATK, _int iSkillAmp,
+    _int iPen, _int iPenPct, _int iDef,
+    _float fATKSpeed, _int iCool, _int iCrit, _float fSpeed)
 {
     tStat.iLevel = iLevel;
     tStat.iEXP = iExp;
