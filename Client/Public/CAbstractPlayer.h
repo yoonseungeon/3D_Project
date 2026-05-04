@@ -11,6 +11,8 @@ class CCraftList;
 
 class CCraftTool;
 class CCraftHammer;
+class CBurner;
+class CFryingPan;
 
 class CAbstractPlayer abstract : public CUnit
 {
@@ -81,6 +83,8 @@ protected:
 	// Part Obj
 	CCraftTool* m_pCraftTool{};
 	CCraftHammer* m_pCraftHammer{};
+	CBurner* m_pBurner{};
+	CFryingPan* m_pFryingPan{};
 
 protected:
 	virtual HRESULT Initialize_Skill();

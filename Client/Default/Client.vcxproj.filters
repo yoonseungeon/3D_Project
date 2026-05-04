@@ -298,6 +298,12 @@
     <Filter Include="02. GameObject\06. River">
       <UniqueIdentifier>{7ac1936c-2c29-4007-8ff0-a49affdcac81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\05. Burner">
+      <UniqueIdentifier>{7c483216-4eff-43b9-9c8c-1abae1c953f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\06. FryingPan">
+      <UniqueIdentifier>{815917f8-08ec-458e-bec7-f2cba872ec8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -594,6 +600,12 @@
     <ClInclude Include="..\Public\CRiver.h">
       <Filter>02. GameObject\06. River</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CBurner.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\05. Burner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\PUblic\CFryingPan.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\06. FryingPan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -872,6 +884,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CRiver.cpp">
       <Filter>02. GameObject\06. River</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBurner.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\05. Burner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CFryingPan.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\06. FryingPan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

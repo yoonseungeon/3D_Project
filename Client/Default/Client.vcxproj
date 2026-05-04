@@ -157,6 +157,7 @@
     <ClInclude Include="..\Public\CAction_Craft.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
     <ClInclude Include="..\Public\CBottle.h" />
+    <ClInclude Include="..\Public\CBurner.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
     <ClInclude Include="..\Public\CCraftHammer.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="..\Public\CCraftTool.h" />
     <ClInclude Include="..\Public\CEquipment.h" />
     <ClInclude Include="..\Public\CExplosion.h" />
+    <ClInclude Include="..\PUblic\CFryingPan.h" />
     <ClInclude Include="..\Public\CInteract_ItemBox.h" />
     <ClInclude Include="..\Public\CInvenOwner.h" />
     <ClInclude Include="..\Public\CInventory.h" />
@@ -257,6 +259,7 @@
     <ClCompile Include="..\Private\CAction_Craft.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />
     <ClCompile Include="..\Private\CBottle.cpp" />
+    <ClCompile Include="..\Private\CBurner.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
     <ClCompile Include="..\Private\CCraftHammer.cpp" />
@@ -264,6 +267,7 @@
     <ClCompile Include="..\Private\CCraftTool.cpp" />
     <ClCompile Include="..\Private\CEquipment.cpp" />
     <ClCompile Include="..\Private\CExplosion.cpp" />
+    <ClCompile Include="..\Private\CFryingPan.cpp" />
     <ClCompile Include="..\Private\CInteract_ItemBox.cpp" />
     <ClCompile Include="..\Private\CInvenOwner.cpp" />
     <ClCompile Include="..\Private\CInventory.cpp" />

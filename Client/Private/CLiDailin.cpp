@@ -10,6 +10,8 @@
 #include "CBottle.h"
 #include "CCraftTool.h"
 #include "CCraftHammer.h"
+#include "CBurner.h"
+#include "CFryingPan.h"
 
 #include "CInGame_Manager.h"
 
@@ -482,6 +484,7 @@ HRESULT CLiDailin::Ready_PartObjects()
         TEXT("Bottle"), &BottleDesc)))
         return E_FAIL;
     
+
     // CraftTool
     CCraftTool::CRAFTTOOL_DESC CraftToolDesc{};
     CraftToolDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
@@ -493,9 +496,7 @@ HRESULT CLiDailin::Ready_PartObjects()
 
     m_pCraftTool = dynamic_cast<CCraftTool*>(m_PartObjects[TEXT("CraftTool")]);
     Safe_AddRef(m_pCraftTool);
-
     m_pCraftTool->Set_IsInactive(true);
-
 
     // CraftHammer
     CCraftHammer::CRAFTHAMMER_DESC CraftHammerDesc{};
@@ -508,8 +509,34 @@ HRESULT CLiDailin::Ready_PartObjects()
 
     m_pCraftHammer = dynamic_cast<CCraftHammer*>(m_PartObjects[TEXT("CraftHammer")]);
     Safe_AddRef(m_pCraftHammer);
-
     m_pCraftHammer->Set_IsInactive(true);
+
+
+    // CBurner
+    CBurner::BURNER_DESC BurnerDesc{};
+    BurnerDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    BurnerDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Craft_M_Burner");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Burner"),
+        TEXT("Burner"), &BurnerDesc)))
+        return E_FAIL;
+
+    m_pBurner = dynamic_cast<CBurner*>(m_PartObjects[TEXT("Burner")]);
+    Safe_AddRef(m_pBurner);
+    m_pBurner->Set_IsInactive(true);
+
+    // FryingPan
+    CFryingPan::FRYINGPAN_DESC FryingPanDesc{};
+    FryingPanDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    FryingPanDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Craft_R_Fryingpan");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FryingPan"),
+        TEXT("FryingPan"), &FryingPanDesc)))
+        return E_FAIL;
+
+    m_pFryingPan = dynamic_cast<CFryingPan*>(m_PartObjects[TEXT("FryingPan")]);
+    Safe_AddRef(m_pFryingPan);
+    m_pFryingPan->Set_IsInactive(true);
 
     return S_OK;
 }

@@ -9,6 +9,8 @@
 #include "CPartObject.h"
 #include "CCraftTool.h"
 #include "CCraftHammer.h"
+#include "CBurner.h"
+#include "CFryingPan.h"
 
 CAbstractPlayer::CAbstractPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUnit{ pDevice, pContext }
@@ -307,6 +309,8 @@ void CAbstractPlayer::SetItemStat(_int iItemId, _bool bAdd)
 
 void CAbstractPlayer::Free()
 {
+    Safe_Release(m_pBurner);
+    Safe_Release(m_pFryingPan);
     Safe_Release(m_pCraftTool);
     Safe_Release(m_pCraftHammer);
 
