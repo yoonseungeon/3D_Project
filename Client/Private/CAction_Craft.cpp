@@ -7,6 +7,8 @@
 #include "CWeapon.h"
 #include "CCraftTool.h"
 #include "CCraftHammer.h"
+#include "CBurner.h"
+#include "CFryingPan.h"
 
 #include "CItem_Manager.h"
 #include "CInventory.h"
@@ -15,26 +17,44 @@ CAction_Craft::CAction_Craft()
 {
 }
 
-HRESULT CAction_Craft::Initialize(_uint iCurAni)
+HRESULT CAction_Craft::Initialize(_uint iCraftMetalAni, _uint iCraftFoodAni)
 {
-    m_iCurAni = iCurAni;
-
+    m_iCraftMetalAni = iCraftMetalAni;
+    m_iCraftFoodAni = iCraftFoodAni;
     return S_OK;
 }
 
 void CAction_Craft::Enter(CLiDailin* pPlayer)
 {
     m_iItemId = pPlayer->Get_CurActionCommand().Data_UInt.iItemIdx;
+
+    const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(m_iItemId);
+    m_eItemType = pItemDesc->eType;
+
     m_fMaxTime = CItem_Manager::GetInstance()->Get_CurItemCraftTime(m_iItemId);
 
     // Ani
-    pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(m_iCurAni, false);
+    if (m_eItemType == ITEM_TYPE::FOOD)
+    {
+        pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(m_iCraftFoodAni, false);
+
+        CBurner* pBurner = pPlayer->Get_Burner();
+        pBurner->Set_IsInactive(false);
+        pBurner->Get_ModelCom()->Set_AnimationIndex(CBurner::APPEAR, false);
+
+        CFryingPan* pFryingPan = pPlayer->Get_FryingPan();
+        pFryingPan->Set_IsInactive(false);
+        pFryingPan->Get_ModelCom()->Set_AnimationIndex(CFryingPan::CRAFT, false);
+    }
+    else
+    {
+        pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(m_iCraftMetalAni, false);
+        CCraftTool* pCraftTool = pPlayer->Get_CraftTool();
+        pCraftTool->Set_IsInactive(false);
+        pCraftTool->Get_ModelCom()->Set_AnimationIndex(CCraftTool::APPEAR, false);
+    }
     pPlayer->Get_Weapon()->Set_IsInactive(true);
     pPlayer->Set_MovementAniBlock(true);
-    CCraftTool* pCraftTool = pPlayer->Get_CraftTool();
-    pCraftTool->Set_IsInactive(false);
-    pCraftTool->Get_ModelCom()->Set_AnimationIndex(CCraftTool::APPEAR, false);
-
     
     // Ani Speed
 
@@ -58,16 +78,28 @@ void CAction_Craft::Update(CLiDailin* pPlayer, _float fTimeDelta)
         pPlayer->Set_ActionEnd();
     }
 
-    if (m_bOnHammer == false && pPlayerBodyModel->Get_CurAniPlayRatio() >= 0.1f)
+    if (m_eItemType == ITEM_TYPE::FOOD)
     {
-        pPlayer->Get_CraftHammer()->Set_IsInactive(false);
-        m_bOnHammer = true;
+        CBurner* pBurner = pPlayer->Get_Burner();
+        if (pBurner->Get_ModelCom()->IsAnimationFinished() == true) {
+            pBurner->Get_ModelCom()->Set_AnimationIndex(CBurner::CRAFT, false);
+        }
+    }
+    else
+    {
+        const _float fGrabHammerTime = 0.1f;
+        if (m_bOnHammer == false && pPlayerBodyModel->Get_CurAniPlayRatio() >= fGrabHammerTime)
+        {
+            pPlayer->Get_CraftHammer()->Set_IsInactive(false);
+            m_bOnHammer = true;
+        }
+
+        CCraftTool* pCraftTool = pPlayer->Get_CraftTool();
+        if (pCraftTool->Get_ModelCom()->IsAnimationFinished() == true) {
+            pCraftTool->Get_ModelCom()->Set_AnimationIndex(CCraftTool::CRAFT, false);
+        }
     }
 
-    CCraftTool* pCraftTool = pPlayer->Get_CraftTool();
-    if (pCraftTool->Get_ModelCom()->IsAnimationFinished() == true) {
-        pCraftTool->Get_ModelCom()->Set_AnimationIndex(CCraftTool::CRAFT, false);
-    }
 }
 
 void CAction_Craft::Exit(CLiDailin* pPlayer)
@@ -79,9 +111,18 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
     pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
     pPlayer->Get_Weapon()->Set_IsInactive(false);
     pPlayer->Set_MovementAniBlock(false);
-    pPlayer->Get_CraftHammer()->Set_IsInactive(true);
-    m_bOnHammer = false;
-    pPlayer->Get_CraftTool()->Set_IsInactive(true);
+    if (m_eItemType == ITEM_TYPE::FOOD)
+    {
+        pPlayer->Get_Burner()->Set_IsInactive(true);
+        pPlayer->Get_FryingPan()->Set_IsInactive(true);
+    }
+    else
+    {
+        pPlayer->Get_CraftHammer()->Set_IsInactive(true);
+        m_bOnHammer = false;
+        pPlayer->Get_CraftTool()->Set_IsInactive(true);
+    }
+
 
     // ÀÌµ¿
     pPlayer->Set_MoveBlock(false);
@@ -94,11 +135,11 @@ void CAction_Craft::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAct
  
 }
 
-CAction_Craft* CAction_Craft::Create(_uint iCurAni)
+CAction_Craft* CAction_Craft::Create(_uint iCraftMetalAni, _uint iCraftFoodAni)
 {
     CAction_Craft* pInstance = new CAction_Craft();
 
-    if (FAILED(pInstance->Initialize(iCurAni)))
+    if (FAILED(pInstance->Initialize(iCraftMetalAni, iCraftFoodAni)))
     {
         MSG_BOX("Failed to Created: CAction_Craft");
         Safe_Release(pInstance);

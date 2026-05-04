@@ -9,7 +9,7 @@ private:
 	virtual ~CAction_Craft() = default;
 
 private: 
-	HRESULT Initialize(_uint iCurAni);
+	HRESULT Initialize(_uint iCraftMetal, _uint iCraftFood);
 
 public:
 	void Enter(CLiDailin* pPlayer) override;
@@ -18,7 +18,10 @@ public:
 	void HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command) override;
 
 private:
-	_uint m_iCurAni{};
+	_uint m_iCraftMetalAni{};
+	_uint m_iCraftFoodAni{};
+
+	ITEM_TYPE m_eItemType{};
 
 	_float m_fMaxTime{};
 	_float m_fAccTime{};
@@ -28,7 +31,7 @@ private:
 	_bool m_bOnHammer{};
 
 public:
-	static CAction_Craft* Create(_uint iCurAni);
+	static CAction_Craft* Create(_uint iCraftMetalAni, _uint iCraftFoodAni);
 protected:
 	virtual void Free() override;
 };

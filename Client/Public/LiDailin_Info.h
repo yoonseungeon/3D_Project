@@ -10,7 +10,7 @@ enum class LiDailin_Ani {
 	Ani_R1 = 11, Ani_R2 = 12,
 	Ani_RestStart = 83, Ani_RestLoop = 85, Ani_RestEnd = 86,
 	Ani_Craft = 98,
-	Ani_Cook = 99,
+	Ani_Food = 99,
 	Ani_Collect = 100,
 	Ani_None
 };

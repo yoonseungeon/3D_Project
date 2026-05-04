@@ -75,6 +75,8 @@ public:
 	// Part Obj
 	CCraftTool* Get_CraftTool() { return m_pCraftTool; }
 	CCraftHammer* Get_CraftHammer() { return m_pCraftHammer; }
+	CBurner* Get_Burner() { return m_pBurner; }
+	CFryingPan* Get_FryingPan() { return m_pFryingPan; }
 
 protected:
 	CEquipment* m_pEquipment{};

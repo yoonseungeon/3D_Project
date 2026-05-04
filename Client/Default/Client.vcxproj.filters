@@ -142,9 +142,6 @@
     <Filter Include="02. GameObject\99. Particles\00. Snow">
       <UniqueIdentifier>{8919b18e-a516-4b7a-a1e4-8b4ae4b423a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\97. Monster">
-      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\98. ForkLift">
       <UniqueIdentifier>{2938a3e3-44df-481a-bb13-f5847b3fb5ff}</UniqueIdentifier>
     </Filter>
@@ -304,6 +301,9 @@
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\06. FryingPan">
       <UniqueIdentifier>{815917f8-08ec-458e-bec7-f2cba872ec8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. River\97. Monster">
+      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -373,7 +373,7 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMonster.h">
-      <Filter>02. GameObject\97. Monster</Filter>
+      <Filter>02. GameObject\06. River\97. Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_PickPanel.h">
       <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
@@ -676,7 +676,7 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMonster.cpp">
-      <Filter>02. GameObject\97. Monster</Filter>
+      <Filter>02. GameObject\06. River\97. Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_PickPanel.cpp">
       <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>

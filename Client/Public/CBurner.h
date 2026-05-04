@@ -19,7 +19,7 @@ public:
 	};
 
 public:
-	enum BURNER_ANI { APPEAR, CRAFT };
+	enum BURNER_ANI { CRAFT, APPEAR };
 
 protected:
 	CBurner(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

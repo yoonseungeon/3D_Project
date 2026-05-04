@@ -38,6 +38,12 @@ void CFryingPan::Priority_Update(_float fTimeDelta)
 
 void CFryingPan::Parallel_Update(_float fTimeDelta)
 {
+    if (m_bIsInactive == true)
+    {
+        return;
+    }
+
+    m_pModelCom->Play_Animation(fTimeDelta);
 }
 
 void CFryingPan::Update(_float fTimeDelta)
@@ -66,18 +72,20 @@ HRESULT CFryingPan::Render()
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
+    _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-    for (size_t i = 0; i < iNumMeshes; ++i)
+    for (_uint i = 0; i < iNumMeshes; ++i)
     {
-        if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", static_cast<_uint>(i), MyTextureType_DIFFUSE, 0)))
+        if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, MyTextureType_DIFFUSE, 0)))
+            return E_FAIL;
+
+        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
             return E_FAIL;
 
         if (FAILED(m_pShaderCom->Begin(0)))
             return E_FAIL;
 
-        //i 번째 메쉬 버퍼 연결 및 draw
-        if (FAILED(m_pModelCom->Render(static_cast<_uint>(i))))
+        if (FAILED(m_pModelCom->Render(i)))
             return E_FAIL;
     }
 
@@ -87,7 +95,7 @@ HRESULT CFryingPan::Render()
 HRESULT CFryingPan::Ready_Components()
 {
     /* For.Com_Shader */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
         return E_FAIL;
 

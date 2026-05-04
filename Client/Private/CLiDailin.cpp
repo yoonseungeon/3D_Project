@@ -93,12 +93,13 @@ HRESULT CLiDailin::Initialize(void* pArg)
     TryEquip_AddInven(34);
     TryEquip_AddInven(55);
     TryEquip_AddInven(52);
+    TryEquip_AddInven(52);
+    TryEquip_AddInven(52);
+    TryEquip_AddInven(52);
 
-    TryEquip_AddInven(84);
-    TryEquip_AddInven(85);
+
     TryEquip_AddInven(86);
-    TryEquip_AddInven(87);
-    TryEquip_AddInven(88);
+
     
     return S_OK;
 }
@@ -701,7 +702,7 @@ HRESULT CLiDailin::Initialize_State()
 
     m_States.emplace(L"CInteract_ItemBox", CInteract_ItemBox::Create());
 
-    m_States.emplace(L"CAction_Craft", CAction_Craft::Create(static_cast<_uint>(LiDailin_Ani::Ani_Craft)));
+    m_States.emplace(L"CAction_Craft", CAction_Craft::Create(static_cast<_uint>(LiDailin_Ani::Ani_Craft), static_cast<_uint>(LiDailin_Ani::Ani_Food)));
 
 
     m_pCurMovementState = dynamic_cast<CMovementState*>(pLiDailinIdle);

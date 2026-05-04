@@ -32,7 +32,7 @@ HRESULT CMonster::Initialize(void* pArg)
     m_pTransformCom->Set_State(STATE::POSITION,
         XMVectorSet(
             m_pGameInstance->Random(0.f, 30.f),
-            0.1f,
+            2.f,
             m_pGameInstance->Random(0.f, 30.f),
             1.f
         ));
@@ -95,7 +95,7 @@ HRESULT CMonster::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Craft_Tool"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_FryingPan"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
