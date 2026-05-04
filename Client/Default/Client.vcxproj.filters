@@ -265,15 +265,6 @@
     <Filter Include="99. Manager\04. SharedUI_Manager">
       <UniqueIdentifier>{0f5846e9-fae1-4979-add2-6875d0fc2f00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\06. SharedUI">
-      <UniqueIdentifier>{1f385eea-f455-4463-b2f7-914e019d4a64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\06. SharedUI\ItemBoxPanel">
-      <UniqueIdentifier>{854183a7-e1af-4527-8fea-f6a92c075d09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\06. SharedUI\ItemBoxPanel\ItemBoxSlot">
-      <UniqueIdentifier>{9a0f26b8-6012-4db1-a25f-e18c558547ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\98. UI_InventorySlot">
       <UniqueIdentifier>{52667fcf-d935-40a3-9dec-756880209686}</UniqueIdentifier>
     </Filter>
@@ -294,6 +285,18 @@
     </Filter>
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox">
       <UniqueIdentifier>{7abb86b5-1765-4717-95cd-eba105643a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\96. SharedUI">
+      <UniqueIdentifier>{1f385eea-f455-4463-b2f7-914e019d4a64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\96. SharedUI\ItemBoxPanel">
+      <UniqueIdentifier>{854183a7-e1af-4527-8fea-f6a92c075d09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\96. SharedUI\ItemBoxPanel\ItemBoxSlot">
+      <UniqueIdentifier>{9a0f26b8-6012-4db1-a25f-e18c558547ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\06. River">
+      <UniqueIdentifier>{7ac1936c-2c29-4007-8ff0-a49affdcac81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -580,13 +583,16 @@
       <Filter>99. Manager\04. SharedUI_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_ItemBoxPanel.h">
-      <Filter>02. GameObject\06. SharedUI\ItemBoxPanel</Filter>
+      <Filter>02. GameObject\96. SharedUI\ItemBoxPanel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_ItemBoxSlot.h">
-      <Filter>02. GameObject\06. SharedUI\ItemBoxPanel\ItemBoxSlot</Filter>
+      <Filter>02. GameObject\96. SharedUI\ItemBoxPanel\ItemBoxSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CInteract_ItemBox.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CRiver.h">
+      <Filter>02. GameObject\06. River</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -856,13 +862,16 @@
       <Filter>99. Manager\04. SharedUI_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_ItemBoxPanel.cpp">
-      <Filter>02. GameObject\06. SharedUI\ItemBoxPanel</Filter>
+      <Filter>02. GameObject\96. SharedUI\ItemBoxPanel</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_ItemBoxSlot.cpp">
-      <Filter>02. GameObject\06. SharedUI\ItemBoxPanel\ItemBoxSlot</Filter>
+      <Filter>02. GameObject\96. SharedUI\ItemBoxPanel\ItemBoxSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CInteract_ItemBox.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CRiver.cpp">
+      <Filter>02. GameObject\06. River</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

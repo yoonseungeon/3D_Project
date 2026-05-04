@@ -33,6 +33,8 @@ private:
 	HRESULT Ready_Layer_ItemBox(const _wstring& strLayerTag);
 	void Set_ItemBoxSpwanArea(const string& strArea, SPAWN_MAP& eSpawnArea);
 
+	HRESULT Ready_Layer_River(const _wstring& strLayerTag);
+
 	CInGame_Manager*	m_pInGame_Manager{};
 	CSharedUI_Manager*	m_pSharedUI_Manager{};
 

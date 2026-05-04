@@ -45,6 +45,9 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Layer_ItemBox(TEXT("Layer_ItemBox"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_River(TEXT("Layer_River"))))
+        return E_FAIL;
+
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
     Safe_AddRef(m_pSharedUI_Manager);
 
@@ -300,6 +303,15 @@ void CLevel_GamePlay::Set_ItemBoxSpwanArea(const string& strArea, SPAWN_MAP& eSp
     {
         MSG_BOX("SPAWN_MAP Error: CLevel_GamePlay.cpp");
     }
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_River(const _wstring& strLayerTag)
+{
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_River"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
+
+    return S_OK;
 }
 
 CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

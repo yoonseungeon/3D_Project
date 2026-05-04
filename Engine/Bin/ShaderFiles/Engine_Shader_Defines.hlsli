@@ -55,7 +55,14 @@ DepthStencilState DSS_Default
 DepthStencilState DSS_Z_Disable
 {
     DepthEnable = false;
+    DepthWriteMask = Zero;
+};
+
+DepthStencilState DSS_Test_NoWrite
+{
+    DepthEnable = true;
     DepthWriteMask = Zero;  
+    DepthFunc = less_equal;
 };
 
 /////////////////////////////////////////////

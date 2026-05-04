@@ -5,7 +5,7 @@ Texture2D g_Texture;
 Texture2D g_Mask;
 
 int g_FlipX = { false }, g_FlipY = { false };
-float g_Alpha = { 1 };
+float g_Alpha = { 1.0f };
 float3 g_Color;
 
 float g_UVFillX = { 1.f };

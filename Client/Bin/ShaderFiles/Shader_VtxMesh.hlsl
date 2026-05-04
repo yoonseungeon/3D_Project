@@ -4,6 +4,9 @@ float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D g_DiffuseTexture;
 
+float g_Alpha = { 0.5f };
+float3 g_Color = { 0.157f, 0.314f, 0.392f };
+
 struct VS_IN
 {
     float3 vPosition : POSITION;
@@ -81,6 +84,21 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
+struct PS_OUT_WATER
+{
+    float4 vColor : SV_TARGET0;
+};
+
+PS_OUT_WATER PS_MAIN_WATER(PS_IN In)
+{
+    PS_OUT_WATER Out;
+
+    Out.vColor.rgb = g_Color;
+    Out.vColor.a = g_Alpha;
+    
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -92,5 +110,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
+    }
+
+    pass Water
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_WATER()));
     }
 }

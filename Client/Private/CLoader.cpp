@@ -19,6 +19,7 @@
 #include "CLumia_Ground.h"
 #include "CLumia_Structure.h"
 #include "CRoof.h"
+#include "CRiver.h"
 
 #include "CMonster.h"
 #include "CForkLift.h"
@@ -1273,6 +1274,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         );
     }
 
+    /* Prototype_Component_Model_River */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_River"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/River.mymodel"))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_River");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
     /* Prototype_Component_Model_LiDailin */
     _matrix PlayerPreTransformMatrix = XMMatrixScaling(1.f, 1.f, 1.f) * XMMatrixRotationY(XMConvertToRadians(180.f));;
 
@@ -1410,6 +1424,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CRoof::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Roof");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_River */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_River"),
+                CRiver::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_River");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

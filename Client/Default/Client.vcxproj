@@ -168,6 +168,7 @@
     <ClInclude Include="..\Public\CInvenOwner.h" />
     <ClInclude Include="..\Public\CInventory.h" />
     <ClInclude Include="..\Public\CItemBox.h" />
+    <ClInclude Include="..\Public\CRiver.h" />
     <ClInclude Include="..\Public\CUI_ItemBoxSlot.h" />
     <ClInclude Include="..\Public\CItem_Manager.h" />
     <ClInclude Include="..\Public\CSharedUI_Manager.h" />
@@ -267,6 +268,7 @@
     <ClCompile Include="..\Private\CInvenOwner.cpp" />
     <ClCompile Include="..\Private\CInventory.cpp" />
     <ClCompile Include="..\Private\CItemBox.cpp" />
+    <ClCompile Include="..\Private\CRiver.cpp" />
     <ClCompile Include="..\Private\CUI_ItemBoxSlot.cpp" />
     <ClCompile Include="..\Private\CItem_Manager.cpp" />
     <ClCompile Include="..\Private\CSharedUI_Manager.cpp" />
