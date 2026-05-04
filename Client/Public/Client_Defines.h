@@ -29,6 +29,8 @@ namespace Client
 		PLAYER = 1 << 0,
 		MONSTER = 1 << 1,
 		ITEMBOX = 1 << 2,
+		ITEMBOX_COLLECTIBLE = 1 << 3,
+
 	};
 
 

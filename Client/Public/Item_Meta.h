@@ -250,3 +250,9 @@ static const ITEMBOX_META ItemBoxMeta[]{
     {"ItemBox_WreckCar_White_01.mymodel",   L"Prototype_Component_Model_ItemBox_WreckCar_White_01"},
     {"ItemBox_WreckCar_Yellow_01.mymodel",  L"Prototype_Component_Model_ItemBox_WreckCar_Yellow_01"}
 };
+
+static const ITEMBOX_META ItemBoxCollectibleMeta[]{
+    {"ItemBox_Branch.mymodel",         L"Prototype_Component_Model_ItemBox_Branch_01"},
+    {"ItemBox_Pebbles.mymodel",        L"Prototype_Component_Model_ItemBox_Pebbles_01"},
+    {"ItemBox_Flower.mymodel",         L"Prototype_Component_Model_ItemBox_Flower_01_active"},
+};

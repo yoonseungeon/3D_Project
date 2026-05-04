@@ -61,6 +61,7 @@
 #include "CUI_EquipmentSlot.h"
 // ItemBox
 #include "CItemBox.h"
+#include "CItemBox_Collectible.h"
 // ItemBox UI
 #include "CUI_ItemBoxPanel.h"
 #include "CUI_ItemBoxSlot.h"
@@ -1402,6 +1403,27 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             }
         );
     }
+
+    /* Prototype_Component_Model_ItemBox_Collectible */
+    string strItemBoxCollectiblePath = "../Bin/Resources/GamePlay/ItemBox_Collectible/";
+
+    for (_uint i = 0; i < sizeof(ItemBoxCollectibleMeta) / sizeof(ItemBoxCollectibleMeta[0]); ++i)
+    {
+        const string strFinalPath = strItemBoxCollectiblePath + ItemBoxCollectibleMeta[i].MODEL_PATH;
+        const wstring wstrPrototypeTag = ItemBoxCollectibleMeta[i].PROTYPE_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+        m_pGameInstance->Add_Job(
+            [this, strFinalPath, wstrPrototypeTag]()->void {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), wstrPrototypeTag,
+                    CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, strFinalPath.c_str()))))
+                {
+                    MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_ItemBox_Collectible");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
@@ -1803,6 +1825,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                CItemBox::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CItemBox");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_CItemBox_Collectible */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CItemBox_Collectible"),
+                CItemBox_Collectible::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CItemBox_Collectible");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -1,4 +1,4 @@
-#include "CItemBox.h"
+#include "CItemBox_Collectible.h"
 
 #include "CGameInstance.h"
 #include "CItem_Manager.h"
@@ -7,32 +7,29 @@
 #include "CInventory.h"
 #include "CAbstractPlayer.h"
 
-CItemBox::CItemBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CItemBox_Collectible::CItemBox_Collectible(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CItemSpawner{ pDevice, pContext }
 {
 }
 
-CItemBox::CItemBox(const CItemBox& Prototype)
+CItemBox_Collectible::CItemBox_Collectible(const CItemBox_Collectible& Prototype)
     : CItemSpawner{ Prototype }
 {
 }
 
-HRESULT CItemBox::Initialize_Prototype()
+HRESULT CItemBox_Collectible::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CItemBox::Initialize(void* pArg)
+HRESULT CItemBox_Collectible::Initialize(void* pArg)
 {
-    ITEMBOX_DESC* pDesc = static_cast<ITEMBOX_DESC*>(pArg);
+    ITEMBOX_COLLECTIBLE_DESC* pDesc = static_cast<ITEMBOX_COLLECTIBLE_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
     if (FAILED(Ready_Components(pDesc->wstrModelPrototypeTag)))
-        return E_FAIL;
-
-    if (FAILED(Generate_Item()))
         return E_FAIL;
 
     for (auto& pColliderCom : m_Colliders)
@@ -41,26 +38,26 @@ HRESULT CItemBox::Initialize(void* pArg)
     return S_OK;
 }
 
-void CItemBox::Priority_Update(_float fTimeDelta)
+void CItemBox_Collectible::Priority_Update(_float fTimeDelta)
 {
 
 }
 
-void CItemBox::Parallel_Update(_float fTimeDelta)
+void CItemBox_Collectible::Parallel_Update(_float fTimeDelta)
 {
 }
 
-void CItemBox::Update(_float fTimeDelta)
+void CItemBox_Collectible::Update(_float fTimeDelta)
 {
 
 }
 
-void CItemBox::Late_Update(_float fTimeDelta)
+void CItemBox_Collectible::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }
 
-HRESULT CItemBox::Render()
+HRESULT CItemBox_Collectible::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -83,7 +80,7 @@ HRESULT CItemBox::Render()
     return S_OK;
 }
 
-HRESULT CItemBox::Ready_Components(wstring wstrModelPrototypeTag)
+HRESULT CItemBox_Collectible::Ready_Components(wstring wstrModelPrototypeTag)
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
@@ -109,12 +106,12 @@ HRESULT CItemBox::Ready_Components(wstring wstrModelPrototypeTag)
 
     m_pGameInstance->Add_Collider(pColliderCom);
     pColliderCom->Set_Owner(this);
-    pColliderCom->Set_Layer(ETOUI(Collision_Layer::ITEMBOX));
+    pColliderCom->Set_Layer(ETOUI(Collision_Layer::ITEMBOX_COLLECTIBLE));
 
     return S_OK;
 }
 
-HRESULT CItemBox::Bind_ShaderResources()
+HRESULT CItemBox_Collectible::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -127,57 +124,33 @@ HRESULT CItemBox::Bind_ShaderResources()
     return S_OK;
 }
 
-HRESULT CItemBox::Generate_Item()
+CItemBox_Collectible* CItemBox_Collectible::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    _uint iGenerateItemCnt{};
-
-    const unordered_map<_uint, ITEM_DESC>& ItemInfos = CItem_Manager::GetInstance()->Get_ItemInfos();
-
-    for (const auto& pair : ItemInfos)
-    {
-        if (iGenerateItemCnt == m_iMaxSize) {
-            return S_OK;
-        }
-
-        if (ETOUI(pair.second.eSpawnMap) & ETOUI(m_eSpawnArea)) {
-            if(rand() % 100 <= 60)
-            {
-                m_pInvetory->Add_Item(pair.second.iItemID);
-                ++iGenerateItemCnt;
-            }
-        }
-    }
-
-    return S_OK;
-}
-
-CItemBox* CItemBox::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-{
-    CItemBox* pInstance = new CItemBox(pDevice, pContext);
+    CItemBox_Collectible* pInstance = new CItemBox_Collectible(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CItemBox");
+        MSG_BOX("Failed to Created: CItemBox_Collectible");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CItemBox::Clone(void* pArg)
+CGameObject* CItemBox_Collectible::Clone(void* pArg)
 {
-    CItemBox* pInstance = new CItemBox(*this);
+    CItemBox_Collectible* pInstance = new CItemBox_Collectible(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CItemBox");
+        MSG_BOX("Failed to Cloned: CItemBox_Collectible");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CItemBox::Free()
+void CItemBox_Collectible::Free()
 {
     __super::Free();
 }
