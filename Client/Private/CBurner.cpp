@@ -38,12 +38,6 @@ void CBurner::Priority_Update(_float fTimeDelta)
 
 void CBurner::Parallel_Update(_float fTimeDelta)
 {
-    if (m_bIsInactive == true)
-    {
-        return;
-    }
-
-    m_pModelCom->Play_Animation(fTimeDelta);
 }
 
 void CBurner::Update(_float fTimeDelta)
@@ -59,12 +53,9 @@ void CBurner::Late_Update(_float fTimeDelta)
 
     _matrix SocketMatrix = XMLoadFloat4x4(m_pSocketBoneMatrix);
 
-    // SocketBone 행렬에서 위치는 맞는데, 스케일이 깨져서 스케일 1, 1, 1로 만들어 줌.
     //for (size_t i = 0; i < 3; ++i)
     //    SocketMatrix.r[i] = XMVector3Normalize(SocketMatrix.r[i]);
 
-    // 자신 월드 * 소켓 * 컨테이너 부모 이 순서로 곱함
-    // 자신 월드 * 소켓 * Body * 컨테이너 부모가 더 정확하지만 Body는 움직이지 않아서 항등 행렬임.
     Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()) * SocketMatrix);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
@@ -75,20 +66,18 @@ HRESULT CBurner::Render()
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
+    size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-    for (_uint i = 0; i < iNumMeshes; ++i)
+    for (size_t i = 0; i < iNumMeshes; ++i)
     {
-        if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, MyTextureType_DIFFUSE, 0)))
-            return E_FAIL;
-
-        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+        if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", static_cast<_uint>(i), MyTextureType_DIFFUSE, 0)))
             return E_FAIL;
 
         if (FAILED(m_pShaderCom->Begin(0)))
             return E_FAIL;
 
-        if (FAILED(m_pModelCom->Render(i)))
+        //i 번째 메쉬 버퍼 연결 및 draw
+        if (FAILED(m_pModelCom->Render(static_cast<_uint>(i))))
             return E_FAIL;
     }
 
@@ -98,7 +87,7 @@ HRESULT CBurner::Render()
 HRESULT CBurner::Ready_Components()
 {
     /* For.Com_Shader */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
         TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
         return E_FAIL;
 

@@ -18,9 +18,6 @@ public:
 		const _float4x4* pSocketBoneMatrix{ nullptr };
 	};
 
-public:
-	enum BURNER_ANI { CRAFT, APPEAR };
-
 protected:
 	CBurner(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CBurner(const CBurner& Prototype);
@@ -29,16 +26,12 @@ protected:
 private:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-
 public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual void Parallel_Update(_float fTimeDelta) override;
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
-public:
-	CMyModel* Get_ModelCom() const { return m_pModelCom; }
 
 private:
 	CShader* m_pShaderCom{ nullptr };

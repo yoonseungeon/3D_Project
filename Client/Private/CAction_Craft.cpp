@@ -40,7 +40,6 @@ void CAction_Craft::Enter(CLiDailin* pPlayer)
 
         CBurner* pBurner = pPlayer->Get_Burner();
         pBurner->Set_IsInactive(false);
-        pBurner->Get_ModelCom()->Set_AnimationIndex(CBurner::APPEAR, false);
 
         CFryingPan* pFryingPan = pPlayer->Get_FryingPan();
         pFryingPan->Set_IsInactive(false);
@@ -80,10 +79,7 @@ void CAction_Craft::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
     if (m_eItemType == ITEM_TYPE::FOOD)
     {
-        CBurner* pBurner = pPlayer->Get_Burner();
-        if (pBurner->Get_ModelCom()->IsAnimationFinished() == true) {
-            pBurner->Get_ModelCom()->Set_AnimationIndex(CBurner::CRAFT, false);
-        }
+ 
     }
     else
     {
