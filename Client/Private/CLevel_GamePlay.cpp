@@ -10,6 +10,7 @@
 #include "CLumia_Structure.h"
 #include "CRoof.h"
 #include "CItemBox.h"
+#include "CItemBox_Collectible.h"
 
 #include "CUI_Image.h"
 
@@ -304,10 +305,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_ItemBox_Collectible(const _wstring& strLaye
 
     for (const auto& jsonObj : root["spawnBoxes"])
     {
-        CItemBox::ITEMBOX_DESC tItemBoxDesc{};
+        CItemBox_Collectible::ITEMBOX_COLLECTIBLE_DESC tCollectibleDesc{};
 
         string strArea = jsonObj["area"].get<string>();
-        Set_ItemBoxSpwanArea(strArea, tItemBoxDesc.eSpawnArea);
+        Set_ItemBoxSpwanArea(strArea, tCollectibleDesc.eSpawnArea);
 
         string strBoxType = jsonObj["boxType"].get<string>();
 
@@ -315,29 +316,38 @@ HRESULT CLevel_GamePlay::Ready_Layer_ItemBox_Collectible(const _wstring& strLaye
         auto rot = jsonObj["rotationQuat"];
         auto scale = jsonObj["scale"];
 
-        tItemBoxDesc.wstrModelPrototypeTag = wstrPrefix + wstring(strBoxType.begin(), strBoxType.end());
+        tCollectibleDesc.wstrModelPrototypeTag = wstrPrefix + wstring(strBoxType.begin(), strBoxType.end());
 
-        tItemBoxDesc.tTransformDesc.vStartPos = _float3(
+        if (tCollectibleDesc.wstrModelPrototypeTag == L"Prototype_Component_Model_ItemBox_Branch_01")
+            tCollectibleDesc.iItemId = 3;
+        else if (tCollectibleDesc.wstrModelPrototypeTag == L"Prototype_Component_Model_ItemBox_Pebbles_01")
+            tCollectibleDesc.iItemId = 5;
+        else if (tCollectibleDesc.wstrModelPrototypeTag == L"Prototype_Component_Model_ItemBox_Flower_01_active")
+            tCollectibleDesc.iItemId = 27;
+        else
+            return E_FAIL;
+
+        tCollectibleDesc.tTransformDesc.vStartPos = _float3(
             pos[0].get<_float>(),
             pos[1].get<_float>(),
             pos[2].get<_float>()
         );
 
-        tItemBoxDesc.vQuaternion = _float4(
+        tCollectibleDesc.vQuaternion = _float4(
             rot[0].get<_float>(),
             rot[1].get<_float>(),
             rot[2].get<_float>(),
             rot[3].get<_float>()
         );
 
-        tItemBoxDesc.vScale = _float3(
+        tCollectibleDesc.vScale = _float3(
             scale[0].get<_float>(),
             scale[1].get<_float>(),
             scale[2].get<_float>()
         );
 
         if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CItemBox_Collectible"),
-            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &tItemBoxDesc)))
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &tCollectibleDesc)))
             return E_FAIL;
     }
 

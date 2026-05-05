@@ -310,6 +310,9 @@
     <Filter Include="02. GameObject\05. ItemSpawner\01. ItemBox_Collectible">
       <UniqueIdentifier>{d515d13b-9908-45d9-ba2d-85937228a094}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect">
+      <UniqueIdentifier>{35e5c71b-8081-46eb-a990-e458ebaca58e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -618,6 +621,9 @@
     <ClInclude Include="..\Public\CItemSpawner.h">
       <Filter>02. GameObject\05. ItemSpawner</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CAction_Collect.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -908,6 +914,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CItemSpawner.cpp">
       <Filter>02. GameObject\05. ItemSpawner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CAction_Collect.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

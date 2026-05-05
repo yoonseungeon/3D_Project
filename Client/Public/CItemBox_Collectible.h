@@ -15,6 +15,7 @@ class CItemBox_Collectible final : public CItemSpawner
 public:
 	struct ITEMBOX_COLLECTIBLE_DESC : public CItemSpawner::ITEMSPAWNER_DESC
 	{
+		_int iItemId{ -1 };
 	};
 
 protected:
@@ -32,6 +33,12 @@ public:
 	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+public:
+	_int Get_ItemId() { return m_iItemId; }
+
+private:
+	_int m_iItemId{ -1 };
 
 private:
 	HRESULT Ready_Components(wstring wstrModelPrototypeTag);

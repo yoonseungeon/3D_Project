@@ -21,6 +21,7 @@ public:
 	const vector<_uint>* Get_CanCraftItemCandidates(_uint iItemIdx) const;
 
 	_float Get_CurItemCraftTime(_uint iItemIdx);
+	_float Get_CurItemCollectTime(_uint iItemIdx);
 
 private:
 	HRESULT Initialize();
@@ -28,12 +29,14 @@ private:
 	HRESULT Set_ItemInfos();
 	HRESULT Set_Reversematerials();
 	HRESULT Set_ItemCraftTime();
+	HRESULT Set_ItemCollectTime();
 
 private:
 	unordered_map<_uint, ITEM_DESC> m_ItemInfos;
 	unordered_map<_int, vector<_uint>> m_Reversematerials;
 
 	_float m_fItemCraftTimes[static_cast<int>(ITEM_GRADE::ITEM_GRADE_END)];
+	_float m_fItemCollectTimes[static_cast<int>(ITEM_GRADE::ITEM_GRADE_END)];
 
 protected:
 	virtual void Free() override;

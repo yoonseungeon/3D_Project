@@ -26,6 +26,8 @@ HRESULT CItemBox_Collectible::Initialize(void* pArg)
 {
     ITEMBOX_COLLECTIBLE_DESC* pDesc = static_cast<ITEMBOX_COLLECTIBLE_DESC*>(pArg);
 
+    m_iItemId = pDesc->iItemId;
+
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 

@@ -22,6 +22,11 @@ static float ItemCraftTime[static_cast<int>(ITEM_GRADE::ITEM_GRADE_END)]
     3.f, 3.f, 3.f, 3.f, 3.f, 3.f
 };
 
+static float ItemCollectTime[static_cast<int>(ITEM_GRADE::ITEM_GRADE_END)]
+{
+    2.f, 2.f, 2.f, 2.f, 2.f, 2.f
+};
+
 enum SPAWN_MAP {
     ALLEY           = 1 << 0,
     ARCHERY         = 1 << 1,

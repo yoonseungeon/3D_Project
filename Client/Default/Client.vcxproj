@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\CAbstractPlayer.h" />
     <ClInclude Include="..\Public\CActionState.h" />
+    <ClInclude Include="..\Public\CAction_Collect.h" />
     <ClInclude Include="..\Public\CAction_Craft.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
     <ClInclude Include="..\Public\CBottle.h" />
@@ -258,6 +259,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\CAbstractPlayer.cpp" />
     <ClCompile Include="..\Private\CActionState.cpp" />
+    <ClCompile Include="..\Private\CAction_Collect.cpp" />
     <ClCompile Include="..\Private\CAction_Craft.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />
     <ClCompile Include="..\Private\CBottle.cpp" />

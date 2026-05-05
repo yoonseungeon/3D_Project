@@ -38,6 +38,16 @@ _float CItem_Manager::Get_CurItemCraftTime(_uint iItemIdx)
     return m_fItemCraftTimes[ETOUI(pItemDesc->eGrade)];
 }
 
+_float CItem_Manager::Get_CurItemCollectTime(_uint iItemIdx)
+{
+    const ITEM_DESC* pItemDesc = Find_ItemInfo(iItemIdx);
+    if (pItemDesc == nullptr) {
+        return 0.f;
+    }
+
+    return m_fItemCollectTimes[ETOUI(pItemDesc->eGrade)];
+}
+
 HRESULT CItem_Manager::Initialize()
 {   
     if (FAILED(Set_ItemInfos()))
@@ -47,6 +57,9 @@ HRESULT CItem_Manager::Initialize()
         return E_FAIL;
 
     if (FAILED(Set_ItemCraftTime()))
+        return E_FAIL;
+
+    if (FAILED(Set_ItemCollectTime()))
         return E_FAIL;
     
     return S_OK;
@@ -89,6 +102,13 @@ HRESULT CItem_Manager::Set_Reversematerials()
 HRESULT CItem_Manager::Set_ItemCraftTime()
 {
     memcpy(m_fItemCraftTimes, ItemCraftTime, sizeof(m_fItemCraftTimes));
+
+    return S_OK;
+}
+
+HRESULT CItem_Manager::Set_ItemCollectTime()
+{
+    memcpy(m_fItemCollectTimes, ItemCollectTime, sizeof(ItemCollectTime));
 
     return S_OK;
 }

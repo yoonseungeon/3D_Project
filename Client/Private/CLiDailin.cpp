@@ -25,6 +25,7 @@
 
 #include "CInteract_ItemBox.h"
 #include "CAction_Craft.h"
+#include "CAction_Collect.h"
 
 #include "CUI_StackSkillIcon.h"
 #include "CUI_NormalSkillIcon.h"
@@ -303,6 +304,14 @@ void CLiDailin::DefaultProcess_ActionCommand(ACTION_COMMAND& tAction_Command)
     {
         Set_CurActionCommand(tAction_Command);
         Set_WaitActionState(L"CAction_Craft");
+        break;
+    }
+
+
+    case ACTION_COMMAND_TYPE::COLLECT:
+    {
+        Set_CurActionCommand(tAction_Command);
+        Set_WaitActionState(L"CAction_Collect");
         break;
     }
     }
@@ -611,6 +620,12 @@ void CLiDailin::Key_Input()
 
                 return;
             }
+            else if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ITEMBOX_COLLECTIBLE)) {
+                ACTION_COMMAND tAction_Command{};
+                tAction_Command.eCommandType = ACTION_COMMAND_TYPE::COLLECT;
+                tAction_Command.pGameObject = tRayInfo.pColObject;
+                Process_ActionCommand(tAction_Command);
+            }
         }
  
 
@@ -703,6 +718,7 @@ HRESULT CLiDailin::Initialize_State()
     m_States.emplace(L"CInteract_ItemBox", CInteract_ItemBox::Create());
 
     m_States.emplace(L"CAction_Craft", CAction_Craft::Create(static_cast<_uint>(LiDailin_Ani::Ani_Craft), static_cast<_uint>(LiDailin_Ani::Ani_Food)));
+    m_States.emplace(L"CAction_Collect", CAction_Collect::Create(static_cast<_uint>(LiDailin_Ani::Ani_Collect)));
 
 
     m_pCurMovementState = dynamic_cast<CMovementState*>(pLiDailinIdle);
