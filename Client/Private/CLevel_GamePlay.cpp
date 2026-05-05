@@ -74,7 +74,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 HRESULT CLevel_GamePlay::Render()
 {
 #ifdef _DEBUG
-    SetWindowText(g_hWnd, TEXT("GamePlay 레벨입니다."));
+    //SetWindowText(g_hWnd, TEXT("GamePlay 레벨입니다."));
 #endif
 
     return S_OK;

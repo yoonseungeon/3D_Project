@@ -39,7 +39,7 @@ void CLevel_Lobby::Update(_float fTimeDelta)
 HRESULT CLevel_Lobby::Render()
 {
 #ifdef _DEBUG
-    SetWindowText(g_hWnd, TEXT("Lobby 레벨입니다."));
+    //SetWindowText(g_hWnd, TEXT("Lobby 레벨입니다."));
 #endif
 
     return S_OK;

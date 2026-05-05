@@ -182,7 +182,7 @@ void CLoader::Show_Loading_Status()
         //m_pGameInstance->Draw_Text(TEXT("Font_Pretendard"), TEXT("로딩 준비 중"), _float2(g_iWinSizeX * 0.4f, g_iWinSizeY * 0.9f), XMVectorSet(1.f, 1.f, 1.f, 1.f));
     }
 
-    SetWindowText(g_hWnd, szLoadingText);
+    //SetWindowText(g_hWnd, szLoadingText);
 }
 
 HRESULT CLoader::Ready_Resources_For_Static()

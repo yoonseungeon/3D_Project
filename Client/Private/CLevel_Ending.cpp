@@ -21,7 +21,7 @@ void CLevel_Ending::Update(_float fTimeDelta)
 HRESULT CLevel_Ending::Render()
 {
 #ifdef _DEBUG
-    SetWindowText(g_hWnd, TEXT("Ending 레벨입니다."));
+    //SetWindowText(g_hWnd, TEXT("Ending 레벨입니다."));
 #endif
 
     return S_OK;

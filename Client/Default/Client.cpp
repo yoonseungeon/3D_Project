@@ -73,10 +73,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Default"))))
         return E_FAIL;
-    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
+    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_FrameLimit"))))
         return E_FAIL;
 
     _float fTimeAcc = {};
+
+#ifdef _DEBUG
+    _uint iFPS{};
+    _float fFPSTimeAcc{};
+#endif
 
     // 기본 메시지 루프입니다:
     while (true)
@@ -94,17 +99,34 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
 
         pGameInstance->Compute_Timer(TEXT("Timer_Default"));
+        const _float fDefaultTimer_TimerDelta = pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
 
-        fTimeAcc += pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
+        fTimeAcc += fDefaultTimer_TimerDelta;
 
-        if (fTimeAcc >= 1.f / 60.f)
+        if (fTimeAcc >= 1.f / 240.f)
         {
-            pGameInstance->Compute_Timer(TEXT("Timer_60"));
+            pGameInstance->Compute_Timer(TEXT("Timer_FrameLimit"));
+            const _float fFrameLimitTimer_TimerDelta = pGameInstance->Get_TimeDelta(TEXT("Timer_FrameLimit"));
 
-            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
+            pMainApp->Update(fFrameLimitTimer_TimerDelta);
             pMainApp->Render();
 
             fTimeAcc = 0.f;
+
+#ifdef _DEBUG
+            ++iFPS;
+            fFPSTimeAcc += fFrameLimitTimer_TimerDelta;
+            
+            if (fFPSTimeAcc >= 1.f)
+            {
+                wchar_t szFPS[128]{};
+                swprintf_s(szFPS, L"FPS : %d", iFPS);
+                SetWindowText(g_hWnd, szFPS);
+
+                iFPS = 0;
+                fFPSTimeAcc = 0.f;
+            }
+#endif
         }
     }   
 
