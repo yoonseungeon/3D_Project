@@ -125,6 +125,11 @@ void CUnit::Add_Recovery(_uint iConsumableHP)
     m_Recoverys.push_back(tRecovery);
 }
 
+void CUnit::Damaged(const DAMAGE_INFO& tDamageInfo)
+{
+    AddHP(tDamageInfo.iDamage);
+}
+
 void CUnit::LevelUp()
 {
     m_tCurStat.iEXP -= m_tFinalStat.iEXP;

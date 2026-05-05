@@ -1,0 +1,59 @@
+#pragma once
+
+#include "Client_Defines.h"
+#include "CPartObject.h"
+#include "Command.h"
+
+NS_BEGIN(Engine)
+class CShader;
+class CMyModel;
+NS_END
+
+NS_BEGIN(Client)
+
+class CBody_Chicken final : public CPartObject
+{
+public:
+	struct BODY_CHICKEN_DESC : public CPartObject::PARTOBJECT_DESC
+	{
+	};
+
+	enum CHICKEN_ANI { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK2, ATK1, APPEAR };
+
+private:
+	CBody_Chicken(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBody_Chicken(const CBody_Chicken& Prototype);
+	virtual ~CBody_Chicken() = default;
+
+private:
+	virtual HRESULT Initialize_Prototype() override;
+	virtual HRESULT Initialize(void* pArg) override;
+
+public:
+	virtual void Priority_Update(_float fTimeDelta) override;
+	virtual void Parallel_Update(_float fTimeDelta) override;
+	virtual void Update(_float fTimeDelta) override;
+	virtual void Late_Update(_float fTimeDelta) override;
+	virtual HRESULT Render() override;
+
+public:
+	const _float4x4* Get_BoneMatrixPtr(const _char* pBoneName) const;
+
+	CMyModel* Get_ModelCom() const { return m_pModelCom; }
+
+private:
+	CShader* m_pShaderCom{ nullptr };
+	CMyModel* m_pModelCom{ nullptr };
+
+private:
+	HRESULT Ready_Components();
+	HRESULT Bind_ShaderResources();
+
+public:
+	static CBody_Chicken* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual CGameObject* Clone(void* pArg) override;
+protected:
+	virtual void Free();
+};
+
+NS_END

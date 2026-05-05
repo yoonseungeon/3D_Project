@@ -47,6 +47,8 @@ public:
 	_float Get_CurAniPlayRatio() const;
 	_float Get_AniPlayRatio(_uint iIndex) const;
 
+	void Reset_PreTransformMatrix(_float4x4& PreTransformMatrix) { memcpy(&m_PreTransformMatrix, &PreTransformMatrix, sizeof(PreTransformMatrix)); }
+
 public:
 	//특정 텍스처를 셰이더로 던진다.
 	HRESULT Bind_Material(CShader* pShader, const _char* pConstantName, _uint iMeshIndex, MyTextureType eType, _uint iIndex);

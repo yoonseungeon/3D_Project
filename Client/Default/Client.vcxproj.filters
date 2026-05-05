@@ -193,48 +193,6 @@
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit">
       <UniqueIdentifier>{a1dccc14-65ab-4cd7-9358-622bc2860bff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer">
-      <UniqueIdentifier>{042f4c44-8fb0-42f9-8a34-1eb21df7f1c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin">
-      <UniqueIdentifier>{24a3e4e2-0a9f-40de-b411-d8a541662615}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\00. Body">
-      <UniqueIdentifier>{08aa8874-5bfc-4e48-9bfd-7614213b2c7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\01. Weapon">
-      <UniqueIdentifier>{9b16f940-715e-4884-a94b-a6a26b2fa3ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\02. Bottle">
-      <UniqueIdentifier>{b86a40b5-066a-49be-89ae-b233610732dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState">
-      <UniqueIdentifier>{4f385dd3-82e8-4a69-8e7e-c763d91a84c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\00. Attack">
-      <UniqueIdentifier>{269ddc5b-af67-429d-bf31-baedbe48b953}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\02. LiDailin_W">
-      <UniqueIdentifier>{074447ed-aa70-462f-99f6-10fd06b387e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\01. LiDailin_Q">
-      <UniqueIdentifier>{857f8a38-f9fb-4f78-9bdd-c70ab3011b36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\03. LiDailin_E">
-      <UniqueIdentifier>{f8274cb4-e6c3-493d-b5bd-c689a8296ffe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\04. LiDailin_R">
-      <UniqueIdentifier>{1b91ba37-8b65-4fef-905f-2bca49b88e11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\98. MovementState">
-      <UniqueIdentifier>{354b86c6-9624-46be-bdb8-8ed82e0c7f79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\98. MovementState\00. Idle">
-      <UniqueIdentifier>{a3a40e0f-4731-45d5-8ffb-200ccafbb771}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\98. MovementState\01. Move">
-      <UniqueIdentifier>{c1b1cd04-40ac-4d0b-8a7c-d4451f6afc42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory">
       <UniqueIdentifier>{32664581-8d84-460e-a04e-b320ded5256e}</UniqueIdentifier>
     </Filter>
@@ -249,12 +207,6 @@
     </Filter>
     <Filter Include="53. CraftList">
       <UniqueIdentifier>{3c44de70-e708-4edd-bad4-89d1f28decd8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\03. CraftTool">
-      <UniqueIdentifier>{644b3430-5128-4366-8363-1916e9266edc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer">
-      <UniqueIdentifier>{90bed114-d26c-4c92-bad3-5838cd061ee6}</UniqueIdentifier>
     </Filter>
     <Filter Include="99. Manager\04. SharedUI_Manager">
       <UniqueIdentifier>{0f5846e9-fae1-4979-add2-6875d0fc2f00}</UniqueIdentifier>
@@ -274,12 +226,6 @@
     <Filter Include="02. GameObject\04. InGameCharHUD_Empty\03. UI_Inventory\00. UI_Craft\UI_CraftSlot">
       <UniqueIdentifier>{68b6ab4a-b14d-455d-bab2-b573dd6f44c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft">
-      <UniqueIdentifier>{84f1f479-50aa-4399-b406-35159ab3e66b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox">
-      <UniqueIdentifier>{7abb86b5-1765-4717-95cd-eba105643a26}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\96. SharedUI">
       <UniqueIdentifier>{1f385eea-f455-4463-b2f7-914e019d4a64}</UniqueIdentifier>
     </Filter>
@@ -288,18 +234,6 @@
     </Filter>
     <Filter Include="02. GameObject\96. SharedUI\ItemBoxPanel\ItemBoxSlot">
       <UniqueIdentifier>{9a0f26b8-6012-4db1-a25f-e18c558547ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\05. Burner">
-      <UniqueIdentifier>{7c483216-4eff-43b9-9c8c-1abae1c953f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\06. FryingPan">
-      <UniqueIdentifier>{815917f8-08ec-458e-bec7-f2cba872ec8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\07. River">
-      <UniqueIdentifier>{7ac1936c-2c29-4007-8ff0-a49affdcac81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\07. River\97. Monster">
-      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\05. ItemSpawner">
       <UniqueIdentifier>{95a7e0bd-2705-4169-94b0-b10496fa7586}</UniqueIdentifier>
@@ -310,8 +244,83 @@
     <Filter Include="02. GameObject\05. ItemSpawner\01. ItemBox_Collectible">
       <UniqueIdentifier>{d515d13b-9908-45d9-ba2d-85937228a094}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect">
+    <Filter Include="02. GameObject\06. River">
+      <UniqueIdentifier>{7ac1936c-2c29-4007-8ff0-a49affdcac81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer">
+      <UniqueIdentifier>{042f4c44-8fb0-42f9-8a34-1eb21df7f1c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin">
+      <UniqueIdentifier>{24a3e4e2-0a9f-40de-b411-d8a541662615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\00. Body">
+      <UniqueIdentifier>{08aa8874-5bfc-4e48-9bfd-7614213b2c7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\01. Weapon">
+      <UniqueIdentifier>{9b16f940-715e-4884-a94b-a6a26b2fa3ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\02. Bottle">
+      <UniqueIdentifier>{b86a40b5-066a-49be-89ae-b233610732dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState">
+      <UniqueIdentifier>{4f385dd3-82e8-4a69-8e7e-c763d91a84c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\00. Attack">
+      <UniqueIdentifier>{269ddc5b-af67-429d-bf31-baedbe48b953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\02. LiDailin_W">
+      <UniqueIdentifier>{074447ed-aa70-462f-99f6-10fd06b387e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\01. LiDailin_Q">
+      <UniqueIdentifier>{857f8a38-f9fb-4f78-9bdd-c70ab3011b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\03. LiDailin_E">
+      <UniqueIdentifier>{f8274cb4-e6c3-493d-b5bd-c689a8296ffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\04. LiDailin_R">
+      <UniqueIdentifier>{1b91ba37-8b65-4fef-905f-2bca49b88e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft">
+      <UniqueIdentifier>{84f1f479-50aa-4399-b406-35159ab3e66b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox">
+      <UniqueIdentifier>{7abb86b5-1765-4717-95cd-eba105643a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect">
       <UniqueIdentifier>{35e5c71b-8081-46eb-a990-e458ebaca58e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\98. MovementState">
+      <UniqueIdentifier>{354b86c6-9624-46be-bdb8-8ed82e0c7f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\98. MovementState\00. Idle">
+      <UniqueIdentifier>{a3a40e0f-4731-45d5-8ffb-200ccafbb771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\98. MovementState\01. Move">
+      <UniqueIdentifier>{c1b1cd04-40ac-4d0b-8a7c-d4451f6afc42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\03. CraftTool">
+      <UniqueIdentifier>{644b3430-5128-4366-8363-1916e9266edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\04. CraftHammer">
+      <UniqueIdentifier>{90bed114-d26c-4c92-bad3-5838cd061ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\05. Burner">
+      <UniqueIdentifier>{7c483216-4eff-43b9-9c8c-1abae1c953f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\06. FryingPan">
+      <UniqueIdentifier>{815917f8-08ec-458e-bec7-f2cba872ec8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster">
+      <UniqueIdentifier>{3d597cf9-f1f0-43e1-bfb6-2e7fe2016297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\00. Chicken">
+      <UniqueIdentifier>{942b5ee1-3a27-4f6c-b859-47e1ea80f865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\00. Chicken\00. Body">
+      <UniqueIdentifier>{39319b81-1a9d-456c-ab12-4945419cf266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\97. Monster">
+      <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -382,7 +391,7 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CMonster.h">
-      <Filter>02. GameObject\07. River\97. Monster</Filter>
+      <Filter>02. GameObject\97. Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_PickPanel.h">
       <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
@@ -424,13 +433,13 @@
       <Filter>99. Manager\02. InGame_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CBody_Player.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\00. Body</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\00. Body</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CWeapon.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\01. Weapon</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\01. Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_MaskImage.h">
       <Filter>02. GameObject\01. UI_Default\00. UI_Image\01. UI_MaskImage</Filter>
@@ -439,7 +448,7 @@
       <Filter>02. GameObject\01. UI_Default\00. UI_Image\02. UI_TextBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CBottle.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\02. Bottle</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\02. Bottle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLumia_Ground.h">
       <Filter>02. GameObject\02. Map_Lumia\01. Ground</Filter>
@@ -457,25 +466,25 @@
       <Filter>999. Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailinIdle.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\98. MovementState\00. Idle</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\98. MovementState\00. Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailinMove.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\98. MovementState\01. Move</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\98. MovementState\01. Move</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LiDailin_Info.h">
       <Filter>999. Defines</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_Q.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\01. LiDailin_Q</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\01. LiDailin_Q</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailinAttack.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\00. Attack</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\00. Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_E.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\03. LiDailin_E</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\03. LiDailin_E</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_R.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\04. LiDailin_R</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\04. LiDailin_R</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_SkillIcon.h">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
@@ -487,7 +496,7 @@
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_W.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\02. LiDailin_W</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\02. LiDailin_W</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CActionState.h">
       <Filter>50. State\01. ActionState</Filter>
@@ -511,7 +520,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CAbstractPlayer.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_InGameCharProfile.h">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. UI_InGameProfile</Filter>
@@ -571,7 +580,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\98. UI_InventorySlot\UI_InvenItemBg</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CAction_Craft.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CEquipment.h">
       <Filter>52. Equipment</Filter>
@@ -586,10 +595,10 @@
       <Filter>53. CraftList</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CCraftTool.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\03. CraftTool</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\03. CraftTool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CCraftHammer.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\04. CraftHammer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CItemBox.h">
       <Filter>02. GameObject\05. ItemSpawner\00. ItemBox</Filter>
@@ -604,16 +613,16 @@
       <Filter>02. GameObject\96. SharedUI\ItemBoxPanel\ItemBoxSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CInteract_ItemBox.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CRiver.h">
-      <Filter>02. GameObject\07. River</Filter>
+      <Filter>02. GameObject\06. River</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CBurner.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\05. Burner</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\05. Burner</Filter>
     </ClInclude>
     <ClInclude Include="..\PUblic\CFryingPan.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\06. FryingPan</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\06. FryingPan</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CItemBox_Collectible.h">
       <Filter>02. GameObject\05. ItemSpawner\01. ItemBox_Collectible</Filter>
@@ -622,7 +631,16 @@
       <Filter>02. GameObject\05. ItemSpawner</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CAction_Collect.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CAbstractMonster.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CChicken.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\00. Chicken</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBody_Chicken.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\00. Chicken\00. Body</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -694,7 +712,7 @@
       <Filter>01. Levels\02. Lobby\Stage\01. Stage_Select</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CMonster.cpp">
-      <Filter>02. GameObject\07. River\97. Monster</Filter>
+      <Filter>02. GameObject\97. Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_PickPanel.cpp">
       <Filter>02. GameObject\01. UI_Default\02. UI_PickPanel</Filter>
@@ -730,10 +748,10 @@
       <Filter>99. Manager\02. InGame_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CBody_Player.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\00. Body</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\00. Body</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CWeapon.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\01. Weapon</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\01. Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_MaskImage.cpp">
       <Filter>02. GameObject\01. UI_Default\00. UI_Image\01. UI_MaskImage</Filter>
@@ -742,7 +760,7 @@
       <Filter>02. GameObject\01. UI_Default\00. UI_Image\02. UI_TextBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CBottle.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\02. Bottle</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\02. Bottle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLumia_Ground.cpp">
       <Filter>02. GameObject\02. Map_Lumia\01. Ground</Filter>
@@ -757,19 +775,19 @@
       <Filter>50. State</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailinIdle.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\98. MovementState\00. Idle</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\98. MovementState\00. Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailinMove.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\98. MovementState\01. Move</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\98. MovementState\01. Move</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailinAttack.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\00. Attack</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\00. Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_E.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\03. LiDailin_E</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\03. LiDailin_E</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_R.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\04. LiDailin_R</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\04. LiDailin_R</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_SkillIcon.cpp">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
@@ -781,10 +799,10 @@
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_Q.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\01. LiDailin_Q</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\01. LiDailin_Q</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_W.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\02. LiDailin_W</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\02. LiDailin_W</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CActionState.cpp">
       <Filter>50. State\01. ActionState</Filter>
@@ -805,7 +823,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CAbstractPlayer.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_InGameCharProfile.cpp">
       <Filter>02. GameObject\04. InGameCharHUD_Empty\01. InGameCharLevel_Empty\00. UI_InGameProfile</Filter>
@@ -859,7 +877,7 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\98. UI_InventorySlot\UI_InvenItemBg</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CAction_Craft.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\06. Action_Craft</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CEquipment.cpp">
       <Filter>52. Equipment</Filter>
@@ -874,16 +892,16 @@
       <Filter>02. GameObject\04. InGameCharHUD_Empty\04. UI_Equipment</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CCraftList.cpp">
       <Filter>53. CraftList</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CCraftTool.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\03. CraftTool</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\03. CraftTool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CCraftHammer.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\04. CraftHammer</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\04. CraftHammer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CItemBox.cpp">
       <Filter>02. GameObject\05. ItemSpawner\00. ItemBox</Filter>
@@ -898,16 +916,16 @@
       <Filter>02. GameObject\96. SharedUI\ItemBoxPanel\ItemBoxSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CInteract_ItemBox.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\05. Interact_ItemBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CRiver.cpp">
-      <Filter>02. GameObject\07. River</Filter>
+      <Filter>02. GameObject\06. River</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CBurner.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\05. Burner</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\05. Burner</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CFryingPan.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\06. FryingPan</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\06. FryingPan</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CItemBox_Collectible.cpp">
       <Filter>02. GameObject\05. ItemSpawner\01. ItemBox_Collectible</Filter>
@@ -916,7 +934,16 @@
       <Filter>02. GameObject\05. ItemSpawner</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CAction_Collect.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect</Filter>
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\07. Action_Collect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CAbstractMonster.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CChicken.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\00. Chicken</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBody_Chicken.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\00. Chicken\00. Body</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

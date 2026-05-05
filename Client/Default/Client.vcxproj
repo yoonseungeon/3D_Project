@@ -152,15 +152,18 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\CAbstractMonster.h" />
     <ClInclude Include="..\Public\CAbstractPlayer.h" />
     <ClInclude Include="..\Public\CActionState.h" />
     <ClInclude Include="..\Public\CAction_Collect.h" />
     <ClInclude Include="..\Public\CAction_Craft.h" />
+    <ClInclude Include="..\Public\CBody_Chicken.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
     <ClInclude Include="..\Public\CBottle.h" />
     <ClInclude Include="..\Public\CBurner.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
     <ClInclude Include="..\Public\CCharData_Manager.h" />
+    <ClInclude Include="..\Public\CChicken.h" />
     <ClInclude Include="..\Public\CCraftHammer.h" />
     <ClInclude Include="..\Public\CCraftList.h" />
     <ClInclude Include="..\Public\CCraftTool.h" />
@@ -257,15 +260,18 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\CAbstractMonster.cpp" />
     <ClCompile Include="..\Private\CAbstractPlayer.cpp" />
     <ClCompile Include="..\Private\CActionState.cpp" />
     <ClCompile Include="..\Private\CAction_Collect.cpp" />
     <ClCompile Include="..\Private\CAction_Craft.cpp" />
+    <ClCompile Include="..\Private\CBody_Chicken.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />
     <ClCompile Include="..\Private\CBottle.cpp" />
     <ClCompile Include="..\Private\CBurner.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
     <ClCompile Include="..\Private\CCharData_Manager.cpp" />
+    <ClCompile Include="..\Private\CChicken.cpp" />
     <ClCompile Include="..\Private\CCraftHammer.cpp" />
     <ClCompile Include="..\Private\CCraftList.cpp" />
     <ClCompile Include="..\Private\CCraftTool.cpp" />

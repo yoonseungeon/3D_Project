@@ -11,6 +11,7 @@
 #include "CRoof.h"
 #include "CItemBox.h"
 #include "CItemBox_Collectible.h"
+#include "CChicken.h"
 
 #include "CUI_Image.h"
 
@@ -52,6 +53,9 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Layer_River(TEXT("Layer_River"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_Chicken(TEXT("Layer_Chicken"))))
+        return E_FAIL;
+
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
     Safe_AddRef(m_pSharedUI_Manager);
 
@@ -86,8 +90,8 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
     LightDesc.eType = LIGHT::DIRECTIONAL;
     LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-    LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
-    LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+    LightDesc.vAmbient = _float4(0.8f, 0.8f, 0.8f, 0.8f);
+    LightDesc.vSpecular = _float4(0.f, 0.f, 0.f, 0.f);
     LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
 
     if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
@@ -385,6 +389,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_River(const _wstring& strLayerTag)
 {
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_River"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Chicken(const _wstring& strLayerTag)
+{
+    CChicken::CHICKEN_DESC Desc{};
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chicken"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
         return E_FAIL;
 
     return S_OK;

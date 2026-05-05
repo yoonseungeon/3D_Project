@@ -99,6 +99,8 @@ public:
 
 	void Add_Recovery(_uint iConsumableHP);
 
+	virtual void Damaged(const DAMAGE_INFO& tDamageInfo);
+
 protected:
 	void LevelUp();
 
@@ -129,6 +131,8 @@ protected:
 	MAINGAUGE_TYPE m_eMPType{};
 
 	vector<RECOVERY> m_Recoverys;
+
+	_float m_fAttackRange{};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

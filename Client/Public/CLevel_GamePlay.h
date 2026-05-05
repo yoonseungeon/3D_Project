@@ -36,6 +36,8 @@ private:
 
 	HRESULT Ready_Layer_River(const _wstring& strLayerTag);
 
+	HRESULT Ready_Layer_Chicken(const _wstring& strLayerTag);
+
 	CInGame_Manager*	m_pInGame_Manager{};
 	CSharedUI_Manager*	m_pSharedUI_Manager{};
 

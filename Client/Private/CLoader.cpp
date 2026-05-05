@@ -65,6 +65,9 @@
 // ItemBox UI
 #include "CUI_ItemBoxPanel.h"
 #include "CUI_ItemBoxSlot.h"
+// Monster
+#include "CChicken.h"
+#include "CBody_Chicken.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -1424,6 +1427,21 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             }
         );
     }
+
+    /* Prototype_Component_Model_Chicken */
+     _matrix ChickenPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, ChickenPreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Chicken"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/GamePlay/Monster/Chicken/Chicken.mymodel", ChickenPreTransformMatrix))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Chicken");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
@@ -1552,6 +1570,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CFryingPan::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_FryingPan");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Chicken */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chicken"),
+                CChicken::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Chickenh");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Body_Chicken */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Chicken"),
+                CBody_Chicken::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Body_Chicken");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -45,6 +45,12 @@ namespace Client
 		int iItemId{ -1 };
 		ITEM_TYPE eItemType{};
 	};
+
+	struct DAMAGE_INFO
+	{
+		class CUnit* pUnit{};
+		int iDamage{};
+	};
 }
 
 
