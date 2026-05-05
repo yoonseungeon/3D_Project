@@ -119,11 +119,13 @@ HRESULT CRenderer::Draw()
     return S_OK;
 }
 
+#ifdef _DEBUG
 void CRenderer::Add_DebugComponent(CComponent* pComponent)
 {
     m_DebugComponents.push_back(pComponent);
     Safe_AddRef(pComponent);
 }
+#endif
 
 HRESULT CRenderer::Render_Priority()
 {

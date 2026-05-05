@@ -268,10 +268,13 @@ void CGameInstance::Add_RenderGroup(RENDERID eGroupID, CGameObject* pGameObject)
 {
 	m_pRenderer->Add_RenderGroup(eGroupID, pGameObject);
 }
+
+#ifdef _DEBUG
 void CGameInstance::Add_DebugComponent(CComponent* pComponent)
 {
 	m_pRenderer->Add_DebugComponent(pComponent);
 }
+#endif
 #pragma endregion
 
 #pragma region PIPELINE
