@@ -38,7 +38,7 @@ void XM_CALLCONV CMyBone::Update_CombinedTransformMatrices(const vector<CMyBone*
     // 모든 자식들이 최상위 부모 행렬이 들어가 다 PreTransformMatrix가 적용된다.
     if (-1 == m_iParentIndex)
         XMStoreFloat4x4(&m_CombinedTransformationMatrix,
-            PreTransformMatrix * XMLoadFloat4x4(&m_TransformationMatrix));
+            XMLoadFloat4x4(&m_TransformationMatrix) * PreTransformMatrix);
     else // 부모 인덱스 저장해놨으니 행렬 가져와서 계산
         XMStoreFloat4x4(&m_CombinedTransformationMatrix,
             XMLoadFloat4x4(&m_TransformationMatrix) * XMLoadFloat4x4(&Bones[m_iParentIndex]->m_CombinedTransformationMatrix));

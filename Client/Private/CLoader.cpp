@@ -1429,7 +1429,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     }
 
     /* Prototype_Component_Model_Chicken */
-     _matrix ChickenPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+     _matrix ChickenPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f)) * XMMatrixRotationX(XMConvertToRadians(90.f));
 
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(

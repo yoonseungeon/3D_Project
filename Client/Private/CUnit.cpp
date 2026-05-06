@@ -127,7 +127,7 @@ void CUnit::Add_Recovery(_uint iConsumableHP)
 
 void CUnit::Damaged(const DAMAGE_INFO& tDamageInfo)
 {
-    AddHP(tDamageInfo.iDamage);
+    AddHP(-tDamageInfo.iDamage);
 }
 
 void CUnit::LevelUp()

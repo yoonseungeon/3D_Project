@@ -46,6 +46,8 @@ public:
 
 	void Go_Straight(_float fTimeDelta, _float fSpeed, _bool bOperateNavi = false);
 
+	_bool IsMove() { return (m_iCurMoveFlag & FLAG_MOVE_TO_POS); }
+
 private:
 	CTransform* m_pTransform{};
 	CNavigation* m_pNavigationCom{};

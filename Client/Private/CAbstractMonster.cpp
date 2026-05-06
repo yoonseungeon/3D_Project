@@ -29,7 +29,7 @@ HRESULT CAbstractMonster::Initialize(void* pArg)
     m_pInGame_Manager = CInGame_Manager::GetInstance();
     Safe_AddRef(m_pInGame_Manager);
 
-    m_fBewareRange = 3.f;
+    m_fBewareRange = 6.f;
 
     return S_OK;
 }

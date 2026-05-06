@@ -40,11 +40,6 @@ HRESULT CChicken::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
-    _matrix matRotY = XMMatrixRotationY(XMConvertToRadians(180.f));
-    _matrix matRotX = XMMatrixRotationX(XMConvertToRadians(-90.f));
-    XMStoreFloat4x4(&m_matDefaultPreTransform, matRotY);
-    XMStoreFloat4x4(&m_matBugPreTransform, matRotX * matRotY);
-
     Enter_Action(CHICKEN_ACTION::APPEAR);
 
     m_fAttackRange = 1.f;
@@ -100,73 +95,61 @@ void CChicken::Enter_Animation(CBody_Chicken::CHICKEN_ANI eNewAnimation)
     switch (eNewAnimation) {
         case CBody_Chicken::WAIT:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matDefaultPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
             break;
         }
         case CBody_Chicken::RUN:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matBugPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
             break;
         }
         case CBody_Chicken::ENDBATTLE:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matBugPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
             break;
         }
         case CBody_Chicken::DYING:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matBugPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
             break;
         }
         case CBody_Chicken::DEATH:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matBugPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
             break;
         }
         case CBody_Chicken::DANCE:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matDefaultPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
             break;
         }
         case CBody_Chicken::BEWARE_START:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matDefaultPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
             break;
         }
         case CBody_Chicken::BEWARE_LOOP:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matDefaultPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
             break;
         }
         case CBody_Chicken::BEWARE_END:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matDefaultPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
             break;
         }
         case CBody_Chicken::ATK2:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matBugPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
             break;
         }
         case CBody_Chicken::ATK1:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matBugPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
             break;
         }
         case CBody_Chicken::APPEAR:
         {
-            m_pBodyChicken->Get_ModelCom()->Reset_PreTransformMatrix(m_matBugPreTransform);
             m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
             break;
         }
@@ -201,9 +184,9 @@ void CChicken::Update_Action(_float fTimeDelta)
         break;
 
     case RUN:
-        if (IsInRange(m_fBewareRange * 2.f) == false)
+        if (IsInRange(m_fBewareRange * 1.5f) == false)
         {
-            Enter_Action(CHICKEN_ACTION::RETURN);
+            Enter_Action(CHICKEN_ACTION::ENDBATTLE);
             return;
         }
 
@@ -214,7 +197,7 @@ void CChicken::Update_Action(_float fTimeDelta)
 
     case ENDBATTLE:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            
+            Enter_Action(CHICKEN_ACTION::RETURN);
         break;
 
     case DANCE:
@@ -236,6 +219,26 @@ void CChicken::Update_Action(_float fTimeDelta)
         break;
 
     case ATK:
+        if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
+        {
+            if (PlayerIsInRange(m_fAttackRange) == true)
+            {
+                m_bIsAttackProcessed = false;
+                m_pMoveCom->Stop_Move_To_Pos();
+                if (rand() % 2 == 0)
+                    Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK1);
+                else
+                    Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK2);
+            }
+            else if (IsInRange(m_fBewareRange * 1.5f) == true)
+            {
+                Enter_Action(CHICKEN_ACTION::RUN);
+            }
+            else
+            {
+                Enter_Action(CHICKEN_ACTION::ENDBATTLE);
+            }
+        }
         break;
 
     case APPEAR:
@@ -244,7 +247,7 @@ void CChicken::Update_Action(_float fTimeDelta)
         break;
 
     case RETURN:
-        if (IsInRange(0.1f) == true)
+        if (m_pMoveCom->IsMove() == false)
             Enter_Action(CHICKEN_ACTION::WAIT);
         break;
     }
@@ -260,6 +263,7 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
         {
         case WAIT:           
             Enter_Animation(CBody_Chicken::CHICKEN_ANI::WAIT);
+            m_pMoveCom->Stop_Move_To_Pos();
             break;
 
         case RUN:
@@ -267,6 +271,7 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
             break;
 
         case ENDBATTLE:
+            m_pMoveCom->Stop_Move_To_Pos();
             Enter_Animation(CBody_Chicken::CHICKEN_ANI::ENDBATTLE);
             break;
 
@@ -295,6 +300,7 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
             break;
 
         case ATK:
+            m_bIsAttackProcessed = false;
             m_pMoveCom->Stop_Move_To_Pos();
             if(rand() % 2 == 0)
                 Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK1);
@@ -313,6 +319,7 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
 
             Safe_Release(m_pTargetPlayer);
             m_pTargetPlayer = nullptr;
+
             break;
     }
 
@@ -361,23 +368,24 @@ void CChicken::Execute_Action(_float fTimeDelta)
         break;
 
     case ATK:
-        if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
+        if (m_bIsAttackProcessed == false)
         {
-            if (PlayerIsInRange(m_fAttackRange) == true)
+            _float fAttackTime{};
+            if (m_eCurAni == CBody_Chicken::CHICKEN_ANI::ATK1)
+                fAttackTime = 0.2f;
+            else 
+                fAttackTime = 0.4f;
+
+            if (m_pBodyChicken->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
             {
-                m_pMoveCom->Stop_Move_To_Pos();
-                if (rand() % 2 == 0)
-                    Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK1);
-                else
-                    Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK2);
-            }
-            else if(IsInRange(m_fBewareRange * 2.f) == true)
-            {
-                Enter_Action(CHICKEN_ACTION::RUN);
-            }
-            else
-            {
-                Enter_Action(CHICKEN_ACTION::RETURN);
+                if (m_pTargetPlayer != nullptr)
+                {
+                    DAMAGE_INFO tDamageInfo{};
+                    tDamageInfo.iDamage = 30;
+                    tDamageInfo.pUnit = nullptr;
+                    m_pTargetPlayer->Damaged(tDamageInfo);
+                }
+                m_bIsAttackProcessed = true;
             }
         }
         break;

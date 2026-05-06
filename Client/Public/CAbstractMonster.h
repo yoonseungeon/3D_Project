@@ -47,6 +47,8 @@ protected:
 
 	_float3 m_vStartPos{};
 
+	_bool m_bIsAttackProcessed{};
+
 protected:
 	_bool PlayerIsInRange(_float fRange);	
 	_bool IsInRange(_float fRange);

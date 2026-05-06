@@ -57,9 +57,6 @@ private:
 	CHICKEN_ACTION m_eCurState{ END };
 	CHICKEN_ACTION m_ePreState{ END };
 
-	_float4x4 m_matDefaultPreTransform;
-	_float4x4 m_matBugPreTransform;
-
 	CBody_Chicken::CHICKEN_ANI m_eCurAni{};
 
 private:
