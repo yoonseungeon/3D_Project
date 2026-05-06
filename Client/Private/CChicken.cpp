@@ -429,7 +429,7 @@ HRESULT CChicken::Ready_Components()
     /* For.Com_Collider_AABB */
     CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
     AABBDesc.vSize = _float3(0.7f, 1.0f, 0.7f);
-    AABBDesc.vCenter = _float3(0.f, AABBDesc.vSize.y * 0.5f, 0.f);
+    AABBDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
 
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
         TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))

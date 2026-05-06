@@ -440,21 +440,61 @@ HRESULT CLiDailin::Ready_Components()
 
     CCollider* pColliderCom;
 
-    /* For.Com_Collider_AABB */
-    CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
-    AABBDesc.vSize = _float3(0.7f, 0.2f, 0.7f);
-    AABBDesc.vCenter = _float3(0.f, AABBDesc.vSize.y * 0.5f, 0.f);
+    ///* For.Com_Collider_AABB */
+    //CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
+    //AABBDesc.vSize = _float3(0.7f, 1.f, 0.7f);
+    //AABBDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
 
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
-        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
+    //if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
+    //    TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
+    //    return E_FAIL;
+
+    //m_Colliders.push_back(pColliderCom);
+
+    //m_pGameInstance->Add_Collider(pColliderCom);
+    //pColliderCom->Set_Owner(this);
+    //pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
+    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+
+
+    //// Q
+    ///* For.Com_Collider_Sphere */
+    //CBounding_Sphere::BOUNDING_SPHERE_DESC  SphereDesc{ };
+    //SphereDesc.fRadius = 1.8f;
+    //SphereDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
+
+    //if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+    //    TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&pColliderCom), &SphereDesc)))
+    //    return E_FAIL;
+
+    //m_Colliders.push_back(pColliderCom);
+
+    //m_pGameInstance->Add_Collider(pColliderCom);
+    //pColliderCom->Set_Owner(this);
+    //pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
+    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    //pColliderCom->Set_CanMousePicking(false);
+
+
+    // R
+    /* For.Com_Collider_OBB */
+    CBounding_OBB::BOUNDING_OBB_DESC  OBBDesc{ };
+    OBBDesc.vSize = _float3(0.7f, 1.f, 1.4f);
+    OBBDesc.vCenter = _float3(0.f, fColliderCenterY, 0.35f);
+    OBBDesc.vRadians = _float3(0.f, 0.f, 0.f);
+
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
+        TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&pColliderCom), &OBBDesc)))
         return E_FAIL;
 
     m_Colliders.push_back(pColliderCom);
 
     m_pGameInstance->Add_Collider(pColliderCom);
     pColliderCom->Set_Owner(this);
-    pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
+    pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    pColliderCom->Set_CanMousePicking(false);
+
 
     return S_OK;
 }

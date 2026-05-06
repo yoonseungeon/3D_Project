@@ -19,6 +19,9 @@ class CInGame_Manager;
 
 class CLiDailin final : public CAbstractPlayer
 {
+public:
+	enum LIDAILIN_COLLIDER { LIDAILINE_BODY, LIDAILIN_Q, LIDAILIN_E, LIDAILIN_R };
+
 private:
 	CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CLiDailin(const CLiDailin& Prototype);

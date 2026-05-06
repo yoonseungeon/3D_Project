@@ -30,9 +30,10 @@ namespace Client
 		MONSTER = 1 << 1,
 		ITEMBOX = 1 << 2,
 		ITEMBOX_COLLECTIBLE = 1 << 3,
-
+		SKILL = 1 << 4,
 	};
 
+	static constexpr float		fColliderCenterY = { 0.5f };
 
 	struct INVENTORY_SLOT
 	{
