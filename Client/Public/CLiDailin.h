@@ -38,6 +38,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	virtual void OnCollision_Enter(const COLLISION_INFO& tCollision) override;
+	virtual void OnCollision_Stay(const COLLISION_INFO& tCollision) override;
+	virtual void OnCollision_Exit(const COLLISION_INFO& tCollision) override;
+
 public:
 	// MovementState
 	void Set_WaitMovementState(const wstring& wstrState);
@@ -139,6 +143,8 @@ private:
 	virtual HRESULT Initialize_Stat() override;
 	virtual HRESULT Initialize_Skill() override;
 	virtual HRESULT Initialize_State() override;
+
+	CActionState* Get_ActionState(const wstring& wstrState);
 
 public:
 	static CLiDailin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -1,6 +1,8 @@
 #include "CBounding_AABB.h"
 #include "CBounding_OBB.h"
 #include "CBounding_Sphere.h"
+#include "CBounding_Frustum.h"
+
 #include "DebugDraw.h"
 
 CBounding_AABB::CBounding_AABB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -63,6 +65,10 @@ _bool CBounding_AABB::Intersect(COLLIDER eTargetType, CBounding* pBounding)
 
     case COLLIDER::SPHERE:
         isColl = m_pDesc->Intersects(*dynamic_cast<CBounding_Sphere*>(pBounding)->Get_Desc());
+        break;
+
+    case COLLIDER::FRUSTUM:
+        isColl = m_pDesc->Intersects(*dynamic_cast<CBounding_Frustum*>(pBounding)->Get_Desc());
         break;
     }
 

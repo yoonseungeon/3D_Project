@@ -7,11 +7,12 @@
 
 CLiDailin_E::CLiDailin_E()
 {
+    m_fMaxChanneling = 0.3f;
 }
 
 void CLiDailin_E::Enter(CLiDailin* pPlayer)
 {
-	m_fChanneling = 0.2f;
+	m_fChanneling = m_fMaxChanneling;
 	m_bCancleLock = true;
 
 	// Cool
@@ -25,6 +26,7 @@ void CLiDailin_E::Enter(CLiDailin* pPlayer)
     pPlayer->Set_MovementAniBlock(true);
 
 	// Ani Speed
+    pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AniSpeed(static_cast<_uint>(LiDailin_Ani::Ani_E), 1.5f);
 
 	// ÀÌµ¿
     pPlayer->Set_MoveBlock(true);
@@ -47,6 +49,17 @@ void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
 		}
 	}
 
+    const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
+    const _float fAniRatio = pModel->Get_CurAniPlayRatio();
+    if (fAniRatio >= 0.2f && fAniRatio <= 0.3f)
+    {
+        pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_E)->Set_Active(true);
+    }
+    else
+    {
+        pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_E)->Set_Active(false);
+    }
+
     if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
         pPlayer->Set_ActionEnd();
     }
@@ -54,6 +67,8 @@ void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CLiDailin_E::Exit(CLiDailin* pPlayer)
 {
+    pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_E)->Set_Active(false);
+
     pPlayer->Set_MovementAniBlock(false);
     pPlayer->Set_MoveBlock(false);
 
@@ -121,6 +136,28 @@ void CLiDailin_E::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eActio
             break;
         }
 	}
+}
+
+void CLiDailin_E::OnCollision_Enter(const COLLISION_INFO& tCollision)
+{
+    if (tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER))
+    {
+        auto iter = m_AttackedObj.insert(tCollision.pColObject);
+
+        if (iter.second == false)
+            return;
+
+        DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), 0 };
+        static_cast<CUnit*>(tCollision.pColObject)->Damaged(tDamageInfo);
+    }
+}
+
+void CLiDailin_E::OnCollision_Stay(const COLLISION_INFO& tCollision)
+{
+}
+
+void CLiDailin_E::OnCollision_Exit(const COLLISION_INFO& tCollision)
+{
 }
 
 CLiDailin_E* CLiDailin_E::Create()

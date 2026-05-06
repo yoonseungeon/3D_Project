@@ -72,6 +72,9 @@ HRESULT CCollider::Initialize(void* pArg)
     case COLLIDER::SPHERE:
         m_pBounding = CBounding_Sphere::Create(m_pDevice, m_pContext, pBoundingDesc);
         break;
+    case COLLIDER::FRUSTUM:
+        m_pBounding = CBounding_Frustum::Create(m_pDevice, m_pContext, pBoundingDesc);
+        break;
     }
 
     return S_OK;

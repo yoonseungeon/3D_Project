@@ -196,6 +196,9 @@
     <Filter Include="97. Picking_Manager">
       <UniqueIdentifier>{5c423377-9d33-49f4-9761-80d60b31bb41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\06. Collider\Bounding\Frustum">
+      <UniqueIdentifier>{1c111f45-067f-4bf5-8bd2-bba2304e2713}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -380,6 +383,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CPicking_Manager.cpp">
       <Filter>97. Picking_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBounding_Frustum.cpp">
+      <Filter>07. Component\06. Collider\Bounding\Frustum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -586,6 +592,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CPicking_Manager.h">
       <Filter>97. Picking_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBounding_Frustum.h">
+      <Filter>07. Component\06. Collider\Bounding\Frustum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

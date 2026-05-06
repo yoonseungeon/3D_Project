@@ -98,61 +98,61 @@ HRESULT CMonster::Ready_Components()
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
-    CCollider* pColliderCom;
+    //CCollider* pColliderCom;
 
-    /* For.Com_Collider_AABB */
-    CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
-    AABBDesc.vSize = _float3(0.7f, 0.2f, 0.7f);
-    AABBDesc.vCenter = _float3(0.f, AABBDesc.vSize.y * 0.5f, 0.f);
+    ///* For.Com_Collider_AABB */
+    //CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
+    //AABBDesc.vSize = _float3(0.7f, 0.2f, 0.7f);
+    //AABBDesc.vCenter = _float3(0.f, AABBDesc.vSize.y * 0.5f, 0.f);
 
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
-        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
-        return E_FAIL;
+    //if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
+    //    TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
+    //    return E_FAIL;
 
-    m_Colliders.push_back(pColliderCom);
-
-
-    m_pGameInstance->Add_Collider(pColliderCom);
-    pColliderCom->Set_Owner(this);
-    pColliderCom->Set_Layer(ETOUI(Collision_Layer::MONSTER));
-    pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
+    //m_Colliders.push_back(pColliderCom);
 
 
-    /* For.Com_Collider_Sphere */
-    CBounding_Sphere::BOUNDING_SPHERE_DESC  SphereDesc{ };
-    SphereDesc.fRadius = 0.7f;
-    SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius, 0.f);
-
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
-        TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&pColliderCom), &SphereDesc)))
-        return E_FAIL;
-
-    m_Colliders.push_back(pColliderCom);
+    //m_pGameInstance->Add_Collider(pColliderCom);
+    //pColliderCom->Set_Owner(this);
+    //pColliderCom->Set_Layer(ETOUI(Collision_Layer::MONSTER));
+    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
 
 
-    m_pGameInstance->Add_Collider(pColliderCom);
-    pColliderCom->Set_Owner(this);
-    pColliderCom->Set_Layer(ETOUI(Collision_Layer::MONSTER));
-    pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
+    ///* For.Com_Collider_Sphere */
+    //CBounding_Sphere::BOUNDING_SPHERE_DESC  SphereDesc{ };
+    //SphereDesc.fRadius = 0.7f;
+    //SphereDesc.vCenter = _float3(0.f, SphereDesc.fRadius, 0.f);
+
+    //if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+    //    TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&pColliderCom), &SphereDesc)))
+    //    return E_FAIL;
+
+    //m_Colliders.push_back(pColliderCom);
 
 
-    /* For.Com_Collider_OBB */
-    CBounding_OBB::BOUNDING_OBB_DESC  OBBDesc{ };
-    OBBDesc.vSize = _float3(0.7f, 0.7f, 0.7f);
-    OBBDesc.vCenter = _float3(0.f, OBBDesc.vSize.y * 0.5f, 0.f);
-    OBBDesc.vRadians = _float3(0.f, 0.f, 0.f);
-
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
-        TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&pColliderCom), &OBBDesc)))
-        return E_FAIL;
-
-    m_Colliders.push_back(pColliderCom);
+    //m_pGameInstance->Add_Collider(pColliderCom);
+    //pColliderCom->Set_Owner(this);
+    //pColliderCom->Set_Layer(ETOUI(Collision_Layer::MONSTER));
+    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
 
 
-    m_pGameInstance->Add_Collider(pColliderCom);
-    pColliderCom->Set_Owner(this);
-    pColliderCom->Set_Layer(ETOUI(Collision_Layer::MONSTER));
-    pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
+    ///* For.Com_Collider_OBB */
+    //CBounding_OBB::BOUNDING_OBB_DESC  OBBDesc{ };
+    //OBBDesc.vSize = _float3(0.7f, 0.7f, 0.7f);
+    //OBBDesc.vCenter = _float3(0.f, OBBDesc.vSize.y * 0.5f, 0.f);
+    //OBBDesc.vRadians = _float3(0.f, 0.f, 0.f);
+
+    //if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
+    //    TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&pColliderCom), &OBBDesc)))
+    //    return E_FAIL;
+
+    //m_Colliders.push_back(pColliderCom);
+
+
+    //m_pGameInstance->Add_Collider(pColliderCom);
+    //pColliderCom->Set_Owner(this);
+    //pColliderCom->Set_Layer(ETOUI(Collision_Layer::MONSTER));
+    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
 
 
     return S_OK;

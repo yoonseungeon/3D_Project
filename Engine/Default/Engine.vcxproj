@@ -175,6 +175,7 @@ call UpdateLib.bat Release</Command>
     </ClInclude>
     <ClInclude Include="..\Public\CBounding.h" />
     <ClInclude Include="..\Public\CBounding_AABB.h" />
+    <ClInclude Include="..\Public\CBounding_Frustum.h" />
     <ClInclude Include="..\Public\CBounding_OBB.h" />
     <ClInclude Include="..\Public\CBounding_Sphere.h" />
     <ClInclude Include="..\Public\CCamera.h" />
@@ -272,6 +273,7 @@ call UpdateLib.bat Release</Command>
     </ClCompile>
     <ClCompile Include="..\Private\CBounding.cpp" />
     <ClCompile Include="..\Private\CBounding_AABB.cpp" />
+    <ClCompile Include="..\Private\CBounding_Frustum.cpp" />
     <ClCompile Include="..\Private\CBounding_OBB.cpp" />
     <ClCompile Include="..\Private\CBounding_Sphere.cpp" />
     <ClCompile Include="..\Private\CCamera.cpp" />

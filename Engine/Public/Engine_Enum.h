@@ -17,7 +17,7 @@ namespace Engine
 
 	enum class MODEL { NONANIM, ANIM, END };
 
-	enum class COLLIDER { AABB, OBB, SPHERE, END };
+	enum class COLLIDER { AABB, OBB, SPHERE, FRUSTUM, END };
 
 	enum class DEFERRED { DEBUG, DIRECTIONAL, POINT, COMBINED, END };
 

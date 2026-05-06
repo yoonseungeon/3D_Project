@@ -122,6 +122,14 @@ CComponent* CGameObject::Find_Component(const _wstring& wstrComponentTag)
     return iter->second;
 }
 
+CCollider* CGameObject::Get_Collider(_uint iIndex)
+{
+    if (iIndex >= m_Colliders.size())
+        return nullptr;
+
+    return m_Colliders[iIndex];
+}
+
 void CGameObject::Free()
 {
     for (auto& Pair : m_Components)

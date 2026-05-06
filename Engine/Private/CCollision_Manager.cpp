@@ -65,7 +65,8 @@ void CCollision_Manager::Update_Collision()
 		pCollider->Set_IsColl(false);
 
 #ifdef _DEBUG
-		m_pGameInstance->Add_DebugComponent(pCollider);
+		if(pCollider->Get_Active() == true)
+			m_pGameInstance->Add_DebugComponent(pCollider);
 #endif   
 	}
 

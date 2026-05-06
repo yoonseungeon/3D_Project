@@ -158,6 +158,38 @@ HRESULT CLiDailin::Render()
     return S_OK;
 }
 
+void CLiDailin::OnCollision_Enter(const COLLISION_INFO& tCollision)
+{
+    if (tCollision.pMyCollider == m_Colliders[LIDAILIN_Q])
+    {
+        CActionState* pLiDailinQ = Get_ActionState(L"CLiDailin_Q");
+        if (pLiDailinQ != nullptr)
+            pLiDailinQ->OnCollision_Enter(tCollision);
+    }
+ 
+    if (tCollision.pMyCollider == m_Colliders[LIDAILIN_E])
+    {
+        CActionState* pLiDailinE = Get_ActionState(L"CLiDailin_E");
+        if (pLiDailinE != nullptr)
+            pLiDailinE->OnCollision_Enter(tCollision);
+    }
+
+    if (tCollision.pMyCollider == m_Colliders[LIDAILIN_R])
+    {
+        CActionState* pLiDailinR = Get_ActionState(L"CLiDailin_R");
+        if (pLiDailinR != nullptr)
+            pLiDailinR->OnCollision_Enter(tCollision);
+    }
+}
+
+void CLiDailin::OnCollision_Stay(const COLLISION_INFO& tCollision)
+{
+}
+
+void CLiDailin::OnCollision_Exit(const COLLISION_INFO& tCollision)
+{
+}
+
 void CLiDailin::Set_WaitMovementState(const wstring& wstrState)
 {
     auto iter = m_States.find(wstrState);
@@ -440,40 +472,70 @@ HRESULT CLiDailin::Ready_Components()
 
     CCollider* pColliderCom;
 
-    ///* For.Com_Collider_AABB */
-    //CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
-    //AABBDesc.vSize = _float3(0.7f, 1.f, 0.7f);
-    //AABBDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
+    /* For.Com_Collider_AABB */
+    CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
+    AABBDesc.vSize = _float3(0.7f, 1.f, 0.7f);
+    AABBDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
 
-    //if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
-    //    TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
-    //    return E_FAIL;
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
+        TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
+        return E_FAIL;
 
-    //m_Colliders.push_back(pColliderCom);
+    pColliderCom->Set_Owner(this);
+    pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
+    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
 
-    //m_pGameInstance->Add_Collider(pColliderCom);
-    //pColliderCom->Set_Owner(this);
-    //pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
-    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    m_Colliders.push_back(pColliderCom);
+    m_pGameInstance->Add_Collider(pColliderCom);
 
 
-    //// Q
-    ///* For.Com_Collider_Sphere */
-    //CBounding_Sphere::BOUNDING_SPHERE_DESC  SphereDesc{ };
-    //SphereDesc.fRadius = 1.8f;
-    //SphereDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
+    // Q
+    /* For.Com_Collider_Sphere */
+    CBounding_Sphere::BOUNDING_SPHERE_DESC  SphereDesc{ };
+    SphereDesc.fRadius = 1.8f;
+    SphereDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
 
-    //if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
-    //    TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&pColliderCom), &SphereDesc)))
-    //    return E_FAIL;
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Sphere"),
+        TEXT("Com_Collider_Sphere"), reinterpret_cast<CComponent**>(&pColliderCom), &SphereDesc)))
+        return E_FAIL;
 
-    //m_Colliders.push_back(pColliderCom);
+    pColliderCom->Set_Owner(this);
+    pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
+    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    pColliderCom->Set_CanMousePicking(false);
+    pColliderCom->Set_Active(false);
 
-    //m_pGameInstance->Add_Collider(pColliderCom);
-    //pColliderCom->Set_Owner(this);
-    //pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
-    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
-    //pColliderCom->Set_CanMousePicking(false);
+    m_Colliders.push_back(pColliderCom);
+    m_pGameInstance->Add_Collider(pColliderCom);
+
+
+    // E
+    /* For.Com_Collider_Frustum */
+    CBounding_Frustum::BOUNDING_FRUSTUM_DESC  FrustumDesc{ };
+    FrustumDesc.vOrigin = _float3(0.f, fColliderCenterY, 0.f);
+    FrustumDesc.vRadians = _float3(0.f, 0.f, 0.f);
+    FrustumDesc.fNear = 0.f;
+    FrustumDesc.fFar = 2.5f;
+
+    // tan으로 넣어줘야 함.
+    FrustumDesc.fRightSlope = tanf(XMConvertToRadians(30.f));  // 오른쪽 각도
+    FrustumDesc.fLeftSlope = -FrustumDesc.fRightSlope;         // 왼쪽 각도
+
+    FrustumDesc.fTopSlope = tanf(XMConvertToRadians(10.f)); // 위 각도
+    FrustumDesc.fBottomSlope = -FrustumDesc.fTopSlope;      // 아래 각도
+
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Frustum"),
+        TEXT("Com_Collider_Furstum"), reinterpret_cast<CComponent**>(&pColliderCom), &FrustumDesc)))
+        return E_FAIL;
+
+    pColliderCom->Set_Owner(this);
+    pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
+    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    pColliderCom->Set_CanMousePicking(false);
+    pColliderCom->Set_Active(false);
+
+    m_Colliders.push_back(pColliderCom);
+    m_pGameInstance->Add_Collider(pColliderCom);
 
 
     // R
@@ -487,14 +549,14 @@ HRESULT CLiDailin::Ready_Components()
         TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&pColliderCom), &OBBDesc)))
         return E_FAIL;
 
-    m_Colliders.push_back(pColliderCom);
-
-    m_pGameInstance->Add_Collider(pColliderCom);
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
     pColliderCom->Set_CanMousePicking(false);
+    pColliderCom->Set_Active(false);
 
+    m_Colliders.push_back(pColliderCom);
+    m_pGameInstance->Add_Collider(pColliderCom);
 
     return S_OK;
 }
@@ -770,6 +832,17 @@ HRESULT CLiDailin::Initialize_State()
     m_pCurActionState = nullptr;
 
     return S_OK;
+}
+
+CActionState* CLiDailin::Get_ActionState(const wstring& wstrState)
+{
+    auto iter = m_States.find(wstrState);
+    if (iter == m_States.end()) {
+        MSG_BOX("CLiDailin.cpp: No ActionState");
+        return nullptr;
+    }
+
+    return dynamic_cast<CActionState*>(iter->second);
 }
 
 CLiDailin* CLiDailin::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

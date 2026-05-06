@@ -41,6 +41,8 @@ public:
 
 public:
 	class CComponent* Find_Component(const _wstring& wstrComponentTag);
+
+	CCollider* Get_Collider(_uint iIndex);
 	virtual void Set_IsInactive(_bool bIsInactive) { m_bIsInactive = bIsInactive; }
 
 #ifdef _DEBUG

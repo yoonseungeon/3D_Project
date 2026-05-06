@@ -67,16 +67,26 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 
 void CLiDailin_Q::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
-	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(SKILL_SLOT::Q));
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
+	const _float fAniRatio = pModel->Get_CurAniPlayRatio();
 
+	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(SKILL_SLOT::Q));
 	// 0인 경우는 3타
-	if ((pQCoolInfo->fStack) == 0 && pModel->Get_CurAniPlayRatio() <= 0.5f)
+	if ((pQCoolInfo->fStack) == 0 && fAniRatio <= 0.5f)
 	{
 		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 7.f, true);
 	}
 	else if((pQCoolInfo->fStack) != 0){
 		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 4.f, true);
+	}
+
+	if (fAniRatio >= 0.f && fAniRatio <= 0.8f)
+	{
+		pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_Q)->Set_Active(true);
+	}
+	else
+	{
+		pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_Q)->Set_Active(false);
 	}
 
 	if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
@@ -86,9 +96,13 @@ void CLiDailin_Q::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CLiDailin_Q::Exit(CLiDailin* pPlayer)
 {
+	m_AttackedObj.clear();
+
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
 	pPlayer->Set_MovementAniBlock(false);
 	pPlayer->Set_MoveBlock(false);
+
+	pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_Q)->Set_Active(false);
 }
 
 void CLiDailin_Q::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
@@ -150,6 +164,28 @@ void CLiDailin_Q::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eActio
 			break;
 		}
 	}
+}
+
+void CLiDailin_Q::OnCollision_Enter(const COLLISION_INFO& tCollision)
+{
+	if (tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER))
+	{
+		auto iter = m_AttackedObj.insert(tCollision.pColObject);
+
+		if (iter.second == false)
+			return;
+
+		DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), 0 };
+		static_cast<CUnit*>(tCollision.pColObject)->Damaged(tDamageInfo);
+	}
+}
+
+void CLiDailin_Q::OnCollision_Stay(const COLLISION_INFO& tCollision)
+{
+}
+
+void CLiDailin_Q::OnCollision_Exit(const COLLISION_INFO& tCollision)
+{
 }
 
 CLiDailin_Q* CLiDailin_Q::Create()
