@@ -47,28 +47,17 @@ HRESULT CLiDailin::Initialize_Prototype()
 
 HRESULT CLiDailin::Initialize(void* pArg)
 {
-    if (pArg == nullptr) {
-        CABSTRACTPLAYER_DESC Desc{};
+    CABSTRACTPLAYER_DESC Desc{};
+    Desc.eItemType = ITEM_TYPE::NUNCHAKU;
+    Desc.tTransformDesc.fSpeedPerSec = 10.f;
+    Desc.tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
+    Desc.tTransformDesc.vStartPos = { 4.f, 0.f, -2.8f };
 
-        Desc.eItemType = ITEM_TYPE::NUNCHAKU;
-        Desc.tTransformDesc.fSpeedPerSec = 10.f;
-        Desc.tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
+    if (FAILED(__super::Initialize(&Desc)))
+        return E_FAIL;
 
-        if (FAILED(__super::Initialize(&Desc)))
-            return E_FAIL;
-    }
-    else {
-        CABSTRACTPLAYER_DESC* pDesc = static_cast<CABSTRACTPLAYER_DESC*>(pArg);
-
-        pDesc->eItemType = ITEM_TYPE::NUNCHAKU;
-        pDesc->tTransformDesc.fSpeedPerSec = 10.f;
-        pDesc->tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
-
-        if (FAILED(__super::Initialize(pDesc)))
-            return E_FAIL;
-    }
-
-    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(4.f, 0.f, -2.8f, 1.f));
+    // Initialize_State보다 위
+    m_fAttackRange = 1.f;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
@@ -86,8 +75,6 @@ HRESULT CLiDailin::Initialize(void* pArg)
     
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
-
-    m_fAttackRange = 1.f;
 
     TryEquip_AddInven(4);
     TryEquip_AddInven(34);
@@ -712,7 +699,6 @@ void CLiDailin::Key_Input()
 
     if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))
     {
-        // test
         COLLISION_RAY_INFO tRayInfo{};
         if(m_pGameInstance->Picking_Object(tRayInfo) == true)
         {
@@ -722,52 +708,38 @@ void CLiDailin::Key_Input()
                 tAction_Command.eCommandType = ACTION_COMMAND_TYPE::INTERACT_ITEMBOX;
                 tAction_Command.pGameObject = tRayInfo.pColObject;
                 Process_ActionCommand(tAction_Command);
-
                 return;
             }
-            else if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ITEMBOX_COLLECTIBLE)) {
+            else if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ITEMBOX_COLLECTIBLE))
+            {
                 ACTION_COMMAND tAction_Command{};
                 tAction_Command.eCommandType = ACTION_COMMAND_TYPE::COLLECT;
                 tAction_Command.pGameObject = tRayInfo.pColObject;
                 Process_ActionCommand(tAction_Command);
+                return;
             }
-            else if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER)) {
+            else if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER))
+            {
                 ACTION_COMMAND tAction_Command{};
                 tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK;
                 tAction_Command.pGameObject = tRayInfo.pColObject;
-                tAction_Command.Data_UInt.fAttackRange = m_fAttackRange;
                 Process_ActionCommand(tAction_Command);
+                return;
             }
         }
  
-
-        // if(몬스터 클릭)
-        if (m_pGameInstance->Key_Pressing(DIK_A) /* 몬스터 이면 */)
+        if (m_bCanMoveCancle == true)
         {
-            ACTION_COMMAND tAction_Command{};
-            tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK;
-            // 몬스터 포인터 넣고
-            tAction_Command.pGameObject = nullptr;
-
-            // 테스트용 위치
-            tAction_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
-
-            Process_ActionCommand(tAction_Command);
+            Set_ActionEnd();
         }
-        else
-        {
-            if (m_bCanMoveCancle == true) 
-            {
-                Set_ActionEnd();           
-            }
 
-            MOVEMENT_COMMAND tMovement_Command{};
-            tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;
-            tMovement_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+        MOVEMENT_COMMAND tMovement_Command{};
+        tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;
+        tMovement_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
 
-            Process_MovementCommand(tMovement_Command);
-            m_bCanMoveCancle = false;
-        }
+        Process_MovementCommand(tMovement_Command);
+        m_bCanMoveCancle = false;
+
     }
 }
 
@@ -821,7 +793,7 @@ HRESULT CLiDailin::Initialize_State()
     CState* pLiDailinIdle = CLiDailinIdle::Create();
     m_States.emplace(L"Idle", pLiDailinIdle);
     m_States.emplace(L"Move", CLiDailinMove::Create());
-    m_States.emplace(L"CLiDailinAttack", CLiDailinAttack::Create());
+    m_States.emplace(L"CLiDailinAttack", CLiDailinAttack::Create(m_fAttackRange));
     m_States.emplace(L"CLiDailin_Q", CLiDailin_Q::Create());
     m_States.emplace(L"CLiDailin_W", CLiDailin_W::Create());
     m_States.emplace(L"CLiDailin_E", CLiDailin_E::Create());

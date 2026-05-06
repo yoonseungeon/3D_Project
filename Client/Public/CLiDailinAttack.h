@@ -20,12 +20,15 @@ private:
 	_float m_fAttackRange{};
 
 private:
+	HRESULT Initialize(_float fAttackRange);
+
 	void Attack(CLiDailin* pPlayer);
 	void Chase(CLiDailin* pPlayer);
-	_bool CanAttack(CLiDailin* pPlayer);
+
+	_bool IsInAttackRange(CLiDailin* pPlayer);
 
 public:
-	static CLiDailinAttack* Create();
+	static CLiDailinAttack* Create(_float fAttackRange);
 protected:
 	virtual void Free() override;
 };

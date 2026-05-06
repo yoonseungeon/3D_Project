@@ -16,44 +16,51 @@ void CLiDailinAttack::Enter(CLiDailin* pPlayer)
 {	
 	pPlayer->Set_CanMoveCancle(true);
 
-	if (CanAttack(pPlayer)) {
+	if (IsInAttackRange(pPlayer))
 		Attack(pPlayer);
-	}
-	else /* 범위 밖이면 */
-	{
+	else 
 		Chase(pPlayer);
-	}
 }
 
 void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
+	// 몬스터 포인터 구하기
+	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
+	CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
+	if (pMonster == nullptr)
+		MSG_BOX("Bug Point 4: CLiDailinAttack");
+
+	// 추적 중일 때만 검사
 	if (m_bIsChasing == true)
 	{
-		if (CanAttack(pPlayer)) {
+		if (IsInAttackRange(pPlayer))
+		{
 			Attack(pPlayer);
 		}
-		else /* 범위 밖이면 */
+		else
 		{
 			Chase(pPlayer);
 			return;
 		}
 	}
+	else // 몬스터 바라보게 회전
+	{
+		CTransform* pPlayerTransformCom = pPlayer->Get_TransformCom();
+		_vector vDir = pMonster->Get_TransformCom()->Get_State(STATE::POSITION) - pPlayerTransformCom->Get_State(STATE::POSITION);
+		vDir = XMVector3Normalize(vDir);
+		pPlayerTransformCom->TurnDirDefaultY(vDir, fTimeDelta, 1080.f);
+	}
 
-	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
+	// 내 모델 컴포넌트
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 
-	CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
-	if (pMonster == nullptr)
-		MSG_BOX("Bug Point 4: CLiDailinAttack");
-
+	// 무적 상태가 아니면서 다음 기본 공격 할 때가 되면 다시 공격
 	if (pMonster->Get_IsInvincible() == false && pModel->Get_CurAniPlayRatio() >= 0.75f)
-	{
 		pPlayer->Set_WaitActionState(L"CLiDailinAttack");
-	}
 
-	if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
+	// 애니메이션 끝나면 종료
+	if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true)
 		pPlayer->Set_ActionEnd();
-	}
 }
 
 void CLiDailinAttack::Exit(CLiDailin* pPlayer)
@@ -120,6 +127,13 @@ void CLiDailinAttack::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eA
 	}
 }
 
+HRESULT CLiDailinAttack::Initialize(_float fAttackRange)
+{
+	m_fAttackRange = fAttackRange;
+
+	return S_OK;
+}
+
 void CLiDailinAttack::Attack(CLiDailin* pPlayer)
 {
 	// Ani
@@ -157,10 +171,9 @@ void CLiDailinAttack::Chase(CLiDailin* pPlayer)
 	m_bIsChasing = true;
 }
 
-_bool CLiDailinAttack::CanAttack(CLiDailin* pPlayer)
+_bool CLiDailinAttack::IsInAttackRange(CLiDailin* pPlayer)
 {
 	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
-	m_fAttackRange = tAction_Command.Data_UInt.fAttackRange;
 
 	CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
 	if (pMonster == nullptr)
@@ -173,9 +186,17 @@ _bool CLiDailinAttack::CanAttack(CLiDailin* pPlayer)
 	return pPlayer->IsInRange(pMonsterTransform->Get_State(STATE::POSITION), m_fAttackRange);
 }
 
-CLiDailinAttack* CLiDailinAttack::Create()
+CLiDailinAttack* CLiDailinAttack::Create(_float fAttackRange)
 {
-	return new CLiDailinAttack;
+	CLiDailinAttack* pInstance = new CLiDailinAttack();
+
+	if (FAILED(pInstance->Initialize(fAttackRange)))
+	{
+		MSG_BOX("Failed to Created: CLiDailinAttack");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CLiDailinAttack::Free()

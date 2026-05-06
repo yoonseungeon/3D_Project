@@ -368,12 +368,13 @@ void CChicken::Execute_Action(_float fTimeDelta)
         break;
 
     case ATK:
+    {
         if (m_bIsAttackProcessed == false)
         {
             _float fAttackTime{};
             if (m_eCurAni == CBody_Chicken::CHICKEN_ANI::ATK1)
                 fAttackTime = 0.2f;
-            else 
+            else
                 fAttackTime = 0.4f;
 
             if (m_pBodyChicken->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
@@ -388,8 +389,14 @@ void CChicken::Execute_Action(_float fTimeDelta)
                 m_bIsAttackProcessed = true;
             }
         }
-        break;
 
+        // 플레이어 바라보게 회전
+        CTransform* pPlayerTransformCom = m_pTargetPlayer->Get_TransformCom();
+        _vector vDir = pPlayerTransformCom->Get_State(STATE::POSITION) - m_pTransformCom->Get_State(STATE::POSITION);
+        vDir = XMVector3Normalize(vDir);
+        m_pTransformCom->TurnDirDefaultY(vDir, fTimeDelta, 1080.f);
+        break;
+    }
     case APPEAR:
         break;
 
