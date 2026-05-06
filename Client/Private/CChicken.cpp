@@ -184,7 +184,7 @@ void CChicken::Update_Action(_float fTimeDelta)
         break;
 
     case RUN:
-        if (IsInRange(m_fBewareRange * 1.5f) == false)
+        if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == false)
         {
             Enter_Action(CHICKEN_ACTION::ENDBATTLE);
             return;
@@ -230,7 +230,7 @@ void CChicken::Update_Action(_float fTimeDelta)
                 else
                     Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK2);
             }
-            else if (IsInRange(m_fBewareRange * 1.5f) == true)
+            else if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == true)
             {
                 Enter_Action(CHICKEN_ACTION::RUN);
             }

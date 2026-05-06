@@ -236,6 +236,21 @@ void CUnit::Update_Recovery(_float fTimeDelta)
     }
 }
 
+_bool XM_CALLCONV CUnit::IsInRange(_fvector vPos, _float fRange)
+{
+    _vector vTargetPos = XMVectorSetY(vPos, 0.f);
+
+    _vector vMyPos = m_pTransformCom->Get_State(STATE::POSITION);
+    vMyPos = XMVectorSetY(vMyPos, 0.f);
+
+    _float fLength = XMVectorGetX(XMVector3Length(vMyPos - vTargetPos));
+
+    if (fLength <= fRange)
+        return true;
+
+    return false;
+}
+
 void CUnit::Free()
 {
     __super::Free();

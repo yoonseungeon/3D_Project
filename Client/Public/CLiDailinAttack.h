@@ -15,12 +15,14 @@ public:
 	void HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command) override;
 
 private:
-	_bool m_bChase{};
+	_bool m_bIsChasing{};
+
+	_float m_fAttackRange{};
 
 private:
 	void Attack(CLiDailin* pPlayer);
 	void Chase(CLiDailin* pPlayer);
-	void DoAttackOrChase(CLiDailin* pPlayer);
+	_bool CanAttack(CLiDailin* pPlayer);
 
 public:
 	static CLiDailinAttack* Create();

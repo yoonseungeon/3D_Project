@@ -1,9 +1,12 @@
 #include "CLiDailinAttack.h"
 
+#include "CGameInstance.h"
+
 #include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
-#include "CGameInstance.h"
+
+#include "CAbstractMonster.h"
 
 CLiDailinAttack::CLiDailinAttack()
 {
@@ -13,8 +16,7 @@ void CLiDailinAttack::Enter(CLiDailin* pPlayer)
 {	
 	pPlayer->Set_CanMoveCancle(true);
 
-	//if(pPlayer->Get_CurActionCommand().pGameObject와 거리 비교)
-	if (CGameInstance::GetInstance()->Key_Pressing(DIK_S) /* 범위 안 이면 */) {
+	if (CanAttack(pPlayer)) {
 		Attack(pPlayer);
 	}
 	else /* 범위 밖이면 */
@@ -25,10 +27,9 @@ void CLiDailinAttack::Enter(CLiDailin* pPlayer)
 
 void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
-	if (m_bChase == true)
+	if (m_bIsChasing == true)
 	{
-		//if(pPlayer->Get_CurActionCommand().pGameObject와 거리 비교)
-		if (CGameInstance::GetInstance()->Key_Pressing(DIK_S) /* 범위 안 이면 */) {
+		if (CanAttack(pPlayer)) {
 			Attack(pPlayer);
 		}
 		else /* 범위 밖이면 */
@@ -41,8 +42,11 @@ void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 
-	// 몬스터가 살아있으면
-	if (CGameInstance::GetInstance()->Key_Pressing(DIK_D) && pModel->Get_CurAniPlayRatio() >= 0.75f)
+	CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
+	if (pMonster == nullptr)
+		MSG_BOX("Bug Point 4: CLiDailinAttack");
+
+	if (pMonster->Get_IsInvincible() == false && pModel->Get_CurAniPlayRatio() >= 0.75f)
 	{
 		pPlayer->Set_WaitActionState(L"CLiDailinAttack");
 	}
@@ -133,31 +137,40 @@ void CLiDailinAttack::Attack(CLiDailin* pPlayer)
 
 	pPlayer->Set_MovementAniBlock(true);
 	pPlayer->Set_WaitMovementState(L"Idle");
-	m_bChase = false;
+	m_bIsChasing = false;
 }
 
 void CLiDailinAttack::Chase(CLiDailin* pPlayer)
 {
+	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
+	CTransform* pMonsterTransform = dynamic_cast<CTransform*>(tAction_Command.pGameObject->Find_Component(g_strTransformTag));
+	if (pMonsterTransform == nullptr)
+		MSG_BOX("Bug Point 3: CLiDailinAttack");
+
 	MOVEMENT_COMMAND tMovement_Command{};
 	tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;
-	tMovement_Command.vTargetPos = pPlayer->Get_CurActionCommand().vTargetPos;
-
+	XMStoreFloat3(&tMovement_Command.vTargetPos, pMonsterTransform->Get_State(STATE::POSITION));
+	
 	pPlayer->Process_MovementCommand(tMovement_Command);
 
 	pPlayer->Set_MovementAniBlock(false);
-	m_bChase = true;
+	m_bIsChasing = true;
 }
 
-void CLiDailinAttack::DoAttackOrChase(CLiDailin* pPlayer)
+_bool CLiDailinAttack::CanAttack(CLiDailin* pPlayer)
 {
-	//if(pPlayer->Get_CurActionCommand().pGameObject와 거리 비교)
-	if (CGameInstance::GetInstance()->Key_Pressing(DIK_S) /* 범위 안 이면 */) {
-		Attack(pPlayer);
-	}
-	else /* 범위 밖이면 */
-	{
-		Chase(pPlayer);
-	}
+	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
+	m_fAttackRange = tAction_Command.Data_UInt.fAttackRange;
+
+	CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
+	if (pMonster == nullptr)
+		MSG_BOX("Bug Point 1: CLiDailinAttack");
+
+	CTransform* pMonsterTransform = dynamic_cast<CTransform*>(pMonster->Find_Component(g_strTransformTag));
+	if (pMonsterTransform == nullptr)
+		MSG_BOX("Bug Point 2: CLiDailinAttack");
+
+	return pPlayer->IsInRange(pMonsterTransform->Get_State(STATE::POSITION), m_fAttackRange);
 }
 
 CLiDailinAttack* CLiDailinAttack::Create()

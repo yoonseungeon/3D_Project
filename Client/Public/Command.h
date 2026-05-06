@@ -32,9 +32,10 @@ struct MOVEMENT_COMMAND
 	_float3					vTargetPos{};
 };
 
-union ACTION_DATA_UINT
+union ACTION_DATA
 {
 	_uint iItemIdx{};
+	_float fAttackRange;
 };
 
 struct ACTION_COMMAND
@@ -43,5 +44,5 @@ struct ACTION_COMMAND
 	_float3				vTargetPos{};
 	CGameObject*		pGameObject{};
 
-	ACTION_DATA_UINT Data_UInt{};
+	ACTION_DATA Data_UInt{};
 };

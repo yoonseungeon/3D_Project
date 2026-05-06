@@ -60,7 +60,7 @@ void CInteract_ItemBox::Move_OR_Interact(CLiDailin* pPlayer)
     if (pItemBox == nullptr)
         MSG_BOX("Bug Point 1: CInteract_ItemBox");
 
-    CTransform* pTransform = dynamic_cast<CTransform*>(tAction_Command.pGameObject->Find_Component(g_strTransformTag));
+    CTransform* pTransform = dynamic_cast<CTransform*>(pItemBox->Find_Component(g_strTransformTag));
     if (pTransform == nullptr)
         MSG_BOX("Bug Point 2: CInteract_ItemBox");
 

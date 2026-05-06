@@ -87,6 +87,8 @@ HRESULT CLiDailin::Initialize(void* pArg)
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
 
+    m_fAttackRange = 1.f;
+
     TryEquip_AddInven(4);
     TryEquip_AddInven(34);
     TryEquip_AddInven(55);
@@ -484,6 +486,7 @@ HRESULT CLiDailin::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    pColliderCom->Set_CanMousePicking(false);
 
     m_Colliders.push_back(pColliderCom);
     m_pGameInstance->Add_Collider(pColliderCom);
@@ -726,6 +729,13 @@ void CLiDailin::Key_Input()
                 ACTION_COMMAND tAction_Command{};
                 tAction_Command.eCommandType = ACTION_COMMAND_TYPE::COLLECT;
                 tAction_Command.pGameObject = tRayInfo.pColObject;
+                Process_ActionCommand(tAction_Command);
+            }
+            else if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER)) {
+                ACTION_COMMAND tAction_Command{};
+                tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK;
+                tAction_Command.pGameObject = tRayInfo.pColObject;
+                tAction_Command.Data_UInt.fAttackRange = m_fAttackRange;
                 Process_ActionCommand(tAction_Command);
             }
         }

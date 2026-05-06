@@ -89,7 +89,7 @@ _bool CAbstractMonster::PlayerIsInRange(_float fRange)
 }
 
 // 함수 이름 바꾸기
-_bool CAbstractMonster::IsInRange(_float fRange)
+_bool CAbstractMonster::IsNearSpawnPoint(_float fRange)
 {
     _vector vStartPos = XMLoadFloat3(&m_vStartPos);
     vStartPos = XMVectorSetY(vStartPos, 0.f);

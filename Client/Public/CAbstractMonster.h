@@ -51,7 +51,7 @@ protected:
 
 protected:
 	_bool PlayerIsInRange(_float fRange);	
-	_bool IsInRange(_float fRange);
+	_bool IsNearSpawnPoint(_float fRange);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
