@@ -24,12 +24,6 @@ void CLiDailinAttack::Enter(CLiDailin* pPlayer)
 
 void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
-	// 몬스터 포인터 구하기
-	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
-	CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
-	if (pMonster == nullptr)
-		MSG_BOX("Bug Point 4: CLiDailinAttack");
-
 	// 추적 중일 때만 검사
 	if (m_bIsChasing == true)
 	{
@@ -43,13 +37,20 @@ void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 			return;
 		}
 	}
-	else // 몬스터 바라보게 회전
-	{
-		CTransform* pPlayerTransformCom = pPlayer->Get_TransformCom();
-		_vector vDir = pMonster->Get_TransformCom()->Get_State(STATE::POSITION) - pPlayerTransformCom->Get_State(STATE::POSITION);
-		vDir = XMVector3Normalize(vDir);
-		pPlayerTransformCom->TurnDirDefaultY(vDir, fTimeDelta, 1080.f);
-	}
+
+	// 몬스터 포인터 구하기
+	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
+	CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
+	if (pMonster == nullptr)
+		MSG_BOX("Bug Point 4: CLiDailinAttack");
+
+	// 몬스터 바라보게 회전
+	CTransform* pPlayerTransformCom = pPlayer->Get_TransformCom();
+	_vector vDir = pMonster->Get_TransformCom()->Get_State(STATE::POSITION) - pPlayerTransformCom->Get_State(STATE::POSITION);
+	vDir = XMVector3Normalize(vDir);
+	pPlayerTransformCom->TurnDirDefaultY(vDir, fTimeDelta, 1080.f);
+
+	ApplyDamage(pPlayer);
 
 	// 내 모델 컴포넌트
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
@@ -65,6 +66,8 @@ void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CLiDailinAttack::Exit(CLiDailin* pPlayer)
 {
+	m_bIsAttackProcessed = false;
+
 	pPlayer->Set_CanMoveCancle(false);
 
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
@@ -138,16 +141,18 @@ void CLiDailinAttack::Attack(CLiDailin* pPlayer)
 {
 	// Ani
 	if (rand() % 2 == 0) {
-		pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_ATK_1), false);
-		pPlayer->Set_CurAni(LiDailin_Ani::Ani_ATK_1);
-		pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::ATK_1_WP), false);
+		m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_1);
+		m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_1_WP);
 	}
 	else
 	{
-		pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_ATK_2), false);
-		pPlayer->Set_CurAni(LiDailin_Ani::Ani_ATK_2);
-		pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::ATK_2_WP), false);
+		m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_2);
+		m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_2_WP);		
 	}
+
+	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(m_iCurBodyAni, false);
+	pPlayer->Set_CurAni(static_cast<LiDailin_Ani>(m_iCurBodyAni));
+	pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(m_iCurWeaponAni, false);
 
 	pPlayer->Set_MovementAniBlock(true);
 	pPlayer->Set_WaitMovementState(L"Idle");
@@ -184,6 +189,31 @@ _bool CLiDailinAttack::IsInAttackRange(CLiDailin* pPlayer)
 		MSG_BOX("Bug Point 2: CLiDailinAttack");
 
 	return pPlayer->IsInRange(pMonsterTransform->Get_State(STATE::POSITION), m_fAttackRange);
+}
+
+void CLiDailinAttack::ApplyDamage(CLiDailin* pPlayer)
+{
+	CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
+	_float fRatio = pModel->Get_AniPlayRatio(m_iCurBodyAni);
+
+	_float fAttackRatio{};
+
+	if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1))
+		fAttackRatio = 0.14f;
+	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2))
+		fAttackRatio = 0.14f;
+
+	if (fRatio >= fAttackRatio)
+	{
+		const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
+		CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
+		if (pMonster == nullptr)
+			MSG_BOX("Bug Point 5: CLiDailinAttack");
+
+		DAMAGE_INFO tDamageInfo = { pPlayer , 0 };
+		pMonster->Damaged(tDamageInfo);
+		m_bIsAttackProcessed = true;
+	}
 }
 
 CLiDailinAttack* CLiDailinAttack::Create(_float fAttackRange)

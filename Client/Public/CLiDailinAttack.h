@@ -19,6 +19,12 @@ private:
 
 	_float m_fAttackRange{};
 
+	_bool m_bIsAttackProcessed{};
+
+	_uint m_iCurBodyAni{};
+	_uint m_iCurWeaponAni{};
+
+
 private:
 	HRESULT Initialize(_float fAttackRange);
 
@@ -26,6 +32,7 @@ private:
 	void Chase(CLiDailin* pPlayer);
 
 	_bool IsInAttackRange(CLiDailin* pPlayer);
+	void ApplyDamage(CLiDailin* pPlayer);
 
 public:
 	static CLiDailinAttack* Create(_float fAttackRange);
