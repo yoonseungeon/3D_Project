@@ -86,7 +86,7 @@ void CUnit::AddEXP(_uint iEXP)
     }
 }
 
-void CUnit::AddHP(_uint iHP)
+void CUnit::AddHP(_int iHP)
 {
     m_tCurStat.iHP += iHP;
 
@@ -100,7 +100,7 @@ void CUnit::AddHP(_uint iHP)
     }
 }
 
-void CUnit::AddMP(_uint iMP)
+void CUnit::AddMP(_int iMP)
 {
     m_tCurStat.iMP += iMP;
 
@@ -114,10 +114,10 @@ void CUnit::AddMP(_uint iMP)
     }
 }
 
-void CUnit::Add_Recovery(_uint iConsumableHP)
+void CUnit::Add_Recovery(_uint iConsumableHP, _uint iConsumableMP, _float fRemainTime)
 {
     RECOVERY tRecovery{};
-    tRecovery.fRemainTime = { 15.f };
+    tRecovery.fRemainTime = fRemainTime;
     tRecovery.fAccTime = { 1.f };
     tRecovery.iRemainHPRecovery = iConsumableHP;
     tRecovery.iHPRecoveryPerSec = iConsumableHP / static_cast<_uint>(tRecovery.fRemainTime);

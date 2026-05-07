@@ -57,7 +57,7 @@ HRESULT CLiDailin::Initialize(void* pArg)
         return E_FAIL;
 
     // Initialize_Stateº¸´Ù À§
-    m_fAttackRange = 1.f;
+    m_fAttackRange = 1.5f;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;

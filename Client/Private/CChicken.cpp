@@ -42,7 +42,7 @@ HRESULT CChicken::Initialize(void* pArg)
 
     Enter_Action(CHICKEN_ACTION::APPEAR);
 
-    m_fAttackRange = 1.f;
+    m_fAttackRange = 1.5f;
 
     return S_OK;
 }

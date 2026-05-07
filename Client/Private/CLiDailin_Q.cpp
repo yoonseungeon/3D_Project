@@ -27,6 +27,19 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q1);
 			pPlayer->Set_MovementAniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q1_WP);
+
+			// Intoxication
+			const _int iConsumeIntoxication = 40;
+			if (pPlayer->Get_CurStat().iMP >= iConsumeIntoxication)
+			{
+				pPlayer->AddMP(-iConsumeIntoxication);
+				m_bEnhanced = true;
+			}
+			else
+			{
+				m_bEnhanced = false;
+			}
+
 			break;
 		}
 		case 1:
@@ -46,6 +59,10 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 			break;
 		}
 	}
+
+	// 강화 Q 이면 기본 공격 강화
+	if (m_bEnhanced == true)
+		pPlayer->Set_EnhancedBasicATK(true);
 
 	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(iBodyPhase, false);
 	pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(iWeaponPhase, false);

@@ -26,6 +26,8 @@ private:
 
 	unordered_set<CGameObject*> m_AttackedObj;
 
+	_bool m_bEnhanced{};
+
 public:
 	static CLiDailin_E* Create();
 protected:

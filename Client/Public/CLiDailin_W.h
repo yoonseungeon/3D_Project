@@ -20,6 +20,11 @@ public:
 private:
 	static const _char* m_pBoneNames[];
 
+	_uint m_iMaxDrinkCount{};
+	_uint m_iRemainDrinkCount{};
+	_float m_fAccDrink{};
+	_float m_fMaxDrink{};
+
 public:
 	static CLiDailin_W* Create();
 protected:

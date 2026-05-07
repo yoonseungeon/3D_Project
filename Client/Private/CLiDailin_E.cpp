@@ -34,6 +34,15 @@ void CLiDailin_E::Enter(CLiDailin* pPlayer)
 
     // ¹æÇâ
     pPlayer->Look_MouseDir();
+
+    //MP
+    const _int iConsumeIntoxication = 40;
+    if (pPlayer->Get_CurStat().iMP >= iConsumeIntoxication)
+    {
+        pPlayer->AddMP(-iConsumeIntoxication);
+        pPlayer->Set_EnhancedBasicATK(true);
+        m_bEnhanced = true;
+    }
 }
 
 void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
@@ -70,6 +79,8 @@ void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CLiDailin_E::Exit(CLiDailin* pPlayer)
 {
+    m_bEnhanced = false;
+
     pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_E)->Set_Active(false);
 
     pPlayer->Set_MovementAniBlock(false);

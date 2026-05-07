@@ -24,7 +24,6 @@ void CLiDailinAttack::Enter(CLiDailin* pPlayer)
 	// 현재 공격 중인 몬스터와 다른 타겟인지 비교용
 	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
 	m_pTargetObject = tAction_Command.pGameObject;
-	Safe_AddRef(m_pTargetObject);
 }
 
 void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
@@ -55,7 +54,8 @@ void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 	vDir = XMVector3Normalize(vDir);
 	pPlayerTransformCom->TurnDirDefaultY(vDir, fTimeDelta, 1080.f);
 
-	ApplyDamage(pPlayer);
+	ApplyDamage_First(pPlayer);
+	ApplyDamage_Second(pPlayer);
 
 	// 내 모델 컴포넌트
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
@@ -71,14 +71,15 @@ void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CLiDailinAttack::Exit(CLiDailin* pPlayer)
 {
-	m_bIsAttackProcessed = false;
+	m_bIsAttackProcessed_First = false;
+	m_bIsAttackProcessed_Second = false;
 
 	pPlayer->Set_CanMoveCancle(false);
 
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
 	pPlayer->Set_MovementAniBlock(false);
 
-	Safe_Release(m_pTargetObject);
+	m_pTargetObject = nullptr;
 }
 
 void CLiDailinAttack::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
@@ -149,15 +150,34 @@ HRESULT CLiDailinAttack::Initialize(_float fAttackRange)
 
 void CLiDailinAttack::Attack(CLiDailin* pPlayer)
 {
+	_int iRandom = rand() % 2;
+
 	// Ani
-	if (rand() % 2 == 0) {
-		m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_1);
-		m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_1_WP);
+	if (pPlayer->Get_EnhancedBasicATK() == true)
+	{
+		if (iRandom == 0) {
+			m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_1P);
+			m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_1P_WP);
+		}
+		else
+		{
+			m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_2P);
+			m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_2P_WP);
+		}
+		pPlayer->Set_EnhancedBasicATK(false);
 	}
 	else
 	{
-		m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_2);
-		m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_2_WP);		
+		m_bIsAttackProcessed_Second = true;
+		if (iRandom == 0) {
+			m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_1);
+			m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_1_WP);
+		}
+		else
+		{
+			m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_2);
+			m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_2_WP);
+		}
 	}
 
 	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(m_iCurBodyAni, false);
@@ -201,8 +221,11 @@ _bool CLiDailinAttack::IsInAttackRange(CLiDailin* pPlayer)
 	return pPlayer->IsInRange(pMonsterTransform->Get_State(STATE::POSITION), m_fAttackRange);
 }
 
-void CLiDailinAttack::ApplyDamage(CLiDailin* pPlayer)
+void CLiDailinAttack::ApplyDamage_First(CLiDailin* pPlayer)
 {
+	if (m_bIsAttackProcessed_First == true)
+		return;	
+
 	CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 	_float fRatio = pModel->Get_AniPlayRatio(m_iCurBodyAni);
 
@@ -212,6 +235,10 @@ void CLiDailinAttack::ApplyDamage(CLiDailin* pPlayer)
 		fAttackRatio = 0.14f;
 	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2))
 		fAttackRatio = 0.14f;
+	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1P))
+		fAttackRatio = 0.12f;
+	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2P))
+		fAttackRatio = 0.156f;
 
 	if (fRatio >= fAttackRatio)
 	{
@@ -222,7 +249,35 @@ void CLiDailinAttack::ApplyDamage(CLiDailin* pPlayer)
 
 		DAMAGE_INFO tDamageInfo = { pPlayer , 0 };
 		pMonster->Damaged(tDamageInfo);
-		m_bIsAttackProcessed = true;
+		m_bIsAttackProcessed_First = true;
+	}
+}
+
+void CLiDailinAttack::ApplyDamage_Second(CLiDailin* pPlayer)
+{
+	if (m_bIsAttackProcessed_Second == true)
+		return;
+
+	CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
+	_float fRatio = pModel->Get_AniPlayRatio(m_iCurBodyAni);
+
+	_float fAttackRatio{};
+
+	if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1P))
+		fAttackRatio = 0.337f;
+	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2P))
+		fAttackRatio = 0.337f;
+
+	if (fRatio >= fAttackRatio)
+	{
+		const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
+		CAbstractMonster* pMonster = dynamic_cast<CAbstractMonster*>(tAction_Command.pGameObject);
+		if (pMonster == nullptr)
+			MSG_BOX("Bug Point 6: CLiDailinAttack");
+
+		DAMAGE_INFO tDamageInfo = { pPlayer, 0 };
+		pMonster->Damaged(tDamageInfo);
+		m_bIsAttackProcessed_Second = true;
 	}
 }
 

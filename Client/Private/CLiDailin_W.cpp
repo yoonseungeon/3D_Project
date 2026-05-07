@@ -100,6 +100,8 @@ const char* CLiDailin_W::m_pBoneNames[] =
 
 CLiDailin_W::CLiDailin_W()
 {
+    m_fMaxDrink = 0.8f;
+    m_iMaxDrinkCount = 5;
 }
 
 HRESULT CLiDailin_W::Initialize()
@@ -109,6 +111,8 @@ HRESULT CLiDailin_W::Initialize()
 
 void CLiDailin_W::Enter(CLiDailin* pPlayer)
 {
+    m_iRemainDrinkCount = m_iMaxDrinkCount;
+
 	// Cool
 	COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(SKILL_SLOT::W);
     pWCoolInfo->bCoolWait = true;
@@ -123,6 +127,18 @@ void CLiDailin_W::Enter(CLiDailin* pPlayer)
 
 void CLiDailin_W::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
+    if(m_iRemainDrinkCount > 0)
+    {
+        m_fAccDrink += fTimeDelta;
+        if(m_fAccDrink >= m_fMaxDrink / m_iMaxDrinkCount)
+        {
+            pPlayer->AddMP(9);
+            --m_iRemainDrinkCount;
+
+            m_fAccDrink = 0.f;
+        }
+    }
+
     if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAniOverlay() == false)
     {
         pPlayer->Set_ActionEnd();

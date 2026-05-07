@@ -23,6 +23,14 @@ public:
 	enum LIDAILIN_COLLIDER { LIDAILINE_BODY, LIDAILIN_Q, LIDAILIN_E, LIDAILIN_R };
 
 private:
+	struct INTOXICATION_MANAGE
+	{
+		_bool bEnhancedBasicATK{};
+		_bool bResetDecreaseTimer{};
+		_float fDecreaseTime{};
+	};
+
+private:
 	CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CLiDailin(const CLiDailin& Prototype);
 	virtual ~CLiDailin() = default;
@@ -91,6 +99,11 @@ public:
 	_bool Get_CanMoveCancle() { return m_bCanMoveCancle; }
 	void Set_CanMoveCancle(_bool MoveCanCancle) { m_bCanMoveCancle = MoveCanCancle; }
 
+	// Intoxication
+	void Set_EnhancedBasicATK(_bool bEnhanced) { tIntoxication_Manage.bEnhancedBasicATK = bEnhanced; }
+	void Set_IntoxicationTimer(_bool bResetTimer) { tIntoxication_Manage.bResetDecreaseTimer = bResetTimer; }
+	_bool Get_EnhancedBasicATK() { return tIntoxication_Manage.bEnhancedBasicATK; }
+
 private:
 	// Com
 	CMove* m_pMoveCom{ nullptr };
@@ -129,6 +142,9 @@ private:
 
 	// Ani
 	LiDailin_Ani m_eLiDailinCurAni{};
+
+	// Intoxication
+	INTOXICATION_MANAGE tIntoxication_Manage{};
 
 private:
 	HRESULT Ready_Components();

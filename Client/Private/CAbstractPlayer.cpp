@@ -286,7 +286,7 @@ _bool CAbstractPlayer::Use_Consumable(_uint iSlotIndex)
         return false;
     }
 
-    Add_Recovery(pItemDesc->iConsumableHP);
+    Add_Recovery(pItemDesc->iConsumableHP, 0);
 
     m_pInvetory->Subtract_ItemBySlotIndex(iSlotIndex, 1);
     m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);

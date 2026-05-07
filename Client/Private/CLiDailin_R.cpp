@@ -29,6 +29,18 @@ void CLiDailin_R::Enter(CLiDailin* pPlayer)
 	// 이동
 	pPlayer->Set_MoveBlock(true);
 	pPlayer->Set_WaitMovementState(L"Idle");
+
+	// 방향
+	pPlayer->Look_MouseDir();
+
+	//MP
+	const _int iConsumeIntoxication = 40;
+	if (pPlayer->Get_CurStat().iMP >= iConsumeIntoxication)
+	{
+		pPlayer->AddMP(-iConsumeIntoxication);
+		pPlayer->Set_EnhancedBasicATK(true);
+		m_bEnhanced = true;
+	}
 }
 
 void CLiDailin_R::Update(CLiDailin* pPlayer, _float fTimeDelta)
@@ -78,6 +90,8 @@ void CLiDailin_R::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CLiDailin_R::Exit(CLiDailin* pPlayer)
 {
+	m_bEnhanced = false;
+
 	pPlayer->Set_MovementAniBlock(false);
 	pPlayer->Set_MoveBlock(false);
 

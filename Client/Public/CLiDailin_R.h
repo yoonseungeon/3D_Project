@@ -20,6 +20,8 @@ private:
 	_bool bIsCol{};
 	_bool bIsAniR2Changed{};
 
+	_bool m_bEnhanced{};
+
 public:
 	static CLiDailin_R* Create();
 protected:

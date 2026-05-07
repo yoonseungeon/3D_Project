@@ -92,12 +92,12 @@ public:
 	const UNIT_STAT& Get_CurStat() { return m_tCurStat; }
 
 	void AddEXP(_uint iEXP);
-	void AddHP(_uint iHP);
-	void AddMP(_uint iMP);
+	void AddHP(_int iHP);
+	void AddMP(_int iMP);
 
 	const MAINGAUGE_TYPE& Get_MPType() { return m_eMPType; }
 
-	void Add_Recovery(_uint iConsumableHP);
+	void Add_Recovery(_uint iConsumableHP, _uint iConsumableMP, _float fRemainTime = 15.f);
 
 	virtual void Damaged(const DAMAGE_INFO& tDamageInfo);
 
