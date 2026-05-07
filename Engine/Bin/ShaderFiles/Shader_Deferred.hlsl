@@ -1,6 +1,10 @@
 #include "Engine_Shader_Defines.hlsli"
 
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+
+float4x4 g_ShadowLightViewMatrix, g_ShadowLightProjMatrix;
+Texture2D g_LightDepthTexture;
+
 float4x4 g_ViewMatrixInverse, g_ProjMatrixInverse;
 Texture2D g_Texture;
 Texture2D g_NormalTexture;
@@ -213,6 +217,44 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     vector vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexcoord);
     
     Out.vBackBuffer = vDiffuse * vShade + vSpecular;
+    
+    vector vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexcoord);
+
+    vector vNDCPos;
+    vNDCPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vNDCPos.y = In.vTexcoord.y * -2.f + 1.f;
+    vNDCPos.z = vDepthDesc.x;
+    vNDCPos.w = 1.f;
+    
+    vector vViewPos;
+    vViewPos = mul(vNDCPos, g_ProjMatrixInverse);
+    vViewPos /= vViewPos.w;
+    
+    // 픽셀의 월드 좌표
+    vector vWorldPos = mul(vViewPos, g_ViewMatrixInverse);
+    
+    vector vLightViewPos = mul(vWorldPos, g_ShadowLightViewMatrix);
+    vector vLightClipPos = mul(vLightViewPos, g_ShadowLightProjMatrix);
+    
+    // 범위 0 ~ far(2000)
+    float fLightViewZ = vLightClipPos.w;
+    
+    /* -1 ~ 1 => 0 ~ 1 */
+    /* 1 ~ -1 => 0 ~ 1 */
+    float2 vTexcoord;
+
+    // w 나누기 하면 NDC 좌표가 됨.
+    // 텍스처 좌표로 변환해서 물체의 월드에 맞는 픽셀을 가지고 옴
+    vTexcoord.x = (vLightClipPos.x / vLightClipPos.w) * 0.5f + 0.5f;
+    vTexcoord.y = (vLightClipPos.y / vLightClipPos.w) * -0.5f + 0.5f;
+    
+    vector vLightDepthDesc = g_LightDepthTexture.Sample(ClampSampler, vTexcoord);
+    
+    float fShadowObjectDepth = vLightDepthDesc.x * 2000.f;
+        
+    // if (픽셀의 광원기준 깊이 > 이미 광원기준으로 기록되어있던 깊이보다.)
+    if (fLightViewZ > fShadowObjectDepth)
+        Out.vBackBuffer = Out.vBackBuffer * 0.5f; // 어둡게
     
     return Out;
 }

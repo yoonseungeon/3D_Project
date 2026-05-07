@@ -235,6 +235,7 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\CRenderer.h" />
     <ClInclude Include="..\Public\CRenderTarget.h" />
     <ClInclude Include="..\Public\CShader.h" />
+    <ClInclude Include="..\Public\CShadow.h" />
     <ClInclude Include="..\Public\CTarget_Manager.h" />
     <ClInclude Include="..\Public\CTexture.h" />
     <ClInclude Include="..\Public\CThread_Manager.h" />
@@ -333,6 +334,7 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CRenderer.cpp" />
     <ClCompile Include="..\Private\CRenderTarget.cpp" />
     <ClCompile Include="..\Private\CShader.cpp" />
+    <ClCompile Include="..\Private\CShadow.cpp" />
     <ClCompile Include="..\Private\CTarget_Manager.cpp" />
     <ClCompile Include="..\Private\CTexture.cpp" />
     <ClCompile Include="..\Private\CThread_Manager.cpp" />

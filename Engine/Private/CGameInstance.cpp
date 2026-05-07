@@ -11,6 +11,7 @@
 #include "CLight_Manager.h"
 #include "CFont_Manager.h"
 #include "CTarget_Manager.h"
+#include "CShadow.h"
 
 #include "CPicking_Manager.h"
 #include "CCollision_Manager.h"
@@ -84,6 +85,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 
 	m_pPicking_Manager = CPicking_Manager::Create();
 	if (m_pPicking_Manager == nullptr)
+		return E_FAIL;
+
+	m_pShadow = CShadow::Create();
+	if (m_pShadow == nullptr)
 		return E_FAIL;
 
 	//&m_pTimer_Manager
@@ -164,6 +169,7 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 	
+	Safe_Release(m_pShadow);
 	Safe_Release(m_pPicking_Manager);
 	Safe_Release(m_pCollision_Mananger);
 	Safe_Release(m_pTarget_Manager);
@@ -425,6 +431,18 @@ void CGameInstance::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
 _bool CGameInstance::Picking_Object(COLLISION_RAY_INFO& tOutColInfo)
 {
 	return m_pPicking_Manager->Picking_Object(tOutColInfo);
+}
+#pragma endregion
+
+#pragma region SHADOW
+const _float4x4* CGameInstance::Get_Shadow_Transform(D3DTS eState) const
+{
+	return m_pShadow->Get_Transform(eState);
+}
+
+HRESULT CGameInstance::Add_ShadowLight(const SHADOW_LIGHT_DESC& ShadowDesc)
+{
+	return m_pShadow->Add_ShadowLight(ShadowDesc);
 }
 #pragma endregion
 

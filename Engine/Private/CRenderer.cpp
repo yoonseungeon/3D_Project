@@ -39,6 +39,10 @@ HRESULT CRenderer::Initialize()
     if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Depth"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.f, 0.f, 0.f, 0.f))))
         return E_FAIL;
 
+    // Shadow
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_LightDepth"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
+        return E_FAIL;
+
     /* 만든 렌더타겟들을 장치에 동시에 바인딩되는 기준으로 모은다. */
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
         return E_FAIL;
@@ -51,6 +55,9 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
     // 스페큘러 따로 기록
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_LightAcc"), TEXT("Target_Specular"))))
+        return E_FAIL;
+    // 그림자 따로 기록
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_ShadowObjects"), TEXT("Target_LightDepth"))))
         return E_FAIL;
 
     m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
@@ -79,6 +86,8 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
     if (FAILED(m_pGameInstance->Ready_RT_Debug(TEXT("Target_Specular"), 450.f, 450.f, 300.f, 300.f)))
         return E_FAIL;
+    if (FAILED(m_pGameInstance->Ready_RT_Debug(TEXT("Target_LightDepth"), 200.f, 200.f, 400.f, 400.f)))
+        return E_FAIL;
 #endif
 
     return S_OK;
@@ -95,6 +104,10 @@ HRESULT CRenderer::Draw()
 {
     if (FAILED(Render_Priority()))
         return E_FAIL;
+
+    if (FAILED(Render_Shadow()))
+        return E_FAIL;
+
     if (FAILED(Render_NonBlend()))
         return E_FAIL;
 
@@ -138,6 +151,29 @@ HRESULT CRenderer::Render_Priority()
     }
 
     m_RenderObjects[ETOUI(RENDERID::PRIORITY)].clear();
+
+    return S_OK;
+}
+
+HRESULT CRenderer::Render_Shadow()
+{
+    // Shadow 깊이 버퍼 바인딩
+    if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_ShadowObjects"))))
+        return E_FAIL;
+
+    for (auto& pRenderObject : m_RenderObjects[ETOUI(RENDERID::SHADOW)])
+    {
+        if (nullptr != pRenderObject)
+            pRenderObject->Render_Shadow();
+
+        Safe_Release(pRenderObject);
+    }
+
+    m_RenderObjects[ETOUI(RENDERID::SHADOW)].clear();
+
+    // 다시 백버퍼
+    if (FAILED(m_pGameInstance->End_MRT()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -236,11 +272,21 @@ HRESULT CRenderer::Render_Combined()
     if (FAILED(m_pGameInstance->Bind_RT_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
         return E_FAIL;
 
+    if (FAILED(m_pGameInstance->Bind_RT_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Bind_RT_ShaderResource(TEXT("Target_LightDepth"), m_pShader, "g_LightDepthTexture")))
+        return E_FAIL;
+
     if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
         return E_FAIL;
     if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
         return E_FAIL;
     if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
+
+    if (FAILED(m_pShader->Bind_Matrix("g_ShadowLightViewMatrix", m_pGameInstance->Get_Shadow_Transform(D3DTS::VIEW))))
+        return E_FAIL;
+    if (FAILED(m_pShader->Bind_Matrix("g_ShadowLightProjMatrix", m_pGameInstance->Get_Shadow_Transform(D3DTS::PROJ))))
         return E_FAIL;
 
     if (FAILED(m_pVIBuffer->Bind_Resources()))
@@ -321,21 +367,23 @@ HRESULT CRenderer::Render_Debug()
     m_DebugComponents.clear();
 
 
-    //// 항등
-    //if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
-    //    return E_FAIL;
-    //// 직교 투영 행렬
-    //if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
-    //    return E_FAIL;
+    // 항등
+    if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return E_FAIL;
+    // 직교 투영 행렬
+    if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return E_FAIL;
 
-    //// 버퍼 바인딩
-    //if (FAILED(m_pVIBuffer->Bind_Resources()))
-    //    return E_FAIL;
+    // 버퍼 바인딩
+    if (FAILED(m_pVIBuffer->Bind_Resources()))
+        return E_FAIL;
 
     //// 이 그룹 그려줘
     //// 월드 행렬과 텍스처는 각자
     //m_pGameInstance->Render_RT_Debug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer);
     //m_pGameInstance->Render_RT_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
+
+    m_pGameInstance->Render_RT_Debug(TEXT("MRT_ShadowObjects"), m_pShader, m_pVIBuffer);
 
     return S_OK;
 }

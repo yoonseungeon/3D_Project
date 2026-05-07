@@ -199,6 +199,9 @@
     <Filter Include="07. Component\06. Collider\Bounding\Frustum">
       <UniqueIdentifier>{1c111f45-067f-4bf5-8bd2-bba2304e2713}</UniqueIdentifier>
     </Filter>
+    <Filter Include="12. Shadow">
+      <UniqueIdentifier>{e266babf-f615-4813-b7a2-2b68b920d061}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -386,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CBounding_Frustum.cpp">
       <Filter>07. Component\06. Collider\Bounding\Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CShadow.cpp">
+      <Filter>12. Shadow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -595,6 +601,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CBounding_Frustum.h">
       <Filter>07. Component\06. Collider\Bounding\Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CShadow.h">
+      <Filter>12. Shadow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

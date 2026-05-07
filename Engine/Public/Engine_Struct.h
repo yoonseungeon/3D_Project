@@ -23,6 +23,12 @@ namespace Engine
 		float			fRange;
 	};
 
+	struct SHADOW_LIGHT_DESC
+	{
+		XMFLOAT4		vEye{}, vAt{};
+		float			fFovy{}, fNear{}, fFar{};
+	};
+
 	struct KEYFRAME
 	{
 		// 애니메이션에서 행렬 보간은 성분 나눠서 해야 함. + 함수 제공 x

@@ -30,6 +30,7 @@ class CInput_Device;
 class CLight_Manager;
 class CFont_Manager;
 class CTarget_Manager;
+class CShadow;
 
 class CPicking_Manager;
 class CCollision_Manager;
@@ -158,6 +159,11 @@ public:
 	_bool Picking_Object(COLLISION_RAY_INFO& tOutColInfo);
 #pragma endregion
 
+#pragma region SHADOW
+	const _float4x4* Get_Shadow_Transform(D3DTS eState) const;
+	HRESULT Add_ShadowLight(const SHADOW_LIGHT_DESC& ShadowDesc);
+#pragma endregion
+
 #pragma region COLLISION_MANAGER
 	HRESULT Add_Collider(CCollider* pCollider);
 	HRESULT Substract_Collider(CCollider* pCollider);
@@ -180,6 +186,7 @@ private:
 	CLight_Manager*		m_pLight_Manager		= { nullptr };
 	CFont_Manager*		m_pFont_Manager			= { nullptr };
 	CTarget_Manager*	m_pTarget_Manager		= { nullptr };
+	CShadow*			m_pShadow				= { nullptr };
 
 	CPicking_Manager*	m_pPicking_Manager		= { nullptr };
 	CCollision_Manager* m_pCollision_Mananger	= { nullptr };

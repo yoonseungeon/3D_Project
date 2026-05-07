@@ -34,6 +34,7 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual HRESULT Render_Shadow() { return S_OK; };
 
 	virtual void OnCollision_Enter(const COLLISION_INFO& tCollision);
 	virtual void OnCollision_Stay(const COLLISION_INFO& tCollision);

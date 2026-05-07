@@ -1,3 +1,10 @@
+SamplerState ClampSampler
+{
+    filter = min_mag_mip_linear;
+    AddressU = clamp;
+    AddressV = clamp;
+};
+
 SamplerState LinearSampler
 {
     Filter = min_mag_mip_linear;

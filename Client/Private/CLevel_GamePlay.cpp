@@ -29,6 +29,9 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Lights()))
         return E_FAIL;
 
+    if (FAILED(Ready_Shadow()))
+        return E_FAIL;
+
     if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
         return E_FAIL;
 
@@ -115,6 +118,21 @@ HRESULT CLevel_GamePlay::Ready_Lights()
     LightDesc.fRange = 15.f;
 
     if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Shadow()
+{
+    SHADOW_LIGHT_DESC       ShadowDesc{};
+    ShadowDesc.vEye = _float4(-10.f, 30.f, -10.f, 1.f);
+    ShadowDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
+    ShadowDesc.fFovy = XMConvertToRadians(60.f);
+    ShadowDesc.fNear = 0.1f;
+    ShadowDesc.fFar = 2000.f;
+
+    if (FAILED(m_pGameInstance->Add_ShadowLight(ShadowDesc)))
         return E_FAIL;
 
     return S_OK;
