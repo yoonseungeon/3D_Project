@@ -40,7 +40,6 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-
 	void Enter_Animation(CBody_Chicken::CHICKEN_ANI eNewAnimation);
 	void Update_Action(_float fTimeDelta);
 	void Enter_Action(CHICKEN_ACTION eNewAction);
@@ -65,6 +64,8 @@ private:
 	HRESULT Bind_ShaderResources();
 
 	void Run_OR_ATTACK();
+
+	virtual HRESULT Initialize_Stat() override;
 
 public:
 	static CChicken* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

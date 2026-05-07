@@ -103,7 +103,7 @@ public:
 
 	_bool XM_CALLCONV IsInRange(_fvector vPos, _float fRange);
 
-	_bool Get_IsInvincible() { return m_bIsInvincible; }
+	virtual _bool IsUnitDead();
 
 protected:
 	void LevelUp();
@@ -137,8 +137,6 @@ protected:
 	vector<RECOVERY> m_Recoverys;
 
 	_float m_fAttackRange{};
-
-	_bool m_bIsInvincible{};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

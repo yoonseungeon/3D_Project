@@ -59,30 +59,6 @@ HRESULT CItemSpawner::Render()
     return S_OK;
 }
 
-_bool CItemSpawner::TakeItemToInventory(_uint iSlotIndex)
-{
-    if (iSlotIndex >= m_pInvetory->Get_InventorySize())
-        return false;
-
-    _uint iItemCnt{};
-    _int iItemId = m_pInvetory->FindItemIdBySlotIndex(iSlotIndex, iItemCnt);
-
-    CAbstractPlayer* pPlayer = CInGame_Manager::GetInstance()->Get_Player();
-
-    if (pPlayer == nullptr)
-        return false;
-
-    _bool bResult = pPlayer->TryEquip_AddInven(iItemId, iItemCnt);
-
-    if (bResult == true)
-    {
-        m_pInvetory->Subtract_ItemBySlotIndex(iSlotIndex, iItemCnt);
-        m_pInvetory->PullSlots();
-    }
-
-    return bResult;
-}
-
 _bool XM_CALLCONV CItemSpawner::IsInOpenRange(_fvector vPos, _float fWorldDistance)
 {
     _matrix matWorld = XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr());

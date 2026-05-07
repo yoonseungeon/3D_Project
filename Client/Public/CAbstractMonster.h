@@ -16,7 +16,9 @@ public:
 
 	enum MONSTER_CONDITION
 	{ 
-		CON_ATTACK = 1 << 0
+		CON_ATTACK = 1 << 0,
+		CON_HPZERO = 1 << 1,
+		CON_DEAD = 1 << 2
 	};
 
 protected:
@@ -36,6 +38,9 @@ public:
 	virtual HRESULT Render() override;
 
 	virtual void Damaged(const DAMAGE_INFO& tDamageInfo) override;
+	virtual _bool IsUnitDead() override;
+
+	virtual _bool XM_CALLCONV IsInOpenRange(_fvector vPos, _float fWorldDistance) override;
 
 protected:
 	CInGame_Manager* m_pInGame_Manager{};
@@ -43,15 +48,18 @@ protected:
 	_float m_fBewareRange{};
 	CUnit* m_pTargetPlayer{};
 
-	_uint iMonsterCondition{};
+	_uint m_iMonsterCondition{};
 
 	_float3 m_vStartPos{};
 
 	_bool m_bIsAttackProcessed{};
 
+	MODEL_LOCAL_MIN_MAX tLocalMinMax{};
+
 protected:
 	_bool PlayerIsInRange(_float fRange);	
 	_bool IsNearSpawnPoint(_float fRange);
+	void Cal_LocalMinMaxAABB(MODEL_LOCAL_MIN_MAX& tLocalMinMax, _float3& vCenter, _float3& vSize);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

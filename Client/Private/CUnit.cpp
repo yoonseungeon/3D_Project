@@ -251,6 +251,11 @@ _bool XM_CALLCONV CUnit::IsInRange(_fvector vPos, _float fRange)
     return false;
 }
 
+_bool CUnit::IsUnitDead()
+{
+    return false;
+}
+
 void CUnit::Free()
 {
     __super::Free();

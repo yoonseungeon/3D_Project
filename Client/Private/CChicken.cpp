@@ -6,9 +6,8 @@
 
 #include "CBody_Chicken.h"
 
-//test
 #include "CAbstractPlayer.h"
-#include "CUnit.h"
+#include "CInventory.h"
 
 CChicken::CChicken(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractMonster{ pDevice, pContext }
@@ -42,7 +41,14 @@ HRESULT CChicken::Initialize(void* pArg)
 
     Enter_Action(CHICKEN_ACTION::APPEAR);
 
+    if (FAILED(Initialize_Stat()))
+        return E_FAIL;
+
     m_fAttackRange = 1.5f;
+
+    m_pInvetory->Add_Item(34);
+    m_pInvetory->Add_Item(52);
+    m_pInvetory->Add_Item(26);
 
     return S_OK;
 }
@@ -169,11 +175,15 @@ void CChicken::Update_Action(_float fTimeDelta)
             return;
         }
     }
+    else if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
+    {
+        Enter_Action(CHICKEN_ACTION::DEATH);
+    }
 
-    if (m_pTargetPlayer != nullptr && !(iMonsterCondition & CON_ATTACK))
+    if (m_pTargetPlayer != nullptr && !(m_iMonsterCondition & CON_ATTACK))
     {
         Run_OR_ATTACK();
-        iMonsterCondition |= CON_ATTACK;
+        m_iMonsterCondition |= CON_ATTACK;
     }
 
     switch (m_eCurState)
@@ -281,6 +291,7 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
 
         case DEATH:
             Enter_Animation(CBody_Chicken::CHICKEN_ANI::DEATH);
+            m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
             break;
 
         case DANCE:
@@ -313,7 +324,7 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
             break;
 
         case RETURN:
-            iMonsterCondition &= ~CON_ATTACK;
+            m_iMonsterCondition &= ~CON_ATTACK;
             Enter_Animation(CBody_Chicken::CHICKEN_ANI::RUN);
             m_pMoveCom->Move_To_Pos(m_vStartPos, true);
 
@@ -449,6 +460,9 @@ HRESULT CChicken::Ready_Components()
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::MONSTER));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
 
+    tLocalMinMax = {};
+    Cal_LocalMinMaxAABB(tLocalMinMax, AABBDesc.vCenter, AABBDesc.vSize);
+
     return S_OK;
 }
 
@@ -479,6 +493,18 @@ void CChicken::Run_OR_ATTACK()
         Enter_Action(CHICKEN_ACTION::ATK);
     else
         Enter_Action(CHICKEN_ACTION::RUN);
+}
+
+HRESULT CChicken::Initialize_Stat()
+{
+    SetStat(m_tBaseStat, 2, 0,   265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
+    SetStat(m_tCurStat,  2, 999, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
+
+    SetFinalStat();
+
+    m_eMPType = MAINGAUGE_TYPE::MP;
+
+    return S_OK;
 }
 
 CChicken* CChicken::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

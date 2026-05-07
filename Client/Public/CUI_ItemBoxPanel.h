@@ -13,7 +13,7 @@ NS_BEGIN(Client)
 
 class CItem_Manager;
 class CUI_ItemBoxSlot;
-class CItemBox;
+class CInvenOwner;
 class CUI_Image;
 
 class CUI_ItemBoxPanel : public CUI_Default
@@ -42,7 +42,7 @@ public:
 
 	virtual void Set_IsInactive(_bool bIsInactive) override;
 
-	void PopUp_ItemBoxUI(CItemBox* pItemBox);
+	void PopUp_ItemBoxUI(CInvenOwner* InvenOwner);
 	void PopDown_ItemBoxUI();
 
 
@@ -67,7 +67,7 @@ private:
 	CUI_Image* m_pDecoImage{};
 
 	_uint iSlotCnt{ 10 };
-	CItemBox* m_pItemBox{};
+	CInvenOwner* m_pInvenOwner{};
 
 private:
 	HRESULT Ready_Components();

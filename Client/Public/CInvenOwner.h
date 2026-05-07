@@ -25,6 +25,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	virtual _bool XM_CALLCONV IsInOpenRange(_fvector vPos, _float fWorldDistance);
+	virtual _bool TakeItemToInventory(_uint iSlotIndex);
+
 public:
 	// TransformCom
 	const CTransform* Get_TransformCom() const { return m_pTransformCom; }

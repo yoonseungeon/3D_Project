@@ -137,7 +137,6 @@ private:
 	void				Update_OverlayBones(_float fTimeDelta);
 	void				Save_OverlayInterpolationKeyFrame();
 
-
 private:
 	void Store_CurAni_SRT(vector<KEYFRAME>& KeyFrames);
 	void InterpKeyFrameToKeyFrame(_uint KeyFrameIndex, _float fRatio, vector<KEYFRAME>& SrcKeyFrames, vector<KEYFRAME>& DstKeyFrames);

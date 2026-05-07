@@ -121,16 +121,16 @@ void CUI_ItemBoxPanel::Set_IsInactive(_bool bIsInactive)
     m_pDecoImage->Set_IsInactive(bIsInactive);
 }
 
-void CUI_ItemBoxPanel::PopUp_ItemBoxUI(CItemBox* pItemBox)
+void CUI_ItemBoxPanel::PopUp_ItemBoxUI(CInvenOwner* InvenOwner)
 {
-    if (m_pItemBox != nullptr)
+    if (m_pInvenOwner != nullptr)
     {
-        Safe_Release(m_pItemBox);
-        m_pItemBox = nullptr;
+        Safe_Release(m_pInvenOwner);
+        m_pInvenOwner = nullptr;
     }
 
-    m_pItemBox = pItemBox;
-    Safe_AddRef(m_pItemBox);
+    m_pInvenOwner = InvenOwner;
+    Safe_AddRef(m_pInvenOwner);
 
     Set_IsInactive(false);
 
@@ -139,10 +139,10 @@ void CUI_ItemBoxPanel::PopUp_ItemBoxUI(CItemBox* pItemBox)
 
 void CUI_ItemBoxPanel::PopDown_ItemBoxUI()
 {
-    if (m_pItemBox != nullptr)
+    if (m_pInvenOwner != nullptr)
     {
-        Safe_Release(m_pItemBox);
-        m_pItemBox = nullptr;
+        Safe_Release(m_pInvenOwner);
+        m_pInvenOwner = nullptr;
     }
 
     Set_IsInactive(true);
@@ -232,10 +232,10 @@ HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_ItemBoxSlot(const _wstring& strLayerTag
             const _uint iCurSlotIndex = iCurSlotCnt;
             SlotDesc.funcCallBack = [this, iCurSlotIndex]()->void
                 {
-                    if (m_pItemBox == nullptr)
+                    if (m_pInvenOwner == nullptr)
                         return;
 
-                    if (m_pItemBox->TakeItemToInventory(iCurSlotIndex) == true)
+                    if (m_pInvenOwner->TakeItemToInventory(iCurSlotIndex) == true)
                     {
                         Sync_ItemBoxSlot();
                     }
@@ -321,7 +321,7 @@ HRESULT CUI_ItemBoxPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
 void CUI_ItemBoxPanel::Sync_ItemBoxSlot()
 {
-    const vector<INVENTORY_SLOT>& ItemBoxInventory = m_pItemBox->Get_Inventory()->Get_InventoryVec();
+    const vector<INVENTORY_SLOT>& ItemBoxInventory = m_pInvenOwner->Get_Inventory()->Get_InventoryVec();
 
     for (_uint i = 0; i < m_Slots.size(); ++i)
     {
@@ -374,7 +374,7 @@ void CUI_ItemBoxPanel::Free()
     }
     m_Slots.clear();
 
-    Safe_Release(m_pItemBox);
+    Safe_Release(m_pInvenOwner);
     Safe_Release(m_pDecoImage);
 
     Safe_Release(m_pTextureCom);

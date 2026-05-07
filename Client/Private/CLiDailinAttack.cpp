@@ -61,7 +61,7 @@ void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 	const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
 
 	// 무적 상태가 아니면서 다음 기본 공격 할 때가 되면 다시 공격
-	if (pMonster->Get_IsInvincible() == false && pModel->Get_CurAniPlayRatio() >= 0.75f)
+	if (pMonster->IsUnitDead() == false && pModel->Get_CurAniPlayRatio() >= 0.75f)
 		pPlayer->Set_WaitActionState(L"CLiDailinAttack");
 
 	// 애니메이션 끝나면 종료
@@ -247,7 +247,7 @@ void CLiDailinAttack::ApplyDamage_First(CLiDailin* pPlayer)
 		if (pMonster == nullptr)
 			MSG_BOX("Bug Point 5: CLiDailinAttack");
 
-		DAMAGE_INFO tDamageInfo = { pPlayer , 0 };
+		DAMAGE_INFO tDamageInfo = { pPlayer , 100 };
 		pMonster->Damaged(tDamageInfo);
 		m_bIsAttackProcessed_First = true;
 	}
@@ -275,7 +275,7 @@ void CLiDailinAttack::ApplyDamage_Second(CLiDailin* pPlayer)
 		if (pMonster == nullptr)
 			MSG_BOX("Bug Point 6: CLiDailinAttack");
 
-		DAMAGE_INFO tDamageInfo = { pPlayer, 0 };
+		DAMAGE_INFO tDamageInfo = { pPlayer, 100 };
 		pMonster->Damaged(tDamageInfo);
 		m_bIsAttackProcessed_Second = true;
 	}

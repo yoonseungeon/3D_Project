@@ -23,9 +23,9 @@ HRESULT CSharedUI_Manager::Initialize()
     return S_OK;
 }
 
-void CSharedUI_Manager::PopUp_ItemBoxUI(CItemBox* pItemBox)
+void CSharedUI_Manager::PopUp_ItemBoxUI(CInvenOwner* InvenOwner)
 {
-    m_pItemBoxPanel->PopUp_ItemBoxUI(pItemBox);
+    m_pItemBoxPanel->PopUp_ItemBoxUI(InvenOwner);
 }
 
 void CSharedUI_Manager::PopDown_ItemBoxUI()
@@ -48,9 +48,9 @@ HRESULT CSharedUI_Manager::Ready_Layer_UI_ItemBox_Inventory(const _wstring& strL
     ItemBoxPanelDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
 
     ItemBoxPanelDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
-    ItemBoxPanelDesc.vColor = COLOR_TO_FLOAT(33, 45, 51);
+    ItemBoxPanelDesc.vColor = _float3(0.055f, 0.031f, 0.086f);
 
-    ItemBoxPanelDesc.fImageAlpha = 0.8f;
+    ItemBoxPanelDesc.fImageAlpha = 0.7f;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_ItemBoxPanel"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &ItemBoxPanelDesc, reinterpret_cast<CGameObject**>(&m_pItemBoxPanel))))

@@ -61,7 +61,7 @@ HRESULT CAbstractMonster::Render()
 
 void CAbstractMonster::Damaged(const DAMAGE_INFO& tDamageInfo)
 {
-    AddHP(tDamageInfo.iDamage);
+    AddHP(-tDamageInfo.iDamage);
     if (tDamageInfo.pUnit != nullptr)
     {
         if (m_pTargetPlayer == nullptr) {
@@ -69,6 +69,44 @@ void CAbstractMonster::Damaged(const DAMAGE_INFO& tDamageInfo)
             Safe_AddRef(m_pTargetPlayer);
         }
     }
+
+    if (m_tCurStat.iHP <= 0)
+        m_iMonsterCondition |= MONSTER_CONDITION::CON_HPZERO;
+}
+
+_bool CAbstractMonster::IsUnitDead()
+{
+    return m_iMonsterCondition & MONSTER_CONDITION::CON_DEAD;
+}
+
+_bool XM_CALLCONV CAbstractMonster::IsInOpenRange(_fvector vPos, _float fWorldDistance)
+{
+    _matrix matWorld = XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr());
+    _matrix matWorldInverse = XMMatrixInverse(nullptr, matWorld);
+
+    _vector vPlayerLocalPos = XMVector3TransformCoord(vPos, matWorldInverse);
+
+    _float fX = XMVectorGetX(vPlayerLocalPos);
+    _float fY = XMVectorGetY(vPlayerLocalPos);
+    _float fZ = XMVectorGetZ(vPlayerLocalPos);
+
+    MyHelper::FloatClamp(fX, tLocalMinMax.vMin.x, tLocalMinMax.vMax.x);
+    MyHelper::FloatClamp(fY, tLocalMinMax.vMin.y, tLocalMinMax.vMax.y);
+    MyHelper::FloatClamp(fZ, tLocalMinMax.vMin.z, tLocalMinMax.vMax.z);
+
+    _vector vWorldClosePoint = XMVector3TransformCoord(XMVectorSet(fX, fY, fZ, 1.f), matWorld);
+
+    // 2D로 볼 때 가장 가까운 거리는 아닌데... 쓸만함.
+    _float fLength = XMVectorGetX(
+        XMVector3Length(
+            XMVectorSetY(vWorldClosePoint, 0.f) - XMVectorSetY(vPos, 0.f)
+        )
+    );
+
+    if (fLength <= fWorldDistance)
+        return true;
+
+    return false;
 }
 
 _bool CAbstractMonster::PlayerIsInRange(_float fRange)
@@ -103,6 +141,21 @@ _bool CAbstractMonster::IsNearSpawnPoint(_float fRange)
         return true;
 
     return false;
+}
+
+void CAbstractMonster::Cal_LocalMinMaxAABB(MODEL_LOCAL_MIN_MAX& tLocalMinMax, _float3& vCenter, _float3& vSize)
+{
+    tLocalMinMax.vMin = _float3(
+        vCenter.x - vSize.x * 0.5f,
+        vCenter.y - vSize.y * 0.5f,
+        vCenter.z - vSize.z * 0.5f
+    );
+
+    tLocalMinMax.vMax = _float3(
+        vCenter.x + vSize.x * 0.5f,
+        vCenter.y + vSize.y * 0.5f,
+        vCenter.z + vSize.z * 0.5f
+    );
 }
 
 void CAbstractMonster::Free()

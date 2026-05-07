@@ -10,7 +10,7 @@ NS_END
 NS_BEGIN(Client)
 
 class CUI_ItemBoxPanel;
-class CItemBox;
+class CInvenOwner;
 
 class CSharedUI_Manager final : public CBase
 {
@@ -24,7 +24,7 @@ private:
 	HRESULT Initialize();
 
 public:
-	void PopUp_ItemBoxUI(CItemBox* pItemBox);
+	void PopUp_ItemBoxUI(CInvenOwner* InvenOwner);
 	void PopDown_ItemBoxUI();
 
 private:

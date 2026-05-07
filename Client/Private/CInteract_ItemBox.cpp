@@ -3,7 +3,6 @@
 #include "CGameInstance.h"
 #include "CSharedUI_Manager.h"
 
-#include "CItemBox.h"
 #include "CLiDailin.h"
 
 CInteract_ItemBox::CInteract_ItemBox()
@@ -56,18 +55,18 @@ void CInteract_ItemBox::Move_OR_Interact(CLiDailin* pPlayer)
 {
     const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
 
-    CItemBox* pItemBox = dynamic_cast<CItemBox*>(tAction_Command.pGameObject);
-    if (pItemBox == nullptr)
+    CInvenOwner* pInvenOwner = dynamic_cast<CInvenOwner*>(tAction_Command.pGameObject);
+    if (pInvenOwner == nullptr)
         MSG_BOX("Bug Point 1: CInteract_ItemBox");
 
-    CTransform* pTransform = dynamic_cast<CTransform*>(pItemBox->Find_Component(g_strTransformTag));
+    CTransform* pTransform = dynamic_cast<CTransform*>(pInvenOwner->Find_Component(g_strTransformTag));
     if (pTransform == nullptr)
         MSG_BOX("Bug Point 2: CInteract_ItemBox");
 
     _vector vMyPos = pPlayer->Get_TransformCom()->Get_State(STATE::POSITION);
 
     const _float fDistance = 0.3f;
-    if (pItemBox->IsInOpenRange(vMyPos, fDistance) == false)
+    if (pInvenOwner->IsInOpenRange(vMyPos, fDistance) == false)
     {
         _vector vTargetPos = pTransform->Get_State(STATE::POSITION);
         _float3 vPos{};
@@ -76,7 +75,7 @@ void CInteract_ItemBox::Move_OR_Interact(CLiDailin* pPlayer)
     }
     else
     {
-        CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pItemBox);
+        CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pInvenOwner);
         pPlayer->Set_WaitMovementState(L"Idle");
         m_bIsOpenUI = true;
     }

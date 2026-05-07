@@ -38,9 +38,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	_bool TakeItemToInventory(_uint iSlotIndex);
-
-	_bool XM_CALLCONV IsInOpenRange(_fvector vPos, _float fWorldDistance);
+	virtual _bool XM_CALLCONV IsInOpenRange(_fvector vPos, _float fWorldDistance) override;
 
 protected:
 	CShader* m_pShaderCom = { nullptr };
