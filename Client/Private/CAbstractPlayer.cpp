@@ -199,6 +199,34 @@ void CAbstractPlayer::Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDes
 {
 }
 
+void CAbstractPlayer::Look_MouseDir()
+{
+    _float4 vRayPos{}, vRayDir{};
+    CGameInstance::GetInstance()->Get_WorldRay(vRayPos, vRayDir);
+
+    _vector vPlayerPos = m_pTransformCom->Get_State(STATE::POSITION);
+    _float fPlayerY = XMVectorGetY(vPlayerPos);
+
+    // f(t) = vRayDir * t + vRayPos
+    // 플레이어와 높이가 같으려면(y가 같을 때) 얼만큼(t) 가야 하나
+    // y 도달은 y 방향이 결정
+    // fPlayerY = vRayDir.y * t + vRayPos.y
+    //t = (fPlayerY - vRayPos.y) / vRayDir.y
+    if (vRayDir.y == 0.f)
+        return;
+
+    _float fTime = (fPlayerY - vRayPos.y) / vRayDir.y;
+
+    // 플레이어와 높이가 같을 때 x, y 값
+    _float4 vMouseWorld{ 0.f, 0.f, 0.f, 1.f };
+    vMouseWorld.x = vRayDir.x * fTime + vRayPos.x;
+    vMouseWorld.y = fPlayerY;
+    vMouseWorld.z = vRayDir.z * fTime + vRayPos.z;
+
+    _vector vDir = XMVector3Normalize(XMLoadFloat4(&vMouseWorld) - vPlayerPos);
+    m_pTransformCom->LookDir(vDir);
+}
+
 HRESULT CAbstractPlayer::Initialize_Skill()
 {
     return S_OK;

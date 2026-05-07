@@ -1,9 +1,10 @@
 #include "CLiDailin_Q.h"
 
+#include "CGameInstance.h"
+
 #include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
-#include "CGameInstance.h"
 
 CLiDailin_Q::CLiDailin_Q()
 {
@@ -63,6 +64,9 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 	// 이동
 	pPlayer->Set_MoveBlock(true);
 	pPlayer->Set_WaitMovementState(L"Idle");
+
+	// 방향
+	pPlayer->Look_MouseDir();
 }
 
 void CLiDailin_Q::Update(CLiDailin* pPlayer, _float fTimeDelta)
@@ -111,59 +115,7 @@ void CLiDailin_Q::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eActio
 		return;
 	}
 
-	switch (eAction_Command.eCommandType)
-	{
-		case ACTION_COMMAND_TYPE::ATTACK:
-		{
-			pPlayer->Set_CurActionCommand(eAction_Command);
-			pPlayer->Set_WaitActionState(L"CLiDailinAttack");
-
-			break;
-		}
-		case ACTION_COMMAND_TYPE::ATTACK_Q:
-		{
-			if (pPlayer->CanUseSkill(SKILL_SLOT::Q) == false) {
-				return;
-			}
-
-			pPlayer->Set_CurActionCommand(eAction_Command);
-			pPlayer->Set_WaitActionState(L"CLiDailin_Q");
-
-			break;
-		}
-		case ACTION_COMMAND_TYPE::ATTACK_W:
-		{
-			if (pPlayer->CanUseSkill(SKILL_SLOT::W) == false) {
-				return;
-			}
-
-			pPlayer->Set_CurActionCommand(eAction_Command);
-			pPlayer->Set_WaitActionState(L"CLiDailin_W");
-			break;
-		}
-		case ACTION_COMMAND_TYPE::ATTACK_E:
-		{
-			if (pPlayer->CanUseSkill(SKILL_SLOT::E) == false) {
-				return;
-			}
-
-			pPlayer->Set_CurActionCommand(eAction_Command);
-			pPlayer->Set_WaitActionState(L"CLiDailin_E");
-			break;
-		}
-		case ACTION_COMMAND_TYPE::ATTACK_R:
-		{
-
-			if (pPlayer->CanUseSkill(SKILL_SLOT::R) == false) {
-				return;
-			}
-
-			pPlayer->Set_CurActionCommand(eAction_Command);
-			pPlayer->Set_WaitActionState(L"CLiDailin_R");
-
-			break;
-		}
-	}
+	pPlayer->DefaultProcess_ActionCommand(eAction_Command);
 }
 
 void CLiDailin_Q::OnCollision_Enter(const COLLISION_INFO& tCollision)

@@ -64,6 +64,7 @@ public:
 	void XM_CALLCONV TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _float fRotSpeed);
 
 	void XM_CALLCONV LookAt(_fvector vAt);
+	void XM_CALLCONV LookDir(_fvector vDir);
 
 	// T
 	void XM_CALLCONV Set_Pos(_fvector vPos);

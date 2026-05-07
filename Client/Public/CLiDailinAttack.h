@@ -2,6 +2,12 @@
 
 #include "CActionState.h"
 
+NS_BEGIN(Engine)
+class CGameObject;
+NS_END
+
+NS_BEGIN(Client)
+
 class CLiDailinAttack : public CActionState
 {
 private:
@@ -24,6 +30,7 @@ private:
 	_uint m_iCurBodyAni{};
 	_uint m_iCurWeaponAni{};
 
+	CGameObject* m_pTargetObject{};
 
 private:
 	HRESULT Initialize(_float fAttackRange);
@@ -34,9 +41,11 @@ private:
 	_bool IsInAttackRange(CLiDailin* pPlayer);
 	void ApplyDamage(CLiDailin* pPlayer);
 
+
 public:
 	static CLiDailinAttack* Create(_float fAttackRange);
 protected:
 	virtual void Free() override;
 };
 
+NS_END

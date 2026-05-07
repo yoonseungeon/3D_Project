@@ -193,6 +193,24 @@ void XM_CALLCONV CTransform::LookAt(_fvector vAt)
     Reset_Rotation();
 }
 
+void XM_CALLCONV CTransform::LookDir(_fvector vDir)
+{
+    _vector vLook = XMVectorSetW(XMVector3Normalize(vDir), 0.f);
+    _vector vRight = XMVectorSetW(XMVector3Normalize(XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook)), 0.f);
+    _vector vUp = XMVectorSetW(XMVector3Normalize(XMVector3Cross(vLook, vRight)), 0.f);
+
+    // 회전 행렬 생성
+    _matrix matRot = { vRight , vUp , vLook , XMVectorSet(0.f, 0.f, 0.f, 1.f) };
+
+    // 사원수 얻어오기
+    _vector vRotQuat = XMQuaternionRotationMatrix(matRot);
+    vRotQuat = XMQuaternionNormalize(vRotQuat);
+
+    XMStoreFloat4(&m_vRotQuat, vRotQuat);
+
+    Reset_Rotation();
+}
+
 void XM_CALLCONV CTransform::Set_Pos(_fvector vPos)
 {
     Set_State(STATE::POSITION, vPos);

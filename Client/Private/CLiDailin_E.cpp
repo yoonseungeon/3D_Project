@@ -31,6 +31,9 @@ void CLiDailin_E::Enter(CLiDailin* pPlayer)
 	// 이동
     pPlayer->Set_MoveBlock(true);
     pPlayer->Set_WaitMovementState(L"Idle");
+
+    // 방향
+    pPlayer->Look_MouseDir();
 }
 
 void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)

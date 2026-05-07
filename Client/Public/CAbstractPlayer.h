@@ -78,6 +78,8 @@ public:
 	CBurner* Get_Burner() { return m_pBurner; }
 	CFryingPan* Get_FryingPan() { return m_pFryingPan; }
 
+	void Look_MouseDir();
+
 protected:
 	CEquipment* m_pEquipment{};
 	CCraftList* m_pCraftList{};

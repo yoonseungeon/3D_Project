@@ -20,6 +20,11 @@ void CLiDailinAttack::Enter(CLiDailin* pPlayer)
 		Attack(pPlayer);
 	else 
 		Chase(pPlayer);
+
+	// 현재 공격 중인 몬스터와 다른 타겟인지 비교용
+	const ACTION_COMMAND& tAction_Command = pPlayer->Get_CurActionCommand();
+	m_pTargetObject = tAction_Command.pGameObject;
+	Safe_AddRef(m_pTargetObject);
 }
 
 void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
@@ -72,6 +77,8 @@ void CLiDailinAttack::Exit(CLiDailin* pPlayer)
 
 	pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
 	pPlayer->Set_MovementAniBlock(false);
+
+	Safe_Release(m_pTargetObject);
 }
 
 void CLiDailinAttack::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
@@ -79,6 +86,9 @@ void CLiDailinAttack::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eA
 	switch (eAction_Command.eCommandType) {
 		case ACTION_COMMAND_TYPE::ATTACK:
 		{
+			if (eAction_Command.pGameObject == m_pTargetObject)
+				return;
+			
 			pPlayer->Set_CurActionCommand(eAction_Command);
 			pPlayer->Set_WaitActionState(L"CLiDailinAttack");
 
