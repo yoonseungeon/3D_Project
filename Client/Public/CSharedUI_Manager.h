@@ -24,7 +24,7 @@ private:
 	HRESULT Initialize();
 
 public:
-	void PopUp_ItemBoxUI(CInvenOwner* InvenOwner);
+	void PopUp_ItemBoxUI(CInvenOwner* InvenOwner, wstring wstrTitleText);
 	void PopDown_ItemBoxUI();
 
 private:

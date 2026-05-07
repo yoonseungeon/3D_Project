@@ -65,7 +65,7 @@ void CInteract_ItemBox::Move_OR_Interact(CLiDailin* pPlayer)
 
     _vector vMyPos = pPlayer->Get_TransformCom()->Get_State(STATE::POSITION);
 
-    const _float fDistance = 0.3f;
+    const _float fDistance = 0.5f;
     if (pInvenOwner->IsInOpenRange(vMyPos, fDistance) == false)
     {
         _vector vTargetPos = pTransform->Get_State(STATE::POSITION);
@@ -75,7 +75,11 @@ void CInteract_ItemBox::Move_OR_Interact(CLiDailin* pPlayer)
     }
     else
     {
-        CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pInvenOwner);
+        if(tAction_Command.Data_UInt.iIsBox == true)
+            CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pInvenOwner, L"상자");
+        else
+            CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pInvenOwner, L"시체");
+
         pPlayer->Set_WaitMovementState(L"Idle");
         m_bIsOpenUI = true;
     }

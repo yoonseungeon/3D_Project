@@ -23,9 +23,9 @@ HRESULT CSharedUI_Manager::Initialize()
     return S_OK;
 }
 
-void CSharedUI_Manager::PopUp_ItemBoxUI(CInvenOwner* InvenOwner)
+void CSharedUI_Manager::PopUp_ItemBoxUI(CInvenOwner* InvenOwner, wstring wstrTitleText)
 {
-    m_pItemBoxPanel->PopUp_ItemBoxUI(InvenOwner);
+    m_pItemBoxPanel->PopUp_ItemBoxUI(InvenOwner, wstrTitleText);
 }
 
 void CSharedUI_Manager::PopDown_ItemBoxUI()

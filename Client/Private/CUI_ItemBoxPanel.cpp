@@ -57,6 +57,8 @@ HRESULT CUI_ItemBoxPanel::Initialize(void* pArg)
     m_fTextPosX = (pDesc->fPosRatioX + fStartAdjust) * static_cast<_float>(g_iWinSizeX)- fAdjustX;
     m_fTextPosY = -(pDesc->fPosRatioY - fStartAdjust) * static_cast<_float>(g_iWinSizeY) - fAdjustY;
 
+    m_wstrTitleText = L"상자";
+
     return S_OK;
 }
 
@@ -97,7 +99,7 @@ HRESULT CUI_ItemBoxPanel::Render()
     const _float fAdjustFontSize = { 0.65f };
 
     m_pGameInstance->Draw_Text(TEXT("Font_Pretendard_Middle"),
-       L"상자",
+        m_wstrTitleText.data(),
         _float2(m_fTextPosX, m_fTextPosY), XMVectorSet(1.f, 1.f, 1.f, 1.f),
         _float2(fDefaultFontSize* fAdjustFontSize, fDefaultFontSize * fAdjustFontSize)
     );
@@ -121,8 +123,10 @@ void CUI_ItemBoxPanel::Set_IsInactive(_bool bIsInactive)
     m_pDecoImage->Set_IsInactive(bIsInactive);
 }
 
-void CUI_ItemBoxPanel::PopUp_ItemBoxUI(CInvenOwner* InvenOwner)
+void CUI_ItemBoxPanel::PopUp_ItemBoxUI(CInvenOwner* InvenOwner, wstring& wstrTitleText)
 {
+    m_wstrTitleText = wstrTitleText;
+
     if (m_pInvenOwner != nullptr)
     {
         Safe_Release(m_pInvenOwner);

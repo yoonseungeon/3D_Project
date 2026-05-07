@@ -709,6 +709,7 @@ void CLiDailin::Key_Input()
                 ACTION_COMMAND tAction_Command{};
                 tAction_Command.eCommandType = ACTION_COMMAND_TYPE::INTERACT_ITEMBOX;
                 tAction_Command.pGameObject = tRayInfo.pColObject;
+                tAction_Command.Data_UInt.iIsBox = true;
                 Process_ActionCommand(tAction_Command);
                 return;
             }
@@ -733,7 +734,10 @@ void CLiDailin::Key_Input()
                 }
                 
                 if(pMonster->IsUnitDead())  // 죽었으면 인벤토리 오픈
+                {
+                    tAction_Command.Data_UInt.iIsBox = false;
                     tAction_Command.eCommandType = ACTION_COMMAND_TYPE::INTERACT_ITEMBOX;
+                }
                 else                        // 살았으면 공격
                     tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK;
 

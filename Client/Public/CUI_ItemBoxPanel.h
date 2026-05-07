@@ -42,7 +42,7 @@ public:
 
 	virtual void Set_IsInactive(_bool bIsInactive) override;
 
-	void PopUp_ItemBoxUI(CInvenOwner* InvenOwner);
+	void PopUp_ItemBoxUI(CInvenOwner* InvenOwner, wstring& wstrTitleText);
 	void PopDown_ItemBoxUI();
 
 
@@ -68,6 +68,8 @@ private:
 
 	_uint iSlotCnt{ 10 };
 	CInvenOwner* m_pInvenOwner{};
+
+	wstring m_wstrTitleText;
 
 private:
 	HRESULT Ready_Components();

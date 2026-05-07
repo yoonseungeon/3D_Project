@@ -35,7 +35,7 @@ struct MOVEMENT_COMMAND
 union ACTION_DATA
 {
 	_uint iItemIdx{};
-	_uint iAdvancedCount;
+	_uint iIsBox;
 };
 
 struct ACTION_COMMAND
