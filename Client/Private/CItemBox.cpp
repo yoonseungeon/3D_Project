@@ -91,8 +91,19 @@ HRESULT CItemBox::Render()
         if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, MyTextureType_DIFFUSE, 0)))
             return E_FAIL;
 
-        if (FAILED(m_pShaderCom->Begin(0)))
-            return E_FAIL;
+        if (m_pModelCom->Get_MaterialCount(i, MyTextureType_NORMALS) == 0)
+        {
+            if (FAILED(m_pShaderCom->Begin(0)))
+                return E_FAIL;
+        }
+        else
+        {
+            if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_NormalTexture", i, MyTextureType_NORMALS, 0)))
+                return E_FAIL;
+
+            if (FAILED(m_pShaderCom->Begin(1)))
+                return E_FAIL;
+        }
 
         //i 번째 메쉬 버퍼 연결 및 draw
         if (FAILED(m_pModelCom->Render(i)))
