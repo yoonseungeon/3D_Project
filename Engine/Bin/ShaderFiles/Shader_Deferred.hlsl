@@ -253,7 +253,7 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     float fShadowObjectDepth = vLightDepthDesc.x * 2000.f;
         
     // if (ÇÈ¼¿ÀÇ ±¤¿ø±âÁØ ±íÀÌ > ÀÌ¹Ì ±¤¿ø±âÁØÀ¸·Î ±â·ÏµÇ¾îÀÖ´ø ±íÀÌº¸´Ù.)
-    if (fLightViewZ > fShadowObjectDepth)
+    if (fLightViewZ - 0.1f > fShadowObjectDepth)
         Out.vBackBuffer = Out.vBackBuffer * 0.5f; // ¾îµÓ°Ô
     
     return Out;

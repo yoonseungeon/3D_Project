@@ -16,7 +16,7 @@ public:
 	HRESULT Add_RenderTarget(const _wstring& strTargetTag, _uint iWidth, _uint iHeight, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
 	HRESULT Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag);
 	// strMRTTag에 해당하는 RT List 바인딩
-	HRESULT Begin_MRT(const _wstring& strMRTTag);
+	HRESULT Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV = nullptr);
 	// 백버퍼로 복구
 	HRESULT End_MRT();
 	HRESULT Bind_ShaderResource(const _wstring& strTargetTag, class CShader* pShader, const _char* pConstantName);

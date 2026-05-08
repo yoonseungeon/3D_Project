@@ -40,8 +40,11 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
 
     // Shadow
-    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_LightDepth"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_LightDepth"), g_iMaxWidth, g_iMaxHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
         return E_FAIL;
+    if (FAILED(Ready_DepthStencil_Buffer()))
+        return E_FAIL;
+
 
     /* 만든 렌더타겟들을 장치에 동시에 바인딩되는 기준으로 모은다. */
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
@@ -158,8 +161,11 @@ HRESULT CRenderer::Render_Priority()
 HRESULT CRenderer::Render_Shadow()
 {
     // Shadow 깊이 버퍼 바인딩
-    if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_ShadowObjects"))))
+    if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_ShadowObjects"), m_pMaxDSV)))
         return E_FAIL;
+
+    // 셰도우 렌더 타겟 크기만큼 뷰포트 크기 변경
+    Change_ViewportDesc(g_iMaxWidth, g_iMaxHeight);
 
     for (auto& pRenderObject : m_RenderObjects[ETOUI(RENDERID::SHADOW)])
     {
@@ -174,6 +180,11 @@ HRESULT CRenderer::Render_Shadow()
     // 다시 백버퍼
     if (FAILED(m_pGameInstance->End_MRT()))
         return E_FAIL;
+
+    auto tViewportDesc = m_pGameInstance->Get_ViewportDesc();
+
+    // 뷰포트 크기 원래대로
+    Change_ViewportDesc(tViewportDesc.x, tViewportDesc.y);
 
     return S_OK;
 }
@@ -355,6 +366,55 @@ HRESULT CRenderer::Render_UI()
     return S_OK;
 }
 
+HRESULT CRenderer::Ready_DepthStencil_Buffer()
+{
+    // 장치 초기화랑 같음
+
+    ID3D11Texture2D* pDepthStencilTexture = { nullptr };
+
+    D3D11_TEXTURE2D_DESC TextureDesc{};
+    TextureDesc.Width = g_iMaxWidth;
+    TextureDesc.Height = g_iMaxHeight;
+    TextureDesc.MipLevels = 1;
+    TextureDesc.ArraySize = 1;
+    TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+    TextureDesc.SampleDesc.Quality = 0;
+    TextureDesc.SampleDesc.Count = 1;
+
+    TextureDesc.Usage = D3D11_USAGE_DEFAULT;
+    TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    TextureDesc.CPUAccessFlags = 0;
+    TextureDesc.MiscFlags = 0;
+
+    if (FAILED(m_pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
+        return E_FAIL;
+
+    // 깊이 버퍼 멤버로 저장한다.
+    if (FAILED(m_pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pMaxDSV)))
+        return E_FAIL;
+
+    Safe_Release(pDepthStencilTexture);
+
+    return S_OK;
+}
+
+HRESULT CRenderer::Change_ViewportDesc(_uint iWidth, _uint iHeight)
+{
+    D3D11_VIEWPORT ViewPortDesc;
+    ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
+    ViewPortDesc.TopLeftX = 0;
+    ViewPortDesc.TopLeftY = 0;
+    ViewPortDesc.Width = (_float)iWidth;
+    ViewPortDesc.Height = (_float)iHeight;
+    ViewPortDesc.MinDepth = 0.f;
+    ViewPortDesc.MaxDepth = 1.f;
+
+    m_pContext->RSSetViewports(1, &ViewPortDesc);
+
+    return S_OK;
+}
+
 #ifdef _DEBUG
 HRESULT CRenderer::Render_Debug()
 {
@@ -383,7 +443,7 @@ HRESULT CRenderer::Render_Debug()
     //m_pGameInstance->Render_RT_Debug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer);
     //m_pGameInstance->Render_RT_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
 
-    m_pGameInstance->Render_RT_Debug(TEXT("MRT_ShadowObjects"), m_pShader, m_pVIBuffer);
+    //m_pGameInstance->Render_RT_Debug(TEXT("MRT_ShadowObjects"), m_pShader, m_pVIBuffer);
 
     return S_OK;
 }
@@ -415,6 +475,8 @@ void CRenderer::Free()
 
     Safe_Release(m_pShader);
     Safe_Release(m_pVIBuffer);
+
+    Safe_Release(m_pMaxDSV);
 
     Safe_Release(m_pGameInstance);
     Safe_Release(m_pContext);

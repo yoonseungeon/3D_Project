@@ -56,11 +56,11 @@ HRESULT CRiver::Render()
 
     _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-    const _uint iPass = 1;
+    const _uint iWaterPass = 2;
 
     for (_uint i = 0; i < iNumMeshes; ++i)
     {
-        if (FAILED(m_pShaderCom->Begin(iPass)))
+        if (FAILED(m_pShaderCom->Begin(iWaterPass)))
             return E_FAIL;
 
         //i 번째 메쉬 버퍼 연결 및 draw

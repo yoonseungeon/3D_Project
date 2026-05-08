@@ -9,8 +9,8 @@ SamplerState LinearSampler
 {
     Filter = min_mag_mip_linear;
 
-    AddressU = clamp;
-    AddressV = clamp;
+    AddressU = wrap;
+    AddressV = wrap;
 };
 
 
@@ -18,8 +18,8 @@ SamplerState PointSampler
 {
     Filter = min_mag_mip_point;
 
-    AddressU = clamp;
-    AddressV = clamp;
+    AddressU = wrap;
+    AddressV = wrap;
 };
 
 /////////////////////////////////////////////

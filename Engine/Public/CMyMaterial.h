@@ -17,6 +17,7 @@ private:
 
 public:
 	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName, MyTextureType eType, _uint iIndex);
+	_uint Get_MaterialCount(MyTextureType eType) { return m_Materials[eType].size(); }
 
 private:
 	ID3D11Device*			m_pDevice{ nullptr };

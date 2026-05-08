@@ -52,7 +52,7 @@ HRESULT CTarget_Manager::Add_MRT(const _wstring& strMRTTag, const _wstring& strT
 	return S_OK;
 }
 
-HRESULT CTarget_Manager::Begin_MRT(const _wstring& strMRTTag)
+HRESULT CTarget_Manager::Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV)
 {
 	auto pMRTList = Find_MRT(strMRTTag);
 	if (pMRTList == nullptr)
@@ -76,8 +76,12 @@ HRESULT CTarget_Manager::Begin_MRT(const _wstring& strMRTTag)
 		pRenderTargets[iNumRenderTargets++] = pRenderTarget->Get_RTV();
 	}
 
-	// 기존 DSV는 다시 바인딩. 깊이 버퍼 여러 개면 깊이 테스트 힘듦?.
-	m_pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, m_pOriginalDSV);
+	// 깊이 버퍼 Clear하고
+	if (pDSV != nullptr)
+		m_pContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+
+	// 매개 변수로 그림자 깊이 버퍼들어오면 그림자 깊이 버퍼 바인딩
+	m_pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, (pDSV == nullptr) ? m_pOriginalDSV : pDSV);
 
 	return S_OK;
 }

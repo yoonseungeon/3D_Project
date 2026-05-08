@@ -48,10 +48,17 @@ HRESULT CLumia_Ground::Render()
 
     size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-    for (size_t i = 0; i < iNumMeshes; ++i)
+    for (_uint i = 0; i < iNumMeshes; ++i)
     {
-        if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", static_cast<_uint>(i), MyTextureType_DIFFUSE, 0)))
+        if (m_pModelCom->Get_MaterialCount(i, MyTextureType_DIFFUSE) == 0)
+        {
             continue;
+        }
+        else
+        {
+            if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, MyTextureType_DIFFUSE, 0)))
+                return E_FAIL;
+        }
 
         if (FAILED(m_pShaderCom->Begin(0)))
             return E_FAIL;

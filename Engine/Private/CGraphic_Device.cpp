@@ -232,7 +232,7 @@ HRESULT CGraphic_Device::Ready_DepthStencilView(_uint iWinCX, _uint iWinCY)
 	// DSV는 메모리를 가진 실체(리소스)가 아니라 뷰(접근 창구)라서, Depth/Stencil을 저장할 Texture2D를 먼저 만든다.
 	ID3D11Texture2D* pDepthStencilTexture = { nullptr };
 
-	D3D11_TEXTURE2D_DESC	TextureDesc{};
+	D3D11_TEXTURE2D_DESC TextureDesc{};
 
 	/* 깊이 버퍼의 픽셀은 백버퍼의 픽셀과 갯수가 동일해야만 깊이 테스트가 가능해진다. */
 	/* 픽셀의 수가 다르면 아예 렌더링을 못함. */
