@@ -125,14 +125,15 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 HRESULT CLevel_GamePlay::Ready_Shadow()
 {
-    SHADOW_LIGHT_DESC       ShadowDesc{};
-    ShadowDesc.vEye = _float4(-10.f, 30.f, -10.f, 1.f);
+    SHADOW_LIGHT_DESC ShadowDesc{};
+    ShadowDesc.vEye = _float4(-10.f, 20.f, -10.f, 1.f);
     ShadowDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
-    ShadowDesc.fFovy = XMConvertToRadians(60.f);
+    ShadowDesc.fWidth = 53.33f;
+    ShadowDesc.fHeight = 30.f;
     ShadowDesc.fNear = 0.1f;
-    ShadowDesc.fFar = 2000.f;
+    ShadowDesc.fFar = 1000.f;
 
-    if (FAILED(m_pGameInstance->Add_ShadowLight(ShadowDesc)))
+    if (FAILED(m_pGameInstance->Add_ShadowLight(ETOUI(LEVEL::GAMEPLAY), ShadowDesc)))
         return E_FAIL;
 
     return S_OK;

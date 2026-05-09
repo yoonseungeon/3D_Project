@@ -26,7 +26,7 @@ namespace Engine
 	struct SHADOW_LIGHT_DESC
 	{
 		XMFLOAT4		vEye{}, vAt{};
-		float			fFovy{}, fNear{}, fFar{};
+		float			fWidth{}, fHeight{}, fNear{}, fFar{};
 	};
 
 	struct KEYFRAME

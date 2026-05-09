@@ -36,11 +36,11 @@ HRESULT CRenderer::Initialize()
     // 깊이를 통해 픽셀의 월드 위치를 알아낼 수 있다.
     // 깊이 정밀도가 낮으면 픽셀의 월드 위치 복원이 정확하지 않다. -> Specular가 끊겨 보인다
     // 그래서 DXGI_FORMAT_R32G32B32A32_FLOAT 사용 
-    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Depth"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.f, 0.f, 0.f, 0.f))))
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Depth"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R32_FLOAT, _float4(0.f, 0.f, 0.f, 0.f))))
         return E_FAIL;
 
     // Shadow
-    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_LightDepth"), g_iMaxWidth, g_iMaxHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_LightDepth"), g_iMaxWidth, g_iMaxHeight, DXGI_FORMAT_R32_FLOAT, _float4(1.f, 1.f, 1.f, 1.f))))
         return E_FAIL;
     if (FAILED(Ready_DepthStencil_Buffer()))
         return E_FAIL;
@@ -440,10 +440,10 @@ HRESULT CRenderer::Render_Debug()
 
     //// 이 그룹 그려줘
     //// 월드 행렬과 텍스처는 각자
-    //m_pGameInstance->Render_RT_Debug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer);
-    //m_pGameInstance->Render_RT_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);
+ /*   m_pGameInstance->Render_RT_Debug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer);
+    m_pGameInstance->Render_RT_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);*/
 
-    //m_pGameInstance->Render_RT_Debug(TEXT("MRT_ShadowObjects"), m_pShader, m_pVIBuffer);
+ /*   m_pGameInstance->Render_RT_Debug(TEXT("MRT_ShadowObjects"), m_pShader, m_pVIBuffer);*/
 
     return S_OK;
 }

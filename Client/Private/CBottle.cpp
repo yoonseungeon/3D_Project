@@ -60,6 +60,7 @@ void CBottle::Late_Update(_float fTimeDelta)
     Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()) * SocketMatrix);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
 }
 
 HRESULT CBottle::Render()
@@ -74,11 +75,38 @@ HRESULT CBottle::Render()
         if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", static_cast<_uint>(i), MyTextureType_DIFFUSE, 0)))
             return E_FAIL;
 
-        if (FAILED(m_pShaderCom->Begin(0)))
+        if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::DEFAULT))))
             return E_FAIL;
 
         //i 번째 메쉬 버퍼 연결 및 draw
         if (FAILED(m_pModelCom->Render(static_cast<_uint>(i))))
+            return E_FAIL;
+    }
+
+    return S_OK;
+}
+
+HRESULT CBottle::Render_Shadow()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
+        return E_FAIL;
+    // 광원 뷰스페이스, 투영 행렬 던져줌
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", m_pGameInstance->Get_Shadow_Transform(D3DTS::VIEW))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", m_pGameInstance->Get_Shadow_Transform(D3DTS::PROJ))))
+        return E_FAIL;
+
+    size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+    for (_uint i = 0; i < iNumMeshes; ++i)
+    {
+        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+            return E_FAIL;
+
+        if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::SHADOW))))
+            return E_FAIL;
+
+        if (FAILED(m_pModelCom->Render(i)))
             return E_FAIL;
     }
 

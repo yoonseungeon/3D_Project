@@ -301,9 +301,6 @@
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\03. CraftTool">
       <UniqueIdentifier>{644b3430-5128-4366-8363-1916e9266edc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\04. CraftHammer">
-      <UniqueIdentifier>{90bed114-d26c-4c92-bad3-5838cd061ee6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\05. Burner">
       <UniqueIdentifier>{7c483216-4eff-43b9-9c8c-1abae1c953f5}</UniqueIdentifier>
     </Filter>
@@ -321,6 +318,9 @@
     </Filter>
     <Filter Include="02. GameObject\97. Monster">
       <UniqueIdentifier>{9c081f2e-e116-4f50-9c15-e26f5e16ca67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\04. CraftHammer">
+      <UniqueIdentifier>{90bed114-d26c-4c92-bad3-5838cd061ee6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

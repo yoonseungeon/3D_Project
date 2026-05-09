@@ -23,6 +23,8 @@ namespace Client
 
 	enum class STAGE { LOBBY, SELECT, STAGE_END };
 
+	enum class ANIMMESH_SHADER { DEFAULT, SHADOW};
+	enum class MESH_SHADER { DEFAULT, NORMALMAP, WATER };
 
 	enum class Collision_Layer
 	{

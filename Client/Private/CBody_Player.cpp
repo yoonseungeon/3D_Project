@@ -68,7 +68,7 @@ HRESULT CBody_Player::Render()
         if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
             return E_FAIL;
 
-        if (FAILED(m_pShaderCom->Begin(0)))
+        if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::DEFAULT))))
             return E_FAIL;
 
         if (FAILED(m_pModelCom->Render(i)))
@@ -95,8 +95,7 @@ HRESULT CBody_Player::Render_Shadow()
         if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
             return E_FAIL;
 
-        const _uint iShadowPass = 1;
-        if (FAILED(m_pShaderCom->Begin(iShadowPass)))
+        if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::SHADOW))))
             return E_FAIL;
 
         if (FAILED(m_pModelCom->Render(i)))

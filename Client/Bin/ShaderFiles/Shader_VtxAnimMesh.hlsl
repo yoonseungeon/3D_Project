@@ -75,7 +75,7 @@ struct PS_OUT
     float4 vDiffuse : SV_TARGET0;
     float4 vNormal : SV_TARGET1;
     // 타겟 하나 추가
-    float4 vDepth : SV_TARGET2;
+    float vDepth : SV_TARGET2;
 };
     
 /* 픽셀셰이더 : 픽셀의 최종적인 색을 결정해준다. */
@@ -95,7 +95,7 @@ PS_OUT PS_MAIN(PS_IN In)
     // x: z의 범위는 0 ~ far -> w 나누기 하면 0 ~ 1이됨.
     // y: 뷰스페이스 상의 z 범위 near ~ far임
     // UNORM이라 0.0 ~ 1.0으로 저장해야 해서 far로 나눠서 저장
-    Out.vDepth = vector(In.vPosition.z, 0.f, 0.f, 0.f);
+    Out.vDepth = In.vPosition.z;
     
     return Out;
 }
@@ -106,15 +106,15 @@ PS_OUT PS_MAIN(PS_IN In)
 
 struct PS_OUT_SHADOW
 {
-    float4 vLightDepth : SV_TARGET0;
+    float vLightDepth : SV_TARGET0;
 };
 
 PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN In)
 {
     PS_OUT_SHADOW Out;
     
-    // 뷰스페이스상의 z
-    Out.vLightDepth = vector(In.vProjPos.w / 2000.f, 0.f, 0.f, 0.f);
+    // NDC의 z 좌표(범위 0 ~ 1)을 넘겨준다.
+    Out.vLightDepth = In.vProjPos.z / In.vProjPos.w;
     
     return Out;
 }

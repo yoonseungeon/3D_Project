@@ -49,6 +49,8 @@ void CBody_Chicken::Late_Update(_float fTimeDelta)
     __super::Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
+
 }
 
 HRESULT CBody_Chicken::Render()
@@ -67,6 +69,33 @@ HRESULT CBody_Chicken::Render()
             return E_FAIL;
 
         if (FAILED(m_pShaderCom->Begin(0)))
+            return E_FAIL;
+
+        if (FAILED(m_pModelCom->Render(i)))
+            return E_FAIL;
+    }
+
+    return S_OK;
+}
+
+HRESULT CBody_Chicken::Render_Shadow()
+{
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
+        return E_FAIL;
+    // ±¤¿ø ºä½ºÆäÀÌ½º, Åõ¿µ Çà·Ä ´øÁ®ÁÜ
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", m_pGameInstance->Get_Shadow_Transform(D3DTS::VIEW))))
+        return E_FAIL;
+    if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", m_pGameInstance->Get_Shadow_Transform(D3DTS::PROJ))))
+        return E_FAIL;
+
+    size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+    for (_uint i = 0; i < iNumMeshes; ++i)
+    {
+        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+            return E_FAIL;
+
+        if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::SHADOW))))
             return E_FAIL;
 
         if (FAILED(m_pModelCom->Render(i)))

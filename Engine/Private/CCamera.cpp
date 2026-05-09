@@ -52,11 +52,11 @@ HRESULT CCamera::Initialize(void* pArg)
 
 void CCamera::Priority_Update(_float fTimeDelta)
 {
+	Update_PipeLine();
 }
 
 void CCamera::Update(_float fTimeDelta)
 {
-	Update_PipeLine();
 }
 
 void CCamera::Late_Update(_float fTimeDelta)

@@ -81,7 +81,7 @@ struct PS_OUT
 {
     float4 vDiffuse : SV_TARGET0;
     float4 vNormal : SV_TARGET1;
-    float4 vDepth : SV_TARGET2;
+    float vDepth : SV_TARGET2;
 };
     
 /* 픽셀셰이더 : 픽셀의 최종적인 색을 결정해준다. */
@@ -97,7 +97,7 @@ PS_OUT PS_MAIN(PS_IN In)
     /* -1 ~ 1 -> 0 ~ 1 */
     float3 vNormal = normalize(In.vNormal.xyz);
     Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, 0.f, 0.f, 0.f);
+    Out.vDepth = In.vProjPos.z / In.vProjPos.w;
 
     return Out;
 }
@@ -127,7 +127,7 @@ PS_OUT PS_MAIN_NORMAL_MAP(PS_IN In)
     Out.vDiffuse = vTextureDiffuse;
     /* -1 ~ 1 -> 0 ~ 1 */
     Out.vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
-    Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, 0.f, 0.f, 0.f);
+    Out.vDepth = In.vProjPos.z / In.vProjPos.w;
 
     return Out;
 }
@@ -153,7 +153,7 @@ PS_OUT_WATER PS_MAIN_WATER(PS_IN In)
 
 technique11 DefaultTechnique
 {
-// 지붕 반드시 Wrap이어야 함.
+    // 지붕 반드시 Wrap이어야 함.
     pass DefaultPass
     {
         SetRasterizerState(RS_Default);

@@ -161,7 +161,7 @@ public:
 
 #pragma region SHADOW
 	const _float4x4* Get_Shadow_Transform(D3DTS eState) const;
-	HRESULT Add_ShadowLight(const SHADOW_LIGHT_DESC& ShadowDesc);
+	HRESULT Add_ShadowLight(_uint iNumLevels, const SHADOW_LIGHT_DESC& ShadowDesc);
 #pragma endregion
 
 #pragma region COLLISION_MANAGER

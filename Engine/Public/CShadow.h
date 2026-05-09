@@ -17,15 +17,26 @@ private:
 public:
 	const _float4x4* Get_Transform(D3DTS eState) const { return &m_TransformStateMatrices[ETOUI(eState)]; }
 
+private:
+	HRESULT Initialize(_uint iNumLevels);
+
 public:
-	HRESULT Add_ShadowLight(const SHADOW_LIGHT_DESC& ShadowDesc);
+	HRESULT Add_ShadowLight(_uint iNumLevels, const SHADOW_LIGHT_DESC& ShadowDesc);
+	void Update_Shadow();
+	void Clear_Shadow(_uint iNumLevels);
 
 private:
 	class CGameInstance* m_pGameInstance = { nullptr };
 	_float4x4			 m_TransformStateMatrices[ETOUI(D3DTS::END)] = {};
 
+	_float4 m_vEye{}, m_vAt{}, m_vUp{};
+
+	_int m_iCurLevelIndex{ -1 };
+
+	vector<_uint> m_ShadowCount;
+
 public:
-	static CShadow* Create();
+	static CShadow* Create(_uint iNumLevels);
 protected:
 	virtual void Free() override;
 };

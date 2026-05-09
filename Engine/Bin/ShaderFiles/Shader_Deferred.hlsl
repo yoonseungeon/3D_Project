@@ -218,6 +218,7 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     
     Out.vBackBuffer = vDiffuse * vShade + vSpecular;
     
+    
     vector vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexcoord);
 
     vector vNDCPos;
@@ -234,27 +235,25 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     vector vWorldPos = mul(vViewPos, g_ViewMatrixInverse);
     
     vector vLightViewPos = mul(vWorldPos, g_ShadowLightViewMatrix);
-    vector vLightClipPos = mul(vLightViewPos, g_ShadowLightProjMatrix);
-    
-    // 범위 0 ~ far(2000)
-    float fLightViewZ = vLightClipPos.w;
+    vector vLightNDC = mul(vLightViewPos, g_ShadowLightProjMatrix);
+    // 직교 투영 w 어차피 1이지만 정확하게
+    vLightNDC = vLightNDC / vLightNDC.w;
     
     /* -1 ~ 1 => 0 ~ 1 */
     /* 1 ~ -1 => 0 ~ 1 */
+    // 텍스처 좌표로 변환해서 물체의 월드에 맞는 픽셀을 가지고 옴    
     float2 vTexcoord;
+    vTexcoord.x = vLightNDC.x * 0.5f + 0.5f;
+    vTexcoord.y = vLightNDC.y * -0.5f + 0.5f;
 
-    // w 나누기 하면 NDC 좌표가 됨.
-    // 텍스처 좌표로 변환해서 물체의 월드에 맞는 픽셀을 가지고 옴
-    vTexcoord.x = (vLightClipPos.x / vLightClipPos.w) * 0.5f + 0.5f;
-    vTexcoord.y = (vLightClipPos.y / vLightClipPos.w) * -0.5f + 0.5f;
-    
     vector vLightDepthDesc = g_LightDepthTexture.Sample(ClampSampler, vTexcoord);
     
-    float fShadowObjectDepth = vLightDepthDesc.x * 2000.f;
+    // NDC의 z 좌표(범위 0 ~ 1)를 받아왔다.
+    float fShadowObjectNDCDepth = vLightDepthDesc.x;
         
-    // if (픽셀의 광원기준 깊이 > 이미 광원기준으로 기록되어있던 깊이보다.)
-    if (fLightViewZ - 0.1f > fShadowObjectDepth)
-        Out.vBackBuffer = Out.vBackBuffer * 0.5f; // 어둡게
+    // if (픽셀의 광원 기준 깊이 > 이미 광원기준으로 기록되어있던 깊이보다.)
+    if (vLightNDC.z - 0.0001f > fShadowObjectNDCDepth)
+        Out.vBackBuffer = Out.vBackBuffer * 0.8f; // 어둡게
     
     return Out;
 }

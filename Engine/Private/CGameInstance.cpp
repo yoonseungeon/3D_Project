@@ -87,7 +87,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 	if (m_pPicking_Manager == nullptr)
 		return E_FAIL;
 
-	m_pShadow = CShadow::Create();
+	m_pShadow = CShadow::Create(EngineDesc.iNumLevels);
 	if (m_pShadow == nullptr)
 		return E_FAIL;
 
@@ -116,6 +116,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 	m_pObject_Manager->Update(fTimeDelta);
 
+	m_pShadow->Update_Shadow();
 	m_pPipeline->Update();
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
@@ -163,6 +164,9 @@ void CGameInstance::Clear_Resources(_int iLevelIndex)
 	/*iLevelIndex용 자원을 정리한다. */
 	m_pObject_Manager->Clear(iLevelIndex);
 	m_pPrototype_Manager->Clear(iLevelIndex);
+
+	// 그림자 광원 제거
+	m_pShadow->Clear_Shadow(iLevelIndex);
 }
 
 void CGameInstance::Release_Engine()
@@ -440,9 +444,9 @@ const _float4x4* CGameInstance::Get_Shadow_Transform(D3DTS eState) const
 	return m_pShadow->Get_Transform(eState);
 }
 
-HRESULT CGameInstance::Add_ShadowLight(const SHADOW_LIGHT_DESC& ShadowDesc)
+HRESULT CGameInstance::Add_ShadowLight(_uint iNumLevels, const SHADOW_LIGHT_DESC& ShadowDesc)
 {
-	return m_pShadow->Add_ShadowLight(ShadowDesc);
+	return m_pShadow->Add_ShadowLight(iNumLevels, ShadowDesc);
 }
 #pragma endregion
 

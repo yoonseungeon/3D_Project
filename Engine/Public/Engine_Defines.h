@@ -59,11 +59,11 @@ namespace Engine
 	//constexpr unsigned int g_iMaxWidth = 1280;
 	//constexpr unsigned int g_iMaxHeight = 720;
 	
-	//constexpr unsigned int g_iMaxWidth = 16384;
-	//constexpr unsigned int g_iMaxHeight = 9216;	
+	constexpr unsigned int g_iMaxWidth = 16384;
+	constexpr unsigned int g_iMaxHeight = 9216;	
 	
-	constexpr unsigned int g_iMaxWidth = 8192;
-	constexpr unsigned int g_iMaxHeight = 4608;
+	//constexpr unsigned int g_iMaxWidth = 8192;
+	//constexpr unsigned int g_iMaxHeight = 4608;
 }
 
 #pragma warning(disable : 4251)
