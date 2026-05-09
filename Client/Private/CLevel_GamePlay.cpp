@@ -13,6 +13,7 @@
 #include "CItemBox_Collectible.h"
 #include "CChicken.h"
 #include "CWolf.h"
+#include "CDog.h"
 
 #include "CUI_Image.h"
 
@@ -61,6 +62,9 @@ HRESULT CLevel_GamePlay::Initialize()
         return E_FAIL;
 
     if (FAILED(Ready_Layer_Wolf(TEXT("Layer_Wolf"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_Dog(TEXT("Layer_Dog"))))
         return E_FAIL;
 
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
@@ -433,6 +437,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Wolf(const _wstring& strLayerTag)
     CWolf::WOLF_DESC Desc{};
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Wolf"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Dog(const _wstring& strLayerTag)
+{
+    CDog::DOG_DESC Desc{};
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Dog"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
         return E_FAIL;
 

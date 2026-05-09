@@ -158,6 +158,7 @@
     <ClInclude Include="..\Public\CAction_Collect.h" />
     <ClInclude Include="..\Public\CAction_Craft.h" />
     <ClInclude Include="..\Public\CBody_Chicken.h" />
+    <ClInclude Include="..\Public\CBody_Dog.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
     <ClInclude Include="..\Public\CBody_Wolf.h" />
     <ClInclude Include="..\Public\CBottle.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="..\Public\CCraftHammer.h" />
     <ClInclude Include="..\Public\CCraftList.h" />
     <ClInclude Include="..\Public\CCraftTool.h" />
+    <ClInclude Include="..\Public\CDog.h" />
     <ClInclude Include="..\Public\CEquipment.h" />
     <ClInclude Include="..\Public\CExplosion.h" />
     <ClInclude Include="..\PUblic\CFryingPan.h" />
@@ -268,6 +270,7 @@
     <ClCompile Include="..\Private\CAction_Collect.cpp" />
     <ClCompile Include="..\Private\CAction_Craft.cpp" />
     <ClCompile Include="..\Private\CBody_Chicken.cpp" />
+    <ClCompile Include="..\Private\CBody_Dog.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />
     <ClCompile Include="..\Private\CBody_Wolf.cpp" />
     <ClCompile Include="..\Private\CBottle.cpp" />
@@ -278,6 +281,7 @@
     <ClCompile Include="..\Private\CCraftHammer.cpp" />
     <ClCompile Include="..\Private\CCraftList.cpp" />
     <ClCompile Include="..\Private\CCraftTool.cpp" />
+    <ClCompile Include="..\Private\CDog.cpp" />
     <ClCompile Include="..\Private\CEquipment.cpp" />
     <ClCompile Include="..\Private\CExplosion.cpp" />
     <ClCompile Include="..\Private\CFryingPan.cpp" />
