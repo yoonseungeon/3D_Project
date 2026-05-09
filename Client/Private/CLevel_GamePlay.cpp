@@ -427,44 +427,172 @@ HRESULT CLevel_GamePlay::Ready_Layer_River(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Chicken(const _wstring& strLayerTag)
 {
-    CChicken::CHICKEN_DESC Desc{};
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chicken"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+    std::ifstream ifs("../Bin/Data/ChickenSpawnPoints.json");
+    if (!ifs.is_open())
+    {
+        MSG_BOX("File Open Failed");
         return E_FAIL;
+    }
+
+    nlohmann::json root;
+    ifs >> root;
+    ifs.close();
+
+    if (!root.is_array())
+    {
+        MSG_BOX("Json Format Error");
+        return E_FAIL;
+    }
+
+    for (const auto& pos : root)
+    {
+        if (!pos.is_array() || pos.size() != 3)
+        {
+            MSG_BOX("Json Format Error");
+            return E_FAIL;
+        }
+
+        CChicken::CHICKEN_DESC Desc{};
+
+        Desc.tTransformDesc.vStartPos = _float3(
+            pos[0].get<_float>(),
+            pos[1].get<_float>(),
+            pos[2].get<_float>()
+        );
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Chicken"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+            return E_FAIL;
+    }
 
     return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Wolf(const _wstring& strLayerTag)
 {
-    CWolf::WOLF_DESC Desc{};
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Wolf"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+    std::ifstream ifs("../Bin/Data/WolfSpawnPoints.json");
+    if (!ifs.is_open())
+    {
+        MSG_BOX("File Open Failed");
         return E_FAIL;
+    }
+
+    nlohmann::json root;
+    ifs >> root;
+    ifs.close();
+
+    if (!root.is_array())
+    {
+        MSG_BOX("Json Format Error");
+        return E_FAIL;
+    }
+
+    for (const auto& pos : root)
+    {
+        if (!pos.is_array() || pos.size() != 3)
+        {
+            MSG_BOX("Json Format Error");
+            return E_FAIL;
+        }
+
+        CWolf::WOLF_DESC Desc{};
+
+        Desc.tTransformDesc.vStartPos = _float3(
+            pos[0].get<_float>(),
+            pos[1].get<_float>(),
+            pos[2].get<_float>()
+        );
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Wolf"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+            return E_FAIL;
+    }
 
     return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Dog(const _wstring& strLayerTag)
 {
-    CDog::DOG_DESC Desc{};
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Dog"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+    std::ifstream ifs("../Bin/Data/DogSpawnPoints.json");
+    if (!ifs.is_open())
+    {
+        MSG_BOX("File Open Failed");
         return E_FAIL;
+    }
+
+    nlohmann::json root;
+    ifs >> root;
+    ifs.close();
+
+    if (!root.is_array())
+    {
+        MSG_BOX("Json Format Error");
+        return E_FAIL;
+    }
+
+    for (const auto& pos : root)
+    {
+        if (!pos.is_array() || pos.size() != 3)
+        {
+            MSG_BOX("Json Format Error");
+            return E_FAIL;
+        }
+
+        CDog::DOG_DESC Desc{};
+
+        Desc.tTransformDesc.vStartPos = _float3(
+            pos[0].get<_float>(),
+            pos[1].get<_float>(),
+            pos[2].get<_float>()
+        );
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Dog"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+            return E_FAIL;
+    }
 
     return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Bear(const _wstring& strLayerTag)
 {
-    CBear::BEAR_DESC Desc{};
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Bear"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+    std::ifstream ifs("../Bin/Data/BearSpawnPoints.json");
+    if (!ifs.is_open())
+    {
+        MSG_BOX("File Open Failed");
         return E_FAIL;
+    }
+
+    nlohmann::json root;
+    ifs >> root;
+    ifs.close();
+
+    if (!root.is_array())
+    {
+        MSG_BOX("Json Format Error");
+        return E_FAIL;
+    }
+
+    for (const auto& pos : root)
+    {
+        if (!pos.is_array() || pos.size() != 3)
+        {
+            MSG_BOX("Json Format Error");
+            return E_FAIL;
+        }
+
+        CBear::BEAR_DESC Desc{};
+
+        Desc.tTransformDesc.vStartPos = _float3(
+            pos[0].get<_float>(),
+            pos[1].get<_float>(),
+            pos[2].get<_float>()
+        );
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Bear"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+            return E_FAIL;
+    }
 
     return S_OK;
 }

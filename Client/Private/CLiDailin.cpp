@@ -474,7 +474,7 @@ HRESULT CLiDailin::Ready_Components()
 
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
-    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
     pColliderCom->Set_CanMousePicking(false);
 
     m_Colliders.push_back(pColliderCom);

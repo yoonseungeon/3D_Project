@@ -26,8 +26,6 @@ HRESULT CDog::Initialize(void* pArg)
 {
     DOG_DESC* pDesc = static_cast<DOG_DESC*>(pArg);
 
-    pDesc->tTransformDesc.vStartPos = { 1.38f, 3.f, 6.f };
-
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 

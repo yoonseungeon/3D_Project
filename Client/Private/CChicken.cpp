@@ -26,8 +26,6 @@ HRESULT CChicken::Initialize(void* pArg)
 {
     CHICKEN_DESC* pDesc = static_cast<CHICKEN_DESC*>(pArg);
 
-    pDesc->tTransformDesc.vStartPos = { 5.3f, 3.f, 1.8f };
-
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 

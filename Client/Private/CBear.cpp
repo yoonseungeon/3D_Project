@@ -26,8 +26,6 @@ HRESULT CBear::Initialize(void* pArg)
 {
     BEAR_DESC* pDesc = static_cast<BEAR_DESC*>(pArg);
 
-    pDesc->tTransformDesc.vStartPos = { 2.38f, 3.f, 6.f };
-
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 

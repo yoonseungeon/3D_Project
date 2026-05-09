@@ -26,8 +26,6 @@ HRESULT CWolf::Initialize(void* pArg)
 {
     WOLF_DESC* pDesc = static_cast<WOLF_DESC*>(pArg);
 
-    pDesc->tTransformDesc.vStartPos = { -0.38f, 3.f, 6.f };
-
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
