@@ -151,6 +151,29 @@ PS_OUT_WATER PS_MAIN_WATER(PS_IN In)
     return Out;
 }
 
+
+
+
+
+struct PS_OUT_SHADOW
+{
+    float vLightDepth : SV_TARGET0;
+};
+
+PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN In)
+{
+    PS_OUT_SHADOW Out;
+    
+    // NDC의 z 좌표(범위 0 ~ 1)을 넘겨준다.
+    Out.vLightDepth = In.vProjPos.z / In.vProjPos.w;
+    
+    return Out;
+}
+
+
+
+
+
 technique11 DefaultTechnique
 {
     // 지붕 반드시 Wrap이어야 함.
@@ -186,5 +209,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_WATER()));
+    }
+
+    pass Shadow
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_SHADOW()));
     }
 }

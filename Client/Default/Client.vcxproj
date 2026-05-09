@@ -159,6 +159,7 @@
     <ClInclude Include="..\Public\CAction_Craft.h" />
     <ClInclude Include="..\Public\CBody_Chicken.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
+    <ClInclude Include="..\Public\CBody_Wolf.h" />
     <ClInclude Include="..\Public\CBottle.h" />
     <ClInclude Include="..\Public\CBurner.h" />
     <ClInclude Include="..\Public\CCamera_Free.h" />
@@ -249,6 +250,7 @@
     <ClInclude Include="..\Public\CUI_TextBox.h" />
     <ClInclude Include="..\Public\CUnit.h" />
     <ClInclude Include="..\Public\CWeapon.h" />
+    <ClInclude Include="..\Public\CWolf.h" />
     <ClInclude Include="..\Public\Item_Meta.h" />
     <ClInclude Include="..\Public\LiDailin_Info.h" />
     <ClInclude Include="..\Public\CLiDailin_R.h" />
@@ -267,6 +269,7 @@
     <ClCompile Include="..\Private\CAction_Craft.cpp" />
     <ClCompile Include="..\Private\CBody_Chicken.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />
+    <ClCompile Include="..\Private\CBody_Wolf.cpp" />
     <ClCompile Include="..\Private\CBottle.cpp" />
     <ClCompile Include="..\Private\CBurner.cpp" />
     <ClCompile Include="..\Private\CCamera_Free.cpp" />
@@ -355,6 +358,7 @@
     <ClCompile Include="..\Private\CUnit.cpp" />
     <ClCompile Include="..\Private\CWeapon.cpp" />
     <ClCompile Include="..\Private\CLiDailin_R.cpp" />
+    <ClCompile Include="..\Private\CWolf.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -4,8 +4,6 @@
 
 #include "CInGame_Manager.h"
 
-#include "CBody_Chicken.h"
-
 #include "CAbstractPlayer.h"
 #include "CInventory.h"
 
@@ -39,7 +37,7 @@ HRESULT CChicken::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
-    Enter_Action(CHICKEN_ACTION::APPEAR);
+    Enter_Action(WOLF_ACTION::APPEAR);
 
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
@@ -56,14 +54,6 @@ HRESULT CChicken::Initialize(void* pArg)
 void CChicken::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
-
-    if (m_pGameInstance->Key_Down(DIK_P))
-    {
-        DAMAGE_INFO tDamageInfo;
-        tDamageInfo.iDamage = 0;
-        tDamageInfo.pUnit = m_pInGame_Manager->Get_Player();
-        Damaged(tDamageInfo);
-    }
 }
 
 void CChicken::Parallel_Update(_float fTimeDelta)
@@ -95,7 +85,7 @@ HRESULT CChicken::Render()
 	return S_OK;
 }
 
-void CChicken::Enter_Animation(CBody_Chicken::CHICKEN_ANI eNewAnimation)
+void CChicken::Enter_Animation(CBody_Chicken::WOLF_ANI eNewAnimation)
 {
     m_eCurAni = eNewAnimation;
     switch (eNewAnimation) {
@@ -164,20 +154,20 @@ void CChicken::Enter_Animation(CBody_Chicken::CHICKEN_ANI eNewAnimation)
 
 void CChicken::Update_Action(_float fTimeDelta)
 {
-    if (m_eCurState  == CHICKEN_ACTION::DYING)
+    if (m_eCurState  == WOLF_ACTION::DYING)
         return;
 
-    if (m_eCurState == CHICKEN_ACTION::DEATH)
+    if (m_eCurState == WOLF_ACTION::DEATH)
     {
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
         {
-            Enter_Action(CHICKEN_ACTION::DYING);
+            Enter_Action(WOLF_ACTION::DYING);
             return;
         }
     }
     else if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
     {
-        Enter_Action(CHICKEN_ACTION::DEATH);
+        Enter_Action(WOLF_ACTION::DEATH);
     }
 
     if (m_pTargetPlayer != nullptr && !(m_iMonsterCondition & CON_ATTACK))
@@ -190,24 +180,24 @@ void CChicken::Update_Action(_float fTimeDelta)
     {
     case WAIT:
        if (PlayerIsInRange(m_fBewareRange) == true)
-           Enter_Action(CHICKEN_ACTION::BEWARE_START);
+           Enter_Action(WOLF_ACTION::BEWARE_START);
         break;
 
     case RUN:
         if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == false)
         {
-            Enter_Action(CHICKEN_ACTION::ENDBATTLE);
+            Enter_Action(WOLF_ACTION::ENDBATTLE);
             return;
         }
 
         if (PlayerIsInRange(m_fAttackRange) == true)
-            Enter_Action(CHICKEN_ACTION::ATK);
+            Enter_Action(WOLF_ACTION::ATK);
 
         break;
 
     case ENDBATTLE:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(CHICKEN_ACTION::RETURN);
+            Enter_Action(WOLF_ACTION::RETURN);
         break;
 
     case DANCE:
@@ -215,17 +205,17 @@ void CChicken::Update_Action(_float fTimeDelta)
 
     case BEWARE_START:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(CHICKEN_ACTION::BEWARE_LOOP);
+            Enter_Action(WOLF_ACTION::BEWARE_LOOP);
         break;
 
     case BEWARE_LOOP:
         if (PlayerIsInRange(m_fBewareRange) == false)
-            Enter_Action(CHICKEN_ACTION::BEWARE_END);
+            Enter_Action(WOLF_ACTION::BEWARE_END);
         break;
 
     case BEWARE_END:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(CHICKEN_ACTION::WAIT);
+            Enter_Action(WOLF_ACTION::WAIT);
         break;
 
     case ATK:
@@ -236,34 +226,34 @@ void CChicken::Update_Action(_float fTimeDelta)
                 m_bIsAttackProcessed = false;
                 m_pMoveCom->Stop_Move_To_Pos();
                 if (rand() % 2 == 0)
-                    Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK1);
+                    Enter_Animation(CBody_Chicken::WOLF_ANI::ATK1);
                 else
-                    Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK2);
+                    Enter_Animation(CBody_Chicken::WOLF_ANI::ATK2);
             }
             else if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == true)
             {
-                Enter_Action(CHICKEN_ACTION::RUN);
+                Enter_Action(WOLF_ACTION::RUN);
             }
             else
             {
-                Enter_Action(CHICKEN_ACTION::ENDBATTLE);
+                Enter_Action(WOLF_ACTION::ENDBATTLE);
             }
         }
         break;
 
     case APPEAR:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(CHICKEN_ACTION::WAIT);
+            Enter_Action(WOLF_ACTION::WAIT);
         break;
 
     case RETURN:
         if (m_pMoveCom->IsMove() == false)
-            Enter_Action(CHICKEN_ACTION::WAIT);
+            Enter_Action(WOLF_ACTION::WAIT);
         break;
     }
 }
 
-void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
+void CChicken::Enter_Action(WOLF_ACTION eNewAction)
 {
     m_eCurState = eNewAction;
 
@@ -272,60 +262,60 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
         switch (m_eCurState)
         {
         case WAIT:           
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::WAIT);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::WAIT);
             m_pMoveCom->Stop_Move_To_Pos();
             break;
 
         case RUN:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::RUN);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::RUN);
             break;
 
         case ENDBATTLE:
             m_pMoveCom->Stop_Move_To_Pos();
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::ENDBATTLE);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::ENDBATTLE);
             break;
 
         case DYING:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::DYING);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::DYING);
             break;
 
         case DEATH:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::DEATH);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
             break;
 
         case DANCE:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::DANCE);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::DANCE);
             break;
 
         case BEWARE_START:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::BEWARE_START);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::BEWARE_START);
             break;
 
         case BEWARE_LOOP:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::BEWARE_LOOP);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::BEWARE_LOOP);
             break;
 
         case BEWARE_END:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::BEWARE_END);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::BEWARE_END);
             break;
 
         case ATK:
             m_bIsAttackProcessed = false;
             m_pMoveCom->Stop_Move_To_Pos();
             if(rand() % 2 == 0)
-                Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK1);
+                Enter_Animation(CBody_Chicken::WOLF_ANI::ATK1);
             else
-                Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK2);
+                Enter_Animation(CBody_Chicken::WOLF_ANI::ATK2);
             break;
 
         case APPEAR:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::APPEAR);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::APPEAR);
             break;
 
         case RETURN:
             m_iMonsterCondition &= ~CON_ATTACK;
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::RUN);
+            Enter_Animation(CBody_Chicken::WOLF_ANI::RUN);
             m_pMoveCom->Move_To_Pos(m_vStartPos, true);
 
             Safe_Release(m_pTargetPlayer);
@@ -383,7 +373,7 @@ void CChicken::Execute_Action(_float fTimeDelta)
         if (m_bIsAttackProcessed == false)
         {
             _float fAttackTime{};
-            if (m_eCurAni == CBody_Chicken::CHICKEN_ANI::ATK1)
+            if (m_eCurAni == CBody_Chicken::WOLF_ANI::ATK1)
                 fAttackTime = 0.2f;
             else
                 fAttackTime = 0.4f;
@@ -490,9 +480,9 @@ HRESULT CChicken::Bind_ShaderResources()
 void CChicken::Run_OR_ATTACK()
 {
     if (PlayerIsInRange(m_fAttackRange) == true)
-        Enter_Action(CHICKEN_ACTION::ATK);
+        Enter_Action(WOLF_ACTION::ATK);
     else
-        Enter_Action(CHICKEN_ACTION::RUN);
+        Enter_Action(WOLF_ACTION::RUN);
 }
 
 HRESULT CChicken::Initialize_Stat()

@@ -11,19 +11,19 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CBody_Chicken final : public CPartObject
+class CBody_Wolf final : public CPartObject
 {
 public:
-	struct BODY_CHICKEN_DESC : public CPartObject::PARTOBJECT_DESC
+	struct BODY_WOLF_DESC : public CPartObject::PARTOBJECT_DESC
 	{
 	};
 
-	enum WOLF_ANI { APPEAR, ATK1, ATK2, BEWARE_END, BEWARE_LOOP, BEWARE_START, DANCE, DEATH, DYING, ENDBATTLE, RUN, WAIT };
+	enum WOLF_ANI { APPEAR, APPEAR_WAIT, ATK1, ATK2, BEWARE_END, BEWARE_LOOP, BEWARE_START, DANCE, DEATH, DYING, ENDBATTLE, RUN, SKILL_01, SLEEP, SLEEP_START, WAIT, WAKE };
 
 private:
-	CBody_Chicken(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CBody_Chicken(const CBody_Chicken& Prototype);
-	virtual ~CBody_Chicken() = default;
+	CBody_Wolf(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBody_Wolf(const CBody_Wolf& Prototype);
+	virtual ~CBody_Wolf() = default;
 
 private:
 	virtual HRESULT Initialize_Prototype() override;
@@ -51,7 +51,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CBody_Chicken* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CBody_Wolf* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();

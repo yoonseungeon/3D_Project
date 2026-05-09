@@ -100,10 +100,7 @@ HRESULT CBottle::Render_Shadow()
 
     for (_uint i = 0; i < iNumMeshes; ++i)
     {
-        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
-            return E_FAIL;
-
-        if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::SHADOW))))
+        if (FAILED(m_pShaderCom->Begin(ETOUI(MESH_SHADER::SHADOW))))
             return E_FAIL;
 
         if (FAILED(m_pModelCom->Render(i)))
