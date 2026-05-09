@@ -157,6 +157,8 @@
     <ClInclude Include="..\Public\CActionState.h" />
     <ClInclude Include="..\Public\CAction_Collect.h" />
     <ClInclude Include="..\Public\CAction_Craft.h" />
+    <ClInclude Include="..\Public\CBear.h" />
+    <ClInclude Include="..\Public\CBody_Bear.h" />
     <ClInclude Include="..\Public\CBody_Chicken.h" />
     <ClInclude Include="..\Public\CBody_Dog.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
@@ -269,6 +271,8 @@
     <ClCompile Include="..\Private\CActionState.cpp" />
     <ClCompile Include="..\Private\CAction_Collect.cpp" />
     <ClCompile Include="..\Private\CAction_Craft.cpp" />
+    <ClCompile Include="..\Private\CBear.cpp" />
+    <ClCompile Include="..\Private\CBody_Bear.cpp" />
     <ClCompile Include="..\Private\CBody_Chicken.cpp" />
     <ClCompile Include="..\Private\CBody_Dog.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />

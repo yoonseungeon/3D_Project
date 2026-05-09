@@ -334,6 +334,12 @@
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\02. Dog\00. Body">
       <UniqueIdentifier>{735d760b-377f-4d61-b07c-b6b25461e754}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\04. Bear">
+      <UniqueIdentifier>{fb248665-3d55-4ba6-bc1d-21dd5f361ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\04. Bear\00. Body">
+      <UniqueIdentifier>{0ddd9478-bab0-4508-99d8-ec1351251174}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -666,6 +672,12 @@
     <ClInclude Include="..\Public\CBody_Dog.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\02. Dog\00. Body</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CBear.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\04. Bear</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBody_Bear.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\04. Bear\00. Body</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -980,6 +992,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CBody_Dog.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\02. Dog\00. Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBear.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\04. Bear</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBody_Bear.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\04. Bear\00. Body</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

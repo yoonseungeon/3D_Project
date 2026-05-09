@@ -72,6 +72,8 @@
 #include "CBody_Wolf.h"
 #include "CDog.h"
 #include "CBody_Dog.h"
+#include "CBear.h"
+#include "CBody_Bear.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -1480,6 +1482,20 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_Component_Model_Bear */
+    _matrix BearPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f))/* * XMMatrixRotationX(XMConvertToRadians(90.f))*/;
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, BearPreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Bear"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/GamePlay/Monster/Bear/Bear.mymodel", BearPreTransformMatrix))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Bear");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
@@ -1686,6 +1702,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CBody_Dog::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Body_Dog");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Bear */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Bear"),
+                CBear::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Bear");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Body_Bear */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Bear"),
+                CBody_Bear::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Body_Bear");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -1,4 +1,4 @@
-#include "CDog.h"
+#include "CBear.h"
 
 #include "CGameInstance.h"
 
@@ -7,26 +7,26 @@
 #include "CAbstractPlayer.h"
 #include "CInventory.h"
 
-CDog::CDog(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBear::CBear(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractMonster{ pDevice, pContext }
 {
 }
 
-CDog::CDog(const CDog& Prototype)
+CBear::CBear(const CBear& Prototype)
     : CAbstractMonster{ Prototype }
 {
 }
 
-HRESULT CDog::Initialize_Prototype()
+HRESULT CBear::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CDog::Initialize(void* pArg)
+HRESULT CBear::Initialize(void* pArg)
 {
-    DOG_DESC* pDesc = static_cast<DOG_DESC*>(pArg);
+    BEAR_DESC* pDesc = static_cast<BEAR_DESC*>(pArg);
 
-    pDesc->tTransformDesc.vStartPos = { 1.38f, 3.f, 6.f };
+    pDesc->tTransformDesc.vStartPos = { 2.38f, 3.f, 6.f };
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
@@ -37,12 +37,12 @@ HRESULT CDog::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
-    Enter_Action(DOG_ACTION::APPEAR);
+    Enter_Action(BEAR_ACTION::APPEAR);
 
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
 
-    m_fAttackRange = 1.5f;
+    m_fAttackRange = 2.0f;
 
     m_pInvetory->Add_Item(34);
     m_pInvetory->Add_Item(52);
@@ -51,12 +51,12 @@ HRESULT CDog::Initialize(void* pArg)
     return S_OK;
 }
 
-void CDog::Priority_Update(_float fTimeDelta)
+void CBear::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
 }
 
-void CDog::Parallel_Update(_float fTimeDelta)
+void CBear::Parallel_Update(_float fTimeDelta)
 {
     __super::Parallel_Update(fTimeDelta);
 
@@ -67,7 +67,7 @@ void CDog::Parallel_Update(_float fTimeDelta)
     m_pNavigationCom->Compute_OnNavigation();
 }
 
-void CDog::Update(_float fTimeDelta)
+void CBear::Update(_float fTimeDelta)
 {
     Update_Action(fTimeDelta);
     Execute_Action(fTimeDelta);
@@ -75,129 +75,119 @@ void CDog::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 }
 
-void CDog::Late_Update(_float fTimeDelta)
+void CBear::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
 }
 
-HRESULT CDog::Render()
+HRESULT CBear::Render()
 {
     return S_OK;
 }
 
-void CDog::Enter_Animation(CBody_Dog::DOG_ANI eNewAnimation)
+void CBear::Enter_Animation(CBody_Bear::BEAR_ANI eNewAnimation)
 {
     m_eCurAni = eNewAnimation;
     switch (eNewAnimation) {
-    case CBody_Dog::APPEAR_WAIT:
+    case CBody_Bear::DYING_1:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::ATK1:
+    case CBody_Bear::WAKE:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::ATK2:
+    case CBody_Bear::WAIT:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Dog::DANCE:
+    case CBody_Bear::SLEEP_START:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::DEATH:
+    case CBody_Bear::SLEEP:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Dog::DYING:
+    case CBody_Bear::RUN:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Dog::RUN:
+    case CBody_Bear::ENDBATTLE:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::SLEEP_START:
+    case CBody_Bear::DYING:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Dog::WAIT:
+    case CBody_Bear::DEATH:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::APPEAR:
+    case CBody_Bear::DANCE:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::BEWARE_END:
+    case CBody_Bear::BEWARE_START:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::BEWARE_LOOP:
+    case CBody_Bear::BEWARE_LOOP:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Dog::BEWARE_LOOP_WAIT:
+    case CBody_Bear::BEWARE_END:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::BEWARE_START:
+    case CBody_Bear::ATK2:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::ENDBATTLE:
+    case CBody_Bear::ATK1:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Dog::SLEEP:
+    case CBody_Bear::APPEAR:
     {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
-        break;
-    }
-    case CBody_Dog::WAKE:
-    {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-        break;
-    }
-    case CBody_Dog::DYING_1:
-    {
-        m_pBodyDog->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyWolf->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
     }
 }
 
-void CDog::Update_Action(_float fTimeDelta)
+void CBear::Update_Action(_float fTimeDelta)
 {
-    if (m_eCurState == DOG_ACTION::DYING)
+    if (m_eCurState == BEAR_ACTION::DYING)
         return;
 
-    if (m_eCurState == DOG_ACTION::DEATH)
+    if (m_eCurState == BEAR_ACTION::DEATH)
     {
-        if (m_pBodyDog->Get_ModelCom()->IsAnimationFinished() == true)
+        if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
         {
-            Enter_Action(DOG_ACTION::DYING);
+            Enter_Action(BEAR_ACTION::DYING);
             return;
         }
     }
     else if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
     {
-        Enter_Action(DOG_ACTION::DEATH);
+        Enter_Action(BEAR_ACTION::DEATH);
     }
 
     if (m_pTargetPlayer != nullptr && !(m_iMonsterCondition & CON_ATTACK))
@@ -212,28 +202,28 @@ void CDog::Update_Action(_float fTimeDelta)
     {
         // 진입 x
         if (PlayerIsInRange(m_fBewareRange) == true)
-            Enter_Action(DOG_ACTION::BEWARE_START);
+            Enter_Action(BEAR_ACTION::BEWARE_START);
         break;
     }
 
     case SLEEP_START:
     {
-        if (m_pBodyDog->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(DOG_ACTION::SLEEP);
+        if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BEAR_ACTION::SLEEP);
         break;
     }
 
     case SLEEP:
     {
         if (PlayerIsInRange(m_fBewareRange) == true)
-            Enter_Action(DOG_ACTION::SLEEP_END);
+            Enter_Action(BEAR_ACTION::SLEEP_END);
         break;
     }
 
     case SLEEP_END:
     {
-        if (m_pBodyDog->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(DOG_ACTION::BEWARE_START);
+        if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BEAR_ACTION::BEWARE_START);
         break;
     }
 
@@ -241,20 +231,20 @@ void CDog::Update_Action(_float fTimeDelta)
     {
         if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == false)
         {
-            Enter_Action(DOG_ACTION::ENDBATTLE);
+            Enter_Action(BEAR_ACTION::ENDBATTLE);
             return;
         }
 
         if (PlayerIsInRange(m_fAttackRange) == true)
-            Enter_Action(DOG_ACTION::ATK);
+            Enter_Action(BEAR_ACTION::ATK);
 
         break;
     }
 
     case ENDBATTLE:
     {
-        if (m_pBodyDog->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(DOG_ACTION::RETURN);
+        if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BEAR_ACTION::RETURN);
         break;
     }
 
@@ -265,48 +255,48 @@ void CDog::Update_Action(_float fTimeDelta)
 
     case BEWARE_START:
     {
-        if (m_pBodyDog->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(DOG_ACTION::BEWARE_LOOP);
+        if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BEAR_ACTION::BEWARE_LOOP);
         break;
     }
 
     case BEWARE_LOOP:
     {
         if (PlayerIsInRange(m_fBewareRange) == false)
-            Enter_Action(DOG_ACTION::SLEEP_START);
-        //Enter_Action(DOG_ACTION::BEWARE_END);
+            Enter_Action(BEAR_ACTION::SLEEP_START);
+        //Enter_Action(BEAR_ACTION::BEWARE_END);
         break;
     }
 
     case BEWARE_END:
     {
         // 진입 x
-        if (m_pBodyDog->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(DOG_ACTION::SLEEP_START);
-        //Enter_Action(DOG_ACTION::WAIT);
+        if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BEAR_ACTION::SLEEP_START);
+        //Enter_Action(BEAR_ACTION::WAIT);
         break;
     }
 
     case ATK:
     {
-        if (m_pBodyDog->Get_ModelCom()->IsAnimationFinished() == true)
+        if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
         {
             if (PlayerIsInRange(m_fAttackRange) == true)
             {
                 m_bIsAttackProcessed = false;
                 m_pMoveCom->Stop_Move_To_Pos();
                 if (m_iAttackIndex++ % 2 == 0)
-                    Enter_Animation(CBody_Dog::DOG_ANI::ATK1);
+                    Enter_Animation(CBody_Bear::BEAR_ANI::ATK1);
                 else
-                    Enter_Animation(CBody_Dog::DOG_ANI::ATK2);
+                    Enter_Animation(CBody_Bear::BEAR_ANI::ATK2);
             }
             else if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == true)
             {
-                Enter_Action(DOG_ACTION::RUN);
+                Enter_Action(BEAR_ACTION::RUN);
             }
             else
             {
-                Enter_Action(DOG_ACTION::ENDBATTLE);
+                Enter_Action(BEAR_ACTION::ENDBATTLE);
             }
         }
         break;
@@ -314,9 +304,9 @@ void CDog::Update_Action(_float fTimeDelta)
 
     case APPEAR:
     {
-        if (m_pBodyDog->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(DOG_ACTION::SLEEP_START);
-        //Enter_Action(DOG_ACTION::WAIT);
+        if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BEAR_ACTION::SLEEP_START);
+        //Enter_Action(BEAR_ACTION::WAIT);
         break;
     }
 
@@ -326,12 +316,12 @@ void CDog::Update_Action(_float fTimeDelta)
         {
             if (PlayerIsInRange(m_fBewareRange) == true)
             {
-                Enter_Action(DOG_ACTION::BEWARE_LOOP);
+                Enter_Action(BEAR_ACTION::BEWARE_LOOP);
             }
             else
             {
-                //Enter_Action(DOG_ACTION::WAIT);
-                Enter_Action(DOG_ACTION::SLEEP_START);
+                //Enter_Action(BEAR_ACTION::WAIT);
+                Enter_Action(BEAR_ACTION::SLEEP_START);
             }
         }
         break;
@@ -339,7 +329,7 @@ void CDog::Update_Action(_float fTimeDelta)
     }
 }
 
-void CDog::Enter_Action(DOG_ACTION eNewAction)
+void CBear::Enter_Action(BEAR_ACTION eNewAction)
 {
     m_eCurState = eNewAction;
 
@@ -348,73 +338,73 @@ void CDog::Enter_Action(DOG_ACTION eNewAction)
         switch (m_eCurState)
         {
         case WAIT:
-            Enter_Animation(CBody_Dog::DOG_ANI::WAIT);
+            Enter_Animation(CBody_Bear::BEAR_ANI::WAIT);
             m_pMoveCom->Stop_Move_To_Pos();
             break;
 
         case SLEEP_START:
-            Enter_Animation(CBody_Dog::DOG_ANI::SLEEP_START);
+            Enter_Animation(CBody_Bear::BEAR_ANI::SLEEP_START);
             m_pMoveCom->Stop_Move_To_Pos();
             break;
 
         case SLEEP:
-            Enter_Animation(CBody_Dog::DOG_ANI::SLEEP);
+            Enter_Animation(CBody_Bear::BEAR_ANI::SLEEP);
             break;
 
         case SLEEP_END:
-            Enter_Animation(CBody_Dog::DOG_ANI::WAKE);
+            Enter_Animation(CBody_Bear::BEAR_ANI::WAKE);
             break;
 
         case RUN:
-            Enter_Animation(CBody_Dog::DOG_ANI::RUN);
+            Enter_Animation(CBody_Bear::BEAR_ANI::RUN);
             break;
 
         case ENDBATTLE:
             m_pMoveCom->Stop_Move_To_Pos();
-            Enter_Animation(CBody_Dog::DOG_ANI::ENDBATTLE);
+            Enter_Animation(CBody_Bear::BEAR_ANI::ENDBATTLE);
             break;
 
         case DYING:
-            Enter_Animation(CBody_Dog::DOG_ANI::DYING);
+            Enter_Animation(CBody_Bear::BEAR_ANI::DYING);
             break;
 
         case DEATH:
-            Enter_Animation(CBody_Dog::DOG_ANI::DEATH);
+            Enter_Animation(CBody_Bear::BEAR_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
             break;
 
         case DANCE:
-            Enter_Animation(CBody_Dog::DOG_ANI::DANCE);
+            Enter_Animation(CBody_Bear::BEAR_ANI::DANCE);
             break;
 
         case BEWARE_START:
-            Enter_Animation(CBody_Dog::DOG_ANI::BEWARE_START);
+            Enter_Animation(CBody_Bear::BEAR_ANI::BEWARE_START);
             break;
 
         case BEWARE_LOOP:
-            Enter_Animation(CBody_Dog::DOG_ANI::BEWARE_LOOP);
+            Enter_Animation(CBody_Bear::BEAR_ANI::BEWARE_LOOP);
             break;
 
         case BEWARE_END:
-            Enter_Animation(CBody_Dog::DOG_ANI::BEWARE_END);
+            Enter_Animation(CBody_Bear::BEAR_ANI::BEWARE_END);
             break;
 
         case ATK:
             m_bIsAttackProcessed = false;
             m_pMoveCom->Stop_Move_To_Pos();
             if (m_iAttackIndex++ % 2 == 0)
-                Enter_Animation(CBody_Dog::DOG_ANI::ATK1);
+                Enter_Animation(CBody_Bear::BEAR_ANI::ATK1);
             else
-                Enter_Animation(CBody_Dog::DOG_ANI::ATK2);
+                Enter_Animation(CBody_Bear::BEAR_ANI::ATK2);
             break;
 
         case APPEAR:
-            Enter_Animation(CBody_Dog::DOG_ANI::APPEAR);
+            Enter_Animation(CBody_Bear::BEAR_ANI::APPEAR);
             break;
 
         case RETURN:
             m_iMonsterCondition &= ~CON_ATTACK;
-            Enter_Animation(CBody_Dog::DOG_ANI::RUN);
+            Enter_Animation(CBody_Bear::BEAR_ANI::RUN);
             m_pMoveCom->Move_To_Pos(m_vStartPos, true);
             m_iAttackIndex = 0;
 
@@ -428,7 +418,7 @@ void CDog::Enter_Action(DOG_ACTION eNewAction)
     }
 }
 
-void CDog::Execute_Action(_float fTimeDelta)
+void CBear::Execute_Action(_float fTimeDelta)
 {
     switch (m_eCurState)
     {
@@ -473,12 +463,12 @@ void CDog::Execute_Action(_float fTimeDelta)
         if (m_bIsAttackProcessed == false)
         {
             _float fAttackTime{};
-            if (m_eCurAni == CBody_Dog::DOG_ANI::ATK1)
+            if (m_eCurAni == CBody_Bear::BEAR_ANI::ATK1)
                 fAttackTime = 0.2f;
             else
                 fAttackTime = 0.3f;
 
-            if (m_pBodyDog->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
+            if (m_pBodyWolf->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
             {
                 if (m_pTargetPlayer != nullptr)
                 {
@@ -506,7 +496,7 @@ void CDog::Execute_Action(_float fTimeDelta)
     }
 }
 
-HRESULT CDog::Ready_Components()
+HRESULT CBear::Ready_Components()
 {
     /* For.Com_Navigation */
     CNavigation::NAVIGATION_DESC NaviDesc;
@@ -536,7 +526,7 @@ HRESULT CDog::Ready_Components()
 
     /* For.Com_Collider_AABB */
     CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
-    AABBDesc.vSize = _float3(1.f, 1.0f, 1.f);
+    AABBDesc.vSize = _float3(1.9f, 1.0f, 1.9f);
     AABBDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
 
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
@@ -556,36 +546,36 @@ HRESULT CDog::Ready_Components()
     return S_OK;
 }
 
-HRESULT CDog::Ready_PartObjects()
+HRESULT CBear::Ready_PartObjects()
 {
     // Body
-    CBody_Dog::BODY_DOG_DESC BodyDesc{};
+    CBody_Bear::BODY_BEAR_DESC BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Dog"),
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Bear"),
         TEXT("Body"), &BodyDesc)))
         return E_FAIL;
 
-    m_pBodyDog = dynamic_cast<CBody_Dog*>(m_PartObjects[TEXT("Body")]);
-    Safe_AddRef(m_pBodyDog);
+    m_pBodyWolf = dynamic_cast<CBody_Bear*>(m_PartObjects[TEXT("Body")]);
+    Safe_AddRef(m_pBodyWolf);
 
     return S_OK;
 }
 
-HRESULT CDog::Bind_ShaderResources()
+HRESULT CBear::Bind_ShaderResources()
 {
     return S_OK;
 }
 
-void CDog::Run_OR_ATTACK()
+void CBear::Run_OR_ATTACK()
 {
     if (PlayerIsInRange(m_fAttackRange) == true)
-        Enter_Action(DOG_ACTION::ATK);
+        Enter_Action(BEAR_ACTION::ATK);
     else
-        Enter_Action(DOG_ACTION::RUN);
+        Enter_Action(BEAR_ACTION::RUN);
 }
 
-HRESULT CDog::Initialize_Stat()
+HRESULT CBear::Initialize_Stat()
 {
     SetStat(m_tBaseStat, 2, 0, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
     SetStat(m_tCurStat, 2, 999, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
@@ -597,35 +587,35 @@ HRESULT CDog::Initialize_Stat()
     return S_OK;
 }
 
-CDog* CDog::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBear* CBear::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CDog* pInstance = new CDog(pDevice, pContext);
+    CBear* pInstance = new CBear(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CDog");
+        MSG_BOX("Failed to Created: CBear");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CDog::Clone(void* pArg)
+CGameObject* CBear::Clone(void* pArg)
 {
-    CDog* pInstance = new CDog(*this);
+    CBear* pInstance = new CBear(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CDog");
+        MSG_BOX("Failed to Cloned: CBear");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CDog::Free()
+void CBear::Free()
 {
-    Safe_Release(m_pBodyDog);
+    Safe_Release(m_pBodyWolf);
 
     Safe_Release(m_pNavigationCom);
     Safe_Release(m_pMoveCom);

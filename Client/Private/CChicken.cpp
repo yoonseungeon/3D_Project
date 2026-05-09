@@ -37,7 +37,7 @@ HRESULT CChicken::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
-    Enter_Action(WOLF_ACTION::APPEAR);
+    Enter_Action(CHICKEN_ACTION::APPEAR);
 
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
@@ -154,20 +154,20 @@ void CChicken::Enter_Animation(CBody_Chicken::WOLF_ANI eNewAnimation)
 
 void CChicken::Update_Action(_float fTimeDelta)
 {
-    if (m_eCurState  == WOLF_ACTION::DYING)
+    if (m_eCurState  == CHICKEN_ACTION::DYING)
         return;
 
-    if (m_eCurState == WOLF_ACTION::DEATH)
+    if (m_eCurState == CHICKEN_ACTION::DEATH)
     {
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
         {
-            Enter_Action(WOLF_ACTION::DYING);
+            Enter_Action(CHICKEN_ACTION::DYING);
             return;
         }
     }
     else if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
     {
-        Enter_Action(WOLF_ACTION::DEATH);
+        Enter_Action(CHICKEN_ACTION::DEATH);
     }
 
     if (m_pTargetPlayer != nullptr && !(m_iMonsterCondition & CON_ATTACK))
@@ -180,24 +180,24 @@ void CChicken::Update_Action(_float fTimeDelta)
     {
     case WAIT:
        if (PlayerIsInRange(m_fBewareRange) == true)
-           Enter_Action(WOLF_ACTION::BEWARE_START);
+           Enter_Action(CHICKEN_ACTION::BEWARE_START);
         break;
 
     case RUN:
         if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == false)
         {
-            Enter_Action(WOLF_ACTION::ENDBATTLE);
+            Enter_Action(CHICKEN_ACTION::ENDBATTLE);
             return;
         }
 
         if (PlayerIsInRange(m_fAttackRange) == true)
-            Enter_Action(WOLF_ACTION::ATK);
+            Enter_Action(CHICKEN_ACTION::ATK);
 
         break;
 
     case ENDBATTLE:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(WOLF_ACTION::RETURN);
+            Enter_Action(CHICKEN_ACTION::RETURN);
         break;
 
     case DANCE:
@@ -205,17 +205,17 @@ void CChicken::Update_Action(_float fTimeDelta)
 
     case BEWARE_START:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(WOLF_ACTION::BEWARE_LOOP);
+            Enter_Action(CHICKEN_ACTION::BEWARE_LOOP);
         break;
 
     case BEWARE_LOOP:
         if (PlayerIsInRange(m_fBewareRange) == false)
-            Enter_Action(WOLF_ACTION::BEWARE_END);
+            Enter_Action(CHICKEN_ACTION::BEWARE_END);
         break;
 
     case BEWARE_END:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(WOLF_ACTION::WAIT);
+            Enter_Action(CHICKEN_ACTION::WAIT);
         break;
 
     case ATK:
@@ -232,28 +232,28 @@ void CChicken::Update_Action(_float fTimeDelta)
             }
             else if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == true)
             {
-                Enter_Action(WOLF_ACTION::RUN);
+                Enter_Action(CHICKEN_ACTION::RUN);
             }
             else
             {
-                Enter_Action(WOLF_ACTION::ENDBATTLE);
+                Enter_Action(CHICKEN_ACTION::ENDBATTLE);
             }
         }
         break;
 
     case APPEAR:
         if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(WOLF_ACTION::WAIT);
+            Enter_Action(CHICKEN_ACTION::WAIT);
         break;
 
     case RETURN:
         if (m_pMoveCom->IsMove() == false)
-            Enter_Action(WOLF_ACTION::WAIT);
+            Enter_Action(CHICKEN_ACTION::WAIT);
         break;
     }
 }
 
-void CChicken::Enter_Action(WOLF_ACTION eNewAction)
+void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
 {
     m_eCurState = eNewAction;
 
@@ -480,9 +480,9 @@ HRESULT CChicken::Bind_ShaderResources()
 void CChicken::Run_OR_ATTACK()
 {
     if (PlayerIsInRange(m_fAttackRange) == true)
-        Enter_Action(WOLF_ACTION::ATK);
+        Enter_Action(CHICKEN_ACTION::ATK);
     else
-        Enter_Action(WOLF_ACTION::RUN);
+        Enter_Action(CHICKEN_ACTION::RUN);
 }
 
 HRESULT CChicken::Initialize_Stat()
