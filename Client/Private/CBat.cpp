@@ -1,4 +1,4 @@
-#include "CChicken.h"
+#include "CBat.h"
 
 #include "CGameInstance.h"
 
@@ -7,24 +7,24 @@
 #include "CAbstractPlayer.h"
 #include "CInventory.h"
 
-CChicken::CChicken(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBat::CBat(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractMonster{ pDevice, pContext }
 {
 }
 
-CChicken::CChicken(const CChicken& Prototype)
+CBat::CBat(const CBat& Prototype)
     : CAbstractMonster{ Prototype }
 {
 }
 
-HRESULT CChicken::Initialize_Prototype()
+HRESULT CBat::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CChicken::Initialize(void* pArg)
+HRESULT CBat::Initialize(void* pArg)
 {
-    CHICKEN_DESC* pDesc = static_cast<CHICKEN_DESC*>(pArg);
+    BAT_DESC* pDesc = static_cast<BAT_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
@@ -35,7 +35,7 @@ HRESULT CChicken::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
-    Enter_Action(CHICKEN_ACTION::APPEAR);
+    Enter_Action(BAT_ACTION::APPEAR);
 
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
@@ -46,15 +46,20 @@ HRESULT CChicken::Initialize(void* pArg)
     m_pInvetory->Add_Item(52);
     m_pInvetory->Add_Item(26);
 
+    XMStoreFloat4x4(&m_Defaut, XMMatrixRotationY(XMConvertToRadians(180.f)));
+    XMStoreFloat4x4(&m_Bug, XMMatrixRotationY(XMConvertToRadians(180.f)) * XMMatrixRotationX(XMConvertToRadians(90.f)));
+
+
+
     return S_OK;
 }
 
-void CChicken::Priority_Update(_float fTimeDelta)
+void CBat::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
 }
 
-void CChicken::Parallel_Update(_float fTimeDelta)
+void CBat::Parallel_Update(_float fTimeDelta)
 {
     __super::Parallel_Update(fTimeDelta);
 
@@ -65,7 +70,7 @@ void CChicken::Parallel_Update(_float fTimeDelta)
     m_pNavigationCom->Compute_OnNavigation();
 }
 
-void CChicken::Update(_float fTimeDelta)
+void CBat::Update(_float fTimeDelta)
 {
     Update_Action(fTimeDelta);
     Execute_Action(fTimeDelta);
@@ -73,99 +78,111 @@ void CChicken::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 }
 
-void CChicken::Late_Update(_float fTimeDelta)
+void CBat::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
 }
 
-HRESULT CChicken::Render()
+HRESULT CBat::Render()
 {
-	return S_OK;
+    return S_OK;
 }
 
-void CChicken::Enter_Animation(CBody_Chicken::CHICKEN_ANI eNewAnimation)
+void CBat::Enter_Animation(CBody_Bat::BAT_ANI eNewAnimation)
 {
     m_eCurAni = eNewAnimation;
     switch (eNewAnimation) {
-        case CBody_Chicken::WAIT:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
-            break;
-        }
-        case CBody_Chicken::RUN:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
-            break;
-        }
-        case CBody_Chicken::ENDBATTLE:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-            break;
-        }
-        case CBody_Chicken::DYING:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
-            break;
-        }
-        case CBody_Chicken::DEATH:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-            break;
-        }
-        case CBody_Chicken::DANCE:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-            break;
-        }
-        case CBody_Chicken::BEWARE_START:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-            break;
-        }
-        case CBody_Chicken::BEWARE_LOOP:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
-            break;
-        }
-        case CBody_Chicken::BEWARE_END:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-            break;
-        }
-        case CBody_Chicken::ATK2:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-            break;
-        }
-        case CBody_Chicken::ATK1:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-            break;
-        }
-        case CBody_Chicken::APPEAR:
-        {
-            m_pBodyChicken->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
-            break;
-        }
+    case CBody_Bat::WAIT:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Defaut);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        break;
+    }
+    case CBody_Bat::RUN:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Defaut);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        break;
+    }
+    case CBody_Bat::ENDBATTLE:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Bug);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        break;
+    }
+    case CBody_Bat::DYING:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Defaut);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        break;
+    }
+    case CBody_Bat::DEATH:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Defaut);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        break;
+    }
+    case CBody_Bat::DANCE:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Defaut);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        break;
+    }
+    case CBody_Bat::BEWARE_START:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Bug);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        break;
+    }
+    case CBody_Bat::BEWARE_LOOP:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Defaut);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        break;
+    }
+    case CBody_Bat::BEWARE_END:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Bug);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        break;
+    }
+    case CBody_Bat::ATK2:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Bug);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        break;
+    }
+    case CBody_Bat::ATK1:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Defaut);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        break;
+    }
+    case CBody_Bat::APPEAR:
+    {
+        //m_pBodyBat->Get_ModelCom()->Reset_PreTransformMatrix(m_Defaut);
+        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        break;
+    }
     }
 }
 
-void CChicken::Update_Action(_float fTimeDelta)
+void CBat::Update_Action(_float fTimeDelta)
 {
-    if (m_eCurState  == CHICKEN_ACTION::DYING)
+    if (m_eCurState == BAT_ACTION::DYING)
         return;
 
-    if (m_eCurState == CHICKEN_ACTION::DEATH)
+    if (m_eCurState == BAT_ACTION::DEATH)
     {
-        if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
+        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
         {
-            Enter_Action(CHICKEN_ACTION::DYING);
+            Enter_Action(BAT_ACTION::DYING);
             return;
         }
     }
     else if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
     {
-        Enter_Action(CHICKEN_ACTION::DEATH);
+        Enter_Action(BAT_ACTION::DEATH);
     }
 
     if (m_pTargetPlayer != nullptr && !(m_iMonsterCondition & CON_ATTACK))
@@ -177,156 +194,143 @@ void CChicken::Update_Action(_float fTimeDelta)
     switch (m_eCurState)
     {
     case WAIT:
-       if (PlayerIsInRange(m_fBewareRange) == true)
-           Enter_Action(CHICKEN_ACTION::BEWARE_START);
+        if (PlayerIsInRange(m_fBewareRange) == true)
+            Enter_Action(BAT_ACTION::BEWARE_START);
         break;
 
     case RUN:
         if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == false)
         {
-            Enter_Action(CHICKEN_ACTION::ENDBATTLE);
+            Enter_Action(BAT_ACTION::ENDBATTLE);
             return;
         }
 
         if (PlayerIsInRange(m_fAttackRange) == true)
-            Enter_Action(CHICKEN_ACTION::ATK);
+            Enter_Action(BAT_ACTION::ATK);
 
         break;
 
     case ENDBATTLE:
-        if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(CHICKEN_ACTION::RETURN);
-        break;
-
-    case DANCE:
+        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BAT_ACTION::RETURN);
         break;
 
     case BEWARE_START:
-        if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(CHICKEN_ACTION::BEWARE_LOOP);
+        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BAT_ACTION::BEWARE_LOOP);
         break;
 
     case BEWARE_LOOP:
         if (PlayerIsInRange(m_fBewareRange) == false)
-            Enter_Action(CHICKEN_ACTION::BEWARE_END);
+            Enter_Action(BAT_ACTION::BEWARE_END);
         break;
 
     case BEWARE_END:
-        if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(CHICKEN_ACTION::WAIT);
+        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BAT_ACTION::WAIT);
         break;
 
     case ATK:
-        if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
+        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
         {
             if (PlayerIsInRange(m_fAttackRange) == true)
             {
                 m_bIsAttackProcessed = false;
                 m_pMoveCom->Stop_Move_To_Pos();
-                if (rand() % 2 == 0)
-                    Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK1);
-                else
-                    Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK2);
+                    Enter_Animation(CBody_Bat::BAT_ANI::ATK1);
             }
             else if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == true)
             {
-                Enter_Action(CHICKEN_ACTION::RUN);
+                Enter_Action(BAT_ACTION::RUN);
             }
             else
             {
-                Enter_Action(CHICKEN_ACTION::ENDBATTLE);
+                Enter_Action(BAT_ACTION::ENDBATTLE);
             }
         }
         break;
 
     case APPEAR:
-        if (m_pBodyChicken->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(CHICKEN_ACTION::WAIT);
+        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BAT_ACTION::WAIT);
         break;
 
     case RETURN:
         if (m_pMoveCom->IsMove() == false)
-            Enter_Action(CHICKEN_ACTION::WAIT);
+            Enter_Action(BAT_ACTION::WAIT);
         break;
     }
 }
 
-void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
+void CBat::Enter_Action(BAT_ACTION eNewAction)
 {
     m_eCurState = eNewAction;
 
-    if(m_eCurState != m_ePreState)
+    if (m_eCurState != m_ePreState)
     {
         switch (m_eCurState)
         {
-        case WAIT:           
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::WAIT);
+        case WAIT:
+            Enter_Animation(CBody_Bat::BAT_ANI::WAIT);
             m_pMoveCom->Stop_Move_To_Pos();
             break;
 
         case RUN:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::RUN);
+            Enter_Animation(CBody_Bat::BAT_ANI::RUN);
             break;
 
         case ENDBATTLE:
             m_pMoveCom->Stop_Move_To_Pos();
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::ENDBATTLE);
+            Enter_Animation(CBody_Bat::BAT_ANI::ENDBATTLE);
             break;
 
         case DYING:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::DYING);
+            Enter_Animation(CBody_Bat::BAT_ANI::DYING);
             break;
 
         case DEATH:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::DEATH);
+            Enter_Animation(CBody_Bat::BAT_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
             break;
 
-        case DANCE:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::DANCE);
-            break;
-
         case BEWARE_START:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::BEWARE_START);
+            Enter_Animation(CBody_Bat::BAT_ANI::BEWARE_START);
             break;
 
         case BEWARE_LOOP:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::BEWARE_LOOP);
+            Enter_Animation(CBody_Bat::BAT_ANI::BEWARE_LOOP);
             break;
 
         case BEWARE_END:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::BEWARE_END);
+            Enter_Animation(CBody_Bat::BAT_ANI::BEWARE_END);
             break;
 
         case ATK:
             m_bIsAttackProcessed = false;
             m_pMoveCom->Stop_Move_To_Pos();
-            if(rand() % 2 == 0)
-                Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK1);
-            else
-                Enter_Animation(CBody_Chicken::CHICKEN_ANI::ATK2);
+                Enter_Animation(CBody_Bat::BAT_ANI::ATK1);
             break;
 
         case APPEAR:
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::APPEAR);
+            Enter_Animation(CBody_Bat::BAT_ANI::APPEAR);
             break;
 
         case RETURN:
             m_iMonsterCondition &= ~CON_ATTACK;
-            Enter_Animation(CBody_Chicken::CHICKEN_ANI::RUN);
+            Enter_Animation(CBody_Bat::BAT_ANI::RUN);
             m_pMoveCom->Move_To_Pos(m_vStartPos, true);
 
             Safe_Release(m_pTargetPlayer);
             m_pTargetPlayer = nullptr;
 
             break;
-    }
+        }
 
         m_ePreState = m_eCurState;
     }
 }
 
-void CChicken::Execute_Action(_float fTimeDelta)
+void CBat::Execute_Action(_float fTimeDelta)
 {
     switch (m_eCurState)
     {
@@ -339,7 +343,7 @@ void CChicken::Execute_Action(_float fTimeDelta)
             _float3 vTargetPos{};
             XMStoreFloat3(&vTargetPos, vTempTargetPos);
             m_pMoveCom->Move_To_Pos(vTargetPos, true);
-        }       
+        }
         break;
 
     case ENDBATTLE:
@@ -351,19 +355,13 @@ void CChicken::Execute_Action(_float fTimeDelta)
     case DEATH:
         break;
 
-    case DANCE:
-        break;
-
     case BEWARE_START:
-
         break;
 
     case BEWARE_LOOP:
-
         break;
 
     case BEWARE_END:
-
         break;
 
     case ATK:
@@ -371,12 +369,12 @@ void CChicken::Execute_Action(_float fTimeDelta)
         if (m_bIsAttackProcessed == false)
         {
             _float fAttackTime{};
-            if (m_eCurAni == CBody_Chicken::CHICKEN_ANI::ATK1)
+            if (m_eCurAni == CBody_Bat::BAT_ANI::ATK1)
                 fAttackTime = 0.2f;
             else
                 fAttackTime = 0.4f;
 
-            if (m_pBodyChicken->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
+            if (m_pBodyBat->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
             {
                 if (m_pTargetPlayer != nullptr)
                 {
@@ -404,7 +402,7 @@ void CChicken::Execute_Action(_float fTimeDelta)
     }
 }
 
-HRESULT CChicken::Ready_Components()
+HRESULT CBat::Ready_Components()
 {
     /* For.Com_Navigation */
     CNavigation::NAVIGATION_DESC NaviDesc;
@@ -454,39 +452,39 @@ HRESULT CChicken::Ready_Components()
     return S_OK;
 }
 
-HRESULT CChicken::Ready_PartObjects()
+HRESULT CBat::Ready_PartObjects()
 {
     // Body
-    CBody_Chicken::BODY_CHICKEN_DESC BodyDesc{};
+    CBody_Bat::BODY_BAT_DESC BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Chicken"),
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Bat"),
         TEXT("Body"), &BodyDesc)))
         return E_FAIL;
 
-    m_pBodyChicken = dynamic_cast<CBody_Chicken*>(m_PartObjects[TEXT("Body")]);
-    Safe_AddRef(m_pBodyChicken);
+    m_pBodyBat = dynamic_cast<CBody_Bat*>(m_PartObjects[TEXT("Body")]);
+    Safe_AddRef(m_pBodyBat);
 
     return S_OK;
 }
 
-HRESULT CChicken::Bind_ShaderResources()
+HRESULT CBat::Bind_ShaderResources()
 {
     return S_OK;
 }
 
-void CChicken::Run_OR_ATTACK()
+void CBat::Run_OR_ATTACK()
 {
     if (PlayerIsInRange(m_fAttackRange) == true)
-        Enter_Action(CHICKEN_ACTION::ATK);
+        Enter_Action(BAT_ACTION::ATK);
     else
-        Enter_Action(CHICKEN_ACTION::RUN);
+        Enter_Action(BAT_ACTION::RUN);
 }
 
-HRESULT CChicken::Initialize_Stat()
+HRESULT CBat::Initialize_Stat()
 {
-    SetStat(m_tBaseStat, 2, 0,   265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
-    SetStat(m_tCurStat,  2, 999, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
+    SetStat(m_tBaseStat, 2, 0, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
+    SetStat(m_tCurStat, 2, 999, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
 
     SetFinalStat();
 
@@ -495,38 +493,38 @@ HRESULT CChicken::Initialize_Stat()
     return S_OK;
 }
 
-CChicken* CChicken::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBat* CBat::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CChicken* pInstance = new CChicken(pDevice, pContext);
+    CBat* pInstance = new CBat(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CChicken");
+        MSG_BOX("Failed to Created: CBat");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CChicken::Clone(void* pArg)
+CGameObject* CBat::Clone(void* pArg)
 {
-    CChicken* pInstance = new CChicken(*this);
+    CBat* pInstance = new CBat(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CChicken");
+        MSG_BOX("Failed to Cloned: CBat");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CChicken::Free()
+void CBat::Free()
 {
-    Safe_Release(m_pBodyChicken);
+    Safe_Release(m_pBodyBat);
 
     Safe_Release(m_pNavigationCom);
     Safe_Release(m_pMoveCom);
 
-	__super::Free();
+    __super::Free();
 }

@@ -1,25 +1,25 @@
-#include "CBody_Chicken.h"
+#include "CBody_Bat.h"
 
 #include "CGameInstance.h"
 
-CBody_Chicken::CBody_Chicken(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBody_Bat::CBody_Bat(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject{ pDevice, pContext }
 {
 }
 
-CBody_Chicken::CBody_Chicken(const CBody_Chicken& Prototype)
+CBody_Bat::CBody_Bat(const CBody_Bat& Prototype)
     : CPartObject{ Prototype }
 {
 }
 
-HRESULT CBody_Chicken::Initialize_Prototype()
+HRESULT CBody_Bat::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CBody_Chicken::Initialize(void* pArg)
+HRESULT CBody_Bat::Initialize(void* pArg)
 {
-    BODY_CHICKEN_DESC* pDesc = static_cast<BODY_CHICKEN_DESC*>(pArg);
+    BODY_BAT_DESC* pDesc = static_cast<BODY_BAT_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
@@ -30,21 +30,21 @@ HRESULT CBody_Chicken::Initialize(void* pArg)
     return S_OK;
 }
 
-void CBody_Chicken::Priority_Update(_float fTimeDelta)
+void CBody_Bat::Priority_Update(_float fTimeDelta)
 {
 
 }
 
-void CBody_Chicken::Parallel_Update(_float fTimeDelta)
+void CBody_Bat::Parallel_Update(_float fTimeDelta)
 {
     m_pModelCom->Play_Animation(fTimeDelta);
 }
 
-void CBody_Chicken::Update(_float fTimeDelta)
+void CBody_Bat::Update(_float fTimeDelta)
 {
 }
 
-void CBody_Chicken::Late_Update(_float fTimeDelta)
+void CBody_Bat::Late_Update(_float fTimeDelta)
 {
     __super::Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 
@@ -53,7 +53,7 @@ void CBody_Chicken::Late_Update(_float fTimeDelta)
 
 }
 
-HRESULT CBody_Chicken::Render()
+HRESULT CBody_Bat::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -78,7 +78,7 @@ HRESULT CBody_Chicken::Render()
     return S_OK;
 }
 
-HRESULT CBody_Chicken::Render_Shadow()
+HRESULT CBody_Bat::Render_Shadow()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
         return E_FAIL;
@@ -105,12 +105,12 @@ HRESULT CBody_Chicken::Render_Shadow()
     return S_OK;
 }
 
-const _float4x4* CBody_Chicken::Get_BoneMatrixPtr(const _char* pBoneName) const
+const _float4x4* CBody_Bat::Get_BoneMatrixPtr(const _char* pBoneName) const
 {
     return m_pModelCom->Get_BoneMatrixPtr(pBoneName);
 }
 
-HRESULT CBody_Chicken::Ready_Components()
+HRESULT CBody_Bat::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxAnimMesh"),
@@ -118,14 +118,14 @@ HRESULT CBody_Chicken::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Chicken"),
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Bat"),
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
     return S_OK;
 }
 
-HRESULT CBody_Chicken::Bind_ShaderResources()
+HRESULT CBody_Bat::Bind_ShaderResources()
 {
     //if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
     //    return E_FAIL;
@@ -142,9 +142,9 @@ HRESULT CBody_Chicken::Bind_ShaderResources()
     return S_OK;
 }
 
-CBody_Chicken* CBody_Chicken::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBody_Bat* CBody_Bat::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CBody_Chicken* pInstance = new CBody_Chicken(pDevice, pContext);
+    CBody_Bat* pInstance = new CBody_Bat(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
@@ -155,9 +155,9 @@ CBody_Chicken* CBody_Chicken::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
     return pInstance;
 }
 
-CGameObject* CBody_Chicken::Clone(void* pArg)
+CGameObject* CBody_Bat::Clone(void* pArg)
 {
-    CBody_Chicken* pInstance = new CBody_Chicken(*this);
+    CBody_Bat* pInstance = new CBody_Bat(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
@@ -168,7 +168,7 @@ CGameObject* CBody_Chicken::Clone(void* pArg)
     return pInstance;
 }
 
-void CBody_Chicken::Free()
+void CBody_Bat::Free()
 {
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);

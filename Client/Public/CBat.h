@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CAbstractMonster.h"
-#include "CBody_Chicken.h"
+#include "CBody_Bat.h"
 
 NS_BEGIN(Engine)
 class CMove;
@@ -11,22 +11,22 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CBody_Chicken;
+class CBody_Bat;
 
-class CChicken : public CAbstractMonster
+class CBat : public CAbstractMonster
 {
 public:
-	struct CHICKEN_DESC : public CAbstractMonster::CABSTRACTMONSTER_DESC
+	struct BAT_DESC : public CAbstractMonster::CABSTRACTMONSTER_DESC
 	{
 	};
 
 private:
-	enum CHICKEN_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, END };
+	enum BAT_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, END };
 
 private:
-	CChicken(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CChicken(const CChicken& Prototype);
-	virtual ~CChicken() = default;
+	CBat(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBat(const CBat& Prototype);
+	virtual ~CBat() = default;
 
 protected:
 	HRESULT Initialize_Prototype();
@@ -39,9 +39,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void Enter_Animation(CBody_Chicken::CHICKEN_ANI eNewAnimation);
+	void Enter_Animation(CBody_Bat::BAT_ANI eNewAnimation);
 	void Update_Action(_float fTimeDelta);
-	void Enter_Action(CHICKEN_ACTION eNewAction);
+	void Enter_Action(BAT_ACTION eNewAction);
 	void Execute_Action(_float fTimeDelta);
 
 private:
@@ -50,12 +50,12 @@ private:
 	CNavigation* m_pNavigationCom{ nullptr };
 
 	// Part
-	CBody_Chicken* m_pBodyChicken{};
+	CBody_Bat* m_pBodyBat{};
 
-	CHICKEN_ACTION m_eCurState{ END };
-	CHICKEN_ACTION m_ePreState{ END };
+	BAT_ACTION m_eCurState{ END };
+	BAT_ACTION m_ePreState{ END };
 
-	CBody_Chicken::CHICKEN_ANI m_eCurAni{};
+	CBody_Bat::BAT_ANI m_eCurAni{};
 
 private:
 	HRESULT Ready_Components();
@@ -66,8 +66,12 @@ private:
 
 	virtual HRESULT Initialize_Stat() override;
 
+	_float4x4 m_Defaut{};
+	_float4x4 m_Bug{};
+
+
 public:
-	static CChicken* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CBat* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free() override;
