@@ -157,6 +157,7 @@
     <ClInclude Include="..\Public\CActionState.h" />
     <ClInclude Include="..\Public\CAction_Collect.h" />
     <ClInclude Include="..\Public\CAction_Craft.h" />
+    <ClInclude Include="..\Public\CAIFiora.h" />
     <ClInclude Include="..\Public\CBat.h" />
     <ClInclude Include="..\Public\CBear.h" />
     <ClInclude Include="..\public\CBoar.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="..\Public\CBody_Boar.h" />
     <ClInclude Include="..\Public\CBody_Chicken.h" />
     <ClInclude Include="..\Public\CBody_Dog.h" />
+    <ClInclude Include="..\Public\CBody_Fiora.h" />
     <ClInclude Include="..\Public\CBody_Player.h" />
     <ClInclude Include="..\Public\CBody_Wolf.h" />
     <ClInclude Include="..\Public\CBottle.h" />
@@ -185,6 +187,7 @@
     <ClInclude Include="..\Public\CItemBox.h" />
     <ClInclude Include="..\Public\CItemBox_Collectible.h" />
     <ClInclude Include="..\Public\CItemSpawner.h" />
+    <ClInclude Include="..\Public\CRapier.h" />
     <ClInclude Include="..\Public\CRiver.h" />
     <ClInclude Include="..\Public\CUI_ItemBoxSlot.h" />
     <ClInclude Include="..\Public\CItem_Manager.h" />
@@ -275,6 +278,7 @@
     <ClCompile Include="..\Private\CActionState.cpp" />
     <ClCompile Include="..\Private\CAction_Collect.cpp" />
     <ClCompile Include="..\Private\CAction_Craft.cpp" />
+    <ClCompile Include="..\Private\CAIFiora.cpp" />
     <ClCompile Include="..\Private\CBat.cpp" />
     <ClCompile Include="..\Private\CBear.cpp" />
     <ClCompile Include="..\Private\CBoar.cpp" />
@@ -283,6 +287,7 @@
     <ClCompile Include="..\Private\CBody_Boar.cpp" />
     <ClCompile Include="..\Private\CBody_Chicken.cpp" />
     <ClCompile Include="..\Private\CBody_Dog.cpp" />
+    <ClCompile Include="..\Private\CBody_Fiora.cpp" />
     <ClCompile Include="..\Private\CBody_Player.cpp" />
     <ClCompile Include="..\Private\CBody_Wolf.cpp" />
     <ClCompile Include="..\Private\CBottle.cpp" />
@@ -303,6 +308,7 @@
     <ClCompile Include="..\Private\CItemBox.cpp" />
     <ClCompile Include="..\Private\CItemBox_Collectible.cpp" />
     <ClCompile Include="..\Private\CItemSpawner.cpp" />
+    <ClCompile Include="..\Private\CRapier.cpp" />
     <ClCompile Include="..\Private\CRiver.cpp" />
     <ClCompile Include="..\Private\CUI_ItemBoxSlot.cpp" />
     <ClCompile Include="..\Private\CItem_Manager.cpp" />

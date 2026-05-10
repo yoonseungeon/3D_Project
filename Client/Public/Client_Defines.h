@@ -33,6 +33,8 @@ namespace Client
 		ITEMBOX = 1 << 2,
 		ITEMBOX_COLLECTIBLE = 1 << 3,
 		SKILL = 1 << 4,
+		ENEMY_SKILL = 1 << 5,
+		ENEMY = 1 << 6,
 	};
 
 	static constexpr float		fColliderCenterY = { 0.5f };

@@ -375,25 +375,25 @@ _bool CLiDailin::CanUseSkill(const SKILL_SLOT eType)
     {
         case SKILL_SLOT::Q:
         {
-            if (tQCool.fAccCoolDown == 0.f)
+            if (tQCool.fAccCoolDown <= 0.f)
                 return true;          
             break;
         }
         case SKILL_SLOT::W:
         {
-            if (tWCool.fAccCoolDown == 0.f)
+            if (tWCool.fAccCoolDown <= 0.f)
                 return true;       
             break;
         }
         case SKILL_SLOT::E:
         {
-            if (tECool.fAccCoolDown == 0.f)
+            if (tECool.fAccCoolDown <= 0.f)
                 return true;
             break;
         }
         case SKILL_SLOT::R:
         {
-            if (tRCool.fAccCoolDown == 0.f)
+            if (tRCool.fAccCoolDown <= 0.f)
                 return true;
             break;
         }
@@ -474,7 +474,7 @@ HRESULT CLiDailin::Ready_Components()
 
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
-    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    pColliderCom->Set_Mask(ETOUI(Collision_Layer::ENEMY) | ETOUI(Collision_Layer::ENEMY_SKILL));
     pColliderCom->Set_CanMousePicking(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -781,8 +781,6 @@ HRESULT CLiDailin::Initialize_Stat()
 {
     SetStat(m_tBaseStat, 20, 40, 970, 100, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
     SetStat(m_tCurStat, 1, 0, 970, 0, 2.73f, 0.f, 40, 0, 0, 0, 66, 0.75f, 0, 0, 3.67f);
-
-    m_tCurStat.iHP = 0;
 
     SetStat(m_tLevelUpStat, 0, 7, 188, 0, 0.63f, 0.f, 5, 0, 0, 0, 3, 0.03f, 0, 0, 0.01f);
 

@@ -18,6 +18,8 @@
 #include "CBat.h"
 #include "CBoar.h"
 
+#include "CAIFiora.h"
+
 #include "CUI_Image.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -77,6 +79,9 @@ HRESULT CLevel_GamePlay::Initialize()
         return E_FAIL;
 
     if (FAILED(Ready_Layer_Boar(TEXT("Layer_Boar"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_AIFiora(TEXT("Layer_AIFiora"))))
         return E_FAIL;
 
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
@@ -687,6 +692,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Boar(const _wstring& strLayerTag)
             ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
             return E_FAIL;
     }
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_AIFiora(const _wstring& strLayerTag)
+{
+    CAIFiora::AIFIORA_DESC Desc{};
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_AIFiora"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
 
     return S_OK;
 }

@@ -79,6 +79,10 @@
 #include "CBoar.h"
 #include "CBody_Boar.h"
 
+#include "CAIFiora.h"
+#include "CBody_Fiora.h"
+#include "CRapier.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
     , m_pContext{ pContext }
@@ -1528,6 +1532,34 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_Component_Model_Fiora */
+    _matrix FioraPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));;
+
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, FioraPreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Fiora"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/GamePlay/Fiora/Fiora.mymodel", FioraPreTransformMatrix))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Fiora");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Component_Model_FioraRapier */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_FioraRapier"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Rapier/FioraRapier.mymodel"))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_FioraRapier");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region °´Ã¼ ¿øÇü
@@ -2124,6 +2156,45 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CUI_ItemBoxSlot::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_ItemBoxSlot");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_AIFiora */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_AIFiora"),
+                CAIFiora::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_AIFiora");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Body_Fiora */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Fiora"),
+                CBody_Fiora::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Body_Fiora");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Rapier */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rapier"),
+                CRapier::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Rapier");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

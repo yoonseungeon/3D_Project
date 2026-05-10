@@ -192,7 +192,7 @@ COOL_INFO* CAbstractPlayer::Get_CoolInfo(const SKILL_SLOT eType)
 
 _bool CAbstractPlayer::CanUseSkill(const SKILL_SLOT eType)
 {
-    return _bool();
+    return false;
 }
 
 void CAbstractPlayer::Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc)

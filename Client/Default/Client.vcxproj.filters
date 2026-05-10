@@ -352,6 +352,15 @@
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\01. Boar\00. Body">
       <UniqueIdentifier>{a86b674b-8f1a-4d96-9591-9fc2e974d21f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora">
+      <UniqueIdentifier>{d49e4cb2-b3b3-4268-9979-edea74e22fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\00. Body">
+      <UniqueIdentifier>{721245ed-6644-48a8-93c1-5176f0f2b304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\01. Rapier">
+      <UniqueIdentifier>{4ca123a0-eba4-4405-9aab-6ab0e319faed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -702,6 +711,15 @@
     <ClInclude Include="..\Public\CBody_Boar.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\01. Boar\00. Body</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CAIFiora.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBody_Fiora.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\00. Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CRapier.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\01. Rapier</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1034,6 +1052,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\CBody_Boar.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\01. Boar\00. Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CAIFiora.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CBody_Fiora.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\00. Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CRapier.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\01. Rapier</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
