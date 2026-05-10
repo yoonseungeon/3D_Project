@@ -21,9 +21,15 @@ public:
 	};
 
 private:
-	enum AIFIORA_ACTION { WAIT, CHASE, Q, END };
+	enum AIFIORA_ACTION { WAIT, CHASE, Q, E, E_ATK, R, NORMAL_ATK, END };
 
-	enum AIFIORA_COLLIDER { AIFIORA_BODY, AIFIORA_Q, AIFIORA_W1, AIFIORA_W2, AIFIORA_W3 };
+	enum AIFIORA_COLLIDER { AIFIORA_BODY, AIFIORA_Q, AIFIORA_W1, AIFIORA_W2, AIFIORA_W3, AIFIORA_E };
+
+	enum AIFIORA_CONDITION {
+		SKILL_E_COL = 1 << 0,
+		IS_COL_PLAYER = 1 << 1
+
+	};
 
 private:
 	CAIFiora(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -77,6 +83,8 @@ private:
 
 	vector<_float> m_SkillRange{};
 
+	_uint m_iCondition{};
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_PartObjects();
@@ -92,6 +100,8 @@ private:
 	void Choose_Attack(_float fTimeDelta);
 
 	void LookTargetDir();
+
+	_bool Get_TargetDistance(_float& Length);
 
 public:
 	static CAIFiora* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
