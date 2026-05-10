@@ -42,6 +42,7 @@ private:
 	HRESULT Ready_Layer_Dog(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Bear(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Bat(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Boar(const _wstring& strLayerTag);
 
 	CInGame_Manager*	m_pInGame_Manager{};
 	CSharedUI_Manager*	m_pSharedUI_Manager{};

@@ -1,4 +1,4 @@
-#include "CBat.h"
+#include "CBoar.h"
 
 #include "CGameInstance.h"
 
@@ -7,24 +7,24 @@
 #include "CAbstractPlayer.h"
 #include "CInventory.h"
 
-CBat::CBat(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBoar::CBoar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractMonster{ pDevice, pContext }
 {
 }
 
-CBat::CBat(const CBat& Prototype)
+CBoar::CBoar(const CBoar& Prototype)
     : CAbstractMonster{ Prototype }
 {
 }
 
-HRESULT CBat::Initialize_Prototype()
+HRESULT CBoar::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CBat::Initialize(void* pArg)
+HRESULT CBoar::Initialize(void* pArg)
 {
-    BAT_DESC* pDesc = static_cast<BAT_DESC*>(pArg);
+    BOAR_DESC* pDesc = static_cast<BOAR_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
@@ -35,7 +35,7 @@ HRESULT CBat::Initialize(void* pArg)
     if (FAILED(Ready_PartObjects()))
         return E_FAIL;
 
-    Enter_Action(BAT_ACTION::APPEAR);
+    Enter_Action(BOAR_ACTION::APPEAR);
 
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
@@ -49,12 +49,12 @@ HRESULT CBat::Initialize(void* pArg)
     return S_OK;
 }
 
-void CBat::Priority_Update(_float fTimeDelta)
+void CBoar::Priority_Update(_float fTimeDelta)
 {
     __super::Priority_Update(fTimeDelta);
 }
 
-void CBat::Parallel_Update(_float fTimeDelta)
+void CBoar::Parallel_Update(_float fTimeDelta)
 {
     __super::Parallel_Update(fTimeDelta);
 
@@ -65,7 +65,7 @@ void CBat::Parallel_Update(_float fTimeDelta)
     m_pNavigationCom->Compute_OnNavigation();
 }
 
-void CBat::Update(_float fTimeDelta)
+void CBoar::Update(_float fTimeDelta)
 {
     Update_Action(fTimeDelta);
     Execute_Action(fTimeDelta);
@@ -73,99 +73,99 @@ void CBat::Update(_float fTimeDelta)
     __super::Update(fTimeDelta);
 }
 
-void CBat::Late_Update(_float fTimeDelta)
+void CBoar::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
 }
 
-HRESULT CBat::Render()
+HRESULT CBoar::Render()
 {
     return S_OK;
 }
 
-void CBat::Enter_Animation(CBody_Bat::BAT_ANI eNewAnimation)
+void CBoar::Enter_Animation(CBody_Boar::BOAR_ANI eNewAnimation)
 {
     m_eCurAni = eNewAnimation;
     switch (eNewAnimation) {
-    case CBody_Bat::WAIT:
+    case CBody_Boar::WAIT:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Bat::RUN:
+    case CBody_Boar::RUN:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Bat::ENDBATTLE:
+    case CBody_Boar::ENDBATTLE:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Bat::DYING:
+    case CBody_Boar::DYING:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Bat::DEATH:
+    case CBody_Boar::DEATH:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Bat::DANCE:
+    case CBody_Boar::DANCE:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Bat::BEWARE_START:
+    case CBody_Boar::BEWARE_START:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Bat::BEWARE_LOOP:
+    case CBody_Boar::BEWARE_LOOP:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, true);
         break;
     }
-    case CBody_Bat::BEWARE_END:
+    case CBody_Boar::BEWARE_END:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Bat::ATK2:
+    case CBody_Boar::ATK2:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Bat::ATK1:
+    case CBody_Boar::ATK1:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
-    case CBody_Bat::APPEAR:
+    case CBody_Boar::APPEAR:
     {
-        m_pBodyBat->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
+        m_pBodyBoar->Get_ModelCom()->Set_AnimationIndex(eNewAnimation, false);
         break;
     }
     }
 }
 
-void CBat::Update_Action(_float fTimeDelta)
+void CBoar::Update_Action(_float fTimeDelta)
 {
-    if (m_eCurState == BAT_ACTION::DYING)
+    if (m_eCurState == BOAR_ACTION::DYING)
         return;
 
-    if (m_eCurState == BAT_ACTION::DEATH)
+    if (m_eCurState == BOAR_ACTION::DEATH)
     {
-        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
+        if (m_pBodyBoar->Get_ModelCom()->IsAnimationFinished() == true)
         {
-            Enter_Action(BAT_ACTION::DYING);
+            Enter_Action(BOAR_ACTION::DYING);
             return;
         }
     }
     else if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
     {
-        Enter_Action(BAT_ACTION::DEATH);
+        Enter_Action(BOAR_ACTION::DEATH);
     }
 
     if (m_pTargetPlayer != nullptr && !(m_iMonsterCondition & CON_ATTACK))
@@ -178,75 +178,80 @@ void CBat::Update_Action(_float fTimeDelta)
     {
     case WAIT:
         if (PlayerIsInRange(m_fBewareRange) == true)
-            Enter_Action(BAT_ACTION::BEWARE_START);
+            Enter_Action(BOAR_ACTION::BEWARE_START);
         break;
 
     case RUN:
         if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == false)
         {
-            Enter_Action(BAT_ACTION::ENDBATTLE);
+            Enter_Action(BOAR_ACTION::ENDBATTLE);
             return;
         }
 
         if (PlayerIsInRange(m_fAttackRange) == true)
-            Enter_Action(BAT_ACTION::ATK);
+            Enter_Action(BOAR_ACTION::ATK);
 
         break;
 
     case ENDBATTLE:
-        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(BAT_ACTION::RETURN);
+        if (m_pBodyBoar->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BOAR_ACTION::RETURN);
+        break;
+
+    case DANCE:
         break;
 
     case BEWARE_START:
-        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(BAT_ACTION::BEWARE_LOOP);
+        if (m_pBodyBoar->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BOAR_ACTION::BEWARE_LOOP);
         break;
 
     case BEWARE_LOOP:
         if (PlayerIsInRange(m_fBewareRange) == false)
-            //Enter_Action(BAT_ACTION::BEWARE_END);
-            Enter_Action(BAT_ACTION::WAIT);
+            Enter_Action(BOAR_ACTION::BEWARE_END);
         break;
 
     case BEWARE_END:
-        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(BAT_ACTION::WAIT);
+        if (m_pBodyBoar->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BOAR_ACTION::WAIT);
         break;
 
     case ATK:
-        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
+        if (m_pBodyBoar->Get_ModelCom()->IsAnimationFinished() == true)
         {
             if (PlayerIsInRange(m_fAttackRange) == true)
             {
                 m_bIsAttackProcessed = false;
                 m_pMoveCom->Stop_Move_To_Pos();
-                    Enter_Animation(CBody_Bat::BAT_ANI::ATK1);
+                if (m_iAttackIndex++ % 2 == 0)
+                    Enter_Animation(CBody_Boar::BOAR_ANI::ATK1);
+                else
+                    Enter_Animation(CBody_Boar::BOAR_ANI::ATK2);
             }
             else if (IsNearSpawnPoint(m_fBewareRange * 1.5f) == true)
             {
-                Enter_Action(BAT_ACTION::RUN);
+                Enter_Action(BOAR_ACTION::RUN);
             }
             else
             {
-                Enter_Action(BAT_ACTION::ENDBATTLE);
+                Enter_Action(BOAR_ACTION::ENDBATTLE);
             }
         }
         break;
 
     case APPEAR:
-        if (m_pBodyBat->Get_ModelCom()->IsAnimationFinished() == true)
-            Enter_Action(BAT_ACTION::WAIT);
+        if (m_pBodyBoar->Get_ModelCom()->IsAnimationFinished() == true)
+            Enter_Action(BOAR_ACTION::WAIT);
         break;
 
     case RETURN:
         if (m_pMoveCom->IsMove() == false)
-            Enter_Action(BAT_ACTION::WAIT);
+            Enter_Action(BOAR_ACTION::WAIT);
         break;
     }
 }
 
-void CBat::Enter_Action(BAT_ACTION eNewAction)
+void CBoar::Enter_Action(BOAR_ACTION eNewAction)
 {
     m_eCurState = eNewAction;
 
@@ -255,54 +260,62 @@ void CBat::Enter_Action(BAT_ACTION eNewAction)
         switch (m_eCurState)
         {
         case WAIT:
-            Enter_Animation(CBody_Bat::BAT_ANI::WAIT);
+            Enter_Animation(CBody_Boar::BOAR_ANI::WAIT);
             m_pMoveCom->Stop_Move_To_Pos();
             break;
 
         case RUN:
-            Enter_Animation(CBody_Bat::BAT_ANI::RUN);
+            Enter_Animation(CBody_Boar::BOAR_ANI::RUN);
             break;
 
         case ENDBATTLE:
             m_pMoveCom->Stop_Move_To_Pos();
-            Enter_Animation(CBody_Bat::BAT_ANI::ENDBATTLE);
+            Enter_Animation(CBody_Boar::BOAR_ANI::ENDBATTLE);
             break;
 
         case DYING:
-            Enter_Animation(CBody_Bat::BAT_ANI::DYING);
+            Enter_Animation(CBody_Boar::BOAR_ANI::DYING);
             break;
 
         case DEATH:
-            Enter_Animation(CBody_Bat::BAT_ANI::DEATH);
+            Enter_Animation(CBody_Boar::BOAR_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
             break;
 
+        case DANCE:
+            Enter_Animation(CBody_Boar::BOAR_ANI::DANCE);
+            break;
+
         case BEWARE_START:
-            Enter_Animation(CBody_Bat::BAT_ANI::BEWARE_START);
+            Enter_Animation(CBody_Boar::BOAR_ANI::BEWARE_START);
             break;
 
         case BEWARE_LOOP:
-            Enter_Animation(CBody_Bat::BAT_ANI::BEWARE_LOOP);
+            Enter_Animation(CBody_Boar::BOAR_ANI::BEWARE_LOOP);
             break;
 
         case BEWARE_END:
-            Enter_Animation(CBody_Bat::BAT_ANI::BEWARE_END);
+            Enter_Animation(CBody_Boar::BOAR_ANI::BEWARE_END);
             break;
 
         case ATK:
             m_bIsAttackProcessed = false;
             m_pMoveCom->Stop_Move_To_Pos();
-                Enter_Animation(CBody_Bat::BAT_ANI::ATK1);
+            if (m_iAttackIndex++ % 2 == 0)
+                Enter_Animation(CBody_Boar::BOAR_ANI::ATK1);
+            else
+                Enter_Animation(CBody_Boar::BOAR_ANI::ATK2);
             break;
 
         case APPEAR:
-            Enter_Animation(CBody_Bat::BAT_ANI::APPEAR);
+            Enter_Animation(CBody_Boar::BOAR_ANI::APPEAR);
             break;
 
         case RETURN:
             m_iMonsterCondition &= ~CON_ATTACK;
-            Enter_Animation(CBody_Bat::BAT_ANI::RUN);
+            Enter_Animation(CBody_Boar::BOAR_ANI::RUN);
             m_pMoveCom->Move_To_Pos(m_vStartPos, true);
+            m_iAttackIndex = 0;
 
             Safe_Release(m_pTargetPlayer);
             m_pTargetPlayer = nullptr;
@@ -314,7 +327,7 @@ void CBat::Enter_Action(BAT_ACTION eNewAction)
     }
 }
 
-void CBat::Execute_Action(_float fTimeDelta)
+void CBoar::Execute_Action(_float fTimeDelta)
 {
     switch (m_eCurState)
     {
@@ -339,13 +352,19 @@ void CBat::Execute_Action(_float fTimeDelta)
     case DEATH:
         break;
 
+    case DANCE:
+        break;
+
     case BEWARE_START:
+
         break;
 
     case BEWARE_LOOP:
+
         break;
 
     case BEWARE_END:
+
         break;
 
     case ATK:
@@ -353,12 +372,12 @@ void CBat::Execute_Action(_float fTimeDelta)
         if (m_bIsAttackProcessed == false)
         {
             _float fAttackTime{};
-            if (m_eCurAni == CBody_Bat::BAT_ANI::ATK1)
+            if (m_eCurAni == CBody_Boar::BOAR_ANI::ATK1)
                 fAttackTime = 0.2f;
             else
                 fAttackTime = 0.4f;
 
-            if (m_pBodyBat->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
+            if (m_pBodyBoar->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
             {
                 if (m_pTargetPlayer != nullptr)
                 {
@@ -386,7 +405,7 @@ void CBat::Execute_Action(_float fTimeDelta)
     }
 }
 
-HRESULT CBat::Ready_Components()
+HRESULT CBoar::Ready_Components()
 {
     /* For.Com_Navigation */
     CNavigation::NAVIGATION_DESC NaviDesc;
@@ -416,7 +435,7 @@ HRESULT CBat::Ready_Components()
 
     /* For.Com_Collider_AABB */
     CBounding_AABB::BOUNDING_AABB_DESC  AABBDesc{ };
-    AABBDesc.vSize = _float3(0.7f, 1.0f, 0.7f);
+    AABBDesc.vSize = _float3(1.5f, 1.0f, 1.5f);
     AABBDesc.vCenter = _float3(0.f, fColliderCenterY, 0.f);
 
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
@@ -436,36 +455,36 @@ HRESULT CBat::Ready_Components()
     return S_OK;
 }
 
-HRESULT CBat::Ready_PartObjects()
+HRESULT CBoar::Ready_PartObjects()
 {
     // Body
-    CBody_Bat::BODY_BAT_DESC BodyDesc{};
+    CBody_Boar::BODY_BOAR_DESC BodyDesc{};
     BodyDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Bat"),
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Boar"),
         TEXT("Body"), &BodyDesc)))
         return E_FAIL;
 
-    m_pBodyBat = dynamic_cast<CBody_Bat*>(m_PartObjects[TEXT("Body")]);
-    Safe_AddRef(m_pBodyBat);
+    m_pBodyBoar = dynamic_cast<CBody_Boar*>(m_PartObjects[TEXT("Body")]);
+    Safe_AddRef(m_pBodyBoar);
 
     return S_OK;
 }
 
-HRESULT CBat::Bind_ShaderResources()
+HRESULT CBoar::Bind_ShaderResources()
 {
     return S_OK;
 }
 
-void CBat::Run_OR_ATTACK()
+void CBoar::Run_OR_ATTACK()
 {
     if (PlayerIsInRange(m_fAttackRange) == true)
-        Enter_Action(BAT_ACTION::ATK);
+        Enter_Action(BOAR_ACTION::ATK);
     else
-        Enter_Action(BAT_ACTION::RUN);
+        Enter_Action(BOAR_ACTION::RUN);
 }
 
-HRESULT CBat::Initialize_Stat()
+HRESULT CBoar::Initialize_Stat()
 {
     SetStat(m_tBaseStat, 2, 0, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
     SetStat(m_tCurStat, 2, 999, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
@@ -477,35 +496,35 @@ HRESULT CBat::Initialize_Stat()
     return S_OK;
 }
 
-CBat* CBat::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBoar* CBoar::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CBat* pInstance = new CBat(pDevice, pContext);
+    CBoar* pInstance = new CBoar(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CBat");
+        MSG_BOX("Failed to Created: CBoar");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CBat::Clone(void* pArg)
+CGameObject* CBoar::Clone(void* pArg)
 {
-    CBat* pInstance = new CBat(*this);
+    CBoar* pInstance = new CBoar(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CBat");
+        MSG_BOX("Failed to Cloned: CBoar");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CBat::Free()
+void CBoar::Free()
 {
-    Safe_Release(m_pBodyBat);
+    Safe_Release(m_pBodyBoar);
 
     Safe_Release(m_pNavigationCom);
     Safe_Release(m_pMoveCom);

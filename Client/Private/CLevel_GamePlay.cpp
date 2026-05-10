@@ -16,6 +16,7 @@
 #include "CDog.h"
 #include "CBear.h"
 #include "CBat.h"
+#include "CBoar.h"
 
 #include "CUI_Image.h"
 
@@ -72,8 +73,11 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Layer_Bear(TEXT("Layer_Bear"))))
         return E_FAIL;
 
-    //if (FAILED(Ready_Layer_Bat(TEXT("Layer_Bat"))))
-    //    return E_FAIL;
+    if (FAILED(Ready_Layer_Bat(TEXT("Layer_Bat"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_Boar(TEXT("Layer_Boar"))))
+        return E_FAIL;
 
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
     Safe_AddRef(m_pSharedUI_Manager);
@@ -637,6 +641,49 @@ HRESULT CLevel_GamePlay::Ready_Layer_Bat(const _wstring& strLayerTag)
         );
 
         if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Bat"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+            return E_FAIL;
+    }
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Boar(const _wstring& strLayerTag)
+{
+    std::ifstream ifs("../Bin/Data/BoarSpawnPoints.json");
+    if (!ifs.is_open())
+    {
+        MSG_BOX("File Open Failed");
+        return E_FAIL;
+    }
+
+    nlohmann::json root;
+    ifs >> root;
+    ifs.close();
+
+    if (!root.is_array())
+    {
+        MSG_BOX("Json Format Error");
+        return E_FAIL;
+    }
+
+    for (const auto& pos : root)
+    {
+        if (!pos.is_array() || pos.size() != 3)
+        {
+            MSG_BOX("Json Format Error");
+            return E_FAIL;
+        }
+
+        CBoar::BOAR_DESC Desc{};
+
+        Desc.tTransformDesc.vStartPos = _float3(
+            pos[0].get<_float>(),
+            pos[1].get<_float>(),
+            pos[2].get<_float>()
+        );
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Boar"),
             ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
             return E_FAIL;
     }

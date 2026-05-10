@@ -76,6 +76,8 @@
 #include "CBody_Bear.h"
 #include "CBat.h"
 #include "CBody_Bat.h"
+#include "CBoar.h"
+#include "CBody_Boar.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -1486,7 +1488,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     );
 
     /* Prototype_Component_Model_Bear */
-    _matrix BearPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f)) * XMMatrixRotationZ(XMConvertToRadians(90.f));
+    _matrix BearPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this, BearPreTransformMatrix]()->void {
@@ -1500,7 +1502,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     );
 
     /* Prototype_Component_Model_Bat */
-    _matrix BatPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f))/* * XMMatrixRotationX(XMConvertToRadians(90.f))*/;
+    _matrix BatPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(-90.f)) * XMMatrixRotationX(XMConvertToRadians(-90.f));
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this, BatPreTransformMatrix]()->void {
@@ -1508,6 +1510,20 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CMyModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/GamePlay/Monster/Bat/Bat.mymodel", BatPreTransformMatrix))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Bat");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Component_Model_Boar */
+    _matrix BoarPreTransformMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, BoarPreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Boar"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::ANIM, "../Bin/Resources/GamePlay/Monster/Boar/Boar.mymodel", BoarPreTransformMatrix))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Boar");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -1770,6 +1786,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CBody_Bat::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Body_Bat");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Boar */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Boar"),
+                CBoar::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Boar");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Body_Boar */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Body_Boar"),
+                CBody_Boar::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Body_Boar");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
