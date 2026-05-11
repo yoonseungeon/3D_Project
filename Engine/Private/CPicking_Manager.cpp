@@ -15,6 +15,48 @@ HRESULT CPicking_Manager::Initialize()
 
 void CPicking_Manager::Update_Picking_Manager()
 {
+    Cal_MouseWorld();
+    Cal_PickingCollider();
+}
+
+HRESULT CPicking_Manager::Add_PickingCollider(CCollider* pCollider)
+{
+    if (pCollider == nullptr)
+    {
+        return E_FAIL;
+    }
+
+    auto iter = std::find(m_PickingColliders.begin(), m_PickingColliders.end(), pCollider);
+
+    if (iter != m_PickingColliders.end())
+    {
+        return E_FAIL;
+    }
+
+    Safe_AddRef(pCollider);
+    m_PickingColliders.push_back(pCollider);
+
+    return S_OK;
+}
+
+void CPicking_Manager::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
+{
+    vOutRayPos = m_vWorldRayPos;
+    vOutRayDir = m_vWroldRayDir;
+}
+
+_bool CPicking_Manager::Picking_Object(COLLISION_RAY_INFO& tOutColInfo)
+{
+    tOutColInfo = m_tPickingInfo;
+
+    if (m_tPickingInfo.pColCollider != nullptr)
+        return true;
+
+    return false;
+}
+
+void CPicking_Manager::Cal_MouseWorld()
+{
     const POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
 
     VIEWPORT_SIZE tViewportDesc = m_pGameInstance->Get_ViewportDesc();
@@ -46,25 +88,39 @@ void CPicking_Manager::Update_Picking_Manager()
     XMStoreFloat4(&m_vWroldRayDir, XMVector3Normalize(vRayDir));
 }
 
-void CPicking_Manager::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
+void CPicking_Manager::Cal_PickingCollider()
 {
-    vOutRayPos = m_vWorldRayPos;
-    vOutRayDir = m_vWroldRayDir;
-}
+    m_tPickingInfo.pColObject = nullptr;
+    m_tPickingInfo.pColCollider = nullptr;
 
-_bool CPicking_Manager::Picking_Object(COLLISION_RAY_INFO& tOutColInfo)
-{
-    _float4 vWorldRayPos{};
-    _float4 vWorldRayDir{};
-    m_pGameInstance->Get_WorldRay(vWorldRayPos, vWorldRayDir);
+    _float fMinDist = { FLT_MAX };
+    _bool bFinalCol = { false };
 
-    XMVECTOR vRayPos{};
-    XMVECTOR vRayDir{};
+    _vector vRayPos = XMLoadFloat4(&m_vWorldRayPos);
+    _vector vRayDir = XMLoadFloat4(&m_vWroldRayDir);
 
-    vRayPos = XMLoadFloat4(&vWorldRayPos);
-    vRayDir = XMLoadFloat4(&vWorldRayDir);
+    for (auto pCollider : m_PickingColliders)
+    {
+        if (pCollider->Get_CanMousePicking() == false)
+            continue;
 
-    return m_pGameInstance->Collision_Ray(vRayPos, vRayDir, tOutColInfo);
+#ifdef _DEBUG
+        //m_pGameInstance->Add_DebugComponent(pCollider);
+#endif   
+
+        _float fDist{};
+        _bool bCol{};
+
+        bCol = pCollider->Intersect_Ray(vRayPos, vRayDir, fDist);
+
+        if (bCol == true && fMinDist > fDist)
+        {
+            fMinDist = fDist;
+
+            m_tPickingInfo.pColObject = pCollider->Get_Owner();
+            m_tPickingInfo.pColCollider = pCollider;
+        }
+    }
 }
 
 CPicking_Manager* CPicking_Manager::Create()
@@ -82,6 +138,10 @@ CPicking_Manager* CPicking_Manager::Create()
 
 void CPicking_Manager::Free()
 {
+    for (auto pCollider : m_PickingColliders)
+        Safe_Release(pCollider);
+    m_PickingColliders.clear();
+
 	Safe_Release(m_pGameInstance);
 
 	__super::Free();

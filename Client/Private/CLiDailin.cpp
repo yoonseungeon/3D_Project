@@ -98,6 +98,17 @@ HRESULT CLiDailin::Initialize(void* pArg)
 
 void CLiDailin::Priority_Update(_float fTimeDelta)
 {
+    __super::Priority_Update(fTimeDelta);
+}
+
+void CLiDailin::Parallel_Update(_float fTimeDelta)
+{
+    __super::Parallel_Update(fTimeDelta);
+
+}
+
+void CLiDailin::Update(_float fTimeDelta)
+{    
     Key_Input();
 
     Apply_WaitActionState();
@@ -117,24 +128,14 @@ void CLiDailin::Priority_Update(_float fTimeDelta)
 
     m_pNavigationCom->Compute_OnNavigation();
 
-    __super::Priority_Update(fTimeDelta);
-}
-
-void CLiDailin::Parallel_Update(_float fTimeDelta)
-{
-    __super::Parallel_Update(fTimeDelta);
-
-    for (auto& pColliderCom : m_Colliders)
-        pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr())); 
-}
-
-void CLiDailin::Update(_float fTimeDelta)
-{    
     __super::Update(fTimeDelta);
 }
 
 void CLiDailin::Late_Update(_float fTimeDelta)
 {
+    for (auto& pColliderCom : m_Colliders)
+        pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+
     __super::Late_Update(fTimeDelta);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
@@ -475,7 +476,6 @@ HRESULT CLiDailin::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::PLAYER));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::ENEMY) | ETOUI(Collision_Layer::ENEMY_SKILL));
-    pColliderCom->Set_CanMousePicking(false);
 
     m_Colliders.push_back(pColliderCom);
     m_pGameInstance->Add_Collider(pColliderCom);
@@ -494,7 +494,6 @@ HRESULT CLiDailin::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
-    pColliderCom->Set_CanMousePicking(false);
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -523,7 +522,6 @@ HRESULT CLiDailin::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
-    pColliderCom->Set_CanMousePicking(false);
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -544,7 +542,6 @@ HRESULT CLiDailin::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
-    pColliderCom->Set_CanMousePicking(false);
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);

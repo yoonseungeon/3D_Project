@@ -119,12 +119,12 @@ HRESULT CItemBox::Ready_Components(wstring wstrModelPrototypeTag)
         TEXT("Com_Collider_OBB"), reinterpret_cast<CComponent**>(&pColliderCom), &OBBDesc)))
         return E_FAIL;
 
+    pColliderCom->Set_Owner(this);
     m_Colliders.push_back(pColliderCom);
 
-    m_pGameInstance->Add_Collider(pColliderCom);
-    pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::ITEMBOX));
-    pColliderCom->Set_Active(false);
+
+    m_pGameInstance->Add_PickingCollider(pColliderCom);
 
     return S_OK;
 }

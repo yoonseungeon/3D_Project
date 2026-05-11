@@ -44,8 +44,6 @@ public:
 
 	void Update_Collision();
 
-	_bool XM_CALLCONV Collision_Ray(_fvector vRayPos, _fvector vRayDir, COLLISION_RAY_INFO& tOutColInfo);
-
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 

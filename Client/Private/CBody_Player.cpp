@@ -37,11 +37,11 @@ void CBody_Player::Priority_Update(_float fTimeDelta)
 
 void CBody_Player::Parallel_Update(_float fTimeDelta)
 {
-    m_pModelCom->Play_Animation(fTimeDelta);
 }
 
 void CBody_Player::Update(_float fTimeDelta)
 {
+    m_pModelCom->Play_Animation(fTimeDelta);
 }
 
 void CBody_Player::Late_Update(_float fTimeDelta)

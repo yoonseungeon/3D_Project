@@ -38,16 +38,17 @@ void CCraftTool::Priority_Update(_float fTimeDelta)
 
 void CCraftTool::Parallel_Update(_float fTimeDelta)
 {
+
+}
+
+void CCraftTool::Update(_float fTimeDelta)
+{
     if (m_bIsInactive == true)
     {
         return;
     }
 
     m_pModelCom->Play_Animation(fTimeDelta);
-}
-
-void CCraftTool::Update(_float fTimeDelta)
-{
 }
 
 void CCraftTool::Late_Update(_float fTimeDelta)

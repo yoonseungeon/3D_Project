@@ -441,12 +441,14 @@ HRESULT CChicken::Ready_Components()
         TEXT("Com_Collider_AABB"), reinterpret_cast<CComponent**>(&pColliderCom), &AABBDesc)))
         return E_FAIL;
 
+    pColliderCom->Set_Owner(this);
     m_Colliders.push_back(pColliderCom);
 
     m_pGameInstance->Add_Collider(pColliderCom);
-    pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::MONSTER));
-    pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
+    //pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
+
+    m_pGameInstance->Add_PickingCollider(pColliderCom);
 
     tLocalMinMax = {};
     Cal_LocalMinMaxAABB(tLocalMinMax, AABBDesc.vCenter, AABBDesc.vSize);

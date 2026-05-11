@@ -436,7 +436,11 @@ HRESULT CGameInstance::Render_RT_Debug(const _wstring& strMRTTag, CShader* pShad
 }
 #endif
 
-#pragma region COLLISION_MANAGER
+#pragma region PICKING_MANAGER
+HRESULT CGameInstance::Add_PickingCollider(CCollider* pCollider)
+{
+	return m_pPicking_Manager->Add_PickingCollider(pCollider);
+}
 void CGameInstance::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
 {
 	m_pPicking_Manager->Get_WorldRay(vOutRayPos, vOutRayDir);
@@ -474,10 +478,6 @@ HRESULT CGameInstance::Add_Collider(CCollider* pCollider)
 HRESULT CGameInstance::Substract_Collider(CCollider* pCollider)
 {
 	return m_pCollision_Mananger->Substract_Collider(pCollider);
-}
-_bool XM_CALLCONV CGameInstance::Collision_Ray(_fvector vRayPos, _fvector vRayDir, COLLISION_RAY_INFO& tOutColInfo)
-{
-	return m_pCollision_Mananger->Collision_Ray(vRayPos, vRayDir, tOutColInfo);
 }
 #pragma endregion
 

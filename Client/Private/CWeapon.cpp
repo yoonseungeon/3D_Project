@@ -39,16 +39,17 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 
 void CWeapon::Parallel_Update(_float fTimeDelta)
 {
+
+}
+
+void CWeapon::Update(_float fTimeDelta)
+{
     if (m_bIsInactive == true)
     {
         return;
     }
 
     m_pModelCom->Play_Animation(fTimeDelta);
-}
-
-void CWeapon::Update(_float fTimeDelta)
-{
 }
 
 void CWeapon::Late_Update(_float fTimeDelta)

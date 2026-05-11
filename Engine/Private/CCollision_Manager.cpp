@@ -105,37 +105,6 @@ void CCollision_Manager::Update_Collision()
 	m_CurColPairs.clear();
 }
 
-_bool XM_CALLCONV CCollision_Manager::Collision_Ray(_fvector vRayPos, _fvector vRayDir, COLLISION_RAY_INFO& tOutColInfo)
-{
-	tOutColInfo.pColObject = nullptr;
-	tOutColInfo.pColCollider = nullptr;
-
-	_float fMinDist = { FLT_MAX };
-	_bool bFinalCol = { false };
-
-	for (auto pCollider : m_Colliders)
-	{
-		if (pCollider->Get_CanMousePicking() == false)
-			continue;
-
-		_float fDist{};
-		_bool bCol{};
-
-		bCol = pCollider->Intersect_Ray(vRayPos, vRayDir, fDist);
-
-		if (bCol == true && fMinDist > fDist)
-		{
-			fMinDist = fDist;
-			bFinalCol = true;
-
-			tOutColInfo.pColObject = pCollider->Get_Owner();
-			tOutColInfo.pColCollider = pCollider;
-		}
-	}
-
-	return bFinalCol;
-}
-
 _bool CCollision_Manager::CanCollision(CCollider* pSrc, CCollider* pDst)
 {
 	if ((pSrc->Get_Layer() & pDst->Get_Mask())|| (pDst->Get_Layer() & pSrc->Get_Mask()))

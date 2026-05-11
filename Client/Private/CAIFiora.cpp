@@ -504,11 +504,13 @@ HRESULT CAIFiora::Ready_Components()
         return E_FAIL;
 
     pColliderCom->Set_Owner(this);
+    m_Colliders.push_back(pColliderCom);
+
+    m_pGameInstance->Add_Collider(pColliderCom);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::ENEMY));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
 
-    m_Colliders.push_back(pColliderCom);
-    m_pGameInstance->Add_Collider(pColliderCom);
+    m_pGameInstance->Add_PickingCollider(pColliderCom);
 
     tLocalMinMax = {};
     Cal_LocalMinMaxAABB(tLocalMinMax, AABBDesc.vCenter, AABBDesc.vSize);
@@ -526,7 +528,6 @@ HRESULT CAIFiora::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::ENEMY_SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
-    pColliderCom->Set_CanMousePicking(false);
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -555,7 +556,6 @@ HRESULT CAIFiora::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::ENEMY_SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
-    pColliderCom->Set_CanMousePicking(false);
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -571,7 +571,6 @@ HRESULT CAIFiora::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::ENEMY_SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
-    pColliderCom->Set_CanMousePicking(false);
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -587,8 +586,6 @@ HRESULT CAIFiora::Ready_Components()
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::ENEMY_SKILL));
     pColliderCom->Set_Mask(ETOUI(Collision_Layer::PLAYER));
-    pColliderCom->Set_CanMousePicking(false);
-    pColliderCom->Set_CanMousePicking(false);
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
