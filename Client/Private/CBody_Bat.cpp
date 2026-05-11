@@ -46,6 +46,9 @@ void CBody_Bat::Update(_float fTimeDelta)
 
 void CBody_Bat::Late_Update(_float fTimeDelta)
 {
+    if (m_pGameInstance->isIn_Frustum_WorldSpace(m_pTransformCom->Get_State(STATE::POSITION), 2.f) == false)
+        return;
+
     __super::Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);

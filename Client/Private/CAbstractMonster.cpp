@@ -25,7 +25,7 @@ HRESULT CAbstractMonster::Initialize(void* pArg)
         return E_FAIL;
 
     m_vStartPos = pDesc->tTransformDesc.vStartPos;
-    m_pTransformCom->Set_Rotation(0.f, rand() % 360, 0.f);
+    m_pTransformCom->Set_Rotation(0.f, static_cast<_float>(rand() % 360), 0.f);
 
     m_pInGame_Manager = CInGame_Manager::GetInstance();
     Safe_AddRef(m_pInGame_Manager);

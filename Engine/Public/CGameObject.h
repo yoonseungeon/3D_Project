@@ -60,6 +60,7 @@ protected:
 	CTransform*										m_pTransformCom{ nullptr };
 
 	_bool											m_bIsInactive{};
+	_bool											m_bIsCulling{};
 
 	vector<CCollider*>								m_Colliders;
 

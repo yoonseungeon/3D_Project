@@ -69,9 +69,7 @@ void CRoof::Update(_float fTimeDelta)
 void CRoof::Late_Update(_float fTimeDelta)
 {
     if (m_bIsInactive == true)
-    {
         return;
-    }
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }

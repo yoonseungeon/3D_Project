@@ -202,6 +202,9 @@
     <Filter Include="12. Shadow">
       <UniqueIdentifier>{e266babf-f615-4813-b7a2-2b68b920d061}</UniqueIdentifier>
     </Filter>
+    <Filter Include="13. Frustum">
+      <UniqueIdentifier>{aadfb98e-3c6a-4da5-86c9-d8e36815e4a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -392,6 +395,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CShadow.cpp">
       <Filter>12. Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CFrustum.cpp">
+      <Filter>13. Frustum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -604,6 +610,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CShadow.h">
       <Filter>12. Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CFrustum.h">
+      <Filter>13. Frustum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

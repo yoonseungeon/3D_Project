@@ -56,7 +56,7 @@ public:
 	HRESULT Render(_uint iMeshIndex);
 	HRESULT Bind_BoneMatrices(CShader* pShader, const _char* pConstantName, _uint iMeshIndex);
 
-	_uint Get_MaterialCount(_uint iMeshIndex, MyTextureType eType);
+	size_t Get_MaterialCount(_uint iMeshIndex, MyTextureType eType);
 
 	// ÇÇÅ·
 	const vector<_float3>& Get_VtxData(_uint iMeshIdx);

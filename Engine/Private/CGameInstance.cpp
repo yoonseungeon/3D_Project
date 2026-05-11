@@ -12,6 +12,7 @@
 #include "CFont_Manager.h"
 #include "CTarget_Manager.h"
 #include "CShadow.h"
+#include "CFrustum.h"
 
 #include "CPicking_Manager.h"
 #include "CCollision_Manager.h"
@@ -91,6 +92,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 	if (m_pShadow == nullptr)
 		return E_FAIL;
 
+	m_pFrustum = CFrustum::Create();
+	if (m_pFrustum == nullptr)
+		return E_FAIL;
+
 	//&m_pTimer_Manager
 	return S_OK;
 }
@@ -118,6 +123,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 	m_pShadow->Update_Shadow();
 	m_pPipeline->Update();
+	m_pFrustum->Update();
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
@@ -173,6 +179,7 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 	
+	Safe_Release(m_pFrustum);
 	Safe_Release(m_pShadow);
 	Safe_Release(m_pPicking_Manager);
 	Safe_Release(m_pCollision_Mananger);
@@ -447,6 +454,13 @@ const _float4x4* CGameInstance::Get_Shadow_Transform(D3DTS eState) const
 HRESULT CGameInstance::Add_ShadowLight(_uint iNumLevels, const SHADOW_LIGHT_DESC& ShadowDesc)
 {
 	return m_pShadow->Add_ShadowLight(iNumLevels, ShadowDesc);
+}
+#pragma endregion
+
+#pragma region FRUSTUM	
+_bool CGameInstance::isIn_Frustum_WorldSpace(_fvector vWorldPos, _float fRange)
+{
+	return m_pFrustum->isIn_WorldSpace(vWorldPos, fRange);
 }
 #pragma endregion
 

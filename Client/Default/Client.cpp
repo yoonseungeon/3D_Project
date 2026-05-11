@@ -78,10 +78,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     _float fTimeAcc = {};
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
     _uint iFPS{};
     _float fFPSTimeAcc{};
-#endif
+//#endif
 
     // 기본 메시지 루프입니다:
     while (true)
@@ -113,7 +113,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
             fTimeAcc = 0.f;
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
             ++iFPS;
             fFPSTimeAcc += fFrameLimitTimer_TimerDelta;
             
@@ -126,7 +126,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 iFPS = 0;
                 fFPSTimeAcc = 0.f;
             }
-#endif
+//#endif
         }
     }   
 

@@ -75,7 +75,10 @@ void CCollision_Manager::Update_Collision()
 		for (_uint j = i + 1; j < m_Colliders.size(); ++j)
 		{
 			if (m_Colliders[i]->Get_Active() == false || m_Colliders[j]->Get_Active() == false)
+			{
+				//Call_CollisionExitFunc(m_Colliders[i], m_Colliders[j]);
 				continue;
+			}
 
 			if (CanCollision(m_Colliders[i], m_Colliders[j]) == false)
 				continue;
@@ -167,11 +170,11 @@ void CCollision_Manager::Call_CollisionExitFunc(CCollider* pSrc, CCollider* pDst
 
 	auto iter = m_PreColPairs.find(ullColPair);
 
-	COLLISION_INFO tSrcCol= MakeCollisionInfo(pSrc, pDst);	
-	COLLISION_INFO tDstCol = MakeCollisionInfo(pDst, pSrc);
-
 	if (iter != m_PreColPairs.end())
 	{
+		COLLISION_INFO tSrcCol = MakeCollisionInfo(pSrc, pDst);
+		COLLISION_INFO tDstCol = MakeCollisionInfo(pDst, pSrc);
+
 		pSrc->Get_Owner()->OnCollision_Exit(tSrcCol);
 		pDst->Get_Owner()->OnCollision_Exit(tDstCol);
 	}

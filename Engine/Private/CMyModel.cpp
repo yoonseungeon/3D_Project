@@ -313,7 +313,7 @@ HRESULT CMyModel::Bind_BoneMatrices(CShader* pShader, const _char* pConstantName
     return m_Meshes[iMeshIndex]->Bind_BoneMatrices(pShader, pConstantName, m_Bones);
 }
 
-_uint CMyModel::Get_MaterialCount(_uint iMeshIndex, MyTextureType eType)
+size_t CMyModel::Get_MaterialCount(_uint iMeshIndex, MyTextureType eType)
 {
     if (iMeshIndex >= m_iNumMeshes)
         return E_FAIL;

@@ -130,8 +130,8 @@ void CAIFiora::OnCollision_Stay(const COLLISION_INFO& tCollision)
 
     _bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
 
-    //if (bIsPlayer == true)
-    //    m_iCondition |= IS_COL_PLAYER;
+    if (bIsPlayer == true)
+        m_iCondition |= IS_COL_PLAYER;
 
     if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_E] && bIsPlayer)
     {
@@ -144,10 +144,10 @@ void CAIFiora::OnCollision_Stay(const COLLISION_INFO& tCollision)
 
 void CAIFiora::OnCollision_Exit(const COLLISION_INFO& tCollision)
 {
-    //_bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
+    _bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
 
-    //if (bIsPlayer == true)
-    //    m_iCondition &= ~IS_COL_PLAYER;
+    if (bIsPlayer == true)
+        m_iCondition &= ~IS_COL_PLAYER;
 }
 
 void CAIFiora::Enter_Animation(CBody_Fiora::FIORA_ANI eNewAnimation)
@@ -203,7 +203,7 @@ void CAIFiora::Update_Action(_float fTimeDelta)
         }
         case CHASE:
         {
-            Choose_Attack(fTimeDelta);
+            Update_Chase(fTimeDelta);
             break;
         }
 
@@ -231,6 +231,7 @@ void CAIFiora::Update_Action(_float fTimeDelta)
                 m_Colliders[AIFIORA_COLLIDER::AIFIORA_E]->Set_Active(false);
                 Enter_Action(CHASE);
             }
+            break;
         }
 
         case E_ATK:
@@ -240,6 +241,7 @@ void CAIFiora::Update_Action(_float fTimeDelta)
             {
                 Enter_Action(CHASE);
             }
+            break;
         }
 
         case NORMAL_ATK:
@@ -250,12 +252,29 @@ void CAIFiora::Update_Action(_float fTimeDelta)
                 _float fLength = {};
                 _bool bIsTargetMissing = !(Get_TargetDistance(fLength));
 
-                // 스킬 쿨 돌면 스킬 쓰게 해야 함.
+                if(CanUseAnythingSkill() == true)
+                {
+                    if (Choose_UseSkill(fLength))
+                        return;
+                }
+
+                // 공격 재실행
                 if (!bIsTargetMissing && fLength <= m_fAttackRange) {
+                    LookTargetDir();
                     Enter_Animation(CBody_Fiora::FIORA_ANI::ATK1);
                     return;
                 }
 
+                Enter_Action(CHASE);
+            }
+            break;
+        }
+
+        case R:
+        {
+            const _bool fAniFinished = m_pBodyFiora->Get_ModelCom()->IsAnimationFinished();
+            if (fAniFinished == true)
+            {
                 Enter_Action(CHASE);
             }
             break;
@@ -283,7 +302,7 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
                 Enter_Animation(CBody_Fiora::FIORA_ANI::SKILL1);
                 m_pMoveCom->Stop_Move_To_Pos();
                 LookTargetDir();
-                tQCool.fAccCoolDown = tQCool.fMaxCoolDown;
+                tQCool.fAccCoolDown = tQCool.fCurCoolDown;
                 break;
 
             case E:
@@ -291,16 +310,40 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
                 m_Colliders[AIFIORA_COLLIDER::AIFIORA_E]->Set_Active(true);
                 m_pMoveCom->Stop_Move_To_Pos();
                 LookTargetDir();
-                tECool.fAccCoolDown = tECool.fMaxCoolDown;
+                tECool.fAccCoolDown = tECool.fCurCoolDown;
+                break;
 
             case E_ATK:
                 Enter_Animation(CBody_Fiora::FIORA_ANI::SKILL3_ATK);
                 m_pMoveCom->Stop_Move_To_Pos();
+                break;
 
             case NORMAL_ATK:
                 Enter_Animation(CBody_Fiora::FIORA_ANI::ATK1);
                 m_pMoveCom->Stop_Move_To_Pos();
+                break;
+
+            case R:
+            {
+                LookTargetDir();
+                m_pMoveCom->Stop_Move_To_Pos();
+                Enter_Animation(CBody_Fiora::FIORA_ANI::SKILL4_1_NEW);
+                const _uint iMaxStack = 3;
+                ++tRCool.fStack;
+                if (tRCool.fStack >= iMaxStack)
+                {
+                    tRCool.fStack = 0;
+                    tRCool.fAccCoolDown = tRCool.fCurCoolDown;
+                    tRCool.fAccSubCoolDown = 0.f;
+                }
+                else
+                {
+                    tRCool.fAccSubCoolDown = tRCool.fCurSubCoolDown;
+                }
+                break;
+            }
         }
+
         m_ePreState = m_eCurState;
     }
 }
@@ -315,6 +358,15 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 
         case CHASE:
         {
+            _float fLength{};
+            Get_TargetDistance(fLength);
+
+            if (fLength <= m_fAttackRange)
+            {
+                m_pMoveCom->Stop_Move_To_Pos();
+                break;
+            }
+
             _float3 vTargetPos = {};
             XMStoreFloat3(&vTargetPos, m_pTargetPlayer->Get_TransformCom()->Get_State(STATE::POSITION));
             m_pMoveCom->Move_To_Pos(vTargetPos, true);
@@ -335,7 +387,7 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 
         case E:
         {
- /*           if(!(m_iCondition & IS_COL_PLAYER))*/
+            if(!(m_iCondition & IS_COL_PLAYER))
                 m_pMoveCom->Go_Straight(fTimeDelta, 10.f, true);
 
             break;
@@ -343,7 +395,12 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 
         case E_ATK:
         {
+            break;
+        }
 
+        case R:
+        {
+            break;
         }
     }
 }
@@ -552,7 +609,7 @@ HRESULT CAIFiora::Bind_ShaderResources()
 
 HRESULT CAIFiora::Initialize_Skill()
 {
-    tQCool.fMaxCoolDown = tWCool.fCurCoolDown = 4.f;
+    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 4.f;
     m_SkillRange.push_back(3.f);
 
     tWCool.fMaxCoolDown = tECool.fCurCoolDown = 6.f;
@@ -562,7 +619,7 @@ HRESULT CAIFiora::Initialize_Skill()
     m_SkillRange.push_back(4.f);
 
     tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 60.f;
-    tRCool.fMaxSubCoolDown = tRCool.fCurSubCoolDown = 0.5f;
+    tRCool.fMaxSubCoolDown = tRCool.fCurSubCoolDown = 10.f;
     m_SkillRange.push_back(2.f);
 
     return S_OK;
@@ -639,19 +696,39 @@ _bool CAIFiora::CanUseSkill(const SKILL_SLOT eType)
     return false;
 }
 
-void CAIFiora::Choose_Attack(_float fTimeDelta)
+_bool CAIFiora::CanUseAnythingSkill()
+{
+    return tQCool.fAccCoolDown <= 0.f || tWCool.fAccCoolDown <= 0.f
+        || tECool.fAccCoolDown <= 0.f || tRCool.fAccCoolDown <= 0.f;
+}
+
+_bool CAIFiora::Update_Chase(_float fTimeDelta)
 {
     _float fLength = {};
     Get_TargetDistance(fLength);
 
+    if (Choose_UseSkill(fLength) == true)
+        return true;
+
+    if (fLength <= m_fAttackRange) {
+        Enter_Action(NORMAL_ATK);
+        return true;
+    }
+
+    return false;
+}
+
+_bool CAIFiora::Choose_UseSkill(_float fLength)
+{
+    // Q 사용 가능하면 무조건 Q부터
     if (CanUseSkill(SKILL_SLOT::Q) == true)
     {
         const _float fQRange = m_SkillRange[ETOUI(SKILL_SLOT::Q)];
         if (fLength >= fQRange * 0.7f)
-            return;
+            return false;
 
         Enter_Action(Q);
-        return;
+        return true;
     }
 
     if (CanUseSkill(SKILL_SLOT::E) == true)
@@ -660,23 +737,20 @@ void CAIFiora::Choose_Attack(_float fTimeDelta)
         if (fLength <= fERange)
         {
             Enter_Action(E);
-            return;
+            return true;
         }
     }
-    //else if (CanUseSkill(SKILL_SLOT::R) == true)
-    //{
-    //    const _float fRRange = m_SkillRange[ETOUI(SKILL_SLOT::R)];
-    //    if (fLength <= fRRange)
-    //    {
-    //        Enter_Action(R);
-    //        return;
-    //    }
-    //}
-
-
-    if (fLength <= m_fAttackRange) {
-        Enter_Action(NORMAL_ATK);
+    else if (CanUseSkill(SKILL_SLOT::R) == true)
+    {
+        const _float fRRange = m_SkillRange[ETOUI(SKILL_SLOT::R)];
+        if (fLength <= fRRange)
+        {
+            Enter_Action(R);
+            return true;
+        }
     }
+
+    return false;
 }
 
 void CAIFiora::LookTargetDir()

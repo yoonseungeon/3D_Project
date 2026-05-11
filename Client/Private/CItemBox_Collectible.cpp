@@ -56,24 +56,8 @@ void CItemBox_Collectible::Update(_float fTimeDelta)
 
 void CItemBox_Collectible::Late_Update(_float fTimeDelta)
 {
-    // 임시 컬링
-    _float3 vPlayerPos = CInGame_Manager::GetInstance()->Get_PlayerPos();
-    if (XMVectorGetX(XMVector3Length(m_pTransformCom->Get_State(STATE::POSITION) - XMLoadFloat3(&vPlayerPos))) > 8.f)
-    {
-        for (size_t i = 0; i < m_Colliders.size(); ++i)
-        {
-            m_Colliders[i]->Set_Active(false);
-        }
+    if (m_pGameInstance->isIn_Frustum_WorldSpace(m_pTransformCom->Get_State(STATE::POSITION), 2.f) == false)
         return;
-    }
-    else
-    {
-        for (size_t i = 0; i < m_Colliders.size(); ++i)
-        {
-            m_Colliders[i]->Set_Active(true);
-        }
-    }
-    ////////////////////////////////
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 }

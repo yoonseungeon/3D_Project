@@ -97,7 +97,10 @@ private:
 	void CoolTimer(_float fTimeDelta);
 
 	_bool CanUseSkill(const SKILL_SLOT eType);
-	void Choose_Attack(_float fTimeDelta);
+	_bool CanUseAnythingSkill();
+	_bool Update_Chase(_float fTimeDelta);
+
+	_bool Choose_UseSkill(_float fLength);
 
 	void LookTargetDir();
 

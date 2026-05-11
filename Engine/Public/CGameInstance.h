@@ -35,6 +35,7 @@ class CShadow;
 class CPicking_Manager;
 class CCollision_Manager;
 class CThread_Manager;
+class CFrustum;
 
 class CGameObject;
 
@@ -164,6 +165,10 @@ public:
 	HRESULT Add_ShadowLight(_uint iNumLevels, const SHADOW_LIGHT_DESC& ShadowDesc);
 #pragma endregion
 
+#pragma region FRUSTUM	
+	_bool isIn_Frustum_WorldSpace(_fvector vWorldPos, _float fRange = 0.f);
+#pragma endregion
+
 #pragma region COLLISION_MANAGER
 	HRESULT Add_Collider(CCollider* pCollider);
 	HRESULT Substract_Collider(CCollider* pCollider);
@@ -187,6 +192,7 @@ private:
 	CFont_Manager*		m_pFont_Manager			= { nullptr };
 	CTarget_Manager*	m_pTarget_Manager		= { nullptr };
 	CShadow*			m_pShadow				= { nullptr };
+	CFrustum*			m_pFrustum				= { nullptr };
 
 	CPicking_Manager*	m_pPicking_Manager		= { nullptr };
 	CCollision_Manager* m_pCollision_Mananger	= { nullptr };
