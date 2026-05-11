@@ -123,6 +123,7 @@ HRESULT CItemBox_Collectible::Ready_Components(wstring wstrModelPrototypeTag)
     m_pGameInstance->Add_Collider(pColliderCom);
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::ITEMBOX_COLLECTIBLE));
+    pColliderCom->Set_Active(false);
 
     return S_OK;
 }

@@ -110,7 +110,7 @@ void CAIFiora::OnCollision_Enter(const COLLISION_INFO& tCollision)
     if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_Q] && bIsPlayer)
     {
         CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
-        tDamageInfo.iDamage = 100;
+        tDamageInfo.iDamage = 10;
         pUnit->Damaged(tDamageInfo);
     }
 
@@ -118,7 +118,15 @@ void CAIFiora::OnCollision_Enter(const COLLISION_INFO& tCollision)
     {
         m_iCondition |= AIFIORA_CONDITION::SKILL_E_COL;
         CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
-        tDamageInfo.iDamage = 100;
+        tDamageInfo.iDamage = 10;
+        pUnit->Damaged(tDamageInfo);
+    }
+
+    if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_R] && bIsPlayer)
+    {
+        m_iCondition |= AIFIORA_CONDITION::SKILL_R_COL;
+        CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
+        tDamageInfo.iDamage = 10;
         pUnit->Damaged(tDamageInfo);
     }
 }
@@ -130,24 +138,32 @@ void CAIFiora::OnCollision_Stay(const COLLISION_INFO& tCollision)
 
     _bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
 
-    if (bIsPlayer == true)
-        m_iCondition |= IS_COL_PLAYER;
+    //if (bIsPlayer == true)
+    //    m_iCondition |= IS_COL_PLAYER;
 
     if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_E] && bIsPlayer)
     {
         m_iCondition |= AIFIORA_CONDITION::SKILL_E_COL;
         CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
-        tDamageInfo.iDamage = 100;
+        tDamageInfo.iDamage = 10;
+        pUnit->Damaged(tDamageInfo);
+    }
+
+    if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_R] && bIsPlayer)
+    {
+        m_iCondition |= AIFIORA_CONDITION::SKILL_R_COL;
+        CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
+        tDamageInfo.iDamage = 10;
         pUnit->Damaged(tDamageInfo);
     }
 }
 
 void CAIFiora::OnCollision_Exit(const COLLISION_INFO& tCollision)
 {
-    _bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
+    //_bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
 
-    if (bIsPlayer == true)
-        m_iCondition &= ~IS_COL_PLAYER;
+    //if (bIsPlayer == true)
+    //    m_iCondition &= ~IS_COL_PLAYER;
 }
 
 void CAIFiora::Enter_Animation(CBody_Fiora::FIORA_ANI eNewAnimation)
@@ -249,6 +265,8 @@ void CAIFiora::Update_Action(_float fTimeDelta)
             const _float fCurAniRatio = m_pBodyFiora->Get_ModelCom()->Get_CurAniPlayRatio();
             if (fCurAniRatio >= 0.7f)
             {
+                m_iNormalATKCount = 0;
+
                 _float fLength = {};
                 _bool bIsTargetMissing = !(Get_TargetDistance(fLength));
 
@@ -260,8 +278,8 @@ void CAIFiora::Update_Action(_float fTimeDelta)
 
                 // 공격 재실행
                 if (!bIsTargetMissing && fLength <= m_fAttackRange) {
-                    LookTargetDir();
                     Enter_Animation(CBody_Fiora::FIORA_ANI::ATK1);
+                    m_bIsAttackProcessed = false;
                     return;
                 }
 
@@ -272,6 +290,7 @@ void CAIFiora::Update_Action(_float fTimeDelta)
 
         case R:
         {
+
             const _bool fAniFinished = m_pBodyFiora->Get_ModelCom()->IsAnimationFinished();
             if (fAniFinished == true)
             {
@@ -307,27 +326,33 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
 
             case E:
                 Enter_Animation(CBody_Fiora::FIORA_ANI::SKILL3_FORWARD);
-                m_Colliders[AIFIORA_COLLIDER::AIFIORA_E]->Set_Active(true);
                 m_pMoveCom->Stop_Move_To_Pos();
                 LookTargetDir();
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_E]->Set_Active(true);
                 tECool.fAccCoolDown = tECool.fCurCoolDown;
+
                 break;
 
             case E_ATK:
                 Enter_Animation(CBody_Fiora::FIORA_ANI::SKILL3_ATK);
                 m_pMoveCom->Stop_Move_To_Pos();
+
+                m_iNormalATKCount = 1;
                 break;
 
             case NORMAL_ATK:
                 Enter_Animation(CBody_Fiora::FIORA_ANI::ATK1);
                 m_pMoveCom->Stop_Move_To_Pos();
+
+                m_bIsAttackProcessed = false;
                 break;
 
             case R:
             {
-                LookTargetDir();
-                m_pMoveCom->Stop_Move_To_Pos();
                 Enter_Animation(CBody_Fiora::FIORA_ANI::SKILL4_1_NEW);
+                m_pMoveCom->Stop_Move_To_Pos();
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_R]->Set_Active(true);
+
                 const _uint iMaxStack = 3;
                 ++tRCool.fStack;
                 if (tRCool.fStack >= iMaxStack)
@@ -340,6 +365,8 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
                 {
                     tRCool.fAccSubCoolDown = tRCool.fCurSubCoolDown;
                 }
+
+                m_iNormalATKCount = 1;
                 break;
             }
         }
@@ -387,7 +414,7 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 
         case E:
         {
-            if(!(m_iCondition & IS_COL_PLAYER))
+            //if(!(m_iCondition & IS_COL_PLAYER))
                 m_pMoveCom->Go_Straight(fTimeDelta, 10.f, true);
 
             break;
@@ -400,8 +427,42 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 
         case R:
         {
+            if (m_iCondition & AIFIORA_CONDITION::SKILL_R_COL)
+            {
+                m_iCondition &= ~AIFIORA_CONDITION::SKILL_R_COL;
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_R]->Set_Active(false);
+                m_pMoveCom->Stop_Move_To_Pos();
+                return;
+            }
+
+            const _float fCurAniRatio = m_pBodyFiora->Get_ModelCom()->Get_CurAniPlayRatio();
+            if(fCurAniRatio <= 0.005f)
+                m_pMoveCom->Go_Straight(fTimeDelta, 10.f, true);
+
             break;
         }
+        case NORMAL_ATK:
+        {
+            LookTargetDir();
+
+            if (m_bIsAttackProcessed == false)
+            {
+                const _float fAttackTime = 0.1f;
+                if (m_pBodyFiora->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
+                {
+                    if (m_pTargetPlayer != nullptr)
+                    {
+                        DAMAGE_INFO tDamageInfo{};
+                        tDamageInfo.iDamage = 10;
+                        tDamageInfo.pUnit = nullptr;
+                        m_pTargetPlayer->Damaged(tDamageInfo);
+                    }
+                    m_bIsAttackProcessed = true;
+                }
+            }
+
+        }
+        break;
     }
 }
 
@@ -609,16 +670,16 @@ HRESULT CAIFiora::Bind_ShaderResources()
 
 HRESULT CAIFiora::Initialize_Skill()
 {
-    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 4.f;
+    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 400.f;
     m_SkillRange.push_back(3.f);
 
-    tWCool.fMaxCoolDown = tECool.fCurCoolDown = 6.f;
+    tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 6.f;
     m_SkillRange.push_back(2.f);
 
-    tECool.fMaxCoolDown = tECool.fCurCoolDown = 8.f;
+    tECool.fMaxCoolDown = tECool.fCurCoolDown = 800.f;
     m_SkillRange.push_back(4.f);
 
-    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 60.f;
+    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 6.f;
     tRCool.fMaxSubCoolDown = tRCool.fCurSubCoolDown = 10.f;
     m_SkillRange.push_back(2.f);
 
@@ -707,7 +768,7 @@ _bool CAIFiora::Update_Chase(_float fTimeDelta)
     _float fLength = {};
     Get_TargetDistance(fLength);
 
-    if (Choose_UseSkill(fLength) == true)
+    if (m_iNormalATKCount == 0 && Choose_UseSkill(fLength) == true)
         return true;
 
     if (fLength <= m_fAttackRange) {

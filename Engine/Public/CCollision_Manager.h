@@ -50,6 +50,7 @@ private:
 	CGameInstance* m_pGameInstance = { nullptr };
 
 	vector<CCollider*> m_Colliders;
+	vector<CCollider*> m_ActiveColliders;
 
 	_uint m_iNextColliderId{};
 

@@ -13,7 +13,7 @@ HRESULT CPicking_Manager::Initialize()
 	return S_OK;
 }
 
-void CPicking_Manager::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
+void CPicking_Manager::Update_Picking_Manager()
 {
     const POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
 
@@ -42,8 +42,14 @@ void CPicking_Manager::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
         XMLoadFloat4x4(m_pGameInstance->Get_Transform_Inverse(D3DTS::VIEW))
     );
 
-    XMStoreFloat4(&vOutRayPos, vRayPos);
-    XMStoreFloat4(&vOutRayDir, XMVector3Normalize(vRayDir));
+    XMStoreFloat4(&m_vWorldRayPos, vRayPos);
+    XMStoreFloat4(&m_vWroldRayDir, XMVector3Normalize(vRayDir));
+}
+
+void CPicking_Manager::Get_WorldRay(_float4& vOutRayPos, _float4& vOutRayDir)
+{
+    vOutRayPos = m_vWorldRayPos;
+    vOutRayDir = m_vWroldRayDir;
 }
 
 _bool CPicking_Manager::Picking_Object(COLLISION_RAY_INFO& tOutColInfo)

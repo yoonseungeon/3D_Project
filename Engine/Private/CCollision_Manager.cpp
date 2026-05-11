@@ -64,37 +64,42 @@ void CCollision_Manager::Update_Collision()
 	{
 		pCollider->Set_IsColl(false);
 
+		if (pCollider->Get_Active() == true)
+		{
+			m_ActiveColliders.push_back(pCollider);
 #ifdef _DEBUG
-		if(pCollider->Get_Active() == true)
 			m_pGameInstance->Add_DebugComponent(pCollider);
 #endif   
-	}
-
-	for (_uint i = 0; i < m_Colliders.size(); ++i)
-	{
-		for (_uint j = i + 1; j < m_Colliders.size(); ++j)
-		{
-			if (m_Colliders[i]->Get_Active() == false || m_Colliders[j]->Get_Active() == false)
-			{
-				//Call_CollisionExitFunc(m_Colliders[i], m_Colliders[j]);
-				continue;
-			}
-
-			if (CanCollision(m_Colliders[i], m_Colliders[j]) == false)
-				continue;
-
-			if (m_Colliders[i]->Intersect(m_Colliders[j]) == false)
-			{
-				Call_CollisionExitFunc(m_Colliders[i], m_Colliders[j]);
-				continue;
-			}
-
-			m_Colliders[i]->Set_IsColl(true);
-			m_Colliders[j]->Set_IsColl(true);
-
-			Call_CollisionFunc(m_Colliders[i], m_Colliders[j]);
 		}
 	}
+
+	for (_uint i = 0; i < m_ActiveColliders.size(); ++i)
+	{
+		for (_uint j = i + 1; j < m_ActiveColliders.size(); ++j)
+		{
+			if (m_ActiveColliders[i]->Get_Active() == false || m_ActiveColliders[j]->Get_Active() == false)
+			{
+				//Call_CollisionExitFunc(m_ActiveColliders[i], m_ActiveColliders[j]);
+				continue;
+			}
+
+			if (CanCollision(m_ActiveColliders[i], m_ActiveColliders[j]) == false)
+				continue;
+
+			if (m_ActiveColliders[i]->Intersect(m_ActiveColliders[j]) == false)
+			{
+				Call_CollisionExitFunc(m_ActiveColliders[i], m_ActiveColliders[j]);
+				continue;
+			}
+
+			m_ActiveColliders[i]->Set_IsColl(true);
+			m_ActiveColliders[j]->Set_IsColl(true);
+
+			Call_CollisionFunc(m_ActiveColliders[i], m_ActiveColliders[j]);
+		}
+	}
+
+	m_ActiveColliders.clear();	
 
 	m_PreColPairs = m_CurColPairs;
 	m_CurColPairs.clear();

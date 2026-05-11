@@ -104,6 +104,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	m_pInput_Device->Update();
 
+	m_pPicking_Manager->Update_Picking_Manager();
+
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 
 	m_pObject_Manager->Parallel_Update(fTimeDelta);	

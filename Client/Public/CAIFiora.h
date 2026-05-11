@@ -23,11 +23,12 @@ public:
 private:
 	enum AIFIORA_ACTION { WAIT, CHASE, Q, E, E_ATK, R, NORMAL_ATK, END };
 
-	enum AIFIORA_COLLIDER { AIFIORA_BODY, AIFIORA_Q, AIFIORA_W1, AIFIORA_W2, AIFIORA_W3, AIFIORA_E };
+	enum AIFIORA_COLLIDER { AIFIORA_BODY, AIFIORA_Q, AIFIORA_W1, AIFIORA_W2, AIFIORA_W3, AIFIORA_E, AIFIORA_R};
 
 	enum AIFIORA_CONDITION {
 		SKILL_E_COL = 1 << 0,
-		IS_COL_PLAYER = 1 << 1
+		SKILL_R_COL = 1 << 1,
+		IS_COL_PLAYER = 1 << 2,
 
 	};
 
@@ -105,6 +106,8 @@ private:
 	void LookTargetDir();
 
 	_bool Get_TargetDistance(_float& Length);
+
+	_uint m_iNormalATKCount{};
 
 public:
 	static CAIFiora* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
