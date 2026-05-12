@@ -4,6 +4,8 @@
 
 #include "CPartObject.h"
 
+#include "CInGameHPBar.h"
+
 CUnit::CUnit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CInvenOwner{ pDevice, pContext }
 {
@@ -258,5 +260,7 @@ _bool CUnit::IsUnitDead()
 
 void CUnit::Free()
 {
+    Safe_Release(m_pInGameHPBar);
+
     __super::Free();
 }

@@ -76,7 +76,7 @@ void CInGameUI::Update_Pos()
 
     if (m_pGameInstance->isIn_Frustum_WorldSpace(vWorldPos, 2.f) == false)
     {
-        m_bIsInactive = true;
+        m_IsOn = false;
         return;
     }
 
@@ -89,11 +89,11 @@ void CInGameUI::Update_Pos()
         vUIPos.y < -1.f || vUIPos.y > 1.f ||
         vUIPos.z < 0.f || vUIPos.z > 1.f)
     {
-        m_bIsInactive = true;
+        m_IsOn = false;
         return;
     }
 
-    m_bIsInactive = false;
+    m_IsOn = true;
 
     vUIPos.z = 0.1f;
 

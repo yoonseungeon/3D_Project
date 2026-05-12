@@ -282,6 +282,8 @@ void CBoar::Enter_Action(BOAR_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Boar::BOAR_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
+
+            m_pInGameHPBar->Set_IsInactive(true);
             break;
 
         case DANCE:
@@ -488,6 +490,9 @@ HRESULT CBoar::Ready_PartObjects()
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGameHPBar"),
         TEXT("HPBar"), &HPBarDesc)))
         return E_FAIL;
+
+    m_pInGameHPBar = dynamic_cast<CInGameHPBar*>(m_PartObjects[TEXT("HPBar")]);
+    Safe_AddRef(m_pInGameHPBar);
 
     return S_OK;
 }

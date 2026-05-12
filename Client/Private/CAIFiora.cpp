@@ -675,6 +675,9 @@ HRESULT CAIFiora::Ready_PartObjects()
         TEXT("HPBar"), &HPBarDesc)))
         return E_FAIL;
 
+    m_pInGameHPBar = dynamic_cast<CInGameHPBar*>(m_PartObjects[TEXT("HPBar")]);
+    Safe_AddRef(m_pInGameHPBar);
+
     return S_OK;
 }
 

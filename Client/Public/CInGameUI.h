@@ -33,6 +33,8 @@ protected:
 	_float4x4 m_TransformMatrices[ETOUI(D3DTS::END)]{};
 	_float m_fHeight{};
 
+	_bool m_IsOn{ true };
+
 protected:
 	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName, D3DTS eType);
 	void Update_Pos();

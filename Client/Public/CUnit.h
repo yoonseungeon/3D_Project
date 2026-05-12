@@ -5,6 +5,8 @@
 
 NS_BEGIN(Client)
 
+class CInGameHPBar;
+
 class CUnit abstract : public CInvenOwner
 {
 public:
@@ -137,6 +139,8 @@ protected:
 	vector<RECOVERY> m_Recoverys;
 
 	_float m_fAttackRange{};
+
+	CInGameHPBar* m_pInGameHPBar{};
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

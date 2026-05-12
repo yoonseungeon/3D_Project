@@ -82,7 +82,7 @@ void CInGameHPBar::Update(_float fTimeDelta)
 
 void CInGameHPBar::Late_Update(_float fTimeDelta)
 {
-    if (m_bIsInactive == true) {
+    if (m_bIsInactive == true || m_IsOn == false) {
         return;
     }
 
