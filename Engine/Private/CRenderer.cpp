@@ -349,7 +349,7 @@ HRESULT CRenderer::Render_UI()
 {
     m_RenderObjects[ETOUI(RENDERID::UI)].sort(
         [](CGameObject* pSrc, CGameObject* pDst)->bool {
-            return static_cast<CUIObject*>(pSrc)->Get_UILayer() < static_cast<CUIObject*>(pDst)->Get_UILayer();
+            return pSrc->Get_UILayer() < pDst->Get_UILayer();
         }
     );
 

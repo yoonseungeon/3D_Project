@@ -42,7 +42,7 @@ _bool CFrustum::isIn_WorldSpace(_fvector vWorldPos, _float fRange)
 {
     for (size_t i = 0; i < 6; ++i)
     {
-        if (fRange <= XMVectorGetX(XMPlaneDotCoord(XMLoadFloat4(&m_vWorldPlanes[i]), vWorldPos)))
+        if (fRange < XMVectorGetX(XMPlaneDotCoord(XMLoadFloat4(&m_vWorldPlanes[i]), vWorldPos)))
             return false;
     }
 
@@ -51,35 +51,20 @@ _bool CFrustum::isIn_WorldSpace(_fvector vWorldPos, _float fRange)
 
 void CFrustum::Make_Planes(const _float4* pPoints, _float4* pPlanes)
 {
-    XMStoreFloat4(&pPlanes[0], XMPlaneFromPoints(
-        XMLoadFloat4(&pPoints[1]),
-        XMLoadFloat4(&pPoints[5]),
-        XMLoadFloat4(&pPoints[6])));
+    _vector vPoints[8] =
+    {
+        XMLoadFloat4(&pPoints[0]) ,XMLoadFloat4(&pPoints[1]) ,
+        XMLoadFloat4(&pPoints[2]) ,XMLoadFloat4(&pPoints[3]) ,
+        XMLoadFloat4(&pPoints[4]) ,XMLoadFloat4(&pPoints[5]) ,
+        XMLoadFloat4(&pPoints[6]) ,XMLoadFloat4(&pPoints[7])
+    };
 
-    XMStoreFloat4(&pPlanes[1], XMPlaneFromPoints(
-        XMLoadFloat4(&pPoints[4]),
-        XMLoadFloat4(&pPoints[0]),
-        XMLoadFloat4(&pPoints[3])));
-
-    XMStoreFloat4(&pPlanes[2], XMPlaneFromPoints(
-        XMLoadFloat4(&pPoints[4]),
-        XMLoadFloat4(&pPoints[5]),
-        XMLoadFloat4(&pPoints[1])));
-
-    XMStoreFloat4(&pPlanes[3], XMPlaneFromPoints(
-        XMLoadFloat4(&pPoints[3]),
-        XMLoadFloat4(&pPoints[2]),
-        XMLoadFloat4(&pPoints[6])));
-
-    XMStoreFloat4(&pPlanes[4], XMPlaneFromPoints(
-        XMLoadFloat4(&pPoints[5]),
-        XMLoadFloat4(&pPoints[4]),
-        XMLoadFloat4(&pPoints[7])));
-
-    XMStoreFloat4(&pPlanes[5], XMPlaneFromPoints(
-        XMLoadFloat4(&pPoints[0]),
-        XMLoadFloat4(&pPoints[1]),
-        XMLoadFloat4(&pPoints[2])));
+    XMStoreFloat4(&pPlanes[0], XMPlaneNormalize(XMPlaneFromPoints(vPoints[1], vPoints[5], vPoints[6])));
+    XMStoreFloat4(&pPlanes[1], XMPlaneNormalize(XMPlaneFromPoints(vPoints[4], vPoints[0], vPoints[3])));
+    XMStoreFloat4(&pPlanes[2], XMPlaneNormalize(XMPlaneFromPoints(vPoints[4], vPoints[5], vPoints[1])));
+    XMStoreFloat4(&pPlanes[3], XMPlaneNormalize(XMPlaneFromPoints(vPoints[3], vPoints[2], vPoints[6])));
+    XMStoreFloat4(&pPlanes[4], XMPlaneNormalize(XMPlaneFromPoints(vPoints[5], vPoints[4], vPoints[7])));
+    XMStoreFloat4(&pPlanes[5], XMPlaneNormalize(XMPlaneFromPoints(vPoints[0], vPoints[1], vPoints[2])));
 }
 
 CFrustum* CFrustum::Create()

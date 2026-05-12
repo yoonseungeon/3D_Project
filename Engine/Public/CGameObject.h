@@ -50,6 +50,8 @@ public:
 	const map<const _wstring, CComponent*>& Get_Componets() { return m_Components; }
 #endif
 
+	_uint Get_UILayer() { return m_iUILayer; }
+
 protected:
 	ID3D11Device*									m_pDevice{ nullptr };
 	ID3D11DeviceContext*							m_pContext{ nullptr };
@@ -63,6 +65,8 @@ protected:
 	_bool											m_bIsCulling{};
 
 	vector<CCollider*>								m_Colliders;
+
+	_uint m_iUILayer{};
 
 protected:
 	HRESULT Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag,

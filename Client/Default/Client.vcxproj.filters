@@ -361,6 +361,12 @@
     <Filter Include="02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\01. Rapier">
       <UniqueIdentifier>{4ca123a0-eba4-4405-9aab-6ab0e319faed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\07. InGameUI">
+      <UniqueIdentifier>{6cad040e-673f-4346-8bb2-63d5f72d57d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\07. InGameUI\00. InGameHPBar">
+      <UniqueIdentifier>{4c2e0eae-601f-495d-b262-f9d78d13bb90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -720,6 +726,12 @@
     <ClInclude Include="..\Public\CRapier.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\01. Rapier</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CInGameHPBar.h">
+      <Filter>02. GameObject\07. InGameUI\00. InGameHPBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CInGameUI.h">
+      <Filter>02. GameObject\07. InGameUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1061,6 +1073,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CRapier.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\06. AIFiora\01. Rapier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInGameHPBar.cpp">
+      <Filter>02. GameObject\07. InGameUI\00. InGameHPBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CInGameUI.cpp">
+      <Filter>02. GameObject\07. InGameUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

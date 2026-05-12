@@ -15,6 +15,8 @@ float g_UVFillCenterY = { 0.5f };
 
 float2 g_ClipYRatio;
 
+
+
 struct VS_IN
 {
     float3 vPosition : POSITION;
@@ -220,6 +222,78 @@ PS_OUT PS_MAIN_GAUGE(PS_IN In)
     return Out;
 }
 
+float g_fMaxHp = { 1000 };
+float g_fCurHp = { 500 };
+float g_fMpRatio = { 0.5f };
+
+bool g_NoMp = { false };
+bool g_DrawSmallLine = { false };
+
+float g_GaugeStartX = 0.03f;
+float g_GaugeEndX = 0.97f;
+
+float g_HpStartY = 0.17f;
+float g_HpEndY = 0.59f;
+float g_MpStartY = 0.67f;
+float g_MpEndY = 0.82f;
+
+float3 g_HpColor = { 0.196f, 0.843f, 0.f };
+float3 g_MpColor = { 0.196f, 0.843f, 0.f };
+
+PS_OUT PS_MAIN_INGAMEHPBAR(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float fHPUVX = (In.vTexcoord.x - g_GaugeStartX) / (g_GaugeEndX - g_GaugeStartX);
+    float fHPUVY = (In.vTexcoord.y - g_HpStartY) / (g_HpEndY - g_HpStartY);
+
+    float fHPRatio = saturate(g_fCurHp / g_fMaxHp);
+    
+    float fTexcoordHp = fHPUVX * g_fMaxHp;
+    // 2x2 단위로 실행해서 다음 픽셀과의 HP 차를 알 수 있음. -> 픽셀 간의 HP 차
+    float fHPPerPixel = fwidth(fTexcoordHp);
+    bool bDrawLine = fTexcoordHp >= 100.f;
+    
+    float fModLine = fmod(fTexcoordHp, 100.f);
+    float fModLongLine = fmod(fTexcoordHp, 1000.f);
+
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+
+    if (In.vTexcoord.x >= g_GaugeStartX && In.vTexcoord.x <= g_GaugeEndX &&
+        In.vTexcoord.y >= g_HpStartY && In.vTexcoord.y < g_HpEndY)
+    {
+        if (fHPUVX <= fHPRatio)
+        {        
+            if (bDrawLine && fModLongLine <= fHPPerPixel)
+            {
+                Out.vColor.xyz = float3(0.f, 0.f, 0.f);
+            }
+            else if (g_DrawSmallLine && bDrawLine && fModLine <= fHPPerPixel && fHPUVY <= 0.5f)
+            {
+                Out.vColor.xyz = float3(0.f, 0.f, 0.f);
+            }
+            else
+            {
+                Out.vColor.xyz = g_HpColor;
+            }
+        }
+    }
+        
+    if (g_NoMp == false)
+    {   
+        if (In.vTexcoord.x >= g_GaugeStartX && In.vTexcoord.x <= g_GaugeEndX &&
+        In.vTexcoord.y >= g_MpStartY && In.vTexcoord.y < g_MpEndY)
+        {
+            if (fHPUVX <= g_fMpRatio)
+            {
+                Out.vColor.xyz = g_MpColor;
+            }
+        }
+    }
+    
+    return Out;
+}
+
 
 technique11 DefaultTechnique
 {
@@ -309,5 +383,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_GAUGE()));
+    }
+
+    pass InGameHPBar
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_INGAMEHPBAR()));
     }
 }

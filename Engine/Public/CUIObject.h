@@ -37,16 +37,11 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-public:
-	_uint Get_UILayer() { return m_iUILayer; }
-
 protected:
 	_float4x4 m_TransformMatrices[ETOUI(D3DTS::END)]{};
 
 	_int m_iFlipX{};
 	_int m_iFlipY{};
-
-	_uint m_iUILayer{};
 
 protected:
 	HRESULT Bind_ShaderResource(CShader* pShader, const _char* pConstantName, D3DTS eType);

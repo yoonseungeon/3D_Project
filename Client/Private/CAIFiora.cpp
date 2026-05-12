@@ -9,6 +9,8 @@
 
 #include "CRapier.h"
 
+#include "CInGameHPBar.h"
+
 CAIFiora::CAIFiora(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractMonster{ pDevice, pContext }
 {
@@ -655,6 +657,22 @@ HRESULT CAIFiora::Ready_PartObjects()
 
     if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rapier"),
         TEXT("Rapier"), &RapierDesc)))
+        return E_FAIL;
+
+    CInGameHPBar::INGAMEHPBAR_DESC HPBarDesc{};
+    HPBarDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    HPBarDesc.fHeight = 2.5f;
+
+    HPBarDesc.pMaxHp = &m_tFinalStat.iHP;
+    HPBarDesc.pCurHp = &m_tCurStat.iHP;
+    HPBarDesc.vHPColor = _float3{ 0.196f, 0.843f, 0.f };
+
+    HPBarDesc.bNoMp = true;
+
+    HPBarDesc.eUnitType = CInGameHPBar::CHAR;
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGameHPBar"),
+        TEXT("HPBar"), &HPBarDesc)))
         return E_FAIL;
 
     return S_OK;

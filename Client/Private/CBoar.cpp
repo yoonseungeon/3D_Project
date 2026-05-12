@@ -7,6 +7,8 @@
 #include "CAbstractPlayer.h"
 #include "CInventory.h"
 
+#include "CInGameHPBar.h"
+
 CBoar::CBoar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractMonster{ pDevice, pContext }
 {
@@ -469,6 +471,23 @@ HRESULT CBoar::Ready_PartObjects()
 
     m_pBodyBoar = dynamic_cast<CBody_Boar*>(m_PartObjects[TEXT("Body")]);
     Safe_AddRef(m_pBodyBoar);
+
+    CInGameHPBar::INGAMEHPBAR_DESC HPBarDesc{};
+    HPBarDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    HPBarDesc.fHeight = 2.5f;
+
+    HPBarDesc.pMaxHp = &m_tFinalStat.iHP;
+    HPBarDesc.pCurHp = &m_tCurStat.iHP;
+
+    HPBarDesc.pMaxMp = &m_tFinalStat.iMP;
+    HPBarDesc.pCurMp = &m_tCurStat.iMP;
+
+    HPBarDesc.vHPColor = COLOR_TO_FLOAT(212, 22, 56);
+    HPBarDesc.vMPColor = COLOR_TO_FLOAT(255, 255, 255);
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGameHPBar"),
+        TEXT("HPBar"), &HPBarDesc)))
+        return E_FAIL;
 
     return S_OK;
 }

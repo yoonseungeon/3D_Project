@@ -13,6 +13,8 @@
 #include "CBurner.h"
 #include "CFryingPan.h"
 
+#include "CInGameHPBar.h"
+
 #include "CInGame_Manager.h"
 
 #include "CLiDailinIdle.h"
@@ -638,6 +640,26 @@ HRESULT CLiDailin::Ready_PartObjects()
     m_pFryingPan = dynamic_cast<CFryingPan*>(m_PartObjects[TEXT("FryingPan")]);
     Safe_AddRef(m_pFryingPan);
     m_pFryingPan->Set_IsInactive(true);
+    
+
+    CInGameHPBar::INGAMEHPBAR_DESC HPBarDesc{};
+    HPBarDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    HPBarDesc.fHeight = 2.5f;
+
+    HPBarDesc.pMaxHp = &m_tFinalStat.iHP;
+    HPBarDesc.pCurHp = &m_tCurStat.iHP;
+
+    HPBarDesc.pMaxMp = &m_tFinalStat.iMP;
+    HPBarDesc.pCurMp = &m_tCurStat.iMP;
+
+    HPBarDesc.vHPColor = _float3{ 0.196f, 0.843f, 0.f };
+    HPBarDesc.vMPColor = COLOR_TO_FLOAT(243, 158, 28);
+
+    HPBarDesc.eUnitType = CInGameHPBar::CHAR;
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGameHPBar"),
+        TEXT("HPBar"), &HPBarDesc)))
+        return E_FAIL;
 
     return S_OK;
 }
