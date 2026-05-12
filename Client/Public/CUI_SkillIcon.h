@@ -16,6 +16,8 @@ public:
 	struct CUI_SKILLICON_DESC : public CUI_Image::CUI_IMAGE_DESC
 	{
 		SKILL_SLOT eSkillSlot{};
+
+		_uint iMaxSkillLevel{};
 	};
 
 protected:
@@ -46,8 +48,13 @@ protected:
 
 	CInGame_Manager* m_pInGameManager{};
 
+	_int m_iMaxSkillLevel{};
+	_int m_iCurSkillLevel{};
+
 protected:
 	virtual HRESULT RenderText();
+
+	virtual HRESULT Ready_Layer_SkillLevelUpBtn(const _wstring& strLayerTag) { return S_OK; }
 
 public:
 	virtual CGameObject* Clone(void* pArg) override;

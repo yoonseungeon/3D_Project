@@ -150,6 +150,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     QDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
 
     QDesc.eSkillSlot = Desc.eSkillSlot;
+    QDesc.iMaxSkillLevel = pPlayer->Get_MaxSkillLevel(Desc.eSkillSlot);
 
     SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &QDesc);
     
@@ -168,6 +169,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     WDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
 
     WDesc.eSkillSlot = Desc.eSkillSlot;
+    WDesc.iMaxSkillLevel = pPlayer->Get_MaxSkillLevel(Desc.eSkillSlot);
 
     SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &WDesc);
 
@@ -186,6 +188,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     EDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
 
     EDesc.eSkillSlot = Desc.eSkillSlot;
+    EDesc.iMaxSkillLevel = pPlayer->Get_MaxSkillLevel(Desc.eSkillSlot);
 
     SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &EDesc);
 
@@ -204,6 +207,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
    RDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
 
    RDesc.eSkillSlot = Desc.eSkillSlot;
+   RDesc.iMaxSkillLevel = pPlayer->Get_MaxSkillLevel(Desc.eSkillSlot);
 
    SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &RDesc);
 

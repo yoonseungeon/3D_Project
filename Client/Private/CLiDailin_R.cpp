@@ -9,6 +9,16 @@ CLiDailin_R::CLiDailin_R()
 {
 }
 
+HRESULT CLiDailin_R::Initialize()
+{
+	if (FAILED(__super::Initialize()))
+		return E_FAIL;
+
+	m_iMaxLevel = 3;
+
+	return S_OK;
+}
+
 void CLiDailin_R::Enter(CLiDailin* pPlayer)
 {
 	// Cool
@@ -177,7 +187,15 @@ void CLiDailin_R::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eActio
 
 CLiDailin_R* CLiDailin_R::Create()
 {
-	return new CLiDailin_R;
+	CLiDailin_R* pInstance = new CLiDailin_R();
+
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX("Failed to Created: CLiDailin_R");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CLiDailin_R::Free()

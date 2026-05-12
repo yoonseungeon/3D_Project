@@ -17,6 +17,8 @@ class CMovementState;
 class CActionState;
 class CInGame_Manager;
 
+class CSkillState;
+
 class CLiDailin final : public CAbstractPlayer
 {
 public:
@@ -82,6 +84,11 @@ public:
 
 	// Icon Info
 	virtual void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc) override;
+
+	virtual _uint Get_MaxSkillLevel(const SKILL_SLOT eType) override;
+	virtual _uint Get_CurSkillLevel(const SKILL_SLOT eType) override;
+	virtual void LevelUpSkill(const SKILL_SLOT eType) override;
+	virtual _bool CanLevelUpSkill(const SKILL_SLOT eType) override;
 
 	// MoveBlock
 	void Set_MoveBlock(_bool bMoveBlock) { m_bMoveBlock = bMoveBlock; }
@@ -161,6 +168,8 @@ private:
 	virtual HRESULT Initialize_State() override;
 
 	CActionState* Get_ActionState(const wstring& wstrState);
+
+	virtual CSkillState* FindSkill(const SKILL_SLOT eType) override;
 
 public:
 	static CLiDailin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

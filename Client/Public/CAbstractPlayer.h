@@ -14,6 +14,8 @@ class CCraftHammer;
 class CBurner;
 class CFryingPan;
 
+class CSkillState;
+
 class CAbstractPlayer abstract : public CUnit
 {
 public:
@@ -72,6 +74,12 @@ public:
 	// Skill Icon
 	virtual void Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc);
 
+	virtual _uint Get_MaxSkillLevel(const SKILL_SLOT eType) = 0;
+	virtual _uint Get_CurSkillLevel(const SKILL_SLOT eType) = 0;
+	virtual void LevelUpSkill(const SKILL_SLOT eType) = 0;
+	virtual _bool CanLevelUpSkill(const SKILL_SLOT eType) = 0;
+
+
 	// Part Obj
 	CCraftTool* Get_CraftTool() { return m_pCraftTool; }
 	CCraftHammer* Get_CraftHammer() { return m_pCraftHammer; }
@@ -99,6 +107,8 @@ protected:
 	_bool Use_Consumable(_uint iSlotIndex);
 
 	void SetItemStat(_int iItemId, _bool bAdd);
+
+	virtual CSkillState* FindSkill(const SKILL_SLOT eType) = 0;
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

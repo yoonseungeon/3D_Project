@@ -85,6 +85,7 @@ void CUnit::AddEXP(_uint iEXP)
     while (m_tCurStat.iEXP >= m_tFinalStat.iEXP)
     {
         LevelUp();
+        ++ m_iSkillPoint;
     }
 }
 

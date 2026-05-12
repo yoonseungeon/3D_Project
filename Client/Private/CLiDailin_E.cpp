@@ -10,6 +10,16 @@ CLiDailin_E::CLiDailin_E()
     m_fMaxChanneling = 0.3f;
 }
 
+HRESULT CLiDailin_E::Initialize()
+{
+    if (FAILED(__super::Initialize()))
+        return E_FAIL;
+
+    m_iMaxLevel = 5;
+
+    return S_OK;
+}
+
 void CLiDailin_E::Enter(CLiDailin* pPlayer)
 {
 	m_fChanneling = m_fMaxChanneling;
@@ -176,7 +186,15 @@ void CLiDailin_E::OnCollision_Exit(const COLLISION_INFO& tCollision)
 
 CLiDailin_E* CLiDailin_E::Create()
 {
-	return new CLiDailin_E;
+    CLiDailin_E* pInstance = new CLiDailin_E();
+
+    if (FAILED(pInstance->Initialize()))
+    {
+        MSG_BOX("Failed to Created: CLiDailin_E");
+        Safe_Release(pInstance);
+    }
+
+    return pInstance;
 }
 
 void CLiDailin_E::Free()

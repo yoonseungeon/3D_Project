@@ -295,8 +295,8 @@ PS_OUT PS_MAIN_INGAMEHPBAR(PS_IN In)
 }
 
 float fExtendSize = 1.15f;
-int fMaxLevel = 5;
-int fCurLevel = 3;
+int g_MaxLevel = 5;
+int g_CurLevel = 3;
 
 PS_OUT PS_MAIN_SKILLICON(PS_IN In)
 {
@@ -314,25 +314,30 @@ PS_OUT PS_MAIN_SKILLICON(PS_IN In)
         float fFmodX = fmod(vTexcoord.x, 0.2f);
         
         int iCurSlotIndex = floor(vTexcoord.x / 0.2f);
-        int iStartSlotIndex = (5 - fMaxLevel) / 2;
-        int iEndSlotIndex = iStartSlotIndex + fMaxLevel - 1;
+        int iStartSlotIndex = (5 - g_MaxLevel) / 2;
+        int iEndSlotIndex = iStartSlotIndex + g_MaxLevel - 1;
 
         int iCurLevelSlot = iCurSlotIndex - iStartSlotIndex + 1;
         
+        Out.vColor = float4(0.f, 0.f, 0.f, 0.5f);
+        
+        // 레벨 나타낼 수 있는 범위 들어오면(5칸)
         if (fFmodX >= 0.04f && fFmodX <= 0.16f &&
             vTexcoord.y >= 1.07f && vTexcoord.y <= 1.1f)
         {
-            Out.vColor = float4(0.f, 0.f, 0.f, 0.5f);
-
-            if (iCurSlotIndex >= iStartSlotIndex && iCurSlotIndex <= iEndSlotIndex &&
-                iCurLevelSlot >= 1 && iCurLevelSlot <= fCurLevel)
-            {
-                Out.vColor = float4(0.909f, 0.69f, 0.247f, 1.f);
-            }
-            else
-            {
-                Out.vColor = float4(0.325f, 0.325f, 0.325f, 1.f);
-            }
+            // MaxLevel기반으로 칸 수 제한
+            if (iCurSlotIndex >= iStartSlotIndex && iCurSlotIndex <= iEndSlotIndex)
+            {                
+                // 현재 레벨만큼 올라칸 만큼 칠하고
+                if (iCurLevelSlot >= 1 && iCurLevelSlot <= g_CurLevel)
+                {
+                    Out.vColor = float4(0.909f, 0.69f, 0.247f, 1.f);
+                }
+                else // 나머지는 레벨 안 올라간 부분 어둡게 칠함
+                {
+                    Out.vColor = float4(0.325f, 0.325f, 0.325f, 1.f);
+                }
+            }              
         }
     }
     

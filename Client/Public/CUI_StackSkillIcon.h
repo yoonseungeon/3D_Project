@@ -35,6 +35,14 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
+	virtual HRESULT Ready_Layer_SkillLevelUpBtn(const _wstring& strLayerTag) override;
+
+private:
+	_float m_fScaleRatioX{};
+	_float m_fScaleRatioY{};
+	_float m_fPosRatioX{};
+	_float m_fPosRatioY{};
+
 public:
 	static CUI_StackSkillIcon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

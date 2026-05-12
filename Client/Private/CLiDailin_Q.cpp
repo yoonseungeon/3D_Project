@@ -10,6 +10,16 @@ CLiDailin_Q::CLiDailin_Q()
 {
 }
 
+HRESULT CLiDailin_Q::Initialize()
+{
+	if (FAILED(__super::Initialize()))
+		return E_FAIL;
+
+	m_iMaxLevel = 5;
+
+	return S_OK;
+}
+
 void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 {
 	// Cool
@@ -159,7 +169,15 @@ void CLiDailin_Q::OnCollision_Exit(const COLLISION_INFO& tCollision)
 
 CLiDailin_Q* CLiDailin_Q::Create()
 {
-	return new CLiDailin_Q;
+	CLiDailin_Q* pInstance = new CLiDailin_Q();
+
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX("Failed to Created: CLiDailin_Q");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CLiDailin_Q::Free()

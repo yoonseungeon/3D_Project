@@ -121,12 +121,6 @@
     <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon">
       <UniqueIdentifier>{4a92c609-5f56-4979-84d9-b1f6488dd720}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\Stack">
-      <UniqueIdentifier>{a6789980-1775-4714-9d1a-b343da40343b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal">
-      <UniqueIdentifier>{59d30b4d-0eee-421b-bdfc-16f09de5be5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="50. State">
       <UniqueIdentifier>{1c69efd9-e441-43d7-965f-88cb97d0e641}</UniqueIdentifier>
     </Filter>
@@ -367,6 +361,18 @@
     <Filter Include="02. GameObject\07. InGameUI\00. InGameHPBar">
       <UniqueIdentifier>{4c2e0eae-601f-495d-b262-f9d78d13bb90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="50. State\01. ActionState\00. SkillState">
+      <UniqueIdentifier>{1446697f-b159-4d03-8662-52bc5d78489c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\00. Normal">
+      <UniqueIdentifier>{59d30b4d-0eee-421b-bdfc-16f09de5be5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\01. Stack">
+      <UniqueIdentifier>{a6789980-1775-4714-9d1a-b343da40343b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\02. SkillLevelUpBtn">
+      <UniqueIdentifier>{84e14739-01d3-43b6-9675-fb9f4e7b391c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -535,10 +541,10 @@
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_StackSkillIcon.h">
-      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Stack</Filter>
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\01. Stack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CUI_NormalSkillIcon.h">
-      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\00. Normal</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLiDailin_W.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\02. LiDailin_W</Filter>
@@ -732,6 +738,12 @@
     <ClInclude Include="..\Public\CInGameUI.h">
       <Filter>02. GameObject\07. InGameUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CSkillState.h">
+      <Filter>50. State\01. ActionState\00. SkillState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CSkillLevelUpBtn.h">
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\02. SkillLevelUpBtn</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -883,10 +895,10 @@
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_StackSkillIcon.cpp">
-      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Stack</Filter>
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\01. Stack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CUI_NormalSkillIcon.cpp">
-      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\Normal</Filter>
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\00. Normal</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_Q.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\99. ActionState\01. LiDailin_Q</Filter>
@@ -1079,6 +1091,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CInGameUI.cpp">
       <Filter>02. GameObject\07. InGameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSkillState.cpp">
+      <Filter>50. State\01. ActionState\00. SkillState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSkillLevelUpBtn.cpp">
+      <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\02. SkillLevelUpBtn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

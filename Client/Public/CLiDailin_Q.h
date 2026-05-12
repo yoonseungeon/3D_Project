@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CActionState.h"
+#include "CSkillState.h"
 
 NS_BEGIN(Engine)
 class CGameObject;
@@ -8,11 +8,14 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CLiDailin_Q : public CActionState
+class CLiDailin_Q : public CSkillState
 {
 private:
 	CLiDailin_Q();
 	virtual ~CLiDailin_Q() = default;
+
+private:
+	HRESULT Initialize();
 
 public:
 	void Enter(CLiDailin* pPlayer) override;

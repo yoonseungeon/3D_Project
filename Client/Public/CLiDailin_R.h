@@ -1,12 +1,15 @@
 #pragma once
 
-#include "CActionState.h"
+#include "CSkillState.h"
 
-class CLiDailin_R : public CActionState
+class CLiDailin_R : public CSkillState
 {
 private:
 	CLiDailin_R();
 	virtual ~CLiDailin_R() = default;
+
+private:
+	HRESULT Initialize();
 
 public:
 	void Enter(CLiDailin* pPlayer) override;

@@ -29,6 +29,7 @@ HRESULT CUI_SkillIcon::Initialize(void* pArg)
         return E_FAIL;
 
     m_eSkillSlot = pDesc->eSkillSlot;
+    m_iMaxSkillLevel = pDesc->iMaxSkillLevel;
 
     _float fCenterX = (pDesc->fPosRatioX + 0.5f) * static_cast<_float>(g_iWinSizeX);
     _float fCenterY = -(pDesc->fPosRatioY - 0.5f) * static_cast<_float>(g_iWinSizeY);

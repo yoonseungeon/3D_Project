@@ -134,6 +134,8 @@ protected:
 
 	UNIT_STAT m_tCurStat{};
 
+	_uint m_iSkillPoint{};
+
 	MAINGAUGE_TYPE m_eMPType{};
 
 	vector<RECOVERY> m_Recoverys;

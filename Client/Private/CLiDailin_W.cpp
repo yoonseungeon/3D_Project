@@ -106,6 +106,11 @@ CLiDailin_W::CLiDailin_W()
 
 HRESULT CLiDailin_W::Initialize()
 {
+    if (FAILED(__super::Initialize()))
+        return E_FAIL;
+
+    m_iMaxLevel = 5;
+
 	return S_OK;
 }
 

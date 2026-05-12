@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CActionState.h"
+#include "CSkillState.h"
 
-class CLiDailin_W : public CActionState
+class CLiDailin_W : public CSkillState
 {
 private:
 	CLiDailin_W();

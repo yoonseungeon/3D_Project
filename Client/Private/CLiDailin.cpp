@@ -438,6 +438,74 @@ void CLiDailin::Get_SkillSlotType(const SKILL_SLOT eType, SKILL_DESC& tDesc)
     }
 }
 
+_uint CLiDailin::Get_MaxSkillLevel(const SKILL_SLOT eType)
+{  
+    CSkillState* pSkillState = FindSkill(eType);
+
+    if (pSkillState == nullptr)
+        return 0;
+
+    return pSkillState->Get_MaxLevel();
+}
+
+_uint CLiDailin::Get_CurSkillLevel(const SKILL_SLOT eType)
+{
+    CSkillState* pSkillState = FindSkill(eType);
+
+    if (pSkillState == nullptr)
+        return 0;
+
+    return pSkillState->Get_CurLevel();
+}
+
+void CLiDailin::LevelUpSkill(const SKILL_SLOT eType)
+{
+    CSkillState* pSkillState = FindSkill(eType);
+
+    if (pSkillState == nullptr)
+        return;
+
+    if (m_iSkillPoint >= 1 && pSkillState->SkillLevelUp() == true)
+        --m_iSkillPoint;
+}
+
+_bool CLiDailin::CanLevelUpSkill(const SKILL_SLOT eType)
+{
+    CSkillState* pSkillState = FindSkill(eType);
+
+    if (pSkillState == nullptr)
+        return false;
+
+    if (m_iSkillPoint <= 0)
+        return false;
+
+    _int iMaxLevel = pSkillState->Get_MaxLevel();
+    _int iCurLevel = pSkillState->Get_CurLevel();
+
+    _int iCurMaxLevel = {};
+
+    switch (eType)
+    {
+        case SKILL_SLOT::Q:
+        case SKILL_SLOT::W:
+        case SKILL_SLOT::E:
+        {
+            iCurMaxLevel = (std::min)(iMaxLevel, (m_tCurStat.iLevel + 1) / 2);
+            break;
+        }
+        case SKILL_SLOT::R:
+        {
+            iCurMaxLevel = (std::min)(iMaxLevel, (m_tCurStat.iLevel - 1) / 5);
+            break;
+        }
+    }
+
+    if (iCurLevel < iCurMaxLevel)
+        return true;
+
+    return false;
+}
+
 HRESULT CLiDailin::Ready_Components()
 {
     /* For.Com_Navigation */
@@ -860,6 +928,50 @@ CActionState* CLiDailin::Get_ActionState(const wstring& wstrState)
     }
 
     return dynamic_cast<CActionState*>(iter->second);
+}
+
+CSkillState* CLiDailin::FindSkill(const SKILL_SLOT eType)
+{
+    wstring wstrState;
+    switch (eType)
+    {
+        case SKILL_SLOT::Q:
+        {
+            wstrState = L"CLiDailin_Q";
+            break;
+        }
+        case SKILL_SLOT::W:
+        {
+            wstrState = L"CLiDailin_W";
+            break;
+        }
+        case SKILL_SLOT::E:
+        {
+            wstrState = L"CLiDailin_E";
+            break;
+        }
+        case SKILL_SLOT::R:
+        {
+            wstrState = L"CLiDailin_R";
+            break;
+        }
+    }
+
+    auto iter = m_States.find(wstrState);
+    if (iter == m_States.end()) {
+        MSG_BOX("CLiDailin.cpp: No ActionState");
+        return nullptr;
+    }
+
+    CSkillState* pSkillState = dynamic_cast<CSkillState*>(iter->second);
+
+    if (pSkillState == nullptr)
+    {
+        MSG_BOX("CLiDailin.cpp: pSkillState is nullptr");
+        return nullptr;
+    }
+
+    return pSkillState;
 }
 
 CLiDailin* CLiDailin::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -4,6 +4,7 @@
 #include "CInGame_Manager.h"
 #include "CAbstractPlayer.h"
 
+#include "CSkillLevelUpBtn.h"
 
 CUI_NormalSkillIcon::CUI_NormalSkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_SkillIcon{ pDevice, pContext }
@@ -24,10 +25,18 @@ HRESULT CUI_NormalSkillIcon::Initialize(void* pArg)
 {
     CUI_NORMALSKILLICON_DESC* pDesc = static_cast<CUI_NORMALSKILLICON_DESC*>(pArg);
 
+    m_fScaleRatioX = pDesc->fScaleRatioX;
+    m_fScaleRatioY = pDesc->fScaleRatioY;
+    m_fPosRatioX = pDesc->fPosRatioX;
+    m_fPosRatioY = pDesc->fPosRatioY;
+
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_SkillLevelUpBtn(TEXT("Layer_UI_SkillLevelUpBtn"))))
         return E_FAIL;
 
     return S_OK;
@@ -43,6 +52,7 @@ void CUI_NormalSkillIcon::Parallel_Update(_float fTimeDelta)
 
 void CUI_NormalSkillIcon::Update(_float fTimeDelta)
 {
+    m_iCurSkillLevel = m_pInGameManager->Get_Player()->Get_CurSkillLevel(m_eSkillSlot);
 }
 
 void CUI_NormalSkillIcon::Late_Update(_float fTimeDelta)
@@ -89,7 +99,6 @@ HRESULT CUI_NormalSkillIcon::Render()
     if (FAILED(m_pVIBufferCom->Render()))
         return E_FAIL;
 
-
     if (FAILED(RenderText()))
         return E_FAIL;
 
@@ -114,9 +123,26 @@ HRESULT CUI_NormalSkillIcon::Bind_ShaderResources()
     if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTexIdx)))
         return E_FAIL;
 
-    m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
-    m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
-    m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
+    m_pShaderCom->Bind_RawValue("g_CurLevel", &m_iCurSkillLevel, sizeof(m_iCurSkillLevel));
+    m_pShaderCom->Bind_RawValue("g_MaxLevel", &m_iMaxSkillLevel, sizeof(m_iMaxSkillLevel));
+
+    return S_OK;
+}
+
+HRESULT CUI_NormalSkillIcon::Ready_Layer_SkillLevelUpBtn(const _wstring& strLayerTag)
+{
+    CSkillLevelUpBtn::SKILL_LEVELUP_BTN_DESC Desc{};
+
+    Desc.fScaleRatioX = m_fScaleRatioX * 1.2f;
+    Desc.fScaleRatioY = m_fScaleRatioY * 1.2f;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY + 0.07f;
+
+    Desc.iUILayer = ETOUI(UILAYER::BUTTON);
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillLevelUpBtn"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
 
     return S_OK;
 }
