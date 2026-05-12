@@ -46,10 +46,13 @@ void CBody_Bat::Update(_float fTimeDelta)
 
 void CBody_Bat::Late_Update(_float fTimeDelta)
 {
-    if (m_pGameInstance->isIn_Frustum_WorldSpace(m_pTransformCom->Get_State(STATE::POSITION), 2.f) == false)
-        return;
-
     __super::Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+
+    _float4 vPos{};
+    memcpy(&vPos, m_CombinedWorldMatrix.m[3], sizeof(_float4));
+
+    if (m_pGameInstance->isIn_Frustum_WorldSpace(XMLoadFloat4(&vPos), 2.f) == false)
+        return;
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
     m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);

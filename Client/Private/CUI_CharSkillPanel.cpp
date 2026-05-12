@@ -201,6 +201,8 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
    SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &RDesc);
 
+   //////////////////////////////////////////////////////////////////////////////
+
    // Point 1
    CUI_MainGaugePanel::CUI_MAINGAUGE_DESC MainGaugeDesc{};
 
