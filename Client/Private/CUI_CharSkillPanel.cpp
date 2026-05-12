@@ -151,6 +151,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
     QDesc.eSkillSlot = Desc.eSkillSlot;
     QDesc.iMaxSkillLevel = pPlayer->Get_MaxSkillLevel(Desc.eSkillSlot);
+    QDesc.fRatioYNoExtend = fScaleRatioY;
 
     SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &QDesc);
     
@@ -170,6 +171,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
     WDesc.eSkillSlot = Desc.eSkillSlot;
     WDesc.iMaxSkillLevel = pPlayer->Get_MaxSkillLevel(Desc.eSkillSlot);
+    WDesc.fRatioYNoExtend = fScaleRatioY;
 
     SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &WDesc);
 
@@ -189,6 +191,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
     EDesc.eSkillSlot = Desc.eSkillSlot;
     EDesc.iMaxSkillLevel = pPlayer->Get_MaxSkillLevel(Desc.eSkillSlot);
+    EDesc.fRatioYNoExtend = fScaleRatioY;
 
     SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &EDesc);
 
@@ -208,6 +211,7 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 
    RDesc.eSkillSlot = Desc.eSkillSlot;
    RDesc.iMaxSkillLevel = pPlayer->Get_MaxSkillLevel(Desc.eSkillSlot);
+   RDesc.fRatioYNoExtend = fScaleRatioY;
 
    SkillSlotCreator(strLayerTag, Desc.eCoolDownType, &RDesc);
 

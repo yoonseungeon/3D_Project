@@ -39,6 +39,9 @@ HRESULT CUI_NormalSkillIcon::Initialize(void* pArg)
     if (FAILED(Ready_Layer_SkillLevelUpBtn(TEXT("Layer_UI_SkillLevelUpBtn"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_SkillCoolDisplay(TEXT("Layer_UI_SkillCoolDisplay"))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -134,7 +137,7 @@ HRESULT CUI_NormalSkillIcon::Ready_Layer_SkillLevelUpBtn(const _wstring& strLaye
     CSkillLevelUpBtn::SKILL_LEVELUP_BTN_DESC Desc{};
 
     Desc.fScaleRatioX = m_fScaleRatioX * 1.2f;
-    Desc.fScaleRatioY = m_fScaleRatioY * 1.2f;
+    Desc.fScaleRatioY = m_fRatioYNoExtend * 1.2f;
     Desc.fPosRatioX = m_fPosRatioX;
     Desc.fPosRatioY = m_fPosRatioY + 0.07f;
 
@@ -142,6 +145,26 @@ HRESULT CUI_NormalSkillIcon::Ready_Layer_SkillLevelUpBtn(const _wstring& strLaye
     Desc.eSkillSlot = m_eSkillSlot;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillLevelUpBtn"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_NormalSkillIcon::Ready_Layer_SkillCoolDisplay(const _wstring& strLayerTag)
+{    
+    CUI_Image::CUI_IMAGE_DESC Desc{};
+
+    Desc.fScaleRatioX = m_fScaleRatioX;
+    Desc.fScaleRatioY = m_fRatioYNoExtend;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY + (m_fScaleRatioY - m_fRatioYNoExtend) * 0.5f;  // ?
+    
+    Desc.iUILayer = ETOUI(UILAYER::SLOT_DECO);
+          
+    Desc.fImageAlpha = 0.7f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillCoolDisplay"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
         return E_FAIL;
 

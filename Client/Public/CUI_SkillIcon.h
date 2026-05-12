@@ -18,6 +18,8 @@ public:
 		SKILL_SLOT eSkillSlot{};
 
 		_uint iMaxSkillLevel{};
+
+		_float fRatioYNoExtend{};
 	};
 
 protected:
@@ -51,10 +53,13 @@ protected:
 	_int m_iMaxSkillLevel{};
 	_int m_iCurSkillLevel{};
 
+	_float m_fRatioYNoExtend{};
+
 protected:
 	virtual HRESULT RenderText();
 
 	virtual HRESULT Ready_Layer_SkillLevelUpBtn(const _wstring& strLayerTag) { return S_OK; }
+	virtual HRESULT Ready_Layer_SkillCoolDisplay(const _wstring& strLayerTag) { return S_OK; }
 
 public:
 	virtual CGameObject* Clone(void* pArg) override;

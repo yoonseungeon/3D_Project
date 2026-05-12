@@ -138,7 +138,7 @@ HRESULT CUI_StackSkillIcon::Ready_Layer_SkillLevelUpBtn(const _wstring& strLayer
     CSkillLevelUpBtn::SKILL_LEVELUP_BTN_DESC Desc{};
 
     Desc.fScaleRatioX = m_fScaleRatioX * 1.2f;
-    Desc.fScaleRatioY = m_fScaleRatioY * 1.2f;
+    Desc.fScaleRatioY = m_fRatioYNoExtend * 1.2f;
     Desc.fPosRatioX = m_fPosRatioX;
     Desc.fPosRatioY = m_fPosRatioY + 0.07f;
 

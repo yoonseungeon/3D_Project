@@ -191,6 +191,7 @@
     <ClInclude Include="..\Public\CItemSpawner.h" />
     <ClInclude Include="..\Public\CRapier.h" />
     <ClInclude Include="..\Public\CRiver.h" />
+    <ClInclude Include="..\Public\CSkillCoolDisplay.h" />
     <ClInclude Include="..\Public\CSkillLevelUpBtn.h" />
     <ClInclude Include="..\Public\CSkillState.h" />
     <ClInclude Include="..\Public\CUI_ItemBoxSlot.h" />
@@ -316,6 +317,7 @@
     <ClCompile Include="..\Private\CItemSpawner.cpp" />
     <ClCompile Include="..\Private\CRapier.cpp" />
     <ClCompile Include="..\Private\CRiver.cpp" />
+    <ClCompile Include="..\Private\CSkillCoolDisplay.cpp" />
     <ClCompile Include="..\Private\CSkillLevelUpBtn.cpp" />
     <ClCompile Include="..\Private\CSkillState.cpp" />
     <ClCompile Include="..\Private\CUI_ItemBoxSlot.cpp" />

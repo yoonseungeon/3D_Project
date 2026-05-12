@@ -49,6 +49,7 @@
 #include "CUI_NormalSkillIcon.h"
 
 #include "CSkillLevelUpBtn.h"
+#include "CSkillCoolDisplay.h"
 // Stat
 #include "CUI_StatPanel.h"
 #include "CUI_StatBox.h"
@@ -2224,6 +2225,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CSkillLevelUpBtn::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_SkillLevelUpBtn");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_SkillCoolDisplay */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillCoolDisplay"),
+                CSkillCoolDisplay::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_SkillCoolDisplay");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -344,6 +344,39 @@ PS_OUT PS_MAIN_SKILLICON(PS_IN In)
     return Out;
 }
 
+
+
+
+
+float g_SkillCoolRatio = { 0.3f };
+
+float PI = { 3.141592f };
+
+PS_OUT PS_MAIN_SKILLCOOL(PS_IN In)
+{
+    PS_OUT Out;
+
+    // 좌표계로
+    float2 vTexcoord = In.vTexcoord - float2(0.5f, 0.5f);
+    
+    // 각도 리턴
+    float fRadian = atan2(vTexcoord.x, -vTexcoord.y);
+    
+    if(fRadian < 0.f)
+        fRadian += 2 * PI;
+    
+    float fAngleRatio = fRadian / (2 * PI);
+    
+    if (fAngleRatio >= g_SkillCoolRatio)
+        discard;
+    
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    Out.vColor.a *= g_Alpha;
+    
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -454,5 +487,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_SKILLICON()));
+    }
+
+    pass SkillCool
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_SKILLCOOL()));
     }
 }
