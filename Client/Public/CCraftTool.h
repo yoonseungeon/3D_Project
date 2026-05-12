@@ -39,6 +39,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	virtual HRESULT Render_Shadow() override;
+	virtual HRESULT Render_OutLine() override;
 
 public:
 	CMyModel* Get_ModelCom() const { return m_pModelCom; }

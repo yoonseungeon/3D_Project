@@ -124,6 +124,9 @@ HRESULT CRenderer::Draw()
     if (FAILED(Render_Blend()))
         return E_FAIL;
 
+    if (FAILED(Render_OutLine()))
+        return E_FAIL;
+
 #ifdef _DEBUG
     if (FAILED(Render_Debug()))
         return E_FAIL;
@@ -341,6 +344,21 @@ HRESULT CRenderer::Render_Blend()
     }
 
     m_RenderObjects[ETOUI(RENDERID::BLEND)].clear();
+
+    return S_OK;
+}
+
+HRESULT CRenderer::Render_OutLine()
+{
+    for (auto& pRenderObject : m_RenderObjects[ETOUI(RENDERID::OUTLINE)])
+    {
+        if (pRenderObject != nullptr)
+            pRenderObject->Render_OutLine();
+
+        Safe_Release(pRenderObject);
+    }
+
+    m_RenderObjects[ETOUI(RENDERID::OUTLINE)].clear();
 
     return S_OK;
 }

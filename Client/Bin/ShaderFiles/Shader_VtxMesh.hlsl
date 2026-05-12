@@ -18,6 +18,10 @@ struct VS_IN
     float3 vBinormal : BINORMAL;
 };
 
+
+
+
+
 struct VS_OUT
 {
     float4 vPosition : SV_POSITION;
@@ -56,6 +60,55 @@ VS_OUT VS_MAIN(VS_IN In)
     
     return Out;
 }
+
+
+
+
+float fOutLineLength = { 0.013f };
+
+struct VS_OUT_OUTLINE
+{
+    float4 vPosition : SV_POSITION;
+};
+    
+VS_OUT_OUTLINE VS_MAIN_OUTLINE(VS_IN In)
+{
+    VS_OUT_OUTLINE Out;
+    
+    float4x4 matWV, matWVP;
+    
+    float4 vPosition = float4(In.vPosition, 1.f);    
+    vPosition.xyz += normalize(In.vNormal.xyz) * fOutLineLength;
+    
+    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    matWVP = mul(matWV, g_ProjMatrix);
+
+    Out.vPosition = mul(vPosition, matWVP);
+    
+    return Out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -174,6 +227,29 @@ PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN In)
 
 
 
+struct PS_IN_OUTLINE
+{
+    float4 vPosition : SV_POSITION;
+};
+
+struct PS_OUT_OUTLINE
+{
+    float4 vDiffuse : SV_TARGET0;
+};
+
+PS_OUT_OUTLINE PS_MAIN_OUTLINE(PS_IN_OUTLINE In)
+{
+    PS_OUT_OUTLINE Out;
+    
+    Out.vDiffuse = float4(0.f, 0.f, 0.f, 1.f);
+    
+    return Out;
+}
+
+
+
+
+
 technique11 DefaultTechnique
 {
     // 지붕 반드시 Wrap이어야 함.
@@ -220,5 +296,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_SHADOW()));
+    }
+
+    pass OutLine
+    {
+        SetRasterizerState(RS_Cull_CW);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN_OUTLINE()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_OUTLINE()));
     }
 }

@@ -57,6 +57,9 @@ private:
 	HRESULT Render_Combined();
 	HRESULT Render_NonLight();
 	HRESULT Render_Blend();
+
+	HRESULT Render_OutLine();
+
 	HRESULT Render_UI();
 
 private:

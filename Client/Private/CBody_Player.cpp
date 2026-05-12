@@ -49,8 +49,8 @@ void CBody_Player::Late_Update(_float fTimeDelta)
     __super::Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
-
-    m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
+    m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);    
+    m_pGameInstance->Add_RenderGroup(RENDERID::OUTLINE, this);
 }
 
 HRESULT CBody_Player::Render()
@@ -96,6 +96,28 @@ HRESULT CBody_Player::Render_Shadow()
             return E_FAIL;
 
         if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::SHADOW))))
+            return E_FAIL;
+
+        if (FAILED(m_pModelCom->Render(i)))
+            return E_FAIL;
+    }
+
+    return S_OK;
+}
+
+HRESULT CBody_Player::Render_OutLine()
+{
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+
+    _uint iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+    for (_uint i = 0; i < iNumMeshes; ++i)
+    {
+        if (FAILED(m_pModelCom->Bind_BoneMatrices(m_pShaderCom, "g_BoneMatrices", i)))
+            return E_FAIL;
+
+        if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::OUTLINE))))
             return E_FAIL;
 
         if (FAILED(m_pModelCom->Render(i)))

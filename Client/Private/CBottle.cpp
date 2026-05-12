@@ -61,6 +61,7 @@ void CBottle::Late_Update(_float fTimeDelta)
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
     m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
+    m_pGameInstance->Add_RenderGroup(RENDERID::OUTLINE, this);
 }
 
 HRESULT CBottle::Render()
@@ -70,16 +71,16 @@ HRESULT CBottle::Render()
 
     size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
 
-    for (size_t i = 0; i < iNumMeshes; ++i)
+    for (_uint i = 0; i < iNumMeshes; ++i)
     {
         if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_DiffuseTexture", static_cast<_uint>(i), MyTextureType_DIFFUSE, 0)))
             return E_FAIL;
 
-        if (FAILED(m_pShaderCom->Begin(ETOUI(ANIMMESH_SHADER::DEFAULT))))
+        if (FAILED(m_pShaderCom->Begin(ETOUI(MESH_SHADER::DEFAULT))))
             return E_FAIL;
 
         //i 번째 메쉬 버퍼 연결 및 draw
-        if (FAILED(m_pModelCom->Render(static_cast<_uint>(i))))
+        if (FAILED(m_pModelCom->Render(i)))
             return E_FAIL;
     }
 
@@ -107,6 +108,24 @@ HRESULT CBottle::Render_Shadow()
             return E_FAIL;
     }
 
+    return S_OK;
+}
+
+HRESULT CBottle::Render_OutLine()
+{
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+
+    size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+    for (_uint i = 0; i < iNumMeshes; ++i)
+    {
+        if (FAILED(m_pShaderCom->Begin(ETOUI(MESH_SHADER::OUTLINE))))
+            return E_FAIL;
+
+        if (FAILED(m_pModelCom->Render(i)))
+            return E_FAIL;
+    }
     return S_OK;
 }
 
