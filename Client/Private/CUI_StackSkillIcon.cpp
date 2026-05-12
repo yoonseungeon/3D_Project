@@ -143,6 +143,7 @@ HRESULT CUI_StackSkillIcon::Ready_Layer_SkillLevelUpBtn(const _wstring& strLayer
     Desc.fPosRatioY = m_fPosRatioY + 0.07f;
 
     Desc.iUILayer = ETOUI(UILAYER::BUTTON);
+    Desc.eSkillSlot = m_eSkillSlot;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillLevelUpBtn"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))

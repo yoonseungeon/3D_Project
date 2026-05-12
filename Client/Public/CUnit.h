@@ -106,6 +106,7 @@ public:
 	_bool XM_CALLCONV IsInRange(_fvector vPos, _float fRange);
 
 	virtual _bool IsUnitDead();
+	_uint Get_SkillPoint() { return m_iSkillPoint; }
 
 protected:
 	void LevelUp();
@@ -134,7 +135,7 @@ protected:
 
 	UNIT_STAT m_tCurStat{};
 
-	_uint m_iSkillPoint{};
+	_uint m_iSkillPoint{ 1 };
 
 	MAINGAUGE_TYPE m_eMPType{};
 

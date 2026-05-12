@@ -11,6 +11,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CInGame_Manager;
+
 class CSkillLevelUpBtn final : public CUI_Btn
 {
 private:
@@ -19,6 +21,7 @@ private:
 public:
 	struct SKILL_LEVELUP_BTN_DESC : public CUI_Btn::CUI_BTN_DESC
 	{
+		SKILL_SLOT eSkillSlot{};
 	};
 
 protected:
@@ -50,6 +53,12 @@ private:
 
 	TEX_STATE m_eCurTexState{};
 
+	CInGame_Manager* m_pInGameManager{};
+
+	_uint m_iCurSkillPoint{};
+	_bool m_bCanLevelUp{};
+
+	SKILL_SLOT m_eSkillSlot{};
 
 public:
 	static CSkillLevelUpBtn* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

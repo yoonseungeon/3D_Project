@@ -2,6 +2,9 @@
 
 #include "CGameInstance.h"
 
+#include "CInGame_Manager.h"
+#include "CAbstractPlayer.h"
+
 CSkillLevelUpBtn::CSkillLevelUpBtn(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Btn{ pDevice, pContext }
 {
@@ -23,17 +26,29 @@ HRESULT CSkillLevelUpBtn::Initialize(void* pArg)
 {
     SKILL_LEVELUP_BTN_DESC* pDesc = static_cast<SKILL_LEVELUP_BTN_DESC*>(pArg);
 
+    m_eSkillSlot = pDesc->eSkillSlot;
+
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pInGameManager = CInGame_Manager::GetInstance();
+    Safe_AddRef(m_pInGameManager);
+
     return S_OK;
 }
 
 void CSkillLevelUpBtn::Priority_Update(_float fTimeDelta)
 {
+    m_iCurSkillPoint = m_pInGameManager->Get_Player()->Get_SkillPoint();
+    m_bCanLevelUp = m_pInGameManager->Get_Player()->CanLevelUpSkill(m_eSkillSlot);
+
+    if (m_iCurSkillPoint == 0)
+        m_bIsInactive = true;
+    else
+        m_bIsInactive = false;
 }
 
 void CSkillLevelUpBtn::Parallel_Update(_float fTimeDelta)
@@ -128,34 +143,40 @@ HRESULT CSkillLevelUpBtn::Bind_ShaderResources()
 
 void CSkillLevelUpBtn::BtnClick()
 {
-    //m_funcCallBack();
-    //m_bIsInactive = true;
+    m_pInGameManager->Get_Player()->LevelUpSkill(m_eSkillSlot);
 }
 
 void CSkillLevelUpBtn::Execute_Btn(_float fTimeDelta)
 {
+
+    if (m_iCurSkillPoint >= 1 && m_bCanLevelUp == false)
+    {
+        m_eCurTexState = TEX_STATE::DISABLE;
+        return;
+    }
+
     switch (m_eCurBtnState) {
     case BTN_STATE::NORMAL:
     {
-        m_eCurTexState = NORMAL;
+        m_eCurTexState = TEX_STATE::NORMAL;
         break;
     }
 
     case BTN_STATE::HOVER:
     {
-        m_eCurTexState = HOVER;
+        m_eCurTexState = TEX_STATE::HOVER;
         break;
     }
 
     case BTN_STATE::PRESSED:
     {
-        m_eCurTexState = NORMAL;
+        m_eCurTexState = TEX_STATE::NORMAL;
         break;
     }
 
     case BTN_STATE::CLICKED:
     {
-        m_eCurTexState = NORMAL;
+        m_eCurTexState = TEX_STATE::NORMAL;
         m_bIsClicked = true;
         break;
     }
@@ -190,6 +211,8 @@ CGameObject* CSkillLevelUpBtn::Clone(void* pArg)
 
 void CSkillLevelUpBtn::Free()
 {
+    Safe_Release(m_pInGameManager);
+
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
