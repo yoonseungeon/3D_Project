@@ -294,6 +294,50 @@ PS_OUT PS_MAIN_INGAMEHPBAR(PS_IN In)
     return Out;
 }
 
+float fExtendSize = 1.15f;
+int fMaxLevel = 5;
+int fCurLevel = 3;
+
+PS_OUT PS_MAIN_SKILLICON(PS_IN In)
+{
+    PS_OUT Out;        
+    
+    float2 vTexcoord = In.vTexcoord;
+    vTexcoord.y *= fExtendSize;
+    
+    if (vTexcoord.y <=1.f)
+    {
+        Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    }
+    else
+    {
+        float fFmodX = fmod(vTexcoord.x, 0.2f);
+        
+        int iCurSlotIndex = floor(vTexcoord.x / 0.2f);
+        int iStartSlotIndex = (5 - fMaxLevel) / 2;
+        int iEndSlotIndex = iStartSlotIndex + fMaxLevel - 1;
+
+        int iCurLevelSlot = iCurSlotIndex - iStartSlotIndex + 1;
+        
+        if (fFmodX >= 0.04f && fFmodX <= 0.16f &&
+            vTexcoord.y >= 1.07f && vTexcoord.y <= 1.1f)
+        {
+            Out.vColor = float4(0.f, 0.f, 0.f, 0.5f);
+
+            if (iCurSlotIndex >= iStartSlotIndex && iCurSlotIndex <= iEndSlotIndex &&
+                iCurLevelSlot >= 1 && iCurLevelSlot <= fCurLevel)
+            {
+                Out.vColor = float4(0.909f, 0.69f, 0.247f, 1.f);
+            }
+            else
+            {
+                Out.vColor = float4(0.325f, 0.325f, 0.325f, 1.f);
+            }
+        }
+    }
+    
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -394,5 +438,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_INGAMEHPBAR()));
+    }
+
+    pass SkillIcon
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_SKILLICON()));
     }
 }

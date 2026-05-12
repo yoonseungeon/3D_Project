@@ -80,7 +80,7 @@ HRESULT CUI_NormalSkillIcon::Render()
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Begin(ETOUI(m_eBlendState))))
+    if (FAILED(m_pShaderCom->Begin(BLENDSTATE::SKILL_ICON)))
         return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Bind_Resources()))

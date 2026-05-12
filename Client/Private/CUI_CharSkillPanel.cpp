@@ -133,12 +133,21 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     QDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     QDesc.iUILayer = ETOUI(UILAYER::SLOT);
 
-    QDesc.fScaleRatioX = 0.03f;
-    QDesc.fScaleRatioY = QDesc.fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
-    QDesc.fPosRatioX = m_fPosRatioX + (-0.5f) * m_fScaleRatioX + QDesc.fScaleRatioX * 0.5f;
-    QDesc.fPosRatioY = -0.4f;
+    const _float fScaleRatioX = 0.03f;
+    const _float fScaleRatioY = fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
+    const _float fGap = fScaleRatioX * 0.3f;
+
+    const _float fLevelDisplay = 1.15f;
+
+    const _float fPosRatioX = m_fPosRatioX + (-0.5f * m_fScaleRatioX) + (fScaleRatioX * 0.5f);
+    const _float fPosRatioY = m_fPosRatioY + (0.5f * m_fScaleRatioY) - (fScaleRatioY * fLevelDisplay * 0.5f) - (m_fScaleRatioY * 0.05f);
+
+
+    QDesc.fScaleRatioX = fScaleRatioX;
+    QDesc.fScaleRatioY = fScaleRatioY * fLevelDisplay;
+    QDesc.fPosRatioX = fPosRatioX;
+    QDesc.fPosRatioY = fPosRatioY;
     QDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
-    QDesc.eBlendState = CUI_Default::DEFAULT;
 
     QDesc.eSkillSlot = Desc.eSkillSlot;
 
@@ -152,12 +161,11 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     WDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     WDesc.iUILayer = ETOUI(UILAYER::SLOT);
     
-    WDesc.fScaleRatioX = 0.03f;
-    WDesc.fScaleRatioY = WDesc.fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
-    WDesc.fPosRatioX = -0.09f;
-    WDesc.fPosRatioY = -0.4f;
+    WDesc.fScaleRatioX = fScaleRatioX;
+    WDesc.fScaleRatioY = fScaleRatioY * fLevelDisplay;
+    WDesc.fPosRatioX = fPosRatioX + (fScaleRatioX + fGap);
+    WDesc.fPosRatioY = fPosRatioY;
     WDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
-    WDesc.eBlendState = CUI_Default::DEFAULT;
 
     WDesc.eSkillSlot = Desc.eSkillSlot;
 
@@ -171,12 +179,11 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     EDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     EDesc.iUILayer = ETOUI(UILAYER::SLOT);
     
-    EDesc.fScaleRatioX = 0.03f;
-    EDesc.fScaleRatioY = EDesc.fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
-    EDesc.fPosRatioX = -0.02f;
-    EDesc.fPosRatioY = -0.4f;
+    EDesc.fScaleRatioX = fScaleRatioX;
+    EDesc.fScaleRatioY = fScaleRatioY * fLevelDisplay;
+    EDesc.fPosRatioX = fPosRatioX + (fScaleRatioX + fGap) * 2.f;
+    EDesc.fPosRatioY = fPosRatioY;
     EDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
-    EDesc.eBlendState = CUI_Default::DEFAULT;
 
     EDesc.eSkillSlot = Desc.eSkillSlot;
 
@@ -190,12 +197,11 @@ HRESULT CUI_CharSkillPanel::Ready_Layer_UI_Image(const _wstring& strLayerTag)
    RDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
    RDesc.iUILayer = ETOUI(UILAYER::SLOT);
    
-   RDesc.fScaleRatioX = 0.03f;
-   RDesc.fScaleRatioY = RDesc.fScaleRatioX * g_iWinSizeX / g_iWinSizeY;
-   RDesc.fPosRatioX = 0.05f;
-   RDesc.fPosRatioY = -0.4f;
+   RDesc.fScaleRatioX = fScaleRatioX;
+   RDesc.fScaleRatioY = fScaleRatioY * fLevelDisplay;
+   RDesc.fPosRatioX = fPosRatioX + (fScaleRatioX + fGap) * 3.f;
+   RDesc.fPosRatioY = fPosRatioY;
    RDesc.wstrTexturePrototypeTag = Desc.TexturePrototypeTag;
-   RDesc.eBlendState = CUI_Default::DEFAULT;
 
    RDesc.eSkillSlot = Desc.eSkillSlot;
 
