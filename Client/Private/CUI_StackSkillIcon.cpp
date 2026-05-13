@@ -173,7 +173,7 @@ HRESULT CUI_StackSkillIcon::Ready_Layer_SkillCoolDisplay(const _wstring& strLaye
     Desc.fScaleRatioX = m_fScaleRatioX;
     Desc.fScaleRatioY = m_fRatioYNoExtend;
     Desc.fPosRatioX = m_fPosRatioX;
-    Desc.fPosRatioY = m_fPosRatioY + (m_fScaleRatioY - m_fRatioYNoExtend) * 0.45f;  // ? 약간의 픽셀간의 오차가 있음...
+    Desc.fPosRatioY = m_fPosRatioY + (m_fScaleRatioY - m_fRatioYNoExtend) * 0.5f;  // ? 약간의 픽셀간의 오차가 있음...
 
     Desc.iUILayer = ETOUI(UILAYER::SLOT_DECO);
 

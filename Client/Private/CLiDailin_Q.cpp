@@ -154,7 +154,7 @@ void CLiDailin_Q::OnCollision_Enter(const COLLISION_INFO& tCollision)
 		if (iter.second == false)
 			return;
 
-		DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), 0 };
+		DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), 50 };
 		static_cast<CUnit*>(tCollision.pColObject)->Damaged(tDamageInfo);
 	}
 }

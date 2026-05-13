@@ -307,7 +307,7 @@ PS_OUT PS_MAIN_SKILLICON(PS_IN In)
     
     if (vTexcoord.y <=1.f)
     {
-        Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+        Out.vColor = g_Texture.Sample(PointSampler, vTexcoord);
     }
     else
     {

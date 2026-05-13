@@ -100,17 +100,6 @@ HRESULT CLiDailin::Initialize(void* pArg)
 
 void CLiDailin::Priority_Update(_float fTimeDelta)
 {
-    __super::Priority_Update(fTimeDelta);
-}
-
-void CLiDailin::Parallel_Update(_float fTimeDelta)
-{
-    __super::Parallel_Update(fTimeDelta);
-
-}
-
-void CLiDailin::Update(_float fTimeDelta)
-{    
     Key_Input();
 
     Apply_WaitActionState();
@@ -128,16 +117,26 @@ void CLiDailin::Update(_float fTimeDelta)
 
     CoolTimer(fTimeDelta);
 
+    __super::Priority_Update(fTimeDelta);
+}
+
+void CLiDailin::Parallel_Update(_float fTimeDelta)
+{
     m_pNavigationCom->Compute_OnNavigation();
 
+    __super::Parallel_Update(fTimeDelta);
+}
+
+void CLiDailin::Update(_float fTimeDelta)
+{    
     __super::Update(fTimeDelta);
+
+    for (auto& pColliderCom : m_Colliders)
+        pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 }
 
 void CLiDailin::Late_Update(_float fTimeDelta)
 {
-    for (auto& pColliderCom : m_Colliders)
-        pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
-
     __super::Late_Update(fTimeDelta);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);

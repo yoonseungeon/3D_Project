@@ -47,7 +47,7 @@ public:
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 
-	vector<CCollider*> m_Colliders;
+	unordered_map<_uint, CCollider*> m_Colliders;
 	vector<CCollider*> m_ActiveColliders;
 
 	_uint m_iNextColliderId{};
@@ -58,7 +58,9 @@ private:
 private:
 	_bool CanCollision(CCollider* pSrc, CCollider* pDst);
 	void Call_CollisionFunc(CCollider* pSrc, CCollider* pDst);
-	void Call_CollisionExitFunc(CCollider* pSrc, CCollider* pDst);
+	void Call_CollisionExitFunc();
+
+	CCollider* Find_ColliderById(_uint iId);
 
 	COLLISION_INFO MakeCollisionInfo(CCollider* pSrc, CCollider* pDst);
 

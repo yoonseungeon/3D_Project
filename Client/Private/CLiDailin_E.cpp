@@ -89,6 +89,7 @@ void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CLiDailin_E::Exit(CLiDailin* pPlayer)
 {
+    m_AttackedObj.clear();
     m_bEnhanced = false;
 
     pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_E)->Set_Active(false);
@@ -171,7 +172,7 @@ void CLiDailin_E::OnCollision_Enter(const COLLISION_INFO& tCollision)
         if (iter.second == false)
             return;
 
-        DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), 0 };
+        DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), 50 };
         static_cast<CUnit*>(tCollision.pColObject)->Damaged(tDamageInfo);
     }
 }

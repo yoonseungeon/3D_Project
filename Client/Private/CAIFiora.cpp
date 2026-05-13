@@ -665,7 +665,7 @@ HRESULT CAIFiora::Ready_PartObjects()
 
     HPBarDesc.pMaxHp = &m_tFinalStat.iHP;
     HPBarDesc.pCurHp = &m_tCurStat.iHP;
-    HPBarDesc.vHPColor = _float3{ 0.196f, 0.843f, 0.f };
+    HPBarDesc.vHPColor = COLOR_TO_FLOAT(212, 22, 56);
 
     HPBarDesc.bNoMp = true;
 
@@ -706,8 +706,8 @@ HRESULT CAIFiora::Initialize_Skill()
 
 HRESULT CAIFiora::Initialize_Stat()
 {
-    SetStat(m_tBaseStat, 2, 0, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
-    SetStat(m_tCurStat, 2, 999, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
+    SetStat(m_tBaseStat, 2, 0, 2650, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
+    SetStat(m_tCurStat, 2, 999, 2650, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
 
     SetFinalStat();
 

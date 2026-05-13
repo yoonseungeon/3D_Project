@@ -38,17 +38,16 @@ void CFryingPan::Priority_Update(_float fTimeDelta)
 
 void CFryingPan::Parallel_Update(_float fTimeDelta)
 {
-
-}
-
-void CFryingPan::Update(_float fTimeDelta)
-{
     if (m_bIsInactive == true)
     {
         return;
     }
 
     m_pModelCom->Play_Animation(fTimeDelta);
+}
+
+void CFryingPan::Update(_float fTimeDelta)
+{
 }
 
 void CFryingPan::Late_Update(_float fTimeDelta)

@@ -29,7 +29,6 @@ private:
 		SKILL_E_COL = 1 << 0,
 		SKILL_R_COL = 1 << 1,
 		IS_COL_PLAYER = 1 << 2,
-
 	};
 
 private:
