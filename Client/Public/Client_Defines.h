@@ -55,6 +55,8 @@ namespace Client
 	{
 		class CUnit* pUnit{};
 		int iDamage{};
+		bool bStun{};
+		float fStunTime{};
 	};
 }
 

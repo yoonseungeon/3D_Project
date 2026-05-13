@@ -18,7 +18,8 @@ public:
 	{ 
 		CON_ATTACK = 1 << 0,
 		CON_HPZERO = 1 << 1,
-		CON_DEAD = 1 << 2
+		CON_DEAD = 1 << 2,
+		CON_STUN = 1 << 3
 	};
 
 protected:
@@ -55,6 +56,8 @@ protected:
 	_bool m_bIsAttackProcessed{};
 
 	MODEL_LOCAL_MIN_MAX tLocalMinMax{};
+
+	_float m_fStunTime{};
 
 protected:
 	_bool PlayerIsInRange(_float fRange);	

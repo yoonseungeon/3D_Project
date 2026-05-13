@@ -222,13 +222,30 @@ void CAIFiora::Update_Action(_float fTimeDelta)
     if (m_eCurState == AIFIORA_ACTION::DEAD)
         return;
 
-    else if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
+    if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
     {
         Enter_Action(AIFIORA_ACTION::DEAD);
+        return;
+    }
+
+    if (m_iMonsterCondition & MONSTER_CONDITION::CON_STUN)
+    {
+        Enter_Action(AIFIORA_ACTION::STUN);
     }
 
     switch (m_eCurState)
     {
+        case STUN:
+        {
+            m_fStunTime -= fTimeDelta;
+            if (m_fStunTime <= 0.f)
+            {
+                m_fStunTime = 0.f;
+                m_iMonsterCondition &= ~MONSTER_CONDITION::CON_STUN;
+                Enter_Action(CHASE);
+            }
+            break;
+        }
         case WAIT:
         {
             const _float fDetectRange = 5.f;
@@ -350,6 +367,10 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
     {
         switch (m_eCurState)
         {
+            case STUN:
+                Enter_Animation(CBody_Fiora::FIORA_ANI::WAIT);
+                break;
+
             case DEAD:
                 Enter_Animation(CBody_Fiora::FIORA_ANI::DEATH);
                 m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;

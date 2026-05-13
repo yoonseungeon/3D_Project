@@ -71,6 +71,12 @@ void CAbstractMonster::Damaged(const DAMAGE_INFO& tDamageInfo)
         }
     }
 
+    if(tDamageInfo.bStun == true)
+    {
+        m_iMonsterCondition |= MONSTER_CONDITION::CON_STUN;
+        m_fStunTime = tDamageInfo.fStunTime;
+    }
+
     if (m_tCurStat.iHP <= 0)
         m_iMonsterCondition |= MONSTER_CONDITION::CON_HPZERO;
 }

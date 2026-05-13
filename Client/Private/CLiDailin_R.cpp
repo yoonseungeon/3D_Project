@@ -209,7 +209,7 @@ void CLiDailin_R::OnCollision_Enter(const COLLISION_INFO& tCollision)
 			bIsCol = true;
 			m_pTempCompareTarget = tCollision.pColObject;
 
-			Give_Damage(tCollision);
+			Give_Damage(tCollision , true);
 		}
 	}
 }
@@ -240,7 +240,7 @@ void CLiDailin_R::OnCollision_Exit(const COLLISION_INFO& tCollision)
 {
 }
 
-void CLiDailin_R::Give_Damage(const COLLISION_INFO& tCollision)
+void CLiDailin_R::Give_Damage(const COLLISION_INFO& tCollision, _bool bStun)
 {
 	CUnit* pPlayer = static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner());
 	_int iATKPower = pPlayer->Get_CurStat().iATKPower;
@@ -253,6 +253,13 @@ void CLiDailin_R::Give_Damage(const COLLISION_INFO& tCollision)
 			static_cast<_float>(m_iConsumeIntoxication) * 0.5f
 		) * 5;
 	tDamageInfo.pUnit = pPlayer;
+
+	if (bStun == true)
+	{
+		tDamageInfo.bStun = true;
+		tDamageInfo.fStunTime = 1.2f;
+	}
+
 	static_cast<CUnit*>(tCollision.pColObject)->Damaged(tDamageInfo);
 }
 

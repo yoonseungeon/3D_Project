@@ -48,7 +48,7 @@ private:
 	CGameObject* m_pTempCompareTarget{};  //이걸로 참조x
 
 private:
-	void Give_Damage(const COLLISION_INFO& tCollision);
+	void Give_Damage(const COLLISION_INFO& tCollision, _bool bStun =  false);
 
 public:
 	static CLiDailin_R* Create();
