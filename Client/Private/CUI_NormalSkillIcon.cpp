@@ -87,6 +87,7 @@ void CUI_NormalSkillIcon::Late_Update(_float fTimeDelta)
         }
     }
 
+    m_pSkillcoolDisplay->Set_CoolText(m_wstCoolText, m_bTextRender);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
@@ -103,9 +104,6 @@ HRESULT CUI_NormalSkillIcon::Render()
         return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;
-
-    if (FAILED(RenderText()))
         return E_FAIL;
 
     return S_OK;
@@ -161,7 +159,7 @@ HRESULT CUI_NormalSkillIcon::Ready_Layer_SkillCoolDisplay(const _wstring& strLay
     Desc.fScaleRatioX = m_fScaleRatioX;
     Desc.fScaleRatioY = m_fRatioYNoExtend;
     Desc.fPosRatioX = m_fPosRatioX;
-    Desc.fPosRatioY = m_fPosRatioY + (m_fScaleRatioY - m_fRatioYNoExtend) * 0.5f;  // ?
+    Desc.fPosRatioY = m_fPosRatioY + (m_fScaleRatioY - m_fRatioYNoExtend) * 0.49f;  // ? 약간의 픽셀간의 오차가 있음...
 
     Desc.iUILayer = ETOUI(UILAYER::SLOT_DECO);
 

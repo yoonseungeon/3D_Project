@@ -37,6 +37,7 @@ public:
 public:
 	void Set_CoolTime(const _float fMaxSkillCool, const _float fCurSkillCool);
 	void Set_CoolDisplayColor(_float3 vSkillCoolColor) { m_vSkillCoolColor = vSkillCoolColor; }
+	void Set_CoolText(const wstring& wstCoolText, _bool bTextRender) { m_wstCoolText = wstCoolText; m_bTextRender = bTextRender; }
 
 private:
 	CShader* m_pShaderCom{ nullptr };
@@ -46,11 +47,24 @@ private:
 	_float m_fMaxSkillCool{};
 	_float m_fCurSkillCool{};
 
-	_float3 m_vSkillCoolColor{ 0.153f, 0.379f, 0.682f };
+	_float3 m_vSkillCoolColor{};
+
+	RECT m_rcTextRange{};
+	_float m_fHalfSizeX{};
+	_float m_fHalfSizeY{};
+
+	_float m_fScaleRatioX{};
+	_float m_fScaleRatioY{};
+
+	_bool m_bTextRender{};
+
+	wstring m_wstCoolText;
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
+
+	HRESULT RenderText();
 
 public:
 	static CSkillCoolDisplay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

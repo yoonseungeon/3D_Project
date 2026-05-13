@@ -43,6 +43,18 @@ HRESULT CFont_Manager::Draw(const _wstring& strFontTag, const _tchar* pText, con
     return pFont->Draw(pText, vPosition, vColor, vScale, fRotation, vOrigin);
 }
 
+_float2 CFont_Manager::Cal_Length(const _wstring& strFontTag, const _wstring& Text)
+{
+    CCustomFont* pFont = Find_Font(strFontTag);
+    if (pFont == nullptr)
+    {
+        MSG_BOX("Not Found Font");
+        return _float2{ 0.f, 0.f };
+    }    
+
+    return pFont->Cal_TextLength(Text);
+}
+
 CCustomFont* CFont_Manager::Find_Font(const _wstring& strFontTag)
 {
     auto iter = m_Fonts.find(strFontTag);

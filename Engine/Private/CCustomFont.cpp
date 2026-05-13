@@ -39,6 +39,13 @@ HRESULT CCustomFont::Draw(const _tchar* pText, const _float2& vPosition, _fvecto
 	return S_OK;
 }
 
+_float2 CCustomFont::Cal_TextLength(const _wstring& Text)
+{
+	_vector vSize = m_pFont->MeasureString(Text.c_str());
+
+	return _float2{ XMVectorGetX(vSize), XMVectorGetY(vSize) };
+}
+
 CCustomFont* CCustomFont::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pFontFilePath)
 {
 	CCustomFont* pInstance = new CCustomFont(pDevice, pContext);

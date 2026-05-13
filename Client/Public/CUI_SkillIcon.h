@@ -40,10 +40,6 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
-	RECT			m_rcTextRange{};
-	_float			m_fHalfSizeX{};
-	_float			m_fHalfSizeY{};
-
 	_bool m_bTextRender{};
 	wstring m_wstCoolText;
 
@@ -59,8 +55,6 @@ protected:
 	CSkillCoolDisplay* m_pSkillcoolDisplay{};
 
 protected:
-	virtual HRESULT RenderText();
-
 	virtual HRESULT Ready_Layer_SkillLevelUpBtn(const _wstring& strLayerTag) { return S_OK; }
 	virtual HRESULT Ready_Layer_SkillCoolDisplay(const _wstring& strLayerTag) { return S_OK; }
 

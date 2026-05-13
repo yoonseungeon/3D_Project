@@ -395,6 +395,10 @@ HRESULT CGameInstance::Draw_Text(const _wstring& strFontTag, const _tchar* pText
 {
 	return m_pFont_Manager->Draw(strFontTag, pText, vPosition, vColor, vScale, fRotation, vOrigin);
 }
+_float2 CGameInstance::Cal_FontLength(const _wstring& strFontTag, const _wstring& Text)
+{
+	return m_pFont_Manager->Cal_Length(strFontTag, Text);
+}
 #pragma endregion
 
 #pragma region TARGET_MANAGER

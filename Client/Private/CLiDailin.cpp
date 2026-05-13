@@ -886,7 +886,7 @@ HRESULT CLiDailin::Initialize_Skill()
 
     tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 2.f;
     tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
-    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 2.f;
+    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 20.f;
 
     return S_OK;
 }
