@@ -59,9 +59,9 @@ HRESULT CAIFiora::Initialize(void* pArg)
 
     m_fAttackRange = 1.5f;
 
-    m_pInvetory->Add_Item(34);
-    m_pInvetory->Add_Item(52);
-    m_pInvetory->Add_Item(26);
+    //m_pInvetory->Add_Item(34);
+    //m_pInvetory->Add_Item(52);
+    //m_pInvetory->Add_Item(26);
 
     return S_OK;
 }
@@ -109,6 +109,10 @@ void CAIFiora::OnCollision_Enter(const COLLISION_INFO& tCollision)
 
     _bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
 
+    // --
+    //if (bIsPlayer == true)
+    //    m_iCondition |= IS_COL_PLAYER;
+
     if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_Q] && bIsPlayer)
     {
         CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
@@ -140,9 +144,6 @@ void CAIFiora::OnCollision_Stay(const COLLISION_INFO& tCollision)
 
     _bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
 
-    //if (bIsPlayer == true)
-    //    m_iCondition |= IS_COL_PLAYER;
-
     if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_E] && bIsPlayer)
     {
         m_iCondition |= AIFIORA_CONDITION::SKILL_E_COL;
@@ -162,6 +163,7 @@ void CAIFiora::OnCollision_Stay(const COLLISION_INFO& tCollision)
 
 void CAIFiora::OnCollision_Exit(const COLLISION_INFO& tCollision)
 {
+    // --
     //_bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
 
     //if (bIsPlayer == true)
@@ -174,6 +176,8 @@ void CAIFiora::Enter_Animation(CBody_Fiora::FIORA_ANI eNewAnimation)
 
     switch (eNewAnimation)
     {
+        case CBody_Fiora::FIORA_ANI::DEATH:
+        case CBody_Fiora::FIORA_ANI::DOWN_DEAD:
         case CBody_Fiora::FIORA_ANI::ATK1:
         case CBody_Fiora::FIORA_ANI::ATK2:
         case CBody_Fiora::FIORA_ANI::SKILL1:
@@ -202,6 +206,14 @@ void CAIFiora::Enter_Animation(CBody_Fiora::FIORA_ANI eNewAnimation)
 
 void CAIFiora::Update_Action(_float fTimeDelta)
 {
+    if (m_eCurState == AIFIORA_ACTION::DEAD)
+        return;
+
+    else if (m_iMonsterCondition & MONSTER_CONDITION::CON_HPZERO)
+    {
+        Enter_Action(AIFIORA_ACTION::DEAD);
+    }
+
     switch (m_eCurState)
     {
         case WAIT:
@@ -230,6 +242,16 @@ void CAIFiora::Update_Action(_float fTimeDelta)
             const _float fCurAniRatio = m_pBodyFiora->Get_ModelCom()->Get_CurAniPlayRatio();
             if (fCurAniRatio >= 0.4f)
                 Enter_Action(CHASE);
+            break;
+        }
+
+        case W:
+        {
+            const _bool fAniFinished = m_pBodyFiora->Get_ModelCom()->IsAnimationFinished();
+            if (fAniFinished == true)
+            {
+                Enter_Action(CHASE);
+            }
             break;
         }
 
@@ -311,6 +333,13 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
     {
         switch (m_eCurState)
         {
+            case DEAD:
+                Enter_Animation(CBody_Fiora::FIORA_ANI::DEATH);
+                m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
+
+                m_pInGameHPBar->Set_IsInactive(true);
+                break;
+
             case WAIT:
                 Enter_Animation(CBody_Fiora::FIORA_ANI::RUN);
                 break;
@@ -324,6 +353,13 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
                 m_pMoveCom->Stop_Move_To_Pos();
                 LookTargetDir();
                 tQCool.fAccCoolDown = tQCool.fCurCoolDown;
+                break;
+
+            case W:
+                Enter_Animation(CBody_Fiora::FIORA_ANI::SKILL2_NEW);
+                m_pMoveCom->Stop_Move_To_Pos();
+                LookTargetDir();
+                tWCool.fAccCoolDown = tWCool.fCurCoolDown;
                 break;
 
             case E:
@@ -381,6 +417,9 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 {
     switch (m_eCurState)
     {
+        case DEAD:
+            break;
+
         case WAIT:
             WaitStateMove();
             break;
@@ -414,11 +453,21 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
             break;
         }
 
+        case W:
+        {
+            //const _float fCurAniRatio = m_pBodyFiora->Get_ModelCom()->Get_CurAniPlayRatio();
+            //_bool IsActiveCollider = m_Colliders[AIFIORA_COLLIDER::AIFIORA_Q]->Get_Active();
+            //_bool bActive = fCurAniRatio >= 0.2f && fCurAniRatio < 0.3f;
+
+            //if (IsActiveCollider != bActive)
+            //    m_Colliders[AIFIORA_COLLIDER::AIFIORA_Q]->Set_Active(bActive);
+
+            break;
+        }
+
         case E:
         {
-            //if(!(m_iCondition & IS_COL_PLAYER))
-                m_pMoveCom->Go_Straight(fTimeDelta, 10.f, true);
-
+            m_pMoveCom->Go_Straight(fTimeDelta, 10.f, true);
             break;
         }
 
@@ -694,7 +743,7 @@ HRESULT CAIFiora::Initialize_Skill()
     tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 6.f;
     m_SkillRange.push_back(2.f);
 
-    tECool.fMaxCoolDown = tECool.fCurCoolDown = 800.f;
+    tECool.fMaxCoolDown = tECool.fCurCoolDown = 900.f;
     m_SkillRange.push_back(4.f);
 
     tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 6.f;
@@ -825,6 +874,15 @@ _bool CAIFiora::Choose_UseSkill(_float fLength)
         if (fLength <= fRRange)
         {
             Enter_Action(R);
+            return true;
+        }
+    }
+    else if (CanUseSkill(SKILL_SLOT::W) == true)
+    {
+        const _float fRRange = m_SkillRange[ETOUI(SKILL_SLOT::W)];
+        if (fLength <= fRRange)
+        {
+            Enter_Action(W);
             return true;
         }
     }

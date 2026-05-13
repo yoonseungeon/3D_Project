@@ -165,7 +165,8 @@ void CLiDailin_E::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eActio
 
 void CLiDailin_E::OnCollision_Enter(const COLLISION_INFO& tCollision)
 {
-    if (tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER))
+    if (tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER) ||
+        tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ENEMY))
     {
         auto iter = m_AttackedObj.insert(tCollision.pColObject);
 

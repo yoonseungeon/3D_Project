@@ -562,7 +562,7 @@ HRESULT CLiDailin::Ready_Components()
 
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
-    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER) | ETOUI(Collision_Layer::ENEMY));
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -590,7 +590,7 @@ HRESULT CLiDailin::Ready_Components()
 
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
-    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER) | ETOUI(Collision_Layer::ENEMY));
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -610,7 +610,7 @@ HRESULT CLiDailin::Ready_Components()
 
     pColliderCom->Set_Owner(this);
     pColliderCom->Set_Layer(ETOUI(Collision_Layer::SKILL));
-    pColliderCom->Set_Mask(ETOUI(Collision_Layer::MONSTER));
+    pColliderCom->Set_Mask(ETOUI(Collision_Layer::ENEMY));
     pColliderCom->Set_Active(false);
 
     m_Colliders.push_back(pColliderCom);
@@ -807,7 +807,8 @@ void CLiDailin::Key_Input()
                 Process_ActionCommand(tAction_Command);
                 return;
             }
-            else if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER))
+            else if (tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER) ||
+                     tRayInfo.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ENEMY))
             {
                 ACTION_COMMAND tAction_Command{};
                 tAction_Command.pGameObject = tRayInfo.pColObject;
