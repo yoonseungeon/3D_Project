@@ -85,6 +85,8 @@ private:
 
 	_uint m_iCondition{};
 
+	unordered_set<CGameObject*> m_AttackedWEnemy{};
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_PartObjects();

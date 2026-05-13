@@ -120,6 +120,19 @@ void CAIFiora::OnCollision_Enter(const COLLISION_INFO& tCollision)
         pUnit->Damaged(tDamageInfo);
     }
 
+    if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_W1] && bIsPlayer ||
+        tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_W2] && bIsPlayer ||
+        tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_W3] && bIsPlayer)
+    {
+        auto iter = m_AttackedWEnemy.find(tCollision.pColObject);
+        if (iter == m_AttackedWEnemy.end()) {
+            m_AttackedWEnemy.insert(tCollision.pColObject);
+            CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
+            tDamageInfo.iDamage = 200;
+            pUnit->Damaged(tDamageInfo);
+        }
+    }
+
     if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_E] && bIsPlayer)
     {
         m_iCondition |= AIFIORA_CONDITION::SKILL_E_COL;
@@ -250,6 +263,10 @@ void CAIFiora::Update_Action(_float fTimeDelta)
             const _bool fAniFinished = m_pBodyFiora->Get_ModelCom()->IsAnimationFinished();
             if (fAniFinished == true)
             {
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_W1]->Set_Active(false);
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_W2]->Set_Active(false);
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_W3]->Set_Active(false);
+                m_AttackedWEnemy.clear();
                 Enter_Action(CHASE);
             }
             break;
@@ -360,6 +377,9 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
                 m_pMoveCom->Stop_Move_To_Pos();
                 LookTargetDir();
                 tWCool.fAccCoolDown = tWCool.fCurCoolDown;
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_W1]->Set_Active(true);
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_W2]->Set_Active(true);
+                m_Colliders[AIFIORA_COLLIDER::AIFIORA_W3]->Set_Active(true);
                 break;
 
             case E:
@@ -455,13 +475,6 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 
         case W:
         {
-            //const _float fCurAniRatio = m_pBodyFiora->Get_ModelCom()->Get_CurAniPlayRatio();
-            //_bool IsActiveCollider = m_Colliders[AIFIORA_COLLIDER::AIFIORA_Q]->Get_Active();
-            //_bool bActive = fCurAniRatio >= 0.2f && fCurAniRatio < 0.3f;
-
-            //if (IsActiveCollider != bActive)
-            //    m_Colliders[AIFIORA_COLLIDER::AIFIORA_Q]->Set_Active(bActive);
-
             break;
         }
 

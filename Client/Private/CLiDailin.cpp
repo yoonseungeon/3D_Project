@@ -177,6 +177,12 @@ void CLiDailin::OnCollision_Enter(const COLLISION_INFO& tCollision)
 
 void CLiDailin::OnCollision_Stay(const COLLISION_INFO& tCollision)
 {
+    if (tCollision.pMyCollider == m_Colliders[LIDAILIN_R])
+    {
+        CActionState* pLiDailinR = Get_ActionState(L"CLiDailin_R");
+        if (pLiDailinR != nullptr)
+            pLiDailinR->OnCollision_Stay(tCollision);
+    }
 }
 
 void CLiDailin::OnCollision_Exit(const COLLISION_INFO& tCollision)
@@ -886,7 +892,7 @@ HRESULT CLiDailin::Initialize_Skill()
 
     tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 2.f;
     tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
-    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 20.f;
+    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 2.f;
 
     return S_OK;
 }
