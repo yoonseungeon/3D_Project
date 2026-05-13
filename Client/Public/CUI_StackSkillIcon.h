@@ -36,6 +36,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 	virtual HRESULT Ready_Layer_SkillLevelUpBtn(const _wstring& strLayerTag) override;
+	virtual HRESULT Ready_Layer_SkillCoolDisplay(const _wstring& strLayerTag) override;
 
 private:
 	_float m_fScaleRatioX{};

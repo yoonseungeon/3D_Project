@@ -29,6 +29,8 @@ HRESULT CSkillCoolDisplay::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_fImageAlpha = 0.6f;
+
     return S_OK;
 }
 
@@ -46,9 +48,11 @@ void CSkillCoolDisplay::Update(_float fTimeDelta)
 
 void CSkillCoolDisplay::Late_Update(_float fTimeDelta)
 {
-    if (m_bIsInactive == true) {
+    //if (m_fCurSkillCool <= 0.f)
+    //    m_bIsInactive = true;
+
+    if (m_bIsInactive == true)
         return;
-    }
 
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
@@ -68,6 +72,14 @@ HRESULT CSkillCoolDisplay::Render()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CSkillCoolDisplay::Set_CoolTime(const _float fMaxSkillCool, const _float fCurSkillCool)
+{
+    m_fMaxSkillCool = fMaxSkillCool;
+    m_fCurSkillCool = fCurSkillCool;
+
+    m_bIsInactive = false;
 }
 
 HRESULT CSkillCoolDisplay::Ready_Components()
@@ -103,10 +115,17 @@ HRESULT CSkillCoolDisplay::Bind_ShaderResources()
     if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
         return E_FAIL;
 
-    m_pShaderCom->Bind_RawValue("g_FlipX", &m_iFlipX, sizeof(m_iFlipX));
-    m_pShaderCom->Bind_RawValue("g_FlipY", &m_iFlipY, sizeof(m_iFlipY));
+
     m_pShaderCom->Bind_RawValue("g_Alpha", &m_fImageAlpha, sizeof(m_fImageAlpha));
-    m_pShaderCom->Bind_RawValue("g_Color", &m_vColor, sizeof(m_vColor));
+
+    _float fCoolRatio{};
+    if (m_fMaxSkillCool == 0.f)
+        fCoolRatio = 0.f;
+    else
+        fCoolRatio = m_fCurSkillCool / m_fMaxSkillCool;
+
+    m_pShaderCom->Bind_RawValue("g_SkillCoolRatio", &fCoolRatio, sizeof(fCoolRatio));
+    m_pShaderCom->Bind_RawValue("g_SkillCoolColor", &m_vSkillCoolColor, sizeof(m_vSkillCoolColor));
 
     return S_OK;
 }

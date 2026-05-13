@@ -348,7 +348,10 @@ PS_OUT PS_MAIN_SKILLICON(PS_IN In)
 
 
 
-float g_SkillCoolRatio = { 0.3f };
+// Ratio가 1이면 전부 흰색. Ratio가 0 이면 투명
+// 시간이 갈수록 감소
+float g_SkillCoolRatio;
+float3 g_SkillCoolColor = { 1.f, 1.f, 1.f };
 
 float PI = { 3.141592f };
 
@@ -358,6 +361,10 @@ PS_OUT PS_MAIN_SKILLCOOL(PS_IN In)
 
     // 좌표계로
     float2 vTexcoord = In.vTexcoord - float2(0.5f, 0.5f);
+    
+    // ratio 1일 때는 전부 출력해야 함.
+    // 부등호를 바꾸는게 아니라 좌우를 뒤집어야 함.
+    vTexcoord.x = -vTexcoord.x;
     
     // 각도 리턴
     float fRadian = atan2(vTexcoord.x, -vTexcoord.y);
@@ -370,8 +377,8 @@ PS_OUT PS_MAIN_SKILLCOOL(PS_IN In)
     if (fAngleRatio >= g_SkillCoolRatio)
         discard;
     
-    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
-    Out.vColor.a *= g_Alpha;
+    Out.vColor.xyz = g_SkillCoolColor;
+    Out.vColor.a = g_Alpha;
     
     return Out;
 }

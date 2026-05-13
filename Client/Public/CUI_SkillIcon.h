@@ -8,6 +8,7 @@
 NS_BEGIN(Client)
 
 class CInGame_Manager;
+class CSkillCoolDisplay;
 
 class CUI_SkillIcon abstract : public CUI_Image
 {
@@ -54,6 +55,8 @@ protected:
 	_int m_iCurSkillLevel{};
 
 	_float m_fRatioYNoExtend{};
+
+	CSkillCoolDisplay* m_pSkillcoolDisplay{};
 
 protected:
 	virtual HRESULT RenderText();

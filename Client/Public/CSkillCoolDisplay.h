@@ -34,10 +34,19 @@ public:
 	virtual void	Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-protected:
+public:
+	void Set_CoolTime(const _float fMaxSkillCool, const _float fCurSkillCool);
+	void Set_CoolDisplayColor(_float3 vSkillCoolColor) { m_vSkillCoolColor = vSkillCoolColor; }
+
+private:
 	CShader* m_pShaderCom{ nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
 	CTexture* m_pTextureCom{ nullptr };
+
+	_float m_fMaxSkillCool{};
+	_float m_fCurSkillCool{};
+
+	_float3 m_vSkillCoolColor{ 0.153f, 0.379f, 0.682f };
 
 private:
 	HRESULT Ready_Components();

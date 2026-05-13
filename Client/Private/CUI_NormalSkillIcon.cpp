@@ -5,6 +5,7 @@
 #include "CAbstractPlayer.h"
 
 #include "CSkillLevelUpBtn.h"
+#include "CSkillCoolDisplay.h"
 
 CUI_NormalSkillIcon::CUI_NormalSkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_SkillIcon{ pDevice, pContext }
@@ -61,6 +62,8 @@ void CUI_NormalSkillIcon::Update(_float fTimeDelta)
 void CUI_NormalSkillIcon::Late_Update(_float fTimeDelta)
 {
     COOL_INFO* pCoolInfo = m_pInGameManager->Get_Player()->Get_CoolInfo(m_eSkillSlot);
+
+    m_pSkillcoolDisplay->Set_CoolTime(pCoolInfo->fCurCoolDown, pCoolInfo->fAccCoolDown);
 
     _float fTime{};
 
@@ -152,20 +155,18 @@ HRESULT CUI_NormalSkillIcon::Ready_Layer_SkillLevelUpBtn(const _wstring& strLaye
 }
 
 HRESULT CUI_NormalSkillIcon::Ready_Layer_SkillCoolDisplay(const _wstring& strLayerTag)
-{    
-    CUI_Image::CUI_IMAGE_DESC Desc{};
+{
+    CSkillCoolDisplay::SKILLCOOLDISPLAY_DESC Desc{};
 
     Desc.fScaleRatioX = m_fScaleRatioX;
     Desc.fScaleRatioY = m_fRatioYNoExtend;
     Desc.fPosRatioX = m_fPosRatioX;
     Desc.fPosRatioY = m_fPosRatioY + (m_fScaleRatioY - m_fRatioYNoExtend) * 0.5f;  // ?
-    
+
     Desc.iUILayer = ETOUI(UILAYER::SLOT_DECO);
-          
-    Desc.fImageAlpha = 0.7f;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillCoolDisplay"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pSkillcoolDisplay))))
         return E_FAIL;
 
     return S_OK;

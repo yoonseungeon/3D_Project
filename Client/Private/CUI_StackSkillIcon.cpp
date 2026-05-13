@@ -5,6 +5,7 @@
 #include "CAbstractPlayer.h"
 
 #include "CSkillLevelUpBtn.h"
+#include "CSkillCoolDisplay.h"
 
 CUI_StackSkillIcon::CUI_StackSkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_SkillIcon{ pDevice, pContext }
@@ -39,6 +40,9 @@ HRESULT CUI_StackSkillIcon::Initialize(void* pArg)
     if (FAILED(Ready_Layer_SkillLevelUpBtn(TEXT("Layer_UI_SkillLevelUpBtn"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_SkillCoolDisplay(TEXT("Layer_UI_SkillCoolDisplay"))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -58,6 +62,18 @@ void CUI_StackSkillIcon::Update(_float fTimeDelta)
 void CUI_StackSkillIcon::Late_Update(_float fTimeDelta)
 {
     STACK_COOL_INFO* pStackCoolInfo = static_cast<STACK_COOL_INFO*>(m_pInGameManager->Get_Player()->Get_CoolInfo(m_eSkillSlot));
+
+    if(pStackCoolInfo->fAccCoolDown <= 0.f)
+    {
+        m_pSkillcoolDisplay->Set_CoolTime(pStackCoolInfo->fCurSubCoolDown, pStackCoolInfo->fAccSubCoolDown);
+        m_pSkillcoolDisplay->Set_CoolDisplayColor(_float3{ 1.f, 1.f, 1.f });
+    }
+    else
+    {
+        m_pSkillcoolDisplay->Set_CoolTime(pStackCoolInfo->fCurCoolDown, pStackCoolInfo->fAccCoolDown);
+        m_pSkillcoolDisplay->Set_CoolDisplayColor(_float3{ 0.153f, 0.379f, 0.682f });
+    }
+
 
     _float fTime{};
 
@@ -147,6 +163,24 @@ HRESULT CUI_StackSkillIcon::Ready_Layer_SkillLevelUpBtn(const _wstring& strLayer
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillLevelUpBtn"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CUI_StackSkillIcon::Ready_Layer_SkillCoolDisplay(const _wstring& strLayerTag)
+{
+    CSkillCoolDisplay::SKILLCOOLDISPLAY_DESC Desc{};
+
+    Desc.fScaleRatioX = m_fScaleRatioX;
+    Desc.fScaleRatioY = m_fRatioYNoExtend;
+    Desc.fPosRatioX = m_fPosRatioX;
+    Desc.fPosRatioY = m_fPosRatioY + (m_fScaleRatioY - m_fRatioYNoExtend) * 0.5f;  // ?
+
+    Desc.iUILayer = ETOUI(UILAYER::SLOT_DECO);
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkillCoolDisplay"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pSkillcoolDisplay))))
         return E_FAIL;
 
     return S_OK;

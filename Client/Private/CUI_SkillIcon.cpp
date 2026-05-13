@@ -3,6 +3,8 @@
 #include "CGameInstance.h"
 #include "CInGame_Manager.h"
 
+#include "CSkillCoolDisplay.h"
+
 CUI_SkillIcon::CUI_SkillIcon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CUI_Image{ pDevice, pContext }
 {
@@ -93,6 +95,7 @@ CGameObject* CUI_SkillIcon::Clone(void* pArg)
 void CUI_SkillIcon::Free()
 {
     Safe_Release(m_pInGameManager);
+    Safe_Release(m_pSkillcoolDisplay);
 
     __super::Free();
 }
