@@ -103,6 +103,17 @@ _bool CInvenOwner::TakeItemToInventory(_uint iSlotIndex)
     return bResult;
 }
 
+HRESULT CInvenOwner::Bind_OutLineShaderResources(CShader* pShader)
+{
+    if (FAILED(pShader->Bind_RawValue("g_OutLineLength", &m_fOutLineLength, sizeof(m_fOutLineLength))))
+        return E_FAIL;
+
+    if (FAILED(pShader->Bind_RawValue("g_OutLineColor", &m_vOutLineColor, sizeof(m_vOutLineColor))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 void CInvenOwner::Free()
 {
     Safe_Release(m_pInvetory);

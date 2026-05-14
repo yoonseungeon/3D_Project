@@ -489,9 +489,6 @@
     <ClInclude Include="..\Public\CLiDailin.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CBody_Player.h">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\00. Body</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\CWeapon.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\01. Weapon</Filter>
     </ClInclude>
@@ -749,6 +746,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CSkillCoolDisplay.h">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\03. SkillCoolDisplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CBody_Player.h">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\00. Body</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

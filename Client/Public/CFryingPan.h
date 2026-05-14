@@ -46,12 +46,15 @@ private:
 	CShader* m_pShaderCom{ nullptr };
 	CMyModel* m_pModelCom{ nullptr };
 
-private:
 	const _float4x4* m_pSocketBoneMatrix{ nullptr };
+
+	_float m_fOutLineLength{ 1.f };
+	_float4 m_vOutLineColor{ 0.f, 0.f, 0.f, 1.f };
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
+	HRESULT Bind_OutLineShaderResources();
 
 public:
 	static CFryingPan* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -64,7 +64,7 @@ VS_OUT VS_MAIN(VS_IN In)
 
 
 
-float fOutLineLength = { 0.013f };
+float g_OutLineLength = { 0.013f };
 
 struct VS_OUT_OUTLINE
 {
@@ -86,7 +86,7 @@ VS_OUT_OUTLINE VS_MAIN_OUTLINE(VS_IN In)
     
     float4x4 matWV, matWVP;
     
-    vPosition.xyz += normalize(vNormal.xyz) * fOutLineLength;
+    vPosition.xyz += normalize(vNormal.xyz) * g_OutLineLength;
     
     matWV = mul(g_WorldMatrix, g_ViewMatrix);
     matWVP = mul(matWV, g_ProjMatrix);
@@ -176,6 +176,7 @@ PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN In)
 
 
 
+float4 g_OutLineColor = { 0.f, 0.f, 0.f, 1.f };
 
 struct PS_IN_OUTLINE
 {
@@ -191,7 +192,7 @@ PS_OUT_OUTLINE PS_MAIN_OUTLINE(PS_IN_OUTLINE In)
 {
     PS_OUT_OUTLINE Out;
     
-    Out.vDiffuse = float4(0.f, 0.f, 0.f, 1.f);
+    Out.vDiffuse = g_OutLineColor;
     
     return Out;
 }
@@ -224,7 +225,7 @@ technique11 DefaultTechnique
     pass OutLine
     {
         SetRasterizerState(RS_Cull_CW);
-        SetDepthStencilState(DSS_Test_NoWrite, 0);
+        SetDepthStencilState(DSS_StencilRead, 1);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN_OUTLINE()));

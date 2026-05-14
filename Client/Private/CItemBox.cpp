@@ -38,6 +38,9 @@ HRESULT CItemBox::Initialize(void* pArg)
     for (auto& pColliderCom : m_Colliders)
         pColliderCom->Update(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
 
+    m_fOutLineLength = 2.f;
+    m_vOutLineColor = { 1.f, 1.f, 1.f, 0.8f };
+
     return S_OK;
 }
 
@@ -61,6 +64,7 @@ void CItemBox::Late_Update(_float fTimeDelta)
         return;
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDERID::OUTLINE, this);
 }
 
 HRESULT CItemBox::Render()
@@ -77,7 +81,7 @@ HRESULT CItemBox::Render()
 
         if (m_pModelCom->Get_MaterialCount(i, MyTextureType_NORMALS) == 0)
         {
-            if (FAILED(m_pShaderCom->Begin(0)))
+            if (FAILED(m_pShaderCom->Begin(ETOUI(MESH_SHADER::STENCILWRITE))))
                 return E_FAIL;
         }
         else
@@ -85,11 +89,33 @@ HRESULT CItemBox::Render()
             if (FAILED(m_pModelCom->Bind_Material(m_pShaderCom, "g_NormalTexture", i, MyTextureType_NORMALS, 0)))
                 return E_FAIL;
 
-            if (FAILED(m_pShaderCom->Begin(1)))
+            if (FAILED(m_pShaderCom->Begin(ETOUI(MESH_SHADER::NORMALMAPSTENCILWRITE))))
                 return E_FAIL;
         }
 
         //i 번째 메쉬 버퍼 연결 및 draw
+        if (FAILED(m_pModelCom->Render(i)))
+            return E_FAIL;
+    }
+
+    return S_OK;
+}
+
+HRESULT CItemBox::Render_OutLine()
+{
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+
+    if (FAILED(Bind_OutLineShaderResources(m_pShaderCom)))
+        return E_FAIL;
+
+    size_t iNumMeshes = m_pModelCom->Get_NumMeshes();
+
+    for (_uint i = 0; i < iNumMeshes; ++i)
+    {
+        if (FAILED(m_pShaderCom->Begin(ETOUI(MESH_SHADER::OUTLINE_NO_DEPTH_TEST))))
+            return E_FAIL;
+
         if (FAILED(m_pModelCom->Render(i)))
             return E_FAIL;
     }

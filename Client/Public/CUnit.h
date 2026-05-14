@@ -3,6 +3,12 @@
 #include "Client_Defines.h"
 #include "CInvenOwner.h"
 
+NS_BEGIN(Engine)
+
+class CShader;
+
+NS_END
+
 NS_BEGIN(Client)
 
 class CInGameHPBar;

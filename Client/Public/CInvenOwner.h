@@ -38,7 +38,13 @@ public:
 	CInventory* Get_Inventory() { return m_pInvetory; }
 
 protected:
+	HRESULT Bind_OutLineShaderResources(CShader* pShader);
+
+protected:
 	CInventory* m_pInvetory{};
+
+	_float m_fOutLineLength{ 1.f };
+	_float4 m_vOutLineColor{ 0.f,0.f,0.f,1.f };
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;
