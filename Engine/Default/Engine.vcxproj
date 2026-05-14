@@ -253,6 +253,7 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\CVIBuffer_Point_Instance.h" />
     <ClInclude Include="..\Public\CVIBuffer_Rect.h" />
     <ClInclude Include="..\Public\CVIBuffer_Rect_Instance.h" />
+    <ClInclude Include="..\Public\CVIBuffer_Trail.h" />
     <ClInclude Include="..\Public\DebugDraw.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
@@ -354,6 +355,7 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CVIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\CVIBuffer_Cube.cpp" />
     <ClCompile Include="..\Private\CVIBuffer_Rect_Instance.cpp" />
+    <ClCompile Include="..\Private\CVIBuffer_Trail.cpp" />
     <ClCompile Include="..\Private\DebugDraw.cpp" />
   </ItemGroup>
   <ItemGroup>

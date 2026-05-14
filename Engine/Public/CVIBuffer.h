@@ -12,8 +12,8 @@ protected:
 	virtual ~CVIBuffer() = default;
 
 protected:
-	HRESULT Initialize_Prototype();
-	HRESULT Initialize(void* pArg);
+	virtual HRESULT Initialize_Prototype();
+	virtual HRESULT Initialize(void* pArg);
 
 public:
 	virtual HRESULT Bind_Resources();

@@ -43,7 +43,7 @@ protected:
 
 
 	D3D11_BUFFER_DESC		m_InstanceBufferDesc = {};
-	VTXPARTICLE_INSTANCE* m_pInstanceVertices = { nullptr };
+	VTXPARTICLE_INSTANCE*	m_pInstanceVertices = { nullptr };
 
 public:
 	virtual CComponent* Clone(void* pArg) = 0;

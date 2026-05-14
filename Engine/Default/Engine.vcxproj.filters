@@ -205,6 +205,9 @@
     <Filter Include="13. Frustum">
       <UniqueIdentifier>{aadfb98e-3c6a-4da5-86c9-d8e36815e4a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Component\01. VIBuffer\04. Trail">
+      <UniqueIdentifier>{54a24abd-9169-42de-af3f-83ee9ca51f7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -398,6 +401,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CFrustum.cpp">
       <Filter>13. Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CVIBuffer_Trail.cpp">
+      <Filter>07. Component\01. VIBuffer\04. Trail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -613,6 +619,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CFrustum.h">
       <Filter>13. Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CVIBuffer_Trail.h">
+      <Filter>07. Component\01. VIBuffer\04. Trail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

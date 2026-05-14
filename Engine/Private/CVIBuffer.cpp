@@ -45,7 +45,7 @@ HRESULT CVIBuffer::Bind_Resources()
 		0,
 	};
 
-	// 1. 정적 버퍼 시작 슬롯 2. 정점 버퍼들의 배열 3. 각각의 정점 버퍼들의 정점 하나의 크기 배열 3. 각각의 버퍼의 시작 위치 배열
+	// 1. 정적 버퍼 시작 슬롯 2. 정점 버퍼 개수 3. 정점 버퍼들의 배열 4. 각각의 정점 버퍼들의 정점 하나의 크기 배열 5. 각각의 버퍼의 시작 위치 배열
 	m_pContext->IASetVertexBuffers(0, m_iNumVertexBuffers, pVertexBuffers, iVertexStrides, iOffsets);
 	// 1. 인덱스 버퍼의 주소 2. 인덱스의 크기 3. 인덱스 버퍼의 시작 위치
 	m_pContext->IASetIndexBuffer(m_pIB, m_eIndexFormat, 0);

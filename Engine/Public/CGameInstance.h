@@ -14,6 +14,8 @@
 #include "CCollider.h"
 #include "CVIBuffer_Rect_Instance.h"
 #include "CVIBuffer_Point_Instance.h"
+
+#include "CVIBuffer_Trail.h"
 #pragma endregion
 
 NS_BEGIN(Engine)
