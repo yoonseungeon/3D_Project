@@ -36,8 +36,9 @@ HRESULT CNunchaku_AfterImage::Initialize(void* pArg)
 
     // ATK1
     //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.28f, 0.302f, 1.058f, 1.f));
-    //_float4 vQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
-    //m_pTransformCom->Set_Rotation(vQuat);
+    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.413262f, 0.302000f, 1.058000f, 1.f));
+    _float4 vQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
+    m_pTransformCom->Set_Rotation(vQuat);
 
     //ATK2
     //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(1.243823f, 0.626138f, 0.846655f, 1.f));
@@ -55,9 +56,9 @@ HRESULT CNunchaku_AfterImage::Initialize(void* pArg)
     //m_pTransformCom->Set_Rotation(vQuat);
 
     //ATK2_2
-    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-0.806056f, 0.088632f, 0.680687f, 1.f));
-    _float4 vQuat = _float4(0.344840f, -0.588919f, 0.478363f, 0.552656f);
-    m_pTransformCom->Set_Rotation(vQuat);
+    //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-0.806056f, 0.088632f, 0.680687f, 1.f));
+    //_float4 vQuat = _float4(0.344840f, -0.588919f, 0.478363f, 0.552656f);
+    //m_pTransformCom->Set_Rotation(vQuat);
 
     return S_OK;
 }
@@ -243,7 +244,7 @@ void CNunchaku_AfterImage::Set_EffectTransform(_uint iCurAni, _uint iATKCount)
     switch (m_iCurAni) {
         case ETOUI(Nunchaku_Ani::ATK_1_WP):
         {
-            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.28f, 0.302f, 1.058f, 1.f));
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.413262f, 0.302000f, 1.058000f, 1.f));
             _float4 vQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
             m_pTransformCom->Set_Rotation(vQuat);
             break;

@@ -55,8 +55,8 @@ private:
 	_uint m_iTexIdx{};
 
 	//
-	_float4 m_vDebugQuat = _float4(0.530984f, -0.493545f, 0.559280f, 0.402088f);
-	_float4 m_vDebugPos = _float4(0.056480f, 0.096296f, 0.131294f, 1.f);
+	_float4 m_vDebugQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
+	_float4 m_vDebugPos = _float4(0.28f, 0.302f, 1.058f, 1.f);
 
 private:
 	HRESULT Ready_Components();
