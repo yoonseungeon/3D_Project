@@ -2,6 +2,8 @@
 
 #include "CGameInstance.h"
 
+#include "CLiDailin.h"
+
 CNunchaku_AfterImage::CNunchaku_AfterImage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject{ pDevice, pContext }
 {
@@ -31,13 +33,31 @@ HRESULT CNunchaku_AfterImage::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.28f, 0.302f, 1.058f, 1.f));
-    _float4 vQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
-    m_pTransformCom->Set_Rotation(vQuat);
 
+    // ATK1
+    //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.28f, 0.302f, 1.058f, 1.f));
+    //_float4 vQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
+    //m_pTransformCom->Set_Rotation(vQuat);
+
+    //ATK2
     //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(1.243823f, 0.626138f, 0.846655f, 1.f));
     //_float4 vQuat = _float4(0.662921f, -0.017824f, 0.744414f, 0.077878f);
     //m_pTransformCom->Set_Rotation(vQuat);
+
+    //ATK1_1, ATK1_2
+    //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.056480f, 0.096296f, 0.131294f, 1.f));
+    //_float4 vQuat = _float4(0.530984f, -0.493545f, 0.559280f, 0.402088f);
+    //m_pTransformCom->Set_Rotation(vQuat);
+
+    //ATK2_1
+    //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(1.243823f, 0.626138f, 0.846655f, 1.f));
+    //_float4 vQuat = _float4(0.662921f, -0.017824f, 0.744414f, 0.077878f);
+    //m_pTransformCom->Set_Rotation(vQuat);
+
+    //ATK2_2
+    m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-0.806056f, 0.088632f, 0.680687f, 1.f));
+    _float4 vQuat = _float4(0.344840f, -0.588919f, 0.478363f, 0.552656f);
+    m_pTransformCom->Set_Rotation(vQuat);
 
     return S_OK;
 }
@@ -175,7 +195,10 @@ void CNunchaku_AfterImage::Update(_float fTimeDelta)
 
 void CNunchaku_AfterImage::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERID::NONLIGHT, this);
+    if (m_bIsInactive == true)
+        return;
+
+    m_pGameInstance->Add_RenderGroup(RENDERID::BLEND, this);
 }
 
 HRESULT CNunchaku_AfterImage::Render()
@@ -198,10 +221,69 @@ HRESULT CNunchaku_AfterImage::Render()
     return S_OK;
 }
 
-void CNunchaku_AfterImage::Set_Position(const _float4x4* vParentMatrix)
+void CNunchaku_AfterImage::Compute_CombinedMatrix(const _float4x4* vParentMatrix)
 {
     XMStoreFloat4x4(&m_CombinedWorldMatrix, XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr())
         * XMLoadFloat4x4(vParentMatrix));
+}
+
+void CNunchaku_AfterImage::Set_IsInactive(_bool bIsInactive)
+{
+    m_bIsInactive = bIsInactive;
+}
+
+void CNunchaku_AfterImage::Set_EffectTransform(_uint iCurAni, _uint iATKCount)
+{
+    if (m_iCurAni == iCurAni && m_iATKCount == iATKCount)
+        return;
+
+    m_iCurAni = iCurAni;
+    m_iATKCount = iATKCount;
+
+    switch (m_iCurAni) {
+        case ETOUI(Nunchaku_Ani::ATK_1_WP):
+        {
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.28f, 0.302f, 1.058f, 1.f));
+            _float4 vQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
+            m_pTransformCom->Set_Rotation(vQuat);
+            break;
+        }
+        case ETOUI(Nunchaku_Ani::ATK_2_WP):
+        {
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(1.243823f, 0.626138f, 0.846655f, 1.f));
+            _float4 vQuat = _float4(0.662921f, -0.017824f, 0.744414f, 0.077878f);
+            m_pTransformCom->Set_Rotation(vQuat);
+            break;
+        }
+        case ETOUI(Nunchaku_Ani::ATK_1P_WP):
+        {
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.056480f, 0.096296f, 0.131294f, 1.f));
+            _float4 vQuat = _float4(0.530984f, -0.493545f, 0.559280f, 0.402088f);
+            m_pTransformCom->Set_Rotation(vQuat);
+            break;
+        }
+        case ETOUI(Nunchaku_Ani::ATK_2P_WP):
+        {
+            if (iATKCount == 1)
+            {
+                m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(1.243823f, 0.626138f, 0.846655f, 1.f));
+                _float4 vQuat = _float4(0.662921f, -0.017824f, 0.744414f, 0.077878f);
+                m_pTransformCom->Set_Rotation(vQuat);
+            }
+            else
+            {
+                m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-0.806056f, 0.088632f, 0.680687f, 1.f));
+                _float4 vQuat = _float4(0.344840f, -0.588919f, 0.478363f, 0.552656f);
+                m_pTransformCom->Set_Rotation(vQuat);
+            }
+            break;
+        }
+        default:
+        {
+            return;
+        }
+    }
+
 }
 
 HRESULT CNunchaku_AfterImage::Ready_Components()
@@ -226,9 +308,6 @@ HRESULT CNunchaku_AfterImage::Ready_Components()
 
 HRESULT CNunchaku_AfterImage::Bind_ShaderResources()
 {
-    //if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
-    //    return E_FAIL;
-
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
         return E_FAIL;
     if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", m_pGameInstance->Get_Transform(D3DTS::VIEW))))
@@ -237,6 +316,9 @@ HRESULT CNunchaku_AfterImage::Bind_ShaderResources()
         return E_FAIL;
 
     if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_DiffuseTexture", m_iTexIdx)))
+        return E_FAIL;
+
+    if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(m_fAlpha))))
         return E_FAIL;
 
     return S_OK;

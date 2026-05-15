@@ -81,9 +81,9 @@ void CWeapon::Late_Update(_float fTimeDelta)
     // 자신 월드 * 소켓 * Body * 컨테이너 부모가 더 정확하지만 Body는 움직이지 않아서 항등 행렬임.
     Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()) * SocketMatrix);
 
-    //Add_TrailPoint();
+    Generate_Effect();
 
-    m_pNunchaku_AfterImage->Set_Position(m_pParentMatrix);
+    m_pNunchaku_AfterImage->Compute_CombinedMatrix(m_pParentMatrix);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
     m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
@@ -206,61 +206,100 @@ HRESULT CWeapon::Bind_OutLineShaderResources()
     return S_OK;
 }
 
-HRESULT CWeapon::Ready_Layer_Trail(const _wstring& strLayerTag)
-{
-    CTrailEffect::TRAIL_EFFECT_DESC Desc{};
-    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Fx_Nunchaku";
-    Desc.iTexIndex = 2;
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TrailEffect"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pTrailEffect))))
-        return E_FAIL;
-
-    return S_OK;
-}
-
-void CWeapon::Add_TrailPoint()
-{
-    _uint iCurAniIndex = m_pModelCom->Get_CurAniIndex();
-
-    if (iCurAniIndex == ETOUI(Nunchaku_Ani::ATK_1_WP)||
-        iCurAniIndex == ETOUI(Nunchaku_Ani::ATK_2_WP))
-    {
-        _float fMinTrailTime = 0.08f;
-        _float fMaxTrailTime = 0.15f;
-
-        _float fCurAniRatio = m_pModelCom->Get_AniPlayRatio(iCurAniIndex);
-
-        if (fCurAniRatio >= fMinTrailTime &&  fCurAniRatio <= fMaxTrailTime)
-        {
-            _vector vLocalTop = XMVectorSet(0.f, 0.f, 1.f, 1.f);
-            _vector vLocalBottom = XMVectorSet(0.f, 0.f, 0.f, 1.f);
-            
-            _matrix matWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
-
-            _float3 vTopWorldPos{};
-            _float3 vBottomWorldPos{};
-
-            XMStoreFloat3(&vTopWorldPos, XMVector3TransformCoord(vLocalTop, matWorld));
-            XMStoreFloat3(&vBottomWorldPos, XMVector3TransformCoord(vLocalBottom, matWorld));
-
-            _float fTrailRatio = (fCurAniRatio - fMinTrailTime) / (fMaxTrailTime - fMinTrailTime);
-
-            m_pTrailEffect->Add_TrailPoint(vTopWorldPos, vBottomWorldPos, fTrailRatio);
-        }
-    }
-}
-
 HRESULT CWeapon::Ready_Layer_Nunchaku_AfterImage(const _wstring& strLayerTag)
 {
     CNunchaku_AfterImage::NUNCHAKU_AFTERIMAGE_DESC Desc{};
-    Desc.iTexIdx = 0;
+    Desc.iTexIdx = 1;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Nunchaku_AfterImage"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pNunchaku_AfterImage))))
         return E_FAIL;
 
     return S_OK;
+}
+
+void CWeapon::Generate_Effect()
+{
+    //enum class Nunchaku_Ani {
+    //    IDLE_WP = 12,
+    //    RUN_WP = 4,
+    //    ATK_1_WP = 0, ATK_2_WP = 2,
+    //    ATK_1P_WP = 1, ATK_2P_WP = 3,
+    //    Q1_WP = 7, Q2_WP = 9, Q3_WP = 10,
+    //};
+
+    _uint iAniIndex = m_pModelCom->Get_CurAniIndex();
+    _float fAniRatio = m_pModelCom->Get_AniPlayRatio(iAniIndex);
+
+    _float fEffectStartTime{};
+    _float fEffectEndTime{};
+    _float fAlpha{};
+
+    switch (iAniIndex) {
+        case ETOUI(Nunchaku_Ani::ATK_1_WP):
+        {
+            fEffectStartTime = { 0.096f };
+            fEffectEndTime = { 0.307f };
+            m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex);
+            break;
+        }
+        case ETOUI(Nunchaku_Ani::ATK_2_WP):
+        {
+            fEffectStartTime = { 0.115f };
+            fEffectEndTime = { 0.384f };
+            m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex);
+            break;
+        }
+        case ETOUI(Nunchaku_Ani::ATK_1P_WP):
+        {            
+            if (fAniRatio <= 0.32f)
+            {
+                fEffectStartTime = { 0.115f };
+                fEffectEndTime = { 0.307f };
+            }
+            else
+            {
+                fEffectStartTime = { 0.346f };
+                fEffectEndTime = { 0.442f };
+            }
+            m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex);
+            break;
+        }
+        case ETOUI(Nunchaku_Ani::ATK_2P_WP):
+        {
+            if (fAniRatio <= 0.32f)
+            {
+                fEffectStartTime = { 0.115f };
+                fEffectEndTime = { 0.153f };
+                m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex);
+            }
+            else
+            {
+                fEffectStartTime = { 0.336f };
+                fEffectEndTime = { 0.442f };
+                m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex, 2);
+            }
+            break;
+        }
+        default:
+        {
+            m_pNunchaku_AfterImage->Set_IsInactive(true);
+            return;
+        }
+    }
+
+    if(fAniRatio >= fEffectStartTime && fAniRatio <= fEffectEndTime)
+    {
+        m_pNunchaku_AfterImage->Set_IsInactive(false);
+        fAlpha = (fAniRatio - fEffectStartTime) / (fEffectEndTime - fEffectStartTime);
+        fAlpha = 1 - fAlpha;
+        fAlpha /= 1.3f;
+        m_pNunchaku_AfterImage->Set_Alpha(fAlpha);
+    }
+    else
+    {
+        m_pNunchaku_AfterImage->Set_IsInactive(true);
+    }
 }
 
 CWeapon* CWeapon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

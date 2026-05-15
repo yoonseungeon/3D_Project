@@ -63,10 +63,9 @@ private:
 	HRESULT Bind_ShaderResources();
 	HRESULT Bind_OutLineShaderResources();
 
-	HRESULT Ready_Layer_Trail(const _wstring& strLayerTag);
-	void Add_TrailPoint();
-
 	HRESULT Ready_Layer_Nunchaku_AfterImage(const _wstring& strLayerTag);
+
+	void Generate_Effect();
 
 public:
 	static CWeapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

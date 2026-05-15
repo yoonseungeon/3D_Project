@@ -35,7 +35,11 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void Set_Position(const _float4x4* vParentMatrix);
+	void Compute_CombinedMatrix(const _float4x4* vParentMatrix);
+
+	virtual void Set_IsInactive(_bool bIsInactive) override;
+	void Set_Alpha(_float fAlpha) { m_fAlpha = fAlpha; }
+	void Set_EffectTransform(_uint iCurAni, _uint iATKCount = 1);
 
 private:
 	CShader* m_pShaderCom = { nullptr };
@@ -44,10 +48,16 @@ private:
 
 	_float4x4 m_CombinedWorldMatrix{};
 
+	_uint m_iCurAni{};
+	_uint m_iATKCount{};
+
+	_float m_fAlpha{ 1.f };
 	_uint m_iTexIdx{};
 
-	_float4 m_vDebugQuat = _float4(0.662921f, -0.017824f, 0.744414f, 0.077878f);
-	_float4 m_vDebugPos = _float4(1.243823f, 0.626138f, 0.846655f, 1.f);
+	//
+	_float4 m_vDebugQuat = _float4(0.530984f, -0.493545f, 0.559280f, 0.402088f);
+	_float4 m_vDebugPos = _float4(0.056480f, 0.096296f, 0.131294f, 1.f);
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
