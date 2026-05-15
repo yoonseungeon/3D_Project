@@ -10,6 +10,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CTrailEffect;
+
 class CWeapon final : public CPartObject
 {
 public:
@@ -45,6 +47,8 @@ private:
 	CShader* m_pShaderCom{ nullptr };
 	CMyModel* m_pModelCom{ nullptr };
 
+	CTrailEffect* m_pTrailEffect{ };
+
 private:
 	const _float4x4* m_pSocketBoneMatrix{ nullptr };
 
@@ -55,6 +59,9 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 	HRESULT Bind_OutLineShaderResources();
+
+	HRESULT Ready_Layer_Trail(const _wstring& strLayerTag);
+	void Add_TrailPoint();
 
 public:
 	static CWeapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

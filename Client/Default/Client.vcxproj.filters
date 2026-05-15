@@ -376,6 +376,12 @@
     <Filter Include="02. GameObject\01. UI_Default\05. UI_SkillIcon\03. SkillCoolDisplay">
       <UniqueIdentifier>{df54cd39-fd8b-4b2a-8cb2-b28bb244afb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Effect">
+      <UniqueIdentifier>{47bdc83f-017e-4a81-bfd1-f2273bdf8416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Effect\00. Trail">
+      <UniqueIdentifier>{63b62536-5c7b-4e90-a396-df8dad520fdb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -750,6 +756,9 @@
     <ClInclude Include="..\Public\CBody_Player.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\00. Body</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CTrailEffect.h">
+      <Filter>03. Effect\00. Trail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1107,6 +1116,9 @@
     <ClCompile Include="..\Private\CSkillCoolDisplay.cpp">
       <Filter>02. GameObject\01. UI_Default\05. UI_SkillIcon\03. SkillCoolDisplay</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CTrailEffect.cpp">
+      <Filter>03. Effect\00. Trail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
@@ -1128,6 +1140,9 @@
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance.hlsl">
+      <Filter>997. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTexTrail.hlsl">
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

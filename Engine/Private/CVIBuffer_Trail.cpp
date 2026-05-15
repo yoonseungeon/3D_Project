@@ -16,7 +16,7 @@ HRESULT CVIBuffer_Trail::Initialize_Prototype()
     m_iNumVertexBuffers = 1;      //정점 버퍼의 개수
 
     // test
-    _uint iMaxTrailPoints = 32;
+    _uint iMaxTrailPoints = 128;
     m_iNumVertices = iMaxTrailPoints * 2;
     m_iVertexStride = sizeof(VTXTEX);
 
@@ -132,10 +132,15 @@ HRESULT CVIBuffer_Trail::Render()
 HRESULT CVIBuffer_Trail::Trail_Map_Discard(const VTXTEX* pNewVertices, _uint iVertexCount)
 {
     if(pNewVertices == nullptr)
-        return E_FAIL;
+    {
+        m_iValidIndices = 0;
+        return S_OK;
+    }
 
     if (iVertexCount > m_iNumVertices)
-        return E_FAIL;
+    {
+        iVertexCount = m_iNumVertices;
+    }
 
     // 4개 미만이면 그리기 x
     if(iVertexCount < 4)

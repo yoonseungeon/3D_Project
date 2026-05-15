@@ -87,6 +87,9 @@
 #include "CBody_Fiora.h"
 #include "CRapier.h"
 
+//Effect
+#include "CTrailEffect.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
     , m_pContext{ pContext }
@@ -1028,6 +1031,36 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_Frustum"),
         CCollider::Create(m_pDevice, m_pContext, COLLIDER::FRUSTUM))))
         return E_FAIL;
+#pragma endregion
+
+#pragma region 버퍼
+    /* Prototype_Component_VIBuffer_Trail */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Trail"),
+                CVIBuffer_Trail::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_VIBuffer_Trail");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+#pragma region 셰이더
+    /* Prototype_Component_Shader_VtxTexTrail */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxTexTrail"),
+                CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxTexTrail.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements))))
+            {
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Component_Shader_VtxTexTrail");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region 수업 코드
@@ -2567,6 +2600,37 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CImage::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Item/Item%d.png"), 89))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Image_Item");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+#pragma region 이펙트 객체 원형
+    /* Prototype_GameObject_TrailEffect */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TrailEffect"),
+                CTrailEffect::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_TrailEffect");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+#pragma endregion
+
+#pragma region 이펙트 텍스처
+    /* Prototype_Texture_Fx_Nunchaku */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Fx_Nunchaku"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/Fx_Nunchaku%d.dds"), 3))))
+            {
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Fx_Nunchaku");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -3,6 +3,8 @@
 #include "CGameInstance.h"
 #include "CLiDailin.h"
 
+#include "CTrailEffect.h"
+
 CWeapon::CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject{ pDevice, pContext }
 {
@@ -32,6 +34,9 @@ HRESULT CWeapon::Initialize(void* pArg)
 
     m_fOutLineLength = 0.013f;
     m_vOutLineColor = { 0.f, 0.f, 0.f, 1.f };
+
+    //if (FAILED(Ready_Layer_Trail(TEXT("Layer_Trail"))))
+    //    return E_FAIL;
 
     return S_OK;
 }
@@ -71,6 +76,8 @@ void CWeapon::Late_Update(_float fTimeDelta)
     // 자신 월드 * 소켓 * 컨테이너 부모 이 순서로 곱함
     // 자신 월드 * 소켓 * Body * 컨테이너 부모가 더 정확하지만 Body는 움직이지 않아서 항등 행렬임.
     Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()) * SocketMatrix);
+
+    //Add_TrailPoint();
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
     m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
@@ -193,6 +200,51 @@ HRESULT CWeapon::Bind_OutLineShaderResources()
     return S_OK;
 }
 
+HRESULT CWeapon::Ready_Layer_Trail(const _wstring& strLayerTag)
+{
+    CTrailEffect::TRAIL_EFFECT_DESC Desc{};
+    Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Fx_Nunchaku";
+    Desc.iTexIndex = 2;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TrailEffect"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pTrailEffect))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+void CWeapon::Add_TrailPoint()
+{
+    _uint iCurAniIndex = m_pModelCom->Get_CurAniIndex();
+
+    if (iCurAniIndex == ETOUI(Nunchaku_Ani::ATK_1_WP)||
+        iCurAniIndex == ETOUI(Nunchaku_Ani::ATK_2_WP))
+    {
+        _float fMinTrailTime = 0.08f;
+        _float fMaxTrailTime = 0.15f;
+
+        _float fCurAniRatio = m_pModelCom->Get_AniPlayRatio(iCurAniIndex);
+
+        if (fCurAniRatio >= fMinTrailTime &&  fCurAniRatio <= fMaxTrailTime)
+        {
+            _vector vLocalTop = XMVectorSet(0.f, 0.f, 1.f, 1.f);
+            _vector vLocalBottom = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+            
+            _matrix matWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
+
+            _float3 vTopWorldPos{};
+            _float3 vBottomWorldPos{};
+
+            XMStoreFloat3(&vTopWorldPos, XMVector3TransformCoord(vLocalTop, matWorld));
+            XMStoreFloat3(&vBottomWorldPos, XMVector3TransformCoord(vLocalBottom, matWorld));
+
+            _float fTrailRatio = (fCurAniRatio - fMinTrailTime) / (fMaxTrailTime - fMinTrailTime);
+
+            m_pTrailEffect->Add_TrailPoint(vTopWorldPos, vBottomWorldPos, fTrailRatio);
+        }
+    }
+}
+
 CWeapon* CWeapon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CWeapon* pInstance = new CWeapon(pDevice, pContext);
@@ -221,6 +273,8 @@ CGameObject* CWeapon::Clone(void* pArg)
 
 void CWeapon::Free()
 {
+    Safe_Release(m_pTrailEffect);
+
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);
 
