@@ -4,6 +4,7 @@
 #include "CLiDailin.h"
 
 #include "CTrailEffect.h"
+#include "CNunchaku_AfterImage.h"
 
 CWeapon::CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject{ pDevice, pContext }
@@ -37,6 +38,9 @@ HRESULT CWeapon::Initialize(void* pArg)
 
     //if (FAILED(Ready_Layer_Trail(TEXT("Layer_Trail"))))
     //    return E_FAIL;
+     
+    if (FAILED(Ready_Layer_Nunchaku_AfterImage(TEXT("Nunchaku_AfterImage"))))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -78,6 +82,8 @@ void CWeapon::Late_Update(_float fTimeDelta)
     Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()) * SocketMatrix);
 
     //Add_TrailPoint();
+
+    m_pNunchaku_AfterImage->Set_Position(m_pParentMatrix);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
     m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
@@ -245,6 +251,18 @@ void CWeapon::Add_TrailPoint()
     }
 }
 
+HRESULT CWeapon::Ready_Layer_Nunchaku_AfterImage(const _wstring& strLayerTag)
+{
+    CNunchaku_AfterImage::NUNCHAKU_AFTERIMAGE_DESC Desc{};
+    Desc.iTexIdx = 0;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Nunchaku_AfterImage"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pNunchaku_AfterImage))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 CWeapon* CWeapon::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CWeapon* pInstance = new CWeapon(pDevice, pContext);
@@ -273,6 +291,7 @@ CGameObject* CWeapon::Clone(void* pArg)
 
 void CWeapon::Free()
 {
+    Safe_Release(m_pNunchaku_AfterImage);
     Safe_Release(m_pTrailEffect);
 
     Safe_Release(m_pModelCom);

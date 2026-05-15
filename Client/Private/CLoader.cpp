@@ -89,6 +89,7 @@
 
 //Effect
 #include "CTrailEffect.h"
+#include "CNunchaku_AfterImage.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -1034,29 +1035,42 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 #pragma endregion
 
 #pragma region ¹öÆÛ
-    /* Prototype_Component_VIBuffer_Trail */
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Trail"),
-                CVIBuffer_Trail::Create(m_pDevice, m_pContext))))
-            {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_VIBuffer_Trail");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
+    ///* Prototype_Component_VIBuffer_Trail */
+    //m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    //m_pGameInstance->Add_Job(
+    //    [this]()->void {
+    //        if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Trail"),
+    //            CVIBuffer_Trail::Create(m_pDevice, m_pContext))))
+    //        {
+    //            MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_VIBuffer_Trail");
+    //        }
+    //        m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+    //    }
+    //);
 #pragma endregion
 
 #pragma region ¼ÎÀÌ´õ
-    /* Prototype_Component_Shader_VtxTexTrail */
+    ///* Prototype_Component_Shader_VtxTexEffect */
+    //m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    //m_pGameInstance->Add_Job(
+    //    [this]()->void {
+    //        if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxTexEffect"),
+    //            CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxTexEffect.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements))))
+    //        {
+    //            MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Component_Shader_VtxTexEffect");
+    //        }
+    //        m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+    //    }
+    //);
+
+    /* Prototype_Component_Shader_VtxMeshEffect */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxTexTrail"),
-                CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxTexTrail.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements))))
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMeshEffect"),
+                CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_VtxMeshEffect.hlsl"), VTXMESH::Elements, VTXMESH::iNumElements))))
             {
-                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Component_Shader_VtxTexTrail");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Shader_VtxMeshEffect");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -2607,19 +2621,31 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 #pragma endregion
 
 #pragma region ÀÌÆåÆ® °´Ã¼ ¿øÇü
-    /* Prototype_GameObject_TrailEffect */
+    ///* Prototype_GameObject_TrailEffect */
+    //m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    //m_pGameInstance->Add_Job(
+    //    [this]()->void {
+    //        if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TrailEffect"),
+    //            CTrailEffect::Create(m_pDevice, m_pContext))))
+    //        {
+    //            MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_TrailEffect");
+    //        }
+    //        m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+    //    }
+    //);
+
+    /* Prototype_GameObject_Nunchaku_AfterImage */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TrailEffect"),
-                CTrailEffect::Create(m_pDevice, m_pContext))))
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Nunchaku_AfterImage"),
+                CNunchaku_AfterImage::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_TrailEffect");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Nunchaku_AfterImage");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
-
 #pragma endregion
 
 #pragma region ÀÌÆåÆ® ÅØ½ºÃ³
@@ -2631,6 +2657,24 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/Fx_Nunchaku%d.dds"), 3))))
             {
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Fx_Nunchaku");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
+
+#pragma region ÀÌÆåÆ® ¸ðµ¨
+
+    _matrix AfterImagePreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
+
+    /* Prototype_Component_Model_Nunchaku_AfterImage0 */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, AfterImagePreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Nunchaku_AfterImage0"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/EffectModel/Nunchaku_AfterImage0.mymodel", AfterImagePreTransformMatrix))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Nunchaku_AfterImage0");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

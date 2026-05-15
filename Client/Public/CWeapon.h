@@ -11,6 +11,7 @@ NS_END
 NS_BEGIN(Client)
 
 class CTrailEffect;
+class CNunchaku_AfterImage;
 
 class CWeapon final : public CPartObject
 {
@@ -49,6 +50,8 @@ private:
 
 	CTrailEffect* m_pTrailEffect{ };
 
+	CNunchaku_AfterImage* m_pNunchaku_AfterImage{};
+
 private:
 	const _float4x4* m_pSocketBoneMatrix{ nullptr };
 
@@ -62,6 +65,8 @@ private:
 
 	HRESULT Ready_Layer_Trail(const _wstring& strLayerTag);
 	void Add_TrailPoint();
+
+	HRESULT Ready_Layer_Nunchaku_AfterImage(const _wstring& strLayerTag);
 
 public:
 	static CWeapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

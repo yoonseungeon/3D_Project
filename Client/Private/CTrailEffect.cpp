@@ -62,7 +62,7 @@ HRESULT CTrailEffect::Render()
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    if (FAILED(m_pShaderCom->Begin(ETOUI(TRAIL_SHADER::ALPHABLEND))))
+    if (FAILED(m_pShaderCom->Begin(ETOUI(EFFECT_SHADER::ALPHABLEND))))
         return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Bind_Resources()))

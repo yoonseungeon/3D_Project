@@ -382,6 +382,9 @@
     <Filter Include="03. Effect\00. Trail">
       <UniqueIdentifier>{63b62536-5c7b-4e90-a396-df8dad520fdb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Effect\01. NunchakuAfterImage">
+      <UniqueIdentifier>{83497501-789e-4f22-a83d-ad4690305c88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -759,6 +762,9 @@
     <ClInclude Include="..\Public\CTrailEffect.h">
       <Filter>03. Effect\00. Trail</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CNunchaku_AfterImage.h">
+      <Filter>03. Effect\01. NunchakuAfterImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1119,6 +1125,9 @@
     <ClCompile Include="..\Private\CTrailEffect.cpp">
       <Filter>03. Effect\00. Trail</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CNunchaku_AfterImage.cpp">
+      <Filter>03. Effect\01. NunchakuAfterImage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl">
@@ -1142,7 +1151,10 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance.hlsl">
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTexTrail.hlsl">
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTexEffect.hlsl">
+      <Filter>997. ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxMeshEffect.hlsl">
       <Filter>997. ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
