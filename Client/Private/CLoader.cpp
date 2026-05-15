@@ -2664,7 +2664,6 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 #pragma endregion
 
 #pragma region ÀÌÆåÆ® ¸ðµ¨
-
     _matrix AfterImagePreTransformMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f);
 
     /* Prototype_Component_Model_Nunchaku_AfterImage0 */
@@ -2675,6 +2674,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/EffectModel/Nunchaku_AfterImage0.mymodel", AfterImagePreTransformMatrix))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Nunchaku_AfterImage0");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Component_Model_Fx_Lidailin_atk_01a */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Fx_Lidailin_atk_01a"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/EffectModel/Fx_Lidailin_atk_01a.mymodel"))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Fx_Lidailin_atk_01a");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

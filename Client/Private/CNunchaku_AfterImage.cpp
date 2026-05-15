@@ -244,8 +244,11 @@ void CNunchaku_AfterImage::Set_EffectTransform(_uint iCurAni, _uint iATKCount)
     switch (m_iCurAni) {
         case ETOUI(Nunchaku_Ani::ATK_1_WP):
         {
-            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.413262f, 0.302000f, 1.058000f, 1.f));
-            _float4 vQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
+            //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.413262f, 0.302000f, 1.058000f, 1.f));
+            //_float4 vQuat = _float4(0.684f, 0.062f, 0.000559f, 0.727f);
+
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-0.806056f, 0.088632f, 0.680687f, 1.f));
+            _float4 vQuat = _float4(0.344840f, -0.588919f, 0.478363f, 0.552656f);
             m_pTransformCom->Set_Rotation(vQuat);
             break;
         }
