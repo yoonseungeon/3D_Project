@@ -195,6 +195,7 @@
     <ClInclude Include="..\Public\CSkillCoolDisplay.h" />
     <ClInclude Include="..\Public\CSkillLevelUpBtn.h" />
     <ClInclude Include="..\Public\CSkillState.h" />
+    <ClInclude Include="..\Public\CSlashEffect.h" />
     <ClInclude Include="..\Public\CTrailEffect.h" />
     <ClInclude Include="..\Public\CUI_ItemBoxSlot.h" />
     <ClInclude Include="..\Public\CItem_Manager.h" />
@@ -323,6 +324,7 @@
     <ClCompile Include="..\Private\CSkillCoolDisplay.cpp" />
     <ClCompile Include="..\Private\CSkillLevelUpBtn.cpp" />
     <ClCompile Include="..\Private\CSkillState.cpp" />
+    <ClCompile Include="..\Private\CSlashEffect.cpp" />
     <ClCompile Include="..\Private\CTrailEffect.cpp" />
     <ClCompile Include="..\Private\CUI_ItemBoxSlot.cpp" />
     <ClCompile Include="..\Private\CItem_Manager.cpp" />

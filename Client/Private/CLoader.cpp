@@ -90,6 +90,7 @@
 //Effect
 #include "CTrailEffect.h"
 #include "CNunchaku_AfterImage.h"
+#include "CSlashEffect.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -2646,6 +2647,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_GameObject_Nunchaku_SlashEffect */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Nunchaku_SlashEffect"),
+                CSlashEffect::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Nunchaku_SlashEffect");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region 이펙트 텍스처
@@ -2656,7 +2670,20 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Fx_Nunchaku"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/Fx_Nunchaku%d.dds"), 3))))
             {
-                MSG_BOX("CLoader.cpp(Lobby) - Failed to Created: Prototype_Texture_Fx_Nunchaku");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Fx_Nunchaku");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_FX_Nunchaku_SlashLine */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_FX_Nunchaku_SlashLine"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/FX_Nunchaku_SlashLine.dds"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_FX_Nunchaku_SlashLine");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -2679,14 +2706,14 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
-    /* Prototype_Component_Model_Fx_Lidailin_atk_01a */
+    /* Prototype_Component_Model_LiDailin_Circle_3_4 */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
-        [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Fx_Lidailin_atk_01a"),
-                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/EffectModel/Fx_Lidailin_atk_01a.mymodel"))))
+        [this, AfterImagePreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_LiDailin_Circle_3_4"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/EffectModel/LiDailin_Circle_3_4.mymodel", AfterImagePreTransformMatrix))))
             {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Fx_Lidailin_atk_01a");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_LiDailin_Circle_3_4");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

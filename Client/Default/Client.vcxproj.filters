@@ -385,6 +385,9 @@
     <Filter Include="03. Effect\01. NunchakuAfterImage">
       <UniqueIdentifier>{83497501-789e-4f22-a83d-ad4690305c88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Effect\02. SlashEffect">
+      <UniqueIdentifier>{a2a6a53a-e84e-40ee-a0cd-d792316c256f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -765,6 +768,9 @@
     <ClInclude Include="..\Public\CNunchaku_AfterImage.h">
       <Filter>03. Effect\01. NunchakuAfterImage</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CSlashEffect.h">
+      <Filter>03. Effect\02. SlashEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1127,6 +1133,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CNunchaku_AfterImage.cpp">
       <Filter>03. Effect\01. NunchakuAfterImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSlashEffect.cpp">
+      <Filter>03. Effect\02. SlashEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

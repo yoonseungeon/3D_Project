@@ -12,6 +12,7 @@ NS_BEGIN(Client)
 
 class CTrailEffect;
 class CNunchaku_AfterImage;
+class CSlashEffect;
 
 class CWeapon final : public CPartObject
 {
@@ -51,6 +52,7 @@ private:
 	CTrailEffect* m_pTrailEffect{ };
 
 	CNunchaku_AfterImage* m_pNunchaku_AfterImage{};
+	CSlashEffect* m_pSlashEffect{};
 
 private:
 	const _float4x4* m_pSocketBoneMatrix{ nullptr };
@@ -64,6 +66,7 @@ private:
 	HRESULT Bind_OutLineShaderResources();
 
 	HRESULT Ready_Layer_Nunchaku_AfterImage(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Slash_Effect(const _wstring& strLayerTag);
 
 	void Generate_Effect();
 

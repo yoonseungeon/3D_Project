@@ -5,6 +5,7 @@
 
 #include "CTrailEffect.h"
 #include "CNunchaku_AfterImage.h"
+#include "CSlashEffect.h"
 
 CWeapon::CWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartObject{ pDevice, pContext }
@@ -40,6 +41,9 @@ HRESULT CWeapon::Initialize(void* pArg)
     //    return E_FAIL;
      
     if (FAILED(Ready_Layer_Nunchaku_AfterImage(TEXT("Nunchaku_AfterImage"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_Slash_Effect(TEXT("Nunchaku_Slash_Effect"))))
         return E_FAIL;
 
     return S_OK;
@@ -84,6 +88,7 @@ void CWeapon::Late_Update(_float fTimeDelta)
     Generate_Effect();
 
     m_pNunchaku_AfterImage->Compute_CombinedMatrix(m_pParentMatrix);
+    m_pSlashEffect->Compute_CombinedMatrix(m_pParentMatrix);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
     m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
@@ -218,6 +223,18 @@ HRESULT CWeapon::Ready_Layer_Nunchaku_AfterImage(const _wstring& strLayerTag)
     return S_OK;
 }
 
+HRESULT CWeapon::Ready_Layer_Slash_Effect(const _wstring& strLayerTag)
+{   
+    CSlashEffect::SLASH_EFFECT_DESC Desc{};
+    Desc.iTexIdx = 0;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Nunchaku_SlashEffect"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pSlashEffect))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 void CWeapon::Generate_Effect()
 {
     //enum class Nunchaku_Ani {
@@ -233,6 +250,7 @@ void CWeapon::Generate_Effect()
 
     _float fEffectStartTime{};
     _float fEffectEndTime{};
+    _uint iATKCount = {1};
     _float fAlpha{};
 
     switch (iAniIndex) {
@@ -240,14 +258,12 @@ void CWeapon::Generate_Effect()
         {
             fEffectStartTime = { 0.096f };
             fEffectEndTime = { 0.307f };
-            m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex);
             break;
         }
         case ETOUI(Nunchaku_Ani::ATK_2_WP):
         {
             fEffectStartTime = { 0.115f };
             fEffectEndTime = { 0.384f };
-            m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex);
             break;
         }
         case ETOUI(Nunchaku_Ani::ATK_1P_WP):
@@ -261,8 +277,8 @@ void CWeapon::Generate_Effect()
             {
                 fEffectStartTime = { 0.346f };
                 fEffectEndTime = { 0.442f };
+                iATKCount = 2;
             }
-            m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex);
             break;
         }
         case ETOUI(Nunchaku_Ani::ATK_2P_WP):
@@ -271,34 +287,41 @@ void CWeapon::Generate_Effect()
             {
                 fEffectStartTime = { 0.115f };
                 fEffectEndTime = { 0.153f };
-                m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex);
             }
             else
             {
                 fEffectStartTime = { 0.336f };
                 fEffectEndTime = { 0.442f };
-                m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex, 2);
+                iATKCount = 2;
             }
             break;
         }
         default:
         {
             m_pNunchaku_AfterImage->Set_IsInactive(true);
+            m_pSlashEffect->Set_IsInactive(true);
             return;
         }
     }
 
     if(fAniRatio >= fEffectStartTime && fAniRatio <= fEffectEndTime)
     {
-        m_pNunchaku_AfterImage->Set_IsInactive(false);
         fAlpha = (fAniRatio - fEffectStartTime) / (fEffectEndTime - fEffectStartTime);
         fAlpha = 1 - fAlpha;
-        fAlpha /= 1.3f;
-        m_pNunchaku_AfterImage->Set_Alpha(fAlpha);
+
+        m_pNunchaku_AfterImage->Set_IsInactive(false);
+        m_pNunchaku_AfterImage->Set_EffectTransform(iAniIndex, iATKCount);
+        m_pNunchaku_AfterImage->Set_Alpha(fAlpha / 1.5f);
+
+        m_pSlashEffect->Set_IsInactive(false);
+        m_pSlashEffect->Set_EffectTransform(iAniIndex, iATKCount);
+        m_pSlashEffect->Set_Alpha(fAlpha / 3.f);
+
     }
     else
     {
         m_pNunchaku_AfterImage->Set_IsInactive(true);
+        m_pSlashEffect->Set_IsInactive(true);
     }
 }
 
@@ -331,6 +354,7 @@ CGameObject* CWeapon::Clone(void* pArg)
 void CWeapon::Free()
 {
     Safe_Release(m_pNunchaku_AfterImage);
+    Safe_Release(m_pSlashEffect);
     Safe_Release(m_pTrailEffect);
 
     Safe_Release(m_pModelCom);

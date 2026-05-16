@@ -170,8 +170,8 @@ void CLiDailinAttack::Attack(CLiDailin* pPlayer)
 	{
 		m_bIsAttackProcessed_Second = true;
 		if (iRandom == 0) {
-			m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_1);
-			m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_1_WP);
+			m_iCurBodyAni = ETOUI(LiDailin_Ani::Ani_ATK_2);
+			m_iCurWeaponAni = ETOUI(Nunchaku_Ani::ATK_2_WP);
 		}
 		else
 		{

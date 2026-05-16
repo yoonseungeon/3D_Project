@@ -153,3 +153,13 @@ BlendState BS_Blend
     DestBlend = One;
     BlendOp = Add;
 };
+
+BlendState BS_AddAlpha
+{
+    BlendEnable[0] = true;
+    BlendEnable[1] = true;
+
+    SrcBlend = Src_Alpha;
+    DestBlend = One;
+    BlendOp = Add;
+};

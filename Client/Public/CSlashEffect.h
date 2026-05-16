@@ -11,18 +11,18 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CNunchaku_AfterImage final : public CGameObject
+class CSlashEffect final : public CGameObject
 {
 public:
-	struct NUNCHAKU_AFTERIMAGE_DESC : public CGameObject::GAMEOBJECT_DESC
+	struct SLASH_EFFECT_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
 		_uint iTexIdx{};
 	};
 
 protected:
-	CNunchaku_AfterImage(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CNunchaku_AfterImage(const CNunchaku_AfterImage& Prototype);
-	virtual ~CNunchaku_AfterImage() = default;
+	CSlashEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSlashEffect(const CSlashEffect& Prototype);
+	virtual ~CSlashEffect() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -55,15 +55,15 @@ private:
 	_uint m_iTexIdx{};
 
 	//
-	_float4 m_vDebugQuat = _float4(0.662921f, -0.017824f, 0.744414f, 0.077878f);
-	_float4 m_vDebugPos = _float4(1.243823f, 0.884193f, 0.617908f, 1.f);
+	_float4 m_vDebugQuat = _float4(0.379001f, 0.629112f, 0.425090f, 0.529031f);
+	_float4 m_vDebugPos = _float4(0.113678f, 1.445772f, 0.451558f, 1.f);
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CNunchaku_AfterImage* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CSlashEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();
