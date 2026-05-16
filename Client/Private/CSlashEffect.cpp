@@ -235,20 +235,27 @@ void CSlashEffect::Set_EffectTransform(_uint iCurAni, _uint iATKCount)
     }
     case ETOUI(Nunchaku_Ani::ATK_1P_WP):
     {
-
+        m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.102898f, 1.047245f, 0.430798f, 1.f));
+        _float4 vQuat = _float4(0.370416f, 0.631760f, 0.383929f, -0.562379f);
+        m_pTransformCom->Set_Rotation(vQuat);
         break;
     }
     case ETOUI(Nunchaku_Ani::ATK_2P_WP):
     {
         if (iATKCount == 1)
         {
-
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.113678f, 1.445772f, 0.451558f, 1.f));
+            _float4 vQuat = _float4(0.483466f, 0.536214f, 0.441775f, 0.532514f);
+            m_pTransformCom->Set_Rotation(vQuat);
         }
         else
         {
             //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-0.806056f, 0.088632f, 0.680687f, 1.f));
             //_float4 vQuat = _float4(0.344840f, -0.588919f, 0.478363f, 0.552656f);
             //m_pTransformCom->Set_Rotation(vQuat);
+            m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.102898f, 1.047245f, 0.430798f, 1.f));
+            _float4 vQuat = _float4(0.370416f, 0.631760f, 0.383929f, -0.562379f);
+            m_pTransformCom->Set_Rotation(vQuat);
         }
         break;
     }

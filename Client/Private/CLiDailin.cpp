@@ -758,37 +758,37 @@ void CLiDailin::Key_Input()
         TryEquip_AddInven(33);
     }
 
-    //// Q
-    //if (m_pGameInstance->Key_Down(DIK_Q)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_Q;
+    // Q
+    if (m_pGameInstance->Key_Down(DIK_Q)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_Q;
 
-    //    Process_ActionCommand(tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
-    //// W
-    //if (m_pGameInstance->Key_Down(DIK_W)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
+    // W
+    if (m_pGameInstance->Key_Down(DIK_W)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
 
-    //    Process_ActionCommand(tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
-    //// E
-    //if (m_pGameInstance->Key_Down(DIK_E)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
+    // E
+    if (m_pGameInstance->Key_Down(DIK_E)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
 
-    //    Process_ActionCommand(tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
-    //// R
-    //if (m_pGameInstance->Key_Down(DIK_R)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
+    // R
+    if (m_pGameInstance->Key_Down(DIK_R)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
 
-    //    Process_ActionCommand(tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
 
     if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))
