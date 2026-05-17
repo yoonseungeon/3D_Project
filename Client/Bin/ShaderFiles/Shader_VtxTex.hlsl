@@ -384,6 +384,28 @@ PS_OUT PS_MAIN_SKILLCOOL(PS_IN In)
 }
 
 
+
+
+
+PS_OUT PS_MAIN_SHOCKWAVE(PS_IN In)
+{
+    PS_OUT Out;
+    
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    Out.vColor.a = saturate(Out.vColor.r * 2.f);
+    
+    if (Out.vColor.a > 0.5f)
+        Out.vColor.a *= 0.55f;
+        
+        Out.vColor.rgb *= float3(104.f / 255.f, 102.f / 255.f, 100.f / 255.f);
+
+    return Out;
+}
+
+
+
+
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -505,5 +527,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_SKILLCOOL()));
+    }
+
+    pass ShockWave
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_SHOCKWAVE()));
     }
 }

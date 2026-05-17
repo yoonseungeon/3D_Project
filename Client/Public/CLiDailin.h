@@ -21,6 +21,7 @@ class CSkillState;
 
 class CSpinEffect;
 class CLiDailinSlash2;
+class CShockWave_Q;
 
 class CLiDailin final : public CAbstractPlayer
 {
@@ -124,6 +125,7 @@ private:
 	CWeapon* m_pWeapon{};
 	CSpinEffect* m_pSpinEffect{};
 	CLiDailinSlash2* m_pLiDailinSlash2{};
+	CShockWave_Q* m_pShockWave_Q{};
 
 	// State
 	unordered_map<wstring, CState*> m_States;

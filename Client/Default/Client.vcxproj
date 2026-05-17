@@ -195,6 +195,7 @@
     <ClInclude Include="..\Public\CPartEffect.h" />
     <ClInclude Include="..\Public\CRapier.h" />
     <ClInclude Include="..\Public\CRiver.h" />
+    <ClInclude Include="..\Public\CShockWave_Q.h" />
     <ClInclude Include="..\Public\CSkillCoolDisplay.h" />
     <ClInclude Include="..\Public\CSkillLevelUpBtn.h" />
     <ClInclude Include="..\Public\CSkillState.h" />
@@ -328,6 +329,7 @@
     <ClCompile Include="..\Private\CPartEffect.cpp" />
     <ClCompile Include="..\Private\CRapier.cpp" />
     <ClCompile Include="..\Private\CRiver.cpp" />
+    <ClCompile Include="..\Private\CShockWave_Q.cpp" />
     <ClCompile Include="..\Private\CSkillCoolDisplay.cpp" />
     <ClCompile Include="..\Private\CSkillLevelUpBtn.cpp" />
     <ClCompile Include="..\Private\CSkillState.cpp" />

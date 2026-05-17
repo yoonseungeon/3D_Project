@@ -36,6 +36,7 @@
 
 #include "CSpinEffect.h"
 #include "CLiDailinSlash2.h"
+#include "CShockWave_Q.h"
 
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
@@ -766,6 +767,19 @@ HRESULT CLiDailin::Ready_PartObjects()
     m_pLiDailinSlash2 = dynamic_cast<CLiDailinSlash2*>(m_PartObjects[TEXT("Q_Dragon")]);
     Safe_AddRef(m_pLiDailinSlash2);
 
+
+    // ShockWave_Q
+    CShockWave_Q::SHOKEWAVE_Q_DESC ShockWave_QDesc{};
+    ShockWave_QDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    ShockWave_QDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Fx_Bottom");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ShockWave_Q"),
+        TEXT("ShockWave_Q"), &ShockWave_QDesc)))
+        return E_FAIL;    
+
+    m_pShockWave_Q = dynamic_cast<CShockWave_Q*>(m_PartObjects[TEXT("ShockWave_Q")]);
+    Safe_AddRef(m_pShockWave_Q);
+
     return S_OK;
 }
 
@@ -1045,6 +1059,7 @@ void CLiDailin::Free()
     }
     m_States.clear();
 
+    Safe_Release(m_pShockWave_Q);
     Safe_Release(m_pLiDailinSlash2);
     Safe_Release(m_pSpinEffect);
     Safe_Release(m_pWeapon);

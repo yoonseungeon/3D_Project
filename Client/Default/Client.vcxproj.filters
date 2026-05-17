@@ -397,6 +397,9 @@
     <Filter Include="04. PartEffect\01. LiDailinSlash2">
       <UniqueIdentifier>{6e9597b2-eb5f-4870-a9d0-12fde7f9fb1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. PartEffect\02. QShockWave">
+      <UniqueIdentifier>{cba6e57b-b439-4cd3-b9be-a36a8bde3336}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -792,6 +795,9 @@
     <ClInclude Include="..\Public\CLiDailinSlash2.h">
       <Filter>04. PartEffect\01. LiDailinSlash2</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CShockWave_Q.h">
+      <Filter>04. PartEffect\02. QShockWave</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1169,6 +1175,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailinSlash2.cpp">
       <Filter>04. PartEffect\01. LiDailinSlash2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CShockWave_Q.cpp">
+      <Filter>04. PartEffect\02. QShockWave</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

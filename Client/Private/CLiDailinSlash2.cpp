@@ -44,7 +44,7 @@ HRESULT CLiDailinSlash2::Initialize(void* pArg)
 
 void CLiDailinSlash2::Priority_Update(_float fTimeDelta)
 {
-    __super::Priority_Update(fTimeDelta);
+    //__super::Priority_Update(fTimeDelta);
 }
 
 void CLiDailinSlash2::Parallel_Update(_float fTimeDelta)
