@@ -87,7 +87,9 @@ void CSpinEffect::Set_SpinEffect(CBody_Player* pBody_Player)
     CMyModel* pModel = pBody_Player->Get_ModelCom();
     _uint iCurAniIndex = pModel->Get_CurAniIndex();
 
-    if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q1) || iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q2))
+    if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q1) ||
+        iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q2) ||
+        iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q3))
     {
         _float fCurAniRatio = pModel->Get_AniPlayRatio(iCurAniIndex);
 

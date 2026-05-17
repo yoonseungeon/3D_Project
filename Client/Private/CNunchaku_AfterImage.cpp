@@ -36,7 +36,6 @@ HRESULT CNunchaku_AfterImage::Initialize(void* pArg)
 
 void CNunchaku_AfterImage::Priority_Update(_float fTimeDelta)
 {
-    //__super::Priority_Update(fTimeDelta);
 }
 
 void CNunchaku_AfterImage::Parallel_Update(_float fTimeDelta)

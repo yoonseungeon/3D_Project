@@ -46,6 +46,9 @@ HRESULT CWeapon::Initialize(void* pArg)
     if (FAILED(Ready_Layer_Slash_Effect(TEXT("Nunchaku_Slash_Effect"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_Slash_Wind(TEXT("Nunchaku_Slash_Wind"))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -89,6 +92,7 @@ void CWeapon::Late_Update(_float fTimeDelta)
 
     m_pNunchaku_AfterImage->Compute_CombinedMatrix(m_pParentMatrix);
     m_pSlashEffect->Compute_CombinedMatrix(m_pParentMatrix);
+    m_pSlashWind->Compute_CombinedMatrix(m_pParentMatrix);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
     m_pGameInstance->Add_RenderGroup(RENDERID::SHADOW, this);
@@ -226,10 +230,25 @@ HRESULT CWeapon::Ready_Layer_Nunchaku_AfterImage(const _wstring& strLayerTag)
 HRESULT CWeapon::Ready_Layer_Slash_Effect(const _wstring& strLayerTag)
 {   
     CSlashEffect::SLASH_EFFECT_DESC Desc{};
+    Desc.wstrTextureTag = L"Prototype_Texture_FX_Nunchaku_SlashLine";
     Desc.iTexIdx = 0;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Nunchaku_SlashEffect"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pSlashEffect))))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CWeapon::Ready_Layer_Slash_Wind(const _wstring& strLayerTag)
+{
+    CSlashEffect::SLASH_EFFECT_DESC Desc{};
+    Desc.wstrTextureTag = L"Prototype_Texture_Nuncahku_Wind";
+    Desc.iTexIdx = 0;
+    Desc.fScale = 0.85f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Nunchaku_SlashEffect"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc, reinterpret_cast<CGameObject**>(&m_pSlashWind))))
         return E_FAIL;
 
     return S_OK;
@@ -300,6 +319,7 @@ void CWeapon::Generate_Effect()
         {
             m_pNunchaku_AfterImage->Set_IsInactive(true);
             m_pSlashEffect->Set_IsInactive(true);
+            m_pSlashWind->Set_IsInactive(true);
             return;
         }
     }
@@ -317,11 +337,16 @@ void CWeapon::Generate_Effect()
         m_pSlashEffect->Set_EffectTransform(iAniIndex, iATKCount);
         m_pSlashEffect->Set_Alpha(fAlpha / 3.f);
 
+        m_pSlashWind->Set_IsInactive(false);
+        m_pSlashWind->Set_EffectTransform(iAniIndex, iATKCount);
+        m_pSlashWind->Set_Alpha(fAlpha / 3.f);
+
     }
     else
     {
         m_pNunchaku_AfterImage->Set_IsInactive(true);
         m_pSlashEffect->Set_IsInactive(true);
+        m_pSlashWind->Set_IsInactive(true);
     }
 }
 
@@ -353,6 +378,7 @@ CGameObject* CWeapon::Clone(void* pArg)
 
 void CWeapon::Free()
 {
+    Safe_Release(m_pSlashWind);
     Safe_Release(m_pNunchaku_AfterImage);
     Safe_Release(m_pSlashEffect);
     Safe_Release(m_pTrailEffect);

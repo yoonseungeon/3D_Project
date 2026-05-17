@@ -16,6 +16,8 @@ class CSlashEffect final : public CEffect
 public:
 	struct SLASH_EFFECT_DESC : public CEffect::EFFECT_DESC
 	{
+		wstring wstrTextureTag;
+		_float fScale{ 1.f };
 	};
 
 protected:
@@ -40,6 +42,8 @@ private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
 	CTexture* m_pTextureCom{ nullptr };
+
+	wstring m_wstrTextureTag;
 
 private:
 	HRESULT Ready_Components();

@@ -25,11 +25,15 @@ HRESULT CSlashEffect::Initialize(void* pArg)
 {
     SLASH_EFFECT_DESC* pDesc = static_cast<SLASH_EFFECT_DESC*>(pArg);
 
+    m_wstrTextureTag = pDesc->wstrTextureTag;
+
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
     if (FAILED(Ready_Components()))
         return E_FAIL;
+
+    m_pTransformCom->Set_Scale(pDesc->fScale, pDesc->fScale, pDesc->fScale);
 
     return S_OK;
 }
@@ -114,9 +118,6 @@ void CSlashEffect::Set_EffectTransform(_uint iCurAni, _uint iATKCount)
         }
         else
         {
-            //m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(-0.806056f, 0.088632f, 0.680687f, 1.f));
-            //_float4 vQuat = _float4(0.344840f, -0.588919f, 0.478363f, 0.552656f);
-            //m_pTransformCom->Set_Rotation(vQuat);
             m_pTransformCom->Set_State(STATE::POSITION, XMVectorSet(0.102898f, 1.047245f, 0.430798f, 1.f));
             _float4 vQuat = _float4(0.370416f, 0.631760f, 0.383929f, -0.562379f);
             m_pTransformCom->Set_Rotation(vQuat);
@@ -144,7 +145,7 @@ HRESULT CSlashEffect::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture*/
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), L"Prototype_Texture_FX_Nunchaku_SlashLine",
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), m_wstrTextureTag,
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
