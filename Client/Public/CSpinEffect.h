@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "CEffect.h"
+#include "CPartEffect.h"
 
 NS_BEGIN(Engine)
 class CShader;
@@ -11,17 +11,19 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CSlashEffect final : public CEffect
+class CBody_Player;
+
+class CSpinEffect final : public CPartEffect
 {
 public:
-	struct SLASH_EFFECT_DESC : public CEffect::EFFECT_DESC
+	struct SPIN_EFFECT_DESC : public CPartEffect::PARTEFFECT_DESC
 	{
 	};
 
 protected:
-	CSlashEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CSlashEffect(const CSlashEffect& Prototype);
-	virtual ~CSlashEffect() = default;
+	CSpinEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSpinEffect(const CSpinEffect& Prototype);
+	virtual ~CSpinEffect() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -34,19 +36,21 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	virtual void Set_EffectTransform(_uint iCurAni, _uint iATKCount = 1) override;
+	void Set_SpinEffect(CBody_Player* pBody_Player);
 
 private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
 	CTexture* m_pTextureCom{ nullptr };
 
+	_float m_fProgressRatio{};
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CSlashEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CSpinEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();

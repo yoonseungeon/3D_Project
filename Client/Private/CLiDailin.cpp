@@ -34,6 +34,9 @@
 
 #include "CAbstractMonster.h"
 
+#include "CSpinEffect.h"
+#include "CLiDailinSlash2.h"
+
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
 {
@@ -137,6 +140,9 @@ void CLiDailin::Update(_float fTimeDelta)
 
 void CLiDailin::Late_Update(_float fTimeDelta)
 {
+    m_pSpinEffect->Set_SpinEffect(m_pBody);
+    m_pLiDailinSlash2->Set_SpinEffect(m_pBody);
+
     __super::Late_Update(fTimeDelta);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
@@ -734,6 +740,32 @@ HRESULT CLiDailin::Ready_PartObjects()
         TEXT("HPBar"), &HPBarDesc)))
         return E_FAIL;
 
+    // SpinEffect
+    CSpinEffect::SPIN_EFFECT_DESC SpinEffectDesc{};
+    SpinEffectDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    SpinEffectDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Fx_Bottom");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Nunchaku_SpinEffect"),
+        TEXT("Q_SpinEffect"), &SpinEffectDesc)))
+        return E_FAIL;
+    
+
+    m_pSpinEffect = dynamic_cast<CSpinEffect*>(m_PartObjects[TEXT("Q_SpinEffect")]);
+    Safe_AddRef(m_pSpinEffect);
+
+
+    // LiDailinSlash2
+    CLiDailinSlash2::LIDAILIN_SLASH2_DESC QDragonEffectDesc{};
+    QDragonEffectDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    QDragonEffectDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Fx_Bottom");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_LiDailinSlash2"),
+        TEXT("Q_Dragon"), &QDragonEffectDesc)))
+        return E_FAIL;    
+
+    m_pLiDailinSlash2 = dynamic_cast<CLiDailinSlash2*>(m_PartObjects[TEXT("Q_Dragon")]);
+    Safe_AddRef(m_pLiDailinSlash2);
+
     return S_OK;
 }
 
@@ -766,29 +798,29 @@ void CLiDailin::Key_Input()
         Process_ActionCommand(tAction_Command);
     }
 
-    // W
-    if (m_pGameInstance->Key_Down(DIK_W)) {
-        ACTION_COMMAND tAction_Command{};
-        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
+    //// W
+    //if (m_pGameInstance->Key_Down(DIK_W)) {
+    //    ACTION_COMMAND tAction_Command{};
+    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
 
-        Process_ActionCommand(tAction_Command);
-    }
+    //    Process_ActionCommand(tAction_Command);
+    //}
 
-    // E
-    if (m_pGameInstance->Key_Down(DIK_E)) {
-        ACTION_COMMAND tAction_Command{};
-        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
+    //// E
+    //if (m_pGameInstance->Key_Down(DIK_E)) {
+    //    ACTION_COMMAND tAction_Command{};
+    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
 
-        Process_ActionCommand(tAction_Command);
-    }
+    //    Process_ActionCommand(tAction_Command);
+    //}
 
-    // R
-    if (m_pGameInstance->Key_Down(DIK_R)) {
-        ACTION_COMMAND tAction_Command{};
-        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
+    //// R
+    //if (m_pGameInstance->Key_Down(DIK_R)) {
+    //    ACTION_COMMAND tAction_Command{};
+    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
 
-        Process_ActionCommand(tAction_Command);
-    }
+    //    Process_ActionCommand(tAction_Command);
+    //}
 
 
     if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))
@@ -887,7 +919,7 @@ HRESULT CLiDailin::Initialize_Stat()
 HRESULT CLiDailin::Initialize_Skill()
 {
     // cool
-    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 5.f;
+    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 1.f;
     tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
 
     tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 2.f;
@@ -1013,6 +1045,8 @@ void CLiDailin::Free()
     }
     m_States.clear();
 
+    Safe_Release(m_pLiDailinSlash2);
+    Safe_Release(m_pSpinEffect);
     Safe_Release(m_pWeapon);
     Safe_Release(m_pBody);
 

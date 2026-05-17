@@ -70,6 +70,8 @@ void CWeapon::Update(_float fTimeDelta)
 
 void CWeapon::Late_Update(_float fTimeDelta)
 {
+    Generate_Effect();
+
     if (m_bIsInactive == true) 
     {
         return;
@@ -84,8 +86,6 @@ void CWeapon::Late_Update(_float fTimeDelta)
     // 자신 월드 * 소켓 * 컨테이너 부모 이 순서로 곱함
     // 자신 월드 * 소켓 * Body * 컨테이너 부모가 더 정확하지만 Body는 움직이지 않아서 항등 행렬임.
     Compute_CombinedWorldMatrix(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()) * SocketMatrix);
-
-    Generate_Effect();
 
     m_pNunchaku_AfterImage->Compute_CombinedMatrix(m_pParentMatrix);
     m_pSlashEffect->Compute_CombinedMatrix(m_pParentMatrix);

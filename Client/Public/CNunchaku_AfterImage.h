@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "CGameObject.h"
+#include "CEffect.h"
 
 NS_BEGIN(Engine)
 class CShader;
@@ -11,12 +11,11 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CNunchaku_AfterImage final : public CGameObject
+class CNunchaku_AfterImage final : public CEffect
 {
 public:
-	struct NUNCHAKU_AFTERIMAGE_DESC : public CGameObject::GAMEOBJECT_DESC
+	struct NUNCHAKU_AFTERIMAGE_DESC : public CEffect::EFFECT_DESC
 	{
-		_uint iTexIdx{};
 	};
 
 protected:
@@ -35,28 +34,12 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void Compute_CombinedMatrix(const _float4x4* vParentMatrix);
-
-	virtual void Set_IsInactive(_bool bIsInactive) override;
-	void Set_Alpha(_float fAlpha) { m_fAlpha = fAlpha; }
-	void Set_EffectTransform(_uint iCurAni, _uint iATKCount = 1);
+	virtual void Set_EffectTransform(_uint iCurAni, _uint iATKCount = 1) override;
 
 private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
 	CTexture* m_pTextureCom{ nullptr };
-
-	_float4x4 m_CombinedWorldMatrix{};
-
-	_uint m_iCurAni{};
-	_uint m_iATKCount{};
-
-	_float m_fAlpha{ 1.f };
-	_uint m_iTexIdx{};
-
-	//
-	_float4 m_vDebugQuat = _float4(0.662921f, -0.017824f, 0.744414f, 0.077878f);
-	_float4 m_vDebugPos = _float4(1.243823f, 0.884193f, 0.617908f, 1.f);
 
 private:
 	HRESULT Ready_Components();

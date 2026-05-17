@@ -388,6 +388,15 @@
     <Filter Include="03. Effect\02. SlashEffect">
       <UniqueIdentifier>{a2a6a53a-e84e-40ee-a0cd-d792316c256f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. PartEffect">
+      <UniqueIdentifier>{5d52ed2d-23d0-461d-819e-f20fa129d736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. PartEffect\00. SpinEffect">
+      <UniqueIdentifier>{2d141f34-696d-4e9b-a93f-5b8cbc1604f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. PartEffect\01. LiDailinSlash2">
+      <UniqueIdentifier>{6e9597b2-eb5f-4870-a9d0-12fde7f9fb1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -771,6 +780,18 @@
     <ClInclude Include="..\Public\CSlashEffect.h">
       <Filter>03. Effect\02. SlashEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CEffect.h">
+      <Filter>03. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CSpinEffect.h">
+      <Filter>04. PartEffect\00. SpinEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CPartEffect.h">
+      <Filter>04. PartEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLiDailinSlash2.h">
+      <Filter>04. PartEffect\01. LiDailinSlash2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1136,6 +1157,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\CSlashEffect.cpp">
       <Filter>03. Effect\02. SlashEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CEffect.cpp">
+      <Filter>03. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSpinEffect.cpp">
+      <Filter>04. PartEffect\00. SpinEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CPartEffect.cpp">
+      <Filter>04. PartEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailinSlash2.cpp">
+      <Filter>04. PartEffect\01. LiDailinSlash2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,9 @@ class CInGame_Manager;
 
 class CSkillState;
 
+class CSpinEffect;
+class CLiDailinSlash2;
+
 class CLiDailin final : public CAbstractPlayer
 {
 public:
@@ -119,6 +122,8 @@ private:
 	// Part Obj
 	CBody_Player* m_pBody{};
 	CWeapon* m_pWeapon{};
+	CSpinEffect* m_pSpinEffect{};
+	CLiDailinSlash2* m_pLiDailinSlash2{};
 
 	// State
 	unordered_map<wstring, CState*> m_States;

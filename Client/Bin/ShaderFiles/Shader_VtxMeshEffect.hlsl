@@ -3,8 +3,11 @@
 float4x4 g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D g_DiffuseTexture;
+Texture2D g_NoiseTexture;
 
+float3 g_Color = { 0.f, 0.f, 0.f };
 float g_Alpha = { 0.5f };
+bool g_FlipX = { false };
 
 struct VS_IN
 {
@@ -69,6 +72,67 @@ PS_OUT PS_MAIN(PS_IN In)
 
 
 
+float g_ProgressRatio;
+
+PS_OUT PS_MAIN_CONVERT_BLACK(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float2 vTexcoord = In.vTexcoord;
+    
+    // 0.3 ~ 0.8
+    float fStartTop = 0.3f;
+    vTexcoord.y = vTexcoord.y * 0.5f + fStartTop;
+    
+    // 0.3 ~ 0.8 -> -0.5 ~ 0
+    vTexcoord.y = vTexcoord.y - (g_ProgressRatio * (fStartTop + 0.5f));
+    
+    if (vTexcoord.y < 0.f)
+        discard;
+    
+    float4 vColor = g_DiffuseTexture.Sample(LinearSampler, vTexcoord);
+    
+    float fBrightness = (vColor.r + vColor.g + vColor.b) / 3.f;
+    
+    Out.vColor.xyz = float3(0.f, 0.f, 0.f);
+    Out.vColor.a = g_Alpha * fBrightness;
+
+    return Out;
+}
+
+
+
+
+float g_DiscardRatio;
+float3 g_StartColor;
+float3 g_EndColor;
+
+PS_OUT PS_MAIN_Q_DRAGON(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float2 vTexcoord = In.vTexcoord;
+    
+    if(g_FlipX == true)
+        vTexcoord.x = 1.f - vTexcoord.x;
+    
+    if (g_Alpha >= 1.f)
+    {
+        float fNoise = (g_NoiseTexture.Sample(LinearSampler, vTexcoord).r * -0.5f) * 0.5f;
+        if ((1.f - vTexcoord.x) + fNoise < g_DiscardRatio)
+            discard;
+    }
+            
+    float t = saturate(pow(g_DiscardRatio, 3.f));
+    float3 vEffectColor = lerp(g_StartColor, g_EndColor, t);
+        
+    Out.vColor = g_DiffuseTexture.Sample(LinearSampler, vTexcoord);
+    Out.vColor.xyz *= vEffectColor;
+    Out.vColor.a *= g_Alpha;
+    
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -95,12 +159,34 @@ technique11 DefaultTechnique
 
     pass Blend
     {
-        SetRasterizerState(RS_Default);
+        SetRasterizerState(RS_Cull_None);
         SetDepthStencilState(DSS_Z_Disable, 0);
         SetBlendState(BS_AddAlpha, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN()));
+    }
+
+    pass ConvertBlack
+    {
+        SetRasterizerState(RS_Cull_None);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_CONVERT_BLACK()));
+    }
+
+    pass Q_Dragon
+    {
+        SetRasterizerState(RS_Cull_None);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AddAlpha, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_Q_DRAGON()));
     }
 }
