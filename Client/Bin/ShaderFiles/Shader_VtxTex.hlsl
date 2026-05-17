@@ -387,24 +387,78 @@ PS_OUT PS_MAIN_SKILLCOOL(PS_IN In)
 
 
 
+float g_AppearRatio = { 1.f };
+
 PS_OUT PS_MAIN_SHOCKWAVE(PS_IN In)
 {
     PS_OUT Out;
     
-    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
-    Out.vColor.a = saturate(Out.vColor.r * 2.f);
+    float2 vTexcoord = In.vTexcoord - float2(0.5f, 0.5f);
+    float fDistance = length(vTexcoord);
     
-    if (Out.vColor.a > 0.5f)
-        Out.vColor.a *= 0.55f;
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);
+    
+    float fDark = (1.f - Out.vColor.r) * 0.3f;
+    
+    if (fDistance - fDark > g_AppearRatio)
+        discard;
         
-        Out.vColor.rgb *= float3(104.f / 255.f, 102.f / 255.f, 100.f / 255.f);
+    float3 vColor = { 0.407f, 0.4f, 0.392f };
+        
+    Out.vColor.a = saturate(Out.vColor.r * 2.f);
+    if (Out.vColor.a > 0.5f)
+        Out.vColor.a *= 0.7f;
+    
+    Out.vColor.rgb *= vColor;
 
+    Out.vColor.a *= g_Alpha;
+    
     return Out;
 }
 
 
 
 
+
+PS_OUT PS_MAIN_LAVA(PS_IN In)
+{
+    PS_OUT Out;
+
+    float fMask = g_Texture.Sample(LinearSampler, In.vTexcoord).r;
+
+    float3 vDarkRed = float3(0.12f, 0.01f, 0.0f);
+    float3 vRed = float3(0.75f, 0.05f, 0.0f);
+    float3 vOrange = float3(1.0f, 0.32f, 0.02f);
+    float3 vYellow = float3(1.0f, 0.85f, 0.18f);
+
+ 
+    float3 vColor = vDarkRed;
+
+    if (fMask < 0.15f)
+    {
+        vColor = vDarkRed;
+    }
+    else if (fMask < 0.45f)
+    {
+        float t = smoothstep(0.15f, 0.45f, fMask);
+        vColor = lerp(vDarkRed, vRed, t);
+    }
+    else if (fMask < 0.75f)
+    {
+        float t = smoothstep(0.45f, 0.75f, fMask);
+        vColor = lerp(vRed, vOrange, t);
+    }
+    else
+    {
+        float t = smoothstep(0.75f, 1.0f, fMask);
+        vColor = lerp(vOrange, vYellow, t);
+    }
+
+    Out.vColor.a = saturate(fMask * 1.5f) * g_Alpha;
+    Out.vColor.rgb = vColor;
+
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -538,5 +592,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_SHOCKWAVE()));
+    }
+
+    pass Lava
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AddAlpha, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_LAVA()));
     }
 }

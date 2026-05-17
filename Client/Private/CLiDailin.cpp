@@ -37,6 +37,7 @@
 #include "CSpinEffect.h"
 #include "CLiDailinSlash2.h"
 #include "CShockWave_Q.h"
+#include "CLava_Q.h"
 
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
@@ -143,6 +144,8 @@ void CLiDailin::Late_Update(_float fTimeDelta)
 {
     m_pSpinEffect->Set_SpinEffect(m_pBody);
     m_pLiDailinSlash2->Set_SpinEffect(m_pBody);
+    m_pShockWave_Q->Set_SpinEffect(m_pBody, fTimeDelta);
+    m_pCLava_Q->Set_SpinEffect(m_pBody, fTimeDelta);
 
     __super::Late_Update(fTimeDelta);
 
@@ -780,6 +783,19 @@ HRESULT CLiDailin::Ready_PartObjects()
     m_pShockWave_Q = dynamic_cast<CShockWave_Q*>(m_PartObjects[TEXT("ShockWave_Q")]);
     Safe_AddRef(m_pShockWave_Q);
 
+
+    // m_pCLava_Q
+    CLava_Q::LAVA_Q_DESC Lava_QDesc{};
+    Lava_QDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    Lava_QDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Fx_Bottom");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lava_Q"),
+        TEXT("m_pCLava_Q"), &Lava_QDesc)))
+        return E_FAIL;    
+
+    m_pCLava_Q = dynamic_cast<CLava_Q*>(m_PartObjects[TEXT("m_pCLava_Q")]);
+    Safe_AddRef(m_pCLava_Q);
+
     return S_OK;
 }
 
@@ -1060,6 +1076,7 @@ void CLiDailin::Free()
     m_States.clear();
 
     Safe_Release(m_pShockWave_Q);
+    Safe_Release(m_pCLava_Q);
     Safe_Release(m_pLiDailinSlash2);
     Safe_Release(m_pSpinEffect);
     Safe_Release(m_pWeapon);

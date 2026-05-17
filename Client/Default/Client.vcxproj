@@ -190,6 +190,7 @@
     <ClInclude Include="..\Public\CItemBox.h" />
     <ClInclude Include="..\Public\CItemBox_Collectible.h" />
     <ClInclude Include="..\Public\CItemSpawner.h" />
+    <ClInclude Include="..\Public\CLava_Q.h" />
     <ClInclude Include="..\Public\CLiDailinSlash2.h" />
     <ClInclude Include="..\Public\CNunchaku_AfterImage.h" />
     <ClInclude Include="..\Public\CPartEffect.h" />
@@ -324,6 +325,7 @@
     <ClCompile Include="..\Private\CItemBox.cpp" />
     <ClCompile Include="..\Private\CItemBox_Collectible.cpp" />
     <ClCompile Include="..\Private\CItemSpawner.cpp" />
+    <ClCompile Include="..\Private\CLava_Q.cpp" />
     <ClCompile Include="..\Private\CLiDailinSlash2.cpp" />
     <ClCompile Include="..\Private\CNunchaku_AfterImage.cpp" />
     <ClCompile Include="..\Private\CPartEffect.cpp" />

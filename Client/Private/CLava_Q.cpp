@@ -1,29 +1,29 @@
-#include "CShockWave_Q.h"
+#include "CLava_Q.h"
 
 #include "CGameInstance.h"
 
 #include "CBody_Player.h"
 
-CShockWave_Q::CShockWave_Q(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLava_Q::CLava_Q(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CPartEffect{ pDevice, pContext }
 {
 
 }
 
-CShockWave_Q::CShockWave_Q(const CShockWave_Q& Prototype)
+CLava_Q::CLava_Q(const CLava_Q& Prototype)
     : CPartEffect{ Prototype }
 {
 
 }
 
-HRESULT CShockWave_Q::Initialize_Prototype()
+HRESULT CLava_Q::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CShockWave_Q::Initialize(void* pArg)
+HRESULT CLava_Q::Initialize(void* pArg)
 {
-    SHOKEWAVE_Q_DESC* pDesc = static_cast<SHOKEWAVE_Q_DESC*>(pArg);
+    LAVA_Q_DESC* pDesc = static_cast<LAVA_Q_DESC*>(pArg);
 
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
@@ -32,27 +32,26 @@ HRESULT CShockWave_Q::Initialize(void* pArg)
         return E_FAIL;
 
     m_pTransformCom->Set_Scale(4.f, 4.f, 1.f);
-    m_pTransformCom->Set_Pos(XMVectorSet(0.f, 0.f, 0.7f, 1.f));
+    m_pTransformCom->Set_Pos(XMVectorSet(0.f, 0.01f, 0.7f, 1.f));
     m_pTransformCom->Set_Rotation(XMConvertToRadians(90.f), 0.f, 0.f);
 
     return S_OK;
 }
 
-void CShockWave_Q::Priority_Update(_float fTimeDelta)
-{
-    //__super::Priority_Update(fTimeDelta);
-}
-
-void CShockWave_Q::Parallel_Update(_float fTimeDelta)
+void CLava_Q::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CShockWave_Q::Update(_float fTimeDelta)
+void CLava_Q::Parallel_Update(_float fTimeDelta)
+{
+}
+
+void CLava_Q::Update(_float fTimeDelta)
 {
 
 }
 
-void CShockWave_Q::Late_Update(_float fTimeDelta)
+void CLava_Q::Late_Update(_float fTimeDelta)
 {
     if (m_bIsInactive == true)
         return;
@@ -60,13 +59,13 @@ void CShockWave_Q::Late_Update(_float fTimeDelta)
     m_pGameInstance->Add_RenderGroup(RENDERID::BLEND, this);
 }
 
-HRESULT CShockWave_Q::Render()
+HRESULT CLava_Q::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    _uint iShockWavePass = 11;
-    if (FAILED(m_pShaderCom->Begin(iShockWavePass)))
+    _uint iLavaPass = 12;
+    if (FAILED(m_pShaderCom->Begin(iLavaPass)))
         return E_FAIL;
 
     if (FAILED(m_pVIBufferCom->Bind_Resources()))
@@ -78,7 +77,7 @@ HRESULT CShockWave_Q::Render()
     return S_OK;
 }
 
-void CShockWave_Q::Set_SpinEffect(CBody_Player* pBody_Player, _float fTimeDelta)
+void CLava_Q::Set_SpinEffect(CBody_Player* pBody_Player, _float fTimeDelta)
 {
     CMyModel* pModel = pBody_Player->Get_ModelCom();
     _uint iCurAniIndex = pModel->Get_CurAniIndex();
@@ -99,8 +98,6 @@ void CShockWave_Q::Set_SpinEffect(CBody_Player* pBody_Player, _float fTimeDelta)
             }
 
             m_bIsInactive = false;
-            m_fAppearRatio = (fCurAniRatio - fAppearStartRatio) / (fAppearEndRatio - fAppearStartRatio);
-            MyHelper::FloatClamp(m_fAppearRatio, 0.f, 1.f);
         }
     }
     else
@@ -110,7 +107,6 @@ void CShockWave_Q::Set_SpinEffect(CBody_Player* pBody_Player, _float fTimeDelta)
             m_fAlpha -= fTimeDelta;
             if (m_fAlpha <= 0.f)
             {
-                m_fAppearRatio = 0.f;
                 m_bIsInactive = true;
                 m_fAlpha = 1.f;
                 m_bSetPos = false;
@@ -119,7 +115,7 @@ void CShockWave_Q::Set_SpinEffect(CBody_Player* pBody_Player, _float fTimeDelta)
     }
 }
 
-HRESULT CShockWave_Q::Ready_Components()
+HRESULT CLava_Q::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -132,14 +128,14 @@ HRESULT CShockWave_Q::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture*/
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), L"Prototype_Texture_ShockWave",
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), L"Prototype_Texture_Lava",
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
     return S_OK;
 }
 
-HRESULT CShockWave_Q::Bind_ShaderResources()
+HRESULT CLava_Q::Bind_ShaderResources()
 {
     if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
         return E_FAIL;
@@ -154,39 +150,37 @@ HRESULT CShockWave_Q::Bind_ShaderResources()
 
     if (FAILED(m_pShaderCom->Bind_RawValue("g_Alpha", &m_fAlpha, sizeof(m_fAlpha))))
         return E_FAIL;
-    if (FAILED(m_pShaderCom->Bind_RawValue("g_AppearRatio", &m_fAppearRatio, sizeof(m_fAppearRatio))))
-        return E_FAIL;
 
     return S_OK;
 }
 
-CShockWave_Q* CShockWave_Q::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CLava_Q* CLava_Q::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CShockWave_Q* pInstance = new CShockWave_Q(pDevice, pContext);
+    CLava_Q* pInstance = new CLava_Q(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CShockWave_Q");
+        MSG_BOX("Failed to Created: CLava_Q");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CShockWave_Q::Clone(void* pArg)
+CGameObject* CLava_Q::Clone(void* pArg)
 {
-    CShockWave_Q* pInstance = new CShockWave_Q(*this);
+    CLava_Q* pInstance = new CLava_Q(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CShockWave_Q");
+        MSG_BOX("Failed to Cloned: CLava_Q");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CShockWave_Q::Free()
+void CLava_Q::Free()
 {
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pVIBufferCom);

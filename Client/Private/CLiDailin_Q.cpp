@@ -103,9 +103,9 @@ void CLiDailin_Q::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 	STACK_COOL_INFO* pQCoolInfo = static_cast<STACK_COOL_INFO*>(pPlayer->Get_CoolInfo(SKILL_SLOT::Q));
 	// 0인 경우는 3타
-	if ((pQCoolInfo->fStack) == 0 && fAniRatio <= 0.5f)
+	if ((pQCoolInfo->fStack) == 0 && fAniRatio <= 0.283f)
 	{
-		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 7.f, true);
+		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 10.f, true);
 	}
 	else if((pQCoolInfo->fStack) != 0){
 		static_cast<CMove*>(pPlayer->Find_Component(TEXT("Com_Move")))->Go_Straight(fTimeDelta, 4.f, true);
