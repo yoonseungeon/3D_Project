@@ -23,6 +23,8 @@ class CSpinEffect;
 class CLiDailinSlash2;
 class CShockWave_Q;
 class CLava_Q;
+class CSpinWind;
+class CLiDailin_E_Range;
 
 class CLiDailin final : public CAbstractPlayer
 {
@@ -124,10 +126,13 @@ private:
 	// Part Obj
 	CBody_Player* m_pBody{};
 	CWeapon* m_pWeapon{};
+
 	CSpinEffect* m_pSpinEffect{};
 	CLiDailinSlash2* m_pLiDailinSlash2{};
 	CShockWave_Q* m_pShockWave_Q{};
 	CLava_Q* m_pCLava_Q{};
+	CSpinWind* m_pSpinWind{};
+	CLiDailin_E_Range* m_pERange{};
 
 	// State
 	unordered_map<wstring, CState*> m_States;

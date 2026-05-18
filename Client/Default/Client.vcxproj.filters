@@ -403,6 +403,12 @@
     <Filter Include="04. PartEffect\02. ShockWave_Q">
       <UniqueIdentifier>{cba6e57b-b439-4cd3-b9be-a36a8bde3336}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. PartEffect\04. SpinWind">
+      <UniqueIdentifier>{196df1c7-9440-465f-b79e-910ef5650ecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. PartEffect\05. LiDailin_E_Range">
+      <UniqueIdentifier>{5e1ab943-e745-4606-9a19-e7fcd6045011}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -804,6 +810,12 @@
     <ClInclude Include="..\Public\CLava_Q.h">
       <Filter>04. PartEffect\03. Lava_Q</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CSpinWind.h">
+      <Filter>04. PartEffect\04. SpinWind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CLiDailin_E_Range.h">
+      <Filter>04. PartEffect\05. LiDailin_E_Range</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1187,6 +1199,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLava_Q.cpp">
       <Filter>04. PartEffect\03. Lava_Q</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSpinWind.cpp">
+      <Filter>04. PartEffect\04. SpinWind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CLiDailin_E_Range.cpp">
+      <Filter>04. PartEffect\05. LiDailin_E_Range</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

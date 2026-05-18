@@ -48,8 +48,8 @@ protected:
 	_float m_fAlpha{ 1.f };
 	_uint m_iTexIdx{};
 
-	_float4 m_vDebugQuat = _float4(-0.931036f, -0.013712f, 0.364343f, -0.015443f);
-	_float4 m_vDebugPos = _float4(0.f, 1.f, 0.f, 1.f);
+	_float4 m_vDebugQuat = _float4(0.f, 0.f, 0.f, 1.f);
+	_float4 m_vDebugPos = _float4(0.f, 0.f, 0.f, 1.f);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

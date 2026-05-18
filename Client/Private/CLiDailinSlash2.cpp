@@ -91,12 +91,33 @@ void CLiDailinSlash2::Set_SpinEffect(CBody_Player* pBody_Player)
     CMyModel* pModel = pBody_Player->Get_ModelCom();
     _uint iCurAniIndex = pModel->Get_CurAniIndex();
 
-    if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q1) || iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q2))
+    if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q1) ||
+        iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q2) ||
+        iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q3))
     {
         _float fCurAniRatio = pModel->Get_AniPlayRatio(iCurAniIndex);
 
-        _float fStartRatio = 0.5f;
-        _float fEndRatio = 1.0f;
+        _float fStartRatio{};
+        _float fEndRatio{};
+
+        if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q1))
+        {
+            m_bFlipX = false;
+            fStartRatio = 0.5f;
+            fEndRatio = 1.0f;
+        }
+        if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q2))
+        {
+            m_bFlipX = true;
+            fStartRatio = 0.5f;
+            fEndRatio = 1.0f;
+        }
+        else
+        {
+            m_bFlipX = false;
+            fStartRatio = 0.1f;
+            fEndRatio = 0.6f;
+        }
 
         if (fCurAniRatio >= fStartRatio && fCurAniRatio <= fEndRatio)
         {
@@ -111,15 +132,30 @@ void CLiDailinSlash2::Set_SpinEffect(CBody_Player* pBody_Player)
             MyHelper::FloatClamp(m_fDiscardRatio, 0.f, 1.f);
         }
 
-        if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q1))
-            m_bFlipX = false;
-        else
-            m_bFlipX = true;
+        if (Set_DragonPos == false)
+        {
+            Set_DragonPos = true;
+            if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q1) ||
+                iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q2))
+            {
+                m_pTransformCom->Set_Pos(XMVectorSet(0.f, 1.f, 0.f, 1.f));
+                _float4 vQuat = _float4(-0.999630f, -0.007484f, 0.017719f, -0.019248f);
+                m_pTransformCom->Set_Rotation(vQuat);
+
+            }
+            else
+            {
+                m_pTransformCom->Set_Pos(XMVectorSet(0.000000f, 1.242445f, 0.000000f, 1.f));
+                _float4 vQuat = _float4(0.483352f, 0.476549f, -0.522932f, 0.515571f);
+                m_pTransformCom->Set_Rotation(vQuat);
+            }
+        }
     }
     else
     {
         if (m_bIsInactive == false)
         {
+            Set_DragonPos = false;
             m_bIsInactive = true;
             m_fProgressRatio = 0.f;
             m_fDiscardRatio = 0.f;

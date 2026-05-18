@@ -73,7 +73,7 @@ void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
     const CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
     const _float fAniRatio = pModel->Get_CurAniPlayRatio();
-    if (fAniRatio >= 0.2f && fAniRatio <= 0.3f)
+    if (fAniRatio >= 0.166f && fAniRatio <= 0.266f)
     {
         pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_E)->Set_Active(true);
     }

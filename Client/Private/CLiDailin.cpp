@@ -38,6 +38,8 @@
 #include "CLiDailinSlash2.h"
 #include "CShockWave_Q.h"
 #include "CLava_Q.h"
+#include "CSpinWind.h"
+#include "CLiDailin_E_Range.h"
 
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
@@ -146,6 +148,8 @@ void CLiDailin::Late_Update(_float fTimeDelta)
     m_pLiDailinSlash2->Set_SpinEffect(m_pBody);
     m_pShockWave_Q->Set_SpinEffect(m_pBody, fTimeDelta);
     m_pCLava_Q->Set_SpinEffect(m_pBody, fTimeDelta);
+    m_pSpinWind->Set_SpinEffect(m_pBody);
+    m_pERange->Set_E_Range(m_pBody, fTimeDelta);
 
     __super::Late_Update(fTimeDelta);
 
@@ -591,7 +595,7 @@ HRESULT CLiDailin::Ready_Components()
     FrustumDesc.vOrigin = _float3(0.f, fColliderCenterY, 0.f);
     FrustumDesc.vRadians = _float3(0.f, 0.f, 0.f);
     FrustumDesc.fNear = 0.f;
-    FrustumDesc.fFar = 2.5f;
+    FrustumDesc.fFar = 3.6f;
 
     // tan으로 넣어줘야 함.
     FrustumDesc.fRightSlope = tanf(XMConvertToRadians(30.f));  // 오른쪽 각도
@@ -796,6 +800,30 @@ HRESULT CLiDailin::Ready_PartObjects()
     m_pCLava_Q = dynamic_cast<CLava_Q*>(m_PartObjects[TEXT("m_pCLava_Q")]);
     Safe_AddRef(m_pCLava_Q);
 
+    // SpinWind
+    CSpinWind::SPIN_WIND_DESC SpinWindDesc{};
+    SpinWindDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    SpinWindDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Fx_Bottom");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SpinWind"),
+        TEXT("SpinWind"), &SpinWindDesc)))
+        return E_FAIL;    
+
+    m_pSpinWind = dynamic_cast<CSpinWind*>(m_PartObjects[TEXT("SpinWind")]);
+    Safe_AddRef(m_pSpinWind);
+
+    // LiDailin_E_Range
+    CLiDailin_E_Range::LIDAILIN_E_RANGE_DESC ERangeDesc{};
+    ERangeDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    ERangeDesc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Fx_Bottom");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_LiDailin_E_Range"),
+        TEXT("LiDailin_E_Range"), &ERangeDesc)))
+        return E_FAIL;    
+
+    m_pERange = dynamic_cast<CLiDailin_E_Range*>(m_PartObjects[TEXT("LiDailin_E_Range")]);
+    Safe_AddRef(m_pERange);
+
     return S_OK;
 }
 
@@ -836,13 +864,13 @@ void CLiDailin::Key_Input()
         Process_ActionCommand(tAction_Command);
     }
 
-    //// E
-    //if (m_pGameInstance->Key_Down(DIK_E)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
+    // E
+    if (m_pGameInstance->Key_Down(DIK_E)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
 
-    //    Process_ActionCommand(tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
     //// R
     //if (m_pGameInstance->Key_Down(DIK_R)) {
@@ -1075,6 +1103,8 @@ void CLiDailin::Free()
     }
     m_States.clear();
 
+    Safe_Release(m_pERange);
+    Safe_Release(m_pSpinWind);
     Safe_Release(m_pShockWave_Q);
     Safe_Release(m_pCLava_Q);
     Safe_Release(m_pLiDailinSlash2);

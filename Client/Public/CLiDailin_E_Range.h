@@ -13,17 +13,17 @@ NS_BEGIN(Client)
 
 class CBody_Player;
 
-class CLiDailinSlash2 final : public CPartEffect
+class CLiDailin_E_Range final : public CPartEffect
 {
 public:
-	struct LIDAILIN_SLASH2_DESC : public CPartEffect::PARTEFFECT_DESC
+	struct LIDAILIN_E_RANGE_DESC : public CPartEffect::PARTEFFECT_DESC
 	{
 	};
 
 protected:
-	CLiDailinSlash2(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CLiDailinSlash2(const CLiDailinSlash2& Prototype);
-	virtual ~CLiDailinSlash2() = default;
+	CLiDailin_E_Range(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CLiDailin_E_Range(const CLiDailin_E_Range& Prototype);
+	virtual ~CLiDailin_E_Range() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -36,28 +36,30 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void Set_SpinEffect(CBody_Player* pBody_Player);
+	void Set_E_Range(CBody_Player* pBody_Player, _float fTimeDelta);
 
 private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
 	CTexture* m_pTextureCom{ nullptr };
-	CTexture* m_pTexNoise{ nullptr };
+
+	_bool m_bSetPos{};
+	_float m_fAccTime{};
+	_float m_fMaxTime{};
+
+	_int m_iCurAniIndex{ -1 };
+	_bool m_bIsActiveOnce{};
 
 	_float m_fProgressRatio{};
-	_float m_fDiscardRatio{};
-	_float3 m_vStartColor{};
-	_float3 m_vEndColor{};
-	_bool m_bFlipX{};
 
-	_bool Set_DragonPos{};
+	_float3 m_vColor{};
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CLiDailinSlash2* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CLiDailin_E_Range* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();

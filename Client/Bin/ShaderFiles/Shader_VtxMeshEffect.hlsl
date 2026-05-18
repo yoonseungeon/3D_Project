@@ -74,7 +74,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 float g_ProgressRatio;
 
-PS_OUT PS_MAIN_CONVERT_BLACK(PS_IN In)
+PS_OUT PS_MAIN_Q_SPIN(PS_IN In)
 {
     PS_OUT Out;
     
@@ -133,12 +133,54 @@ PS_OUT PS_MAIN_Q_DRAGON(PS_IN In)
     return Out;
 }
 
+
+
+
+
+PS_OUT PS_MAIN_WIND(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float2 vTexcoord = In.vTexcoord;
+    vTexcoord.x -= g_ProgressRatio;
+    
+    if (vTexcoord.x < 0.f)
+        discard;
+    
+    Out.vColor = g_DiffuseTexture.Sample(LinearSampler, vTexcoord);
+    float fBrightness = (Out.vColor.r + Out.vColor.g + Out.vColor.b) / 3.f;
+    
+    Out.vColor.rgb *= g_Color;
+    Out.vColor.a = g_Alpha * fBrightness;       
+    
+    return Out;
+}
+
+
+
+
+
+PS_OUT PS_MAIN_CONVER_ALPHA(PS_IN In)
+{
+    PS_OUT Out;
+    
+    Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexcoord);
+    
+    float fBrightness = (Out.vColor.r + Out.vColor.g + Out.vColor.b) / 3.f;
+    
+    Out.vColor.xyz = g_Color;
+    Out.vColor.a = g_Alpha * fBrightness;
+
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
     {
         SetRasterizerState(RS_Cull_None);
-        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
         SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
@@ -149,7 +191,7 @@ technique11 DefaultTechnique
     pass AlphaBlend
     {
         SetRasterizerState(RS_Cull_None);
-        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
@@ -160,7 +202,7 @@ technique11 DefaultTechnique
     pass Blend
     {
         SetRasterizerState(RS_Cull_None);
-        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
         SetBlendState(BS_AddAlpha, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
@@ -171,22 +213,44 @@ technique11 DefaultTechnique
     pass ConvertBlack
     {
         SetRasterizerState(RS_Cull_None);
-        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
-        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_CONVERT_BLACK()));
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_Q_SPIN()));
     }
 
     pass Q_Dragon
     {
         SetRasterizerState(RS_Cull_None);
-        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
         SetBlendState(BS_AddAlpha, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_Q_DRAGON()));
+    }
+
+    pass Wind
+    {
+        SetRasterizerState(RS_Cull_None);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_WIND()));
+    }
+
+    pass Convert_AlphaBlend
+    {
+        SetRasterizerState(RS_Cull_None);
+        SetDepthStencilState(DSS_Test_NoWrite, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_CONVER_ALPHA()));
     }
 }

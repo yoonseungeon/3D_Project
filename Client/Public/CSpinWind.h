@@ -13,17 +13,17 @@ NS_BEGIN(Client)
 
 class CBody_Player;
 
-class CLiDailinSlash2 final : public CPartEffect
+class CSpinWind final : public CPartEffect
 {
 public:
-	struct LIDAILIN_SLASH2_DESC : public CPartEffect::PARTEFFECT_DESC
+	struct SPIN_WIND_DESC : public CPartEffect::PARTEFFECT_DESC
 	{
 	};
 
 protected:
-	CLiDailinSlash2(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CLiDailinSlash2(const CLiDailinSlash2& Prototype);
-	virtual ~CLiDailinSlash2() = default;
+	CSpinWind(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSpinWind(const CSpinWind& Prototype);
+	virtual ~CSpinWind() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -42,22 +42,16 @@ private:
 	CShader* m_pShaderCom = { nullptr };
 	CMyModel* m_pModelCom = { nullptr };
 	CTexture* m_pTextureCom{ nullptr };
-	CTexture* m_pTexNoise{ nullptr };
 
 	_float m_fProgressRatio{};
-	_float m_fDiscardRatio{};
-	_float3 m_vStartColor{};
-	_float3 m_vEndColor{};
-	_bool m_bFlipX{};
-
-	_bool Set_DragonPos{};
+	_float3 m_vColor{};
 
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CLiDailinSlash2* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CSpinWind* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();
