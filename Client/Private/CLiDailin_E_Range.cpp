@@ -106,7 +106,7 @@ void CLiDailin_E_Range::Set_E_Range(CBody_Player* pBody_Player, _float fTimeDelt
         }
     }
 
-    if (m_fAccTime > 0.f)
+    if (m_bIsInactive == false)
     {
         m_fAccTime -= fTimeDelta;
         if (m_fAccTime <= 0.f)

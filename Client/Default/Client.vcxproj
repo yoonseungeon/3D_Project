@@ -178,6 +178,7 @@
     <ClInclude Include="..\Public\CCraftList.h" />
     <ClInclude Include="..\Public\CCraftTool.h" />
     <ClInclude Include="..\Public\CDog.h" />
+    <ClInclude Include="..\Public\CDragon_R.h" />
     <ClInclude Include="..\Public\CEffect.h" />
     <ClInclude Include="..\Public\CEquipment.h" />
     <ClInclude Include="..\Public\CExplosion.h" />
@@ -315,6 +316,7 @@
     <ClCompile Include="..\Private\CCraftList.cpp" />
     <ClCompile Include="..\Private\CCraftTool.cpp" />
     <ClCompile Include="..\Private\CDog.cpp" />
+    <ClCompile Include="..\Private\CDragon_R.cpp" />
     <ClCompile Include="..\Private\CEffect.cpp" />
     <ClCompile Include="..\Private\CEquipment.cpp" />
     <ClCompile Include="..\Private\CExplosion.cpp" />

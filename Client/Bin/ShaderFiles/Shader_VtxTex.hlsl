@@ -460,6 +460,81 @@ PS_OUT PS_MAIN_LAVA(PS_IN In)
     return Out;
 }
 
+
+
+
+
+Texture2D g_MaskColor;
+Texture2D g_MaskDisappear;
+
+float g_ProgressRatio;
+
+PS_OUT PS_MAIN_DRAGON_R(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float2 vTexcoord = In.vTexcoord;
+    vTexcoord.x = 1.f - vTexcoord.x;
+    
+    float fVisibleRatio = 0.66f;
+    if (vTexcoord.x > fVisibleRatio)
+        discard;
+    
+    Out.vColor = g_Texture.Sample(LinearSampler, vTexcoord);
+    Out.vColor.a = Out.vColor.r;
+    
+    float fColorChangeRatio = 0.28f;
+
+    float fNoiseSample = 1.f - g_MaskColor.Sample(LinearSampler, vTexcoord).r;
+    float fNoiseColor = (fNoiseSample - 0.5f) * 0.5f;
+    float fNoiseAppear = fNoiseSample * 0.4f;
+
+    // Color
+    float3 vStartColor = float3(0.992f, 0.827f, 0.012f);
+    float3 vEndColor = float3(1.0f, 0.18f, 0.02f);
+    
+    if (g_ProgressRatio < fColorChangeRatio)
+    {
+        Out.vColor.rgb = float3(1.f, 0.f, 0.f);
+    }
+    else
+    {
+        float fRatio = (g_ProgressRatio - fColorChangeRatio) / (1.f - fColorChangeRatio);
+        if (vTexcoord.x + fNoiseColor > (1.f - fRatio) * fVisibleRatio)
+        {
+            float t = vTexcoord.x / fVisibleRatio;
+
+            Out.vColor.rgb = lerp(vStartColor, vEndColor, t);
+        }
+        else
+        {
+            Out.vColor.rgb = float3(1.f, 0.f, 0.f);
+        }
+    }
+    
+
+    float fNoiseDisAppear = (g_MaskDisappear.Sample(LinearSampler, vTexcoord).r - 0.5f) * 0.2f;
+    float fAppearEndRatio = 0.369f;
+    float fDisappearEndRatio = 0.9f;
+
+    if (g_ProgressRatio < fAppearEndRatio)
+    {
+        float fRatio = g_ProgressRatio / fAppearEndRatio;
+        if (vTexcoord.x + fNoiseAppear > fRatio)
+            discard;
+    }
+    else
+    {
+        float fRatio = (g_ProgressRatio - fAppearEndRatio) / (fDisappearEndRatio - fAppearEndRatio);
+        if (vTexcoord.x + fNoiseDisAppear > (1.f - fRatio) * fVisibleRatio)
+        {
+            discard;
+        }
+    }
+    
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -603,5 +678,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_LAVA()));
+    }
+
+    pass Dragon_R
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AddAlpha, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_DRAGON_R()));
     }
 }

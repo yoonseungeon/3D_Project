@@ -76,8 +76,9 @@ void CImGui_Manager::Update(_float fTimeDelta)
         ImGuiDockNodeFlags_PassthruCentralNode 
     );
 
-    static _bool show_begin_window = TRUE;
-
+    static _bool show_begin_window = FALSE;
+    static _bool bIsF6Pressed = TRUE;
+    static _bool bAll_UI_Off = TRUE;
 
     static _bool show_demo_window = FALSE;
     static _bool show_gameobjects = TRUE;
@@ -86,8 +87,7 @@ void CImGui_Manager::Update(_float fTimeDelta)
     static _bool show_gameObject_setting_window = FALSE;
 
 
-    static _bool bIsF6Pressed = FALSE;
-    static _bool bAll_UI_Off = FALSE;
+
 
 
     // F6 키 입력 처리 (한 번만 눌리게 처리)

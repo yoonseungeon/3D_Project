@@ -25,6 +25,7 @@ class CShockWave_Q;
 class CLava_Q;
 class CSpinWind;
 class CLiDailin_E_Range;
+class CDragon_R;
 
 class CLiDailin final : public CAbstractPlayer
 {
@@ -133,6 +134,7 @@ private:
 	CLava_Q* m_pCLava_Q{};
 	CSpinWind* m_pSpinWind{};
 	CLiDailin_E_Range* m_pERange{};
+	CDragon_R* m_pDragon_R{};
 
 	// State
 	unordered_map<wstring, CState*> m_States;

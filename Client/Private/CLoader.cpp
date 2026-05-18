@@ -97,6 +97,7 @@
 #include "CLava_Q.h"
 #include "CSpinWind.h"
 #include "CLiDailin_E_Range.h"
+#include "CDragon_R.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -2745,6 +2746,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_GameObject_Dragon_R */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Dragon_R"),
+                CDragon_R::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Dragon_R");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region 이펙트 텍스처
@@ -2860,6 +2874,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/LiDailin_E_Tex.png"), 1))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_LiDailin_E_Tex");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_FXt_Noise_03 */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_FXt_Noise_03"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/FXt_Noise_03.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_FXt_Noise_03");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_FXt_Noise_11 */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_FXt_Noise_11"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/FXt_Noise_11.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_FXt_Noise_11");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -40,6 +40,7 @@
 #include "CLava_Q.h"
 #include "CSpinWind.h"
 #include "CLiDailin_E_Range.h"
+#include "CDragon_R.h"
 
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
@@ -150,6 +151,7 @@ void CLiDailin::Late_Update(_float fTimeDelta)
     m_pCLava_Q->Set_SpinEffect(m_pBody, fTimeDelta);
     m_pSpinWind->Set_SpinEffect(m_pBody);
     m_pERange->Set_E_Range(m_pBody, fTimeDelta);
+    m_pDragon_R->Active_Dragon_R(m_pBody, fTimeDelta);
 
     __super::Late_Update(fTimeDelta);
 
@@ -824,6 +826,18 @@ HRESULT CLiDailin::Ready_PartObjects()
     m_pERange = dynamic_cast<CLiDailin_E_Range*>(m_PartObjects[TEXT("LiDailin_E_Range")]);
     Safe_AddRef(m_pERange);
 
+    // LiDailin_Dragon_R
+    CDragon_R::DRAGON_R_DESC Dragon_R_Desc{};
+    Dragon_R_Desc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    Dragon_R_Desc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Fx_Bottom");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Dragon_R"),
+        TEXT("LiDailin_Dragon_R"), &Dragon_R_Desc)))
+        return E_FAIL;    
+
+    m_pDragon_R = dynamic_cast<CDragon_R*>(m_PartObjects[TEXT("LiDailin_Dragon_R")]);
+    Safe_AddRef(m_pDragon_R);
+
     return S_OK;
 }
 
@@ -856,29 +870,29 @@ void CLiDailin::Key_Input()
         Process_ActionCommand(tAction_Command);
     }
 
-    // W
-    if (m_pGameInstance->Key_Down(DIK_W)) {
-        ACTION_COMMAND tAction_Command{};
-        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
-
-        Process_ActionCommand(tAction_Command);
-    }
-
-    // E
-    if (m_pGameInstance->Key_Down(DIK_E)) {
-        ACTION_COMMAND tAction_Command{};
-        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
-
-        Process_ActionCommand(tAction_Command);
-    }
-
-    //// R
-    //if (m_pGameInstance->Key_Down(DIK_R)) {
+    //// W
+    //if (m_pGameInstance->Key_Down(DIK_W)) {
     //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
+    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
 
     //    Process_ActionCommand(tAction_Command);
     //}
+
+    //// E
+    //if (m_pGameInstance->Key_Down(DIK_E)) {
+    //    ACTION_COMMAND tAction_Command{};
+    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
+
+    //    Process_ActionCommand(tAction_Command);
+    //}
+
+    // R
+    if (m_pGameInstance->Key_Down(DIK_R)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_R;
+
+        Process_ActionCommand(tAction_Command);
+    }
 
 
     if (m_pGameInstance->Mouse_Down(DIMB::RBUTTON))
@@ -1103,6 +1117,7 @@ void CLiDailin::Free()
     }
     m_States.clear();
 
+    Safe_Release(m_pDragon_R);
     Safe_Release(m_pERange);
     Safe_Release(m_pSpinWind);
     Safe_Release(m_pShockWave_Q);

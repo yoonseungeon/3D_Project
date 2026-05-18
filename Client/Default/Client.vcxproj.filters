@@ -409,6 +409,9 @@
     <Filter Include="04. PartEffect\05. LiDailin_E_Range">
       <UniqueIdentifier>{5e1ab943-e745-4606-9a19-e7fcd6045011}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. PartEffect\06. Dragon_R">
+      <UniqueIdentifier>{f270d2f0-aad0-4100-92b2-9a4f58136449}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -816,6 +819,9 @@
     <ClInclude Include="..\Public\CLiDailin_E_Range.h">
       <Filter>04. PartEffect\05. LiDailin_E_Range</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CDragon_R.h">
+      <Filter>04. PartEffect\06. Dragon_R</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1205,6 +1211,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CLiDailin_E_Range.cpp">
       <Filter>04. PartEffect\05. LiDailin_E_Range</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CDragon_R.cpp">
+      <Filter>04. PartEffect\06. Dragon_R</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
