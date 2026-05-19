@@ -56,8 +56,13 @@ private:
 	_int* m_pMaxHp{};
 	_int* m_pCurHp{};
 
+	_float m_fCurHp;
+	_float m_fMaxHp;
+
 	_int* m_pMaxMp{};
 	_int* m_pCurMp{};
+
+	_float m_fMpRatio{};
 
 	_float3 m_vHpColor{};
 	_float3 m_vMpColor{};

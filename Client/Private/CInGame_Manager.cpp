@@ -2,12 +2,13 @@
 
 #include "CLumia_Ground.h"
 #include "CAbstractPlayer.h"
+#include "CUI_GameResult.h"
 
 IMPLEMENT_SINGLETON(CInGame_Manager)
 
 CInGame_Manager::CInGame_Manager()
 {
-
+    m_fMaxWaitGameEndTime = 3.f;
 }
 
 void CInGame_Manager::Set_Map(CLumia_Ground* pMap_Lumia)
@@ -65,8 +66,49 @@ _float3 CInGame_Manager::Get_PlayerPos()
     return vPos;
 }
 
+void CInGame_Manager::Set_GameResultUI(CUI_GameResult* pGameResult)
+{
+    if (m_pGameResultUI == nullptr) {
+        m_pGameResultUI = pGameResult;
+        Safe_AddRef(m_pGameResultUI);
+    }
+}
+
+void CInGame_Manager::Release_GameResultUI()
+{
+    Safe_Release(m_pGameResultUI);
+    m_pGameResultUI = nullptr;
+}
+
+void CInGame_Manager::Update_End(_float fTimeDelta)
+{
+    if (m_iEnemyCount != 0)
+        return;
+
+    if (m_pGameResultUI == nullptr)
+        return;
+
+    m_fAccWaitGameEndTime += fTimeDelta;
+
+    if(m_fAccWaitGameEndTime >= m_fMaxWaitGameEndTime)
+    {
+        m_pGameResultUI->GameResultStart();
+
+        if (m_pGameResultUI->Get_ResultEnd() == true)
+        {
+            if (m_pGameResultUI->Get_ResultEnd() == true)
+            {
+                m_bGameEnd = true;
+                m_pGameResultUI->GameResultReset();
+            }
+        }
+    }
+
+}
+
 void CInGame_Manager::Free()
 {
+    Safe_Release(m_pGameResultUI);
     Safe_Release(m_pMap_Lumia);
     Safe_Release(m_pPlayer);
 

@@ -73,6 +73,8 @@ void CLevel_Logo::Update(_float fTimeDelta)
 
     if (m_eLogoStage == LS_END)
     {
+        m_pGameInstance->Clear_ResourcesPrevious();
+
         CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::LOBBY);
 
         // 처음 만들 때 받아온 NextLevel 자원 로딩 완료되면, 현재(Level_Loading)를 정리/해제하고 다음 레벨로 전환

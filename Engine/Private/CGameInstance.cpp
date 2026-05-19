@@ -163,6 +163,16 @@ HRESULT CGameInstance::End_Draw()
 	return m_pGraphic_Device->Present();
 }
 
+void CGameInstance::Clear_ResourcesPrevious()
+{
+#ifdef _DEBUG
+	m_pRenderer->Clear_Debug();
+#endif
+
+	m_pCollision_Mananger->Clear();
+	m_pPicking_Manager->Clear();
+}
+
 void CGameInstance::Clear_Resources(_int iLevelIndex)
 {
 	if (iLevelIndex == -1) {

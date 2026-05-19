@@ -100,6 +100,9 @@
 #include "CDragon_R.h"
 #include "CLiDailin_W_Effect.h"
 
+// GameResult
+#include "CUI_GameResult.h"
+#include "CGameResultTextBox.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -235,6 +238,12 @@ HRESULT CLoader::Ready_Resources_For_Static()
     if (FAILED(m_pGameInstance->Add_Font(TEXT("Font_Pretendard_SemiBold"), TEXT("../Bin/Resources/Fonts/Pretendard_SemiBold.spritefont"))))
     {
         MSG_BOX("CLoader.cpp(Static) - Failed to Created: Font_Pretendard_SemiBold");
+    }
+
+    // Pretendard_Middle_100
+    if (FAILED(m_pGameInstance->Add_Font(TEXT("Pretendard_Middle_100"), TEXT("../Bin/Resources/Fonts/Pretendard_Middle_100.spritefont"))))
+    {
+        MSG_BOX("CLoader.cpp(Static) - Failed to Created: Pretendard_Middle_100");
     }
 #pragma endregion
 
@@ -2299,6 +2308,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    /* Prototype_GameObject_CUI_GameResult */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_GameResult"),
+                CUI_GameResult::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_GameResult");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_GameResultTextBox */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GameResultTextBox"),
+                CGameResultTextBox::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_GameResultTextBox");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region Navigation
@@ -2609,6 +2644,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Btn_LevelUp%d.dds"), 3))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_SkillLevelUp");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Img_GameResult_Deco */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Img_GameResult_Deco"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Result/Img_GameResult_Deco%d.png"), 4))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Img_GameResult_Deco");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+    
+    /* Prototype_Texture_Img_GameResult_Bg_Color0 */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_Img_GameResult_Bg_Color0"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Result/Img_GameResult_Bg_Color0.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Img_GameResult_Bg_Color0");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

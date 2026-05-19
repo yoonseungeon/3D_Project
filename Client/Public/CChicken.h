@@ -21,7 +21,7 @@ public:
 	};
 
 private:
-	enum CHICKEN_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, END };
+	enum CHICKEN_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, END_DECO };
 
 private:
 	CChicken(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -52,8 +52,8 @@ private:
 	// Part
 	CBody_Chicken* m_pBodyChicken{};
 
-	CHICKEN_ACTION m_eCurState{ END };
-	CHICKEN_ACTION m_ePreState{ END };
+	CHICKEN_ACTION m_eCurState{ END_DECO };
+	CHICKEN_ACTION m_ePreState{ END_DECO };
 
 	CBody_Chicken::CHICKEN_ANI m_eCurAni{};
 

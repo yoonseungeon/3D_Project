@@ -56,6 +56,7 @@ public:
 	HRESULT Begin_Draw();
 	HRESULT Draw();
 	HRESULT End_Draw();
+	void	Clear_ResourcesPrevious();
 	void	Clear_Resources(_int iLevelIndex);
 	void	Release_Engine();
 

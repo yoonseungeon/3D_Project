@@ -31,7 +31,7 @@ private:
 
 	CGameInstance*			m_pGameInstance		= { nullptr };
 
-	LEVEL					m_eNextLevelID		= { LEVEL::END };
+	LEVEL					m_eNextLevelID		= { LEVEL::END_DECO };
 
 	HANDLE					m_hThread			= { };
 

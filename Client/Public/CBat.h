@@ -21,7 +21,7 @@ public:
 	};
 
 private:
-	enum BAT_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, END };
+	enum BAT_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, END_DECO };
 
 private:
 	CBat(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -52,8 +52,8 @@ private:
 	// Part
 	CBody_Bat* m_pBodyBat{};
 
-	BAT_ACTION m_eCurState{ END };
-	BAT_ACTION m_ePreState{ END };
+	BAT_ACTION m_eCurState{ END_DECO };
+	BAT_ACTION m_ePreState{ END_DECO };
 
 	CBody_Bat::BAT_ANI m_eCurAni{};
 

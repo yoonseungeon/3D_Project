@@ -40,6 +40,7 @@ public:
 
 public:
 	void Add_Alpha(_float fAlpha);
+	void Set_Alpha(_float fAlpha) { m_fImageAlpha = fAlpha; }
 	void Set_TexIdx(_uint iTexIdx) { m_iTexIdx = iTexIdx; }
 
 protected:

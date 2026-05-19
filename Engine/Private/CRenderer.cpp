@@ -144,6 +144,15 @@ void CRenderer::Add_DebugComponent(CComponent* pComponent)
     m_DebugComponents.push_back(pComponent);
     Safe_AddRef(pComponent);
 }
+
+void CRenderer::Clear_Debug()
+{
+    for (auto& pDebugCom : m_DebugComponents)
+    {
+        Safe_Release(pDebugCom);
+    }
+    m_DebugComponents.clear();
+}
 #endif
 
 HRESULT CRenderer::Render_Priority()

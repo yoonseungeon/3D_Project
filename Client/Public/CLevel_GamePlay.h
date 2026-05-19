@@ -46,6 +46,8 @@ private:
 
 	HRESULT Ready_Layer_AIFiora(const _wstring& strLayerTag);
 
+	HRESULT Ready_Layer_GameResult(const _wstring& strLayerTag);
+
 	CInGame_Manager*	m_pInGame_Manager{};
 	CSharedUI_Manager*	m_pSharedUI_Manager{};
 

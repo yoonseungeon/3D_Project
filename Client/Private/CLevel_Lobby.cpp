@@ -25,6 +25,8 @@ void CLevel_Lobby::Update(_float fTimeDelta)
 {
     if (m_pGameInstance->Key_Down(DIK_RETURN) || m_eCurStage == STAGE::STAGE_END)
     {
+        m_pGameInstance->Clear_ResourcesPrevious();
+
         CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::GAMEPLAY);
 
         // 처음 만들 때 받아온 NextLevel 자원 로딩 완료되면, 현재(Level_Loading)를 정리/해제하고 다음 레벨로 전환

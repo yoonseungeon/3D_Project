@@ -82,9 +82,13 @@ void CInGameHPBar::Update(_float fTimeDelta)
 
 void CInGameHPBar::Late_Update(_float fTimeDelta)
 {
-    if (m_bIsInactive == true || m_IsOn == false) {
+    if (m_bIsInactive == true || m_IsOn == false)
         return;
-    }
+
+    m_fMaxHp = static_cast<_float>(*m_pMaxHp);
+    m_fCurHp = static_cast<_float>(*m_pCurHp);
+    if (m_bNoMp == false)
+        m_fMpRatio = static_cast<_float>(*m_pCurMp) / static_cast<_float>(*m_pMaxMp);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::UI, this);
 }
@@ -139,22 +143,15 @@ HRESULT CInGameHPBar::Bind_ShaderResources()
     if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
         return E_FAIL;
 
-    _float fMaxHp = static_cast<_float>(*m_pMaxHp);
-    _float fCurHp = static_cast<_float>(*m_pCurHp);
-
-    m_pShaderCom->Bind_RawValue("g_fMaxHp", &fMaxHp, sizeof(_float));
-    m_pShaderCom->Bind_RawValue("g_fCurHp", &fCurHp, sizeof(_float));
+    m_pShaderCom->Bind_RawValue("g_fMaxHp", &m_fMaxHp, sizeof(_float));
+    m_pShaderCom->Bind_RawValue("g_fCurHp", &m_fCurHp, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_HpColor", &m_vHpColor, sizeof(_float3));
 
     m_pShaderCom->Bind_RawValue("g_NoMp", &m_bNoMp, sizeof(_bool));
 
     m_pShaderCom->Bind_RawValue("g_DrawSmallLine", &m_bDrawSmallLine, sizeof(_bool));
 
-    if(m_bNoMp == true)
-        return S_OK;
-
-    _float fMpRatio = static_cast<_float>(*m_pCurMp) / static_cast<_float>(*m_pMaxMp);
-    m_pShaderCom->Bind_RawValue("g_fMpRatio", &fMpRatio, sizeof(_float));
+    m_pShaderCom->Bind_RawValue("g_fMpRatio", &m_fMpRatio, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_MpColor", &m_vMpColor, sizeof(_float3));
 
     return S_OK;

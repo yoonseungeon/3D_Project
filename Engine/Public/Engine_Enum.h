@@ -7,19 +7,19 @@ namespace Engine
 
 	enum class PROTOTYPE { GAMEOBJECT, COMPONENT };
 
-	enum class RENDERID { PRIORITY, SHADOW, NONBLEND, NONLIGHT, BLEND, OUTLINE, UI, END };
+	enum class RENDERID { PRIORITY, SHADOW, NONBLEND, NONLIGHT, BLEND, OUTLINE, UI, END_DECO };
 
-	enum class STATE { RIGHT, UP, LOOK, POSITION, END };
+	enum class STATE { RIGHT, UP, LOOK, POSITION, END_DECO };
 
-	enum class D3DTS { VIEW, PROJ, END };
+	enum class D3DTS { VIEW, PROJ, END_DECO };
 
-	enum class LIGHT { DIRECTIONAL, POINT, END };
+	enum class LIGHT { DIRECTIONAL, POINT, END_DECO };
 
-	enum class MODEL { NONANIM, ANIM, END };
+	enum class MODEL { NONANIM, ANIM, END_DECO };
 
-	enum class COLLIDER { AABB, OBB, SPHERE, FRUSTUM, END };
+	enum class COLLIDER { AABB, OBB, SPHERE, FRUSTUM, END_DECO };
 
-	enum class DEFERRED { DEBUG, DIRECTIONAL, POINT, COMBINED, END };
+	enum class DEFERRED { DEBUG, DIRECTIONAL, POINT, COMBINED, END_DECO };
 
 	//// Dynamic 컴포넌트 경우 매 프레임마다 갱신해야하는 컴포넌트 집단
 	//enum COMPONENTID { ID_DYNAMIC, ID_STATIC, ID_END };
@@ -30,13 +30,13 @@ namespace Engine
 
 	//enum TEXTUREID { TEX_NORMAL, TEX_CUBE, TEX_END };
 
-	enum class DIMB { LBUTTON, RBUTTON, WHEEL, END };
+	enum class DIMB { LBUTTON, RBUTTON, WHEEL, END_DECO };
 
-	enum class DIMM { X, Y, WHEEL, END };
+	enum class DIMM { X, Y, WHEEL, END_DECO };
 
-	enum class CELL_POINT { A, B, C, END };
+	enum class CELL_POINT { A, B, C, END_DECO };
 
-	enum class LINE { AB, BC, CA, END };
+	enum class LINE { AB, BC, CA, END_DECO };
 
 	enum class PARALLEL_UPDATE_MODE { PARALLEL, SINGLE };
 }

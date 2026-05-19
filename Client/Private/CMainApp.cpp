@@ -34,7 +34,7 @@ HRESULT CMainApp::Initialize()
 	EngineDesc.eWinMode = WINMODE::WIN;
 	EngineDesc.iViewportWidth = g_iWinSizeX;
 	EngineDesc.iViewportHeight = g_iWinSizeY;
-	EngineDesc.iNumLevels = ETOUI(LEVEL::END);
+	EngineDesc.iNumLevels = ETOUI(LEVEL::END_DECO);
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(EngineDesc, &m_pDevice, &m_pContext)))
 	{

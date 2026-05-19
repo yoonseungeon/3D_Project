@@ -22,6 +22,8 @@
 
 #include "CUI_Image.h"
 
+#include "CUI_GameResult.h"
+
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
     , m_pInGame_Manager{ CInGame_Manager::GetInstance() }
@@ -84,6 +86,9 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Layer_AIFiora(TEXT("Layer_AIFiora"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_GameResult(TEXT("Layer_UI_GameResult"))))
+        return E_FAIL;
+
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
     Safe_AddRef(m_pSharedUI_Manager);
 
@@ -91,16 +96,20 @@ HRESULT CLevel_GamePlay::Initialize()
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
-{
-    //if (m_pGameInstance->Key_Down(DIK_RETURN))
-    //{
-    //    CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::ENDING);
+{    
+    m_pInGame_Manager->Update_End(fTimeDelta);
 
-    //    // 처음 만들 때 받아온 NextLevel 자원 로딩 완료되면, 현재(Level_Loading)를 정리/해제하고 다음 레벨로 전환
-    //    // 자신이 지워져서 바로 return 해줘야 함.(나중에 구조 바꿀 수도 있음)
-    //    if (SUCCEEDED(m_pGameInstance->Change_Level(ETOI(LEVEL::LOADING), pLoadingLevel)))
-    //        return;
-    //}
+    if (m_pInGame_Manager->Get_GameEnd() == true)
+    {
+        m_pGameInstance->Clear_ResourcesPrevious();
+
+        CLevel* pLoadingLevel = CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL::ENDING);
+
+        // 처음 만들 때 받아온 NextLevel 자원 로딩 완료되면, 현재(Level_Loading)를 정리/해제하고 다음 레벨로 전환
+        // 자신이 지워져서 바로 return 해줘야 함.(나중에 구조 바꿀 수도 있음)
+        if (SUCCEEDED(m_pGameInstance->Change_Level(ETOI(LEVEL::LOADING), pLoadingLevel)))
+            return;
+    }
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -186,7 +195,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-    for (size_t i = 0; i < 10; ++i) {
+ /*   for (size_t i = 0; i < 10; ++i) {
 
         if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Monster"),
             ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
@@ -195,7 +204,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ForkLift"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
-        return E_FAIL;
+        return E_FAIL;*/
 
     return S_OK;
 }
@@ -707,6 +716,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_AIFiora(const _wstring& strLayerTag)
     return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_Layer_GameResult(const _wstring& strLayerTag)
+{
+    CUI_GameResult::CUI_GAMERESULT_DESC Desc{};
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_GameResult"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CLevel_GamePlay* pInstance = new CLevel_GamePlay(pDevice, pContext);
@@ -724,6 +744,7 @@ void CLevel_GamePlay::Free()
 {
     m_pInGame_Manager->Release_Map();   
     m_pInGame_Manager->Release_Player();
+    m_pInGame_Manager->Release_GameResultUI();
 
     Safe_Release(m_pSharedUI_Manager);
     CSharedUI_Manager::DestroyInstance();

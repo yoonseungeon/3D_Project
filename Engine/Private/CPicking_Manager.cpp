@@ -55,6 +55,13 @@ _bool CPicking_Manager::Picking_Object(COLLISION_RAY_INFO& tOutColInfo)
     return false;
 }
 
+void CPicking_Manager::Clear()
+{
+    for (auto& pCollider : m_PickingColliders)
+        Safe_Release(pCollider);
+    m_PickingColliders.clear();
+}
+
 void CPicking_Manager::Cal_MouseWorld()
 {
     const POINT ptMouse = m_pGameInstance->Get_MouseClientPos();

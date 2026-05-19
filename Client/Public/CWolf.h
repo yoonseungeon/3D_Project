@@ -18,7 +18,7 @@ public:
 	};
 
 private:
-	enum WOLF_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, SLEEP_START, SLEEP, SLEEP_END, END };
+	enum WOLF_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, SLEEP_START, SLEEP, SLEEP_END, END_DECO };
 
 private:
 	CWolf(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -49,8 +49,8 @@ private:
 	// Part
 	CBody_Wolf* m_pBodyWolf{};
 
-	WOLF_ACTION m_eCurState{ END };
-	WOLF_ACTION m_ePreState{ END };
+	WOLF_ACTION m_eCurState{ END_DECO };
+	WOLF_ACTION m_ePreState{ END_DECO };
 
 	CBody_Wolf::WOLF_ANI m_eCurAni{};
 

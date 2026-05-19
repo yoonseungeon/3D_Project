@@ -92,6 +92,16 @@ void CCollision_Manager::Update_Collision()
 	m_CurColPairs.clear();
 }
 
+void CCollision_Manager::Clear()
+{
+	for (auto& pair : m_Colliders)
+		Safe_Release(pair.second);
+	m_Colliders.clear();
+
+	m_PreColPairs.clear();
+	m_CurColPairs.clear();
+}
+
 _bool CCollision_Manager::CanCollision(CCollider* pSrc, CCollider* pDst)
 {
 	if ((pSrc->Get_Layer() & pDst->Get_Mask())|| (pDst->Get_Layer() & pSrc->Get_Mask()))

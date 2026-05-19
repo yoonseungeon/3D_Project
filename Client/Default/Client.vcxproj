@@ -183,6 +183,8 @@
     <ClInclude Include="..\Public\CEquipment.h" />
     <ClInclude Include="..\Public\CExplosion.h" />
     <ClInclude Include="..\PUblic\CFryingPan.h" />
+    <ClInclude Include="..\Public\CGameResultTextBox.h" />
+    <ClInclude Include="..\Public\CUI_GameResult.h" />
     <ClInclude Include="..\Public\CInGameHPBar.h" />
     <ClInclude Include="..\Public\CInGameUI.h" />
     <ClInclude Include="..\Public\CInteract_ItemBox.h" />
@@ -322,6 +324,8 @@
     <ClCompile Include="..\Private\CEquipment.cpp" />
     <ClCompile Include="..\Private\CExplosion.cpp" />
     <ClCompile Include="..\Private\CFryingPan.cpp" />
+    <ClCompile Include="..\Private\CGameResultTextBox.cpp" />
+    <ClCompile Include="..\Private\CUI_GameResult.cpp" />
     <ClCompile Include="..\Private\CInGameHPBar.cpp" />
     <ClCompile Include="..\Private\CInGameUI.cpp" />
     <ClCompile Include="..\Private\CInteract_ItemBox.cpp" />

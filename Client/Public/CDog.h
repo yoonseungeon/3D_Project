@@ -18,7 +18,7 @@ public:
 	};
 
 private:
-	enum DOG_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, SLEEP_START, SLEEP, SLEEP_END, END };
+	enum DOG_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, SLEEP_START, SLEEP, SLEEP_END, END_DECO };
 
 private:
 	CDog(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -49,8 +49,8 @@ private:
 	// Part
 	CBody_Dog* m_pBodyDog{};
 
-	DOG_ACTION m_eCurState{ END };
-	DOG_ACTION m_ePreState{ END };
+	DOG_ACTION m_eCurState{ END_DECO };
+	DOG_ACTION m_ePreState{ END_DECO };
 
 	CBody_Dog::DOG_ANI m_eCurAni{};
 

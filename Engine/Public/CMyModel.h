@@ -71,7 +71,7 @@ public:
 private:	
 	const myScene*	m_pMyScene{ nullptr }; /* 파일로부터 읽어낸 모든 정보를 담고 있는다. */
 	CMyModelImporter		m_Importer{};
-	MODEL			m_eType{ MODEL::END };
+	MODEL			m_eType{ MODEL::END_DECO };
 
 private:
 	size_t				m_iNumMeshes{};

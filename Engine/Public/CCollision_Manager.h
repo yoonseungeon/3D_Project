@@ -44,6 +44,8 @@ public:
 
 	void Update_Collision();
 
+	void Clear();
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 

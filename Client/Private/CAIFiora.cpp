@@ -63,6 +63,8 @@ HRESULT CAIFiora::Initialize(void* pArg)
     //m_pInvetory->Add_Item(52);
     //m_pInvetory->Add_Item(26);
 
+    m_pInGame_Manager->Add_EnemyCount();
+
     return S_OK;
 }
 
@@ -157,21 +159,21 @@ void CAIFiora::OnCollision_Stay(const COLLISION_INFO& tCollision)
 
     _bool bIsPlayer = tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::PLAYER);
 
-    if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_E] && bIsPlayer)
-    {
-        m_iCondition |= AIFIORA_CONDITION::SKILL_E_COL;
-        CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
-        tDamageInfo.iDamage = 10;
-        pUnit->Damaged(tDamageInfo);
-    }
+    //if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_E] && bIsPlayer)
+    //{
+    //    m_iCondition |= AIFIORA_CONDITION::SKILL_E_COL;
+    //    CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
+    //    tDamageInfo.iDamage = 10;
+    //    pUnit->Damaged(tDamageInfo);
+    //}
 
-    if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_R] && bIsPlayer)
-    {
-        m_iCondition |= AIFIORA_CONDITION::SKILL_R_COL;
-        CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
-        tDamageInfo.iDamage = 10;
-        pUnit->Damaged(tDamageInfo);
-    }
+    //if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_R] && bIsPlayer)
+    //{
+    //    m_iCondition |= AIFIORA_CONDITION::SKILL_R_COL;
+    //    CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
+    //    tDamageInfo.iDamage = 10;
+    //    pUnit->Damaged(tDamageInfo);
+    //}
 }
 
 void CAIFiora::OnCollision_Exit(const COLLISION_INFO& tCollision)
@@ -376,6 +378,7 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
                 m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
 
                 m_pInGameHPBar->Set_IsInactive(true);
+                m_pInGame_Manager->Sub_EnemyCount();
                 break;
 
             case WAIT:

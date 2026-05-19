@@ -24,6 +24,8 @@ public:
 
 	_bool Picking_Object(COLLISION_RAY_INFO& tOutColInfo);
 
+	void Clear();
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 
