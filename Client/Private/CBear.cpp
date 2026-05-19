@@ -601,8 +601,8 @@ void CBear::Run_OR_ATTACK()
 
 HRESULT CBear::Initialize_Stat()
 {
-    SetStat(m_tBaseStat, 2, 0, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
-    SetStat(m_tCurStat, 2, 999, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
+    SetStat(m_tBaseStat, 6, 0, 1750, 100, 0.f, 0.f, 157, 0, 0, 0, 87, 0.7f, 0, 0, 3.05f);
+    SetStat(m_tCurStat, 6, 999, 1750, 100, 0.f, 0.f, 157, 0, 0, 0, 87, 0.7f, 0, 0, 3.05f);
 
     SetFinalStat();
 

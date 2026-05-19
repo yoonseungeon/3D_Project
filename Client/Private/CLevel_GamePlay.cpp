@@ -129,30 +129,30 @@ HRESULT CLevel_GamePlay::Ready_Lights()
     LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
     LightDesc.vAmbient = _float4(0.8f, 0.8f, 0.8f, 0.8f);
     LightDesc.vSpecular = _float4(0.f, 0.f, 0.f, 0.f);
-    LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
+    LightDesc.vDirection = _float4(0.08f, -0.89f, 0.44f, 0.f);
 
     if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
         return E_FAIL;
 
-    LightDesc.eType = LIGHT::POINT;
-    LightDesc.vDiffuse = _float4(1.f, 0.f, 0.f, 1.f);
-    LightDesc.vAmbient = _float4(0.f, 0.f, 0.f, 1.f);
-    LightDesc.vSpecular = _float4(1.f, 0.1f, 0.1f, 1.f);
-    LightDesc.vPosition = _float4(10.f, 5.f, 10.f, 1.f);
-    LightDesc.fRange = 15.f;
+    //LightDesc.eType = LIGHT::POINT;
+    //LightDesc.vDiffuse = _float4(1.f, 0.f, 0.f, 1.f);
+    //LightDesc.vAmbient = _float4(0.f, 0.f, 0.f, 1.f);
+    //LightDesc.vSpecular = _float4(1.f, 0.1f, 0.1f, 1.f);
+    //LightDesc.vPosition = _float4(10.f, 5.f, 10.f, 1.f);
+    //LightDesc.fRange = 15.f;
 
-    if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
+    //    return E_FAIL;
 
-    LightDesc.eType = LIGHT::POINT;
-    LightDesc.vDiffuse = _float4(0.f, 1.f, 0.f, 1.f);
-    LightDesc.vAmbient = _float4(0.f, 0.f, 0.f, 1.f);
-    LightDesc.vSpecular = _float4(0.1f, 1.f, 0.1f, 1.f);
-    LightDesc.vPosition = _float4(25.f, 5.f, 10.f, 1.f);
-    LightDesc.fRange = 15.f;
+    //LightDesc.eType = LIGHT::POINT;
+    //LightDesc.vDiffuse = _float4(0.f, 1.f, 0.f, 1.f);
+    //LightDesc.vAmbient = _float4(0.f, 0.f, 0.f, 1.f);
+    //LightDesc.vSpecular = _float4(0.1f, 1.f, 0.1f, 1.f);
+    //LightDesc.vPosition = _float4(25.f, 5.f, 10.f, 1.f);
+    //LightDesc.fRange = 15.f;
 
-    if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_Light(LightDesc)))
+    //    return E_FAIL;
 
     return S_OK;
 }
@@ -160,8 +160,8 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 HRESULT CLevel_GamePlay::Ready_Shadow()
 {
     SHADOW_LIGHT_DESC ShadowDesc{};
-    ShadowDesc.vEye = _float4(-10.f, 20.f, -10.f, 1.f);
-    ShadowDesc.vAt = _float4(0.f, 0.f, 0.f, 1.f);
+    ShadowDesc.vEye = _float4(-6.5f, 20.2f, -5.5f, 1.f);
+    ShadowDesc.vAt = _float4(-4.5f, 0.2f, 4.5f, 1.f);
     ShadowDesc.fWidth = 53.33f;
     ShadowDesc.fHeight = 30.f;
     ShadowDesc.fNear = 0.1f;
@@ -177,8 +177,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
     CCamera_Free::CAMERA_FREE_DESC CameraDesc{};
 
-    CameraDesc.vEye = _float3(0.f, 10.f, -7.f);
-    CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+    CameraDesc.vEye = _float3(0.f, 10.f, 0.f);
+    CameraDesc.vAt = _float3(-4.5f, 0.2f, 4.5f);
     CameraDesc.fFovy = XMConvertToRadians(60.f);
     CameraDesc.fNear = 0.1f;
     CameraDesc.fFar = 500.f;    

@@ -512,8 +512,8 @@ void CBoar::Run_OR_ATTACK()
 
 HRESULT CBoar::Initialize_Stat()
 {
-    SetStat(m_tBaseStat, 2, 0, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
-    SetStat(m_tCurStat, 2, 999, 265, 100, 0.f, 0.f, 62, 0, 0, 0, 18, 0.8f, 0, 0, 3.76f);
+    SetStat(m_tBaseStat, 2, 0, 950, 100, 0.f, 0.f, 45, 0, 0, 0, 12, 0.7f, 0, 0, 3.03f);
+    SetStat(m_tCurStat, 2, 999, 950, 100, 0.f, 0.f, 45, 0, 0, 0, 12, 0.7f, 0, 0, 3.03f);
 
     SetFinalStat();
 

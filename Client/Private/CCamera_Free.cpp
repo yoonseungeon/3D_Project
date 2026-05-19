@@ -1,6 +1,10 @@
 #include "CCamera_Free.h"
 #include "CGameInstance.h"
 
+#include "CInGame_Manager.h"
+
+#include "CAbstractPlayer.h"
+
 CCamera_Free::CCamera_Free(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CCamera{ pDevice, pContext }
 {
@@ -25,62 +29,80 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
     m_fMouseSensor = pDesc->fMouseSensor;
 
+    m_vDefaultPos = { 3.5f, 9.f, -3.5f };
+
     return S_OK;
 }
 
 void CCamera_Free::Priority_Update(_float fTimeDelta)
 {
-    if (m_pGameInstance->Key_Down(DIK_T) || m_pGameInstance->Key_Down(DIK_TAB))
-    {
-        m_bLock = !m_bLock;
-    }
+    //if (m_pGameInstance->Key_Down(DIK_T) || m_pGameInstance->Key_Down(DIK_TAB))
+    //{
+    //    m_bLock = !m_bLock;
+    //}
 
-    if (m_bLock == true) {
-        return;
-    }
+    //if (m_bLock == true) {
+    //    return;
+    //}
 
-    _float fSpeed = 0.05f;
+    //_float fSpeed = 0.05f;
 
-    if (m_pGameInstance->Key_Pressing(DIK_LSHIFT))
-    {
-        fSpeed *= 10.f;
-    }
+    //if (m_pGameInstance->Key_Pressing(DIK_LSHIFT))
+    //{
+    //    fSpeed *= 10.f;
+    //}
 
-    if (m_pGameInstance->Key_Pressing(DIK_W))
-    {
-        m_pTransformCom->Go_Straight(fTimeDelta * fSpeed);
-    }
-    if (m_pGameInstance->Key_Pressing(DIK_S))
-    {
-        m_pTransformCom->Go_Backward(fTimeDelta * fSpeed);
-    }
-    if (m_pGameInstance->Key_Pressing(DIK_A))
-    {
-        m_pTransformCom->Go_Left(fTimeDelta * fSpeed);
-    }
-    if (m_pGameInstance->Key_Pressing(DIK_D))
-    {
-        m_pTransformCom->Go_Right(fTimeDelta * fSpeed);
-    }
+    //if (m_pGameInstance->Key_Pressing(DIK_W))
+    //{
+    //    m_pTransformCom->Go_Straight(fTimeDelta * fSpeed);
+    //}
+    //if (m_pGameInstance->Key_Pressing(DIK_S))
+    //{
+    //    m_pTransformCom->Go_Backward(fTimeDelta * fSpeed);
+    //}
+    //if (m_pGameInstance->Key_Pressing(DIK_A))
+    //{
+    //    m_pTransformCom->Go_Left(fTimeDelta * fSpeed);
+    //}
+    //if (m_pGameInstance->Key_Pressing(DIK_D))
+    //{
+    //    m_pTransformCom->Go_Right(fTimeDelta * fSpeed);
+    //}
 
+    //if (m_pGameInstance->Key_Pressing(DIK_Q))
+    //{
+    //    m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), -fSpeed * fTimeDelta, XMConvertToRadians(180.f));
+    //}
 
-    if (m_pGameInstance->Key_Pressing(DIK_Q))
-    {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), -fSpeed * fTimeDelta, XMConvertToRadians(180.f));
-    }
+    //if (m_pGameInstance->Key_Pressing(DIK_E))
+    //{
+    //    m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fSpeed * fTimeDelta, XMConvertToRadians(180.f));
+    //}
+    //if (m_pGameInstance->Key_Pressing(DIK_2))
+    //{
+    //    m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), -fSpeed * fTimeDelta, XMConvertToRadians(180.f));
+    //}
 
-    if (m_pGameInstance->Key_Pressing(DIK_E))
-    {
-        m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fSpeed * fTimeDelta, XMConvertToRadians(180.f));
-    }
-    if (m_pGameInstance->Key_Pressing(DIK_2))
-    {
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), -fSpeed * fTimeDelta, XMConvertToRadians(180.f));
-    }
+    //if (m_pGameInstance->Key_Pressing(DIK_3))
+    //{
+    //    m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), fSpeed * fTimeDelta, XMConvertToRadians(180.f));
+    //}
 
-    if (m_pGameInstance->Key_Pressing(DIK_3))
+    CTransform* pTransform = nullptr;
+
+    CAbstractPlayer* pPlayer = CInGame_Manager::GetInstance()->Get_Player();
+    if (pPlayer != nullptr)
+        pTransform = pPlayer->Get_TransformCom();
+
+    if (pTransform != nullptr)
     {
-        m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), fSpeed * fTimeDelta, XMConvertToRadians(180.f));
+        _float3 vCameraPos = m_vDefaultPos;
+        _vector vPlayerPos = pTransform->Get_State(STATE::POSITION);
+        m_pTransformCom->Set_Pos(XMVectorSetW(XMLoadFloat3(&m_vDefaultPos) + XMVectorSetY(vPlayerPos, 0.f), 1.f));
+    }
+    else
+    {
+        m_pTransformCom->Set_Pos(XMVectorSetW(XMLoadFloat3(&m_vDefaultPos), 1.f));
     }
 
     __super::Priority_Update(fTimeDelta);
