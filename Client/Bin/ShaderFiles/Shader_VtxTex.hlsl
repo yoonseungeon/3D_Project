@@ -15,7 +15,7 @@ float g_UVFillCenterY = { 0.5f };
 
 float2 g_ClipYRatio;
 
-
+float4 g_vCamPosition;
 
 struct VS_IN
 {
@@ -38,6 +38,30 @@ VS_OUT VS_MAIN(VS_IN In)
     float4 vPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
     vPosition = mul(vPosition, g_ViewMatrix);
     vPosition = mul(vPosition, g_ProjMatrix);
+    
+    Out.vPosition = vPosition;
+    Out.vTexcoord = In.vTexcoord;
+    
+    return Out;
+}
+
+VS_OUT VS_MAIN_BILLBORAD(VS_IN In)
+{
+    VS_OUT Out;
+    
+    float4 vCenter = g_WorldMatrix._41_42_43_44;
+    
+    float fScaleX = length(g_WorldMatrix._11_12_13);
+    float fScaleY = length(g_WorldMatrix._21_22_23);
+    float fScaleZ = length(g_WorldMatrix._31_32_33);
+        
+    float4 vViewPos = mul(vCenter, g_ViewMatrix);
+
+    vViewPos.x += In.vPosition.x * fScaleX;
+    vViewPos.y += In.vPosition.y * fScaleY;
+    vViewPos.z += In.vPosition.z * fScaleZ;
+    
+    float4 vPosition = mul(vViewPos, g_ProjMatrix);
     
     Out.vPosition = vPosition;
     Out.vTexcoord = In.vTexcoord;
@@ -535,6 +559,17 @@ PS_OUT PS_MAIN_DRAGON_R(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_MAIN_DAILIN_W(PS_IN In)
+{
+    PS_OUT Out;
+    
+    Out.vColor = g_Texture.Sample(LinearSampler, In.vTexcoord);    
+    Out.vColor.rgb *= g_Color;
+    Out.vColor.a = Out.vColor.r * g_Alpha;
+    
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -689,5 +724,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_DRAGON_R()));
+    }
+
+    pass Dailin_W
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN_BILLBORAD()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_DAILIN_W()));
     }
 }

@@ -98,6 +98,8 @@
 #include "CSpinWind.h"
 #include "CLiDailin_E_Range.h"
 #include "CDragon_R.h"
+#include "CLiDailin_W_Effect.h"
+
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
@@ -2759,6 +2761,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+    
+    /* Prototype_GameObject_LiDailin_W_Effect */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_LiDailin_W_Effect"),
+                CLiDailin_W_Effect::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_LiDailin_W_Effect");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region 이펙트 텍스처
@@ -2900,6 +2915,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/FXt_Noise_11.png"), 1))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_FXt_Noise_11");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_FX_BI_Dailin_W */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_FX_BI_Dailin_W"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/Effect/FX_BI_Dailin_W.dds"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_FX_BI_Dailin_W");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -47,6 +47,7 @@ public:
 	_float Get_CurAniPlayRatio() const;
 	_float Get_AniPlayRatio(_uint iIndex) const;
 	_uint Get_CurAniIndex() { return m_iCurrentAnimationIndex; }
+	_uint Get_CurOverlayAniIndex() { return m_iOverlayAnimationIndex; }
 
 	void Reset_PreTransformMatrix(_float4x4& PreTransformMatrix) { memcpy(&m_PreTransformMatrix, &PreTransformMatrix, sizeof(PreTransformMatrix)); }
 

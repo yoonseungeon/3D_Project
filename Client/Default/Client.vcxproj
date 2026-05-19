@@ -194,6 +194,7 @@
     <ClInclude Include="..\Public\CLava_Q.h" />
     <ClInclude Include="..\Public\CLiDailinSlash2.h" />
     <ClInclude Include="..\Public\CLiDailin_E_Range.h" />
+    <ClInclude Include="..\Public\CLiDailin_W_Effect.h" />
     <ClInclude Include="..\Public\CNunchaku_AfterImage.h" />
     <ClInclude Include="..\Public\CPartEffect.h" />
     <ClInclude Include="..\Public\CRapier.h" />
@@ -332,6 +333,7 @@
     <ClCompile Include="..\Private\CLava_Q.cpp" />
     <ClCompile Include="..\Private\CLiDailinSlash2.cpp" />
     <ClCompile Include="..\Private\CLiDailin_E_Range.cpp" />
+    <ClCompile Include="..\Private\CLiDailin_W_Effect.cpp" />
     <ClCompile Include="..\Private\CNunchaku_AfterImage.cpp" />
     <ClCompile Include="..\Private\CPartEffect.cpp" />
     <ClCompile Include="..\Private\CRapier.cpp" />

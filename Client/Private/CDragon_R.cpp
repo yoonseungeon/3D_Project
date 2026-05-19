@@ -31,20 +31,19 @@ HRESULT CDragon_R::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
-    m_pTransformCom->Set_Scale(9.f, 2.5f, 1.f);
+    m_pTransformCom->Set_Scale(8.f, 2.5f, 1.f);
     m_pTransformCom->Set_Pos(XMVectorSet(0.f, 1.f, -3.f, 1.f));
     m_pTransformCom->Set_Rotation(XMConvertToRadians(90.f), XMConvertToRadians(-90.f), 0.f);
 
     m_bIsInactive = true;
 
-    m_fMaxTime = 0.5f;
+    m_fMaxTime = 0.4f;
 
     return S_OK;
 }
 
 void CDragon_R::Priority_Update(_float fTimeDelta)
 {
-    //__super::Priority_Update(fTimeDelta);
 }
 
 void CDragon_R::Parallel_Update(_float fTimeDelta)

@@ -41,6 +41,7 @@
 #include "CSpinWind.h"
 #include "CLiDailin_E_Range.h"
 #include "CDragon_R.h"
+#include "CLiDailin_W_Effect.h"
 
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
@@ -152,6 +153,7 @@ void CLiDailin::Late_Update(_float fTimeDelta)
     m_pSpinWind->Set_SpinEffect(m_pBody);
     m_pERange->Set_E_Range(m_pBody, fTimeDelta);
     m_pDragon_R->Active_Dragon_R(m_pBody, fTimeDelta);
+    m_pWEffect->Active_Effect_W(m_pBody, fTimeDelta);
 
     __super::Late_Update(fTimeDelta);
 
@@ -838,6 +840,18 @@ HRESULT CLiDailin::Ready_PartObjects()
     m_pDragon_R = dynamic_cast<CDragon_R*>(m_PartObjects[TEXT("LiDailin_Dragon_R")]);
     Safe_AddRef(m_pDragon_R);
 
+    // W_Effect
+    CLiDailin_W_Effect::LIDAILIN_W_EFFECT_DESC W_Effect_Desc{};
+    W_Effect_Desc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+    W_Effect_Desc.pSocketBoneMatrix = m_pBody->Get_BoneMatrixPtr("Fx_Bottom");
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_LiDailin_W_Effect"),
+        TEXT("W_Effect"), &W_Effect_Desc)))
+        return E_FAIL;    
+
+    m_pWEffect = dynamic_cast<CLiDailin_W_Effect*>(m_PartObjects[TEXT("W_Effect")]);
+    Safe_AddRef(m_pWEffect);
+
     return S_OK;
 }
 
@@ -870,13 +884,13 @@ void CLiDailin::Key_Input()
         Process_ActionCommand(tAction_Command);
     }
 
-    //// W
-    //if (m_pGameInstance->Key_Down(DIK_W)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
+    // W
+    if (m_pGameInstance->Key_Down(DIK_W)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_W;
 
-    //    Process_ActionCommand(tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
     //// E
     //if (m_pGameInstance->Key_Down(DIK_E)) {
@@ -1117,6 +1131,7 @@ void CLiDailin::Free()
     }
     m_States.clear();
 
+    Safe_Release(m_pWEffect);
     Safe_Release(m_pDragon_R);
     Safe_Release(m_pERange);
     Safe_Release(m_pSpinWind);
