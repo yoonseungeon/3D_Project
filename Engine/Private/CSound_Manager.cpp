@@ -25,6 +25,118 @@ HRESULT CSound_Manager::Initialize()
     return S_OK;
 }
 
+void CSound_Manager::Update_Sound()
+{
+    if (m_pSystem != nullptr)
+        m_pSystem->update();
+}
+
+HRESULT CSound_Manager::PlaySound_Loop(_uint iKey, _uint iChannelID, _float fVolume)
+{
+    auto iter = m_Sounds.find(iKey);
+    if (iter == m_Sounds.end())
+        return E_FAIL;
+
+    if (iChannelID >= m_iMaxSound)
+        return E_FAIL;
+
+    if (m_pChannels[iChannelID] != nullptr)
+    {
+        m_pChannels[iChannelID]->stop();
+        m_pChannels[iChannelID] = nullptr;
+    }
+
+    FMOD_RESULT  FMODResult = m_pSystem->playSound(iter->second, nullptr, true, &m_pChannels[iChannelID]);
+    if (FMODResult != FMOD_OK)
+        return E_FAIL;
+
+    m_pChannels[iChannelID]->setMode(FMOD_LOOP_NORMAL);
+    m_pChannels[iChannelID]->setVolume(fVolume);
+    m_pChannels[iChannelID]->setPaused(false);
+
+    return S_OK;
+}
+
+HRESULT CSound_Manager::PlaySound_Once(_uint iKey, _uint iChannelID, _float fVolume)
+{
+    auto iter = m_Sounds.find(iKey);
+    if (iter == m_Sounds.end())
+        return E_FAIL;
+
+    if (iChannelID >= m_iMaxSound)
+        return E_FAIL;
+
+    if (m_pChannels[iChannelID] != nullptr)
+    {
+        m_pChannels[iChannelID]->stop();
+        m_pChannels[iChannelID] = nullptr;
+    }
+
+    FMOD_RESULT  FMODResult = m_pSystem->playSound(iter->second, nullptr, false, &m_pChannels[iChannelID]);
+    if (FMODResult != FMOD_OK)
+        return E_FAIL;
+
+    m_pChannels[iChannelID]->setVolume(fVolume);
+
+    return S_OK;
+}
+
+HRESULT CSound_Manager::StopSoundChannel(_uint iChannelID)
+{
+    if (iChannelID >= m_iMaxSound)
+        return E_FAIL;
+
+    if (m_pChannels[iChannelID] == nullptr)
+        return E_FAIL;
+
+    m_pChannels[iChannelID]->stop();
+    m_pChannels[iChannelID] = nullptr;
+
+    return S_OK;
+}
+
+HRESULT CSound_Manager::StopAll()
+{
+    for (_uint i = 0; i < m_iMaxSound; ++i)
+    {
+        if(m_pChannels[i]!=nullptr)
+        {
+            m_pChannels[i]->stop();
+            m_pChannels[i] = nullptr;
+        }
+    }
+
+    return S_OK;
+}
+
+HRESULT CSound_Manager::Set_ChannelVolume(_uint iChannelID, _float fVolume)
+{
+    if (iChannelID >= m_iMaxSound)
+        return E_FAIL;
+
+    if (m_pChannels[iChannelID] == nullptr)
+        return E_FAIL;
+
+    m_pChannels[iChannelID]->setVolume(fVolume);
+
+    return S_OK;
+}
+
+_bool CSound_Manager::IsPlaying(_uint iChannelID)
+{
+    if (iChannelID >= m_iMaxSound)
+        return false;
+
+    if (m_pChannels[iChannelID] == nullptr)
+        return false;
+
+    _bool bIsPlaying = { false };
+
+    m_pChannels[iChannelID]->isPlaying(&bIsPlaying);
+
+    return bIsPlaying;
+}
+
 HRESULT CSound_Manager::Load_Sound(const string& strPath, _uint iKey)
 {
     FMOD::Sound* pSound = nullptr;

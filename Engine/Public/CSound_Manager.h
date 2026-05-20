@@ -38,6 +38,16 @@ private:
 	HRESULT Initialize();
 
 public:
+	void Update_Sound();
+
+	HRESULT PlaySound_Loop(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
+	HRESULT PlaySound_Once(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
+	HRESULT StopSoundChannel(_uint iChannelID);
+	HRESULT StopAll();
+	HRESULT Set_ChannelVolume(_uint iChannelID, _float fVolume);
+	_bool IsPlaying(_uint iChannelID);
+
+public:
 	HRESULT Load_Sound(const string& strPath, _uint iKey);
 
 private:
@@ -48,7 +58,7 @@ private:
 	static constexpr _uint m_iMaxSound = { 64 };
 
 	FMOD::System* m_pSystem{};
-	FMOD::Channel* m_pChannel[m_iMaxSound]{};
+	FMOD::Channel* m_pChannels[m_iMaxSound]{};
 
 	tbb::concurrent_unordered_map<_uint, FMOD::Sound*> m_Sounds;
 
