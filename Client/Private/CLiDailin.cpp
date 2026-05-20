@@ -892,13 +892,13 @@ void CLiDailin::Key_Input()
         Process_ActionCommand(tAction_Command);
     }
 
-    //// E
-    //if (m_pGameInstance->Key_Down(DIK_E)) {
-    //    ACTION_COMMAND tAction_Command{};
-    //    tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
+    // E
+    if (m_pGameInstance->Key_Down(DIK_E)) {
+        ACTION_COMMAND tAction_Command{};
+        tAction_Command.eCommandType = ACTION_COMMAND_TYPE::ATTACK_E;
 
-    //    Process_ActionCommand(tAction_Command);
-    //}
+        Process_ActionCommand(tAction_Command);
+    }
 
     // R
     if (m_pGameInstance->Key_Down(DIK_R)) {

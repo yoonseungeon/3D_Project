@@ -34,6 +34,7 @@ class CFont_Manager;
 class CTarget_Manager;
 class CShadow;
 
+class CSound_Manager;
 class CPicking_Manager;
 class CCollision_Manager;
 class CThread_Manager;
@@ -201,6 +202,7 @@ private:
 	CPicking_Manager*	m_pPicking_Manager		= { nullptr };
 	CCollision_Manager* m_pCollision_Mananger	= { nullptr };
 	CThread_Manager*	m_pThread_Manager		= { nullptr };
+	CSound_Manager*		m_pSound_Manager		= { nullptr };
 
 	VIEWPORT_SIZE m_tViewportDesc{};
 

@@ -14,6 +14,7 @@
 #include "CShadow.h"
 #include "CFrustum.h"
 
+#include "CSound_Manager.h"
 #include "CPicking_Manager.h"
 #include "CCollision_Manager.h"
 #include "CThread_Manager.h"
@@ -96,7 +97,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, ID3D11De
 	if (m_pFrustum == nullptr)
 		return E_FAIL;
 
-	//&m_pTimer_Manager
+	m_pSound_Manager = CSound_Manager::Create(*ppDevice, *ppContext);
+	if (m_pSound_Manager == nullptr)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -191,6 +195,7 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 	
+	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pFrustum);
 	Safe_Release(m_pShadow);
 	Safe_Release(m_pPicking_Manager);

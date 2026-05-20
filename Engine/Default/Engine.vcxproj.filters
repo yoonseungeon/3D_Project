@@ -208,6 +208,9 @@
     <Filter Include="12. Shadow\97. Picking_Manager">
       <UniqueIdentifier>{5c423377-9d33-49f4-9761-80d60b31bb41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97. Sound_Manager">
+      <UniqueIdentifier>{eebc085c-334c-4710-8ef2-3a0e39143c14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -404,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CVIBuffer_Trail.cpp">
       <Filter>07. Component\01. VIBuffer\04. Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSound_Manager.cpp">
+      <Filter>97. Sound_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -622,6 +628,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CVIBuffer_Trail.h">
       <Filter>07. Component\01. VIBuffer\04. Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CSound_Manager.h">
+      <Filter>97. Sound_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

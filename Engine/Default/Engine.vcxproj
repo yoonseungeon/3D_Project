@@ -113,7 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Public\;..\..\External\FMOD\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Public\;..\..\External\FMOD\inc\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -142,7 +142,7 @@ call UpdateLib.bat Debug</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Public\;..\..\External\FMOD\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Public\;..\..\External\FMOD\inc\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -237,6 +237,7 @@ call UpdateLib.bat Release</Command>
     <ClInclude Include="..\Public\CRenderTarget.h" />
     <ClInclude Include="..\Public\CShader.h" />
     <ClInclude Include="..\Public\CShadow.h" />
+    <ClInclude Include="..\Public\CSound_Manager.h" />
     <ClInclude Include="..\Public\CTarget_Manager.h" />
     <ClInclude Include="..\Public\CTexture.h" />
     <ClInclude Include="..\Public\CThread_Manager.h" />
@@ -338,6 +339,7 @@ call UpdateLib.bat Release</Command>
     <ClCompile Include="..\Private\CRenderTarget.cpp" />
     <ClCompile Include="..\Private\CShader.cpp" />
     <ClCompile Include="..\Private\CShadow.cpp" />
+    <ClCompile Include="..\Private\CSound_Manager.cpp" />
     <ClCompile Include="..\Private\CTarget_Manager.cpp" />
     <ClCompile Include="..\Private\CTexture.cpp" />
     <ClCompile Include="..\Private\CThread_Manager.cpp" />
