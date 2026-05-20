@@ -472,6 +472,107 @@ HRESULT CLoader::Ready_Resources_For_Logo()
 
 HRESULT CLoader::Ready_Resources_For_Lobby()
 {
+#pragma region 사운드
+    // BGM_Lobby
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BGM_Lobby.wav", ETOUI(SOUND_KEY::BGM_LOBBY))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BGM_Lobby");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // BGM_Select
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BGM_Select.wav", ETOUI(SOUND_KEY::BGM_SELECT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BGM_Select");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // LobbyTab_Hover
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LobbyTab_Hover.wav", ETOUI(SOUND_KEY::LOBBY_TAB_HOVER))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: LobbyTab_Hover");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // LobbyTab_Click
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LobbyTab_Click.wav", ETOUI(SOUND_KEY::LOBBY_TAB_CLICK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: LobbyTab_Click");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Char_Hover
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Char_Hover.wav", ETOUI(SOUND_KEY::CHAR_HOVER))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Char_Hover");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Char_Click
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Char_Click.wav", ETOUI(SOUND_KEY::CHAR_CLICK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Char_Click");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Select_Click
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Select_Click.wav", ETOUI(SOUND_KEY::SELECT_CLICK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Select_Click");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // GameStart_Click
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/GameStart_Click.wav", ETOUI(SOUND_KEY::GAMESTART_CLICK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: GameStart_Click");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // LiDailin_selected
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_selected.wav", ETOUI(SOUND_KEY::LIDAILIN_SELECT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: LiDailin_selected");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Hyunwoo_selected
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Hyunwoo_selected.wav", ETOUI(SOUND_KEY::HYUNWOO_SELECT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Hyunwoo_selected");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+#pragma endregion
 
 #pragma region 텍스처
     /* Prototype_Texture_LobbyAni */
@@ -1031,6 +1132,10 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
 
 HRESULT CLoader::Ready_Resources_For_GamePlay()
 {
+#pragma region 사운드
+
+#pragma endregion
+
 #pragma region 콜라이더
     // 생성할 때 context 씀
     if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_AABB"),
@@ -3085,6 +3190,9 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 
 HRESULT CLoader::Ready_Resources_For_Ending()
 {
+#pragma region 사운드
+
+#pragma endregion
 
     m_bIsAllJobsQueued.store(true, memory_order_release);
     return S_OK;

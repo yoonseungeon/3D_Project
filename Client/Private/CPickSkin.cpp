@@ -101,8 +101,14 @@ void CPickSkin::Update(_float fTimeDelta)
         return;
     }
 
-    if (m_bIsClicked) {
+    if (m_bIsClicked)
+    {
         BtnClick();
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHAR_CLICK));
+
+        _bool bIsPlay = m_pGameInstance->IsPlaying(ETOUI(SOUND_CHANNEL_LOBBY::SKIN_SELECT));
+        if(bIsPlay == false)
+            m_pGameInstance->PlaySound_OnceFixed(ETOUI(m_eSoundKey), ETOUI(SOUND_CHANNEL_LOBBY::SKIN_SELECT));
     }
 }
 
@@ -172,6 +178,20 @@ void CPickSkin::Set_Select()
     m_funcSetFullSkin(pCharInfo->wstrFullSkinTag, m_iSkinIdx);
 
     m_pGame_Manager->Set_SelectSkin(m_wstrSkinName, m_iSkinIdx);
+}
+
+void CPickSkin::Set_Sound(CHAR_NAME eCharName, _uint iSkinIdx)
+{
+    switch (eCharName)
+    {
+        case CHAR_NAME::LIDAILIN:
+            m_eSoundKey  = SOUND_KEY::LIDAILIN_SELECT;
+            break;
+
+        case CHAR_NAME::HYUNWOO:
+            m_eSoundKey = SOUND_KEY::HYUNWOO_SELECT;
+            break;
+    }
 }
 
 void CPickSkin::Set_SkinName(const wstring& wstrSkinName)

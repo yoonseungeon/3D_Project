@@ -54,9 +54,13 @@ void CLobbyTabBtn::Parallel_Update(_float fTimeDelta)
 void CLobbyTabBtn::Update(_float fTimeDelta)
 {
     if (m_bIsClicked) {
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::LOBBY_TAB_CLICK));
         BtnClick();
         m_bIsClicked = false;
     }
+
+    if (m_bEnterHover)
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::LOBBY_TAB_HOVER));
 }
 
 void CLobbyTabBtn::Late_Update(_float fTimeDelta)
@@ -151,70 +155,69 @@ void CLobbyTabBtn::Execute_Btn(_float fTimeDelta)
     constexpr _float fMaxFillCenterY = 0.5f;
 
     switch (m_eCurBtnState) {
-    case BTN_STATE::NORMAL:
-    {
-        m_fFillX -= fTimeDelta * fSpeed;
-        m_fFillCenterY -= fTimeDelta * fSpeed;
-        m_fFontRatio = 0.7f;
+        case BTN_STATE::NORMAL:
+        {
+            m_fFillX -= fTimeDelta * fSpeed;
+            m_fFillCenterY -= fTimeDelta * fSpeed;
+            m_fFontRatio = 0.7f;
 
-        if (m_fFillX < 0.f) {
+            if (m_fFillX < 0.f) {
+                m_fFillX = 0.f;
+            }
+
+            if (m_fFillCenterY < 0.f) {
+                m_fFillCenterY = 0.f;
+            }
+
+            m_fFontColor = 1.f;
+            break;
+        }
+
+        case BTN_STATE::HOVER:
+        {
+            const _float fMacFontRatio = 0.9f;
+
+            m_fFillX += fTimeDelta * fSpeed;
+            m_fFillCenterY += fTimeDelta * fSpeed;
+            m_fFontColor -= fTimeDelta * fFontSpeed;
+            m_fFontRatio += fTimeDelta * fSpeed;
+
+            if (m_fFillX > fMaxFillX) {
+                m_fFillX = fMaxFillX;
+            }
+
+            if (m_fFillCenterY > fMaxFillCenterY) {
+                m_fFillCenterY = fMaxFillCenterY;
+            }
+
+            if (m_fFontColor < 0.f) {
+                m_fFontColor = 0.f;
+            }
+
+            if (m_fFontRatio > fMacFontRatio) {
+                m_fFontRatio = fMacFontRatio;
+            }
+            break;
+        }
+
+        case BTN_STATE::PRESSED:
+        {
             m_fFillX = 0.f;
-        }
-
-        if (m_fFillCenterY < 0.f) {
             m_fFillCenterY = 0.f;
+            m_fFontColor = 1.f;
+            m_fFontRatio = 0.7f;
+            break;
         }
 
-        m_fFontColor = 1.f;
-        break;
-    }
-
-    case BTN_STATE::HOVER:
-    {
-        const _float fMacFontRatio = 0.9f;
-
-        m_fFillX += fTimeDelta * fSpeed;
-        m_fFillCenterY += fTimeDelta * fSpeed;
-        m_fFontColor -= fTimeDelta * fFontSpeed;
-        m_fFontRatio += fTimeDelta * fSpeed;
-
-        if (m_fFillX > fMaxFillX) {
-            m_fFillX = fMaxFillX;
+        case BTN_STATE::CLICKED:
+        {
+            m_fFillX = 0.f;
+            m_fFillCenterY = 0.f;
+            m_fFontColor = 1.f;
+            m_fFontRatio = 0.7f;
+            m_bIsClicked = true;
+            break;
         }
-
-        if (m_fFillCenterY > fMaxFillCenterY) {
-            m_fFillCenterY = fMaxFillCenterY;
-        }
-
-        if (m_fFontColor < 0.f) {
-            m_fFontColor = 0.f;
-        }
-
-        if (m_fFontRatio > fMacFontRatio) {
-            m_fFontRatio = fMacFontRatio;
-        }
-
-        break;
-    }
-
-    case BTN_STATE::PRESSED:
-    {
-        m_fFillX = 0.f;
-        m_fFillCenterY = 0.f;
-        m_fFontColor = 1.f;
-        m_fFontRatio = 0.7f;
-        break;
-    }
-
-    case BTN_STATE::CLICKED:
-    {
-        m_fFillX = 0.f;
-        m_fFillCenterY = 0.f;
-        m_fFontColor = 1.f;
-        m_fFontRatio = 0.7f;
-        m_bIsClicked = true;
-        break;
-    }
     }
 }
 

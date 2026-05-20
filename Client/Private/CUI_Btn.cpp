@@ -67,30 +67,43 @@ HRESULT CUI_Btn::Render()
 void CUI_Btn::Update_BtnState()
 {
     POINT ptMouse = m_pGameInstance->Get_MouseClientPos();
+
     if (PtInRect(&m_rcBtnRange, ptMouse)){
+
+        if (m_bIsHover == false)
+        {
+            m_bIsHover = true;
+            m_bEnterHover = true;
+        }
+        else
+        {
+            m_bEnterHover = false;
+        }
+
         if (m_bPressedInBtn && m_pGameInstance->Mouse_Up(DIMB::LBUTTON))
         {
-            m_bPressedInBtn = false;
             m_eCurBtnState = CUI_Btn::CLICKED;
-            return;
+            m_bPressedInBtn = false;
         }
-
-        if (m_bPressedInBtn || m_pGameInstance->Mouse_Down(DIMB::LBUTTON))
+        else if (m_bPressedInBtn || m_pGameInstance->Mouse_Down(DIMB::LBUTTON))
         {
-            m_bPressedInBtn = true;
             m_eCurBtnState = CUI_Btn::PRESSED;
-            return;
+            m_bPressedInBtn = true;
+        }
+        else
+        {
+            m_eCurBtnState = CUI_Btn::HOVER;
         }
 
-        m_eCurBtnState = CUI_Btn::HOVER;
         return;
     }
     
     if (m_bPressedInBtn)
-    {
-    m_bPressedInBtn = false;
-    }
+        m_bPressedInBtn = false;
+
     m_eCurBtnState = CUI_Btn::NORMAL;
+    m_bIsHover = false;
+    m_bEnterHover = false;
 }
 
 void CUI_Btn::BtnClick()

@@ -77,7 +77,11 @@ void CPickSlot::Update(_float fTimeDelta)
 
     if (m_bIsClicked) {
         BtnClick();
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHAR_CLICK));
     }
+
+    if (m_bEnterHover)
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHAR_HOVER));
 }
 
 void CPickSlot::Late_Update(_float fTimeDelta)

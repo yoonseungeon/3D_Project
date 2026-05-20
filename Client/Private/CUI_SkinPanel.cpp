@@ -92,6 +92,7 @@ void CUI_SkinPanel::Update(_float fTimeDelta)
                 m_PickSkins[i]->Set_SkinName(pCharInfo->Skins[i].wstrSkinName);
                 m_PickSkins[i]->Set_SkinIdx(pCharInfo->Skins[i].iSkinIdx);
                 m_PickSkins[i]->Reset_Skin(LEVEL::LOBBY, pCharInfo->wstrSkinTag);
+                m_PickSkins[i]->Set_Sound(pCharInfo->eCharName, pCharInfo->Skins[i].iSkinIdx);
 
                 if (i == 0) {
                     m_PickSkins[i]->Set_Select();
@@ -272,6 +273,7 @@ HRESULT CUI_SkinPanel::Ready_Layer_LobbySelectBtn(const _wstring& strLayerTag)
 
     Desc.funcCallBack = [this]()->void
         {
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::SELECT_CLICK));
             m_funcChangeSelectMap();
             for (auto& pPiskSkin : m_PickSkins) {
                 pPiskSkin->Set_IsInactive(true);

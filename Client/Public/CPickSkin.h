@@ -54,6 +54,8 @@ public:
 	void Set_Deselect();
 	void Set_Select();
 
+	void Set_Sound(CHAR_NAME eCharName, _uint iSkinIdx);
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Bind_ShaderResources();
@@ -81,6 +83,8 @@ private:
 	_uint m_iSkinIdx{};
 
 	function<void(const wstring, const _uint)> m_funcSetFullSkin{};
+
+	SOUND_KEY m_eSoundKey{};
 
 public:
 	static CPickSkin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

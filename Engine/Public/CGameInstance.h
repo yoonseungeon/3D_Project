@@ -175,6 +175,19 @@ public:
 	_bool isIn_Frustum_WorldSpace(_fvector vWorldPos, _float fRange = 0.f);
 #pragma endregion
 
+#pragma region SOUND_MANAGER
+	HRESULT PlaySound_Loop(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
+	HRESULT PlaySound_OnceFixed(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
+	HRESULT PlaySound_Once(_uint iKey, _float fVolume = 0.5f);
+	HRESULT StopSoundChannel(_uint iChannelID);
+	HRESULT StopAll();
+	HRESULT Set_ChannelVolume(_uint iChannelID, _float fVolume);
+	_bool IsPlaying(_uint iChannelID);
+
+	HRESULT Add_Sound(const string& strPath, _uint iKey);
+	void Clear_Sound();
+#pragma endregion
+
 #pragma region COLLISION_MANAGER
 	HRESULT Add_Collider(CCollider* pCollider);
 	HRESULT Substract_Collider(CCollider* pCollider);

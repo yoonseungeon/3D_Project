@@ -50,6 +50,8 @@ HRESULT CStage_Select::Initialize(function<void(STAGE)> funcBtnCallBack)
     if (FAILED(Ready_Map()))
         return E_FAIL;
 
+    m_pGameInstance->PlaySound_Loop(ETOUI(SOUND_KEY::BGM_SELECT), ETOUI(SOUND_CHANNEL_LOBBY::BGM));
+
     return S_OK;
 }
 

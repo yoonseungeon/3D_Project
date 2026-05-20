@@ -30,6 +30,8 @@ HRESULT CStage_Lobby::Initialize(function<void(STAGE)> funcBtnCallBack)
     if (FAILED(Ready_Layer_Btn(TEXT("Layer_Btn"))))
         return E_FAIL;
 
+    m_pGameInstance->PlaySound_Loop(ETOUI(SOUND_KEY::BGM_LOBBY), ETOUI(SOUND_CHANNEL_LOBBY::BGM));
+
     return S_OK;
 }
 

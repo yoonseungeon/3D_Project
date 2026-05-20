@@ -41,14 +41,16 @@ public:
 	void Update_Sound();
 
 	HRESULT PlaySound_Loop(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
-	HRESULT PlaySound_Once(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
+	HRESULT PlaySound_OnceFixed(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
+	HRESULT PlaySound_Once(_uint iKey, _float fVolume = 0.5f);
 	HRESULT StopSoundChannel(_uint iChannelID);
 	HRESULT StopAll();
 	HRESULT Set_ChannelVolume(_uint iChannelID, _float fVolume);
 	_bool IsPlaying(_uint iChannelID);
 
 public:
-	HRESULT Load_Sound(const string& strPath, _uint iKey);
+	HRESULT Add_Sound(const string& strPath, _uint iKey);
+	void Clear_Sound();
 
 private:
 	ID3D11Device*			m_pDevice{ nullptr };
@@ -58,7 +60,8 @@ private:
 	static constexpr _uint m_iMaxSound = { 64 };
 
 	FMOD::System* m_pSystem{};
-	FMOD::Channel* m_pChannels[m_iMaxSound]{};
+	FMOD::Channel* m_pLoopChannels[m_iMaxSound]{};
+	vector<FMOD::Channel*> m_pOnceChannels;
 
 	tbb::concurrent_unordered_map<_uint, FMOD::Sound*> m_Sounds;
 

@@ -206,7 +206,12 @@ HRESULT CUI_MapPanel::Ready_Layer_LobbySelectBtn(const _wstring& strLayerTag)
     Desc.eBlendState = CUI_Default::ALPHABLEND;
     Desc.wstrTexturePrototypeTag = L"Prototype_Texture_LobbySelectBtn";
 
-    Desc.funcCallBack = m_funcStartGame;
+    Desc.funcCallBack =
+        [this]()
+        {
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::GAMESTART_CLICK));
+            m_funcStartGame();
+        };
 
     Desc.wstrText = L"게임 시작";
     Desc.fOffsetX = 80.f;

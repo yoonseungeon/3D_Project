@@ -136,6 +136,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);
+
+	m_pSound_Manager->Update_Sound();
 }
 
 HRESULT CGameInstance::Begin_Draw()
@@ -195,7 +197,6 @@ void CGameInstance::Release_Engine()
 {
 	Safe_Release(m_pThread_Manager);
 	
-	Safe_Release(m_pSound_Manager);
 	Safe_Release(m_pFrustum);
 	Safe_Release(m_pShadow);
 	Safe_Release(m_pPicking_Manager);
@@ -209,6 +210,7 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pObject_Manager);
 	Safe_Release(m_pPrototype_Manager);
 	Safe_Release(m_pLevel_Manager);
+	Safe_Release(m_pSound_Manager); // Level Manager보다 늦게 호출
 	Safe_Release(m_pTimer_Manager);
 	Safe_Release(m_pGraphic_Device);
 
@@ -486,6 +488,53 @@ HRESULT CGameInstance::Add_ShadowLight(_uint iNumLevels, const SHADOW_LIGHT_DESC
 _bool CGameInstance::isIn_Frustum_WorldSpace(_fvector vWorldPos, _float fRange)
 {
 	return m_pFrustum->isIn_WorldSpace(vWorldPos, fRange);
+}
+#pragma endregion
+
+#pragma region SOUND_KEY MANAGER	
+HRESULT CGameInstance::PlaySound_Loop(_uint iKey, _uint iChannelID, _float fVolume)
+{
+	return m_pSound_Manager->PlaySound_Loop(iKey, iChannelID, fVolume);
+}
+
+HRESULT CGameInstance::PlaySound_OnceFixed(_uint iKey, _uint iChannelID, _float fVolume)
+{
+	return m_pSound_Manager->PlaySound_OnceFixed(iKey, iChannelID, fVolume);
+}
+
+HRESULT CGameInstance::PlaySound_Once(_uint iKey, _float fVolume)
+{
+	return m_pSound_Manager->PlaySound_Once(iKey, fVolume);
+}
+
+HRESULT CGameInstance::StopSoundChannel(_uint iChannelID)
+{
+	return m_pSound_Manager->StopSoundChannel(iChannelID);
+}
+
+HRESULT CGameInstance::StopAll()
+{
+	return m_pSound_Manager->StopAll();
+}
+
+HRESULT CGameInstance::Set_ChannelVolume(_uint iChannelID, _float fVolume)
+{
+	return m_pSound_Manager->Set_ChannelVolume(iChannelID, fVolume);
+}
+
+_bool CGameInstance::IsPlaying(_uint iChannelID)
+{
+	return m_pSound_Manager->IsPlaying(iChannelID);
+}
+
+HRESULT CGameInstance::Add_Sound(const string& strPath, _uint iKey)
+{
+	return m_pSound_Manager->Add_Sound(strPath, iKey);
+}
+
+void CGameInstance::Clear_Sound()
+{
+	m_pSound_Manager->Clear_Sound();
 }
 #pragma endregion
 

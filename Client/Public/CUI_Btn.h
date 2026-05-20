@@ -48,6 +48,9 @@ protected:
 	_bool		m_bPressedInBtn{};
 	_bool		m_bIsClicked{};
 
+	_bool		m_bIsHover{};
+	_bool		m_bEnterHover{};
+
 	function<void()> m_funcCallBack{nullptr};
 
 	_float		m_fHalfSizeX{};

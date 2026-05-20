@@ -113,7 +113,11 @@ void CMapSelectBtn::Update(_float fTimeDelta)
 
     if (m_bIsClicked) {
         BtnClick();
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHAR_CLICK));
     }
+
+    if (m_bEnterHover)
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHAR_HOVER));
 }
 
 void CMapSelectBtn::Late_Update(_float fTimeDelta)
@@ -210,22 +214,33 @@ void CMapSelectBtn::Update_BtnState()
     const _float fU = fImageLocalPosX / vScale.x;
     const _float fV = fImageLocalPosY / vScale.y;
 
-    if (m_pImageCom->AlphaClick(fU, fV, 5)) {
+    if (m_pImageCom->AlphaClick(fU, fV, 5))
+    {
+        if (m_bIsHover == false)
+        {
+            m_bIsHover = true;
+            m_bEnterHover = true;
+        }
+        else
+        {
+            m_bEnterHover = false;
+        }
+
         if (m_bPressedInBtn && m_pGameInstance->Mouse_Up(DIMB::LBUTTON))
         {
             m_bPressedInBtn = false;
             m_eCurBtnState = CUI_Btn::CLICKED;
-            return;
         }
-
-        if (m_bPressedInBtn || m_pGameInstance->Mouse_Down(DIMB::LBUTTON))
+        else if (m_bPressedInBtn || m_pGameInstance->Mouse_Down(DIMB::LBUTTON))
         {
             m_bPressedInBtn = true;
-            m_eCurBtnState = CUI_Btn::PRESSED;
-            return;
+            m_eCurBtnState = CUI_Btn::PRESSED;        
+        }
+        else
+        {
+            m_eCurBtnState = CUI_Btn::HOVER;        
         }
 
-        m_eCurBtnState = CUI_Btn::HOVER;
         return;
     }
 
@@ -233,7 +248,10 @@ void CMapSelectBtn::Update_BtnState()
     {
         m_bPressedInBtn = false;
     }
+
     m_eCurBtnState = CUI_Btn::NORMAL;
+    m_bIsHover = false;
+    m_bEnterHover = false;
 }
 
 void CMapSelectBtn::BtnClick()
