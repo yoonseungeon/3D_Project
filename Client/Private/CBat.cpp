@@ -277,8 +277,9 @@ void CBat::Enter_Action(BAT_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Bat::BAT_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
-
             m_pInGameHPBar->Set_IsInactive(true);
+
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::BAT_DIE));
             break;
 
         case BEWARE_START:
@@ -370,6 +371,9 @@ void CBat::Execute_Action(_float fTimeDelta)
                     tDamageInfo.iDamage = 30;
                     tDamageInfo.pUnit = nullptr;
                     m_pTargetPlayer->Damaged(tDamageInfo);
+
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::BAT_ATTACK));
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::BAT_HIT));
                 }
                 m_bIsAttackProcessed = true;
             }

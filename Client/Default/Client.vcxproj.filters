@@ -1149,9 +1149,6 @@
     <ClCompile Include="..\Private\CBody_Wolf.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\03. Wolf\00. Body</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CDog.cpp">
-      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\02. Dog</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\CBody_Dog.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\02. Dog\00. Body</Filter>
     </ClCompile>
@@ -1241,6 +1238,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CGameResultTextBox.cpp">
       <Filter>02. GameObject\08. UI_GameResult\00. GameResultTextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CDog.cpp">
+      <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\02. Dog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

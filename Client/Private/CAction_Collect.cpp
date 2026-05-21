@@ -24,7 +24,7 @@ void CAction_Collect::Enter(CLiDailin* pPlayer)
 {
     pPlayer->Set_CanMoveCancle(true);
 
-    Move_OR_Interact(pPlayer);
+    Move_OR_Interact(pPlayer);    
 }
 
 void CAction_Collect::Update(CLiDailin* pPlayer, _float fTimeDelta)
@@ -44,7 +44,6 @@ void CAction_Collect::Update(CLiDailin* pPlayer, _float fTimeDelta)
     }
 
     Move_OR_Interact(pPlayer);
-
 }
 
 void CAction_Collect::Exit(CLiDailin* pPlayer)
@@ -59,6 +58,8 @@ void CAction_Collect::Exit(CLiDailin* pPlayer)
     pPlayer->Set_MovementAniBlock(false);
 
     pPlayer->Set_CanMoveCancle(false);
+
+    CGameInstance::GetInstance()->StopSoundChannel(ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
 }
 
 void CAction_Collect::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)
@@ -110,6 +111,13 @@ void CAction_Collect::Move_OR_Interact(CLiDailin* pPlayer)
         pPlayer->Get_Weapon()->Set_IsInactive(true);
 
         m_bIsInteract = true;
+
+        if (m_iItemId == 3)
+            CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(SOUND_KEY::COLLECT_BRANCH), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
+        else if (m_iItemId == 5)
+            CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(SOUND_KEY::COLLECT_STONE), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
+        else if (m_iItemId == 27)
+            CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(SOUND_KEY::COLLECT), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
     }
 }
 

@@ -363,6 +363,7 @@ void CDog::Enter_Action(DOG_ACTION eNewAction)
 
         case SLEEP_END:
             Enter_Animation(CBody_Dog::DOG_ANI::WAKE);
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::WILDDOG_WAKEUP));
             break;
 
         case RUN:
@@ -381,8 +382,9 @@ void CDog::Enter_Action(DOG_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Dog::DOG_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
-
             m_pInGameHPBar->Set_IsInactive(true);
+
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::WILDDOG_DIE));
             break;
 
         case DANCE:
@@ -488,6 +490,9 @@ void CDog::Execute_Action(_float fTimeDelta)
                     tDamageInfo.iDamage = 30;
                     tDamageInfo.pUnit = nullptr;
                     m_pTargetPlayer->Damaged(tDamageInfo);
+
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::WILDDOG_ATTACK));
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::WILDDOG_HIT));
                 }
                 m_bIsAttackProcessed = true;
             }

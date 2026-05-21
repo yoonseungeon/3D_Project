@@ -44,6 +44,8 @@ void CAction_Craft::Enter(CLiDailin* pPlayer)
         CFryingPan* pFryingPan = pPlayer->Get_FryingPan();
         pFryingPan->Set_IsInactive(false);
         pFryingPan->Get_ModelCom()->Set_AnimationIndex(CFryingPan::CRAFT, false);
+
+        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(SOUND_KEY::CRAFT_FOOD), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
     }
     else
     {
@@ -51,6 +53,8 @@ void CAction_Craft::Enter(CLiDailin* pPlayer)
         CCraftTool* pCraftTool = pPlayer->Get_CraftTool();
         pCraftTool->Set_IsInactive(false);
         pCraftTool->Get_ModelCom()->Set_AnimationIndex(CCraftTool::APPEAR, false);
+
+        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(SOUND_KEY::CRAFT_TOOL), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
     }
     pPlayer->Get_Weapon()->Set_IsInactive(true);
     pPlayer->Set_MovementAniBlock(true);
@@ -119,6 +123,7 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
         pPlayer->Get_CraftTool()->Set_IsInactive(true);
     }
 
+    CGameInstance::GetInstance()->StopSoundChannel(ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
 
     // ÀÌµ¿
     pPlayer->Set_MoveBlock(false);

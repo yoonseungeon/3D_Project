@@ -1209,74 +1209,194 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
-            // 1. 골목길 (Alley)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Alley.wav", ETOUI(SOUND_KEY::BGM_ALLEY))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Alley");
-
-            // 2. 양궁장 (Archery)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Archery.wav", ETOUI(SOUND_KEY::BGM_ARCHERY))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Archery");
-
-            // 3. 묘지 (Cemetery)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Cemetery.wav", ETOUI(SOUND_KEY::BGM_CEMETERY))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Cemetery");
-
-            // 4. 성당 (Church)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Church.wav", ETOUI(SOUND_KEY::BGM_CHURCH))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Church");
-
-            // 5. 번화가 (Downtown)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Downtown.wav", ETOUI(SOUND_KEY::BGM_DOWNTOWN))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Downtown");
-
-            // 6. 공장 (Factory)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Factory.wav", ETOUI(SOUND_KEY::BGM_FACTORY))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Factory");
-
-            // 7. 숲 (Forest)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Forest.wav", ETOUI(SOUND_KEY::BGM_FOREST))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Forest");
-
-            // 8. 항구 (Harbor)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Harbor.wav", ETOUI(SOUND_KEY::BGM_HARBOR))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Harbor");
-
-            // 9. 병원 (Hospital)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Hospital.wav", ETOUI(SOUND_KEY::BGM_HOSPITAL))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Hospital");
-
-            // 10. 호텔 (Hotel)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Hotel.wav", ETOUI(SOUND_KEY::BGM_HOTEL))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Hotel");
-
-            // 11. 연구소 (Laboratory)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Laboratory.wav", ETOUI(SOUND_KEY::BGM_LABORATORY))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Laboratory");
-
-            // 12. 연못 (Pond)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Pond.wav", ETOUI(SOUND_KEY::BGM_POND))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Pond");
-
-            // 13. 모래사장 (SandyBeach)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_SandyBeach.wav", ETOUI(SOUND_KEY::BGM_SANDY_BEACH))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_SandyBeach");
-
-            // 14. 학교 (School)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_School.wav", ETOUI(SOUND_KEY::BGM_SCHOOL))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_School");
-
-            // 15. 절 (Temple)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Temple.wav", ETOUI(SOUND_KEY::BGM_TEMPLE))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Temple");
-
-            // 16. 고급 주택가 (Uptown)
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Uptown.wav", ETOUI(SOUND_KEY::BGM_UPTOWN))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Uptown");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Bat_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/batAttack.wav", ETOUI(SOUND_KEY::BAT_ATTACK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: batAttack");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/batDie.wav", ETOUI(SOUND_KEY::BAT_DIE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: batDie");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/batHit.wav", ETOUI(SOUND_KEY::BAT_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: batHit");
 
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
 
+    // Bear_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/bearAttack1.wav", ETOUI(SOUND_KEY::BEAR_ATTACK1))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: bearAttack1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/bearAttack2.wav", ETOUI(SOUND_KEY::BEAR_ATTACK2))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: bearAttack2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/bearDie.wav", ETOUI(SOUND_KEY::BEAR_DIE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: bearDie");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/bearHit.wav", ETOUI(SOUND_KEY::BEAR_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: bearHit");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/bearWakeUp.wav", ETOUI(SOUND_KEY::BEAR_WAKEUP))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: bearWakeUp");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Boar_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/boar_attack.wav", ETOUI(SOUND_KEY::BOAR_ATTACK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: boar_attack");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/boarDie.wav", ETOUI(SOUND_KEY::BOAR_DIE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: boarDie");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/boarHit.wav", ETOUI(SOUND_KEY::BOAR_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: boarHit");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Chicken_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/chickenAttack.wav", ETOUI(SOUND_KEY::CHICKEN_ATTACK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: chickenAttack");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/chickenDie.wav", ETOUI(SOUND_KEY::CHICKEN_DIE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: chickenDie");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/chickenHit.wav", ETOUI(SOUND_KEY::CHICKEN_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: chickenHit");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/chickenWakeUp.wav", ETOUI(SOUND_KEY::CHICKEN_WAKEUP))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: chickenWakeUp");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // WildDog_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/wildDogAttack.wav", ETOUI(SOUND_KEY::WILDDOG_ATTACK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: wildDogAttack");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/wildDogDie.wav", ETOUI(SOUND_KEY::WILDDOG_DIE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: wildDogDie");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/wildDogHit.wav", ETOUI(SOUND_KEY::WILDDOG_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: wildDogHit");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/wildDogWakeUp.wav", ETOUI(SOUND_KEY::WILDDOG_WAKEUP))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: wildDogWakeUp");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    ); 
+
+    // Wolf_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/wolfAttack.wav", ETOUI(SOUND_KEY::WOLF_ATTACK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: wolfAttack");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/wolfDie.wav", ETOUI(SOUND_KEY::WOLF_DIE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: wolfDie");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/wolfHit.wav", ETOUI(SOUND_KEY::WOLF_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: wolfHit");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Monster/wolfWakeUp.wav", ETOUI(SOUND_KEY::WOLF_WAKEUP))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: wolfWakeUp");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Weather
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Day_Bird1.wav", ETOUI(SOUND_KEY::DAY_BIRD1))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Day_Bird1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Day_Bird2.wav", ETOUI(SOUND_KEY::DAY_BIRD2))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Day_Bird2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Day_Bird3.wav", ETOUI(SOUND_KEY::DAY_BIRD3))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Day_Bird3");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Day_Bird4.wav", ETOUI(SOUND_KEY::DAY_BIRD4))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Day_Bird4");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Day_Bird5.wav", ETOUI(SOUND_KEY::DAY_BIRD5))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Day_Bird5");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Day_Bird6.wav", ETOUI(SOUND_KEY::DAY_BIRD6))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Day_Bird6");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Night_Bird1.wav", ETOUI(SOUND_KEY::NIGHT_BIRD1))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Night_Bird1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Night_Bird2.wav", ETOUI(SOUND_KEY::NIGHT_BIRD2))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Night_Bird2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Night_Bird3.wav", ETOUI(SOUND_KEY::NIGHT_BIRD3))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Night_Bird3");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Night_Bird4.wav", ETOUI(SOUND_KEY::NIGHT_BIRD4))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Night_Bird4");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Night_Bird5.wav", ETOUI(SOUND_KEY::NIGHT_BIRD5))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Night_Bird5");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Weather/Sunny.wav", ETOUI(SOUND_KEY::SUNNY))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Sunny");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Action_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Action/Collect.wav", ETOUI(SOUND_KEY::COLLECT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Collect");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Action/Collect_branch.wav", ETOUI(SOUND_KEY::COLLECT_BRANCH))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Collect_branch");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Action/Collect_stone.wav", ETOUI(SOUND_KEY::COLLECT_STONE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Collect_stone");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Action/Craft_Food.wav", ETOUI(SOUND_KEY::CRAFT_FOOD))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Craft_Food");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Action/Craft_Tool.wav", ETOUI(SOUND_KEY::CRAFT_TOOL))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Craft_Tool");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region 콜라이더

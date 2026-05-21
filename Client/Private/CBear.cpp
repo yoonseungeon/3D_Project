@@ -353,6 +353,7 @@ void CBear::Enter_Action(BEAR_ACTION eNewAction)
 
         case SLEEP_END:
             Enter_Animation(CBody_Bear::BEAR_ANI::WAKE);
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::BEAR_WAKEUP));
             break;
 
         case RUN:
@@ -371,8 +372,9 @@ void CBear::Enter_Action(BEAR_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Bear::BEAR_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
-
             m_pInGameHPBar->Set_IsInactive(true);
+
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::BEAR_DIE));
             break;
 
         case DANCE:
@@ -465,10 +467,17 @@ void CBear::Execute_Action(_float fTimeDelta)
         if (m_bIsAttackProcessed == false)
         {
             _float fAttackTime{};
+            SOUND_KEY eSoundKey{};
             if (m_eCurAni == CBody_Bear::BEAR_ANI::ATK1)
+            {
                 fAttackTime = 0.2f;
+                eSoundKey = SOUND_KEY::BEAR_ATTACK1;
+            }
             else
+            {
                 fAttackTime = 0.3f;
+                eSoundKey = SOUND_KEY::BEAR_ATTACK2;
+            }
 
             if (m_pBodyWolf->Get_ModelCom()->Get_AniPlayRatio(m_eCurAni) >= fAttackTime)
             {
@@ -478,6 +487,9 @@ void CBear::Execute_Action(_float fTimeDelta)
                     tDamageInfo.iDamage = 30;
                     tDamageInfo.pUnit = nullptr;
                     m_pTargetPlayer->Damaged(tDamageInfo);
+
+                    m_pGameInstance->PlaySound_Once(ETOUI(eSoundKey));
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::BEAR_HIT));
                 }
                 m_bIsAttackProcessed = true;
             }

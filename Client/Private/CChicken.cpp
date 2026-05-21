@@ -282,8 +282,9 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Chicken::CHICKEN_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
-
             m_pInGameHPBar->Set_IsInactive(true);
+
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHICKEN_DIE));
             break;
 
         case DANCE:
@@ -292,6 +293,7 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
 
         case BEWARE_START:
             Enter_Animation(CBody_Chicken::CHICKEN_ANI::BEWARE_START);
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHICKEN_WAKEUP));
             break;
 
         case BEWARE_LOOP:
@@ -388,6 +390,9 @@ void CChicken::Execute_Action(_float fTimeDelta)
                     tDamageInfo.iDamage = 30;
                     tDamageInfo.pUnit = nullptr;
                     m_pTargetPlayer->Damaged(tDamageInfo);
+
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHICKEN_ATTACK));
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHICKEN_HIT));
                 }
                 m_bIsAttackProcessed = true;
             }

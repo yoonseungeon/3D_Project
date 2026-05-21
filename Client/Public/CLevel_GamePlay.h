@@ -22,6 +22,9 @@ public:
 	virtual HRESULT Render() override;
 
 private:
+	void Update_EnvironmentSound(_float fTimeDelta);
+
+private:
 	HRESULT Ready_Lights();
 	HRESULT Ready_Shadow();
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
@@ -48,8 +51,12 @@ private:
 
 	HRESULT Ready_Layer_GameResult(const _wstring& strLayerTag);
 
+private:
 	CInGame_Manager*	m_pInGame_Manager{};
 	CSharedUI_Manager*	m_pSharedUI_Manager{};
+
+	_float m_fAccDaySoundLoopTime{};
+	_float m_fDaySoundLoopGap{};
 
 public:
 	static CLevel_GamePlay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
