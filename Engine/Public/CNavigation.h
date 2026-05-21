@@ -50,6 +50,8 @@ public:
 
 	const list<_vector>* Make_Route(_float3 vTargetPos);
 
+	_int Get_CurAreaIndex();
+
 #ifdef _DEBUG
 public:
 	virtual HRESULT Render() override;

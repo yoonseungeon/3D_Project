@@ -1,6 +1,7 @@
 #include "CAbstractPlayer.h"
 
 #include "CGameInstance.h"
+
 #include "CInventory.h"
 #include "CEquipment.h"
 #include "CCraftList.h"
@@ -36,6 +37,8 @@ HRESULT CAbstractPlayer::Initialize(void* pArg)
 
     m_pEquipment = CEquipment::Create(pDesc->eItemType);    
     m_pCraftList = CCraftList::Create();
+
+    m_fSoundLoopGap = 40.f;
 
     return S_OK;
 }
@@ -335,8 +338,114 @@ void CAbstractPlayer::SetItemStat(_int iItemId, _bool bAdd)
     SetFinalStat();
 }
 
+void CAbstractPlayer::Update_GroundSound(_float fTimeDelta)
+{
+    if (m_pNavigationCom == nullptr)
+        return;
+
+    _int iCurAreaIndex = m_pNavigationCom->Get_CurAreaIndex();
+    if (iCurAreaIndex)
+
+    if (m_iCurAreaIndex != iCurAreaIndex) {
+        m_iCurAreaIndex = iCurAreaIndex;
+        
+        m_fAccSoundLoopTime = 0.f;
+
+        SOUND_KEY eSoundKey{};
+        Choose_Area(eSoundKey);
+
+        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM));
+    }
+
+    m_fAccSoundLoopTime += fTimeDelta;
+    if (m_fAccSoundLoopTime >= m_fSoundLoopGap)
+    {
+        m_fAccSoundLoopTime =0.f;
+
+        SOUND_KEY eSoundKey{};
+        Choose_Area(eSoundKey);
+
+        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM));
+    }
+
+}
+
+void CAbstractPlayer::Choose_Area(SOUND_KEY& eSoundKey)
+{
+    switch (static_cast<AREA_INDEX>(m_iCurAreaIndex)) {
+    case AREA_INDEX::ALLEY:
+    case AREA_INDEX::GAS_STATION:
+        eSoundKey = SOUND_KEY::BGM_ALLEY;
+        break;
+
+    case AREA_INDEX::ARCHERY:
+        eSoundKey = SOUND_KEY::BGM_ARCHERY;
+        break;
+
+    case AREA_INDEX::CEMETERY:
+        eSoundKey = SOUND_KEY::BGM_CEMETERY;
+        break;
+
+    case AREA_INDEX::CHURCH:
+        eSoundKey = SOUND_KEY::BGM_CHURCH;
+        break;
+
+    case AREA_INDEX::FACTORY:
+        eSoundKey = SOUND_KEY::BGM_FACTORY;
+        break;
+
+    case AREA_INDEX::FIRE_STATION:
+    case AREA_INDEX::POLICE_STATION:
+        eSoundKey = SOUND_KEY::BGM_DOWNTOWN;
+        break;
+
+    case AREA_INDEX::FOREST:
+        eSoundKey = SOUND_KEY::BGM_FOREST;
+
+    case AREA_INDEX::HARBOR:
+    case AREA_INDEX::WAREHOUSE:
+        eSoundKey = SOUND_KEY::BGM_HARBOR;
+        break;
+
+    case AREA_INDEX::HOSPITAL:
+        eSoundKey = SOUND_KEY::BGM_HOSPITAL;
+        break;
+
+    case AREA_INDEX::HOTEL:
+        eSoundKey = SOUND_KEY::BGM_HOTEL;
+        break;
+
+    case AREA_INDEX::LABORATORY:
+        eSoundKey = SOUND_KEY::BGM_LABORATORY;
+        break;
+
+    case AREA_INDEX::POND:
+    case AREA_INDEX::STREAM:
+        eSoundKey = SOUND_KEY::BGM_POND;
+        break;
+
+    case AREA_INDEX::SANDY_BEACH:
+        eSoundKey = SOUND_KEY::BGM_SANDY_BEACH;
+        break;
+
+    case AREA_INDEX::SCHOOL:
+        eSoundKey = SOUND_KEY::BGM_SCHOOL;
+        break;
+
+    case AREA_INDEX::TEMPLE:
+        eSoundKey = SOUND_KEY::BGM_TEMPLE;
+        break;
+
+    case AREA_INDEX::UPTOWN:
+        eSoundKey = SOUND_KEY::BGM_UPTOWN;
+        break;
+    }
+}
+
 void CAbstractPlayer::Free()
 {
+    Safe_Release(m_pNavigationCom);
+
     Safe_Release(m_pBurner);
     Safe_Release(m_pFryingPan);
     Safe_Release(m_pCraftTool);

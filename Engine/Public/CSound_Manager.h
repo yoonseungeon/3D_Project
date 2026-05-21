@@ -43,6 +43,11 @@ public:
 	HRESULT PlaySound_Loop(_uint iKey, _uint iChannelID, _float fVolume);
 	HRESULT PlaySound_OnceFixed(_uint iKey, _uint iChannelID, _float fVolume);
 	HRESULT PlaySound_Once(_uint iKey, _float fVolume);
+
+	HRESULT PlaySound_OnceFixedSmooth(_uint iKey, _uint iChannelID, _float fVolume);
+
+
+
 	HRESULT StopSoundChannel(_uint iChannelID);
 	HRESULT StopAll();
 	HRESULT Set_ChannelVolume(_uint iChannelID, _float fVolume);

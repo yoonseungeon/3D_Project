@@ -116,6 +116,13 @@ HRESULT CSound_Manager::PlaySound_Once(_uint iKey, _float fVolume)
     return S_OK;
 }
 
+HRESULT CSound_Manager::PlaySound_OnceFixedSmooth(_uint iKey, _uint iChannelID, _float fVolume)
+{
+
+
+    return S_OK;
+}
+
 HRESULT CSound_Manager::StopSoundChannel(_uint iChannelID)
 {
     if (iChannelID >= m_iMaxSound)

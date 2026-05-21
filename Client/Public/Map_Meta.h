@@ -111,3 +111,26 @@ constexpr ROOF_META ROOFS[]
     { "Warehouse_Roof3.mymodel",     L"Prototype_Component_Model_Warehouse_Roof3" },
     { "Warehouse_Roof4.mymodel",     L"Prototype_Component_Model_Warehouse_Roof4" }
 };
+
+enum class AREA_INDEX {
+    ALLEY,
+    ARCHERY,
+    CEMETERY,
+    CHURCH,
+    FACTORY,
+    FIRE_STATION,
+    FOREST,
+    GAS_STATION,
+    HARBOR,
+    HOSPITAL,
+    HOTEL,
+    LABORATORY,
+    POLICE_STATION,
+    POND,
+    SANDY_BEACH,
+    SCHOOL,
+    STREAM,
+    TEMPLE,
+    UPTOWN,
+    WAREHOUSE,
+};

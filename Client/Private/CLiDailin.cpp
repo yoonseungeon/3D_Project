@@ -157,6 +157,8 @@ void CLiDailin::Late_Update(_float fTimeDelta)
 
     __super::Late_Update(fTimeDelta);
 
+    Update_GroundSound(fTimeDelta);
+
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 
 #ifdef _DEBUG
@@ -1142,7 +1144,6 @@ void CLiDailin::Free()
     Safe_Release(m_pWeapon);
     Safe_Release(m_pBody);
 
-    Safe_Release(m_pNavigationCom);
     Safe_Release(m_pMoveCom);
 
     __super::Free();

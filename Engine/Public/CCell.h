@@ -35,7 +35,10 @@ public:
 
 	_float Compute_Cost(const _float4& vCenter);
 
-	//const _int* Get_NeighborIndices() { return m_iNeighbors; }
+	const _int* Get_NeighborIndices() { return m_iNeighbors; }
+
+	void Set_AreaIndex(_uint iAreaIndex) { m_iAreaIndex = iAreaIndex; }
+	_uint Get_AreaIndex() { return m_iAreaIndex; }
 
 #ifdef _DEBUG
 public:
@@ -52,6 +55,8 @@ private:
 	_float4					m_vPlane = {};
 
 	_float4					m_vCenter{};
+
+	_uint					m_iAreaIndex{};
 
 #ifdef _DEBUG
 private:

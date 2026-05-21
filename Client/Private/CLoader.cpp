@@ -1204,6 +1204,79 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    // AreaBGM
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            // 1. 골목길 (Alley)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Alley.wav", ETOUI(SOUND_KEY::BGM_ALLEY))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Alley");
+
+            // 2. 양궁장 (Archery)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Archery.wav", ETOUI(SOUND_KEY::BGM_ARCHERY))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Archery");
+
+            // 3. 묘지 (Cemetery)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Cemetery.wav", ETOUI(SOUND_KEY::BGM_CEMETERY))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Cemetery");
+
+            // 4. 성당 (Church)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Church.wav", ETOUI(SOUND_KEY::BGM_CHURCH))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Church");
+
+            // 5. 번화가 (Downtown)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Downtown.wav", ETOUI(SOUND_KEY::BGM_DOWNTOWN))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Downtown");
+
+            // 6. 공장 (Factory)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Factory.wav", ETOUI(SOUND_KEY::BGM_FACTORY))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Factory");
+
+            // 7. 숲 (Forest)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Forest.wav", ETOUI(SOUND_KEY::BGM_FOREST))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Forest");
+
+            // 8. 항구 (Harbor)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Harbor.wav", ETOUI(SOUND_KEY::BGM_HARBOR))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Harbor");
+
+            // 9. 병원 (Hospital)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Hospital.wav", ETOUI(SOUND_KEY::BGM_HOSPITAL))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Hospital");
+
+            // 10. 호텔 (Hotel)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Hotel.wav", ETOUI(SOUND_KEY::BGM_HOTEL))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Hotel");
+
+            // 11. 연구소 (Laboratory)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Laboratory.wav", ETOUI(SOUND_KEY::BGM_LABORATORY))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Laboratory");
+
+            // 12. 연못 (Pond)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Pond.wav", ETOUI(SOUND_KEY::BGM_POND))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Pond");
+
+            // 13. 모래사장 (SandyBeach)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_SandyBeach.wav", ETOUI(SOUND_KEY::BGM_SANDY_BEACH))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_SandyBeach");
+
+            // 14. 학교 (School)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_School.wav", ETOUI(SOUND_KEY::BGM_SCHOOL))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_School");
+
+            // 15. 절 (Temple)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Temple.wav", ETOUI(SOUND_KEY::BGM_TEMPLE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Temple");
+
+            // 16. 고급 주택가 (Uptown)
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/BSER_AreaBGM_Uptown.wav", ETOUI(SOUND_KEY::BGM_UPTOWN))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: BSER_AreaBGM_Uptown");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
 #pragma endregion
 
 #pragma region 콜라이더
@@ -2517,7 +2590,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Navigation"),
-                CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/DataFiles/Navigation.dat"), TEXT("../Bin/DataFiles/Neighbors.dat")))))
+                CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/DataFiles/Navigation3.dat"), TEXT("../Bin/DataFiles/Neighbors3.dat")))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Navigation");
             }

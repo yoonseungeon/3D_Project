@@ -37,8 +37,13 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFile, con
     // 삼각형 단위로 계속 읽음
     while (true)
     {
-        _float3 vPoints[3]{};
+        _uint iAreaIndex{};
+        ReadFile(hFile, &iAreaIndex, sizeof(_uint), &dwByte, nullptr);
 
+        if (dwByte == 0)
+            break;
+
+        _float3 vPoints[3]{};
         ReadFile(hFile, vPoints, sizeof(_float3) * 3, &dwByte, nullptr);
 
         if (dwByte == 0)
@@ -48,6 +53,7 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFile, con
         if (pCell == nullptr)
             return E_FAIL;
 
+        pCell->Set_AreaIndex(iAreaIndex);
         m_Cells.push_back(pCell);
     }
 
@@ -265,6 +271,14 @@ const list<_vector>* CNavigation::Make_Route(_float3 vTargetPos)
     return nullptr;
 }
 
+_int CNavigation::Get_CurAreaIndex()
+{
+    if (m_iCurrentCellIndex == -1)
+        return -1;
+
+    return m_Cells[m_iCurrentCellIndex]->Get_AreaIndex();
+}
+
 _bool CNavigation::isMove(_fvector vResultPos)
 {
     // 움직이고 난 결과 위치가 필요하다. 그래서 TransformCom 안에서 호출
@@ -368,7 +382,7 @@ CComponent* CNavigation::Clone(void* pArg)
 void CNavigation::Free()
 {
     //_ulong          dwByte = {};
-    //HANDLE          hFile = CreateFile(TEXT("../Bin/DataFiles/Neighbors.dat"), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+    //HANDLE          hFile = CreateFile(TEXT("../Bin/DataFiles/Neighbors3.dat"), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
     //_int         iNeighbors[3];
 

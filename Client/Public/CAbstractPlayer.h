@@ -4,6 +4,10 @@
 
 #include "Command.h"
 
+NS_BEGIN(Engine)
+class CNavigation;
+NS_END
+
 NS_BEGIN(Client)
 
 class CEquipment;
@@ -49,7 +53,7 @@ public:
 
 	// Begin 동기화 필요 함수들
 	// Inventory, Equipment
-	_bool Use_Inventory(_uint iSlotIndex); 
+	_bool Use_Inventory(_uint iSlotIndex);
 	_bool Unequip(_uint iSlotIndex);
 
 	// Inven, Equipment, CraftList
@@ -58,7 +62,7 @@ public:
 	// CraftList
 	_bool Craft_Item(_int iItemId);
 	// End
-	 
+
 	// Equipment
 	const CEquipment* Get_Equipment() const { return m_pEquipment; }
 	CEquipment* Get_Equipment() { return m_pEquipment; }
@@ -98,6 +102,12 @@ protected:
 	CBurner* m_pBurner{};
 	CFryingPan* m_pFryingPan{};
 
+	CNavigation* m_pNavigationCom{ nullptr };
+
+	_int m_iCurAreaIndex{ -1 };
+	_float m_fSoundLoopGap{};
+	_float m_fAccSoundLoopTime{};
+
 protected:
 	virtual HRESULT Initialize_Skill();
 	virtual HRESULT Initialize_State();
@@ -109,6 +119,9 @@ protected:
 	void SetItemStat(_int iItemId, _bool bAdd);
 
 	virtual CSkillState* FindSkill(const SKILL_SLOT eType) = 0;
+
+	void Update_GroundSound(_float fTimeDelta);
+	void Choose_Area(SOUND_KEY& eSoundKey);
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

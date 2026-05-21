@@ -123,7 +123,6 @@ public:
 private:
 	// Com
 	CMove* m_pMoveCom{ nullptr };
-	CNavigation* m_pNavigationCom{ nullptr };
 
 	// Part Obj
 	CBody_Player* m_pBody{};
