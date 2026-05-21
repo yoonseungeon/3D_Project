@@ -231,14 +231,10 @@ void CLiDailinAttack::ApplyDamage_First(CLiDailin* pPlayer)
 
 	_float fAttackRatio{};
 
-	if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1))
-		fAttackRatio = 0.14f;
-	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2))
-		fAttackRatio = 0.14f;
-	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1P))
-		fAttackRatio = 0.12f;
-	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2P))
-		fAttackRatio = 0.156f;
+	if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1))		fAttackRatio = 0.096f;
+	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2))	fAttackRatio = 0.115f;
+	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1P))	fAttackRatio = 0.115f;
+	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2P))	fAttackRatio = 0.115f;
 
 	if (fRatio >= fAttackRatio)
 	{
@@ -249,6 +245,12 @@ void CLiDailinAttack::ApplyDamage_First(CLiDailin* pPlayer)
 
 		DAMAGE_INFO tDamageInfo = { pPlayer , 100 };
 		pMonster->Damaged(tDamageInfo);
+
+		if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1) || m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2))		
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK));
+		else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1P) || m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2P))
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK_P));
+
 		m_bIsAttackProcessed_First = true;
 	}
 }
@@ -263,10 +265,8 @@ void CLiDailinAttack::ApplyDamage_Second(CLiDailin* pPlayer)
 
 	_float fAttackRatio{};
 
-	if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1P))
-		fAttackRatio = 0.337f;
-	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2P))
-		fAttackRatio = 0.337f;
+	if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1P))		fAttackRatio = 0.346f;
+	else if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2P))	fAttackRatio = 0.336f;
 
 	if (fRatio >= fAttackRatio)
 	{
@@ -277,6 +277,7 @@ void CLiDailinAttack::ApplyDamage_Second(CLiDailin* pPlayer)
 
 		DAMAGE_INFO tDamageInfo = { pPlayer, 100 };
 		pMonster->Damaged(tDamageInfo);
+		CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK_P));
 		m_bIsAttackProcessed_Second = true;
 	}
 }

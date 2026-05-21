@@ -392,7 +392,7 @@ HRESULT CRenderer::Render_UI()
 
     return S_OK;
 }
-
+ 
 HRESULT CRenderer::Ready_DepthStencil_Buffer()
 {
     // 장치 초기화랑 같음
@@ -448,7 +448,7 @@ HRESULT CRenderer::Render_Debug()
     // Componet Render 호출
     for (auto& pDebugCom : m_DebugComponents)
     {
-        pDebugCom->Render();
+        //pDebugCom->Render();
         Safe_Release(pDebugCom);
     }
     m_DebugComponents.clear();

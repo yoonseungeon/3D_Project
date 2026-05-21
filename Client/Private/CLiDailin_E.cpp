@@ -22,6 +22,9 @@ HRESULT CLiDailin_E::Initialize()
 
 void CLiDailin_E::Enter(CLiDailin* pPlayer)
 {
+    m_bIsSoundPlayed = false;
+    m_bIsVoicePlayed = false;
+
 	m_fChanneling = m_fMaxChanneling;
 	m_bCancleLock = true;
 
@@ -84,6 +87,21 @@ void CLiDailin_E::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
     if (pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true) {
         pPlayer->Set_ActionEnd();
+    }
+
+    if (m_bIsSoundPlayed == false && fAniRatio >= 0.1f)
+    {
+        if (m_bEnhanced == true)
+            CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_E_P));
+        else
+            CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_E));
+        m_bIsSoundPlayed = true;
+    }
+
+    if (m_bIsVoicePlayed == false && fAniRatio >= 0.00f)
+    {
+        CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_E_VOICE));
+        m_bIsVoicePlayed = true;
     }
 }
 
@@ -168,6 +186,8 @@ void CLiDailin_E::OnCollision_Enter(const COLLISION_INFO& tCollision)
     if (tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER) ||
         tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ENEMY))
     {
+        CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_E_HIT));
+
         auto iter = m_AttackedObj.insert(tCollision.pColObject);
 
         if (iter.second == false)

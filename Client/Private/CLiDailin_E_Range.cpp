@@ -31,6 +31,7 @@ HRESULT CLiDailin_E_Range::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pTransformCom->Set_Pos(XMVectorSet(0.f, 1.f, 0.f, 1.f));
     m_pTransformCom->Set_Scale(0.7f, 0.7f, 0.7f);
     m_pTransformCom->Set_Rotation(0.f, XMConvertToRadians(180.f), 0.f);
     m_vColor = COLOR_TO_FLOAT(207, 164, 72);

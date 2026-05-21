@@ -176,9 +176,9 @@ public:
 #pragma endregion
 
 #pragma region SOUND_MANAGER
-	HRESULT PlaySound_Loop(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
-	HRESULT PlaySound_OnceFixed(_uint iKey, _uint iChannelID, _float fVolume = 0.5f);
-	HRESULT PlaySound_Once(_uint iKey, _float fVolume = 0.5f);
+	HRESULT PlaySound_Loop(_uint iKey, _uint iChannelID, _float fVolume = 0.4f);
+	HRESULT PlaySound_OnceFixed(_uint iKey, _uint iChannelID, _float fVolume = 0.4f);
+	HRESULT PlaySound_Once(_uint iKey, _float fVolume = 0.4f);
 	HRESULT StopSoundChannel(_uint iChannelID);
 	HRESULT StopAll();
 	HRESULT Set_ChannelVolume(_uint iChannelID, _float fVolume);

@@ -31,6 +31,9 @@ private:
 
 	_bool m_bEnhanced{};
 
+	_bool m_bIsSoundPlayed{};
+	_bool m_bIsVoicePlayed{};
+
 public:
 	static CLiDailin_E* Create();
 protected:

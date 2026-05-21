@@ -38,6 +38,8 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 			pPlayer->Set_MovementAniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q1_WP);
 
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_Q1));
+
 			// Intoxication
 			const _int iConsumeIntoxication = 40;
 			if (pPlayer->Get_CurStat().iMP >= iConsumeIntoxication)
@@ -58,6 +60,9 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q2);
 			pPlayer->Set_MovementAniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q2_WP);
+
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_Q2));
+
 			break;
 		}
 		case 2:
@@ -66,6 +71,9 @@ void CLiDailin_Q::Enter(CLiDailin* pPlayer)
 			pPlayer->Set_CurAni(LiDailin_Ani::Ani_Q3);
 			pPlayer->Set_MovementAniBlock(true);
 			iWeaponPhase = static_cast<_uint>(Nunchaku_Ani::Q3_WP);
+
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_Q3));
+
 			break;
 		}
 	}

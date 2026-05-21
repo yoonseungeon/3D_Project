@@ -175,6 +175,7 @@ void CGameInstance::Clear_ResourcesPrevious()
 	m_pRenderer->Clear_Debug();
 #endif
 
+	m_pSound_Manager->Clear_Sound();
 	m_pCollision_Mananger->Clear();
 	m_pPicking_Manager->Clear();
 }

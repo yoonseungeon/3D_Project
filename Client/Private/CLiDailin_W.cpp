@@ -1,9 +1,10 @@
 #include "CLiDailin_W.h"
 
+#include "CGameInstance.h"
+
 #include "CLiDailin.h"
 #include "CBody_Player.h"
 #include "CWeapon.h"
-#include "CGameInstance.h"
 
 const char* CLiDailin_W::m_pBoneNames[] =
 {
@@ -117,6 +118,7 @@ HRESULT CLiDailin_W::Initialize()
 void CLiDailin_W::Enter(CLiDailin* pPlayer)
 {
     m_iRemainDrinkCount = m_iMaxDrinkCount;
+    m_iSoundCount = 2;
 
 	// Cool
 	COOL_INFO* pWCoolInfo = pPlayer->Get_CoolInfo(SKILL_SLOT::W);
@@ -156,6 +158,15 @@ void CLiDailin_W::Update(CLiDailin* pPlayer, _float fTimeDelta)
     if (fOverlayRatio >= 0.97f)
     {
         pPlayer->Get_Weapon()->Set_IsInactive(false);
+    }
+    
+    // Sound
+    CGameInstance* pGameInstace = CGameInstance::GetInstance();
+    _bool bIsPlay = pGameInstace->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::FIXED_EFFECT1));
+    if (fOverlayRatio >= 0.4f && m_iSoundCount > 0 && bIsPlay == false)
+    {
+        pGameInstace->PlaySound_OnceFixed(ETOUI(SOUND_KEY::LIDAILIN_W), ETOUI(SOUND_CHANNEL_GAMEPLAY::FIXED_EFFECT1));
+        --m_iSoundCount;
     }
 }
 

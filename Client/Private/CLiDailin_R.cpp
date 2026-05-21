@@ -32,11 +32,12 @@ void CLiDailin_R::Enter(CLiDailin* pPlayer)
 	pRCoolInfo->fAccCoolDown = pRCoolInfo->fCurCoolDown;
 
 	// Ani
-	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(LiDailin_Ani::Ani_R1), false);
-	pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(static_cast<_uint>(Nunchaku_Ani::IDLE_WP), false);
+	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(ETOUI(LiDailin_Ani::Ani_R1), false);
+	pPlayer->Get_Weapon()->Get_ModelCom()->Set_AnimationIndex(ETOUI(Nunchaku_Ani::IDLE_WP), false);
 	pPlayer->Set_MovementAniBlock(true);
 
 	// Ani Speed
+	pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AniSpeed(ETOUI(LiDailin_Ani::Ani_R2), 1.25f);
 
 	// ÀÌµ¿
 	pPlayer->Set_MoveBlock(true);
@@ -57,6 +58,8 @@ void CLiDailin_R::Enter(CLiDailin* pPlayer)
 	pPlayer->AddMP(-m_iConsumeIntoxication);
 
 	pPlayer->Get_Collider(CLiDailin::LIDAILIN_COLLIDER::LIDAILIN_R)->Set_Active(true);
+
+	CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_R_DASH));
 }
 
 void CLiDailin_R::Update(CLiDailin* pPlayer, _float fTimeDelta)
@@ -94,11 +97,11 @@ void CLiDailin_R::Update(CLiDailin* pPlayer, _float fTimeDelta)
 			pPlayer->Set_CanMoveCancle(true);
 		}
 
-		if (fR2 >= 0.156f)
+		if (fR2 >= 0.086f)
 			m_eRATKP |= GIVE_R2;
-		if (fR2 >= 0.336f)
+		if (fR2 >= 0.266f)
 			m_eRATKP |= GIVE_R3;
-		if (fR2 >= 0.53f)
+		if (fR2 >= 0.46f)
 			m_eRATKP |= GIVE_R4;
 	}
 
@@ -223,12 +226,12 @@ void CLiDailin_R::OnCollision_Stay(const COLLISION_INFO& tCollision)
 			m_eRATKP |= END_R2;
 			Give_Damage(tCollision);
 		}
-		if ((m_eRATKP & GIVE_R3) && !(m_eRATKP & END_R3))
+		else if ((m_eRATKP & GIVE_R3) && !(m_eRATKP & END_R3))
 		{
 			m_eRATKP |= END_R3;
 			Give_Damage(tCollision);
 		}
-		if ((m_eRATKP & GIVE_R4) && !(m_eRATKP & END_R4))
+		else if ((m_eRATKP & GIVE_R4) && !(m_eRATKP & END_R4))
 		{
 			m_eRATKP |= END_R4;
 			Give_Damage(tCollision);
@@ -261,6 +264,7 @@ void CLiDailin_R::Give_Damage(const COLLISION_INFO& tCollision, _bool bStun)
 	}
 
 	static_cast<CUnit*>(tCollision.pColObject)->Damaged(tDamageInfo);
+	CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_R_HIT));
 }
 
 CLiDailin_R* CLiDailin_R::Create()

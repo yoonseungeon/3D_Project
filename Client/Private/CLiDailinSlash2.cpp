@@ -138,7 +138,7 @@ void CLiDailinSlash2::Set_SpinEffect(CBody_Player* pBody_Player)
             if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q1) ||
                 iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Q2))
             {
-                m_pTransformCom->Set_Pos(XMVectorSet(0.f, 1.f, 0.f, 1.f));
+                m_pTransformCom->Set_Pos(XMVectorSet(0.f, 1.2f, 0.f, 1.f));
                 _float4 vQuat = _float4(-0.999630f, -0.007484f, 0.017719f, -0.019248f);
                 m_pTransformCom->Set_Rotation(vQuat);
 

@@ -1133,7 +1133,77 @@ HRESULT CLoader::Ready_Resources_For_Lobby()
 HRESULT CLoader::Ready_Resources_For_GamePlay()
 {
 #pragma region 사운드
+    // Dailin_Normal_Nunchaku_Hit
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Dailin_Normal_Nunchaku_Hit.wav", ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Dailin_Normal_Nunchaku_Hit");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 
+    // Dailin_Normal_Nunchaku_Hit_P
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Dailin_Normal_Nunchaku_Hit_P.wav", ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK_P))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Dailin_Normal_Nunchaku_Hit_P");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Lidailin_Skill01_Attack_Nunchaku
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill01_Attack0_Nunchaku.wav", ETOUI(SOUND_KEY::LIDAILIN_Q1))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill01_Attack0_Nunchaku");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill01_Attack1_Nunchaku.wav", ETOUI(SOUND_KEY::LIDAILIN_Q2))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill01_Attack1_Nunchaku");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill01_Attack2_Nunchaku.wav", ETOUI(SOUND_KEY::LIDAILIN_Q3))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill01_Attack2_Nunchaku");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Lidailin_Skill02_Active
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill02_Active.wav", ETOUI(SOUND_KEY::LIDAILIN_W))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill02_Active");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Lidailin_Skill03
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill03_Attack.wav", ETOUI(SOUND_KEY::LIDAILIN_E))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill03_Attack");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill03_Attack_p.wav", ETOUI(SOUND_KEY::LIDAILIN_E_P))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill03_Attack_p");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_Skill03_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_E_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: LiDailin_Skill03_Voice");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill03_Hit.wav", ETOUI(SOUND_KEY::LIDAILIN_E_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill03_Hit");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Lidailin_Skill04
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill04_Dash.wav", ETOUI(SOUND_KEY::LIDAILIN_R_DASH))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill04_Dash");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill04_Hit_Base.wav", ETOUI(SOUND_KEY::LIDAILIN_R_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill04_Hit_Base");
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region 콜라이더

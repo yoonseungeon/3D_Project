@@ -25,6 +25,8 @@ private:
 	_float m_fAccDrink{};
 	_float m_fMaxDrink{};
 
+	_uint m_iSoundCount{};
+
 public:
 	static CLiDailin_W* Create();
 protected:

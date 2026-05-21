@@ -31,9 +31,6 @@
     <Filter Include="05. GameObject\Manager\Layer">
       <UniqueIdentifier>{66ac95ad-f5d6-4fb2-973b-53e8d715c43e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06. Renderer">
-      <UniqueIdentifier>{831a7298-ee1f-48e7-a527-a9860cf9c214}</UniqueIdentifier>
-    </Filter>
     <Filter Include="07. Component">
       <UniqueIdentifier>{5872d473-c10f-4a16-9970-ad1815efccec}</UniqueIdentifier>
     </Filter>
@@ -211,6 +208,9 @@
     <Filter Include="97. Sound_Manager">
       <UniqueIdentifier>{eebc085c-334c-4710-8ef2-3a0e39143c14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Prototype\06. Renderer">
+      <UniqueIdentifier>{831a7298-ee1f-48e7-a527-a9860cf9c214}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\CBase.cpp">
@@ -247,7 +247,7 @@
       <Filter>05. GameObject\Manager\Layer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CRenderer.cpp">
-      <Filter>06. Renderer</Filter>
+      <Filter>04. Prototype\06. Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CComponent.cpp">
       <Filter>07. Component</Filter>
@@ -465,7 +465,7 @@
       <Filter>05. GameObject\Manager\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CRenderer.h">
-      <Filter>06. Renderer</Filter>
+      <Filter>04. Prototype\06. Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CComponent.h">
       <Filter>07. Component</Filter>

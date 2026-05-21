@@ -132,8 +132,6 @@ CLevel_Lobby* CLevel_Lobby::Create(ID3D11Device* pDevice, ID3D11DeviceContext* p
 
 void CLevel_Lobby::Free()
 {
-    m_pGameInstance->Clear_Sound();
-
     for (auto pStage : m_Stages) {
         Safe_Release(pStage);
     }
