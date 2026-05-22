@@ -142,6 +142,8 @@ void CUnit::LevelUp()
 
     m_tCurStat.iLevel += 1;
 
+    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::EFFECT_LEVELUP));
+
     if (m_tCurStat.iLevel >= m_tFinalStat.iLevel)
     {
         m_tCurStat.iEXP = m_tFinalStat.iEXP;

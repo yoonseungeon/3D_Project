@@ -130,6 +130,14 @@ void CLiDailin_W::Enter(CLiDailin* pPlayer)
     pPlayer->Get_Weapon()->Set_IsInactive(true);
 
 	// Ani Speed
+
+    // Sound
+    CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+    _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_W_VOICE_1) + rand() % 3;
+
+    if (pGameInstance->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+        pGameInstance->PlaySound_OnceFixed(iSoundIndex, ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
 }
 
 void CLiDailin_W::Update(CLiDailin* pPlayer, _float fTimeDelta)

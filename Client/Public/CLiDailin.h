@@ -188,6 +188,8 @@ private:
 
 	virtual CSkillState* FindSkill(const SKILL_SLOT eType) override;
 
+	virtual void PlayAreaVoice() override;
+
 public:
 	static CLiDailin* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;

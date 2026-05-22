@@ -89,19 +89,23 @@ HRESULT CLiDailin::Initialize(void* pArg)
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
 
-    TryEquip_AddInven(4);
-    TryEquip_AddInven(34);
-    TryEquip_AddInven(55);
-    TryEquip_AddInven(52);
-    TryEquip_AddInven(34);
-    TryEquip_AddInven(55);
-    TryEquip_AddInven(52);
-    TryEquip_AddInven(52);
-    TryEquip_AddInven(52);
-    TryEquip_AddInven(52);
+    TryEquip_AddInven(4, 1, false);
+    TryEquip_AddInven(34, 1, false);
+    TryEquip_AddInven(55, 1, false);
+    TryEquip_AddInven(52, 1, false);
+    TryEquip_AddInven(34, 1, false);
+    TryEquip_AddInven(55, 1, false);
+    TryEquip_AddInven(52, 1, false);
 
 
-    TryEquip_AddInven(86);
+    TryEquip_AddInven(53, 1, false);
+    TryEquip_AddInven(55, 1, false);
+    TryEquip_AddInven(33, 1, false);
+    TryEquip_AddInven(41, 1, false);
+    TryEquip_AddInven(83, 1, false);
+                    
+
+    TryEquip_AddInven(86, 1, false);
 
     
     return S_OK;
@@ -156,8 +160,6 @@ void CLiDailin::Late_Update(_float fTimeDelta)
     m_pWEffect->Active_Effect_W(m_pBody, fTimeDelta);
 
     __super::Late_Update(fTimeDelta);
-
-    Update_GroundSound(fTimeDelta);
 
     m_pGameInstance->Add_RenderGroup(RENDERID::NONBLEND, this);
 
@@ -491,7 +493,10 @@ void CLiDailin::LevelUpSkill(const SKILL_SLOT eType)
         return;
 
     if (m_iSkillPoint >= 1 && pSkillState->SkillLevelUp() == true)
+    {
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::SKILL_UP));
         --m_iSkillPoint;
+    }
 }
 
 _bool CLiDailin::CanLevelUpSkill(const SKILL_SLOT eType)
@@ -964,6 +969,8 @@ void CLiDailin::Key_Input()
             Set_ActionEnd();
         }
 
+        PlayAreaVoice();
+
         MOVEMENT_COMMAND tMovement_Command{};
         tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;
         tMovement_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
@@ -1098,6 +1105,22 @@ CSkillState* CLiDailin::FindSkill(const SKILL_SLOT eType)
     }
 
     return pSkillState;
+}
+
+void CLiDailin::PlayAreaVoice()
+{
+    if (m_bCanPlayAreaVoiceTime == true || m_bAreaVoiceCoolIgnore == true)
+    {
+        _uint iAreaSoundStartIndex = ETOUI(SOUND_KEY::LIDAILIN_MOVEINALLEY_1);
+
+        _uint iSoundIndex = iAreaSoundStartIndex + m_iCurAreaIndex * 3 + rand() % 3;
+
+        if (m_pGameInstance->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+            m_pGameInstance->PlaySound_OnceFixed(iSoundIndex, ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
+
+        m_bAreaVoiceCoolIgnore = false;
+        Reset_AreaVoiceTimer();
+    }
 }
 
 CLiDailin* CLiDailin::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

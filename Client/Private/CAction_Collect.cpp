@@ -112,12 +112,29 @@ void CAction_Collect::Move_OR_Interact(CLiDailin* pPlayer)
 
         m_bIsInteract = true;
 
+        CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
         if (m_iItemId == 3)
-            CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(SOUND_KEY::COLLECT_BRANCH), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
+        {
+            pGameInstance->PlaySound_OnceFixed(ETOUI(SOUND_KEY::COLLECT_BRANCH), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
+
+            if (pGameInstance->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+                pGameInstance->PlaySound_OnceFixed(ETOUI(SOUND_KEY::LIDAILIN_COLLECTBRANCH_VOICE), ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
+        }
         else if (m_iItemId == 5)
+        {
             CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(SOUND_KEY::COLLECT_STONE), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
+
+            if (pGameInstance->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+                pGameInstance->PlaySound_OnceFixed(ETOUI(SOUND_KEY::LIDAILIN_COLLECTSTONE_VOICE), ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
+        }
         else if (m_iItemId == 27)
+        {
             CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(SOUND_KEY::COLLECT), ETOUI(SOUND_CHANNEL_GAMEPLAY::ACTION));
+
+            if (pGameInstance->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+                pGameInstance->PlaySound_OnceFixed(ETOUI(SOUND_KEY::LIDAILIN_COLLECTFLOWER_VOICE), ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
+        }        
     }
 }
 

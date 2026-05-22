@@ -187,6 +187,8 @@ void CLiDailinAttack::Attack(CLiDailin* pPlayer)
 	pPlayer->Set_MovementAniBlock(true);
 	pPlayer->Set_WaitMovementState(L"Idle");
 	m_bIsChasing = false;
+
+	CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK_WIND_1));
 }
 
 void CLiDailinAttack::Chase(CLiDailin* pPlayer)

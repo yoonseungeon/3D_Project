@@ -19,12 +19,12 @@ enum class ITEM_GRADE
 
 static float ItemCraftTime[static_cast<int>(ITEM_GRADE::ITEM_GRADE_END)]
 {
-    3.f, 3.f, 3.f, 3.f, 3.f, 3.f
+    1.f, 1.3f, 1.5f, 2.0f, 2.5f, 3.f
 };
 
 static float ItemCollectTime[static_cast<int>(ITEM_GRADE::ITEM_GRADE_END)]
 {
-    2.f, 2.f, 2.f, 2.f, 2.f, 2.f
+    1.5, 1.5, 1.5, 1.5, 1.5, 1.5
 };
 
 enum SPAWN_MAP {

@@ -36,6 +36,8 @@ void CAction_Craft::Enter(CLiDailin* pPlayer)
     // Ani
     if (m_eItemType == ITEM_TYPE::FOOD)
     {
+        m_fMaxTime = 1.f;
+
         pPlayer->Get_BodyPlayer()->Get_ModelCom()->Set_AnimationIndex(m_iCraftFoodAni, false);
 
         CBurner* pBurner = pPlayer->Get_Burner();
@@ -104,9 +106,6 @@ void CAction_Craft::Update(CLiDailin* pPlayer, _float fTimeDelta)
 
 void CAction_Craft::Exit(CLiDailin* pPlayer)
 {
-    m_iItemId = -1;
-    m_fAccTime = 0.f;
-
     // Ani
     pPlayer->Set_CurAni(LiDailin_Ani::Ani_None);
     pPlayer->Get_Weapon()->Set_IsInactive(false);
@@ -115,9 +114,44 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
     {
         pPlayer->Get_Burner()->Set_IsInactive(true);
         pPlayer->Get_FryingPan()->Set_IsInactive(true);
+
+        _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_MAKEFOOD_1_VOICE) + rand() % 2;
+
+        if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+            CGameInstance::GetInstance()->PlaySound_OnceFixed(iSoundIndex, ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
     }
     else
     {
+        const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(m_iItemId);
+        if (pItemDesc->eGrade == ITEM_GRADE::HIGH)
+        {
+            _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_CRAFTUNCOMMON_1_VOICE) + rand() % 3;
+
+            if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+                CGameInstance::GetInstance()->PlaySound_OnceFixed(iSoundIndex, ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
+        }
+        else if (pItemDesc->eGrade == ITEM_GRADE::RARE)
+        {
+            _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_CRAFTRARE_3_VOICE);
+
+            if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+                CGameInstance::GetInstance()->PlaySound_OnceFixed(iSoundIndex, ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
+        }
+        else if (pItemDesc->eGrade == ITEM_GRADE::HERO)
+        {
+            _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_CRAFTEPIC_1_VOICE) + rand() % 2;
+
+            if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+                CGameInstance::GetInstance()->PlaySound_OnceFixed(iSoundIndex, ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
+        }
+        else if (pItemDesc->eGrade == ITEM_GRADE::LEGENDARY)
+        {          
+            _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_CRAFTLEGENDARY_2_VOICE);
+
+            if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
+                CGameInstance::GetInstance()->PlaySound_OnceFixed(iSoundIndex, ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE));
+        }
+
         pPlayer->Get_CraftHammer()->Set_IsInactive(true);
         m_bOnHammer = false;
         pPlayer->Get_CraftTool()->Set_IsInactive(true);
@@ -129,6 +163,9 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
     pPlayer->Set_MoveBlock(false);
 
     pPlayer->Set_CanMoveCancle(false);
+
+    m_iItemId = -1;
+    m_fAccTime = 0.f;
 }
 
 void CAction_Craft::HandleActionCommand(CLiDailin* pPlayer, ACTION_COMMAND& eAction_Command)

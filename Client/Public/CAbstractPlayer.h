@@ -57,7 +57,7 @@ public:
 	_bool Unequip(_uint iSlotIndex);
 
 	// Inven, Equipment, CraftList
-	_bool TryEquip_AddInven(_int iItemId, _uint iItemCount = 1);
+	_bool TryEquip_AddInven(_int iItemId, _uint iItemCount = 1, _bool bSoundOnOff = true);
 
 	// CraftList
 	_bool Craft_Item(_int iItemId);
@@ -108,6 +108,12 @@ protected:
 	_float m_fSoundLoopGap{};
 	_float m_fAccSoundLoopTime{};
 
+	_float m_fAccAreaVoiceTime{};
+	_bool m_bCanPlayAreaVoiceTime{ true };
+
+	_bool m_bAreaChange{};
+	_bool m_bAreaVoiceCoolIgnore{};
+	
 protected:
 	virtual HRESULT Initialize_Skill();
 	virtual HRESULT Initialize_State();
@@ -120,8 +126,15 @@ protected:
 
 	virtual CSkillState* FindSkill(const SKILL_SLOT eType) = 0;
 
+	void Check_CurArea();
+
 	void Update_GroundSound(_float fTimeDelta);
+
 	void Choose_Area(SOUND_KEY& eSoundKey);
+
+	void Update_AreaVoiceTimer(_float fTimeDelta);
+	virtual void PlayAreaVoice();
+	void Reset_AreaVoiceTimer();
 
 public:
 	virtual CGameObject* Clone(void* pArg) = 0;

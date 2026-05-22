@@ -62,6 +62,10 @@ void CAbstractPlayer::Update(_float fTimeDelta)
 void CAbstractPlayer::Late_Update(_float fTimeDelta)
 {
     __super::Late_Update(fTimeDelta);
+
+    Check_CurArea();
+    Update_GroundSound(fTimeDelta);
+    Update_AreaVoiceTimer(fTimeDelta);
 }
 
 HRESULT CAbstractPlayer::Render()
@@ -96,6 +100,7 @@ _bool CAbstractPlayer::Use_Inventory(_uint iSlotIndex)
 
     if (pItemDesc->eType == ITEM_TYPE::FOOD)
     {
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CONSUME_EAT_3));
         return Use_Consumable(iSlotIndex);
     }
     else
@@ -114,6 +119,7 @@ _bool CAbstractPlayer::Unequip(_uint iSlotIndex)
     _bool bResult = m_pInvetory->Add_Item(iItemId);
     if (bResult == false)
     {
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::ITEM_FAIL));
         return false;
     }
 
@@ -131,7 +137,7 @@ _bool CAbstractPlayer::Craft_Item(_int iItemId)
     return m_pCraftList->Craft_Item(iItemId, this);
 }
 
-_bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
+_bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount, _bool bSoundOnOff)
 {
     if (iItemCount == 1)
     {
@@ -147,6 +153,9 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
             // 이전 아이템이 없으면
             if (iPreItemIndex == -1)
             {
+                if (bSoundOnOff == true)
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::ITEM_PICKUP));
+
                 m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
                 return true;
             }
@@ -159,6 +168,9 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
             // Add 성공했으면
             if(bAddInvenResult == true)
             {
+                if (bSoundOnOff == true)
+                    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::ITEM_PICKUP));
+
                 SetItemStat(iPreItemIndex, false);
 
                 m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
@@ -167,6 +179,9 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
 
             // 인벤토리 Add 실패 했으면
  
+            if (bSoundOnOff == true)
+                m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::ITEM_FAIL));
+
             // 다시 원상 복구
             _int iDummy = { -1 };
             m_pEquipment->Equip_ItemByItemId(iPreItemIndex, iDummy);
@@ -182,7 +197,15 @@ _bool CAbstractPlayer::TryEquip_AddInven(_int iItemId, _uint iItemCount)
 
     if (bResult == true)
     {
+        if (bSoundOnOff == true)
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::ITEM_PICKUP));
+
         m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
+    }
+    else
+    {
+        if (bSoundOnOff == true)
+            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::ITEM_FAIL));
     }
 
     return bResult;
@@ -254,6 +277,7 @@ _bool CAbstractPlayer::Equip(_uint iSlotIndex)
 
     if (bResult == false)
     {
+        m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::ITEM_FAIL));
         return false;
     }
 
@@ -268,6 +292,8 @@ _bool CAbstractPlayer::Equip(_uint iSlotIndex)
         m_pInvetory->Add_Item(iPreItemId);
         SetItemStat(iPreItemId, false);
     }
+
+    m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::EQUIP_ITEM));
 
     m_pCraftList->Sync_CraftList(m_pInvetory, m_pEquipment);
     return true;
@@ -338,16 +364,27 @@ void CAbstractPlayer::SetItemStat(_int iItemId, _bool bAdd)
     SetFinalStat();
 }
 
-void CAbstractPlayer::Update_GroundSound(_float fTimeDelta)
+void CAbstractPlayer::Check_CurArea()
 {
+    if (m_bAreaChange == true)
+        m_bAreaChange = false;
+
     if (m_pNavigationCom == nullptr)
         return;
 
     _int iCurAreaIndex = m_pNavigationCom->Get_CurAreaIndex();
-    if (iCurAreaIndex)
 
-    if (m_iCurAreaIndex != iCurAreaIndex) {
+    if (m_iCurAreaIndex != iCurAreaIndex)
+    {
+        m_bAreaVoiceCoolIgnore = true;
         m_iCurAreaIndex = iCurAreaIndex;
+        m_bAreaChange = true;
+    }
+}
+
+void CAbstractPlayer::Update_GroundSound(_float fTimeDelta)
+{
+    if (m_bAreaChange) {
         
         m_fAccSoundLoopTime = 0.f;
 
@@ -367,7 +404,6 @@ void CAbstractPlayer::Update_GroundSound(_float fTimeDelta)
 
         CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM));
     }
-
 }
 
 void CAbstractPlayer::Choose_Area(SOUND_KEY& eSoundKey)
@@ -401,6 +437,7 @@ void CAbstractPlayer::Choose_Area(SOUND_KEY& eSoundKey)
 
     case AREA_INDEX::FOREST:
         eSoundKey = SOUND_KEY::BGM_FOREST;
+        break;
 
     case AREA_INDEX::HARBOR:
     case AREA_INDEX::WAREHOUSE:
@@ -440,6 +477,32 @@ void CAbstractPlayer::Choose_Area(SOUND_KEY& eSoundKey)
         eSoundKey = SOUND_KEY::BGM_UPTOWN;
         break;
     }
+}
+
+void CAbstractPlayer::Update_AreaVoiceTimer(_float fTimeDelta)
+{
+    if (m_bCanPlayAreaVoiceTime == true)
+        return;
+
+    m_fAccAreaVoiceTime += fTimeDelta;
+
+    const _float fCanPlayAreaVoiceTime = 20.f;
+    if(m_fAccAreaVoiceTime >= fCanPlayAreaVoiceTime)
+    {
+        m_fAccAreaVoiceTime = 0.f;
+
+        m_bCanPlayAreaVoiceTime = true;
+    }
+}
+
+void CAbstractPlayer::PlayAreaVoice()
+{
+}
+
+void CAbstractPlayer::Reset_AreaVoiceTimer()
+{
+    m_fAccAreaVoiceTime = 0.f;
+    m_bCanPlayAreaVoiceTime = false;
 }
 
 void CAbstractPlayer::Free()

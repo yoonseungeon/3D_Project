@@ -165,6 +165,8 @@ void CLiDailin_Q::OnCollision_Enter(const COLLISION_INFO& tCollision)
 
 		DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), 50 };
 		static_cast<CUnit*>(tCollision.pColObject)->Damaged(tDamageInfo);
+
+		CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_Q_HIT));
 	}
 }
 

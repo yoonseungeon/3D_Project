@@ -1149,6 +1149,10 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Dailin_Normal_Nunchaku_Hit_P.wav", ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK_P))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Dailin_Normal_Nunchaku_Hit_P");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/attackNunchaku_r1.wav", ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK_WIND_1))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: attackNunchaku_r1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/attackNunchaku_r3.wav", ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK_WIND_2))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: attackNunchaku_r3");
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
@@ -1163,6 +1167,8 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill01_Attack1_Nunchaku");
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill01_Attack2_Nunchaku.wav", ETOUI(SOUND_KEY::LIDAILIN_Q3))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill01_Attack2_Nunchaku");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Lidailin_Skill01_Hit.wav", ETOUI(SOUND_KEY::LIDAILIN_Q_HIT))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Added: Lidailin_Skill01_Hit");
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
@@ -1393,6 +1399,237 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 
             if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Action/Craft_Tool.wav", ETOUI(SOUND_KEY::CRAFT_TOOL))))
                 MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Craft_Tool");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // LiDailin_MoveIn_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            // Alley
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInAlley_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINALLEY_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInAlley_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInAlley_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINALLEY_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInAlley_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInAlley_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINALLEY_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInAlley_3");
+
+            // Archery
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInArchery_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINARCHERY_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInArchery_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInArchery_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINARCHERY_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInArchery_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInArchery_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINARCHERY_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInArchery_3");
+
+            // Cemetery
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInCemetery_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINCEMETERY_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInCemetery_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInCemetery_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINCEMETERY_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInCemetery_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInCemetery_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINCEMETERY_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInCemetery_3");
+
+            // Church
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInChurch_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINCHURCH_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInChurch_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInChurch_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINCHURCH_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInChurch_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInChurch_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINCHURCH_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInChurch_3");
+
+            // Factory
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInFactory_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFACTORY_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInFactory_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInFactory_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFACTORY_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInFactory_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInFactory_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFACTORY_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInFactory_3");
+
+            // FireStation
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInFireStation_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFIRESTATION_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInFireStation_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInFireStation_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFIRESTATION_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInFireStation_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInFireStation_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFIRESTATION_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInFireStation_3");
+
+            // Forest
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInForest_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFOREST_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInForest_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInForest_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFOREST_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInForest_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInForest_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINFOREST_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInForest_3");
+
+            // GasStation
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInGasStation_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINGASSTATION_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInGasStation_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInGasStation_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINGASSTATION_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInGasStation_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInGasStation_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINGASSTATION_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInGasStation_3");
+
+            // Harbor
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHarbor_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHARBOR_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHarbor_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHarbor_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHARBOR_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHarbor_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHarbor_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHARBOR_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHarbor_3");
+
+            // Hospital
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHospital_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHOSPITAL_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHospital_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHospital_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHOSPITAL_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHospital_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHospital_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHOSPITAL_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHospital_3");
+
+            // Hotel
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHotel_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHOTEL_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHotel_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHotel_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHOTEL_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHotel_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInHotel_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINHOTEL_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInHotel_3");
+
+            // Laboratory
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInLaboratoryOutside_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINLABORATORY_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInLaboratory_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInLaboratoryOutside_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINLABORATORY_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInLaboratory_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInLaboratoryOutside_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINLABORATORY_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInLaboratory_3");
+
+            // PoliceStation
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInPoliceStation_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINPOLICESTATION_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInPoliceStation_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInPoliceStation_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINPOLICESTATION_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInPoliceStation_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInPoliceStation_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINPOLICESTATION_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInPoliceStation_3");
+
+            // Pond
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInPond_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINPOND_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInPond_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInPond_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINPOND_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInPond_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInPond_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINPOND_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInPond_3");
+
+            // SandyBeach
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInSandyBeach_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSANDYBEACH_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInSandyBeach_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInSandyBeach_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSANDYBEACH_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInSandyBeach_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInSandyBeach_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSANDYBEACH_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInSandyBeach_3");
+
+            // School
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInSchool_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSCHOOL_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInSchool_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInSchool_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSCHOOL_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInSchool_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInSchool_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSCHOOL_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInSchool_3");
+
+            // Stream
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInStream_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSTREAM_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInStream_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInStream_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSTREAM_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInStream_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInStream_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINSTREAM_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInStream_3");
+
+            // Temple
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInTemple_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINTEMPLE_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInTemple_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInTemple_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINTEMPLE_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInTemple_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInTemple_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINTEMPLE_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInTemple_3");
+
+            // Warehouse
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInWarehouse_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINWAREHOUSE_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInWarehouse_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInWarehouse_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINWAREHOUSE_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInWarehouse_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInWarehouse_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINWAREHOUSE_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInWarehouse_3");
+
+            // Uptown
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInUptown_1_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINUPTOWN_1)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInUptown_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInUptown_2_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINUPTOWN_2)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInUptown_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_MoveArea/LiDailin_moveInUptown_3_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_MOVEINUPTOWN_3)))) MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_moveInUptown_3");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // LiDailin_SkillVoice_W_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_PlaySkill_Voice_W_1.wav", ETOUI(SOUND_KEY::LIDAILIN_W_VOICE_1))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_PlaySkill_Voice_W_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_PlaySkill_Voice_W_2.wav", ETOUI(SOUND_KEY::LIDAILIN_W_VOICE_2))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_PlaySkill_Voice_W_2");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_PlaySkill_Voice_W_3.wav", ETOUI(SOUND_KEY::LIDAILIN_W_VOICE_3))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_PlaySkill_Voice_W_3");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // LiDailin_CollectVoice_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_CollectBranch_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_COLLECTBRANCH_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_CollectBranch_Voice");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_CollectFlower_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_COLLECTFLOWER_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_CollectFlower_Voice");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_CollectStone_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_COLLECTSTONE_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_CollectStone_Voice");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // LiDailin_CraftVoice_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            // Uncommon
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_craftUncommon_1_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_CRAFTUNCOMMON_1_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_craftUncommon_1_Voice");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_craftUncommon_2_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_CRAFTUNCOMMON_2_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_craftUncommon_2_Voice");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_craftUncommon_3_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_CRAFTUNCOMMON_3_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_craftUncommon_3_Voice");
+
+            // Rare
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_craftRare_3_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_CRAFTRARE_3_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_craftRare_3_Voice");
+
+            // Epic
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_craftEpic_1_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_CRAFTEPIC_1_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_craftEpic_1_Voice");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_craftEpic_2_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_CRAFTEPIC_2_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_craftEpic_2_Voice");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_craftLegend_2_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_CRAFTLEGENDARY_2_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_craftLegend_2_Voice");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // LiDailin_MakeFoodVoice_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_makeFood_1_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_MAKEFOOD_1_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_makeFood_1_Voice");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/LiDailin_makeFood_3_Voice.wav", ETOUI(SOUND_KEY::LIDAILIN_MAKEFOOD_3_VOICE))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: LiDailin_makeFood_3_Voice");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // ItemSystem_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/ItemPickUp.wav", ETOUI(SOUND_KEY::ITEM_PICKUP))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: ItemPickUp");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/ItemFail.wav", ETOUI(SOUND_KEY::ITEM_FAIL))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: ItemFail");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/EquipmentIteml.wav", ETOUI(SOUND_KEY::EQUIP_ITEM))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: EquipmentIteml");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Effect_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/effect_levelup.wav", ETOUI(SOUND_KEY::EFFECT_LEVELUP))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: effect_levelup");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Skill_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/SkillUp.wav", ETOUI(SOUND_KEY::SKILL_UP))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: SkillUp");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Consume_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/Consume_Eat_3.wav", ETOUI(SOUND_KEY::CONSUME_EAT_3))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: Consume_Eat_3");
 
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
