@@ -40,7 +40,6 @@ public:
 
 	_bool Get_GameEnd() { return m_bGameEnd; }
 
-
 	_bool Picking_SplitGround(_float3& vOutPos);
 	void Add_SplitGround(CSplitGround* pSplitGround);
 
