@@ -184,6 +184,9 @@
     <ClInclude Include="..\Public\CExplosion.h" />
     <ClInclude Include="..\PUblic\CFryingPan.h" />
     <ClInclude Include="..\Public\CGameResultTextBox.h" />
+    <ClInclude Include="..\Public\CUI_Day.h" />
+    <ClInclude Include="..\Public\CUI_DayIcon.h" />
+    <ClInclude Include="..\Public\CUI_Timer.h" />
     <ClInclude Include="..\Public\CSplitGround.h" />
     <ClInclude Include="..\Public\CUI_GameResult.h" />
     <ClInclude Include="..\Public\CInGameHPBar.h" />
@@ -326,6 +329,9 @@
     <ClCompile Include="..\Private\CExplosion.cpp" />
     <ClCompile Include="..\Private\CFryingPan.cpp" />
     <ClCompile Include="..\Private\CGameResultTextBox.cpp" />
+    <ClCompile Include="..\Private\CUI_Day.cpp" />
+    <ClCompile Include="..\Private\CUI_DayIcon.cpp" />
+    <ClCompile Include="..\Private\CUI_Timer.cpp" />
     <ClCompile Include="..\Private\CSplitGround.cpp" />
     <ClCompile Include="..\Private\CUI_GameResult.cpp" />
     <ClCompile Include="..\Private\CInGameHPBar.cpp" />

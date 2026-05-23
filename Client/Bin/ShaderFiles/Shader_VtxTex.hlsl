@@ -570,6 +570,41 @@ PS_OUT PS_MAIN_DAILIN_W(PS_IN In)
     return Out;
 }
 
+
+
+
+float g_LeftEndU;
+float g_RightStartU;
+
+float g_RenderLeftEnd;
+float g_RenderRightStart;
+
+PS_OUT PS_MAIN_REMAPSLICE_U(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float2 Texcoord = In.vTexcoord;
+    
+    if (Texcoord.x <= g_RenderLeftEnd)
+    {
+        Texcoord.x = (Texcoord.x / g_RenderLeftEnd) * g_LeftEndU;
+    }
+    else if (Texcoord.x >= g_RenderRightStart)
+    {
+        Texcoord.x = g_RightStartU + ((Texcoord.x - g_RenderRightStart) / (1.f - g_RenderRightStart)) * (1.f - g_RightStartU);
+    }
+    else
+    {
+        Texcoord.x = g_LeftEndU + ((Texcoord.x - g_RenderLeftEnd) / (g_RenderRightStart - g_RenderLeftEnd)) * (g_RightStartU - g_LeftEndU);
+    }
+    
+    Out.vColor = g_Texture.Sample(LinearSampler, Texcoord);
+    Out.vColor.rgb *= g_Color;
+    Out.vColor.a *= g_Alpha;
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -735,5 +770,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN_BILLBORAD()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_DAILIN_W()));
+    }
+
+    pass RemapSlice_U
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_REMAPSLICE_U()));
     }
 }

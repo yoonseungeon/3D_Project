@@ -5,12 +5,59 @@
 #include "CUI_GameResult.h"
 
 #include "CSplitGround.h"
+#include "CUI_Timer.h"
 
 IMPLEMENT_SINGLETON(CInGame_Manager)
 
 CInGame_Manager::CInGame_Manager()
 {
     m_fMaxWaitGameEndTime = 3.f;
+
+    m_fAccDayTimer = 5.f;
+}
+
+void CInGame_Manager::Update_InGameManager(_float fTimeDelta)
+{
+    // SplitGround Resets
+    for (auto pSplitGround : m_SplitGrounds)
+        Safe_Release(pSplitGround);
+    m_SplitGrounds.clear();
+
+    // Timer
+    m_fAccDayTimer -= fTimeDelta;
+    if (m_fAccDayTimer <= 0.f)
+    {
+        m_fAccDayTimer = 5.f;
+        ++m_iDay;
+    }
+
+    if(m_pTimer != nullptr)
+        m_pTimer->Set_Timer(m_iDay, m_fAccDayTimer);
+
+
+    // 종료 체크
+    if (m_iEnemyCount != 0)
+        return;
+
+    if (m_pGameResultUI == nullptr)
+        return;
+
+    m_fAccWaitGameEndTime += fTimeDelta;
+
+    if (m_fAccWaitGameEndTime >= m_fMaxWaitGameEndTime)
+    {
+        m_pGameResultUI->GameResultStart();
+
+        if (m_pGameResultUI->Get_ResultEnd() == true)
+        {
+            if (m_pGameResultUI->Get_ResultEnd() == true)
+            {
+                m_bGameEnd = true;
+                m_pGameResultUI->GameResultReset();
+            }
+        }
+    }
+
 }
 
 void CInGame_Manager::Set_Player(CAbstractPlayer* pPlayer)
@@ -57,37 +104,6 @@ void CInGame_Manager::Release_GameResultUI()
     m_pGameResultUI = nullptr;
 }
 
-void CInGame_Manager::Update_End(_float fTimeDelta)
-{
-    for (auto pSplitGround : m_SplitGrounds)
-        Safe_Release(pSplitGround);
-    m_SplitGrounds.clear();
-
-    // 종료 체크
-    if (m_iEnemyCount != 0)
-        return;
-
-    if (m_pGameResultUI == nullptr)
-        return;
-
-    m_fAccWaitGameEndTime += fTimeDelta;
-
-    if(m_fAccWaitGameEndTime >= m_fMaxWaitGameEndTime)
-    {
-        m_pGameResultUI->GameResultStart();
-
-        if (m_pGameResultUI->Get_ResultEnd() == true)
-        {
-            if (m_pGameResultUI->Get_ResultEnd() == true)
-            {
-                m_bGameEnd = true;
-                m_pGameResultUI->GameResultReset();
-            }
-        }
-    }
-
-}
-
 _bool CInGame_Manager::Picking_SplitGround(_float3& vOutPos)
 {
     vOutPos = { 0.f,0.f,0.f };
@@ -114,6 +130,20 @@ void CInGame_Manager::Add_SplitGround(CSplitGround* pSplitGround)
 {
     m_SplitGrounds.push_back(pSplitGround);
     Safe_AddRef(pSplitGround);
+}
+
+void CInGame_Manager::Set_DayTimer(CUI_Timer* pTimer)
+{
+    if (m_pTimer == nullptr) {
+        m_pTimer = pTimer;
+        Safe_AddRef(m_pTimer);
+    }
+}
+
+void CInGame_Manager::Release_DayTimer()
+{
+    Safe_Release(m_pTimer);
+    m_pTimer = nullptr;
 }
 
 void CInGame_Manager::Free()

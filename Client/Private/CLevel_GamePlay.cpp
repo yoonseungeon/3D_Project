@@ -24,6 +24,7 @@
 #include "CUI_Image.h"
 
 #include "CUI_GameResult.h"
+#include "CUI_Timer.h"
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
@@ -90,6 +91,9 @@ HRESULT CLevel_GamePlay::Initialize()
     if (FAILED(Ready_Layer_GameResult(TEXT("Layer_UI_GameResult"))))
         return E_FAIL;
 
+    if (FAILED(Ready_Layer_Timer(TEXT("Layer_UI_Timer"))))
+        return E_FAIL;
+
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
     Safe_AddRef(m_pSharedUI_Manager);
 
@@ -101,7 +105,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {    
-    m_pInGame_Manager->Update_End(fTimeDelta);
+    m_pInGame_Manager->Update_InGameManager(fTimeDelta);
 
     Update_EnvironmentSound(fTimeDelta);
 
@@ -867,6 +871,23 @@ HRESULT CLevel_GamePlay::Ready_Layer_GameResult(const _wstring& strLayerTag)
     return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_Layer_Timer(const _wstring& strLayerTag)
+{
+    CUI_Timer::CUI_TIMTER_DESC Desc{};
+
+    Desc.fScaleRatioX = 0.15f;
+    Desc.fScaleRatioY = 0.05f;
+    Desc.fPosRatioX = 0.f;
+    Desc.fPosRatioY = 0.5f - Desc.fScaleRatioY * 0.5f;
+    Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_Timer"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CLevel_GamePlay* pInstance = new CLevel_GamePlay(pDevice, pContext);
@@ -884,6 +905,7 @@ void CLevel_GamePlay::Free()
 {
     m_pInGame_Manager->Release_Player();
     m_pInGame_Manager->Release_GameResultUI();
+    m_pInGame_Manager->Release_DayTimer();
 
     Safe_Release(m_pSharedUI_Manager);
     CSharedUI_Manager::DestroyInstance();

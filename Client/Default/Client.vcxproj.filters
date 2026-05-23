@@ -37,9 +37,6 @@
     <Filter Include="01. Levels\02. Lobby\Stage\01. Stage_Select">
       <UniqueIdentifier>{d7499cef-b30e-44c0-9b3e-ff4dbb9333b7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="999. Defines">
-      <UniqueIdentifier>{9167542c-90af-4e7d-8f78-bb3e667ef88e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="998. Default">
       <UniqueIdentifier>{1957437c-d700-4eef-93fe-aae690274857}</UniqueIdentifier>
     </Filter>
@@ -423,6 +420,18 @@
     </Filter>
     <Filter Include="02. GameObject\02. Map_Lumia\01. Lumia_NavMesh">
       <UniqueIdentifier>{c95cfe52-714e-4a12-8cfe-9e74c297ff39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\09. UITimer">
+      <UniqueIdentifier>{9391d8f8-4dfe-4c54-9306-3a60c12e199c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\10. UI_Day">
+      <UniqueIdentifier>{b1dc7f59-92a0-415d-a3b2-28f205e415f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="999. Defines">
+      <UniqueIdentifier>{9167542c-90af-4e7d-8f78-bb3e667ef88e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\11. UI_DayIcon">
+      <UniqueIdentifier>{0333add8-f22a-4f6b-b912-cc3d36c694c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -846,6 +855,15 @@
     <ClInclude Include="..\Public\CSplitGround.h">
       <Filter>02. GameObject\02. Map_Lumia\04. SplitGround</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_Timer.h">
+      <Filter>02. GameObject\09. UITimer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_Day.h">
+      <Filter>02. GameObject\10. UI_Day</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CUI_DayIcon.h">
+      <Filter>02. GameObject\11. UI_DayIcon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1250,6 +1268,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\CSplitGround.cpp">
       <Filter>02. GameObject\02. Map_Lumia\04. SplitGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_Timer.cpp">
+      <Filter>02. GameObject\09. UITimer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_Day.cpp">
+      <Filter>02. GameObject\10. UI_Day</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_DayIcon.cpp">
+      <Filter>02. GameObject\11. UI_DayIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

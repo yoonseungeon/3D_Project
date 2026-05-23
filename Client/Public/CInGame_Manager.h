@@ -8,6 +8,7 @@ NS_BEGIN(Client)
 class CLumia_NavMesh;
 class CAbstractPlayer;
 class CUI_GameResult;
+class CUI_Timer;
 
 class CSplitGround;
 
@@ -20,27 +21,28 @@ private:
 	virtual ~CInGame_Manager() = default;
 
 public:
+	void Update_InGameManager(_float fTimeDelta);
 
 	void Set_Player(CAbstractPlayer* pPlayer);
 	CAbstractPlayer* Get_Player() { return m_pPlayer; }
 	void Release_Player();
-
 	_float3 Get_PlayerPos();
+
 
 	void Set_GameResultUI(CUI_GameResult* pGameResult);
 	void Release_GameResultUI();
-
-	void Update_End(_float fTimeDelta);
-
 	void Add_EnemyCount() { ++ m_iEnemyCount; }
 	void Sub_EnemyCount() { -- m_iEnemyCount; }
 	_uint Get_EnemyCount() { return m_iEnemyCount; }
-
 	_bool Get_GameEnd() { return m_bGameEnd; }
+
 
 	_bool Picking_SplitGround(_float3& vOutPos);
 	void Add_SplitGround(CSplitGround* pSplitGround);
 
+
+	void Set_DayTimer(CUI_Timer* pTimer);
+	void Release_DayTimer();
 
 private:
 	CLumia_NavMesh* m_pMap_Lumia{ nullptr };
@@ -55,6 +57,10 @@ private:
 	_float m_fAccWaitGameEndTime{};
 
 	vector<CSplitGround*> m_SplitGrounds;
+
+	CUI_Timer* m_pTimer{};
+	_float m_fAccDayTimer{};
+	_uint m_iDay{ 1 };
 
 protected:
 	virtual void Free() override;
