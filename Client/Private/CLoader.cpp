@@ -18,6 +18,7 @@
 #include "CInGameHPBar.h"
 
 #include "CLumia_Ground.h"
+#include "CSplitGround.h"
 #include "CLumia_Structure.h"
 #include "CRoof.h"
 #include "CRiver.h"
@@ -1954,6 +1955,7 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
+    // Roof Model
     string strRoofPath = "../Bin/Resources/GamePlay/Map_Lumia_PNG/";
 
     for (_uint i = 0; i < iRoofCnt; ++i)
@@ -1968,6 +1970,29 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                     CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, strFinalPath.c_str()))))
                 {
                     MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Roof");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
+
+    // Ground Model
+    string strGroundPath = "../Bin/Resources/GamePlay/Map_Lumia_PNG/";
+
+    for (_uint i = 0; i < sizeof(GROUNDS) / sizeof(GROUNDS[0]); ++i)
+    {
+        const string strFinalPath = strGroundPath + GROUNDS[i].MODEL_PATH;
+        const wstring wstrPrototypeTag = GROUNDS[i].PROTYPE_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+
+        m_pGameInstance->Add_Job(
+            [this, MapPreTransformMatrix, strFinalPath, wstrPrototypeTag]()->void
+            {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), wstrPrototypeTag,
+                    CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, strFinalPath.c_str(), MapPreTransformMatrix, true))))
+                {
+                    MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Ground");
                 }
                 m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
             }
@@ -2259,6 +2284,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CLumia_Ground::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Lumia_Ground");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Lumia_SplitGround */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_SplitGround"),
+                CSplitGround::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Lumia_SplitGround");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

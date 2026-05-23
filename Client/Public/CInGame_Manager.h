@@ -9,6 +9,8 @@ class CLumia_Ground;
 class CAbstractPlayer;
 class CUI_GameResult;
 
+class CSplitGround;
+
 class CInGame_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CInGame_Manager)
@@ -20,8 +22,6 @@ private:
 public:
 	void Set_Map(CLumia_Ground* pMap_Lumia);
 	void Release_Map();
-
-	_float3 MapPIcking();
 
 	void Set_Player(CAbstractPlayer* pPlayer);
 	CAbstractPlayer* Get_Player() { return m_pPlayer; }
@@ -40,6 +40,10 @@ public:
 
 	_bool Get_GameEnd() { return m_bGameEnd; }
 
+
+	_bool Picking_SplitGround(_float3& vOutPos);
+	void Add_SplitGround(CSplitGround* pSplitGround);
+
 private:
 	CLumia_Ground* m_pMap_Lumia{ nullptr };
 	CAbstractPlayer* m_pPlayer{ nullptr };
@@ -51,6 +55,8 @@ private:
 
 	_float m_fMaxWaitGameEndTime{};
 	_float m_fAccWaitGameEndTime{};
+
+	vector<CSplitGround*> m_SplitGrounds;
 
 protected:
 	virtual void Free() override;

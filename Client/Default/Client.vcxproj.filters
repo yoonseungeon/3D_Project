@@ -421,6 +421,9 @@
     <Filter Include="02. GameObject\08. UI_GameResult\00. GameResultTextBox">
       <UniqueIdentifier>{b7bf35ab-546d-4e21-b775-91b44688baa0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia\04. SplitGround">
+      <UniqueIdentifier>{d9e12e72-956d-4247-906a-fbdcb69e39e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -840,6 +843,9 @@
     <ClInclude Include="..\Public\CGameResultTextBox.h">
       <Filter>02. GameObject\08. UI_GameResult\00. GameResultTextBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CSplitGround.h">
+      <Filter>02. GameObject\02. Map_Lumia\04. SplitGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1241,6 +1247,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CDog.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\01. AbstractMonster\02. Dog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CSplitGround.cpp">
+      <Filter>02. GameObject\02. Map_Lumia\04. SplitGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

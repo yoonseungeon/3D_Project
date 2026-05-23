@@ -41,6 +41,8 @@ public:
 	virtual void OnCollision_Stay(const COLLISION_INFO& tCollision);
 	virtual void OnCollision_Exit(const COLLISION_INFO& tCollision);
 
+	virtual void OnMouse_Over_All(const COLLISION_RAY_INFO& tRayInfo);
+
 public:
 	class CComponent* Find_Component(const _wstring& wstrComponentTag);
 

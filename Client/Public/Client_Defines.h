@@ -36,6 +36,7 @@ namespace Client
 		SKILL = 1 << 4,
 		ENEMY_SKILL = 1 << 5,
 		ENEMY = 1 << 6,
+		GROUND = 1 << 7,
 	};
 
 	enum class SOUND_KEY {

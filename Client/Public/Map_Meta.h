@@ -134,3 +134,30 @@ enum class AREA_INDEX {
     UPTOWN,
     WAREHOUSE,
 };
+
+struct GROUND_META
+{
+    const char* MODEL_PATH;
+    const wchar_t* PROTYPE_TAG;
+};
+
+constexpr GROUND_META GROUNDS[]
+{
+    { "Alley_Ground.mymodel",        L"Prototype_Component_Model_Alley_Ground" },
+    { "Archery_Ground.mymodel",      L"Prototype_Component_Model_Archery_Ground" },
+    { "Cemetery_Ground.mymodel",     L"Prototype_Component_Model_Cemetery_Ground" },
+    { "Church_Ground.mymodel",       L"Prototype_Component_Model_Church_Ground" },
+    { "Downtown_Ground.mymodel",     L"Prototype_Component_Model_Downtown_Ground" },
+    { "Factory_Ground.mymodel",      L"Prototype_Component_Model_Factory_Ground" },
+    { "Forest_Ground.mymodel",       L"Prototype_Component_Model_Forest_Ground" },
+    { "Harbor_Ground.mymodel",       L"Prototype_Component_Model_Harbor_Ground" },
+    { "Hospital_Ground.mymodel",     L"Prototype_Component_Model_Hospital_Ground" },
+    { "Hotel_Ground.mymodel",        L"Prototype_Component_Model_Hotel_Ground" },
+    { "Laboratory_Ground.mymodel",   L"Prototype_Component_Model_Laboratory_Ground" },
+    { "Pond_Ground.mymodel",         L"Prototype_Component_Model_Pond_Ground" },
+    { "Sandy_Beach_Ground.mymodel",  L"Prototype_Component_Model_Sandy_Beach_Ground" },
+    { "School_Ground.mymodel",       L"Prototype_Component_Model_School_Ground" },
+    { "Temple_Ground.mymodel",       L"Prototype_Component_Model_Temple_Ground" },
+    { "Uptown_Ground.mymodel",       L"Prototype_Component_Model_Uptown_Ground" },
+    { "Warehouse_Ground.mymodel",    L"Prototype_Component_Model_Warehouse_Ground" },
+};

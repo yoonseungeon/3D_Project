@@ -972,8 +972,13 @@ void CLiDailin::Key_Input()
         PlayAreaVoice();
 
         MOVEMENT_COMMAND tMovement_Command{};
+
+        _float3 vOutPos{};
+        if (CInGame_Manager::GetInstance()->Picking_SplitGround(vOutPos) == false)
+            return;
+
         tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;
-        tMovement_Command.vTargetPos = CInGame_Manager::GetInstance()->MapPIcking();
+        tMovement_Command.vTargetPos = vOutPos;
 
         Process_MovementCommand(tMovement_Command);
         m_bCanMoveCancle = false;

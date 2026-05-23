@@ -4,6 +4,8 @@
 #include "CAbstractPlayer.h"
 #include "CUI_GameResult.h"
 
+#include "CSplitGround.h"
+
 IMPLEMENT_SINGLETON(CInGame_Manager)
 
 CInGame_Manager::CInGame_Manager()
@@ -23,17 +25,6 @@ void CInGame_Manager::Release_Map()
 {
     Safe_Release(m_pMap_Lumia);
     m_pMap_Lumia = nullptr;
-}
-
-_float3 CInGame_Manager::MapPIcking()
-{
-    _float3 vPos{};
-
-    if (m_pMap_Lumia != nullptr) {
-        vPos = m_pMap_Lumia->Picking();
-    }
-
-    return vPos;
 }
 
 void CInGame_Manager::Set_Player(CAbstractPlayer* pPlayer)
@@ -82,6 +73,11 @@ void CInGame_Manager::Release_GameResultUI()
 
 void CInGame_Manager::Update_End(_float fTimeDelta)
 {
+    for (auto pSplitGround : m_SplitGrounds)
+        Safe_Release(pSplitGround);
+    m_SplitGrounds.clear();
+
+    // 종료 체크
     if (m_iEnemyCount != 0)
         return;
 
@@ -104,6 +100,34 @@ void CInGame_Manager::Update_End(_float fTimeDelta)
         }
     }
 
+}
+
+_bool CInGame_Manager::Picking_SplitGround(_float3& vOutPos)
+{
+    vOutPos = { 0.f,0.f,0.f };
+
+    if (m_SplitGrounds.empty() == true)
+        return false;
+
+    for (auto pSplitGround : m_SplitGrounds)
+    {
+        _float3 vPos{};
+
+        // 지형이 겹치지 않는다고 가정
+        if (pSplitGround->Picking(vPos) == true)
+        {
+            vOutPos = vPos;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void CInGame_Manager::Add_SplitGround(CSplitGround* pSplitGround)
+{
+    m_SplitGrounds.push_back(pSplitGround);
+    Safe_AddRef(pSplitGround);
 }
 
 void CInGame_Manager::Free()

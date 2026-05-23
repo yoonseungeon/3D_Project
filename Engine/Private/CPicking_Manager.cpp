@@ -1,6 +1,7 @@
 #include "CPicking_Manager.h"
 
 #include "CGameInstance.h"
+#include "CGameObject.h"
 
 CPicking_Manager::CPicking_Manager()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
@@ -108,17 +109,27 @@ void CPicking_Manager::Cal_PickingCollider()
 
     for (auto pCollider : m_PickingColliders)
     {
-        if (pCollider->Get_CanMousePicking() == false)
-            continue;
-
 #ifdef _DEBUG
         //m_pGameInstance->Add_DebugComponent(pCollider);
 #endif   
-
         _float fDist{};
         _bool bCol{};
 
         bCol = pCollider->Intersect_Ray(vRayPos, vRayDir, fDist);
+
+        // 마우스 위에 있으면 콜백
+        if (bCol == true)
+        {
+            COLLISION_RAY_INFO tRayInfo{};
+            tRayInfo.pColObject = pCollider->Get_Owner();
+            tRayInfo.pColCollider = pCollider;
+
+            tRayInfo.pColObject->OnMouse_Over_All(tRayInfo);
+        }
+
+        // 가까운 애 하나 피킹
+        if (pCollider->Get_CanMousePicking() == false)
+            continue;
 
         if (bCol == true && fMinDist > fDist)
         {

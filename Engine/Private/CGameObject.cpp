@@ -88,6 +88,10 @@ void CGameObject::OnCollision_Exit(const COLLISION_INFO& tCollision)
 {
 }
 
+void CGameObject::OnMouse_Over_All(const COLLISION_RAY_INFO& tRayInfo)
+{
+}
+
 HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& wstrPrototypeTag, const _wstring& wstrComponentTag, CComponent** ppOut, void* pArg)
 {
     CComponent* pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, iPrototypeLevelIndex, wstrPrototypeTag, pArg));

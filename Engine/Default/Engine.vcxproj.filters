@@ -202,14 +202,14 @@
     <Filter Include="07. Component\01. VIBuffer\04. Trail">
       <UniqueIdentifier>{54a24abd-9169-42de-af3f-83ee9ca51f7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="12. Shadow\97. Picking_Manager">
-      <UniqueIdentifier>{5c423377-9d33-49f4-9761-80d60b31bb41}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. Sound_Manager">
       <UniqueIdentifier>{eebc085c-334c-4710-8ef2-3a0e39143c14}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Prototype\06. Renderer">
       <UniqueIdentifier>{831a7298-ee1f-48e7-a527-a9860cf9c214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. Picking_Manager">
+      <UniqueIdentifier>{5c423377-9d33-49f4-9761-80d60b31bb41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -394,7 +394,7 @@
       <Filter>98. Collision_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CPicking_Manager.cpp">
-      <Filter>12. Shadow\97. Picking_Manager</Filter>
+      <Filter>97. Picking_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CBounding_Frustum.cpp">
       <Filter>07. Component\06. Collider\Bounding\Frustum</Filter>
@@ -615,7 +615,7 @@
       <Filter>98. Collision_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CPicking_Manager.h">
-      <Filter>12. Shadow\97. Picking_Manager</Filter>
+      <Filter>97. Picking_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CBounding_Frustum.h">
       <Filter>07. Component\06. Collider\Bounding\Frustum</Filter>

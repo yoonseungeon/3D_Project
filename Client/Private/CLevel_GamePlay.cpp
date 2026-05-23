@@ -7,6 +7,7 @@
 
 #include "CCamera_Free.h"
 #include "CLumia_Ground.h"
+#include "CSplitGround.h"
 #include "CLumia_Structure.h"
 #include "CRoof.h"
 #include "CItemBox.h"
@@ -247,6 +248,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
     m_pInGame_Manager->Set_Map(pMap);
 
     Safe_Release(pMap);
+
+    // SplitGround
+    for (_uint i = 0; i < sizeof(GROUNDS) / sizeof(GROUNDS[0]); ++i)
+    {
+        CSplitGround::SPLIT_GROUND_DESC SplitGroundDesc{};
+
+        SplitGroundDesc.wstrPrototype_Component_Tag = GROUNDS[i].PROTYPE_TAG;
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_SplitGround"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &SplitGroundDesc)))
+        {
+            return E_FAIL;
+        }
+    }
 
     // Structure
     CLumia_Structure::LUMIA_STRUCTURE_DESC StructureDesc{};
