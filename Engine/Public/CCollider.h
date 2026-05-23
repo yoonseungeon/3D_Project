@@ -44,8 +44,8 @@ public:
 	void Set_Active(_bool bIsActive) { m_bIsActive = bIsActive; }
 	_bool Get_Active() { return m_bIsActive; }
 
-	void Set_CanMousePicking(_bool bCanMousePicking) { m_bCanMousePicking = bCanMousePicking; }
-	_bool Get_CanMousePicking() { return m_bCanMousePicking; }
+	void Set_CanMousePicking(_bool bCanMousePicking) { m_bCanMousePicking_Nearest = bCanMousePicking; }
+	_bool Get_CanMousePicking_Nearest() { return m_bCanMousePicking_Nearest; }
 
 #ifdef _DEBUG
 public:
@@ -64,7 +64,7 @@ private:
 	_uint			m_iId{};
 
 	_bool			m_bIsActive{ true };
-	_bool			m_bCanMousePicking{ true };
+	_bool			m_bCanMousePicking_Nearest{ true };
 
 #ifdef _DEBUG
 private:

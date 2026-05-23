@@ -128,7 +128,7 @@ void CPicking_Manager::Cal_PickingCollider()
         }
 
         // 가까운 애 하나 피킹
-        if (pCollider->Get_CanMousePicking() == false)
+        if (pCollider->Get_CanMousePicking_Nearest() == false)
             continue;
 
         if (bCol == true && fMinDist > fDist)

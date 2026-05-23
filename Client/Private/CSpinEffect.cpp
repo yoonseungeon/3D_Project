@@ -40,7 +40,6 @@ HRESULT CSpinEffect::Initialize(void* pArg)
 
 void CSpinEffect::Priority_Update(_float fTimeDelta)
 {
-    //__super::Priority_Update(fTimeDelta);
 }
 
 void CSpinEffect::Parallel_Update(_float fTimeDelta)

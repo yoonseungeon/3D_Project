@@ -40,7 +40,6 @@ HRESULT CSlashEffect::Initialize(void* pArg)
 
 void CSlashEffect::Priority_Update(_float fTimeDelta)
 {
-    //__super::Priority_Update(fTimeDelta);
 }
 void CSlashEffect::Parallel_Update(_float fTimeDelta)
 {
