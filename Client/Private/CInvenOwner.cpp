@@ -103,6 +103,10 @@ _bool CInvenOwner::TakeItemToInventory(_uint iSlotIndex)
     return bResult;
 }
 
+void CInvenOwner::PlayOpenSound()
+{
+}
+
 HRESULT CInvenOwner::Bind_OutLineShaderResources(CShader* pShader)
 {
     if (FAILED(pShader->Bind_RawValue("g_OutLineLength", &m_fOutLineLength, sizeof(m_fOutLineLength))))

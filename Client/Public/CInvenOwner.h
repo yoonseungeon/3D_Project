@@ -28,6 +28,8 @@ public:
 	virtual _bool XM_CALLCONV IsInOpenRange(_fvector vPos, _float fWorldDistance);
 	virtual _bool TakeItemToInventory(_uint iSlotIndex);
 
+	virtual void PlayOpenSound();
+
 public:
 	// TransformCom
 	const CTransform* Get_TransformCom() const { return m_pTransformCom; }

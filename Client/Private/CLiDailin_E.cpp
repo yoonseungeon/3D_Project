@@ -186,6 +186,16 @@ void CLiDailin_E::OnCollision_Enter(const COLLISION_INFO& tCollision)
     if (tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::MONSTER) ||
         tCollision.pColCollider->Get_Layer() == ETOUI(Collision_Layer::ENEMY))
     {
+        CUnit* pUnit = dynamic_cast<CUnit*>(tCollision.pColObject);
+        if (pUnit == nullptr)
+        {
+            MSG_BOX("Bug Point 1: CLiDailin_Q");
+            return;
+        }
+
+        if (pUnit->IsUnitDead() == true)
+            return;
+
         CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_E_HIT));
 
         auto iter = m_AttackedObj.insert(tCollision.pColObject);

@@ -114,6 +114,8 @@ public:
 	virtual _bool IsUnitDead();
 	_uint Get_SkillPoint() { return m_iSkillPoint; }
 
+	virtual void PlayOpenSound() override;
+
 protected:
 	void LevelUp();
 

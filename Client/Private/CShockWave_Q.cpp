@@ -40,7 +40,6 @@ HRESULT CShockWave_Q::Initialize(void* pArg)
 
 void CShockWave_Q::Priority_Update(_float fTimeDelta)
 {
-    //__super::Priority_Update(fTimeDelta);
 }
 
 void CShockWave_Q::Parallel_Update(_float fTimeDelta)

@@ -38,7 +38,7 @@ HRESULT CAbstractPlayer::Initialize(void* pArg)
     m_pEquipment = CEquipment::Create(pDesc->eItemType);    
     m_pCraftList = CCraftList::Create();
 
-    m_fSoundLoopGap = 40.f;
+    m_fSoundLoopGap = 50.f;
 
     return S_OK;
 }
@@ -391,7 +391,7 @@ void CAbstractPlayer::Update_GroundSound(_float fTimeDelta)
         SOUND_KEY eSoundKey{};
         Choose_Area(eSoundKey);
 
-        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM));
+        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM), 0.05f);
     }
 
     m_fAccSoundLoopTime += fTimeDelta;
@@ -402,7 +402,7 @@ void CAbstractPlayer::Update_GroundSound(_float fTimeDelta)
         SOUND_KEY eSoundKey{};
         Choose_Area(eSoundKey);
 
-        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM));
+        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM), 0.05f);
     }
 }
 
@@ -486,7 +486,7 @@ void CAbstractPlayer::Update_AreaVoiceTimer(_float fTimeDelta)
 
     m_fAccAreaVoiceTime += fTimeDelta;
 
-    const _float fCanPlayAreaVoiceTime = 20.f;
+    const _float fCanPlayAreaVoiceTime = 35.f;
     if(m_fAccAreaVoiceTime >= fCanPlayAreaVoiceTime)
     {
         m_fAccAreaVoiceTime = 0.f;

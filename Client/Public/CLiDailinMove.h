@@ -14,6 +14,18 @@ public:
 	void Exit(CLiDailin* pPlayer) override;
 	void HandleMovementCommand(CLiDailin* pPlayer, MOVEMENT_COMMAND& eMovement_Command) override;
 
+
+private:
+	_float m_fFootStepRatios[2]{};;
+	_bool m_bPlaySound[2]{};;
+
+	_uint m_iFootStepIndex{};
+	_uint m_iFootStepStartSoundKey{};
+	_uint m_iFootStepSoundKeyCount{};
+
+private:
+	void Play_FootStepSound();
+
 public:
 	static CLiDailinMove* Create();
 protected:

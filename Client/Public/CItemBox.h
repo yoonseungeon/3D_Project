@@ -15,6 +15,7 @@ class CItemBox final : public CItemSpawner
 public:
 	struct ITEMBOX_DESC : public CItemSpawner::ITEMSPAWNER_DESC
 	{
+		_uint iSoundKey{};
 	};
 
 protected:
@@ -34,8 +35,13 @@ public:
 	virtual HRESULT Render() override;
 	virtual HRESULT Render_OutLine() override;
 
+public:
+	virtual void PlayOpenSound() override;
+
 private:
 	_uint m_iMaxSize{ 10 };
+
+	_uint m_iSoundKey{};
 
 private:
 	HRESULT Ready_Components(wstring wstrModelPrototypeTag);

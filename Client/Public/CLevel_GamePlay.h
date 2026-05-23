@@ -35,6 +35,7 @@ private:
 	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);
 
 	HRESULT Ready_Layer_ItemBox(const _wstring& strLayerTag);
+	SOUND_KEY Get_ItemBoxOpenSoundKey(const string& strBoxType);
 	HRESULT Ready_Layer_ItemBox_Collectible(const _wstring& strLayerTag);
 	void Set_ItemBoxSpwanArea(const string& strArea, SPAWN_MAP& eSpawnArea);
 

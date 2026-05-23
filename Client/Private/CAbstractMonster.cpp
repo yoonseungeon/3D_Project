@@ -1,5 +1,7 @@
 #include "CAbstractMonster.h"
 
+#include "CGameInstance.h"
+
 #include "CInGame_Manager.h"
 
 CAbstractMonster::CAbstractMonster(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

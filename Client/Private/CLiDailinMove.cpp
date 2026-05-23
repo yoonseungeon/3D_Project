@@ -7,6 +7,11 @@
 
 CLiDailinMove::CLiDailinMove()
 {
+	m_iFootStepStartSoundKey = ETOUI(SOUND_KEY::FOOTSTEPASPHALT_W1);
+	m_iFootStepSoundKeyCount = ETOUI(SOUND_KEY::FOOTSTEPASPHALT_W4) - m_iFootStepStartSoundKey;
+
+	m_fFootStepRatios[0] = 0.45f;
+	m_fFootStepRatios[1] = 0.9f;
 }
 
 void CLiDailinMove::Enter(CLiDailin* pPlayer)
@@ -47,6 +52,32 @@ void CLiDailinMove::Update(CLiDailin* pPlayer, _float fTimeDelta)
 	{
 		pPlayer->Set_WaitMovementState(L"Idle");
 	}
+
+	CMyModel* pModel = pPlayer->Get_BodyPlayer()->Get_ModelCom();
+	_uint iCurAniIndex = pModel->Get_CurAniIndex();
+
+
+
+	if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_Run))
+	{
+		_float fRatio = pModel->Get_AniPlayRatio(iCurAniIndex);
+
+		if (m_fFootStepRatios[0] < fRatio && m_bPlaySound[0] == true)
+		{
+			m_bPlaySound[0] = m_bPlaySound[1] = false;
+		}
+
+		if (m_fFootStepRatios[0] >= fRatio && m_bPlaySound[0] == false)
+		{
+			m_bPlaySound[0] = true;
+			Play_FootStepSound();
+		}
+		else if (m_fFootStepRatios[1] >= fRatio && m_bPlaySound[1] == false)
+		{
+			m_bPlaySound[1] = true;
+			Play_FootStepSound();
+		}
+	}
 }
 
 void CLiDailinMove::Exit(CLiDailin* pPlayer)
@@ -70,6 +101,12 @@ void CLiDailinMove::HandleMovementCommand(CLiDailin* pPlayer, MOVEMENT_COMMAND& 
 			break;
 		}
 	}
+}
+
+void CLiDailinMove::Play_FootStepSound()
+{
+	m_iFootStepIndex = (m_iFootStepIndex + 1) % m_iFootStepSoundKeyCount;
+	CGameInstance::GetInstance()->PlaySound_Once(m_iFootStepStartSoundKey + m_iFootStepIndex);
 }
 
 CLiDailinMove* CLiDailinMove::Create()

@@ -338,6 +338,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_ItemBox(const _wstring& strLayerTag)
         Set_ItemBoxSpwanArea(strArea, tItemBoxDesc.eSpawnArea);
 
         string strBoxType = jsonObj["boxType"].get<string>();
+        
+        SOUND_KEY eSoundKey = Get_ItemBoxOpenSoundKey(strBoxType);
+        tItemBoxDesc.iSoundKey = ETOUI(eSoundKey);
 
         auto pos = jsonObj["position"];
         auto rot = jsonObj["rotationQuat"];
@@ -370,6 +373,110 @@ HRESULT CLevel_GamePlay::Ready_Layer_ItemBox(const _wstring& strLayerTag)
     }
 
     return S_OK;
+}
+
+SOUND_KEY CLevel_GamePlay::Get_ItemBoxOpenSoundKey(const string& strBoxType)
+{
+    if (strBoxType == "ItemBox_ATM_01")
+        return SOUND_KEY::OPENSOUND_ATM_01;
+    else if (strBoxType == "ItemBox_AltarBig_Re" || strBoxType == "ItemBox_AltarTable")
+        return SOUND_KEY::OPENSOUND_ALTARTABLE_01;
+    else if (strBoxType == "ItemBox_Bag_01" || strBoxType == "ItemBox_Bag_02")
+        return SOUND_KEY::OPENSOUND_BAG_01;
+    else if (strBoxType == "ItemBox_BarbequeGrill_01")
+        return SOUND_KEY::OPENSOUND_BARBEQUEGRILL_01;
+    else if (strBoxType == "ItemBox_BeachChair")
+        return SOUND_KEY::OPENSOUND_BEACHCHAIR_01;
+    else if (strBoxType == "ItemBox_Biotoilet_01")
+        return SOUND_KEY::OPENSOUND_BIOTOILET_01;
+    else if (strBoxType == "ItemBox_Boat_01")
+        return SOUND_KEY::OPENSOUND_BOAT_01;
+    else if (strBoxType == "ItemBox_Box_01")
+        return SOUND_KEY::OPENSOUND_BOX_01;
+    else if (strBoxType == "ItemBox_Box_02")
+        return SOUND_KEY::OPENSOUND_BOX_02;
+    else if (strBoxType == "ItemBox_CartonBox_01")
+        return SOUND_KEY::OPENSOUND_CARTONBOX_01;
+    else if (strBoxType == "ItemBox_CementMixer")
+        return SOUND_KEY::OPENSOUND_CEMENTMIXER;
+    else if (strBoxType == "ItemBox_CoffeeMachine_01")
+        return SOUND_KEY::OPENSOUND_COFFEEMACHINE_01;
+    else if (strBoxType == "ItemBox_Coffin_Large" || strBoxType == "ItemBox_Coffin_Middle")
+        return SOUND_KEY::OPENSOUND_COFFIN_01;
+    else if (strBoxType == "ItemBox_ConcreteBag_Set_01" || strBoxType == "ItemBox_ConcreteBag_Set_02")
+        return SOUND_KEY::OPENSOUND_CONCRETEBAG_SET_01;
+    else if (strBoxType == "ItemBox_Confessional_01")
+        return SOUND_KEY::OPENSOUND_CONFESSIONAL_01;
+    else if (strBoxType == "ItemBox_Drum_W")
+        return SOUND_KEY::OPENSOUND_DRUM_01;
+    else if (strBoxType == "ItemBox_Dumpster_01")
+        return SOUND_KEY::OPENSOUND_DUMPSTER_01;
+    else if (strBoxType == "ItemBox_EraserCleaner_01")
+        return SOUND_KEY::OPENSOUND_ERASERCLEANER_01;
+    else if (strBoxType == "ItemBox_FilingCabinets_01" || strBoxType == "ItemBox_FilingCabinets_02" || strBoxType == "ItemBox_Quiver_01")
+        return SOUND_KEY::OPENSOUND_FILINGCABINETS_01;
+    else if (strBoxType == "ItemBox_GarbageBag_Set")
+        return SOUND_KEY::OPENSOUND_GARBAGEBAG_SET_01;
+    else if (strBoxType == "ItemBox_Hospital_Cabinet_01")
+        return SOUND_KEY::OPENSOUND_HOSPITAL_CABINET_01;
+    else if (strBoxType == "ItemBox_Hospital_Cart_01")
+        return SOUND_KEY::OPENSOUND_HOSPITAL_CART_01;
+    else if (strBoxType == "ItemBox_IceBox_B" || strBoxType == "ItemBox_IceBox_R")
+        return SOUND_KEY::OPENSOUND_ICEBOX_01;
+    else if (strBoxType == "ItemBox_Jar_01")
+        return SOUND_KEY::OPENSOUND_JAR_01;
+    else if (strBoxType == "ItemBox_Jar_Big_01")
+        return SOUND_KEY::OPENSOUND_JAR_BIG_01;
+    else if (strBoxType == "ItemBox_Locker_01")
+        return SOUND_KEY::OPENSOUND_LOCKER_01;
+    else if (strBoxType == "ItemBox_Organ_01")
+        return SOUND_KEY::OPENSOUND_ORGAN_01;
+    else if (strBoxType == "ItemBox_Pallet_Loaded_01")
+        return SOUND_KEY::OPENSOUND_PALLET_LOADED_01;
+    else if (strBoxType == "ItemBox_Sedan_Brown_01")
+        return SOUND_KEY::OPENSOUND_SEDAN_BROWN_01;
+    else if (strBoxType == "ItemBox_Sedan_Police_01")
+        return SOUND_KEY::OPENSOUND_SEDAN_POLICE_01;
+    else if (strBoxType == "ItemBox_Sedan_Taxi_01")
+        return SOUND_KEY::OPENSOUND_SEDAN_TAXI_01;
+    else if (strBoxType == "ItemBox_SteelBox_02")
+        return SOUND_KEY::OPENSOUND_STEELBOX_02;
+    else if (strBoxType == "ItemBox_SteelBox_03")
+        return SOUND_KEY::OPENSOUND_STEELBOX_03;
+    else if (strBoxType == "ItemBox_Suitcase_01" || strBoxType == "ItemBox_Suitcase_02" || strBoxType == "ItemBox_Suitcase_03" || strBoxType == "ItemBox_Suitcase_04")
+        return SOUND_KEY::OPENSOUND_SUITCASE_01;
+    else if (strBoxType == "ItemBox_Switchboard_01")
+        return SOUND_KEY::OPENSOUND_SWITCHBOARD_01;
+    else if (strBoxType == "ItemBox_Temple_Box_01" || strBoxType == "ItemBox_Temple_Box_02")
+        return SOUND_KEY::OPENSOUND_TEMPLE_BOX_01;
+    else if (strBoxType == "ItemBox_Temple_Thurible_01")
+        return SOUND_KEY::OPENSOUND_THURIBLE_01;
+    else if (strBoxType == "ItemBox_Temple_Lamp_01" || strBoxType == "ItemBox_Tomb")
+        return SOUND_KEY::OPENSOUND_TOMB_01;
+    else if (strBoxType == "ItemBox_TrashCan_01")
+        return SOUND_KEY::OPENSOUND_TRASHCAN_01;
+    else if (strBoxType == "ItemBox_TrashCan_02" || strBoxType == "ItemBox_TrashCan_03")
+        return SOUND_KEY::OPENSOUND_TRASHCAN2_01;
+    else if (strBoxType == "ItemBox_TreeStump_01")
+        return SOUND_KEY::OPENSOUND_TREESTUMP_01;
+    else if (strBoxType == "ItemBox_TreeStump_02")
+        return SOUND_KEY::OPENSOUND_TREESTUMP_02;
+    else if (strBoxType == "ItemBox_Uptown_BookCase_01")
+        return SOUND_KEY::OPENSOUND_UPTOWN_BOOKCASE_01;
+    else if (strBoxType == "ItemBox_Uptown_Drawer_01")
+        return SOUND_KEY::OPENSOUND_UPTOWN_DRAWER_01;
+    else if (strBoxType == "ItemBox_Uptown_FirePlace_01")
+        return SOUND_KEY::OPENSOUND_UPTOWN_FIREPLACE_01;
+    else if (strBoxType == "ItemBox_VendingMachine_01" || strBoxType == "ItemBox_VendingMachine_02")
+        return SOUND_KEY::OPENSOUND_VENDINGMACHINE_01;
+    else if (strBoxType == "ItemBox_WaterTank_01" || strBoxType == "ItemBox_Water_Dispenser_01")
+        return SOUND_KEY::OPENSOUND_WATERTANK_01;
+    else if (strBoxType == "ItemBox_Wheelbarrow")
+        return SOUND_KEY::OPENSOUND_WHEELBARROW_01;
+    else if (strBoxType == "ItemBox_WreckCar_Blue_01" || strBoxType == "ItemBox_WreckCar_White_01" || strBoxType == "ItemBox_WreckCar_Yellow_01")
+        return SOUND_KEY::OPENSOUND_WRECKCAR_01;
+
+    return SOUND_KEY::OPENSOUND_BOX_01;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_ItemBox_Collectible(const _wstring& strLayerTag)

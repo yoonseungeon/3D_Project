@@ -261,6 +261,11 @@ _bool CUnit::IsUnitDead()
     return false;
 }
 
+void CUnit::PlayOpenSound()
+{
+    CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::DEAD_OPEN));
+}
+
 void CUnit::Free()
 {
     Safe_Release(m_pInGameHPBar);

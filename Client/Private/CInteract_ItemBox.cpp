@@ -4,6 +4,7 @@
 #include "CSharedUI_Manager.h"
 
 #include "CLiDailin.h"
+#include "CItemBox.h"
 
 CInteract_ItemBox::CInteract_ItemBox()
 {
@@ -79,6 +80,8 @@ void CInteract_ItemBox::Move_OR_Interact(CLiDailin* pPlayer)
             CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pInvenOwner, L"상자");
         else
             CSharedUI_Manager::GetInstance()->PopUp_ItemBoxUI(pInvenOwner, L"시체");
+
+        pInvenOwner->PlayOpenSound();
 
         pPlayer->Set_WaitMovementState(L"Idle");
         m_bIsOpenUI = true;

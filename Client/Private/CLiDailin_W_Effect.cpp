@@ -41,7 +41,6 @@ HRESULT CLiDailin_W_Effect::Initialize(void* pArg)
 
 void CLiDailin_W_Effect::Priority_Update(_float fTimeDelta)
 {
-    __super::Priority_Update(fTimeDelta);
 }
 
 void CLiDailin_W_Effect::Parallel_Update(_float fTimeDelta)

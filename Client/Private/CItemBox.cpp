@@ -26,6 +26,8 @@ HRESULT CItemBox::Initialize(void* pArg)
 {
     ITEMBOX_DESC* pDesc = static_cast<ITEMBOX_DESC*>(pArg);
 
+    m_iSoundKey = pDesc->iSoundKey;
+
     if (FAILED(__super::Initialize(pDesc)))
         return E_FAIL;
 
@@ -121,6 +123,11 @@ HRESULT CItemBox::Render_OutLine()
     }
 
     return S_OK;
+}
+
+void CItemBox::PlayOpenSound()
+{
+    CGameInstance::GetInstance()->PlaySound_Once(m_iSoundKey);
 }
 
 HRESULT CItemBox::Ready_Components(wstring wstrModelPrototypeTag)
