@@ -6,7 +6,7 @@
 #include "CSharedUI_Manager.h"
 
 #include "CCamera_Free.h"
-#include "CLumia_Ground.h"
+#include "CLumia_NavMesh.h"
 #include "CSplitGround.h"
 #include "CLumia_Structure.h"
 #include "CRoof.h"
@@ -237,17 +237,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
 {
     // Ground
-    CLumia_Ground::LUMIA_GROUND_DESC GroundDesc{};
+    CLumia_NavMesh::LUMIA_NAVMESH_DESC GroundDesc{};
 
-    CLumia_Ground* pMap{};
-
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Ground"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &GroundDesc, reinterpret_cast<CGameObject**>(&pMap))))
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_NavMesh"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &GroundDesc)))
         return E_FAIL;
-
-    m_pInGame_Manager->Set_Map(pMap);
-
-    Safe_Release(pMap);
 
     // SplitGround
     for (_uint i = 0; i < sizeof(GROUNDS) / sizeof(GROUNDS[0]); ++i)
@@ -781,7 +775,6 @@ CLevel_GamePlay* CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceCont
 
 void CLevel_GamePlay::Free()
 {
-    m_pInGame_Manager->Release_Map();   
     m_pInGame_Manager->Release_Player();
     m_pInGame_Manager->Release_GameResultUI();
 

@@ -1,6 +1,6 @@
 #include "CInGame_Manager.h"
 
-#include "CLumia_Ground.h"
+#include "CLumia_NavMesh.h"
 #include "CAbstractPlayer.h"
 #include "CUI_GameResult.h"
 
@@ -11,20 +11,6 @@ IMPLEMENT_SINGLETON(CInGame_Manager)
 CInGame_Manager::CInGame_Manager()
 {
     m_fMaxWaitGameEndTime = 3.f;
-}
-
-void CInGame_Manager::Set_Map(CLumia_Ground* pMap_Lumia)
-{
-    if (m_pMap_Lumia == nullptr) {
-        m_pMap_Lumia = pMap_Lumia;
-        Safe_AddRef(m_pMap_Lumia);
-    }
-}
-
-void CInGame_Manager::Release_Map()
-{
-    Safe_Release(m_pMap_Lumia);
-    m_pMap_Lumia = nullptr;
 }
 
 void CInGame_Manager::Set_Player(CAbstractPlayer* pPlayer)

@@ -17,7 +17,7 @@
 #include "CUI_TextBox.h"
 #include "CInGameHPBar.h"
 
-#include "CLumia_Ground.h"
+#include "CLumia_NavMesh.h"
 #include "CSplitGround.h"
 #include "CLumia_Structure.h"
 #include "CRoof.h"
@@ -1927,20 +1927,20 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 #pragma endregion
 
 #pragma region ¸ðµ¨
-    /* Prototype_Component_Model_Lumia_Ground */
+    ///* Prototype_Component_Model_Lumia_Ground */
     _matrix MapPreTransformMatrix = XMMatrixIdentity();
 
-    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
-    m_pGameInstance->Add_Job(
-        [this, MapPreTransformMatrix]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Ground"),
-                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Ground2.mymodel", MapPreTransformMatrix, true))))
-            {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Lumia_Ground");
-            }
-            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
-        }
-    );
+    //m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    //m_pGameInstance->Add_Job(
+    //    [this, MapPreTransformMatrix]()->void {
+    //        if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_Lumia_Ground"),
+    //            CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/Lumia_Ground2.mymodel", MapPreTransformMatrix, true))))
+    //        {
+    //            MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Lumia_Ground");
+    //        }
+    //        m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+    //    }
+    //);
 
     /* Prototype_Component_Model_Lumia_Structure */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
@@ -2276,14 +2276,14 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
-    /* Prototype_GameObject_Lumia_Ground */
+    /* Prototype_GameObject_Lumia_NavMesh */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
         [this]()->void {
-            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_Ground"),
-                CLumia_Ground::Create(m_pDevice, m_pContext))))
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Lumia_NavMesh"),
+                CLumia_NavMesh::Create(m_pDevice, m_pContext))))
             {
-                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Lumia_Ground");
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Lumia_NavMesh");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

@@ -5,7 +5,7 @@
 
 NS_BEGIN(Client)
 
-class CLumia_Ground;
+class CLumia_NavMesh;
 class CAbstractPlayer;
 class CUI_GameResult;
 
@@ -20,8 +20,6 @@ private:
 	virtual ~CInGame_Manager() = default;
 
 public:
-	void Set_Map(CLumia_Ground* pMap_Lumia);
-	void Release_Map();
 
 	void Set_Player(CAbstractPlayer* pPlayer);
 	CAbstractPlayer* Get_Player() { return m_pPlayer; }
@@ -45,7 +43,7 @@ public:
 
 
 private:
-	CLumia_Ground* m_pMap_Lumia{ nullptr };
+	CLumia_NavMesh* m_pMap_Lumia{ nullptr };
 	CAbstractPlayer* m_pPlayer{ nullptr };
 	CUI_GameResult* m_pGameResultUI{ nullptr };
 

@@ -109,9 +109,6 @@
     <Filter Include="02. GameObject\01. UI_Default\00. UI_Image\02. UI_TextBox">
       <UniqueIdentifier>{e5ba4c79-bb55-4fad-9d30-9b6f6b758ce3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02. Map_Lumia\01. Ground">
-      <UniqueIdentifier>{c95cfe52-714e-4a12-8cfe-9e74c297ff39}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\02. Map_Lumia\02. Structure">
       <UniqueIdentifier>{704abd02-dac9-4585-bc97-fb329fd39771}</UniqueIdentifier>
     </Filter>
@@ -424,6 +421,9 @@
     <Filter Include="02. GameObject\02. Map_Lumia\04. SplitGround">
       <UniqueIdentifier>{d9e12e72-956d-4247-906a-fbdcb69e39e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia\01. Lumia_NavMesh">
+      <UniqueIdentifier>{c95cfe52-714e-4a12-8cfe-9e74c297ff39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -549,8 +549,8 @@
     <ClInclude Include="..\Public\CBottle.h">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\02. Bottle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CLumia_Ground.h">
-      <Filter>02. GameObject\02. Map_Lumia\01. Ground</Filter>
+    <ClInclude Include="..\Public\CLumia_NavMesh.h">
+      <Filter>02. GameObject\02. Map_Lumia\01. Lumia_NavMesh</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CLumia_Structure.h">
       <Filter>02. GameObject\02. Map_Lumia\02. Structure</Filter>
@@ -966,8 +966,8 @@
     <ClCompile Include="..\Private\CBottle.cpp">
       <Filter>02. GameObject\03. InvenOwner\00. Unit\00. AbstarctPlayer\LiDailin\02. Bottle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CLumia_Ground.cpp">
-      <Filter>02. GameObject\02. Map_Lumia\01. Ground</Filter>
+    <ClCompile Include="..\Private\CLumia_NavMesh.cpp">
+      <Filter>02. GameObject\02. Map_Lumia\01. Lumia_NavMesh</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CLumia_Structure.cpp">
       <Filter>02. GameObject\02. Map_Lumia\02. Structure</Filter>

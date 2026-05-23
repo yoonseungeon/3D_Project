@@ -235,7 +235,7 @@
     <ClInclude Include="..\Public\CLobbyTabBtn.h" />
     <ClInclude Include="..\Public\CLumia_Structure.h" />
     <ClInclude Include="..\Public\CMapSelectBtn.h" />
-    <ClInclude Include="..\Public\CLumia_Ground.h" />
+    <ClInclude Include="..\Public\CLumia_NavMesh.h" />
     <ClInclude Include="..\Public\CMonster.h" />
     <ClInclude Include="..\Public\CMovementState.h" />
     <ClInclude Include="..\Public\Command.h" />
@@ -376,7 +376,7 @@
     <ClCompile Include="..\Private\CLobbyTabBtn.cpp" />
     <ClCompile Include="..\Private\CLumia_Structure.cpp" />
     <ClCompile Include="..\Private\CMapSelectBtn.cpp" />
-    <ClCompile Include="..\Private\CLumia_Ground.cpp" />
+    <ClCompile Include="..\Private\CLumia_NavMesh.cpp" />
     <ClCompile Include="..\Private\CMonster.cpp" />
     <ClCompile Include="..\Private\CMovementState.cpp" />
     <ClCompile Include="..\Private\CPickSkin.cpp" />
