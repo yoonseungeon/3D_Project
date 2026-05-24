@@ -32,7 +32,7 @@ HRESULT CLava_Q::Initialize(void* pArg)
         return E_FAIL;
 
     m_pTransformCom->Set_Scale(4.f, 4.f, 1.f);
-    m_pTransformCom->Set_Pos(XMVectorSet(0.f, 0.01f, 0.7f, 1.f));
+    m_pTransformCom->Set_Pos(XMVectorSet(0.f, 0.22f, 0.7f, 1.f));
     m_pTransformCom->Set_Rotation(XMConvertToRadians(90.f), 0.f, 0.f);
 
     return S_OK;

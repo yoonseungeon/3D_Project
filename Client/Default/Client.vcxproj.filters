@@ -436,6 +436,9 @@
     <Filter Include="05. VisionMask">
       <UniqueIdentifier>{f37d1493-e301-4be2-9a5d-3548e6caaa29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. PartEffect\08. Fiora_Q_1">
+      <UniqueIdentifier>{e6867fd5-bf1c-48b1-965b-7041cf26fe0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -870,6 +873,9 @@
     <ClInclude Include="..\Public\CVisionMask.h">
       <Filter>05. VisionMask</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CFiora_Q_1.h">
+      <Filter>04. PartEffect\08. Fiora_Q_1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1286,6 +1292,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CVisionMask.cpp">
       <Filter>05. VisionMask</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CFiora_Q_1.cpp">
+      <Filter>04. PartEffect\08. Fiora_Q_1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

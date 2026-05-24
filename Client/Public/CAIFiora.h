@@ -12,6 +12,7 @@ NS_END
 NS_BEGIN(Client)
 
 class CInGame_Manager;
+class CFiora_Q_1;
 
 class CAIFiora : public CAbstractMonster
 {
@@ -109,6 +110,8 @@ private:
 	_bool Get_TargetDistance(_float& Length);
 
 	_uint m_iNormalATKCount{};
+
+	CFiora_Q_1* pQEffect{};
 
 public:
 	static CAIFiora* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

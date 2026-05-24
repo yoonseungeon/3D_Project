@@ -8,6 +8,7 @@
 #include "CInventory.h"
 
 #include "CRapier.h"
+#include "CFiora_Q_1.h"
 
 #include "CInGameHPBar.h"
 
@@ -273,7 +274,10 @@ void CAIFiora::Update_Action(_float fTimeDelta)
         {
             const _float fCurAniRatio = m_pBodyFiora->Get_ModelCom()->Get_CurAniPlayRatio();
             if (fCurAniRatio >= 0.4f)
+            {
                 Enter_Action(CHASE);
+                pQEffect->Set_IsInactive(true);
+            }
             break;
         }
 
@@ -396,6 +400,8 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
                 m_pMoveCom->Stop_Move_To_Pos();
                 LookTargetDir();
                 tQCool.fAccCoolDown = tQCool.fCurCoolDown;
+
+                pQEffect->Set_IsInactive(false);
                 break;
 
             case W:
@@ -747,6 +753,17 @@ HRESULT CAIFiora::Ready_PartObjects()
         TEXT("Rapier"), &RapierDesc)))
         return E_FAIL;
 
+    // Q_Effect_1
+    CFiora_Q_1::FIORA_Q_1_DESC QEffectDesc{};
+    QEffectDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CFiora_Q_1"),
+        TEXT("Q_Effect_1"), &QEffectDesc)))
+        return E_FAIL;
+
+    pQEffect = dynamic_cast<CFiora_Q_1*>(m_PartObjects[TEXT("Q_Effect_1")]);
+    Safe_AddRef(pQEffect);
+
     CInGameHPBar::INGAMEHPBAR_DESC HPBarDesc{};
     HPBarDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
     HPBarDesc.fHeight = 2.5f;
@@ -776,16 +793,16 @@ HRESULT CAIFiora::Bind_ShaderResources()
 
 HRESULT CAIFiora::Initialize_Skill()
 {
-    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 400.f;
+    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 4.f;
     m_SkillRange.push_back(3.f);
 
     tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 6.f;
     m_SkillRange.push_back(2.f);
 
-    tECool.fMaxCoolDown = tECool.fCurCoolDown = 900.f;
+    tECool.fMaxCoolDown = tECool.fCurCoolDown = 9.f;
     m_SkillRange.push_back(4.f);
 
-    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 6.f;
+    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 60.f;
     tRCool.fMaxSubCoolDown = tRCool.fCurSubCoolDown = 10.f;
     m_SkillRange.push_back(2.f);
 
@@ -981,6 +998,7 @@ void CAIFiora::Free()
 {
     Safe_Release(m_pInGame_Manager);
 
+    Safe_Release(pQEffect);
     Safe_Release(m_pBodyFiora);
 
     Safe_Release(m_pNavigationCom);

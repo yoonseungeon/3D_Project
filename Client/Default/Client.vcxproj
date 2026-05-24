@@ -182,6 +182,7 @@
     <ClInclude Include="..\Public\CEffect.h" />
     <ClInclude Include="..\Public\CEquipment.h" />
     <ClInclude Include="..\Public\CExplosion.h" />
+    <ClInclude Include="..\Public\CFiora_Q_1.h" />
     <ClInclude Include="..\PUblic\CFryingPan.h" />
     <ClInclude Include="..\Public\CGameResultTextBox.h" />
     <ClInclude Include="..\Public\CUI_Day.h" />
@@ -328,6 +329,7 @@
     <ClCompile Include="..\Private\CEffect.cpp" />
     <ClCompile Include="..\Private\CEquipment.cpp" />
     <ClCompile Include="..\Private\CExplosion.cpp" />
+    <ClCompile Include="..\Private\CFiora_Q_1.cpp" />
     <ClCompile Include="..\Private\CFryingPan.cpp" />
     <ClCompile Include="..\Private\CGameResultTextBox.cpp" />
     <ClCompile Include="..\Private\CUI_Day.cpp" />
