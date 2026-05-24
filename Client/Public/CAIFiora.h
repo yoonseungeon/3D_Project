@@ -13,6 +13,7 @@ NS_BEGIN(Client)
 
 class CInGame_Manager;
 class CFiora_Q_1;
+class CFiora_W_1;
 
 class CAIFiora : public CAbstractMonster
 {
@@ -112,6 +113,7 @@ private:
 	_uint m_iNormalATKCount{};
 
 	CFiora_Q_1* pQEffect{};
+	CFiora_W_1* pWEffect{};
 
 public:
 	static CAIFiora* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

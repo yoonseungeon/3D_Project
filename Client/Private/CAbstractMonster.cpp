@@ -80,7 +80,13 @@ void CAbstractMonster::Damaged(const DAMAGE_INFO& tDamageInfo)
     }
 
     if (m_tCurStat.iHP <= 0)
+    {
         m_iMonsterCondition |= MONSTER_CONDITION::CON_HPZERO;
+        if (m_pTargetPlayer != nullptr)
+        {
+            m_pTargetPlayer->AddEXP(m_tBaseStat.iEXP);
+        }
+    }
 }
 
 _bool CAbstractMonster::IsUnitDead()

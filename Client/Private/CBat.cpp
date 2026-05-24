@@ -499,7 +499,7 @@ void CBat::Run_OR_ATTACK()
 
 HRESULT CBat::Initialize_Stat()
 {
-    SetStat(m_tBaseStat, 2, 0, 400, 100, 0.f, 0.f, 47, 0, 0, 0, 24, 0.8f, 0, 0, 4.f);
+    SetStat(m_tBaseStat, 2, 40, 400, 100, 0.f, 0.f, 47, 0, 0, 0, 24, 0.8f, 0, 0, 4.f);
     SetStat(m_tCurStat, 2, 999, 400, 100, 0.f, 0.f, 47, 0, 0, 0, 24, 0.8f, 0, 0, 4.f);
 
     SetFinalStat();

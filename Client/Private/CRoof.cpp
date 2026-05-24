@@ -45,7 +45,7 @@ void CRoof::Parallel_Update(_float fTimeDelta)
 {
     const MODEL_LOCAL_MIN_MAX* pLocalPos =  m_pModelCom->Get_LocalXYZ();
 
-    const _float fRoofMargin = { 2.f };
+    const _float fRoofMargin = { 3.5f };
 
     // ÁöºØ ·ÎÄÃ == ÁöºØ ¿ùµå
     if (vPlayerPos.x >= pLocalPos->vMin.x - fRoofMargin

@@ -643,7 +643,7 @@ void CWolf::Run_OR_ATTACK()
 
 HRESULT CWolf::Initialize_Stat()
 {
-    SetStat(m_tBaseStat, 6, 0, 905, 100, 0.f, 0.f, 127, 0, 0, 0, 54, 0.9f, 0, 0, 4.f);
+    SetStat(m_tBaseStat, 6, 100, 905, 100, 0.f, 0.f, 127, 0, 0, 0, 54, 0.9f, 0, 0, 4.f);
     SetStat(m_tCurStat, 6, 999, 905, 100, 0.f, 0.f, 127, 0, 0, 0, 54, 0.9f, 0, 0, 4.f);
 
     SetFinalStat();

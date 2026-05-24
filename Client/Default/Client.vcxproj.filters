@@ -439,6 +439,9 @@
     <Filter Include="04. PartEffect\08. Fiora_Q_1">
       <UniqueIdentifier>{e6867fd5-bf1c-48b1-965b-7041cf26fe0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. PartEffect\09. Fiora_W_1">
+      <UniqueIdentifier>{f2f1271a-02dd-43bf-b0b4-f4c4cf7f649d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -876,6 +879,9 @@
     <ClInclude Include="..\Public\CFiora_Q_1.h">
       <Filter>04. PartEffect\08. Fiora_Q_1</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CFiora_W_1.h">
+      <Filter>04. PartEffect\09. Fiora_W_1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1295,6 +1301,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CFiora_Q_1.cpp">
       <Filter>04. PartEffect\08. Fiora_Q_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CFiora_W_1.cpp">
+      <Filter>04. PartEffect\09. Fiora_W_1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

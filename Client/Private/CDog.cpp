@@ -653,7 +653,7 @@ void CDog::Run_OR_ATTACK()
 
 HRESULT CDog::Initialize_Stat()
 {
-    SetStat(m_tBaseStat, 2, 0, 1010, 100, 0.f, 0.f, 113, 0, 0, 0, 33, 1.1f, 0, 0, 4.67f);
+    SetStat(m_tBaseStat, 2, 60, 1010, 100, 0.f, 0.f, 113, 0, 0, 0, 33, 1.1f, 0, 0, 4.67f);
     SetStat(m_tCurStat, 2, 999, 1010, 100, 0.f, 0.f, 113, 0, 0, 0, 33, 1.1f, 0, 0, 4.67f);
 
     SetFinalStat();
