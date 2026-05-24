@@ -125,6 +125,8 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
         const ITEM_DESC* pItemDesc = CItem_Manager::GetInstance()->Find_ItemInfo(m_iItemId);
         if (pItemDesc->eGrade == ITEM_GRADE::HIGH)
         {
+            pPlayer->AddEXP(20);
+
             _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_CRAFTUNCOMMON_1_VOICE) + rand() % 3;
 
             if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
@@ -132,6 +134,8 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
         }
         else if (pItemDesc->eGrade == ITEM_GRADE::RARE)
         {
+            pPlayer->AddEXP(30);
+
             _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_CRAFTRARE_3_VOICE);
 
             if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
@@ -139,6 +143,8 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
         }
         else if (pItemDesc->eGrade == ITEM_GRADE::HERO)
         {
+            pPlayer->AddEXP(50);
+
             _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_CRAFTEPIC_1_VOICE) + rand() % 2;
 
             if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
@@ -146,6 +152,8 @@ void CAction_Craft::Exit(CLiDailin* pPlayer)
         }
         else if (pItemDesc->eGrade == ITEM_GRADE::LEGENDARY)
         {          
+            pPlayer->AddEXP(60);
+
             _uint iSoundIndex = ETOUI(SOUND_KEY::LIDAILIN_CRAFTLEGENDARY_2_VOICE);
 
             if (CGameInstance::GetInstance()->IsPlaying(ETOUI(SOUND_CHANNEL_GAMEPLAY::VOICE)) == false)
