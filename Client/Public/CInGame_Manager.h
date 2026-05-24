@@ -49,6 +49,9 @@ public:
 	_float Get_VisibleRange() { return m_fVisionRange; }
 	_uint Get_Day() { return m_iDay; }
 
+	_float4 Lerp_Color(const _float4& vStart, const _float4& vEnd, _float fRatio);
+	void Update_LightLerp(_float fTimeDelta);
+
 private:
 	CAbstractPlayer* m_pPlayer{ nullptr };
 	CUI_GameResult* m_pGameResultUI{ nullptr };
@@ -67,6 +70,15 @@ private:
 	_uint m_iDay{ 1 };
 
 	_float m_fVisionRange{};
+
+	_float4 m_vDayDiffuseLight{};
+	_float4 m_vDayAmbientLight{};
+	_float4 m_vNightDiffuseLight{};
+	_float4 m_vNightAmbientLight{};
+
+	_bool m_bLightLerpStart{};
+	_float m_fMaxLerpTime{};
+	_float m_fAccLerpTime{};
 
 protected:
 	virtual void Free() override;

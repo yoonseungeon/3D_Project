@@ -259,7 +259,7 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     
     // Vision MAsk
     float fVisionMask = g_VisionMaskTexture.Sample(LinearSampler, In.vTexcoord).r;
-    float fMinDark = 0.65f; 
+    float fMinDark = 0.7f; 
     Out.vBackBuffer.rgb *= lerp(fMinDark, 1.f, fVisionMask);
     
     return Out;

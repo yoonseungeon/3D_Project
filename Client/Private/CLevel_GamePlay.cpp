@@ -155,8 +155,9 @@ HRESULT CLevel_GamePlay::Ready_Lights()
     LIGHT_DESC LightDesc{};
 
     LightDesc.eType = LIGHT::DIRECTIONAL;
-    LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-    LightDesc.vAmbient = _float4(0.8f, 0.8f, 0.8f, 0.8f);
+    LightDesc.vDiffuse = _float4(1.00f, 1.00f, 1.00f, 1.f);
+    LightDesc.vAmbient = _float4(0.90f, 0.90f, 0.90f, 1.f);   
+
     LightDesc.vSpecular = _float4(0.f, 0.f, 0.f, 0.f);
     LightDesc.vDirection = _float4(0.08f, -0.89f, 0.44f, 0.f);
 
@@ -294,17 +295,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_UI_Image(const _wstring& strLayerTag)
 {
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow"),
+    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+    //    return E_FAIL;
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Snow"),
+    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+    //    return E_FAIL;
 
-    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Explosion"),
-        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
-        return E_FAIL;
+    //if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Explosion"),
+    //    ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+    //    return E_FAIL;
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CInGameCharHUD_Empty"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))

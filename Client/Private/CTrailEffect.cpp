@@ -165,7 +165,7 @@ void CTrailEffect::Make_Vertices(_float fTimeDelta)
         m_Vertices.push_back(tVexTex);
     }
 
-    m_pVIBufferCom->Trail_Map_Discard(m_Vertices.data(), m_Vertices.size());
+    m_pVIBufferCom->Trail_Map_Discard(m_Vertices.data(), static_cast<_uint>(m_Vertices.size()));
 }
 
 CTrailEffect* CTrailEffect::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

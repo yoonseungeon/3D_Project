@@ -25,6 +25,24 @@ const LIGHT_DESC* CLight_Manager::Get_LightDesc(_uint iIndex)
     return (*iter)->Get_LightDesc();
 }
 
+HRESULT CLight_Manager::Set_LightDesc(_uint iIndex, const LIGHT_DESC& LightDesc)
+{
+    if (iIndex >= m_Lights.size())
+        return E_FAIL;
+
+    auto iter = m_Lights.begin();
+
+    for (_uint i = 0; i < iIndex; ++i)
+        ++iter;
+
+    if (iter == m_Lights.end())
+        return E_FAIL;
+
+    (*iter)->Set_LightDesc(LightDesc);
+
+    return S_OK;
+}
+
 HRESULT CLight_Manager::Add_Light(const LIGHT_DESC& LightDesc)
 {
     CLight* pLight = CLight::Create(m_pDevice, m_pContext, LightDesc);

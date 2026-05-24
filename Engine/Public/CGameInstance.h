@@ -135,6 +135,7 @@ public:
 
 #pragma region LIGHT_MANAGER
 	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
+	HRESULT Set_LightDesc(_uint iIndex, const LIGHT_DESC& LightDesc);
 	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
 	HRESULT Render_Light(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #pragma endregion

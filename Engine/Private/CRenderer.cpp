@@ -514,7 +514,7 @@ HRESULT CRenderer::Render_Debug()
 
  /*   m_pGameInstance->Render_RT_Debug(TEXT("MRT_ShadowObjects"), m_pShader, m_pVIBuffer);*/
 
-    m_pGameInstance->Render_RT_Debug(TEXT("MRT_VisionMask"), m_pShader, m_pVIBuffer);
+    //m_pGameInstance->Render_RT_Debug(TEXT("MRT_VisionMask"), m_pShader, m_pVIBuffer);
 
     return S_OK;
 }

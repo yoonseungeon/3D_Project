@@ -629,7 +629,7 @@ PS_OUT_VISION_MASK PS_MAIN_VISION_MASK(PS_IN In)
         discard;
     
     float fRatio = smoothstep(fLerpRange, fVisionRange, fLength);
-    Out.vVisionMask = 1.f - fRatio;
+    Out.vVisionMask = 1.f - pow(fRatio, 2.f);
 
     return Out;
 }

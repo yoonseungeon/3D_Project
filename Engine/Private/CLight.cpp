@@ -10,6 +10,11 @@ CLight::CLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     Safe_AddRef(m_pContext);
 }
 
+void CLight::Set_LightDesc(const LIGHT_DESC& LightDesc)
+{
+    m_LightDesc = LightDesc;
+}
+
 HRESULT CLight::Initialize(const LIGHT_DESC& LightDesc)
 {
     m_LightDesc = LightDesc;

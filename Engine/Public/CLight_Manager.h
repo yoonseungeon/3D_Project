@@ -12,6 +12,7 @@ private:
 
 public:
 	const LIGHT_DESC* Get_LightDesc(_uint iIndex);
+	HRESULT Set_LightDesc(_uint iIndex, const LIGHT_DESC& LightDesc);
 
 public:
 	HRESULT Add_Light(const LIGHT_DESC& LightDesc);
