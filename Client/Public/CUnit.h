@@ -12,6 +12,7 @@ NS_END
 NS_BEGIN(Client)
 
 class CInGameHPBar;
+class CInGame_Manager;
 
 class CUnit abstract : public CInvenOwner
 {
@@ -134,6 +135,8 @@ protected:
 	void Update_Recovery(_float fTimeDelta);
 
 protected:
+	CInGame_Manager* m_pInGame_Manager{};
+
 	UNIT_STAT m_tFinalStat{}; // Base와 Item의 합산
 	UNIT_STAT m_tBaseStat{};
 

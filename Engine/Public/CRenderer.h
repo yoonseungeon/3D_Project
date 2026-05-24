@@ -55,6 +55,7 @@ private:
 	HRESULT Render_Shadow();
 	HRESULT Render_NonBlend();
 	HRESULT Render_Lights();
+	HRESULT Render_VisionMask();
 	HRESULT Render_Combined();
 	HRESULT Render_NonLight();
 	HRESULT Render_Blend();

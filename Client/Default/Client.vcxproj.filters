@@ -433,6 +433,9 @@
     <Filter Include="02. GameObject\11. UI_DayIcon">
       <UniqueIdentifier>{0333add8-f22a-4f6b-b912-cc3d36c694c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. VisionMask">
+      <UniqueIdentifier>{f37d1493-e301-4be2-9a5d-3548e6caaa29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -864,6 +867,9 @@
     <ClInclude Include="..\Public\CUI_DayIcon.h">
       <Filter>02. GameObject\11. UI_DayIcon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CVisionMask.h">
+      <Filter>05. VisionMask</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1277,6 +1283,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CUI_DayIcon.cpp">
       <Filter>02. GameObject\11. UI_DayIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CVisionMask.cpp">
+      <Filter>05. VisionMask</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -44,8 +44,6 @@ public:
 	virtual _bool XM_CALLCONV IsInOpenRange(_fvector vPos, _float fWorldDistance) override;
 
 protected:
-	CInGame_Manager* m_pInGame_Manager{};
-
 	_float m_fBewareRange{};
 	CUnit* m_pTargetPlayer{};
 

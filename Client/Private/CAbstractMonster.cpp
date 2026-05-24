@@ -29,9 +29,6 @@ HRESULT CAbstractMonster::Initialize(void* pArg)
     m_vStartPos = pDesc->tTransformDesc.vStartPos;
     m_pTransformCom->Set_Rotation(0.f, static_cast<_float>(rand() % 360), 0.f);
 
-    m_pInGame_Manager = CInGame_Manager::GetInstance();
-    Safe_AddRef(m_pInGame_Manager);
-
     m_fBewareRange = 6.f;
 
     return S_OK;
@@ -54,6 +51,9 @@ void CAbstractMonster::Update(_float fTimeDelta)
 
 void CAbstractMonster::Late_Update(_float fTimeDelta)
 {
+    if (m_pInGame_Manager->IsInVisionRange(m_pTransformCom->Get_State(STATE::POSITION)) == false)
+        return;
+
     __super::Late_Update(fTimeDelta);
 }
 
@@ -170,7 +170,6 @@ void CAbstractMonster::Cal_LocalMinMaxAABB(MODEL_LOCAL_MIN_MAX& tLocalMinMax, _f
 void CAbstractMonster::Free()
 {
     Safe_Release(m_pTargetPlayer);
-    Safe_Release(m_pInGame_Manager);
 
     __super::Free();
 }

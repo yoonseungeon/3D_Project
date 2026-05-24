@@ -13,7 +13,9 @@ CInGame_Manager::CInGame_Manager()
 {
     m_fMaxWaitGameEndTime = 3.f;
 
-    m_fAccDayTimer = 5.f;
+    m_fAccDayTimer = 120.f;
+
+    m_fVisionRange = 10.f;
 }
 
 void CInGame_Manager::Update_InGameManager(_float fTimeDelta)
@@ -27,7 +29,7 @@ void CInGame_Manager::Update_InGameManager(_float fTimeDelta)
     m_fAccDayTimer -= fTimeDelta;
     if (m_fAccDayTimer <= 0.f)
     {
-        m_fAccDayTimer = 5.f;
+        m_fAccDayTimer = 120.f;
         ++m_iDay;
     }
 
@@ -146,10 +148,24 @@ void CInGame_Manager::Release_DayTimer()
     m_pTimer = nullptr;
 }
 
+_bool XM_CALLCONV CInGame_Manager::IsInVisionRange(_fvector vPos)
+{
+    if (m_pPlayer == nullptr)
+        return true;
+
+    _vector vPlayerPos = m_pPlayer->Get_TransformCom()->Get_State(STATE::POSITION);
+
+    _float fLengthSq = XMVectorGetX(XMVector3LengthSq(XMVectorSetY(vPlayerPos, 0.f) - XMVectorSetY(vPos, 0.f)));
+
+    if (fLengthSq > m_fVisionRange * m_fVisionRange)
+        return false;
+
+    return true;
+}
+
 void CInGame_Manager::Free()
 {
     Safe_Release(m_pGameResultUI);
-    Safe_Release(m_pMap_Lumia);
     Safe_Release(m_pPlayer);
 
     __super::Free();

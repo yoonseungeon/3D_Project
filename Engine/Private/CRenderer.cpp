@@ -45,6 +45,10 @@ HRESULT CRenderer::Initialize()
     if (FAILED(Ready_DepthStencil_Buffer()))
         return E_FAIL;
 
+    // Vision
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Vision"), tViewportDesc.x, tViewportDesc.y, DXGI_FORMAT_R8_UNORM, _float4(0.f, 0.f, 0.f, 0.f))))
+        return E_FAIL;
+
 
     /* 만든 렌더타겟들을 장치에 동시에 바인딩되는 기준으로 모은다. */
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
@@ -61,6 +65,10 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
     // 그림자 따로 기록
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_ShadowObjects"), TEXT("Target_LightDepth"))))
+        return E_FAIL;
+
+    // Vision Mask
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_VisionMask"), TEXT("Target_Vision"))))
         return E_FAIL;
 
     m_pShader = CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"), VTXTEX::Elements, VTXTEX::iNumElements);
@@ -91,6 +99,9 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
     if (FAILED(m_pGameInstance->Ready_RT_Debug(TEXT("Target_LightDepth"), 200.f, 200.f, 400.f, 400.f)))
         return E_FAIL;
+
+    if (FAILED(m_pGameInstance->Ready_RT_Debug(TEXT("Target_Vision"), 128.f, 72.f, 256.f, 144.f)))
+        return E_FAIL;
 #endif
 
     return S_OK;
@@ -116,6 +127,10 @@ HRESULT CRenderer::Draw()
 
     if (FAILED(Render_Lights()))
         return E_FAIL;
+
+    if (FAILED(Render_VisionMask()))
+        return E_FAIL;
+
     if (FAILED(Render_Combined()))
         return E_FAIL;
     if (FAILED(Render_NonLight()))
@@ -279,6 +294,28 @@ HRESULT CRenderer::Render_Lights()
     return S_OK;
 }
 
+HRESULT CRenderer::Render_VisionMask()
+{
+    if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_VisionMask"))))
+        return E_FAIL;
+
+    for (auto& pRenderObject : m_RenderObjects[ETOUI(RENDERID::VISION_MASK)])
+    {
+        if (pRenderObject != nullptr)
+            pRenderObject->Render_VisionMask();
+
+        Safe_Release(pRenderObject);
+    }
+
+    m_RenderObjects[ETOUI(RENDERID::VISION_MASK)].clear();
+
+    // 원상 복구
+    if (FAILED(m_pGameInstance->End_MRT()))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 HRESULT CRenderer::Render_Combined()
 {
     // 렌더 타겟들 결과 조합해서 진짜 백버퍼에 그림.
@@ -299,6 +336,11 @@ HRESULT CRenderer::Render_Combined()
         return E_FAIL;
     if (FAILED(m_pGameInstance->Bind_RT_ShaderResource(TEXT("Target_LightDepth"), m_pShader, "g_LightDepthTexture")))
         return E_FAIL;
+
+
+    if (FAILED(m_pGameInstance->Bind_RT_ShaderResource(TEXT("Target_Vision"), m_pShader, "g_VisionMaskTexture")))
+        return E_FAIL;
+
 
     if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
         return E_FAIL;
@@ -392,7 +434,7 @@ HRESULT CRenderer::Render_UI()
 
     return S_OK;
 }
- 
+
 HRESULT CRenderer::Ready_DepthStencil_Buffer()
 {
     // 장치 초기화랑 같음
@@ -471,6 +513,8 @@ HRESULT CRenderer::Render_Debug()
     m_pGameInstance->Render_RT_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer);*/
 
  /*   m_pGameInstance->Render_RT_Debug(TEXT("MRT_ShadowObjects"), m_pShader, m_pVIBuffer);*/
+
+    m_pGameInstance->Render_RT_Debug(TEXT("MRT_VisionMask"), m_pShader, m_pVIBuffer);
 
     return S_OK;
 }

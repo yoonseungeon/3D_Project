@@ -605,6 +605,34 @@ PS_OUT PS_MAIN_REMAPSLICE_U(PS_IN In)
 }
 
 
+
+
+struct PS_OUT_VISION_MASK
+{
+    float vVisionMask : SV_TARGET0;
+};
+
+PS_OUT_VISION_MASK PS_MAIN_VISION_MASK(PS_IN In)
+{
+    PS_OUT_VISION_MASK Out;
+        
+    float2 vCenter = float2(0.f, 0.f);
+    float2 vTexcoord = In.vTexcoord - float2(0.5f, 0.5f);
+
+    float fLength = length(vTexcoord - vCenter);
+    
+    if (fLength >= 0.5f)
+        Out.vVisionMask = float(0.f);
+    else
+        Out.vVisionMask = float(1.f);
+
+    return Out;
+}
+
+
+
+
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -781,5 +809,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_REMAPSLICE_U()));
+    }
+
+    pass VisionMask
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_VISION_MASK()));
     }
 }

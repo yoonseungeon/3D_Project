@@ -108,6 +108,9 @@
 #include "CUI_Day.h"
 #include "CUI_DayIcon.h"
 
+// Vision Mask
+#include "CVisionMask.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : m_pDevice{ pDevice }
     , m_pContext{ pContext }
@@ -3096,6 +3099,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CUI_DayIcon::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_CUI_DayIcon");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_VisionMask */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_VisionMask"),
+               CVisionMask::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_VisionMask");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

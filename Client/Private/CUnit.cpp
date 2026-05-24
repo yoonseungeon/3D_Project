@@ -2,8 +2,9 @@
 
 #include "CGameInstance.h"
 
-#include "CPartObject.h"
+#include "CInGame_Manager.h"
 
+#include "CPartObject.h"
 #include "CInGameHPBar.h"
 
 CUnit::CUnit(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -25,6 +26,9 @@ HRESULT CUnit::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
+
+    m_pInGame_Manager = CInGame_Manager::GetInstance();
+    Safe_AddRef(m_pInGame_Manager);
 
     return S_OK;
 }
@@ -268,6 +272,8 @@ void CUnit::PlayOpenSound()
 
 void CUnit::Free()
 {
+    Safe_Release(m_pInGame_Manager);
+
     Safe_Release(m_pInGameHPBar);
 
     __super::Free();

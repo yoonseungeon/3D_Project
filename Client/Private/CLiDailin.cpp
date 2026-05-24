@@ -43,6 +43,8 @@
 #include "CDragon_R.h"
 #include "CLiDailin_W_Effect.h"
 
+#include "CVisionMask.h"
+
 CLiDailin::CLiDailin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CAbstractPlayer{ pDevice, pContext }
 {
@@ -84,7 +86,7 @@ HRESULT CLiDailin::Initialize(void* pArg)
     if (FAILED(Initialize_Skill()))
         return E_FAIL;
 
-    CInGame_Manager::GetInstance()->Set_Player(this);
+    m_pInGame_Manager->Set_Player(this);
     
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
@@ -663,6 +665,15 @@ HRESULT CLiDailin::Ready_PartObjects()
     m_pBody = dynamic_cast<CBody_Player*>(m_PartObjects[TEXT("Body")]);
     Safe_AddRef(m_pBody);
 
+    // Vision Mask
+    CVisionMask::VISIONMASK_DESC VisionDesc{};
+    VisionDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+
+    if (FAILED(__super::Add_PartObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_VisionMask"),
+        TEXT("VisionMask"), &VisionDesc)))
+        return E_FAIL;
+    
+
     // Weapon
     CWeapon::WEAPON_DESC WeaponDesc{};
     WeaponDesc.pParentMatrix = m_pTransformCom->Get_WorldMatrixPtr();
@@ -974,7 +985,7 @@ void CLiDailin::Key_Input()
         MOVEMENT_COMMAND tMovement_Command{};
 
         _float3 vOutPos{};
-        if (CInGame_Manager::GetInstance()->Picking_SplitGround(vOutPos) == false)
+        if (m_pInGame_Manager->Picking_SplitGround(vOutPos) == false)
             return;
 
         tMovement_Command.eCommandType = MOVEMENT_COMMAND_TYPE::MOVE;

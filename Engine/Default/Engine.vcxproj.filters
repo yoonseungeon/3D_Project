@@ -76,12 +76,6 @@
     <Filter Include="99. Thread_Manager">
       <UniqueIdentifier>{2b59562d-441c-4f27-8083-0c4f946b5d90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="09. Lights">
-      <UniqueIdentifier>{8197c1c5-0ff7-4feb-83d1-768dfa431f31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="09. Lights\Manager">
-      <UniqueIdentifier>{c2956dbf-3813-4578-87c3-0ffef5883e3d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="07. Component\04. Model">
       <UniqueIdentifier>{6158ff22-7210-489e-ae95-56624b77c63b}</UniqueIdentifier>
     </Filter>
@@ -205,11 +199,17 @@
     <Filter Include="97. Sound_Manager">
       <UniqueIdentifier>{eebc085c-334c-4710-8ef2-3a0e39143c14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Prototype\06. Renderer">
-      <UniqueIdentifier>{831a7298-ee1f-48e7-a527-a9860cf9c214}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. Picking_Manager">
       <UniqueIdentifier>{5c423377-9d33-49f4-9761-80d60b31bb41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Renderer">
+      <UniqueIdentifier>{831a7298-ee1f-48e7-a527-a9860cf9c214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09. Lights">
+      <UniqueIdentifier>{8197c1c5-0ff7-4feb-83d1-768dfa431f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09. Lights\Manager">
+      <UniqueIdentifier>{c2956dbf-3813-4578-87c3-0ffef5883e3d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -247,7 +247,7 @@
       <Filter>05. GameObject\Manager\Layer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CRenderer.cpp">
-      <Filter>04. Prototype\06. Renderer</Filter>
+      <Filter>06. Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CComponent.cpp">
       <Filter>07. Component</Filter>
@@ -465,7 +465,7 @@
       <Filter>05. GameObject\Manager\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CRenderer.h">
-      <Filter>04. Prototype\06. Renderer</Filter>
+      <Filter>06. Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CComponent.h">
       <Filter>07. Component</Filter>

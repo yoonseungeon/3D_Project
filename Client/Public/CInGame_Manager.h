@@ -44,8 +44,10 @@ public:
 	void Set_DayTimer(CUI_Timer* pTimer);
 	void Release_DayTimer();
 
+
+	_bool XM_CALLCONV IsInVisionRange(_fvector vPos);
+	
 private:
-	CLumia_NavMesh* m_pMap_Lumia{ nullptr };
 	CAbstractPlayer* m_pPlayer{ nullptr };
 	CUI_GameResult* m_pGameResultUI{ nullptr };
 
@@ -61,6 +63,8 @@ private:
 	CUI_Timer* m_pTimer{};
 	_float m_fAccDayTimer{};
 	_uint m_iDay{ 1 };
+
+	_float m_fVisionRange{};
 
 protected:
 	virtual void Free() override;

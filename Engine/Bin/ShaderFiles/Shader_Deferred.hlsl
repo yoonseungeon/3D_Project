@@ -13,6 +13,8 @@ Texture2D g_ShadeTexture;
 Texture2D g_DepthTexture;
 Texture2D g_SpecularTexture;
 
+Texture2D g_VisionMaskTexture;
+
 vector g_vCamPosition;
 
 vector g_vLightDir;
