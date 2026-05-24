@@ -61,6 +61,8 @@ private:
 	_float m_fAccDaySoundLoopTime{};
 	_float m_fDaySoundLoopGap{};
 
+	_bool m_bDay{};
+
 public:
 	static CLevel_GamePlay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 protected:

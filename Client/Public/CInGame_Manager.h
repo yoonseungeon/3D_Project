@@ -48,6 +48,7 @@ public:
 	_bool XM_CALLCONV IsInVisionRange(_fvector vPos);
 	_float Get_VisibleRange() { return m_fVisionRange; }
 	_uint Get_Day() { return m_iDay; }
+	_bool IsDay();
 
 	_float4 Lerp_Color(const _float4& vStart, const _float4& vEnd, _float fRatio);
 	void Update_LightLerp(_float fTimeDelta);

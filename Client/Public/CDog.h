@@ -56,6 +56,8 @@ private:
 
 	_uint m_iAttackIndex{};
 
+	_bool m_bIsCried{};
+
 private:
 	HRESULT Ready_Components();
 	HRESULT Ready_PartObjects();

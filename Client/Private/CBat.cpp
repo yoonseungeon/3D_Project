@@ -277,6 +277,8 @@ void CBat::Enter_Action(BAT_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Bat::BAT_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
+            m_pMoveCom->Stop_Move_To_Pos();
+
             m_pInGameHPBar->Set_IsInactive(true);
 
             m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::BAT_DIE));

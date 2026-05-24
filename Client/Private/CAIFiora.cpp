@@ -376,8 +376,10 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
             case DEAD:
                 Enter_Animation(CBody_Fiora::FIORA_ANI::DEATH);
                 m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
+                m_pMoveCom->Stop_Move_To_Pos();
 
                 m_pInGameHPBar->Set_IsInactive(true);
+
                 m_pInGame_Manager->Sub_EnemyCount();
                 break;
 

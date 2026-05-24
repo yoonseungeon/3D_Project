@@ -97,7 +97,7 @@ HRESULT CLevel_GamePlay::Initialize()
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
     Safe_AddRef(m_pSharedUI_Manager);
 
-    m_fDaySoundLoopGap = m_fAccDaySoundLoopTime = 20.f;
+    m_fDaySoundLoopGap = m_fAccDaySoundLoopTime = 10.f;
     m_pGameInstance->PlaySound_Loop(ETOUI(SOUND_KEY::SUNNY), ETOUI(SOUND_CHANNEL_GAMEPLAY::ENVIRONMENT_1));
 
     return S_OK;
@@ -135,12 +135,26 @@ void CLevel_GamePlay::Update_EnvironmentSound(_float fTimeDelta)
 {
     m_fAccDaySoundLoopTime += fTimeDelta;
 
-    if (m_fAccDaySoundLoopTime >= m_fDaySoundLoopGap)
+    _bool bCurDay = m_pInGame_Manager->IsDay();
+
+    if (m_fAccDaySoundLoopTime >= m_fDaySoundLoopGap || m_bDay != bCurDay)
     {
+        m_bDay = bCurDay;
         m_fAccDaySoundLoopTime = 0.f;
 
-        _uint iFirstSoundKey = ETOUI(SOUND_KEY::DAY_BIRD1);
-        _uint iLastSoundKey = ETOUI(SOUND_KEY::DAY_BIRD6);
+        _uint iFirstSoundKey{};
+        _uint iLastSoundKey{};
+
+        if (bCurDay == true)
+        {
+            iFirstSoundKey = ETOUI(SOUND_KEY::DAY_BIRD1);
+            iLastSoundKey = ETOUI(SOUND_KEY::DAY_BIRD6);
+        }
+        else
+        {
+            iFirstSoundKey = ETOUI(SOUND_KEY::NIGHT_BIRD1);
+            iLastSoundKey = ETOUI(SOUND_KEY::NIGHT_BIRD5);
+        }
 
         _uint iSoundCount = iLastSoundKey - iFirstSoundKey + 1;
 

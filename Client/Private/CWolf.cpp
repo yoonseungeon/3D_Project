@@ -195,9 +195,13 @@ void CWolf::Update_Action(_float fTimeDelta)
     {
         case WAIT:
         {
-            // 진입 x
+            // 밤만 진입
             if (PlayerIsInRange(m_fBewareRange) == true)
                 Enter_Action(WOLF_ACTION::BEWARE_START);
+
+            if (m_pInGame_Manager->IsDay() == true)
+                Enter_Action(WOLF_ACTION::SLEEP_START);
+
             break;
         }
 
@@ -205,6 +209,9 @@ void CWolf::Update_Action(_float fTimeDelta)
         {
             if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
                 Enter_Action(WOLF_ACTION::SLEEP);
+
+            if (PlayerIsInRange(m_fBewareRange) == true)
+                Enter_Action(WOLF_ACTION::SLEEP_END);
             break;
         }
 
@@ -212,6 +219,10 @@ void CWolf::Update_Action(_float fTimeDelta)
         {
             if (PlayerIsInRange(m_fBewareRange) == true)
                 Enter_Action(WOLF_ACTION::SLEEP_END);
+
+            if (m_pInGame_Manager->IsDay() == false)
+                Enter_Action(WOLF_ACTION::WAIT);
+
             break;
         }
 
@@ -219,6 +230,7 @@ void CWolf::Update_Action(_float fTimeDelta)
         {
             if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
                 Enter_Action(WOLF_ACTION::BEWARE_START);
+
             break;
         }
 
@@ -258,17 +270,35 @@ void CWolf::Update_Action(_float fTimeDelta)
         case BEWARE_LOOP:
         {
             if (PlayerIsInRange(m_fBewareRange) == false)
-                Enter_Action(WOLF_ACTION::SLEEP_START);
-                //Enter_Action(WOLF_ACTION::BEWARE_END);
+            {
+                if(m_pInGame_Manager->IsDay())
+                {
+                    Enter_Action(WOLF_ACTION::SLEEP_START);
+                }
+                else
+                {
+                    Enter_Action(WOLF_ACTION::BEWARE_END);
+                }
+            }
             break;
         }
 
         case BEWARE_END:
         {
-            // 진입 x
             if (m_pBodyWolf->Get_ModelCom()->IsAnimationFinished() == true)
-                Enter_Action(WOLF_ACTION::SLEEP_START);
-                //Enter_Action(WOLF_ACTION::WAIT);
+            {
+                if (m_pInGame_Manager->IsDay())
+                {
+                    Enter_Action(WOLF_ACTION::SLEEP_START);
+                }
+                else
+                {
+                    Enter_Action(WOLF_ACTION::WAIT);
+                }
+            }
+
+            if (PlayerIsInRange(m_fBewareRange) == true)
+                Enter_Action(WOLF_ACTION::BEWARE_START);
             break;
         }
 
@@ -348,7 +378,12 @@ void CWolf::Enter_Action(WOLF_ACTION eNewAction)
 
         case SLEEP_END:
             Enter_Animation(CBody_Wolf::WOLF_ANI::WAKE);
-            m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::WOLF_WAKEUP));
+
+            if (m_pInGame_Manager->IsDay() == true)
+            {
+                m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::WOLF_WAKEUP));
+                m_bIsCried = true;
+            }
             break;
 
         case RUN:
@@ -367,6 +402,8 @@ void CWolf::Enter_Action(WOLF_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Wolf::WOLF_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
+            m_pMoveCom->Stop_Move_To_Pos();
+
             m_pInGameHPBar->Set_IsInactive(true);
 
             m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::WOLF_DIE));
@@ -377,6 +414,11 @@ void CWolf::Enter_Action(WOLF_ACTION eNewAction)
             break;
 
         case BEWARE_START:
+            if (m_pInGame_Manager->IsDay() == false && m_bIsCried == false)
+                m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::WOLF_WAKEUP));
+            else
+                m_bIsCried = false;
+
             Enter_Animation(CBody_Wolf::WOLF_ANI::BEWARE_START);
             break;
 

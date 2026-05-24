@@ -282,6 +282,7 @@ void CChicken::Enter_Action(CHICKEN_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Chicken::CHICKEN_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
+            m_pMoveCom->Stop_Move_To_Pos();
             m_pInGameHPBar->Set_IsInactive(true);
 
             m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::CHICKEN_DIE));

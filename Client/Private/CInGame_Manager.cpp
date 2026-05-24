@@ -15,7 +15,7 @@ CInGame_Manager::CInGame_Manager()
 {
     m_fMaxWaitGameEndTime = 3.f;
 
-    m_fAccDayTimer = 120.f;
+    m_fAccDayTimer = 12.f;
 
     m_fVisionRange = 12.f;
 
@@ -38,7 +38,7 @@ void CInGame_Manager::Update_InGameManager(_float fTimeDelta)
     m_fAccDayTimer -= fTimeDelta;
     if (m_fAccDayTimer <= 0.f)
     {
-        m_fAccDayTimer = 120.f;
+        m_fAccDayTimer = 12.f;
         ++m_iDay;
 
         if (m_iDay % 2 == 1)
@@ -180,6 +180,11 @@ _bool XM_CALLCONV CInGame_Manager::IsInVisionRange(_fvector vPos)
         return false;
 
     return true;
+}
+
+_bool CInGame_Manager::IsDay()
+{
+    return ((m_iDay % 2) == 1);
 }
 
 _float4 CInGame_Manager::Lerp_Color(const _float4& vStart, const _float4& vEnd, _float fRatio)

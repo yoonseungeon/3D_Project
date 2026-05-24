@@ -282,6 +282,8 @@ void CBoar::Enter_Action(BOAR_ACTION eNewAction)
         case DEATH:
             Enter_Animation(CBody_Boar::BOAR_ANI::DEATH);
             m_iMonsterCondition |= MONSTER_CONDITION::CON_DEAD;
+            m_pMoveCom->Stop_Move_To_Pos();
+
             m_pInGameHPBar->Set_IsInactive(true);
 
             m_pGameInstance->PlaySound_Once(ETOUI(SOUND_KEY::BOAR_DIE));
