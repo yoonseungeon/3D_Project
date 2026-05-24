@@ -13,9 +13,9 @@ CInGame_Manager::CInGame_Manager()
 {
     m_fMaxWaitGameEndTime = 3.f;
 
-    m_fAccDayTimer = 120.f;
+    m_fAccDayTimer = 5.f;
 
-    m_fVisionRange = 10.f;
+    m_fVisionRange = 9.5f;
 }
 
 void CInGame_Manager::Update_InGameManager(_float fTimeDelta)
@@ -29,8 +29,13 @@ void CInGame_Manager::Update_InGameManager(_float fTimeDelta)
     m_fAccDayTimer -= fTimeDelta;
     if (m_fAccDayTimer <= 0.f)
     {
-        m_fAccDayTimer = 120.f;
+        m_fAccDayTimer = 5.f;
         ++m_iDay;
+
+        if (m_iDay % 2 == 1)
+            m_fVisionRange = 9.5f;
+        else
+            m_fVisionRange = 7.5f;
     }
 
     if(m_pTimer != nullptr)

@@ -10,6 +10,8 @@ NS_END
 
 NS_BEGIN(Client)
 
+class CInGame_Manager;
+
 class CVisionMask final : public CPartObject
 {
 public:
@@ -40,6 +42,16 @@ public:
 private:
 	CShader*		m_pShaderCom{ nullptr };
 	CVIBuffer_Rect* m_pVIBufferCom{ nullptr };
+
+	CInGame_Manager* m_pInGameManager{};
+
+	_int m_iCurDay{ -1 };
+
+	_float m_fCurRange{};
+	_float m_fNewRange{};
+
+	_float m_fAccRangeTime{};
+	_float m_fMaxRangeTime{};
 
 private:
 	HRESULT Ready_Components();

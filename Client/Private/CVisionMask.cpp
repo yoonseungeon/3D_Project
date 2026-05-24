@@ -1,6 +1,8 @@
 #include "CVisionMask.h"
 
 #include "CGameInstance.h"
+#include "CInGame_Manager.h"
+
 #include "CLiDailin.h"
 
 CVisionMask::CVisionMask(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -28,8 +30,15 @@ HRESULT CVisionMask::Initialize(void* pArg)
     if (FAILED(Ready_Components()))
         return E_FAIL;
 
+    m_pInGameManager = CInGame_Manager::GetInstance();
+    Safe_AddRef(m_pInGameManager);
+
     m_pTransformCom->Set_Rotation(XMConvertToRadians(90.f), 0.f, 0.f);
-    m_pTransformCom->Set_Scale(20.f, 20.f, 1.f);
+
+    m_fCurRange = m_pInGameManager->Get_VisibleRange() * 2.f;
+    m_pTransformCom->Set_Scale(m_fCurRange, m_fCurRange, 1.f);
+
+    m_fMaxRangeTime = 1.f;
 
     return S_OK;
 }
@@ -44,6 +53,33 @@ void CVisionMask::Parallel_Update(_float fTimeDelta)
 
 void CVisionMask::Update(_float fTimeDelta)
 {
+    _uint iGetDay = m_pInGameManager->Get_Day();
+
+    if (m_iCurDay != iGetDay)
+    {
+        m_iCurDay = iGetDay;
+        m_fAccRangeTime = m_fMaxRangeTime;
+
+        m_fNewRange = m_pInGameManager->Get_VisibleRange() * 2.f;
+    }
+
+    if (m_fAccRangeTime > 0.f)
+    {
+        m_fAccRangeTime -= fTimeDelta;
+        _float fRatio = 1.f - (m_fAccRangeTime / m_fMaxRangeTime);
+
+        if (m_fAccRangeTime <= 0.f)
+        {
+            m_fAccRangeTime = 0.f;
+
+            m_fCurRange = m_fNewRange;
+            m_pTransformCom->Set_Scale(m_fCurRange, m_fCurRange, 1.f);
+            return;
+        }
+
+        _float fScale = m_fCurRange + (m_fNewRange - m_fCurRange) * fRatio;
+        m_pTransformCom->Set_Scale(fScale, fScale, 1.f);
+    }
 }
 
 void CVisionMask::Late_Update(_float fTimeDelta)
@@ -137,6 +173,8 @@ CGameObject* CVisionMask::Clone(void* pArg)
 
 void CVisionMask::Free()
 {
+    Safe_Release(m_pInGameManager);
+
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pShaderCom);
 

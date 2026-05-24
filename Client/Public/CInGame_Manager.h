@@ -46,7 +46,9 @@ public:
 
 
 	_bool XM_CALLCONV IsInVisionRange(_fvector vPos);
-	
+	_float Get_VisibleRange() { return m_fVisionRange; }
+	_uint Get_Day() { return m_iDay; }
+
 private:
 	CAbstractPlayer* m_pPlayer{ nullptr };
 	CUI_GameResult* m_pGameResultUI{ nullptr };

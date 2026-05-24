@@ -29,7 +29,7 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
     m_fMouseSensor = pDesc->fMouseSensor;
 
-    m_vDefaultPos = { 3.5f, 9.f, -3.5f };
+    m_vDefaultPos = { 4.5f, 9.f, -4.5f };
 
     return S_OK;
 }

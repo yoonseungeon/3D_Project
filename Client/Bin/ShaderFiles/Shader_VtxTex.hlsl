@@ -621,10 +621,15 @@ PS_OUT_VISION_MASK PS_MAIN_VISION_MASK(PS_IN In)
 
     float fLength = length(vTexcoord - vCenter);
     
-    if (fLength >= 0.5f)
-        Out.vVisionMask = float(0.f);
-    else
-        Out.vVisionMask = float(1.f);
+    float fVisionRange = 0.5f;
+    
+    float fLerpRange = 0.3f;
+     
+    if (fLength >= fVisionRange)
+        discard;
+    
+    float fRatio = smoothstep(fLerpRange, fVisionRange, fLength);
+    Out.vVisionMask = 1.f - fRatio;
 
     return Out;
 }
