@@ -16,6 +16,9 @@ HRESULT CLevel_Ending::Initialize()
     if (FAILED(Ready_Layer_Ending(TEXT("Layer_Ending"))))
         return E_FAIL;
 
+    CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_VICTORYCUTSCENE_KO));
+    CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::VICTORYCUTSCENE_BGM));
+
     return S_OK;
 }
 

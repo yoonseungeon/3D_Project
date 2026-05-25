@@ -4068,7 +4068,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
 HRESULT CLoader::Ready_Resources_For_Ending()
 {
 #pragma region 사운드
+    // VictoryCutscene_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/CutScene/LiDailin_VictoryCutscene_ko.wav", ETOUI(SOUND_KEY::LIDAILIN_VICTORYCUTSCENE_KO))))
+                MSG_BOX("CLoader.cpp(Ending) - Failed to Add: LiDailin_VictoryCutscene_ko");
 
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/CutScene/VictoryCutscene_BGM.wav", ETOUI(SOUND_KEY::VICTORYCUTSCENE_BGM))))
+                MSG_BOX("CLoader.cpp(Ending) - Failed to Add: VictoryCutscene_BGM");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region 텍스처
@@ -4077,7 +4089,7 @@ HRESULT CLoader::Ready_Resources_For_Ending()
     m_pGameInstance->Add_Job(
         [this]()->void {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::ENDING), TEXT("Prototype_Texture_LiDailin_Win"),
-                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/EndGame/LiDailin_Win/LiDailin_Win_%d.dds"), 154))))
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/EndGame/LiDailin_Win2/LiDailin_Win_%d.dds"), 199))))
             {
                 MSG_BOX("CLoader.cpp(EndGame) - Failed to Created: Prototype_Texture_LiDailin_Win");
             }
