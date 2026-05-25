@@ -95,6 +95,7 @@ void CUI_GameResult::GameResultStart()
     if (m_bIsPlay == false)
     {
         m_bIsPlay = true;
+        CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::RESULT_VICTORY));
 
         for (_uint i = 0; i < m_CUI_Circles.size(); ++i)
         {

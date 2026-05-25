@@ -1725,6 +1725,41 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
     );
+
+    // FioraSound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/attackRapier_r2.wav", ETOUI(SOUND_KEY::ATTACKRAPIER_R2))))                         MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: attackRapier_r2");
+
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill01_Attack.wav", ETOUI(SOUND_KEY::FIORA_SKILL01_ATTACK))))               MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill01_Attack");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill01_Hit_r2.wav", ETOUI(SOUND_KEY::FIORA_SKILL01_HIT_R2))))               MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill01_Hit_r2");
+                                                                                                                                                                                             
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill02_Attack_1.wav", ETOUI(SOUND_KEY::FIORA_SKILL02_ATTACK_1))))           MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill02_Attack_1");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill02_Attack_2.wav", ETOUI(SOUND_KEY::FIORA_SKILL02_ATTACK_2))))           MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill02_Attack_2");
+                                                                                                                                                                                             
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill03_Move.wav", ETOUI(SOUND_KEY::FIORA_SKILL03_MOVE))))                   MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill03_Move");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill03_Hit.wav", ETOUI(SOUND_KEY::FIORA_SKILL03_HIT))))                     MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill03_Move");
+                                                                                                                                                                                             
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill04_Attack01.wav", ETOUI(SOUND_KEY::FIORA_SKILL04_ATTACK01))))           MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill04_Attack01");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill04_Attack01_Hit.wav", ETOUI(SOUND_KEY::FIORA_SKILL04_ATTACK01_HIT))))   MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill04_Attack01_Hit");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill04_Attack02.wav", ETOUI(SOUND_KEY::FIORA_SKILL04_ATTACK02))))           MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill04_Attack02");
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/FioraSound/fiora_Skill04_Attack02_Hit.wav", ETOUI(SOUND_KEY::FIORA_SKILL04_ATTACK02_HIT))))   MSG_BOX("CLoader.cpp(GamePlay) - Failed to Add: fiora_Skill04_Attack02_Hit");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    // Result_Sound
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Sound("../Bin/Resources/Sound/ResultVictory.wav", ETOUI(SOUND_KEY::RESULT_VICTORY))))
+                MSG_BOX("CLoader.cpp(Lobby) - Failed to Add: ResultVictory");
+
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
 #pragma region 콜라이더

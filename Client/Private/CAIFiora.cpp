@@ -61,10 +61,6 @@ HRESULT CAIFiora::Initialize(void* pArg)
 
 	m_fAttackRange = 1.5f;
 
-	//m_pInvetory->Add_Item(34);
-	//m_pInvetory->Add_Item(52);
-	//m_pInvetory->Add_Item(26);
-
 	m_pInGame_Manager->Add_EnemyCount();
 
 	return S_OK;
@@ -122,6 +118,7 @@ void CAIFiora::OnCollision_Enter(const COLLISION_INFO& tCollision)
 		CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
 		tDamageInfo.iDamage = 10;
 		pUnit->Damaged(tDamageInfo);
+		CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL01_HIT_R2));
 	}
 
 	if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_W1] && bIsPlayer ||
@@ -143,6 +140,8 @@ void CAIFiora::OnCollision_Enter(const COLLISION_INFO& tCollision)
 		CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
 		tDamageInfo.iDamage = 10;
 		pUnit->Damaged(tDamageInfo);
+
+		CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL03_HIT));
 	}
 
 	if (tCollision.pMyCollider == m_Colliders[AIFIORA_COLLIDER::AIFIORA_R] && bIsPlayer)
@@ -151,6 +150,11 @@ void CAIFiora::OnCollision_Enter(const COLLISION_INFO& tCollision)
 		CUnit* pUnit = static_cast<CUnit*>(tCollision.pColObject);
 		tDamageInfo.iDamage = 10;
 		pUnit->Damaged(tDamageInfo);
+
+		if(tRCool.fStack == 0)
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL04_ATTACK02_HIT));
+		else
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL04_ATTACK01_HIT));
 	}
 }
 
@@ -277,7 +281,7 @@ void CAIFiora::Update_Action(_float fTimeDelta)
 		if (fCurAniRatio >= 0.4f)
 		{
 			Enter_Action(CHASE);
-			pQEffect->Set_IsInactive(true);
+			m_pQEffect->Set_IsInactive(true);
 		}
 		break;
 	}
@@ -287,13 +291,9 @@ void CAIFiora::Update_Action(_float fTimeDelta)
 		const _bool fAniFinished = m_pBodyFiora->Get_ModelCom()->IsAnimationFinished();
 		if (fAniFinished == true)
 		{
-			m_Colliders[AIFIORA_COLLIDER::AIFIORA_W1]->Set_Active(false);
-			m_Colliders[AIFIORA_COLLIDER::AIFIORA_W2]->Set_Active(false);
-			m_Colliders[AIFIORA_COLLIDER::AIFIORA_W3]->Set_Active(false);
 			m_AttackedWEnemy.clear();
 			Enter_Action(CHASE);
 
-			pWEffect->Set_IsInactive(true);
 		}
 		break;
 	}
@@ -347,6 +347,7 @@ void CAIFiora::Update_Action(_float fTimeDelta)
 			if (!bIsTargetMissing && fLength <= m_fAttackRange) {
 				Enter_Animation(CBody_Fiora::FIORA_ANI::ATK1);
 				m_bIsAttackProcessed = false;
+				CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::ATTACKRAPIER_R2));
 				return;
 			}
 
@@ -378,6 +379,7 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
 		{
 		case STUN:
 			Enter_Animation(CBody_Fiora::FIORA_ANI::WAIT);
+			InActive_All();
 			break;
 
 		case DEAD:
@@ -386,6 +388,7 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
 			m_pMoveCom->Stop_Move_To_Pos();
 
 			m_pInGameHPBar->Set_IsInactive(true);
+			InActive_All();
 
 			m_pInGame_Manager->Sub_EnemyCount();
 			break;
@@ -404,7 +407,9 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
 			LookTargetDir();
 			tQCool.fAccCoolDown = tQCool.fCurCoolDown;
 
-			pQEffect->Set_IsInactive(false);
+			m_pQEffect->Set_IsInactive(false);
+
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL01_ATTACK));
 			break;
 
 		case W:
@@ -416,7 +421,10 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
 			m_Colliders[AIFIORA_COLLIDER::AIFIORA_W2]->Set_Active(true);
 			m_Colliders[AIFIORA_COLLIDER::AIFIORA_W3]->Set_Active(true);
 
-			pWEffect->Set_IsInactive(false);
+			m_pWEffect->Set_IsInactive(false);
+
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL02_ATTACK_1));
+			m_bW2SoundPlay = false;
 			break;
 
 		case E:
@@ -426,6 +434,7 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
 			m_Colliders[AIFIORA_COLLIDER::AIFIORA_E]->Set_Active(true);
 			tECool.fAccCoolDown = tECool.fCurCoolDown;
 
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL03_MOVE));
 			break;
 
 		case E_ATK:
@@ -440,6 +449,8 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
 			m_pMoveCom->Stop_Move_To_Pos();
 
 			m_bIsAttackProcessed = false;
+
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::ATTACKRAPIER_R2));
 			break;
 
 		case R:
@@ -455,10 +466,12 @@ void CAIFiora::Enter_Action(AIFIORA_ACTION eNewAction)
 				tRCool.fStack = 0;
 				tRCool.fAccCoolDown = tRCool.fCurCoolDown;
 				tRCool.fAccSubCoolDown = 0.f;
+				CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL04_ATTACK02));
 			}
 			else
 			{
 				tRCool.fAccSubCoolDown = tRCool.fCurSubCoolDown;
+				CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL04_ATTACK01));
 			}
 
 			m_iNormalATKCount = 1;
@@ -512,6 +525,20 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 
 	case W:
 	{
+		const _float fCurAniRatio = m_pBodyFiora->Get_ModelCom()->Get_CurAniPlayRatio();
+		if(m_bW2SoundPlay == false && fCurAniRatio >= 0.1f)
+		{
+			CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL02_ATTACK_2));
+			m_bW2SoundPlay = true;
+		}
+
+		if (fCurAniRatio >= 0.5f)
+		{
+			m_Colliders[AIFIORA_COLLIDER::AIFIORA_W1]->Set_Active(false);
+			m_Colliders[AIFIORA_COLLIDER::AIFIORA_W2]->Set_Active(false);
+			m_Colliders[AIFIORA_COLLIDER::AIFIORA_W3]->Set_Active(false);
+			m_pWEffect->Set_IsInactive(true);
+		}
 		break;
 	}
 
@@ -557,11 +584,12 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 					tDamageInfo.iDamage = 10;
 					tDamageInfo.pUnit = nullptr;
 					m_pTargetPlayer->Damaged(tDamageInfo);
+
+					CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::FIORA_SKILL01_HIT_R2));
 				}
 				m_bIsAttackProcessed = true;
 			}
 		}
-
 	}
 	break;
 	}
@@ -696,7 +724,7 @@ HRESULT CAIFiora::Ready_Components()
 #pragma region E
 	/* For.Com_Collider_E */
 	CBounding_OBB::BOUNDING_OBB_DESC  OBB_E_Desc{ };
-	OBB_E_Desc.vSize = _float3(0.7f, 1.0f, 1.f);
+	OBB_E_Desc.vSize = _float3(0.7f, 1.0f, 0.5f);
 	OBB_E_Desc.vCenter = _float3(0.f, fColliderCenterY, OBB_E_Desc.vSize.z * 0.5f);
 
 	if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Collider_OBB"),
@@ -767,8 +795,8 @@ HRESULT CAIFiora::Ready_PartObjects()
 		TEXT("Q_Effect_1"), &QEffectDesc)))
 		return E_FAIL;
 
-	pQEffect = dynamic_cast<CFiora_Q_1*>(m_PartObjects[TEXT("Q_Effect_1")]);
-	Safe_AddRef(pQEffect);
+	m_pQEffect = dynamic_cast<CFiora_Q_1*>(m_PartObjects[TEXT("Q_Effect_1")]);
+	Safe_AddRef(m_pQEffect);
 
 
 	// W_Effect_1
@@ -779,8 +807,8 @@ HRESULT CAIFiora::Ready_PartObjects()
 		TEXT("W_Effect_1"), &WEffectDesc)))
 		return E_FAIL;
 
-	pWEffect = dynamic_cast<CFiora_W_1*>(m_PartObjects[TEXT("W_Effect_1")]);
-	Safe_AddRef(pWEffect);
+	m_pWEffect = dynamic_cast<CFiora_W_1*>(m_PartObjects[TEXT("W_Effect_1")]);
+	Safe_AddRef(m_pWEffect);
 
 
 	CInGameHPBar::INGAMEHPBAR_DESC HPBarDesc{};
@@ -813,13 +841,13 @@ HRESULT CAIFiora::Bind_ShaderResources()
 HRESULT CAIFiora::Initialize_Skill()
 {
 	tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 4.f;
-	m_SkillRange.push_back(3.f);
+	m_SkillRange.push_back(5.f);
 
 	tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 6.f;
 	m_SkillRange.push_back(2.f);
 
-	tECool.fMaxCoolDown = tECool.fCurCoolDown = 9.f;
-	m_SkillRange.push_back(4.f);
+	tECool.fMaxCoolDown = tECool.fCurCoolDown = 10.f;
+	m_SkillRange.push_back(6.f);
 
 	tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 60.f;
 	tRCool.fMaxSubCoolDown = tRCool.fCurSubCoolDown = 10.f;
@@ -987,6 +1015,19 @@ _bool CAIFiora::Get_TargetDistance(_float& Length)
 	return true;
 }
 
+void CAIFiora::InActive_All()
+{
+	m_Colliders[AIFIORA_COLLIDER::AIFIORA_Q]->Set_Active(false);
+	m_Colliders[AIFIORA_COLLIDER::AIFIORA_W1]->Set_Active(false);
+	m_Colliders[AIFIORA_COLLIDER::AIFIORA_W2]->Set_Active(false);
+	m_Colliders[AIFIORA_COLLIDER::AIFIORA_W3]->Set_Active(false);
+	m_Colliders[AIFIORA_COLLIDER::AIFIORA_E]->Set_Active(false);
+	m_Colliders[AIFIORA_COLLIDER::AIFIORA_R]->Set_Active(false);
+
+	m_pQEffect->Set_IsInactive(true);
+	m_pWEffect->Set_IsInactive(true);
+}
+
 CAIFiora* CAIFiora::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CAIFiora* pInstance = new CAIFiora(pDevice, pContext);
@@ -1017,8 +1058,8 @@ void CAIFiora::Free()
 {
 	Safe_Release(m_pInGame_Manager);
 
-	Safe_Release(pQEffect);
-	Safe_Release(pWEffect);
+	Safe_Release(m_pQEffect);
+	Safe_Release(m_pWEffect);
 	Safe_Release(m_pBodyFiora);
 
 	Safe_Release(m_pNavigationCom);

@@ -109,11 +109,15 @@ private:
 	void LookTargetDir();
 
 	_bool Get_TargetDistance(_float& Length);
+	
+	void InActive_All();
 
 	_uint m_iNormalATKCount{};
 
-	CFiora_Q_1* pQEffect{};
-	CFiora_W_1* pWEffect{};
+	CFiora_Q_1* m_pQEffect{};
+	CFiora_W_1* m_pWEffect{};
+
+	_bool m_bW2SoundPlay{};
 
 public:
 	static CAIFiora* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
