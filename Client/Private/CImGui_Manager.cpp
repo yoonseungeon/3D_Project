@@ -372,8 +372,9 @@ void CImGui_Manager::Show_Transform()
 
 void CImGui_Manager::Map_Picking()
 {
-    if (m_pGameInstance->Mouse_Down(DIMB::LBUTTON)) {
-       m_pInGame_Manager->Picking_SplitGround(vClickPos);
+    if (m_pGameInstance->Mouse_Down(DIMB::LBUTTON))
+    {
+        m_pInGame_Manager->Picking_SplitGround(vClickPos);
     }
     ImGui::Text("X: %.2f  Y: %.2f  Z: %.2f", vClickPos.x, vClickPos.y, vClickPos.z);
 }

@@ -66,7 +66,7 @@ HRESULT CLiDailin::Initialize(void* pArg)
     Desc.eItemType = ITEM_TYPE::NUNCHAKU;
     Desc.tTransformDesc.fSpeedPerSec = 10.f;
     Desc.tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
-    Desc.tTransformDesc.vStartPos = { 4.f, 0.f, -2.8f };
+    Desc.tTransformDesc.vStartPos = { 145.f, 0.f, 54.f };
 
     if (FAILED(__super::Initialize(&Desc)))
         return E_FAIL;

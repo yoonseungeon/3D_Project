@@ -32,10 +32,10 @@ HRESULT CAIFiora::Initialize(void* pArg)
 {
 	AIFIORA_DESC* pDesc = static_cast<AIFIORA_DESC*>(pArg);
 
-	pDesc->tTransformDesc.vStartPos = { 6.52f, 0.f, 8.37f };
+	pDesc->tTransformDesc.vStartPos = { 127.f, 0.f, 76.f };
 
 	_vector vStartPos = XMLoadFloat3(&pDesc->tTransformDesc.vStartPos);
-	_vector vMoveRange = XMVectorSet(1.f, 0.f, 0.f, 0.f);
+	_vector vMoveRange = XMVectorSet(0.f, 0.f, 5.f, 0.f);
 	XMStoreFloat3(&m_vMovePos[0], vStartPos + vMoveRange);
 	XMStoreFloat3(&m_vMovePos[1], vStartPos - vMoveRange);
 
