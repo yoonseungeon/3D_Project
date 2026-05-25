@@ -17,7 +17,7 @@ HRESULT CCell::Initialize(const _float3* pPoints, _uint iIndex)
 	m_iIndex = iIndex;
 
 	// 삼각형 저장
-	memcpy(m_vPoints, pPoints, sizeof(_float3) * ETOUI(CELL_POINT::END_DECO));
+	memcpy(m_vPoints, pPoints, sizeof(_float3) * ETOUI(CELL_POINT::END));
 
 	// 평면 구하기
 	XMStoreFloat4(&m_vPlane,
@@ -29,7 +29,7 @@ HRESULT CCell::Initialize(const _float3* pPoints, _uint iIndex)
 	m_vNormals[ETOUI(LINE::CA)] = _float3((m_vPoints[ETOUI(CELL_POINT::A)].z - m_vPoints[ETOUI(CELL_POINT::C)].z) * -1.f, 0.f, m_vPoints[ETOUI(CELL_POINT::A)].x - m_vPoints[ETOUI(CELL_POINT::C)].x);
 
 	// 법선 정규화
-	for (size_t i = 0; i < ETOUI(LINE::END_DECO); ++i)
+	for (size_t i = 0; i < ETOUI(LINE::END); ++i)
 		XMStoreFloat3(&m_vNormals[i], XMVector3Normalize(XMLoadFloat3(&m_vNormals[i])));
 
 #ifdef _DEBUG
@@ -52,7 +52,7 @@ HRESULT CCell::Initialize(const _float3* pPoints, _uint iIndex)
 _bool XM_CALLCONV CCell::isIn(_fvector vResultPos, _int* pNeighborIndex)
 {
 	// 세 변에 대한 검사
-	for (size_t i = 0; i < ETOUI(LINE::END_DECO); ++i)
+	for (size_t i = 0; i < ETOUI(LINE::END); ++i)
 	{
 		_vector vDir = vResultPos - XMLoadFloat3(&m_vPoints[i]);
 		vDir = XMVectorSetY(vDir, 0.f);

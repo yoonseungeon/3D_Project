@@ -48,10 +48,10 @@ public:
 private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
-	_float3					m_vPoints[ETOUI(CELL_POINT::END_DECO)] = {};
-	_float3					m_vNormals[ETOUI(LINE::END_DECO)] = {};
+	_float3					m_vPoints[ETOUI(CELL_POINT::END)] = {};
+	_float3					m_vNormals[ETOUI(LINE::END)] = {};
 	_uint					m_iIndex = {};
-	_int					m_iNeighbors[ETOUI(LINE::END_DECO)] = { -1, -1, -1 };
+	_int					m_iNeighbors[ETOUI(LINE::END)] = { -1, -1, -1 };
 	_float4					m_vPlane = {};
 
 	_float4					m_vCenter{};

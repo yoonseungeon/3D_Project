@@ -28,6 +28,7 @@ HRESULT CUI_AniImage::Initialize(void* pArg)
         return E_FAIL;
 
     m_fFrameDelay = pDesc->fFrameDelay;
+    m_bLoop = pDesc->bLoop;
 
     if (m_pTextureCom != nullptr) {
         m_iMaxTextureCnt = m_pTextureCom->Get_TextureCnt();
@@ -108,11 +109,24 @@ HRESULT CUI_AniImage::Bind_ShaderResources()
 
 void CUI_AniImage::Animation(_float fTimeDelta)
 {
+    if (m_bLoop == false && m_bIsPlayedOnce == true)
+    {
+        return;
+    }
+
     m_fAccTime += fTimeDelta;
     if (m_fAccTime >= m_fFrameDelay) {
         ++m_iCurTextureIdx;
         if (m_iCurTextureIdx >= m_iMaxTextureCnt) {
-            m_iCurTextureIdx = 0;
+            if(m_bLoop == false)
+            {
+                m_iCurTextureIdx = m_iMaxTextureCnt - 1;
+                m_bIsPlayedOnce = true;
+            }
+            else
+            {
+                m_iCurTextureIdx = 0;
+            }
         }
         m_fAccTime -= m_fFrameDelay;
     }

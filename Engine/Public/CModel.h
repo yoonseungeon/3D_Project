@@ -43,7 +43,7 @@ public:
 private:	
 	const aiScene*	m_pMyScene{ nullptr }; /* 파일로부터 읽어낸 모든 정보를 담고 있는다. */
 	Importer		m_Importer{};
-	MODEL			m_eType{ MODEL::END_DECO };
+	MODEL			m_eType{ MODEL::END };
 
 private:
 	size_t				m_iNumMeshes{};

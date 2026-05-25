@@ -22,8 +22,8 @@ public:
 	void Update();
 
 private:
-	_float4x4 m_TransformStateMatrices[ETOUI(D3DTS::END_DECO)]{};
-	_float4x4 m_TransformStateInverseMatrices[ETOUI(D3DTS::END_DECO)]{};
+	_float4x4 m_TransformStateMatrices[ETOUI(D3DTS::END)]{};
+	_float4x4 m_TransformStateInverseMatrices[ETOUI(D3DTS::END)]{};
 	_float4	m_vCamPosition{};
 
 public:

@@ -2,7 +2,7 @@
 
 CPipeline::CPipeline()
 {
-	for (size_t i = 0; i < ETOUI(D3DTS::END_DECO); ++i)
+	for (size_t i = 0; i < ETOUI(D3DTS::END); ++i)
 	{
 		XMStoreFloat4x4(&m_TransformStateMatrices[i], XMMatrixIdentity());
 		XMStoreFloat4x4(&m_TransformStateInverseMatrices[i], XMMatrixIdentity());
@@ -31,7 +31,7 @@ void XM_CALLCONV CPipeline::Set_Transform(D3DTS eState, _fmatrix StateMatrix)
 
 void CPipeline::Update()
 {
-	for (size_t i = 0; i < ETOUI(D3DTS::END_DECO); ++i)
+	for (size_t i = 0; i < ETOUI(D3DTS::END); ++i)
 	{
 		// XMMatrixInverse(행렬식(역행렬 존재 여부 등), 행렬)
 		XMStoreFloat4x4(&m_TransformStateInverseMatrices[i],

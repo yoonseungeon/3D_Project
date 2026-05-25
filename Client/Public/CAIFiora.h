@@ -23,7 +23,7 @@ public:
 	};
 
 private:
-	enum AIFIORA_ACTION { WAIT, CHASE, Q, W, E, E_ATK, R, NORMAL_ATK, DEAD, STUN, END_DECO };
+	enum AIFIORA_ACTION { WAIT, CHASE, Q, W, E, E_ATK, R, NORMAL_ATK, DEAD, STUN, END };
 
 	enum AIFIORA_COLLIDER { AIFIORA_BODY, AIFIORA_Q, AIFIORA_W1, AIFIORA_W2, AIFIORA_W3, AIFIORA_E, AIFIORA_R};
 
@@ -66,8 +66,8 @@ private:
 	// Part
 	CBody_Fiora* m_pBodyFiora{};
 
-	AIFIORA_ACTION m_eCurState{ END_DECO };
-	AIFIORA_ACTION m_ePreState{ END_DECO };
+	AIFIORA_ACTION m_eCurState{ END };
+	AIFIORA_ACTION m_ePreState{ END };
 
 	CBody_Fiora::FIORA_ANI m_eCurAni{};
 

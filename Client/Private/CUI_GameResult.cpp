@@ -111,6 +111,8 @@ void CUI_GameResult::GameResultStart()
         m_pBg->Set_IsInactive(false);
         m_pTextBox->GameResultStart();
 
+        m_pFadeOut->Set_IsInactive(false);
+
         m_bResultEnd = false;
     }
 }
@@ -162,6 +164,8 @@ void CUI_GameResult::GameResultReset()
     }
     m_pBg->Set_IsInactive(true);
     m_pTextBox->GameResultReset();
+
+    m_pFadeOut->Set_IsInactive(true);
 }
 
 HRESULT CUI_GameResult::Ready_Components()
@@ -287,7 +291,7 @@ HRESULT CUI_GameResult::Ready_Layer_GameResult(const _wstring& strLayerTag)
     TextBoxDesc.fScaleRatioY = 1.0f / 4.f;
     TextBoxDesc.fPosRatioX = 0.f;
     TextBoxDesc.fPosRatioY = 0.f;
-    TextBoxDesc.iUILayer = ETOUI(UILAYER::END);
+    TextBoxDesc.iUILayer = ETOUI(UILAYER::END_DECO);
     
     TextBoxDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
     TextBoxDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
@@ -297,6 +301,27 @@ HRESULT CUI_GameResult::Ready_Layer_GameResult(const _wstring& strLayerTag)
     
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GameResultTextBox"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &TextBoxDesc, reinterpret_cast<CGameObject**>(&m_pTextBox))))
+        return E_FAIL;
+
+    // Fade Out
+
+    CUI_Image::CUI_IMAGE_DESC FadeDesc{};
+
+    FadeDesc.fScaleRatioY = 1.0f;
+    FadeDesc.fScaleRatioX = 1.0f;
+    FadeDesc.fPosRatioX = 0.f;
+    FadeDesc.fPosRatioY = 0.f;
+    FadeDesc.iUILayer = ETOUI(UILAYER::FADE_OUT);
+
+    FadeDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    FadeDesc.eBlendState = CUI_Default::COLOR_ALPHABLEND;
+    FadeDesc.wstrTexturePrototypeTag = L"Prototype_Texture_WhiteBlock";
+
+    FadeDesc.vColor = { 0.f, 0.f, 0.f };
+    FadeDesc.fImageAlpha = 1.f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &FadeDesc, reinterpret_cast<CGameObject**>(&m_pFadeOut))))
         return E_FAIL;
 
     return S_OK;
@@ -320,6 +345,7 @@ void CUI_GameResult::Update_GameResult(_float fTimeDelta)
     Update_CircleRot(fTimeDelta, fCurRatio);
     Update_Bg(fCurRatio);
     m_pTextBox->Set_Ratio(fCurRatio);
+    Update_FadeOut(fCurRatio);
 }
 
 void CUI_GameResult::Update_CircleLayer(_float fRatio)
@@ -372,6 +398,17 @@ void CUI_GameResult::Update_Bg(_float fRatio)
     m_pBg->Set_Alpha(fFadeInRatio * 0.7f);
 }
 
+void CUI_GameResult::Update_FadeOut(_float fRatio)
+{
+    const _float fFadeOutStart = 0.8f;
+    const _float fIFadeOutEnd = 1.0f;
+
+    _float fFadeOutRatio = (fRatio - fFadeOutStart) / (fIFadeOutEnd - fFadeOutStart);
+    MyHelper::FloatClamp(fFadeOutRatio, 0.f, 1.f);
+
+    m_pFadeOut->Set_Alpha(fFadeOutRatio);
+}
+
 CUI_GameResult* CUI_GameResult::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CUI_GameResult* pInstance = new CUI_GameResult(pDevice, pContext);
@@ -405,6 +442,7 @@ void CUI_GameResult::Free()
     m_CUI_Circles.clear();
 
     Safe_Release(m_pTextBox);
+    Safe_Release(m_pFadeOut);
     Safe_Release(m_pBg);
 
     Safe_Release(m_pTextureCom);

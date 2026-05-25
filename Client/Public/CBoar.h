@@ -19,7 +19,7 @@ public:
 	};
 
 private:
-	enum BOAR_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, END_DECO };
+	enum BOAR_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, END };
 
 private:
 	CBoar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -50,8 +50,8 @@ private:
 	// Part
 	CBody_Boar* m_pBodyBoar{};
 
-	BOAR_ACTION m_eCurState{ END_DECO };
-	BOAR_ACTION m_ePreState{ END_DECO };
+	BOAR_ACTION m_eCurState{ END };
+	BOAR_ACTION m_ePreState{ END };
 
 	CBody_Boar::BOAR_ANI m_eCurAni{};
 

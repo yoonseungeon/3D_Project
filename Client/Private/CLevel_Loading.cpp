@@ -80,74 +80,91 @@ HRESULT CLevel_Loading::Ready_Layer_UI_Image(const _wstring& strLayerTag)
     Desc.eTexPrototypeLV = LEVEL::STATIC;
 
     switch (m_eNextLevelID) {
-    case LEVEL::LOGO:
-    {
-        break;
-    }
-    case LEVEL::LOBBY:
-    {
-        Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
+        case LEVEL::LOGO:
+        {
+            break;
+        }
+        case LEVEL::LOBBY:
+        {
+            Desc.iUILayer = ETOUI(UILAYER::DECO_LAYER1);
 
-        Desc.fScaleRatioX = 0.05f;
-        Desc.fScaleRatioY = Desc.fScaleRatioX * static_cast<_float>(g_iWinSizeX) / static_cast<_float>(g_iWinSizeY);
-        Desc.fPosRatioX = 0.f;
-        Desc.fPosRatioY = 0.07f;
-        Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Simbol";
-        Desc.eBlendState = CUI_Default::ALPHABLEND;
-        Desc.iFlipX = false;
-        Desc.iFlipY = false;
+            Desc.fScaleRatioX = 0.05f;
+            Desc.fScaleRatioY = Desc.fScaleRatioX * static_cast<_float>(g_iWinSizeX) / static_cast<_float>(g_iWinSizeY);
+            Desc.fPosRatioX = 0.f;
+            Desc.fPosRatioY = 0.07f;
+            Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Simbol";
+            Desc.eBlendState = CUI_Default::ALPHABLEND;
+            Desc.iFlipX = false;
+            Desc.iFlipY = false;
 
-        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-            ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
-            return E_FAIL;
+            if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+                ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
+                return E_FAIL;
 
-        Desc.fScaleRatioX = 0.1f;
-        Desc.fScaleRatioY -= 0.05f;
-        Desc.fPosRatioX = -0.1f;
-        Desc.fPosRatioY;
-        Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Loading_Line";
-        Desc.eBlendState;
-        Desc.iFlipX = false;
-        Desc.iFlipY = false;
+            Desc.fScaleRatioX = 0.1f;
+            Desc.fScaleRatioY -= 0.05f;
+            Desc.fPosRatioX = -0.1f;
+            Desc.fPosRatioY;
+            Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Loading_Line";
+            Desc.eBlendState;
+            Desc.iFlipX = false;
+            Desc.iFlipY = false;
 
-        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-            ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
-            return E_FAIL;
+            if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+                ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
+                return E_FAIL;
 
-        Desc.fScaleRatioX;
-        Desc.fScaleRatioY;
-        Desc.fPosRatioX *= -1.f;
-        Desc.fScaleRatioY;
-        Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Loading_Line";
-        Desc.eBlendState;
-        Desc.iFlipX = true;
-        Desc.iFlipY = false;
+            Desc.fScaleRatioX;
+            Desc.fScaleRatioY;
+            Desc.fPosRatioX *= -1.f;
+            Desc.fScaleRatioY;
+            Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Loading_Line";
+            Desc.eBlendState;
+            Desc.iFlipX = true;
+            Desc.iFlipY = false;
 
-        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-            ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
-            return E_FAIL;
+            if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+                ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
+                return E_FAIL;
 
-        break;
-    }
-    case LEVEL::GAMEPLAY:
-    {
-        Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
+            break;
+        }
+        case LEVEL::GAMEPLAY:
+        {
+            Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
 
-        Desc.fScaleRatioX = 1.f;
-        Desc.fScaleRatioY = 1.f;
-        Desc.fPosRatioX = 0.f;
-        Desc.fPosRatioY = 0.f;
-        Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_Loading";
-        Desc.eBlendState = CUI_Default::DEFAULT;
-        Desc.iFlipX = false;
-        Desc.iFlipY = false;
+            Desc.fScaleRatioX = 1.f;
+            Desc.fScaleRatioY = 1.f;
+            Desc.fPosRatioX = 0.f;
+            Desc.fPosRatioY = 0.f;
+            Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_Loading";
+            Desc.eBlendState = CUI_Default::DEFAULT;
+            Desc.iFlipX = false;
+            Desc.iFlipY = false;
 
-        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
-            ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
-            return E_FAIL;
+            if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+                ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
+                return E_FAIL;
 
-        break;
-    }
+            break;
+        }
+        case LEVEL::ENDING:
+        {
+            Desc.iUILayer = ETOUI(UILAYER::BACKGROUND);
+
+            Desc.fScaleRatioX = 1.f;
+            Desc.fScaleRatioY = 1.f;
+            Desc.fPosRatioX = 0.f;
+            Desc.fPosRatioY = 0.f;
+            Desc.wstrTexturePrototypeTag = L"Prototype_Texture_Img_Blackblock";
+            Desc.eBlendState = CUI_Default::DEFAULT;
+
+            if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::STATIC), TEXT("Prototype_GameObject_CUI_Image"),
+                ETOUI(LEVEL::LOADING), strLayerTag, &Desc)))
+                return E_FAIL;
+
+            break;
+        }
     }
 
     return S_OK;

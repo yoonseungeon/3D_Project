@@ -27,7 +27,7 @@ public:
 
 private:
 	class CGameInstance* m_pGameInstance = { nullptr };
-	_float4x4			 m_TransformStateMatrices[ETOUI(D3DTS::END_DECO)] = {};
+	_float4x4			 m_TransformStateMatrices[ETOUI(D3DTS::END)] = {};
 
 	_float4 m_vEye{}, m_vAt{}, m_vUp{};
 

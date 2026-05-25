@@ -197,6 +197,9 @@ _bool CLoader::isFinished()
 
 void CLoader::Show_Loading_Status()
 {
+    if (m_eNextLevelID == LEVEL::ENDING)
+        return;
+
     _tchar szLoadingText[MAX_PATH] = {};
 
     if(m_bIsAllJobsQueued.load(memory_order_acquire))
@@ -324,6 +327,19 @@ HRESULT CLoader::Ready_Resources_For_Static()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Loading/Img_Loading.png"), 1))))
             {
                 MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Texture_Img_Loading");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_Img_Blackblock */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::STATIC), TEXT("Prototype_Texture_Img_Blackblock"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Loading/Img_Blackblock.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(Static) - Failed to Created: Prototype_Texture_Img_Blackblock");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -4053,6 +4069,21 @@ HRESULT CLoader::Ready_Resources_For_Ending()
 {
 #pragma region 사운드
 
+#pragma endregion
+
+#pragma region 텍스처
+    /* Prototype_Texture_LiDailin_Win */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::ENDING), TEXT("Prototype_Texture_LiDailin_Win"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/EndGame/LiDailin_Win/LiDailin_Win_%d.dds"), 154))))
+            {
+                MSG_BOX("CLoader.cpp(EndGame) - Failed to Created: Prototype_Texture_LiDailin_Win");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
 #pragma endregion
 
     m_bIsAllJobsQueued.store(true, memory_order_release);

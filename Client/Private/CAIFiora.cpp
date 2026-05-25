@@ -363,6 +363,7 @@ void CAIFiora::Update_Action(_float fTimeDelta)
 		if (fAniFinished == true)
 		{
 			Enter_Action(CHASE);
+			m_Colliders[AIFIORA_COLLIDER::AIFIORA_R]->Set_Active(false);
 		}
 		break;
 	}
@@ -544,7 +545,7 @@ void CAIFiora::Execute_Action(_float fTimeDelta)
 
 	case E:
 	{
-		m_pMoveCom->Go_Straight(fTimeDelta, 10.f, true);
+		m_pMoveCom->Go_Straight(fTimeDelta, 18.f, true);
 		break;
 	}
 

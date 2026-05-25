@@ -18,7 +18,7 @@ public:
 	};
 
 private:
-	enum BEAR_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, SLEEP_START, SLEEP, SLEEP_END, END_DECO };
+	enum BEAR_ACTION { WAIT, RUN, ENDBATTLE, DYING, DEATH, DANCE, BEWARE_START, BEWARE_LOOP, BEWARE_END, ATK, APPEAR, RETURN, SLEEP_START, SLEEP, SLEEP_END, END };
 
 private:
 	CBear(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -49,8 +49,8 @@ private:
 	// Part
 	CBody_Bear* m_pBodyWolf{};
 
-	BEAR_ACTION m_eCurState{ END_DECO };
-	BEAR_ACTION m_ePreState{ END_DECO };
+	BEAR_ACTION m_eCurState{ END };
+	BEAR_ACTION m_ePreState{ END };
 
 	CBody_Bear::BEAR_ANI m_eCurAni{};
 

@@ -38,7 +38,7 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
-	_float4x4 m_TransformMatrices[ETOUI(D3DTS::END_DECO)]{};
+	_float4x4 m_TransformMatrices[ETOUI(D3DTS::END)]{};
 
 	_int m_iFlipX{};
 	_int m_iFlipY{};

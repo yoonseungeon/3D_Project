@@ -53,7 +53,7 @@ public:
 #endif
 
 private:
-	COLLIDER			m_eType = { COLLIDER::END_DECO };
+	COLLIDER			m_eType = { COLLIDER::END };
 	class CBounding*	m_pBounding = { nullptr };
 	_bool				m_isColl = { false };
 

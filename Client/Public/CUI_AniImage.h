@@ -12,6 +12,7 @@ public:
 	struct CUI_ANIIMAGE_DESC : public CUI_Image::CUI_IMAGE_DESC
 	{
 		_float fFrameDelay{};
+		_bool bLoop{ true };
 	};
 
 protected:
@@ -35,6 +36,9 @@ private:
 	_uint	m_iCurTextureIdx{};
 	_float	m_fFrameDelay{};
 	_float	m_fAccTime{};
+
+	_bool m_bLoop{ true };
+	_bool m_bIsPlayedOnce{};
 
 private:
 	HRESULT Ready_Components();

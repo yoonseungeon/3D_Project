@@ -34,7 +34,7 @@ private:
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
 private:
-	list<CGameObject*>	m_RenderObjects[ETOUI(RENDERID::END_DECO)];
+	list<CGameObject*>	m_RenderObjects[ETOUI(RENDERID::END)];
 	CGameInstance* m_pGameInstance = { nullptr };
 
 	// 사각형 그리기 위한 셰이더

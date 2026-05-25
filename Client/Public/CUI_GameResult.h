@@ -65,6 +65,8 @@ private:
 
 	CGameResultTextBox* m_pTextBox{};
 
+	CUI_Image* m_pFadeOut{};
+
 	_float m_fMaxTime{};
 	_float m_fAccTime{};
 	_bool m_bIsPlay{};
@@ -85,6 +87,7 @@ private:
 	void Update_CircleLayer(_float fRatio);
 	void Update_CircleRot(_float fTimeDelta, _float fRatio);
 	void Update_Bg(_float fRatio);
+	void Update_FadeOut(_float fRatio);
 
 public:
 	static CUI_GameResult* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
