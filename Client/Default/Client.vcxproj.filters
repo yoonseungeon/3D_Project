@@ -442,6 +442,18 @@
     <Filter Include="04. PartEffect\09. Fiora_W_1">
       <UniqueIdentifier>{f2f1271a-02dd-43bf-b0b4-f4c4cf7f649d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\12. UI_MiniMap">
+      <UniqueIdentifier>{a1b5a6ab-c80e-4055-80a0-e1a602a0dfe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia\05. Map_Grass">
+      <UniqueIdentifier>{9bbdc189-8eb8-484f-a23a-61c3a873c735}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia\06. Map_Environment">
+      <UniqueIdentifier>{3403eb87-71b9-4774-8e3d-c10f1d0a5e4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. Map_Lumia\07. WaterPlan">
+      <UniqueIdentifier>{50405f0c-1e50-4a95-87a3-50890693f468}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -882,6 +894,18 @@
     <ClInclude Include="..\Public\CFiora_W_1.h">
       <Filter>04. PartEffect\09. Fiora_W_1</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CUI_MiniMap.h">
+      <Filter>02. GameObject\12. UI_MiniMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMap_Grass.h">
+      <Filter>02. GameObject\02. Map_Lumia\05. Map_Grass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CMap_Environment.h">
+      <Filter>02. GameObject\02. Map_Lumia\06. Map_Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CWaterPlan.h">
+      <Filter>02. GameObject\02. Map_Lumia\07. WaterPlan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1304,6 +1328,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\CFiora_W_1.cpp">
       <Filter>04. PartEffect\09. Fiora_W_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CUI_MiniMap.cpp">
+      <Filter>02. GameObject\12. UI_MiniMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMap_Grass.cpp">
+      <Filter>02. GameObject\02. Map_Lumia\05. Map_Grass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CMap_Environment.cpp">
+      <Filter>02. GameObject\02. Map_Lumia\06. Map_Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CWaterPlan.cpp">
+      <Filter>02. GameObject\02. Map_Lumia\07. WaterPlan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

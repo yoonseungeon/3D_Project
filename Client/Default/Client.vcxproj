@@ -186,8 +186,10 @@
     <ClInclude Include="..\Public\CFiora_W_1.h" />
     <ClInclude Include="..\PUblic\CFryingPan.h" />
     <ClInclude Include="..\Public\CGameResultTextBox.h" />
+    <ClInclude Include="..\Public\CMap_Environment.h" />
     <ClInclude Include="..\Public\CUI_Day.h" />
     <ClInclude Include="..\Public\CUI_DayIcon.h" />
+    <ClInclude Include="..\Public\CUI_MiniMap.h" />
     <ClInclude Include="..\Public\CUI_Timer.h" />
     <ClInclude Include="..\Public\CSplitGround.h" />
     <ClInclude Include="..\Public\CUI_GameResult.h" />
@@ -287,11 +289,13 @@
     <ClInclude Include="..\Public\CUI_TextBox.h" />
     <ClInclude Include="..\Public\CUnit.h" />
     <ClInclude Include="..\Public\CVisionMask.h" />
+    <ClInclude Include="..\Public\CWaterPlan.h" />
     <ClInclude Include="..\Public\CWeapon.h" />
     <ClInclude Include="..\Public\CWolf.h" />
     <ClInclude Include="..\Public\Item_Meta.h" />
     <ClInclude Include="..\Public\LiDailin_Info.h" />
     <ClInclude Include="..\Public\CLiDailin_R.h" />
+    <ClInclude Include="..\Public\CMap_Grass.h" />
     <ClInclude Include="..\Public\Map_Meta.h" />
     <ClInclude Include="..\Public\Skill_Info.h" />
     <ClInclude Include="Client.h" />
@@ -334,8 +338,10 @@
     <ClCompile Include="..\Private\CFiora_W_1.cpp" />
     <ClCompile Include="..\Private\CFryingPan.cpp" />
     <ClCompile Include="..\Private\CGameResultTextBox.cpp" />
+    <ClCompile Include="..\Private\CMap_Environment.cpp" />
     <ClCompile Include="..\Private\CUI_Day.cpp" />
     <ClCompile Include="..\Private\CUI_DayIcon.cpp" />
+    <ClCompile Include="..\Private\CUI_MiniMap.cpp" />
     <ClCompile Include="..\Private\CUI_Timer.cpp" />
     <ClCompile Include="..\Private\CSplitGround.cpp" />
     <ClCompile Include="..\Private\CUI_GameResult.cpp" />
@@ -432,9 +438,11 @@
     <ClCompile Include="..\Private\CUI_TextBox.cpp" />
     <ClCompile Include="..\Private\CUnit.cpp" />
     <ClCompile Include="..\Private\CVisionMask.cpp" />
+    <ClCompile Include="..\Private\CWaterPlan.cpp" />
     <ClCompile Include="..\Private\CWeapon.cpp" />
     <ClCompile Include="..\Private\CLiDailin_R.cpp" />
     <ClCompile Include="..\Private\CWolf.cpp" />
+    <ClCompile Include="..\Private\CMap_Grass.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

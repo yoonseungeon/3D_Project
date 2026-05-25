@@ -70,13 +70,13 @@ constexpr MAP_META MAPS[]
 
 constexpr unsigned int iRoofCnt = { 32 };
 
-struct ROOF_META
+struct MYMODEL_META
 {
     const char* MODEL_PATH;
     const wchar_t* PROTYPE_TAG;
 };
 
-constexpr ROOF_META ROOFS[]
+constexpr MYMODEL_META ROOFS[]
 {
     { "Alley_Roof1.mymodel",         L"Prototype_Component_Model_Alley_Roof1" },
     { "Alley_Roof2.mymodel",         L"Prototype_Component_Model_Alley_Roof2" },
@@ -135,13 +135,7 @@ enum class AREA_INDEX {
     WAREHOUSE,
 };
 
-struct GROUND_META
-{
-    const char* MODEL_PATH;
-    const wchar_t* PROTYPE_TAG;
-};
-
-constexpr GROUND_META GROUNDS[]
+constexpr MYMODEL_META GROUNDS[]
 {
     { "Alley_Ground.mymodel",        L"Prototype_Component_Model_Alley_Ground" },
     { "Archery_Ground.mymodel",      L"Prototype_Component_Model_Archery_Ground" },
@@ -160,4 +154,33 @@ constexpr GROUND_META GROUNDS[]
     { "Temple_Ground.mymodel",       L"Prototype_Component_Model_Temple_Ground" },
     { "Uptown_Ground.mymodel",       L"Prototype_Component_Model_Uptown_Ground" },
     { "Warehouse_Ground.mymodel",    L"Prototype_Component_Model_Warehouse_Ground" },
+};
+
+constexpr MYMODEL_META GRASSES[]
+{
+    { "Grass_Alley.mymodel",      L"Prototype_Component_Model_Grass_Alley" },
+    { "Grass_Archery.mymodel",    L"Prototype_Component_Model_Grass_Archery" },
+    { "Grass_Cemetry.mymodel",    L"Prototype_Component_Model_Grass_Cemetery" },
+    { "Grass_Church.mymodel",     L"Prototype_Component_Model_Grass_Church" },
+    { "Grass_Downtown.mymodel",   L"Prototype_Component_Model_Grass_Downtown" },
+    { "Grass_Factory.mymodel",    L"Prototype_Component_Model_Grass_Factory" },
+    { "Grass_Forest.mymodel",     L"Prototype_Component_Model_Grass_Forest" },
+    { "Grass_Harbor.mymodel",     L"Prototype_Component_Model_Grass_Harbor" },
+    { "Grass_Hospital.mymodel",   L"Prototype_Component_Model_Grass_Hospital" },
+    { "Grass_Hotel.mymodel",      L"Prototype_Component_Model_Grass_Hotel" },
+    { "Grass_Pond.mymodel",       L"Prototype_Component_Model_Grass_Pond" },
+    { "Grass_SandBeach.mymodel",  L"Prototype_Component_Model_Grass_SandBeach" },
+    { "Grass_School.mymodel",     L"Prototype_Component_Model_Grass_School" },
+    { "Grass_Temple.mymodel",     L"Prototype_Component_Model_Grass_Temple" },
+    { "Grass_Uptown.mymodel",     L"Prototype_Component_Model_Grass_Uptown" },
+};
+
+constexpr MYMODEL_META MAP_ENVIRONMENTS[]
+{
+    { "Ivy.mymodel",           L"Prototype_Component_Model_Ivy" },
+    { "LightObject.mymodel",   L"Prototype_Component_Model_LightObject" },
+    { "Rocks.mymodel",         L"Prototype_Component_Model_Rocks" },
+    { "Traffic_light.mymodel", L"Prototype_Component_Model_Traffic_light" },
+    { "UtilityPoles.mymodel",  L"Prototype_Component_Model_UtilityPoles" },
+    { "Trees.mymodel",         L"Prototype_Component_Model_Trees" },
 };

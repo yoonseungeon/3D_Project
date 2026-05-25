@@ -1,25 +1,25 @@
-#include "CRiver.h"
+#include "CWaterPlan.h"
 
 #include "CGameInstance.h"
 
-CRiver::CRiver(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CWaterPlan::CWaterPlan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CGameObject{ pDevice, pContext }
 {
 
 }
 
-CRiver::CRiver(const CRiver& Prototype)
+CWaterPlan::CWaterPlan(const CWaterPlan& Prototype)
     : CGameObject{ Prototype }
 {
 
 }
 
-HRESULT CRiver::Initialize_Prototype()
+HRESULT CWaterPlan::Initialize_Prototype()
 {
     return S_OK;
 }
 
-HRESULT CRiver::Initialize(void* pArg)
+HRESULT CWaterPlan::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
@@ -33,26 +33,26 @@ HRESULT CRiver::Initialize(void* pArg)
     return S_OK;
 }
 
-void CRiver::Priority_Update(_float fTimeDelta)
+void CWaterPlan::Priority_Update(_float fTimeDelta)
 {
 
 }
 
-void CRiver::Parallel_Update(_float fTimeDelta)
+void CWaterPlan::Parallel_Update(_float fTimeDelta)
 {
 }
 
-void CRiver::Update(_float fTimeDelta)
+void CWaterPlan::Update(_float fTimeDelta)
 {
 
 }
 
-void CRiver::Late_Update(_float fTimeDelta)
+void CWaterPlan::Late_Update(_float fTimeDelta)
 {
     m_pGameInstance->Add_RenderGroup(RENDERID::BLEND, this);
 }
 
-HRESULT CRiver::Render()
+HRESULT CWaterPlan::Render()
 {
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
@@ -74,7 +74,7 @@ HRESULT CRiver::Render()
     return S_OK;
 }
 
-HRESULT CRiver::Ready_Components()
+HRESULT CWaterPlan::Ready_Components()
 {
     /* For.Com_Shader */
     if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Shader_VtxMesh"),
@@ -82,14 +82,14 @@ HRESULT CRiver::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Model */
-    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), L"Prototype_Component_Model_River",
+    if (FAILED(__super::Add_Component(ETOUI(LEVEL::GAMEPLAY), L"Prototype_Component_Model_WaterPlan",
         TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pModelCom))))
         return E_FAIL;
 
     return S_OK;
 }
 
-HRESULT CRiver::Bind_ShaderResources()
+HRESULT CWaterPlan::Bind_ShaderResources()
 {
     if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
         return E_FAIL;
@@ -105,33 +105,33 @@ HRESULT CRiver::Bind_ShaderResources()
     return S_OK;
 }
 
-CRiver* CRiver::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CWaterPlan* CWaterPlan::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CRiver* pInstance = new CRiver(pDevice, pContext);
+    CWaterPlan* pInstance = new CWaterPlan(pDevice, pContext);
 
     if (FAILED(pInstance->Initialize_Prototype()))
     {
-        MSG_BOX("Failed to Created: CRiver");
+        MSG_BOX("Failed to Created: CWaterPlan");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-CGameObject* CRiver::Clone(void* pArg)
+CGameObject* CWaterPlan::Clone(void* pArg)
 {
-    CRiver* pInstance = new CRiver(*this);
+    CWaterPlan* pInstance = new CWaterPlan(*this);
 
     if (FAILED(pInstance->Initialize(pArg)))
     {
-        MSG_BOX("Failed to Cloned: CRiver");
+        MSG_BOX("Failed to Cloned: CWaterPlan");
         Safe_Release(pInstance);
     }
 
     return pInstance;
 }
 
-void CRiver::Free()
+void CWaterPlan::Free()
 {
     Safe_Release(m_pModelCom);
     Safe_Release(m_pShaderCom);

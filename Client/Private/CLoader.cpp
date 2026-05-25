@@ -22,6 +22,10 @@
 #include "CLumia_Structure.h"
 #include "CRoof.h"
 #include "CRiver.h"
+#include "CWaterPlan.h"
+
+#include "CMap_Grass.h"
+#include "CMap_Environment.h"
 
 #include "CMonster.h"
 #include "CForkLift.h"
@@ -2140,6 +2144,53 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         );
     }
 
+    // Grass Model
+    string strGrassPath = "../Bin/Resources/GamePlay/Grass/";
+
+    for (_uint i = 0; i < sizeof(GRASSES) / sizeof(GRASSES[0]); ++i)
+    {
+        const string strFinalPath = strGrassPath + GRASSES[i].MODEL_PATH;
+        const wstring wstrPrototypeTag = GRASSES[i].PROTYPE_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+
+        m_pGameInstance->Add_Job(
+            [this, MapPreTransformMatrix, strFinalPath, wstrPrototypeTag]()->void
+            {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), wstrPrototypeTag,
+                    CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, strFinalPath.c_str(), MapPreTransformMatrix))))
+                {
+                    MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Grass");
+                }
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
+
+    // Environment
+    string strEnvironmentPath = "../Bin/Resources/GamePlay/Environment/";
+
+    for (_uint i = 0; i < sizeof(MAP_ENVIRONMENTS) / sizeof(MAP_ENVIRONMENTS[0]); ++i)
+    {
+        const string strFinalPath = strEnvironmentPath + MAP_ENVIRONMENTS[i].MODEL_PATH;
+        const wstring wstrPrototypeTag = MAP_ENVIRONMENTS[i].PROTYPE_TAG;
+
+        m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+
+        m_pGameInstance->Add_Job(
+            [this, MapPreTransformMatrix, strFinalPath, wstrPrototypeTag]()->void
+            {
+                if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), wstrPrototypeTag,
+                    CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, strFinalPath.c_str(), MapPreTransformMatrix))))
+                {
+                    MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_Environment");
+                }
+
+                m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+            }
+        );
+    }
+
     /* Prototype_Component_Model_River */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -2148,6 +2199,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/River.mymodel"))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_River");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Component_Model_WaterPlan */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this, MapPreTransformMatrix]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Model_WaterPlan"),
+                CMyModel::Create(m_pDevice, m_pContext, MODEL::NONANIM, "../Bin/Resources/GamePlay/Map_Lumia_PNG/WaterPlan.mymodel", MapPreTransformMatrix))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Component_Model_WaterPlan");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -2456,6 +2520,32 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
         }
     );
 
+    /* Prototype_GameObject_Map_Grass */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Grass"),
+                CMap_Grass::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Map_Grass");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_Map_Environment */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Environment"),
+                CMap_Environment::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_Map_Environment");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
     /* Prototype_GameObject_Roof */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
@@ -2477,6 +2567,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CRiver::Create(m_pDevice, m_pContext))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_River");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_GameObject_WaterPlan */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WaterPlan"),
+                CWaterPlan::Create(m_pDevice, m_pContext))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_GameObject_WaterPlan");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }
@@ -3545,6 +3648,19 @@ HRESULT CLoader::Ready_Resources_For_GamePlay()
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/Ico_Day%d.png"), 2))))
             {
                 MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_Ico_Day");
+            }
+            m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
+        }
+    );
+
+    /* Prototype_Texture_MiniMap */
+    m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
+    m_pGameInstance->Add_Job(
+        [this]()->void {
+            if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_Texture_MiniMap"),
+                CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/GamePlay/2D/MiniMap.png"), 1))))
+            {
+                MSG_BOX("CLoader.cpp(GamePlay) - Failed to Created: Prototype_Texture_MiniMap");
             }
             m_iFinishedJobCnt.fetch_add(1, memory_order_relaxed);
         }

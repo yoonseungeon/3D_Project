@@ -10,18 +10,18 @@ NS_END
 
 NS_BEGIN(Client)
 
-class CRiver final : public CGameObject
+class CWaterPlan final : public CGameObject
 {
 public:
-	struct RIVER_DESC : public CGameObject::GAMEOBJECT_DESC
+	struct WATERPLAN_DESC : public CGameObject::GAMEOBJECT_DESC
 	{
 
 	};
 
 protected:
-	CRiver(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CRiver(const CRiver& Prototype);
-	virtual ~CRiver() = default;
+	CWaterPlan(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CWaterPlan(const CWaterPlan& Prototype);
+	virtual ~CWaterPlan() = default;
 
 private:
 	HRESULT Initialize_Prototype();
@@ -46,7 +46,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 public:
-	static CRiver* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CWaterPlan* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg) override;
 protected:
 	virtual void Free();

@@ -30,6 +30,9 @@ private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Map_Lumia(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Map_Grass(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Map_Environment(const _wstring& strLayerTag);
+
 	HRESULT Ready_Layer_Player(const _wstring& strLayerTag);
 
 	HRESULT Ready_Layer_UI_Image(const _wstring& strLayerTag);

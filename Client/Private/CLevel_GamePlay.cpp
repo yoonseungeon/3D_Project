@@ -19,6 +19,9 @@
 #include "CBat.h"
 #include "CBoar.h"
 
+#include "CMap_Grass.h"
+#include "CMap_Environment.h"
+
 #include "CAIFiora.h"
 
 #include "CUI_Image.h"
@@ -53,6 +56,12 @@ HRESULT CLevel_GamePlay::Initialize()
         return E_FAIL;
 
     if (FAILED(Ready_Layer_Map_Lumia(TEXT("Layer_Map_Lumia"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_Map_Grass(TEXT("Layer_Map_Grass"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_Map_Environment(TEXT("Layer_Map_Environment"))))
         return E_FAIL;
 
     if (FAILED(Ready_Layer_UI_Image(TEXT("Layer_UI_Image"))))
@@ -225,7 +234,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
     CameraDesc.vAt = _float3(-4.5f, 0.2f, 4.5f);
     CameraDesc.fFovy = XMConvertToRadians(60.f);
     CameraDesc.fNear = 0.1f;
-    CameraDesc.fFar = 500.f;    
+    CameraDesc.fFar = 100.f;    
     CameraDesc.tTransformDesc.fSpeedPerSec = 20.f;
     CameraDesc.tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
     CameraDesc.fMouseSensor = 0.05f;
@@ -296,6 +305,40 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map_Lumia(const _wstring& strLayerTag)
     }
 
     return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Map_Grass(const _wstring& strLayerTag)
+{
+    // Grass
+    for (_uint i = 0; i < sizeof(GRASSES) / sizeof(GRASSES[0]); ++i)
+    {
+        CMap_Grass::MAP_GRASS_DESC GrassDesc{};
+
+        GrassDesc.wstrPrototype_Component_Tag = GRASSES[i].PROTYPE_TAG;
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Grass"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &GrassDesc)))
+            return E_FAIL;
+    }
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Map_Environment(const _wstring& strLayerTag)
+{
+    // Map Objects
+    for (_uint i = 0; i < sizeof(MAP_ENVIRONMENTS) / sizeof(MAP_ENVIRONMENTS[0]); ++i)
+    {
+        CMap_Environment::MAP_ENVIRONMENT_DESC EnvironmentDesc{};
+
+        EnvironmentDesc.wstrPrototype_Component_Tag = MAP_ENVIRONMENTS[i].PROTYPE_TAG;
+
+        if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Map_Environment"),
+            ETOUI(LEVEL::GAMEPLAY), strLayerTag, &EnvironmentDesc)))
+        {
+            return E_FAIL;
+        }
+    }
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
@@ -600,6 +643,10 @@ void CLevel_GamePlay::Set_ItemBoxSpwanArea(const string& strArea, SPAWN_MAP& eSp
 HRESULT CLevel_GamePlay::Ready_Layer_River(const _wstring& strLayerTag)
 {
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_River"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
+        return E_FAIL;
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WaterPlan"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag)))
         return E_FAIL;
 
