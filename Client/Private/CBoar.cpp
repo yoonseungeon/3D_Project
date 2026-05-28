@@ -404,7 +404,7 @@ void CBoar::Execute_Action(_float fTimeDelta)
         CTransform* pPlayerTransformCom = m_pTargetPlayer->Get_TransformCom();
         _vector vDir = pPlayerTransformCom->Get_State(STATE::POSITION) - m_pTransformCom->Get_State(STATE::POSITION);
         vDir = XMVector3Normalize(vDir);
-        m_pTransformCom->TurnDirDefaultY(vDir, fTimeDelta, 1080.f);
+        m_pTransformCom->TurnAxisY(vDir, fTimeDelta, 1080.f);
         break;
     }
     case APPEAR:

@@ -57,6 +57,8 @@ private:
 
 	HRESULT Ready_Layer_Timer(const _wstring& strLayerTag);
 
+	HRESULT Ready_Layer_MiniMap(const _wstring& strLayerTag);
+
 private:
 	CInGame_Manager*	m_pInGame_Manager{};
 	CSharedUI_Manager*	m_pSharedUI_Manager{};

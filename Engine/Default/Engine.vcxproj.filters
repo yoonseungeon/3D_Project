@@ -196,9 +196,6 @@
     <Filter Include="07. Component\01. VIBuffer\04. Trail">
       <UniqueIdentifier>{54a24abd-9169-42de-af3f-83ee9ca51f7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="97. Sound_Manager">
-      <UniqueIdentifier>{eebc085c-334c-4710-8ef2-3a0e39143c14}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. Picking_Manager">
       <UniqueIdentifier>{5c423377-9d33-49f4-9761-80d60b31bb41}</UniqueIdentifier>
     </Filter>
@@ -210,6 +207,9 @@
     </Filter>
     <Filter Include="09. Lights\Manager">
       <UniqueIdentifier>{c2956dbf-3813-4578-87c3-0ffef5883e3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Sound_Manager">
+      <UniqueIdentifier>{eebc085c-334c-4710-8ef2-3a0e39143c14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -409,7 +409,7 @@
       <Filter>07. Component\01. VIBuffer\04. Trail</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CSound_Manager.cpp">
-      <Filter>97. Sound_Manager</Filter>
+      <Filter>96. Sound_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -630,7 +630,7 @@
       <Filter>07. Component\01. VIBuffer\04. Trail</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CSound_Manager.h">
-      <Filter>97. Sound_Manager</Filter>
+      <Filter>96. Sound_Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

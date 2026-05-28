@@ -254,7 +254,7 @@ void CLiDailin_R::Give_Damage(const COLLISION_INFO& tCollision, _bool bStun)
 		(
 			fADRatio * static_cast<_float>(iATKPower) +
 			static_cast<_float>(m_iConsumeIntoxication) * 0.5f
-		) * 5;
+		);
 	tDamageInfo.pUnit = pPlayer;
 
 	if (bStun == true)

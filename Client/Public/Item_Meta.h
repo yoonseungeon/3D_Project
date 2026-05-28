@@ -175,7 +175,7 @@ static ITEM_DESC ItemInfos[89] = {
     { 84, 84, L"초진동눈차크",  L"None", (SPAWN_MAP)0, ITEM_TYPE::NUNCHAKU, ITEM_GRADE::HERO,   63, 0,    0.f, 0,  0,   0.f, 0,    0.f,     0, 1, 1, {83, 41} },
     { 85, 85, L"플라즈마 투구", L"None", (SPAWN_MAP)0, ITEM_TYPE::HEAD,     ITEM_GRADE::HERO,   35, 0,    0.f, 8,  0,   0.f, 0,  0.06f,     0, 1, 1, {56, 75} }, // 이속
     { 86, 86, L"고스트",        L"None", (SPAWN_MAP)0, ITEM_TYPE::CLOTH,    ITEM_GRADE::HERO,   14, 0,    0.f, 0, 18,   0.f, 34,   0.f,     0, 1, 1, {57, 61} },
-    { 87, 87, L"미닛맨의 표식", L"None", (SPAWN_MAP)0, ITEM_TYPE::ARM,      ITEM_GRADE::HERO,   25, 0,    0.f, 0,  0, 0.15f, 24,   0.f,     0, 1, 1, {58, 60} }, // 공속
+    { 87, 87, L"미닛맨의 표식", L"None", (SPAWN_MAP)0, ITEM_TYPE::ARM,      ITEM_GRADE::HERO,   25, 0,    0.f, 0,  0, 0.15f, 24,   0.f,     0, 1, 1, {58, 61} }, // 공속
     { 88, 88, L"부케팔로스",    L"None", (SPAWN_MAP)0, ITEM_TYPE::LEG,      ITEM_GRADE::HERO,    8, 0,    0.f, 0,  0,   0.f, 25, 0.22f,     0, 1, 1, {59, 61} }
 };
 

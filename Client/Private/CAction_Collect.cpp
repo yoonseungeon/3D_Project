@@ -29,10 +29,10 @@ void CAction_Collect::Enter(CLiDailin* pPlayer)
 
 void CAction_Collect::Update(CLiDailin* pPlayer, _float fTimeDelta)
 {
-    m_fAccTime += fTimeDelta;
-
     if (m_bIsInteract == true)
     {
+        m_fAccTime += fTimeDelta;
+
         if(pPlayer->Get_BodyPlayer()->Get_ModelCom()->IsAnimationFinished() == true
             || m_fAccTime >= m_fMaxTime)
         {

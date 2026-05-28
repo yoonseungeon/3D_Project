@@ -391,7 +391,7 @@ void CAbstractPlayer::Update_GroundSound(_float fTimeDelta)
         SOUND_KEY eSoundKey{};
         Choose_Area(eSoundKey);
 
-        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM), 0.1f);
+        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM));
     }
 
     m_fAccSoundLoopTime += fTimeDelta;
@@ -402,7 +402,7 @@ void CAbstractPlayer::Update_GroundSound(_float fTimeDelta)
         SOUND_KEY eSoundKey{};
         Choose_Area(eSoundKey);
 
-        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM), 0.1f);
+        CGameInstance::GetInstance()->PlaySound_OnceFixed(ETOUI(eSoundKey), ETOUI(SOUND_CHANNEL_GAMEPLAY::BGM));
     }
 }
 

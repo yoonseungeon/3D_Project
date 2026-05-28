@@ -90,7 +90,7 @@ _bool CMove::Update_Move_To_Pos(_float fTimeDelta)
         _vector vMoveDistance = vDir * m_fSpeed * fTimeDelta;
         _float fMoveDistanceSq = XMVectorGetX(XMVector3LengthSq(vMoveDistance));
 
-        m_pTransform->TurnDirDefaultY(vDir, fTimeDelta, XMConvertToRadians(1080.f));
+        m_pTransform->TurnAxisY(vDir, fTimeDelta, XMConvertToRadians(1080.f));
 
         if(fDistanceSq <= fMoveDistanceSq)
         {

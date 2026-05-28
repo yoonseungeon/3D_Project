@@ -174,7 +174,15 @@ void CLiDailin_Q::OnCollision_Enter(const COLLISION_INFO& tCollision)
 		if (iter.second == false)
 			return;
 
-		DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), 50 };
+		CUnit* pMyUnit = dynamic_cast<CUnit*>(tCollision.pMyCollider->Get_Owner());
+		if (pMyUnit == nullptr)
+		{
+			MSG_BOX("Bug Point 2: CLiDailin_Q");
+			return;
+		}
+
+		_int iDamage = static_cast<_int>(static_cast<_float>(pMyUnit->Get_CurStat().iATKPower) * 0.7f);
+		DAMAGE_INFO tDamageInfo = { static_cast<CUnit*>(tCollision.pMyCollider->Get_Owner()), iDamage };
 		static_cast<CUnit*>(tCollision.pColObject)->Damaged(tDamageInfo);
 
 		CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_Q_HIT));

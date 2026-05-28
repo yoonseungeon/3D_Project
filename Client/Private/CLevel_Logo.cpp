@@ -24,8 +24,8 @@ void CLevel_Logo::Update(_float fTimeDelta)
 {
     const _float fIncreaseAlphaTime = 0.f;
     const _float fDecreaseAlphaTime = 2.f;
-    //const _float fEndTime = 2.7f;
-    const _float fEndTime = 0.f;
+    const _float fEndTime = 2.7f;
+    //const _float fEndTime = 0.f;
     const _float fSpeed = 2.f;
 
     _float fDTAlpha{};

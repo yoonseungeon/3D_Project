@@ -84,8 +84,9 @@ void CLiDailin_W_Effect::Active_Effect_W(CBody_Player* pBody_Player, _float fTim
 {
     CMyModel* pModel = pBody_Player->Get_ModelCom();
     const _uint iCurAniIndex = pModel->Get_CurOverlayAniIndex();
-    
-    if (iCurAniIndex == ETOUI(LiDailin_Ani::Ani_W1))
+    _bool m_bIsOveray = pModel->IsAniOverlay();
+
+    if (m_bIsOveray && iCurAniIndex == ETOUI(LiDailin_Ani::Ani_W1))
     {
         m_bIsInactive = false;
 

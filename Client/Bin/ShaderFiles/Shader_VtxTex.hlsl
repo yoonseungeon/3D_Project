@@ -638,6 +638,30 @@ PS_OUT_VISION_MASK PS_MAIN_VISION_MASK(PS_IN In)
 
 
 
+float2 g_vCenterUV = { 0.5f, 0.5f };
+float2 g_vMinimapUVSize = { 0.5f, 0.5f };
+
+PS_OUT PS_MAIN_MIMIMAP(PS_IN In)
+{
+    PS_OUT Out;
+      
+    float2 vTexcoord = g_vCenterUV + (In.vTexcoord - float2(0.5f, 0.5f)) * g_vMinimapUVSize;
+    
+    if (vTexcoord.x < 0.f || vTexcoord.x > 1.f || vTexcoord.y < 0.f || vTexcoord.y > 1.f)
+    {
+        Out.vColor = float4(0.f, 0.f, 0.f, 1.f);
+        return Out;
+    }
+    
+    Out.vColor = g_Texture.Sample(LinearSampler, vTexcoord);
+    
+    if (Out.vColor.a <= 0.1f)
+        Out.vColor.rgb = float3(0.f, 0.f, 0.f);
+    
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass DefaultPass
@@ -825,5 +849,16 @@ technique11 DefaultTechnique
         SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
         SetGeometryShader(NULL);
         SetPixelShader(CompileShader(ps_5_0, PS_MAIN_VISION_MASK()));
+    }
+
+    pass MiniMap
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Z_Disable, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        SetVertexShader(CompileShader(vs_5_0, VS_MAIN()));
+        SetGeometryShader(NULL);
+        SetPixelShader(CompileShader(ps_5_0, PS_MAIN_MIMIMAP()));
     }
 }

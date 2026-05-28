@@ -52,7 +52,7 @@ void CLiDailinAttack::Update(CLiDailin* pPlayer, _float fTimeDelta)
 	CTransform* pPlayerTransformCom = pPlayer->Get_TransformCom();
 	_vector vDir = pMonster->Get_TransformCom()->Get_State(STATE::POSITION) - pPlayerTransformCom->Get_State(STATE::POSITION);
 	vDir = XMVector3Normalize(vDir);
-	pPlayerTransformCom->TurnDirDefaultY(vDir, fTimeDelta, 1080.f);
+	pPlayerTransformCom->TurnAxisY(vDir, fTimeDelta, 1080.f);
 
 	ApplyDamage_First(pPlayer);
 	ApplyDamage_Second(pPlayer);
@@ -245,7 +245,7 @@ void CLiDailinAttack::ApplyDamage_First(CLiDailin* pPlayer)
 		if (pMonster == nullptr)
 			MSG_BOX("Bug Point 5: CLiDailinAttack");
 
-		DAMAGE_INFO tDamageInfo = { pPlayer , 100 };
+		DAMAGE_INFO tDamageInfo = { pPlayer , pPlayer->Get_CurStat().iATKPower };
 		pMonster->Damaged(tDamageInfo);
 
 		if (m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_1) || m_iCurBodyAni == ETOUI(LiDailin_Ani::Ani_ATK_2))		
@@ -277,7 +277,8 @@ void CLiDailinAttack::ApplyDamage_Second(CLiDailin* pPlayer)
 		if (pMonster == nullptr)
 			MSG_BOX("Bug Point 6: CLiDailinAttack");
 
-		DAMAGE_INFO tDamageInfo = { pPlayer, 100 };
+		_int iDamage = static_cast<_int>(static_cast<_float>(pPlayer->Get_CurStat().iATKPower) * 0.5f);
+		DAMAGE_INFO tDamageInfo = { pPlayer, iDamage };
 		pMonster->Damaged(tDamageInfo);
 		CGameInstance::GetInstance()->PlaySound_Once(ETOUI(SOUND_KEY::LIDAILIN_NORMAL_ATK_P));
 		m_bIsAttackProcessed_Second = true;

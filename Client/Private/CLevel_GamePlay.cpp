@@ -29,6 +29,8 @@
 #include "CUI_GameResult.h"
 #include "CUI_Timer.h"
 
+#include "CUI_MiniMap.h"
+
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
     : CLevel{ pDevice, pContext }
     , m_pInGame_Manager{ CInGame_Manager::GetInstance() }
@@ -101,6 +103,9 @@ HRESULT CLevel_GamePlay::Initialize()
         return E_FAIL;
 
     if (FAILED(Ready_Layer_Timer(TEXT("Layer_UI_Timer"))))
+        return E_FAIL;
+
+    if (FAILED(Ready_Layer_MiniMap(TEXT("Layer_MiniMap"))))
         return E_FAIL;
 
     m_pSharedUI_Manager = CSharedUI_Manager::GetInstance();
@@ -230,11 +235,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
     CCamera_Free::CAMERA_FREE_DESC CameraDesc{};
 
+    //CameraDesc.vEye = _float3(0.f, 450.f, 0.f);
+    //CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
     CameraDesc.vEye = _float3(0.f, 10.f, 0.f);
     CameraDesc.vAt = _float3(-4.5f, 0.2f, 4.5f);
     CameraDesc.fFovy = XMConvertToRadians(60.f);
     CameraDesc.fNear = 0.1f;
-    CameraDesc.fFar = 100.f;    
+    CameraDesc.fFar = 500.f;    
     CameraDesc.tTransformDesc.fSpeedPerSec = 20.f;
     CameraDesc.tTransformDesc.fRotationPerSec = XMConvertToRadians(180.f);
     CameraDesc.fMouseSensor = 0.05f;
@@ -339,6 +346,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Map_Environment(const _wstring& strLayerTag
             return E_FAIL;
         }
     }
+
+    return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Player(const _wstring& strLayerTag)
@@ -945,6 +954,27 @@ HRESULT CLevel_GamePlay::Ready_Layer_Timer(const _wstring& strLayerTag)
 
     if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_Timer"),
         ETOUI(LEVEL::GAMEPLAY), strLayerTag, &Desc)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_MiniMap(const _wstring& strLayerTag)
+{
+    CUI_MiniMap::CUI_MINIMAP_DESC MiniMapDesc{};
+
+    MiniMapDesc.fScaleRatioX = 0.169f;
+    MiniMapDesc.fScaleRatioY = MiniMapDesc.fScaleRatioX / static_cast<_float>(g_iWinSizeY) * static_cast<_float>(g_iWinSizeX);
+    MiniMapDesc.fPosRatioX = 0.415469f;
+    MiniMapDesc.fPosRatioY = -0.35f;
+
+    MiniMapDesc.iUILayer = ETOUI(UILAYER::PANEL);
+
+    MiniMapDesc.eTexPrototypeLV = LEVEL::GAMEPLAY;
+    MiniMapDesc.wstrTexturePrototypeTag = L"Prototype_Texture_MiniMap";
+
+    if (FAILED(m_pGameInstance->Add_GameObject(ETOUI(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CUI_MiniMap"),
+        ETOUI(LEVEL::GAMEPLAY), strLayerTag, &MiniMapDesc)))
         return E_FAIL;
 
     return S_OK;

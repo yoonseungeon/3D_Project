@@ -61,7 +61,7 @@ public:
 	void Set_Rotation(_float4 vQuaternion);
 
 	void XM_CALLCONV Turn(_fvector vAxis, _float fTimeDelta, _float fRotSpeed);
-	void XM_CALLCONV TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _float fRotSpeed);
+	void XM_CALLCONV TurnAxisY(_fvector vDir, _float fTimeDelta, _float fRotSpeed);
 
 	void XM_CALLCONV LookAt(_fvector vAt);
 	void XM_CALLCONV LookDir(_fvector vDir);

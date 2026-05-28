@@ -120,16 +120,14 @@ void XM_CALLCONV CTransform::Turn(_fvector vAxis, _float fTimeDelta, _float fRot
     Reset_Rotation();
 }
 
-void XM_CALLCONV CTransform::TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _float fRotSpeed)
+void XM_CALLCONV CTransform::TurnAxisY(_fvector vDir, _float fTimeDelta, _float fRotSpeed)
 {
-    _vector vLook = XMVector3Normalize(Get_State(STATE::LOOK));
-    _vector vNormalizedDir = XMVector3Normalize(vDir);
+    _vector vLook = XMVector3Normalize(XMVectorSetY(Get_State(STATE::LOOK), 0.f));
+    _vector vNormalizedDir = XMVector3Normalize(XMVectorSetY(vDir, 0.f));
 
     // 안하면 XMQuaternionRotationAxis 여기서 assert
     if (XMVector3Equal(vNormalizedDir, XMVectorZero()))
-    {
         return;
-    }
 
     // 남은 각도
     _float fDot = XMVectorGetX(XMVector3Dot(vLook, vNormalizedDir));   
@@ -137,34 +135,24 @@ void XM_CALLCONV CTransform::TurnDirDefaultY(_fvector vDir, _float fTimeDelta, _
     _float fSeta = acosf(fDot);
     
     if (fSeta <= MyHelper::fEpsilon)
-    {
         return;
-    }
     
     // 축
-    _vector vAxis{};
-    // 180인 경우 회전할 수 있는 축이 무한대이기 때문에 Y로 고정
-    if (fDot <= -1.f + MyHelper::fEpsilon)
-    {
-        vAxis = XMVectorSet(0.f, 1.f, 0.f, 0.f);
-    }
-    else
-    {
-        vAxis = XMVector3Cross(vLook, vNormalizedDir);
-        if (XMVector3Equal(vAxis, XMVectorZero())) // fSeta 검사해도 터질 때가 있음
-        {
-            return;
-        }
-        vAxis = XMVector3Normalize(vAxis);
-    }
+    _vector vAxis = XMVectorSet(0.f, 1.f, 0.f, 0.f);
 
     // 오버 슈팅 방지
-    _float fDRadian = (std::min)(fSeta, fTimeDelta * fRotSpeed);
+    _float fDeltaRadian = (std::min)(fSeta, fTimeDelta * fRotSpeed);
+
+    // 작은 각도로 회전
+    _float fY = XMVectorGetY(XMVector3Cross(vLook, vNormalizedDir));
+    if (fY < 0.f)
+        fDeltaRadian *= -1.f;
+
 
     // Turn
     _vector vRotQuat = XMLoadFloat4(&m_vRotQuat);
     // 회전축을 기준으로 회전량을 얻어옴.
-    _vector vDq = XMQuaternionRotationAxis(vAxis, fDRadian);
+    _vector vDq = XMQuaternionRotationAxis(vAxis, fDeltaRadian);
 
     // vRotQuat 회전후 vDq 회전
     vRotQuat = XMQuaternionMultiply(vRotQuat, vDq);

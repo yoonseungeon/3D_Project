@@ -91,24 +91,9 @@ HRESULT CLiDailin::Initialize(void* pArg)
     if (FAILED(Initialize_Stat()))
         return E_FAIL;
 
-    TryEquip_AddInven(4, 1, false);
-    TryEquip_AddInven(34, 1, false);
-    TryEquip_AddInven(55, 1, false);
-    TryEquip_AddInven(52, 1, false);
-    TryEquip_AddInven(34, 1, false);
-    TryEquip_AddInven(55, 1, false);
-    TryEquip_AddInven(52, 1, false);
-
-
-    TryEquip_AddInven(53, 1, false);
-    TryEquip_AddInven(55, 1, false);
-    TryEquip_AddInven(33, 1, false);
-    TryEquip_AddInven(41, 1, false);
-    TryEquip_AddInven(83, 1, false);
-                    
-
-    TryEquip_AddInven(86, 1, false);
-
+    TryEquip_AddInven(10, 1, false);
+    TryEquip_AddInven(18, 1, false);
+    TryEquip_AddInven(23, 1, false);
     
     return S_OK;
 }
@@ -1030,12 +1015,12 @@ HRESULT CLiDailin::Initialize_Stat()
 HRESULT CLiDailin::Initialize_Skill()
 {
     // cool
-    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 1.f;
+    tQCool.fMaxCoolDown = tQCool.fCurCoolDown = 13.f;
     tQCool.fMaxSubCoolDown = tQCool.fCurSubCoolDown = 4.f;
 
-    tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 2.f;
-    tECool.fMaxCoolDown = tECool.fCurCoolDown = 2.f;
-    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 2.f;
+    tWCool.fMaxCoolDown = tWCool.fCurCoolDown = 9.f;
+    tECool.fMaxCoolDown = tECool.fCurCoolDown = 9.f;
+    tRCool.fMaxCoolDown = tRCool.fCurCoolDown = 60.f;
 
     return S_OK;
 }
