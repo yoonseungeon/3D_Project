@@ -47,18 +47,20 @@ void CLayer::Priority_Update(_float fTimeDelta)
 
 }
 
-void CLayer::Parallel_Update_Parallel(_float fTimeDelta, _int& iTotalJobCnt, atomic<_int>& iFinishedJobCnt, function<void(function<void()> funcJob)> func)
+void CLayer::Parallel_Update_Parallel(_float fTimeDelta, _int& iTotalJobCnt, atomic<_int>& iFinishedJobCnt,
+	function<void(function<void()> funcJob)> addJob)
 {
 	for (auto& pGameObject : m_GameObjects)
 	{
 		if (pGameObject != nullptr)
 		{
 			++iTotalJobCnt;
-			func(
+			addJob
+			(
 				[pGameObject, fTimeDelta, &iFinishedJobCnt]()->void
 				{
 					pGameObject->Parallel_Update(fTimeDelta);
-					// main이 Update할 때 객체에 대한 최신 정보를 보장 위해서 release/acquire 사용
+					// 병렬 업데이트 결과가 Main Thread에 반영되도록 release/acquire 사용
 					iFinishedJobCnt.fetch_add(1, memory_order_release);
 				}
 			);

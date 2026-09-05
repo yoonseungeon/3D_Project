@@ -195,9 +195,12 @@ HRESULT CLoader::Loading()
 
 _bool CLoader::isFinished()
 {
-    if (m_bIsAllJobsQueued.load(memory_order_acquire) && (m_iTotalJobCnt.load(memory_order_relaxed) == m_iFinishedJobCnt.load(memory_order_relaxed))) {
+    if (m_bIsAllJobsQueued.load(memory_order_acquire) &&
+        (m_iTotalJobCnt.load(memory_order_relaxed) == m_iFinishedJobCnt.load(memory_order_relaxed)))
+    {
         return true;
     }
+
     return false;
 }
 
@@ -485,7 +488,8 @@ HRESULT CLoader::Ready_Resources_For_Logo()
     /* Prototype_Texture_NimbleNeuron */
     m_iTotalJobCnt.fetch_add(1, memory_order_relaxed);
     m_pGameInstance->Add_Job(
-        [this]()->void {
+        [this]()->void
+        {
             if (FAILED(m_pGameInstance->Add_Prototype(ETOUI(LEVEL::LOGO), TEXT("Prototype_Texture_NimbleNeuron"),
                 CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Logo/NimbleNeuron.png"), 1))))
             {

@@ -63,31 +63,32 @@ void CObject_Manager::Parallel_Update(_float fTimeDelta)
 {
 	switch (m_eParallelMode)
 	{
-	case PARALLEL_UPDATE_MODE::PARALLEL:
-	{
-		m_iTotalJobCnt = 0;
-		m_iFinishedJobCnt.store(0, memory_order_relaxed);
+		case PARALLEL_UPDATE_MODE::PARALLEL:
+		{
+			m_iTotalJobCnt = 0;
+			m_iFinishedJobCnt.store(0, memory_order_relaxed);
 
-		for (size_t i = 0; i < m_iNumLevels; ++i)
-		{
-			for (auto& Pair : m_pLayers[i])
-				Pair.second->Parallel_Update_Parallel(fTimeDelta, m_iTotalJobCnt, m_iFinishedJobCnt,
-					[this](function<void()> funcJob)->void {
-						m_pGameInstance->Add_Job(funcJob);
-					}
-				);
+			for (size_t i = 0; i < m_iNumLevels; ++i)
+			{
+				for (auto& Pair : m_pLayers[i])
+					Pair.second->Parallel_Update_Parallel(fTimeDelta, m_iTotalJobCnt, m_iFinishedJobCnt,
+						[this](function<void()> funcJob)->void
+						{
+							m_pGameInstance->Add_Job(funcJob);
+						}
+					);
+			}
+			break;
 		}
-		break;
-	}
-	case PARALLEL_UPDATE_MODE::SINGLE:
-	{
-		for (size_t i = 0; i < m_iNumLevels; ++i)
+		case PARALLEL_UPDATE_MODE::SINGLE:
 		{
-			for (auto& Pair : m_pLayers[i])
-				Pair.second->Parallel_Update_Single(fTimeDelta);
+			for (size_t i = 0; i < m_iNumLevels; ++i)
+			{
+				for (auto& Pair : m_pLayers[i])
+					Pair.second->Parallel_Update_Single(fTimeDelta);
+			}
+			break;
 		}
-		break;
-	}
 	}
 }
 

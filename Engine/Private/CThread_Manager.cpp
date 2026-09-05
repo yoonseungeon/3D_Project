@@ -61,17 +61,19 @@ HRESULT CThread_Manager::Initialize()
 
 void CThread_Manager::DoWork()
 {
-    while (true) {
-
+    while (true)
+    {
         WaitForSingleObject(m_hEvent, INFINITE);
 
-        if (m_bExit.load(memory_order_relaxed) == true) {
+        if (m_bExit.load(memory_order_relaxed) == true)
+        {
             SetEvent(m_hEvent);
             break;
         }
 
         JOB tJob = {};
-        while (m_JobQueue.try_pop(tJob)) {
+        while (m_JobQueue.try_pop(tJob))
+        {
             if (tJob.work != nullptr) {
                 tJob.work();
             }
@@ -128,12 +130,14 @@ void CThread_Manager::Free()
     SetEvent(m_hEvent);
     
     if (!m_vecThreads.empty())
-    {
-        WaitForMultipleObjects((DWORD)m_vecThreads.size(), m_vecThreads.data(), TRUE, INFINITE);
+    {        
+        WaitForMultipleObjects(static_cast<DWORD>(m_vecThreads.size()), m_vecThreads.data(), true, INFINITE);
     }
 
-    for (auto& hThread : m_vecThreads) {
-        if (hThread) CloseHandle(hThread);
+    for (auto& hThread : m_vecThreads)
+    {
+        if (hThread)
+            CloseHandle(hThread);
     }
     m_vecThreads.clear();
 

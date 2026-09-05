@@ -25,7 +25,8 @@ NS_BEGIN(Engine)
 class CThread_Manager final : public CBase
 {
 private:
-	struct JOB {
+	struct JOB
+	{
 		function<void()> work = { nullptr };
 	};
 

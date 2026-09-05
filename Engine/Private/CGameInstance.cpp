@@ -118,11 +118,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 		_bool bResult = m_pThread_Manager->DoMainWork();
 
 		if (!bResult && !m_pObject_Manager->Is_Parallel_Update_Finished())
-		{
-			// 양보는 thread의 최대 하나의 스레드 스케줄링 time slice만큼 적용된다.
 			SwitchToThread();
-		}
-
 	}
 
 	m_pObject_Manager->Update(fTimeDelta);
