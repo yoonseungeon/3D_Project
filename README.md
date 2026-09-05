@@ -2,7 +2,11 @@
 
 ## 🎮 프로젝트 소개
 
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b515db86-a382-49c9-9a42-e50b922fb23f" alt="이리1" width="32%" />
+  <img src="https://github.com/user-attachments/assets/35f57cfa-6d5c-48df-8ed5-66329a29d51c" alt="이리2" width="32%" />
+  <img src="https://github.com/user-attachments/assets/f5fe502b-34d7-418b-8b39-dd8a3543f632" alt="이리3" width="32%" />
+</p>
 
 C++과 DirectX 11 기반 프레임워크를 활용해 제작한 1인 3D 쿼터뷰 액션 게임 프로젝트입니다. 이터널 리턴의 캐릭터 전투와 아이템 수집·제작을 중심으로 게임 흐름을 구현했습니다.
 
