@@ -3,8 +3,8 @@
 ## 🎮 프로젝트 소개
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b515db86-a382-49c9-9a42-e50b922fb23f" alt="이리1" width="32%" />
-  <img src="https://github.com/user-attachments/assets/35f57cfa-6d5c-48df-8ed5-66329a29d51c" alt="이리2" width="32%" />
+  <img src="https://github.com/user-attachments/assets/7ce9f7ac-b035-42c0-92e1-a9fdd0753fd4" alt="이리1" width="32%" />
+  <img src="https://github.com/user-attachments/assets/fa9a9e70-5c85-4ded-8585-a35158d0c095" alt="이리2" width="32%" />
   <img src="https://github.com/user-attachments/assets/f5fe502b-34d7-418b-8b39-dd8a3543f632" alt="이리3" width="32%" />
 </p>
 
