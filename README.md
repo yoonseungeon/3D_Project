@@ -10,6 +10,10 @@
 
 C++과 DirectX 11 기반 프레임워크를 활용해 제작한 1인 3D 쿼터뷰 액션 게임 프로젝트입니다.
 
+## 🎥 시연 영상
+
+[![이터널 리턴 모작 시연 영상](https://img.youtube.com/vi/lfikqKOAgfs/maxresdefault.jpg)](https://youtu.be/lfikqKOAgfs)
+
 ## 🛠 개발 정보
 
 | 항목 | 내용 |
